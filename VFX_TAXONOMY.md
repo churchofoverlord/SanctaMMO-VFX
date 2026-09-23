@@ -31,6 +31,8 @@ Format: VFX-<PREFIX>-<NNN>. Use three-digit, zero-padded numbers per prefix. All
 
 Use a short status that says what has actually happened:
 - PROPOSED_PATTERN: design-only pattern with no production or semantic claim.
+- SOURCE_BOUND: a stable committed source and exact revision are recorded; this does not claim implementation, acceptance, or canonical authority.
+- SOURCE_DEFERRED: no usable stable source is bound; preserve the generic pattern and record the missing input.
 - BRIEF: bounded intent and source binding exist.
 - PROTOTYPE: local technical or visual prototype exists.
 - IN_REVIEW: evidence is ready for the named review.
