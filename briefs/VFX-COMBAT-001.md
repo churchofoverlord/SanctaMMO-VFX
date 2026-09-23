@@ -44,4 +44,4 @@ Create a compact confirmation for a successful direct Basic Attack. Communicate 
 - Performance Risk: Burst count, translucent coverage, and concurrent impacts require profiling.
 - Known Missing Inputs: Exact-SHA runtime evidence for the current cue path; general player-target cue; contact point/normal; approved relationship language.
 - Implementation Boundary: VFX consumes the hit outcome. It does not choose damage, hit detection, target, or gameplay severity.
-- Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY for the inspected NPC hit path.
+- Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification of the current cue path, bounded to the inspected NPC hit path.

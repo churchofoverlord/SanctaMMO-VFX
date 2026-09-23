@@ -9,9 +9,9 @@ Validate bounded feedback for a real manual processing request and its owner res
 - VFX_ID: VFX-INTERACT-001
 - Source Repository: SanctaMMO-Foundation-5.8; read-only local checkout C:\Dev\SanctaMMO-SKILL-001
 - Source Revision: 2cd9457349379106516b9785f0a19230a85c6342
-- Source Path: Source/SanctaMMO/Private/Game/SanctaPlayerController.cpp; Source/SanctaMMO/Private/Game/SanctaGameMode.cpp; Source/SanctaMMO/Public/Economy/SanctaProcessingStation.h; Source/SanctaMMO/Private/Economy/SanctaProcessingStation.cpp; Docs/PHASE3P_MANUAL_PROCESSING_INTERACTION.md
+- Source Path: Source/SanctaMMO/Private/Game/SanctaPlayerController.cpp; Source/SanctaMMO/Private/Game/SanctaGameMode.cpp; Source/SanctaMMO/Public/Economy/SanctaProcessingStation.h; Source/SanctaMMO/Private/Economy/SanctaProcessingStation.cpp
 - Semantic/Game/System ID: Phase3P manual processing; Station.Tailoring.HideProcessing; Recipe.Tailoring.HideProcessing.G1 (development fixture identity)
-- Source Status: SOURCE_STABLE and TECHNICALLY_PROVEN at the exact runtime SHA. Recorded evidence: 94/94 multiplayer harness checks, 13/13 durable-admission checks, one accepted request and owner-only result; the order remained Queued. FORMALLY_ACCEPTED=NO; CANONICAL=NO.
+- Source Status: SOURCE_STABLE and TECHNICALLY_PROVEN at the exact runtime SHA. The evidence record is Docs/PHASE3P_MANUAL_PROCESSING_INTERACTION.md at aee025b6c2089c88f6006c1aa6051b7a59ea2e38 and identifies runtime implementation commit 2cd9457349379106516b9785f0a19230a85c6342. It records 94/94 multiplayer harness checks, 13/13 durable-admission checks, one accepted request and owner-only result; the order remained Queued. FORMALLY_ACCEPTED=NO; CANONICAL=NO.
 - Runtime Event / Entry Point: Local processing request selects a replicated operational station, sends StationInstanceId and feedback sequence to the owning server RPC, and receives Pending/Accepted/Rejected/ResultUnknown feedback.
 - Available Runtime Parameters: StationInstanceId and transform; local requester; request feedback sequence; owner-only result state; the server validates character, station, range, profession, and recipe.
 - Missing Parameters: No progress or production completion lifecycle in this source. The client response does not echo StationInstanceId; the requesting client must retain its request target to associate the result.

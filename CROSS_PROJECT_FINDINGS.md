@@ -33,7 +33,7 @@ Source_VFX_ID: VFX-SKILL-002
 Target_Domain: GAMEPLAY
 Observed_Constraint: At SanctaMMO-Foundation-5.8 revision 9a09ac6769db9d8e3a87f50eb4f8231b60a810ff, Phase2.GroundArea.IFV validates and resolves a ground-area action at execution. Its recorded runtime evidence does not expose a pre-impact warning lifecycle. At b5cf12a64ffd971b195c0d6406d6ed1c93326916, fighter.crushing_1 emits an impact-area cue after selecting its authoritative center and radius. Neither source supplies an authoritative telegraph start/end contract for this VFX item.
 Required_Input_or_Change: If an existing runtime ability already has a pre-impact warning, expose its existing authoritative footprint, position/orientation, and active lifecycle through a bounded presentation hook. Do not add a cast time, warning duration, radius, shape, or gameplay rule.
-Evidence: Docs/PHASE2K_GROUND_AREA_ABILITY.md at 9a09ac6769db9d8e3a87f50eb4f8231b60a810ff; Source/SanctaMMO/Private/Combat/SanctaCombatComponent.cpp and Source/SanctaMMO/Private/Skills/SanctaPresentationCue.cpp at b5cf12a64ffd971b195c0d6406d6ed1c93326916.
+Evidence: Docs/PHASE2K_GROUND_AREA_ABILITY.md at 3fd284b443474b7563a13482151fce82d5df489d (the document identifies runtime commit 9a09ac6769db9d8e3a87f50eb4f8231b60a810ff); Source/SanctaMMO/Private/Combat/SanctaCombatComponent.cpp and Source/SanctaMMO/Private/Skills/SanctaPresentationCue.cpp at b5cf12a64ffd971b195c0d6406d6ed1c93326916.
 Blocking: YES for telegraph implementation; NO for local lookdev.
 Classification: BLOCKING_IMPLEMENTATION; NON_BLOCKING_LOOKDEV.
 Reason: Without a real pre-impact source, a Niagara telegraph would invent a warning and might misstate gameplay. The generic pattern can still be composed with preview-only controls.
