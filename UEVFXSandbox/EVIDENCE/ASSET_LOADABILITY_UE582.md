@@ -5,6 +5,7 @@ Status: `TECHNICALLY_PROVEN` for project opening, Niagara system asset loadabili
 - Project: `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`
 - Engine build: `5.8.2-0+UE5` from `C:\UE582`
 - Observed: 2026-09-23, using the isolated Unreal Editor command-line Python runtime.
+- Sandbox implementation commit: `ac2adc986c2744cf5cc99d1ec0f7b8b560b51b59`
 - Validation script: `UEVFXSandbox/Scripts/validate_prototype_assets.py`
 - Raw local log: `UEVFXSandbox/Saved/Logs/VFX_Prototype_Validation.txt` (generated, ignored by Git).
 - Preview map: `/Game/VFX/L_VFX_PrototypePreview` (`UEVFXSandbox/Content/VFX/L_VFX_PrototypePreview.umap`).

@@ -6,6 +6,7 @@ Project: `C:\Dev\SanctaMMO-VFX\UEVFXSandbox\SanctaMMO_VFXSandbox.uproject`
 Engine: `C:\UE582` — `5.8.2-0+UE5`
 Preview map: `/Game/VFX/L_VFX_PrototypePreview` — four NiagaraActors labelled `LOOKDEV_ONLY__<VFX_ID>`.
 Design basis: `VFX_DESIGN_VSLICE_001_V1`
+Sandbox implementation revision: `ac2adc986c2744cf5cc99d1ec0f7b8b560b51b59`
 
 | VFX_ID | Sandbox asset | UE 5.8.2 source template | Prototype limit |
 |---|---|---|---|
