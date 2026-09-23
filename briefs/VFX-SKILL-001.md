@@ -44,7 +44,7 @@ Validate a presentation trail that follows a real server-owned projectile actor.
 - Performance Risk: Ribbon overdraw, trail lifetime, particle spawn rate, and concurrency require target profiling.
 - Known Missing Inputs: Exact-SHA runtime validation; client-visible skill identity if a skill-specific family treatment is later required.
 - Implementation Boundary: Never set projectile speed, trajectory, collision, hit detection, targeting, or termination.
-- Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification.
+- Readiness: PROTOTYPE_LOCAL_TEMPLATE_SEED; visual/graph review OPEN; exact-SHA multiplayer actor-path observation remains open before source binding.
 
 ## Isolated design / prototype readiness
 
@@ -56,3 +56,10 @@ Validate a presentation trail that follows a real server-owned projectile actor.
 - Timing / Events: Travel begins/ends with the real actor lifecycle. Do not add a cast wind-up, warning, impact burst, or afterimage persistence without a separate source event.
 - OPEN / Must Not Assume: Exact-SHA multiplayer observation, client-visible skill/receiver IDs, target identity, impact point, and a family palette.
 - Architecture: Follow `NS_VFX_SKILL_001_Projectile` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Ribbon width and preview envelope stay `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.
+
+## Isolated UE prototype seed
+
+- Asset: `/Game/VFX/Skills/NS_VFX_SKILL_001_ProjectileTrail` in `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`.
+- Basis: stock UE 5.8.2 `AttributeReaderTrails` system duplicated without graph changes.
+- State: loadable `NiagaraSystem`; not bound to the Sancta projectile actor or its replicated transforms. No trajectory, speed, collision, target, or impact behavior is supplied by the VFX asset.
+- Use: local trail-template exploration only. Actor-follow fidelity remains OPEN until an isolated preview binding is implemented; every stand-in is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.

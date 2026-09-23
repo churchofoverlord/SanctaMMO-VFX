@@ -1,6 +1,6 @@
 # VFX_VSLICE_001 — Source binding and production briefs
 
-Status: LOCAL VECTOR LOOKDEV BLOCKOUT CREATED; DESIGN READINESS PROTOTYPE_READY; TECHNICAL PROTOTYPE NOT CREATED. No production Niagara implementation or Unreal integration has occurred.
+Status: ISOLATED UE SANDBOX CREATED; FOUR NIAGARA TEMPLATE SEEDS SAVED AND RELOADABLE; VISUAL/GRAPH REVIEW OPEN. No gameplay bindings or Unreal main-project integration have occurred.
 
 ## Purpose
 
@@ -55,7 +55,7 @@ The VFX workspace was clean and synchronized to Foundation baseline 15ff5728d203
 
 ## Niagara architecture validation
 
-No Niagara System, material, Unreal Content, C++, or Blueprint was created or modified in this gate.
+At the source-binding gate commit, no Niagara System, material, Unreal Content, C++, or Blueprint had been created or modified. The later isolated prototype phase is recorded below.
 
 | Shared pattern | Classification | Source-based reason |
 |---|---|---|
@@ -97,8 +97,8 @@ GAMEPLAY_SEMANTICS_MODIFIED = NO
 CANON_MODIFIED = NO
 CONTROLSTATE_REQUIRED_FOR_THIS_GATE = NO
 OWNER_DECISION_REQUIRED = NO
-NEXT_GATE = VFX_VSLICE_001_READABILITY_REVIEW
-STOP_REASON = A local vector lookdev blockout exists; visual readability review remains open. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+NEXT_GATE = VFX_VSLICE_001_TEMPLATE_ADAPTATION_AND_READABILITY
+STOP_REASON = Four template-derived systems load in the isolated project; their graphs and visual fidelity have not been adapted or reviewed. Unreal main-project integration remains out of scope.
 
 ## Isolated design gate
 
@@ -106,14 +106,15 @@ Four `SOURCE_BOUND` items now have concrete silhouette, motion, runtime-binding,
 
 The shared technical specification is [VFX_VSLICE_001_DESIGN_SPEC_V1.md](VFX_VSLICE_001_DESIGN_SPEC_V1.md). It records proposed effect systems and parameters, all conceptual scalability tiers, future readability/performance evidence, unresolved inputs, and the UE sandbox check. The individual briefs contain the item-specific design intent and source boundaries.
 
-`UE_VFX_SANDBOX = OPEN`: no project or engine association isolated to the VFX workspace was found. No sandbox or Niagara asset was created. A standalone visual blockout now exists at [lookdev/VFX_VSLICE_001_LOOKDEV_V1.html](lookdev/VFX_VSLICE_001_LOOKDEV_V1.html); it carries no runtime timing or gameplay authority. The next gate is visual readability review, not UE integration.
+`UE_VFX_SANDBOX = CREATED`: the content-only project [UEVFXSandbox/SanctaMMO_VFXSandbox.uproject](UEVFXSandbox/SanctaMMO_VFXSandbox.uproject) is associated with UE 5.8.2 at `C:\UE582`. It contains four saved stock-template Niagara systems; exact source assets and limitations are listed in [UEVFXSandbox/PROTOTYPE_SEEDS.md](UEVFXSandbox/PROTOTYPE_SEEDS.md). The editor startup map is the preview stage `/Game/VFX/L_VFX_PrototypePreview`, with four `LOOKDEV_ONLY` actors; asset and actor references are recorded in [UEVFXSandbox/EVIDENCE/ASSET_LOADABILITY_UE582.md](UEVFXSandbox/EVIDENCE/ASSET_LOADABILITY_UE582.md). The standalone design preview remains at [lookdev/VFX_VSLICE_001_LOOKDEV_V1.html](lookdev/VFX_VSLICE_001_LOOKDEV_V1.html). No source gameplay project or main Unreal project was opened or modified.
 
 ```text
 VFX_DESIGN_REVISION = VFX_DESIGN_VSLICE_001_V1
 VFX_VSLICE_001_DESIGN_READINESS = PROTOTYPE_READY
-VFX_VSLICE_001_TECHNICAL_PROTOTYPE = NOT_CREATED
-VFX_VSLICE_001_VECTOR_LOOKDEV = CREATED; VISUAL_REVIEW = OPEN
-UE_VFX_SANDBOX = OPEN
-NEXT_GATE = VFX_VSLICE_001_READABILITY_REVIEW
-STOP_REASON = Static vector blockout is available for visual review. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+VFX_VSLICE_001_TECHNICAL_PROTOTYPE = CREATED; TEMPLATE_DERIVATIVE; VISUAL_AND_GRAPH_REVIEW = OPEN
+VFX_VSLICE_001_VECTOR_LOOKDEV = CREATED
+UE_VFX_SANDBOX = CREATED; UE_VERSION = 5.8.2; PATH = UEVFXSandbox/SanctaMMO_VFXSandbox.uproject
+GAMEPLAY_BINDINGS = NONE; MAIN_PROJECT_INTEGRATION = NO
+NEXT_GATE = VFX_VSLICE_001_TEMPLATE_ADAPTATION_AND_READABILITY
+STOP_REASON = Four stock-template Niagara systems load in the isolated project; custom visual fidelity and graph/lifecycle review remain open.
 ```

@@ -39,6 +39,7 @@ WorldArt inputs used:
 - VFX_REGISTRY.csv tracks only the five VSLICE_001 items.
 - VFX_VSLICE_001.md records the source bindings and current gate state.
 - VFX_VSLICE_001_DESIGN_SPEC_V1.md records isolated design, prototype architecture, scalability, readability, evidence, and open inputs.
+- UEVFXSandbox/PROTOTYPE_SEEDS.md records the isolated UE 5.8.2 sandbox and the first four template-derived Niagara systems.
 - lookdev/VFX_VSLICE_001_LOOKDEV_V1.html is a local, non-semantic vector blockout for the four source-bound items; it is not a Niagara prototype.
 - VFX_VSLICE_001_REVIEW.md records the source-binding review and exact target SHA.
 - briefs/ contains one source-bound production brief per selected VFX item and the deferred area-warning brief.
@@ -46,11 +47,12 @@ WorldArt inputs used:
 
 ## Current evidence state
 
-- OBSERVED: committed Unreal source snapshot and named assets at the revision above; this VFX workspace contains no isolated `.uproject` sandbox.
+- OBSERVED: committed Unreal source snapshot and named assets at the revision above; an isolated content-only UE 5.8.2 sandbox exists at UEVFXSandbox/SanctaMMO_VFXSandbox.uproject.
 - TECHNICALLY_PROVEN: the installed UE 5.8.2 directory contains the Niagara plugin descriptor and the reported build version.
 - TECHNICALLY_PROVEN: VFX source-binding review passed at its recorded SHA; the selected processing request/result was proven at its exact runtime SHA.
-- OBSERVED: the standalone HTML lookdev is a vector mockup only; no VFX Niagara prototype has been created.
-- OPEN / DEFERRED_SOURCE: project-to-engine association, an isolated VFX sandbox, Niagara module/asset behavior in a target project, current combat-cue and projectile runtime validation, client-visible Slow state, approved relationship treatment, and any permanent production VFX direction.
+- OBSERVED: the standalone HTML lookdev is a vector mockup. Four NiagaraSystem assets were duplicated from stock UE 5.8.2 templates and saved in the local sandbox.
+- TECHNICALLY_PROVEN: the UE 5.8.2 editor Python runtime reopened all four sandbox assets as NiagaraSystem objects. Visual fidelity, custom graph compilation, runtime binding, performance, and formal acceptance remain unproven.
+- OPEN / DEFERRED_SOURCE: source-game project-to-engine association, custom Niagara graph adaptation and module behavior, current combat-cue and projectile runtime validation, client-visible Slow state, approved relationship treatment, and any permanent production VFX direction.
 - FORMALLY_ACCEPTED: none of the VFX Foundation documents or VSLICE_001 items. Existing WorldArt statements remain scoped to their own source authority and are not VFX acceptance.
 
-Next gate: visual readability review of the local blockout. The isolated UE sandbox remains OPEN and the main Unreal project remains out of scope.
+Next gate: adapt the four template seeds to the approved silhouettes and inspect them in the isolated sandbox, then run visual readability review. The main Unreal project remains out of scope.

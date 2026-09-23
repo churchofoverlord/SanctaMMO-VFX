@@ -44,7 +44,7 @@ Prototype a state-associated actor cue while keeping active state, duration, and
 - Performance Risk: Persistent component count, material cost, and simultaneous actors require profiling.
 - Known Missing Inputs: Client-visible status lifecycle; exact-SHA runtime proof for live state integration; permanent status visual language.
 - Implementation Boundary: VFX reads state. It does not apply, extend, cleanse, or author duration.
-- Readiness: READY_FOR_LOCAL_LOOKDEV; DEFERRED_GAMEPLAY_INPUT for a persistent client visual.
+- Readiness: PROTOTYPE_LOCAL_TEMPLATE_SEED; visual/graph review OPEN; persistent client-state activation remains deferred until a gameplay hook exists.
 
 ## Isolated design / prototype readiness
 
@@ -56,3 +56,10 @@ Prototype a state-associated actor cue while keeping active state, duration, and
 - Timing / Events: Start and stop only from authoritative `StateActive`. The client hook is absent, so a local preview trigger must be labeled simulated and cannot demonstrate source-lifecycle fidelity.
 - OPEN / Must Not Assume: Client-visible status identity/active transition, relationship, permanent palette, stacking, intensity, or remaining duration.
 - Architecture: Follow `NS_VFX_CHARACTER_001_Slow` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Do not create a local gameplay state machine.
+
+## Isolated UE prototype seed
+
+- Asset: `/Game/VFX/Character/NS_VFX_CHARACTER_001_Slow` in `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`.
+- Basis: stock UE 5.8.2 `MinimalLightweight` system duplicated without graph changes.
+- State: loadable `NiagaraSystem`; it has no client `StateActive` binding and must not be treated as a Slow-state implementation. No local gameplay state machine was added.
+- Use: local template inspection only. A persistent cue remains deferred until gameplay supplies a read-only client state hook; any manual preview activation is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.

@@ -1,6 +1,6 @@
 # VFX_VSLICE_001 — Isolated design and prototype specification
 
-Status: DESIGN COMPLETE; PROTOTYPE READY. Design only: no Niagara assets, Unreal project, code, gameplay data, or main-project files were created or changed.
+Status: DESIGN COMPLETE; FIRST LOCAL NIAGARA TEMPLATE SEEDS CREATED. No gameplay bindings or main-project files were created or changed.
 
 - Design revision: `VFX_DESIGN_VSLICE_001_V1`
 - Source-binding base: `c2aa26acb62ff0c6a5ed379f30a69fc15be26d0d`
@@ -16,9 +16,9 @@ Palette, faction/relationship treatment, regional material language, and final e
 
 ## UE sandbox
 
-`UE_VFX_SANDBOX = OPEN`
+`UE_VFX_SANDBOX = CREATED`
 
-Inspection of `C:\Dev\SanctaMMO-VFX` found no `.uproject`, `.uplugin`, or VFX sandbox directory. The main-game engine association remains unmapped in the existing baseline. No sandbox was created: there is no project/engine association here that is clearly separate from the Unreal main project. This is a prototype-ready specification, not a technical prototype. A later bounded task may select or establish an unambiguously separate local sandbox.
+A content-only project now exists at `C:\Dev\SanctaMMO-VFX\UEVFXSandbox\SanctaMMO_VFXSandbox.uproject`, explicitly launched with `C:\UE582\Engine\Binaries\Win64\UnrealEditor-Cmd.exe` (UE `5.8.2-0+UE5`). It has no SanctaMMO gameplay module and does not reference or copy the main Unreal project. Niagara, PythonScriptPlugin, and EditorScriptingUtilities are enabled. Four systems were duplicated from UE engine examples into `/Game/VFX/...` and saved. Their stock-template origins and constraints are recorded in `UEVFXSandbox/PROTOTYPE_SEEDS.md`. The validation script reopened each asset as a `NiagaraSystem`; that is asset-load evidence only, not proof of authored graph behavior, exact runtime bindings, visual readability, performance, multiplayer fidelity, or acceptance.
 
 ## Family grammar
 
@@ -58,7 +58,7 @@ These are effect-specific systems. Do not add a master system, generic state mac
 | VFX-CHARACTER-001 | `NS_VFX_CHARACTER_001_Slow`; one actor-associated loop emitter | `User.ActorTransform`, `User.StateActive`; `User.StateId` only if the integration hook provides it | CPU prototype baseline, low-profile sprites. Start/stop only from an authoritative active-state feed. That feed is currently missing, so only a clearly labeled local composition preview can exercise the shape. |
 | VFX-INTERACT-001 | `NS_VFX_INTERACT_001_ProcessingFeedback`; one static `E_RequestPending` bracket while the actual request is pending, then one `E_AdmissionResult` one-shot | `User.StationTransform`, `User.FeedbackSequence`, `User.FeedbackState` | CPU prototype baseline. Pending has no periodic spawn/progress motion; result selects accepted/rejected/unknown shape. Clear the pending bracket on the owner result; do not keep any effect for a Queued order. No progress parameter exists. |
 
-The module names are conceptual UE Niagara equivalents, not a promise about an unmapped target engine version. A future sandbox should validate the actual spawn, initialize, particle update, renderer, and cleanup modules before asset creation.
+The engine’s UE 5.8.2 Niagara plugin and stock template assets load in the isolated sandbox. The proposed module chains have not yet been inspected or adapted in the four copied system graphs; validate actual spawn, initialize, particle update, renderer, and cleanup stacks during the next prototype pass.
 
 ### Proposed module order per emitter
 
@@ -151,13 +151,14 @@ Record lights, decals, distortion, volumetrics, and Niagara collision as zero-us
 
 ## OPEN / DEFERRED register
 
-- `OPEN — UE_VFX_SANDBOX`: no isolated `.uproject` or engine association exists in this VFX workspace. No UE path is selected and no prototype asset exists.
+- `OBSERVED — UE_VFX_SANDBOX`: isolated content-only project exists at `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`, explicitly launched with UE `5.8.2-0+UE5`.
+- `OPEN — Niagara graph adaptation`: four stock-template copies load as NiagaraSystem assets, but their graphs have not been adapted to the approved silhouettes or inspected for visual/lifecycle fit.
 - `OPEN — Basic Attack cue`: exact-SHA runtime validation is required before a future implementation binding; current cue code observation is not runtime proof.
 - `OPEN — projectile runtime`: exact-SHA multiplayer observation of the actor path is not present. Keep the design transform-following only.
 - `OPEN — Slow state`: client-visible active/inactive state is absent. A local shape preview must not simulate gameplay activation.
 - `OPEN — WorldArt finish`: palette, material language, emissive use, and any permanent family colour require stable visual input. Shape/value prototyping may proceed without them.
 - `OPEN — relationship grammar`: self/ally/enemy/faction treatment is not supplied by the selected presentation contracts.
-- `OPEN — engine module mapping`: project-to-engine association and Niagara module availability are unverified in a separate sandbox.
+- `OPEN — engine module mapping`: the isolated sandbox loads UE 5.8.2 Niagara and its stock templates; exact module stacks in the four copied graphs are still uninspected, and the source gameplay project-to-engine association remains unmapped.
 - `DEFERRED_GAMEPLAY_INPUT — VFX-SKILL-002`: no authoritative pre-impact warning lifecycle/footprint. No gameplay telegraph design or implementation.
 - `DEFERRED_PROFILING_RESULT`: all final CPU/GPU, particle, overdraw, materials, ribbons, and concurrency budgets.
 - `DEFERRED_FORMAL_ACCEPTANCE`: no VFX design or effect is formally accepted or integrated.
@@ -166,11 +167,11 @@ Record lights, decals, distortion, volumetrics, and Niagara collision as zero-us
 
 ```text
 VFX_VSLICE_001_DESIGN_READINESS = PROTOTYPE_READY
-VFX_VSLICE_001_TECHNICAL_PROTOTYPE = NOT_CREATED
-VFX_VSLICE_001_VECTOR_LOOKDEV = CREATED; VISUAL_REVIEW = OPEN
-UE_VFX_SANDBOX = OPEN
+VFX_VSLICE_001_TECHNICAL_PROTOTYPE = CREATED; TEMPLATE_DERIVATIVE; GRAPH_REVIEW = OPEN
+VFX_VSLICE_001_VECTOR_LOOKDEV = CREATED
+UE_VFX_SANDBOX = CREATED; UE_VERSION = 5.8.2
 VFX-SKILL-002 = SOURCE_DEFERRED
 FORMALLY_ACCEPTED = NO
 INTEGRATED = NO
-NEXT_GATE = VFX_VSLICE_001_READABILITY_REVIEW
+NEXT_GATE = VFX_VSLICE_001_TEMPLATE_ADAPTATION_AND_READABILITY
 ```

@@ -44,7 +44,7 @@ Create a compact confirmation for a successful direct Basic Attack. Communicate 
 - Performance Risk: Burst count, translucent coverage, and concurrent impacts require profiling.
 - Known Missing Inputs: Exact-SHA runtime evidence for the current cue path; general player-target cue; contact point/normal; approved relationship language.
 - Implementation Boundary: VFX consumes the hit outcome. It does not choose damage, hit detection, target, or gameplay severity.
-- Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification of the current cue path, bounded to the inspected NPC hit path.
+- Readiness: PROTOTYPE_LOCAL_TEMPLATE_SEED; visual/graph review OPEN; exact-SHA runtime cue validation remains required before future source binding.
 
 ## Isolated design / prototype readiness
 
@@ -55,4 +55,11 @@ Create a compact confirmation for a successful direct Basic Attack. Communicate 
 - Motion: Brief radial opening and settle. The visual envelope is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`; onset is permitted only on the real successful result.
 - Timing / Events: No cast, travel, pre-impact, or persistence. A miss creates no impact mark. Cleanup belongs to the short event effect, not gameplay state.
 - OPEN / Must Not Assume: Runtime validation of this cue at the pinned SHA; player-target event path; measured contact point/normal; severity, faction, or damage amount.
-- Architecture: Follow `NS_VFX_COMBAT_001_BasicHit` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). This is a design proposal, not a Niagara asset or runtime proof.
+- Architecture: Follow `NS_VFX_COMBAT_001_BasicHit` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). The current Niagara asset is an unmodified stock-template seed, not an authored hit stamp or runtime proof.
+
+## Isolated UE prototype seed
+
+- Asset: `/Game/VFX/Combat/NS_VFX_COMBAT_001_BasicHit` in `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`.
+- Basis: stock UE 5.8.2 `RadialBurst` system duplicated without graph changes.
+- State: loadable `NiagaraSystem`; not yet adapted to the incomplete-rim hit stamp. No gameplay event binding, exact-SHA cue validation, contact normal, or damage input is present.
+- Use: local visual/template exploration only. Every trigger/value remains `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.

@@ -44,7 +44,7 @@ Validate bounded feedback for a real manual processing request and its owner res
 - Performance Risk: Repeated request cues are low-to-medium risk; avoid unnecessary persistent components.
 - Known Missing Inputs: Dedicated VFX event/delegate and station ID in owner response; processing progress/completion does not exist in this binding.
 - Implementation Boundary: VFX does not create orders, change station rules, or imply production completion.
-- Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY for request/result only.
+- Readiness: PROTOTYPE_LOCAL_TEMPLATE_SEED; visual/graph review OPEN; owner result and station/request correlation are not bound to the asset.
 
 ## Isolated design / prototype readiness
 
@@ -56,3 +56,10 @@ Validate bounded feedback for a real manual processing request and its owner res
 - Timing / Events: Show pending only after the real request is sent; map only the real owner result. The station ID must be retained locally for correlation. No crafting/processing completion phase exists in this source.
 - OPEN / Must Not Assume: Production progress, completion, cancel, queue timing, new station behavior, or a station-ID echo from the server.
 - Architecture: Follow `NS_VFX_INTERACT_001_ProcessingFeedback` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Do not turn this first use into a general interaction framework.
+
+## Isolated UE prototype seed
+
+- Asset: `/Game/VFX/Interaction/NS_VFX_INTERACT_001_Result` in `UEVFXSandbox/SanctaMMO_VFXSandbox.uproject`.
+- Basis: stock UE 5.8.2 `DirectionalBurstLightweight` system duplicated without graph changes.
+- State: loadable `NiagaraSystem`; not connected to the owner result. It does not encode request correlation, Pending, Accepted/Queued, Rejected, or ResultUnknown, and has no progress/completion behavior. The static station bracket remains unimplemented in Niagara.
+- Use: local one-shot template inspection only. No order or station logic is present; triggers are `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.
