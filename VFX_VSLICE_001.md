@@ -1,6 +1,6 @@
 # VFX_VSLICE_001 — Source binding and production briefs
 
-Status: SOURCE BINDING AND DESIGN SPEC COMPLETE; DESIGN READINESS PROTOTYPE_READY; IMPLEMENTATION READINESS PARTIAL. No production Niagara implementation or Unreal integration has occurred.
+Status: LOCAL VECTOR LOOKDEV BLOCKOUT CREATED; DESIGN READINESS PROTOTYPE_READY; TECHNICAL PROTOTYPE NOT CREATED. No production Niagara implementation or Unreal integration has occurred.
 
 ## Purpose
 
@@ -80,11 +80,11 @@ The detailed handoffs are in [CROSS_PROJECT_FINDINGS.md](CROSS_PROJECT_FINDINGS.
 
 | VFX_ID | Readiness |
 |---|---|
-| VFX-COMBAT-001 | READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification of the current cue path, bounded to the inspected NPC hit path. |
-| VFX-SKILL-001 | READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification. |
+| VFX-COMBAT-001 | LOOKDEV_BLOCKOUT_CREATED; READABILITY_REVIEW_OPEN; runtime cue still requires exact-SHA validation before implementation. |
+| VFX-SKILL-001 | LOOKDEV_BLOCKOUT_CREATED; READABILITY_REVIEW_OPEN; exact-SHA multiplayer path observation remains open before implementation. |
 | VFX-SKILL-002 | READY_FOR_LOCAL_LOOKDEV; DEFERRED_GAMEPLAY_INPUT. |
-| VFX-CHARACTER-001 | READY_FOR_LOCAL_LOOKDEV; DEFERRED_GAMEPLAY_INPUT for a persistent client visual. |
-| VFX-INTERACT-001 | READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY for request/result only. |
+| VFX-CHARACTER-001 | LOOKDEV_BLOCKOUT_CREATED; READABILITY_REVIEW_OPEN; persistent client visual remains deferred until an authoritative state hook exists. |
+| VFX-INTERACT-001 | LOOKDEV_BLOCKOUT_CREATED; READABILITY_REVIEW_OPEN; future implementation is limited to request/result feedback. |
 
 VFX_VSLICE_001_IMPLEMENTATION_READINESS = PARTIAL
 
@@ -97,8 +97,8 @@ GAMEPLAY_SEMANTICS_MODIFIED = NO
 CANON_MODIFIED = NO
 CONTROLSTATE_REQUIRED_FOR_THIS_GATE = NO
 OWNER_DECISION_REQUIRED = NO
-NEXT_GATE = VFX_VSLICE_001_LOCAL_LOOKDEV
-STOP_REASON = Design specification complete. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+NEXT_GATE = VFX_VSLICE_001_READABILITY_REVIEW
+STOP_REASON = A local vector lookdev blockout exists; visual readability review remains open. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
 
 ## Isolated design gate
 
@@ -106,13 +106,14 @@ Four `SOURCE_BOUND` items now have concrete silhouette, motion, runtime-binding,
 
 The shared technical specification is [VFX_VSLICE_001_DESIGN_SPEC_V1.md](VFX_VSLICE_001_DESIGN_SPEC_V1.md). It records proposed effect systems and parameters, all conceptual scalability tiers, future readability/performance evidence, unresolved inputs, and the UE sandbox check. The individual briefs contain the item-specific design intent and source boundaries.
 
-`UE_VFX_SANDBOX = OPEN`: no project or engine association isolated to the VFX workspace was found. No sandbox or Niagara asset was created. The next suitable gate is local lookdev in a clearly isolated VFX sandbox; this does not authorize work in the Unreal main project.
+`UE_VFX_SANDBOX = OPEN`: no project or engine association isolated to the VFX workspace was found. No sandbox or Niagara asset was created. A standalone visual blockout now exists at [lookdev/VFX_VSLICE_001_LOOKDEV_V1.html](lookdev/VFX_VSLICE_001_LOOKDEV_V1.html); it carries no runtime timing or gameplay authority. The next gate is visual readability review, not UE integration.
 
 ```text
 VFX_DESIGN_REVISION = VFX_DESIGN_VSLICE_001_V1
 VFX_VSLICE_001_DESIGN_READINESS = PROTOTYPE_READY
 VFX_VSLICE_001_TECHNICAL_PROTOTYPE = NOT_CREATED
+VFX_VSLICE_001_VECTOR_LOOKDEV = CREATED; VISUAL_REVIEW = OPEN
 UE_VFX_SANDBOX = OPEN
-NEXT_GATE = VFX_VSLICE_001_LOCAL_LOOKDEV
-STOP_REASON = Design specification complete. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+NEXT_GATE = VFX_VSLICE_001_READABILITY_REVIEW
+STOP_REASON = Static vector blockout is available for visual review. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
 ```
