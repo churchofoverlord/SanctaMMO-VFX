@@ -22,15 +22,13 @@ Evidence labels are scoped to what was actually inspected. An asset name or file
 | SanctaMMO.uproject | EngineAssociation is {879D9D6C-4F90-4BD2-533F-CD9F03C78B21}; project lists VisualStudioTools only | The association GUID was not mapped to an engine install. Exact project-to-engine version remains OPEN. |
 | SanctaMMO-Repo Content | NS_JumpPad.uasset and nearby M_SimpleGlow, M_GradientGlow, MI_GlowNT names observed | Asset type, Niagara graph, material connections, use, and acceptance were not inspected. These are OBSERVED only, not a VFX direction. |
 | SanctaMMO-WorldArt | committed local main at a6b3be7fe42d5cd6c6820efda5ae3c04d4acff7f; clean at inspection | Stable local WorldArt rules constrain compatibility. See the source paths below. |
-| SanctaMMO-Control | local master at 1b39164c80354ba3060c3addee98030ebd411585 | Oracle profile was consulted only for transversal evidence, review, concurrency, and integration discipline. |
+| SanctaMMO-Control | C:\Dev\SanctaMMO-Control\ORACLE_OPERATING_PROFILE.md at local master 1b39164c80354ba3060c3addee98030ebd411585 | Consulted read-only only for transversal evidence, review, concurrency, and integration discipline. |
 
 WorldArt inputs used:
 
 - CANON/WORLD_ART_BIBLE.md
 - CANON/MATERIAL_LANGUAGE.md
 - CANON/VISUAL_DETAIL_STANDARD.md
-
-Control-plane note: a read-only ControlState resolution to 34896d10bd4ad0470b5bf0e0f515f40d28089c34 occurred during the preceding remote-access request, before this gate was narrowed to local-only work. No ControlState content is used as a foundation source or as an authority dependency here.
 
 ## Foundation documents
 

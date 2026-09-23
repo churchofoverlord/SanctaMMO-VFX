@@ -53,7 +53,7 @@ Avoid fast flicker as the sole state marker. Friend/enemy and hazard patterns re
 
 ## MMO density
 
-Judge families both alone and alongside overlapping players, projectiles, telegraphs, persistent states, and ambient effects. Layer priority is gameplay-critical warning/state, actor relation, event confirmation, then decorative secondary motion. Reduce overlap, lifetime, secondary spawns, lights, and distortion before suppressing the primary cue.
+Judge families both alone and alongside overlapping players, projectiles, telegraphs, persistent states, and ambient effects. Layer priority is gameplay-critical warning/state, actor relation, event confirmation, then decorative secondary motion. Reduce overlap, decorative layers, secondary spawns, lights, and distortion before suppressing the primary cue. Reduce lifetime only for noncritical decorative particles; never shorten a runtime-supplied telegraph window or persistent-state duration. Stop those cues when their authoritative source event or state ends.
 
 ## Scalability intent
 
