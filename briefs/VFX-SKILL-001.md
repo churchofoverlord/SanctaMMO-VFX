@@ -45,3 +45,14 @@ Validate a presentation trail that follows a real server-owned projectile actor.
 - Known Missing Inputs: Exact-SHA runtime validation; client-visible skill identity if a skill-specific family treatment is later required.
 - Implementation Boundary: Never set projectile speed, trajectory, collision, hit detection, targeting, or termination.
 - Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification.
+
+## Isolated design / prototype readiness
+
+- Name / Domain: `scout.torpor` projectile travel / Skills.
+- Readability Role / Importance: Keep the actual moving projectile and current path recognizable in overlap. The selected skill identity need not be visible to an observing client.
+- Self / Ally / Enemy: The fixture is hostile-targeted, but faction/relationship presentation is OPEN and must not be encoded by colour here.
+- Silhouette: Preserve the source actor's visible body. Add one narrow tapered trail; do not make a second projectile body or a broad ribbon that obscures nearby actors.
+- Motion: Sample the actor's replicated transforms. Any smooth interpolation is presentation-only between observed samples; never extrapolate a new path or speed. Stop on source termination.
+- Timing / Events: Travel begins/ends with the real actor lifecycle. Do not add a cast wind-up, warning, impact burst, or afterimage persistence without a separate source event.
+- OPEN / Must Not Assume: Exact-SHA multiplayer observation, client-visible skill/receiver IDs, target identity, impact point, and a family palette.
+- Architecture: Follow `NS_VFX_SKILL_001_Projectile` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Ribbon width and preview envelope stay `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`.

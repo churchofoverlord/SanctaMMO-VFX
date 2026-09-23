@@ -45,3 +45,14 @@ Prototype a state-associated actor cue while keeping active state, duration, and
 - Known Missing Inputs: Client-visible status lifecycle; exact-SHA runtime proof for live state integration; permanent status visual language.
 - Implementation Boundary: VFX reads state. It does not apply, extend, cleanse, or author duration.
 - Readiness: READY_FOR_LOCAL_LOOKDEV; DEFERRED_GAMEPLAY_INPUT for a persistent client visual.
+
+## Isolated design / prototype readiness
+
+- Name / Domain: Slow state cue / Character.
+- Readability Role / Importance: Associate an active state with its affected actor. Do not imply movement-speed magnitude, duration, remaining time, or severity.
+- Self / Ally / Enemy: The source fixture targets a hostile receiver, but relationship treatment remains OPEN; the state marker itself stays neutral.
+- Silhouette: Use a narrow actor-space lower-body band with paired short drag marks. This reads as attached state and avoids confusion with a ground-area footprint.
+- Motion: Sparse tethered drift around the actor; never slow, accelerate, or otherwise alter character animation or movement. Preview cadence is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY` and does not map to Slow strength.
+- Timing / Events: Start and stop only from authoritative `StateActive`. The client hook is absent, so a local preview trigger must be labeled simulated and cannot demonstrate source-lifecycle fidelity.
+- OPEN / Must Not Assume: Client-visible status identity/active transition, relationship, permanent palette, stacking, intensity, or remaining duration.
+- Architecture: Follow `NS_VFX_CHARACTER_001_Slow` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Do not create a local gameplay state machine.

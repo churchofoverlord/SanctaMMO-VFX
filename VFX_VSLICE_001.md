@@ -1,6 +1,6 @@
 # VFX_VSLICE_001 — Source binding and production briefs
 
-Status: SOURCE_BINDING COMPLETE; IMPLEMENTATION READINESS PARTIAL. No production Niagara implementation is authorized by this gate.
+Status: SOURCE BINDING AND DESIGN SPEC COMPLETE; DESIGN READINESS PROTOTYPE_READY; IMPLEMENTATION READINESS PARTIAL. No production Niagara implementation or Unreal integration has occurred.
 
 ## Purpose
 
@@ -97,5 +97,22 @@ GAMEPLAY_SEMANTICS_MODIFIED = NO
 CANON_MODIFIED = NO
 CONTROLSTATE_REQUIRED_FOR_THIS_GATE = NO
 OWNER_DECISION_REQUIRED = NO
-NEXT_GATE = VFX_VSLICE_001_IMPLEMENTATION
-STOP_REASON = Source-binding gate complete. The next gate was not started; it must resolve canonical Unreal authority and exact write paths before integration.
+NEXT_GATE = VFX_VSLICE_001_LOCAL_LOOKDEV
+STOP_REASON = Design specification complete. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+
+## Isolated design gate
+
+Four `SOURCE_BOUND` items now have concrete silhouette, motion, runtime-binding, architecture, scalability, and review criteria for local prototyping. VFX-SKILL-002 remains `SOURCE_DEFERRED` and is limited to non-semantic shape exploration.
+
+The shared technical specification is [VFX_VSLICE_001_DESIGN_SPEC_V1.md](VFX_VSLICE_001_DESIGN_SPEC_V1.md). It records proposed effect systems and parameters, all conceptual scalability tiers, future readability/performance evidence, unresolved inputs, and the UE sandbox check. The individual briefs contain the item-specific design intent and source boundaries.
+
+`UE_VFX_SANDBOX = OPEN`: no project or engine association isolated to the VFX workspace was found. No sandbox or Niagara asset was created. The next suitable gate is local lookdev in a clearly isolated VFX sandbox; this does not authorize work in the Unreal main project.
+
+```text
+VFX_DESIGN_REVISION = VFX_DESIGN_VSLICE_001_V1
+VFX_VSLICE_001_DESIGN_READINESS = PROTOTYPE_READY
+VFX_VSLICE_001_TECHNICAL_PROTOTYPE = NOT_CREATED
+UE_VFX_SANDBOX = OPEN
+NEXT_GATE = VFX_VSLICE_001_LOCAL_LOOKDEV
+STOP_REASON = Design specification complete. No isolated Unreal sandbox is available; Unreal main-project integration remains out of scope.
+```

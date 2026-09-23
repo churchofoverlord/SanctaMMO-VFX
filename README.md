@@ -6,10 +6,9 @@ This repository defines a small operating and design baseline for SanctaMMO VFX.
 
 ## Workspace
 
-- Repository type: local Git only.
+- Repository type: local Git checkout with configured GitHub remote `origin` (`churchofoverlord/SanctaMMO-VFX`).
 - Branch: main.
-- No remote is configured.
-- Foundation changes are committed locally; no publication or integration is implied.
+- The VFX foundation and source-binding history is published on `origin/main`; current work remains VFX-only and is not Unreal-integrated.
 
 ## Read-only baseline
 
@@ -37,15 +36,19 @@ WorldArt inputs used:
 - VFX_BIBLE.md defines readable effect structure, accessibility, scalability intent, and WorldArt compatibility.
 - NIAGARA_ARCHITECTURE.md defines reusable patterns and the minimum material strategy.
 - VFX_PERFORMANCE.md defines profiling scenarios and evidence to collect; it sets no numeric budgets.
-- VFX_REGISTRY.csv holds only the five proposed VSLICE_001 patterns.
-- VFX_VSLICE_001.md proposes a design-only vertical slice.
-- CROSS_PROJECT_FINDINGS.md defines the handoff record; no external-domain finding is opened by this foundation.
+- VFX_REGISTRY.csv tracks only the five VSLICE_001 items.
+- VFX_VSLICE_001.md records the source bindings and current gate state.
+- VFX_VSLICE_001_DESIGN_SPEC_V1.md records isolated design, prototype architecture, scalability, readability, evidence, and open inputs.
+- VFX_VSLICE_001_REVIEW.md records the source-binding review and exact target SHA.
+- briefs/ contains one source-bound production brief per selected VFX item and the deferred area-warning brief.
+- CROSS_PROJECT_FINDINGS.md records the two bounded presentation-hook findings opened by VSLICE_001.
 
 ## Current evidence state
 
-- OBSERVED: clean committed Unreal source snapshot and named assets at the revision above.
+- OBSERVED: committed Unreal source snapshot and named assets at the revision above; this VFX workspace contains no isolated `.uproject` sandbox.
 - TECHNICALLY_PROVEN: the installed UE 5.8.2 directory contains the Niagara plugin descriptor and the reported build version.
-- OPEN / DEFERRED_SOURCE: project-to-engine association, Niagara asset contents and runtime behavior, emitter inventory, project scalability setup, approved gameplay semantic bindings, and any production VFX direction.
-- FORMALLY_ACCEPTED: none of the VFX Foundation documents or proposed patterns. Existing WorldArt statements remain scoped to their own source authority and are not VFX acceptance.
+- TECHNICALLY_PROVEN: VFX source-binding review passed at its recorded SHA; the selected processing request/result was proven at its exact runtime SHA. No VFX Niagara prototype has been created.
+- OPEN / DEFERRED_SOURCE: project-to-engine association, an isolated VFX sandbox, Niagara module/asset behavior in a target project, current combat-cue and projectile runtime validation, client-visible Slow state, approved relationship treatment, and any permanent production VFX direction.
+- FORMALLY_ACCEPTED: none of the VFX Foundation documents or VSLICE_001 items. Existing WorldArt statements remain scoped to their own source authority and are not VFX acceptance.
 
-Next gate: review and authorize VFX_VSLICE_001 as a prototype plan. No effect implementation is part of this Foundation.
+Next gate: local lookdev in a clearly isolated VFX sandbox. The main Unreal project remains out of scope.

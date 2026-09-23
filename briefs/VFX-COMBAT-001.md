@@ -45,3 +45,14 @@ Create a compact confirmation for a successful direct Basic Attack. Communicate 
 - Known Missing Inputs: Exact-SHA runtime evidence for the current cue path; general player-target cue; contact point/normal; approved relationship language.
 - Implementation Boundary: VFX consumes the hit outcome. It does not choose damage, hit detection, target, or gameplay severity.
 - Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY after exact-SHA runtime verification of the current cue path, bounded to the inspected NPC hit path.
+
+## Isolated design / prototype readiness
+
+- Name / Domain: Basic Attack hit confirmation / Combat.
+- Readability Role / Importance: A short event-confirmation marker at the supplied location. It is secondary to actor and combat readability and never ranks hit severity.
+- Self / Ally / Enemy: Only a non-player receiver path is inspected. All relationship-specific styling remains OPEN.
+- Silhouette: A compact near-symmetrical stamp with an incomplete crisp rim. Keep it non-directional because this binding supplies no contact normal or dependable direction.
+- Motion: Brief radial opening and settle. The visual envelope is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`; onset is permitted only on the real successful result.
+- Timing / Events: No cast, travel, pre-impact, or persistence. A miss creates no impact mark. Cleanup belongs to the short event effect, not gameplay state.
+- OPEN / Must Not Assume: Runtime validation of this cue at the pinned SHA; player-target event path; measured contact point/normal; severity, faction, or damage amount.
+- Architecture: Follow `NS_VFX_COMBAT_001_BasicHit` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). This is a design proposal, not a Niagara asset or runtime proof.

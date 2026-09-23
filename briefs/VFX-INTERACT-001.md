@@ -22,8 +22,8 @@ Validate bounded feedback for a real manual processing request and its owner res
 
 ## Production Brief
 
-- Gameplay Meaning: A request was sent to a processing station and received a server result. Accepted means the order was queued, not that processing completed.
-- Presentation Inputs: Local request start, target station, and owner result state. No progress percentage or completion event is available.
+- Gameplay Meaning: A request was sent to a processing station and received an owner result. Accepted means queue admission, not that processing started or completed.
+- Presentation Inputs: Local request start, target station, and the actual owner result (`Pending`, `Accepted`, `Rejected`, or `ResultUnknown`). No production progress or completion event is available.
 - Viewer Priority: Local requester and target station; keep feedback associated with the station.
 - Source/Target Context: Player Controller submits the request to a ProcessingStation actor identified by StationInstanceId.
 - Friendly/Hostile Requirement: Not applicable; this is a non-combat interaction.
@@ -32,8 +32,8 @@ Validate bounded feedback for a real manual processing request and its owner res
 - Pre-impact Phase: Not applicable.
 - Impact Phase: Not applicable.
 - Persistent Phase: None. Request feedback is short-lived and owner-only.
-- Termination: End request cue on server result. Do not show a production completion effect for a Queued order.
-- Readability Goal: Distinguish request pending from accepted and rejected/unknown without depending on color.
+- Termination: End the pending station cue when the owner result arrives. Give each result a short visual-only envelope; no timeout, retry, or queue duration is invented. Do not show production completion for a Queued order.
+- Readability Goal: Distinguish pending, queue-admitted, rejected, and unknown results by shape and motion as well as value. Do not depict production progress or completion.
 - Shape/Motion Intent: A compact station-associated pulse or state change. WORLDART_INPUT_REQUIRED for final palette/material treatment; do not redraw station identity.
 - Accessibility Requirement: Use shape, placement, or timing in addition to color.
 - Proposed Niagara Pattern: Short request/result event pattern, locally associated with the station and requester.
@@ -45,3 +45,14 @@ Validate bounded feedback for a real manual processing request and its owner res
 - Known Missing Inputs: Dedicated VFX event/delegate and station ID in owner response; processing progress/completion does not exist in this binding.
 - Implementation Boundary: VFX does not create orders, change station rules, or imply production completion.
 - Readiness: READY_FOR_LOCAL_LOOKDEV; READY_FOR_UE_IMPLEMENTATION_PENDING_AUTHORITY for request/result only.
+
+## Isolated design / prototype readiness
+
+- Name / Domain: Manual Processing request/result / Interaction.
+- Readability Role / Importance: Supplement the owner-facing result with a spatial cue at the selected station. UI remains responsible for text and authoritative explanation.
+- Self / Ally / Enemy: Owner-only request feedback; combat relationships do not apply.
+- Silhouette: Pending is an open station bracket; accepted queue admission closes/tightens the bracket without a success burst; rejection breaks it; unknown remains hollow/incomplete and distinct from rejection.
+- Motion: One compact transition at the real result. Any pulse/fade envelope is `LOOKDEV_ONLY — NOT GAMEPLAY AUTHORITY`; pending animation must not look like a progress bar or countdown.
+- Timing / Events: Show pending only after the real request is sent; map only the real owner result. The station ID must be retained locally for correlation. No crafting/processing completion phase exists in this source.
+- OPEN / Must Not Assume: Production progress, completion, cancel, queue timing, new station behavior, or a station-ID echo from the server.
+- Architecture: Follow `NS_VFX_INTERACT_001_ProcessingFeedback` and the shared module/material decisions in [VFX_VSLICE_001_DESIGN_SPEC_V1.md](../VFX_VSLICE_001_DESIGN_SPEC_V1.md). Do not turn this first use into a general interaction framework.
