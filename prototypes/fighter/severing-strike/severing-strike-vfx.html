@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; traço principal + fios de pincel no shader; aparece num frame e apaga-se da cauda para a ponta</td></tr>
+          <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; traço principal + fios de pincel no shader; cresce no sentido do golpe e apaga-se a partir da origem</td></tr>
           <tr><td>Impacto + marca de sequência</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">1/alvo</td><td>Billboards pequenos em linha no alvo; só em acertos confirmados</td></tr>
           <tr><td>Faíscas</td><td class="n">6/alvo</td><td class="n">6/alvo</td><td class="n">3/alvo</td><td class="n">0</td><td>GPU, esticadas pela velocidade, no sentido do golpe</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um único arco</h3><p>O corte surge inteiro num frame (snap), largo e legível, segura um instante e desfaz-se da cauda para a ponta em ~0,4 s; o traço é fino nas pontas e largo no meio. Os fios finos dentro do arco dão o gesto de pincel do ícone sem partículas.</p></div>
+    <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio. Os fios finos dentro do arco dão o gesto de pincel do ícone sem partículas.</p></div>
     <div><h3>Feedback só no acerto</h3><p>Impacto, faíscas e marca de sequência aparecem apenas nos alvos atingidos. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
     <div><h3>Família Severing</h3><p>II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas).</p></div>
   </section>
@@ -435,9 +435,11 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
       vec2 p = vF; float r = length(p), a = atan(p.x, p.y), SPAN = ${SPAN.toFixed(2)};
       if (abs(a) > SPAN + .05) discard;
       float s = (SPAN - a)/(2.*SPAN);                      // 0 = where the swing starts (right), 1 = leading edge (left)
-      float wipe = max(vU - .06, 0.)/.34;                  // holds briefly, then the tail dissolves toward the leading edge
-      float alive = smoothstep(wipe - .05, wipe + .14, s);
-      float fade = 1. - smoothstep(.3, .48, vU);
+      float grow = 1. - pow(1. - clamp(vU/.09, 0., 1.), 2.);      // 1) draws out in the swing direction
+      float wipe = max(vU - .15, 0.)/.3;                          // 3) after a short hold, fades starting at the origin
+      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .05, wipe + .14, s);
+      float headGlow = exp(-pow((s - grow)/.035, 2.)) * (1. - step(1., grow));
+      float fade = 1. - smoothstep(.36, .48, vU);
       float thin = 1. - .55*smoothstep(.04, .42, vU);
       float body = pow(sin(3.14159*clamp(s, 0., 1.)), .9);   // crescent: hair-fine at both ends, widest in the middle
       float lum = 0., hot = 0.;
@@ -453,7 +455,8 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
         hot += lcore(r - (rr + off), ww*.4)*m*.3;
       }
       lum += smoothstep(.95, 1.4, r)*smoothstep(1.8, 1.55, r)*body*.18;        // faint motion fill
-      float k = alive*fade*(vU < .033 ? 1.6 : 1.);                           // 2-frame snap peak
+      lum += headGlow*body*1.2; hot += headGlow*body;                         // bright leading head while it draws
+      float k = alive*fade*(vU > .09 && vU < .123 ? 1.5 : 1.);                // 2-frame peak when it reaches full size
       vec3 col = mix(uOrange, uGold, .45 + .55*body);
       vec3 outc = (col*lum + mix(uGold, vec3(1., .96, .88), .65)*hot*1.3)*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
@@ -525,7 +528,7 @@ function swing(O, yaw, tier, t0, targets){
     const lx = Math.cos(yaw)*dx - Math.sin(yaw)*dz, lf = -(Math.sin(yaw)*dx + Math.cos(yaw)*dz);   // local x / forward
     const a = Math.atan2(lx, lf);
     if (dist > 2.3 || Math.abs(a) > SPAN) continue;
-    const hitT = th + (SPAN - a)/(2*SPAN)*.02;          // snap: all hits land within the same frame or two
+    const hitT = th + (1 - Math.pow(1 - (SPAN - a)/(2*SPAN), .5))*.09;   // hit lands when the drawing head passes the target
     tg.hitAt = hitT; tg.seq = Math.min(1, (tg.seq || 0) + 1);
     const hp = V3(tg.p.x - dx/dist*.22, 1.15, tg.p.z - dz/dist*.22);
     let k = marks.next(); marks.A.aO.setXYZ(k, hp.x, hp.y, hp.z); marks.A.aT.setX(k, hitT); marks.A.aK.setXY(k, 0, 0);
@@ -613,8 +616,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Preparação (corpo)', 0, 120, 0x8f8a82],
-  ['Arco · snap (2 frames)', 120, 153, 0xffffff],
-  ['Arco segura e apaga da cauda à ponta', 120, 600, 0xff7a1a],
+  ['Arco cresce no sentido do golpe', 120, 210, 0xffffff],
+  ['Segura no tamanho máximo', 210, 270, 0xf2b53a],
+  ['Apaga a partir da origem', 270, 600, 0xff7a1a],
   ['Impacto no alvo', 130, 270, 0xfff0d2],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
   ['Marca de sequência', 160, 760, 0xc9a0ff],
@@ -683,9 +687,10 @@ function frame(now){
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
   placeDummies(time);
   let tw = 0;
-  if (dtc >= 0 && dtc < WIND) tw = .45*(dtc/WIND);
-  else if (dtc >= WIND && dtc < WIND + .06) tw = .45 - 1.2*((dtc - WIND)/.06);
-  else if (dtc >= WIND + .06 && dtc < WIND + .5) tw = -.75*(1 - easeOutCubic((dtc - WIND - .06)/.44));
+  // wind-up to the right, swing right → left (same direction as the arc)
+  if (dtc >= 0 && dtc < WIND) tw = -.45*(dtc/WIND);
+  else if (dtc >= WIND && dtc < WIND + .09) tw = -.45 + 1.2*((dtc - WIND)/.09);
+  else if (dtc >= WIND + .09 && dtc < WIND + .55) tw = .75*(1 - easeOutCubic((dtc - WIND - .09)/.46));
   body.rotation.y = tw; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
