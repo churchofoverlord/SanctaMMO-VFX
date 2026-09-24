@@ -484,11 +484,11 @@ const gdec = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
       float r = length(vP), a = atan(vP.y, vP.x), R = ${R_AOE}.;
       float draw = clamp(vU/.45, 0., 1.), ang = mod(a + 1.5708, 6.28318)/6.28318;          // ring draws itself around
       float shown = smoothstep(draw + .01, draw - .01, ang);
-      float outer = (lc(r - R, .035) + exp(-pow((r - R)/.2, 2.))*.12)*shown, inner = lc(r - R*.82, .018)*.55*shown;
+      float outer = (lc(r - R, .02) + exp(-pow((r - R)/.1, 2.))*.08)*shown, inner = lc(r - R*.85, .012)*.5*shown;
       float cres = 0.;
       for (int i=0;i<4;i++){ float ca = float(i)*1.5708; vec2 c = vec2(cos(ca), sin(ca))*R*.91, q = vP - c;
-        float o1 = length(q) - .28, o2 = length(q - normalize(c)*.13) - .24; float sd = max(o1, -o2);
-        cres += lc(sd, .03)*step(.35, draw); }
+        float o1 = length(q) - .17, o2 = length(q - normalize(c)*.08) - .145; float sd = max(o1, -o2);
+        cres += lc(sd, .02)*step(.35, draw); }
       float f = (vU > ${RES} && vU < ${RES} + .05 ? 1.5 : 1.)*(1. - smoothstep(1.3, 1.9, vU))*.7;
       float wash = smoothstep(R, R*.2, r)*(vU > ${RES} ? .25*exp(-(vU - ${RES})*5.) : .03);
       vec3 o = (uC*(outer*.85 + inner + cres*.8 + wash) + uCl*lc(r - R, .01)*.4*shown)*f;
@@ -501,7 +501,7 @@ const moonB = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;
     void main(){ float u = uTime - aT; if (u < .05 || u > ${RES} + .15){ ${HIDE} }
       float k = clamp((u - .05)/(${RES} - .05), 0., 1.);
-      vec4 mv = viewMatrix*vec4(aO + vec3(0., mix(4.2, 2.6, k*k), 0.), 1.); float S = 1.3*(.6 + .4*smoothstep(0., .3, k))*(u > ${RES} ? 1. + (u - ${RES})*4. : 1.);
+      vec4 mv = viewMatrix*vec4(aO + vec3(0., mix(3.4, 2.2, k*k), 0.), 1.); float S = .75*(.6 + .4*smoothstep(0., .3, k))*(u > ${RES} ? 1. + (u - ${RES})*4. : 1.);
       mv.xy += position.xy*S; vQ = position.xy; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uC, uCl; varying vec2 vQ; varying float vU;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
