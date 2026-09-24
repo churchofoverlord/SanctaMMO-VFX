@@ -26,7 +26,7 @@ prototypes/
 | Fighter · Piercing Strike I | Otimizado (linha perfurante num quad, impacto + cue breve de Slow, faíscas GPU, 3 draw calls) | [prototypes/fighter/piercing-strike/piercing-strike-vfx.html](prototypes/fighter/piercing-strike/piercing-strike-vfx.html) |
 | Fighter · Shoulder Rush I | Otimizado (rasto à altura do tronco atrás do Fighter, impacto leve, hit stop, 3 draw calls) | [prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html](prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html) |
 | Fighter · Crushing Blow I | Otimizado (telegraph + rachas + onda num quad, traço vertical, fragmentos GPU, 3 draw calls) | [prototypes/fighter/crushing-blow/crushing-blow-vfx.html](prototypes/fighter/crushing-blow/crushing-blow-vfx.html) |
-| Fighter · Battlecry / Challenge I | Otimizado (pulso radial no chão, Silence ou Taunt nos afetados, 2 draw calls, 0 partículas) | [prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html](prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html) |
+| Fighter · Battlecry / Challenge I | Otimizado (pulso radial no chão: cristas ou anel ancorado, 1 draw call, 0 partículas) | [prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html](prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 

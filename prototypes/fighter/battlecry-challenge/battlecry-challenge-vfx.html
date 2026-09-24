@@ -149,8 +149,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Pulso radial no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad a partir do Root: Battlecry com 3 cristas; Challenge com anel ancorado na borda e marcas curtas</td></tr>
-          <tr><td>Cues nos inimigos</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">0</td><td>Billboard em linha sobre a cabeça: Silence (arcos cortados) ou Taunt (ponta de lança)</td></tr>
-          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Partilhadas por todos os Fighters; 0 partículas</td></tr>
+          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Partilhada por todos os Fighters; 0 partículas</td></tr>
         </tbody>
       </table>
     </div>
@@ -158,8 +157,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesmo pulso</h3><p>As duas formas saem do Root com o mesmo snap e o mesmo alcance. Battlecry é rápido e agressivo (três cristas, a do meio mais forte); Challenge assenta e fica ancorado na borda da área até ao fim.</p></div>
-    <div><h3>Só nos afetados</h3><p>Cada inimigo dentro do alcance recebe o cue quando o pulso passa: Silence (arcos de som cortados) ou Taunt (a ponta de lança do ícone, a apontar para ele). O boneco fora da área não recebe nada.</p></div>
-    <div><h3>Status à parte</h3><p>Os cues duram ~0,6–0,9 s (aplicação). O Silence e o Taunt que se mantêm pertencem aos cues de status partilhados.</p></div>
+    <div><h3>Skill ≠ status</h3><p>A skill mostra só o pulso. O Silence e o Taunt aplicados aos inimigos são VFX dos cues de status partilhados (<code>GameplayCue.Status.*</code>) — os bonecos atingidos apenas reagem ao pulso.</p></div>
   </section>
 </div>
 
@@ -535,50 +533,7 @@ const pulses = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1, aK:1 }, addM
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 2 — on-enemy application cues above the head (billboards): kind 0 = Silence, kind 1 = Taunt spearhead
-const cues = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
-  uniforms:{ uTime, uCW, uCT },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
-    void main(){
-      float u = uTime - aT, life = aK < .5 ? .65 : .9;
-      if (u < 0. || u > life){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;
-      float S = .26; mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK;
-      gl_Position = projectionMatrix*mv;
-    }`,
-  fragmentShader:`uniform vec3 uCW, uCT; varying vec2 vP; varying float vU, vK; ${STROKE}
-    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }
-    float line(float d, float w){ return exp(-pow(d/w, 2.4)); }
-    void main(){
-      vec2 p = vP; float lum = 0., hot = 0.; vec3 col = mix(uCW, uCT, vK);
-      if (vK < .5){
-        // Silence: two sound arcs, then a slash cuts across them
-        float t = vU/.65, f = pow(1. - smoothstep(.55, 1., t), 1.4)*smoothstep(0., .06, t);
-        float r = length(p - vec2(-.07, 0.)), a = atan(p.y, p.x - (-.07));
-        float arcs = 0.;
-        for (int i=0;i<2;i++){ float R = .07 + .06*float(i); arcs += line(abs(r - R), .008)*step(abs(a), .75); }
-        float cut = smoothstep(.08, .2, t);
-        vec2 s0 = vec2(-.14, -.12), s1 = mix(s0, vec2(.14, .12), cut);
-        float sl = line(seg(p, s0, s1), .01);
-        lum += (arcs*.8 + sl*1.1)*f; hot += lcore(seg(p, s0, s1), .004)*f*.7;
-      } else {
-        // Taunt: the icon's spearhead, drawn in line-art, pointing down at the enemy; two short pulses
-        float t = vU/.9, f = pow(1. - smoothstep(.6, 1., t), 1.4)*smoothstep(0., .06, t);
-        float pul = 1. + .12*exp(-pow((t - .12)/.05, 2.)) + .08*exp(-pow((t - .32)/.05, 2.));
-        vec2 q = p/pul;
-        float tip = min(seg(q, vec2(0., -.15), vec2(-.08, .02)), seg(q, vec2(0., -.15), vec2(.08, .02)));
-        float bar = min(seg(q, vec2(-.08, .02), vec2(0., -.03)), seg(q, vec2(.08, .02), vec2(0., -.03)));
-        float shaft = seg(q, vec2(0., -.03), vec2(0., .15));
-        float d = min(min(tip, bar), shaft);
-        lum += line(d, .009)*f*1.1; hot += lcore(d, .0035)*f*.7;
-      }
-      vec3 outc = col*lum + mix(col, vec3(1., .96, .95), .6)*hot;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-      gl_FragColor = vec4(outc, 1.);
-    }` }));
-
 // ============ spawning (CPU work only at cast time) ============
-const TIER = { 3:{ cue:true }, 2:{ cue:true }, 1:{ cue:true }, 0:{ cue:false } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const fighters = [], castLog = [];
 function addFighter(p, yaw, stance, visible){
@@ -591,14 +546,9 @@ function setStance(f, s, t0){ if (f.stance === s) return; markers.A.aS.setXYZW(f
 function shout(f, tier, t0, targets){
   const k = f.stance, ti = t0 + WIND;
   const i = pulses.next(); pulses.A.aO.setXYZ(i, f.p.x, 0, f.p.z); pulses.A.aT.setX(i, t0); pulses.A.aK.setX(i, k); pulses.track(t0 + WIND + .9, 1);
-  let n = 0;
-  if (TIER[tier].cue) for (const tg of targets || []){
-    const d = Math.hypot(tg.p.x - f.p.x, tg.p.z - f.p.z); if (d > R) continue;
-    const th = ti + (d/R)*.09;
-    tg.hitAt = th;
-    const j = cues.next(); cues.A.aO.setXYZ(j, tg.p.x, 2.2, tg.p.z); cues.A.aT.setX(j, th + .02); cues.A.aK.setX(j, k); n++;
+  for (const tg of targets || []){                       // gameplay reaction only; Silence / Taunt visuals live in the status cues
+    const d = Math.hypot(tg.p.x - f.p.x, tg.p.z - f.p.z); if (d <= R) tg.hitAt = ti + (d/R)*.09;
   }
-  if (n) cues.track(ti + 1.1, n);
   castLog.push(t0 + 1.1);
 }
 
@@ -672,10 +622,8 @@ const PHASES = [
   ['Preparação (corpo)', 0, 150, 0x8f8a82],
   ['Snap no Root (2 frames)', 150, 183, 0xffffff],
   ['Battlecry · 3 cristas expandem', 150, 500, 0xff3d7f],
-  ['Battlecry · cue de Silence', 170, 820, 0xff3d7f],
   ['Challenge · pulso até à borda', 150, 450, 0x3fd8ff],
   ['Challenge · anel ancorado', 310, 1050, 0x3fd8ff],
-  ['Challenge · marcador de Taunt', 170, 1070, 0x3fd8ff],
 ];
 const TOTAL = 1100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -741,8 +689,8 @@ function frame(now){
       g.next = time + rand(2.5, 5);
     }
   }
-  pulses.tick(time); cues.tick(time);
-  markers.flush(); pulses.flush(); cues.flush();
+  pulses.tick(time);
+  markers.flush(); pulses.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: Warrior puffs up and shouts; Tank plants and braces
@@ -770,8 +718,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = (pulses.active ? 1 : 0) + (cues.active ? 1 : 0);
-    S.part.textContent = pulses.count + cues.count;
+    S.draw.textContent = pulses.active ? 1 : 0;
+    S.part.textContent = pulses.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
