@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Blink</span><span>0 — 700 ms</span></div>
+    <div class="tl-head"><span>Timing do Blink</span><span>0 — 1200 ms</span></div>
   </div>
 
   <section class="budget">
@@ -141,8 +141,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Quads no chão com sigilo: o da origem fecha, o do destino abre; 0,42 s cada</td></tr>
-          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Faixa fina que acompanha o plano de corte da malha (origem e destino), 120 ms</td></tr>
+          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Quads no chão com sigilo: o da origem fecha, o do destino abre; 0,84 s cada</td></tr>
+          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Faixa fina que acompanha o plano de corte da malha (origem e destino), 240 ms</td></tr>
           <tr><td>Clip plane na malha</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um plano de corte no material do Mage; sem geometria extra</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Partilhadas por todos os Mages; nada entre os dois pontos</td></tr>
         </tbody>
@@ -152,7 +152,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Dois pontos</h3><p>Lê-se como origem e destino: um anel com sigilo pisca e fecha onde o Mage estava, e outro abre onde aparece. Nada entre os dois: sem rasto nem fumo, para não parecer um Dash.</p></div>
-    <div><h3>Fecha antes de abrir</h3><p>Um plano de corte apaga a silhueta dos pés à cabeça em 120 ms na origem, com uma linha violeta a acompanhar o corte; 2 frames invisível; depois a silhueta abre no destino do mesmo modo.</p></div>
+    <div><h3>Fecha antes de abrir</h3><p>Um plano de corte apaga a silhueta dos pés à cabeça em 240 ms na origem, com uma linha violeta a acompanhar o corte; 2 frames invisível; depois a silhueta abre no destino do mesmo modo.</p></div>
     <div><h3>Âncora parada</h3><p>O boneco ao lado é só referência e não se mexe; o loop vai e volta entre os dois pontos. O Blink não cancela o Cast/Channel (lógica de jogo, não VFX).</p></div>
   </section>
 </div>
@@ -414,25 +414,25 @@ const ptsScale = { value:600 };
 // ============ Blink ============
 const uV = { value:lin(0x9b5cff) }, uBl = { value:lin(0x4a7bff) }, uW = { value:lin(0xe6dcff) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const OUT = .12, GAP = 2/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
+const OUT = .24, GAP = 2/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
 
 // Layer 1 — two quick sigil rings, flat on the ground (origin, then destination). kind 0 = origin: flashes and closes inward;
 // kind 1 = destination: opens outward. Same quad system; no smoke or streak between the two points.
 const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uV, uBl, uW },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
-    void main(){ float u = uTime - aT; if (u < 0. || u > .42){ ${HIDE} }
+    void main(){ float u = uTime - aT; if (u < 0. || u > .84){ ${HIDE} }
       float S = 1.; vP = position.xy*S; vU = u; vK = aK;
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }`,
   fragmentShader:`uniform vec3 uV, uBl, uW; varying vec2 vP; varying float vU, vK; ${STROKE}
     void main(){
-      float r = length(vP), a = atan(vP.y, vP.x), t = vU/.42;
-      float k = vK < .5 ? pow(clamp(vU/.2, 0., 1.), 2.) : 1. - pow(1. - clamp(vU/.2, 0., 1.), 3.);
+      float r = length(vP), a = atan(vP.y, vP.x), t = vU/.84;
+      float k = vK < .5 ? pow(clamp(vU/.4, 0., 1.), 2.) : 1. - pow(1. - clamp(vU/.4, 0., 1.), 3.);
       float R = vK < .5 ? mix(.8, .25, k) : mix(.25, .8, k);                  // origin closes, destination opens
       float f = (vU < .033 ? 1.7 : 1.)*(1. - smoothstep(.5, 1., t));
       float ring = exp(-pow(abs(r - R)/.018, 2.4)), inner = exp(-pow(abs(r - R*.72)/.01, 2.4))*.6;
       float ticks = smoothstep(.6, .95, abs(cos(a*12.)))*exp(-pow(abs(r - R*.86)/.03, 2.))*.7;   // sigil ticks between the rings
-      float glow = exp(-r*r*6.)*(vU < .05 ? .9 : .25*(1. - t));
+      float glow = exp(-r*r*6.)*(vU < .1 ? .9 : .25*(1. - t));
       vec3 o = (uV*(ring + inner + ticks) + uBl*glow + uW*lcore(r - R, .005)*.6)*f*smoothstep(1., .9, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard;
       gl_FragColor = vec4(o, 1.);
@@ -458,10 +458,10 @@ const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function blink(O, D, t0){
   let i = rings.next(); rings.A.aO.setXYZ(i, O.x, 0, O.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, 0);
-  i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, t0 + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(t0 + OUT + GAP + .42, 2);
+  i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, t0 + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(t0 + OUT + GAP + .84, 2);
   i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0);
   i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP); cuts.A.aK.setX(i, 1); cuts.track(t0 + 2*OUT + GAP, 2);
-  castLog.push(t0 + OUT + GAP + .42);
+  castLog.push(t0 + OUT + GAP + .84);
 }
 
 // ============ post ============
@@ -522,13 +522,13 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Origem: anel pisca e fecha', 0, 420, 0x9b5cff],
-  ['Silhueta fecha (clip, pés → cabeça)', 0, 120, 0xe6dcff],
-  ['Invisível (2 frames)', 120, 153, 0x2a2440],
-  ['Destino: silhueta abre (clip, pés → cabeça)', 153, 273, 0xe6dcff],
-  ['Destino: anel abre', 153, 573, 0x4a7bff],
+  ['Origem: anel pisca e fecha', 0, 840, 0x9b5cff],
+  ['Silhueta fecha (clip, pés → cabeça)', 0, 240, 0xe6dcff],
+  ['Invisível (2 frames)', 240, 273, 0x2a2440],
+  ['Destino: silhueta abre (clip, pés → cabeça)', 273, 513, 0xe6dcff],
+  ['Destino: anel abre', 273, 1113, 0x4a7bff],
 ];
-const TOTAL = 700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -544,7 +544,7 @@ tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.check
 let START = V3(0, 0, 0), LAND = V3(1.2, 0, -DIST);
 let from = START.clone(), to = LAND.clone();
 function localSwing(){
-  if (time - localT < .5) return;
+  if (time - localT < 1.0) return;
   if (localT > -1e8){ const t = from; from = to; to = t; }   // go back and forth from wherever the Mage is
   localT = time; idle = 0;
   blink(from, to, time);
@@ -581,7 +581,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 1.5) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 2.2) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
