@@ -148,10 +148,11 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
+          <tr><td>Nuvem</td><td class="n">70</td><td class="n">56</td><td class="n">36</td><td class="n">20</td><td>Nuvem de tempestade escura a ~6 m sobre a área (fiapos GPU, premultiplicado), a rodar devagar; cada raio acende-a por dentro</td></tr>
           <tr><td>Círculo da tempestade</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão (R 6 m, ~6,5 s): anel exterior meio azul-ciano meio dourado, anel interior e 6 divisões radiais, rotação lenta, luz baixa e estável</td></tr>
           <tr><td>Telegraphs</td><td class="n">12</td><td class="n">12</td><td class="n">8</td><td class="n">6</td><td>0,6 s antes de cada impacto, um círculo pequeno (R 1 m) na cor do tipo enche-se até ao centro; azul = Ice, dourado = Lightning</td></tr>
           <tr><td>Impacto Lightning</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Raio do céu até ao chão (receita Coil) com ramificações, flash, faíscas e anel curto; burst extra só se o alvo já estava Sapped</td></tr>
-          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de espinhos de gelo sólidos (mesma malha do Iceberg) que rompem do chão em 0,25 s e afundam em 0,9 s + anel de geada</td></tr>
+          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de estalactites de gelo sólidas (mesma malha do Iceberg, ponta para baixo) que caem da nuvem em 0,3 s, cravam-se no chão e afundam + anel de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">5–6</td><td class="n">5–6</td><td class="n">5</td><td class="n">4</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -160,7 +161,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Área com divisões claras</h3><p>Um círculo de tempestade no chão com anel exterior, anel interior e 6 divisões, meio azul-ciano meio dourado, a rodar devagar. Luz baixa e estável: não pulsa com os impactos.</p></div>
-    <div><h3>Telegraphs separados</h3><p>Cada impacto é anunciado 0,6 s antes por um círculo pequeno na cor do tipo. Ice: espinhos de gelo rompem do chão (Slow/Stun). Lightning: raio do céu (Sapped). Poucos elementos por impacto.</p></div>
+    <div><h3>Telegraphs separados</h3><p>Cada impacto é anunciado 0,6 s antes por um círculo pequeno na cor do tipo. Ice: estalactites de gelo caem da nuvem e cravam-se no chão (Slow/Stun). Lightning: raio da nuvem até ao chão (Sapped). Poucos elementos por impacto.</p></div>
     <div><h3>Burst só se era verdade</h3><p>O burst extra do Lightning aparece só em alvos que já tinham Sapped (seletor). Slow, Stun e Sapped que ficam nos alvos são cues de status.</p></div>
   </section>
 </div>
@@ -548,17 +549,17 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.Sh
       float u = uTime - aT - aD.x; if (u < 0. || u > ${WALL_T.toFixed(2)} + .5){ ${HIDE} }
       float du = aX.x > 0. ? uTime - aX.x : -1.; if (du > .16){ ${HIDE} }          // destroyed: pillar collapses in 0.16 s (shards take over)
       float br = du > 0. ? 1. - du/.16 : 1.;
-      float k = clamp(u/.25, 0., 1.), c1 = 1.9, rise = 1. + (c1 + 1.)*pow(k - 1., 3.) + c1*pow(k - 1., 2.);   // ease-out-back
+      float k = clamp(u/.3, 0., 1.), rise = 1., fall = 1. - k*k;                 // Tempest: icicle falls from the cloud (ease-in)
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
-      vec3 p = position*vec3(aS.x, aS.y*rise, aS.x);
+      vec3 p = position*vec3(aS.x, aS.y, aS.x); p.y = aS.y - p.y;   // flipped: point down
       float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z);
       vec3 n = normal; n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
       float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little
       vec3 ax = vec3(cos(td), 0., sin(td));
       p = p*ct + cross(ax, p)*st + ax*dot(ax, p)*(1. - ct); n = n*ct + cross(ax, n)*st + ax*dot(ax, n)*(1. - ct);
       p *= vec3(1. + (1. - br)*.3, br, 1. + (1. - br)*.3);
-      vec3 W = aO + p - vec3(0., sink*aS.y*1.05, 0.);
-      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z; vCrack = aX.y;
+      vec3 W = aO + p + vec3(0., fall*(6.2 - aS.y) - .22*aS.y*(1. - fall) - sink*aS.y*1.05, 0.);
+      vN = n; vV = normalize(cameraPosition - W); vH = 1. - position.y; vSeed = aD.z; vCrack = aX.y;
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
   fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vH, vSeed, vCrack;
@@ -739,21 +740,57 @@ const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 let rearCount = 0; const RANGE = 12;
+// Layer C — storm cloud over the area (premultiplied wisps, dark, slowly churning), lit from inside by each strike.
+// aO = area centre, aP = (angle, radius, height offset, seed), aT = cast time. Strike glow comes from uStrike (xyz pos, w time).
+const cloud = pool(new THREE.PlaneGeometry(2, 2), 2048, { aO:3, aT:1, aP:4 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
+  blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uIceC, uOrange, uStrike:{ value:new THREE.Vector4(0, -99, 0, -1e5) } },
+  vertexShader:`attribute vec3 aO; attribute float aT; attribute vec4 aP; uniform float uTime; varying vec2 vQ; varying float vU, vSeed; varying vec3 vW;
+    void main(){ float u = uTime - aT; if (u < 0. || u > 6.5 + 1.){ ${HIDE} }
+      float g = 1. - pow(1. - clamp(u/.8, 0., 1.), 3.);
+      float ang = aP.x + u*.12*(aP.w - .3), r = aP.y*6.*(.35 + .65*g);
+      vec3 c = aO + vec3(cos(ang)*r, 6.2 + .35 + aP.z + .15*sin(u*.5 + aP.w*7.), sin(ang)*r);
+      vec4 mv = viewMatrix*vec4(c, 1.); float S = mix(1.8, 3.2, aP.w)*(.5 + .5*g);
+      mv.xy += position.xy*S*vec2(1.3, .75);
+      vQ = position.xy; vU = u; vSeed = aP.w; vW = c;
+      gl_Position = projectionMatrix*mv; }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uIceC, uOrange; uniform vec4 uStrike; varying vec2 vQ; varying float vU, vSeed; varying vec3 vW;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
+    void main(){
+      float d = length(vQ), n = vn(vQ*1.6 + vec2(vSeed*9., uTime*.12))*.6 + vn(vQ*3.4 - vec2(uTime*.08, vSeed*5.))*.4;
+      float dens = smoothstep(1., .25, d)*smoothstep(.35, .8, n + (1. - d)*.3);   // lumpy, broken edges
+      dens *= smoothstep(0., .6, vU)*(1. - smoothstep(6.5 - .2, 6.5 + .9, vU));
+      vec3 base = mix(vec3(.012, .015, .025), vec3(.05, .065, .11), n*n);   // dark storm cloud
+      float sd = distance(vW.xz, uStrike.xz), st = uTime - uStrike.w;
+      float lit = exp(-sd*sd*.18)*exp(-max(st, 0.)*9.)*step(0., st)*2.2;             // strike lights the cloud from inside
+      vec3 col = base + mix(uIceC, uOrange, .6)*lit*(.4 + .6*n) + vec3(.08, .14, .25)*(1. - d)*.06;
+      float a = dens*.6;
+      if (a < .004) discard;
+      gl_FragColor = vec4(col*a, a);
+    }` }));
+const CLOUD_N = { 3:70, 2:56, 1:36, 0:20 };
+const strikes = [];   // for the cloud's inner flashes
 const TR = 6, TDUR = 6.5, IMP_N = { 3:12, 2:12, 1:8, 0:6 };
 function stab(O, yaw, tier, t0, targets){                   // Tempest: storm circle + telegraphed Ice / Lightning impacts
   const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
   const G = targets ? V3(targets[0].p.x, 0, targets[0].p.z) : V3(O.x + fx*7, 0, O.z + fz*7);
   const sa = rand(0, 6.28);
   let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, t0); rings.A.aK.setX(k, 8); rings.A.aD.setXYZW(k, TR, sa, 0, 0); rings.track(t0 + TDUR, 1);
+  const nCl = CLOUD_N[tier];
+  for (let c=0;c<nCl;c++){ const j = cloud.next(); cloud.A.aO.setXYZ(j, G.x, 0, G.z); cloud.A.aT.setX(j, t0); cloud.A.aP.setXYZW(j, rand(0, 6.28), Math.sqrt(Math.random())*1.05, rand(-.3, .5), Math.random()); }
+  cloud.track(t0 + TDUR + 1, nCl);
   const n = IMP_N[tier]; let nArcs = 0, nSpk = 0, nSp = 0;
   for (let m=0;m<n;m++){
-    const tI = t0 + .9 + m*(TDUR - 1.6)/n + rand(-.05, .05), lightning = m % 2 === 1;
+    const tI = t0 + 1.2 + m*(TDUR - 1.9)/n + rand(-.05, .05), lightning = m % 2 === 1;
     let px, pz;
     if (m === 1 && targets) { px = G.x; pz = G.z; }                 // one strike on the central target (to show the conditional burst)
     else { const a = rand(0, 6.28), r = Math.sqrt(Math.random())*TR*.85; px = G.x + Math.cos(a)*r; pz = G.z + Math.sin(a)*r; }
     k = rings.next(); rings.A.aO.setXYZ(k, px, 0, pz); rings.A.aT.setX(k, tI - .6); rings.A.aK.setX(k, 9); rings.A.aD.setXYZW(k, 1, lightning ? 1 : 0, .6, 0); rings.track(tI + .1, 1);
     if (lightning){
-      const sd = Math.random(), A = V3(px + rand(-1.5, 1.5), 9, pz + rand(-1.5, 1.5)), B = V3(px, .05, pz);
+      if (targets) strikes.push({ x:px, z:pz, t:tI });
+      const sd = Math.random(), A = V3(px + rand(-.8, .8), 6.2, pz + rand(-.8, .8)), B = V3(px, .05, pz);
       const put = (kk, p) => { const j = arcs.next(); arcs.A.aO.setXYZ(j, A.x, A.y, A.z); arcs.A.aE.setXYZ(j, B.x, B.y, B.z); arcs.A.aT.setX(j, tI); arcs.A.aK.setX(j, kk); arcs.A.aP.setXYZW(j, p[0], p[1], p[2], p[3]); nArcs++; };
       put(1, [0, 0, sd, 0]); for (let b=0;b<(tier > 1 ? 2 : tier);b++) put(2, [rand(.3, .8), rand(0, 6.28), sd, rand(1, 2.2)]);
       const q = hits.next(); hits.A.aO.setXYZ(q, px, .5, pz); hits.A.aT.setX(q, tI); hits.A.aK.setX(q, 0); hits.track(tI + .3, 1);
@@ -768,8 +805,8 @@ function stab(O, yaw, tier, t0, targets){                   // Tempest: storm ci
       const nS = { 3:5, 2:5, 1:4, 0:3 }[tier];
       for (let e=0;e<nS;e++){ const a = e/nS*6.28 + rand(-.3, .3), rr = e === 0 ? 0 : rand(.25, .5), j = wall.next();
         wall.A.aO.setXYZ(j, px + Math.cos(a)*rr, 0, pz + Math.sin(a)*rr);
-        wall.A.aS.setXYZW(j, rand(.1, .16), e === 0 ? rand(1.2, 1.6) : rand(.6, 1.1), rand(0, 1.05), e === 0 ? .03 : rand(.2, .45));
-        wall.A.aD.setXYZW(j, rand(0, .04), a, Math.random(), 0); wall.A.aT.setX(j, tI); if (wall.A.aX) wall.A.aX.setXY(j, 0, 0); nSp++; }
+        wall.A.aS.setXYZW(j, rand(.1, .16), e === 0 ? rand(1.2, 1.6) : rand(.6, 1.1), rand(0, 1.05), e === 0 ? .03 : rand(.08, .22));
+        wall.A.aD.setXYZW(j, rand(0, .06), a, Math.random(), 0); wall.A.aT.setX(j, tI - .3); if (wall.A.aX) wall.A.aX.setXY(j, 0, 0); nSp++; }
       k = rings.next(); rings.A.aO.setXYZ(k, px, 0, pz); rings.A.aT.setX(k, tI); rings.A.aK.setX(k, 10); rings.A.aD.setXYZW(k, 1.3, 0, 0, 0); rings.track(tI + 1, 1);
       if (targets) targets.forEach(d => { if (Math.hypot(d.p.x - px, d.p.z - pz) < 1.3) d.hitAt = tI; });
     }
@@ -884,7 +921,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = .9, pitch = .62, dist = 17, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
+let yaw = .9, pitch = .3, dist = 19, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -919,8 +956,9 @@ function frame(now){
       g.next = time + rand(1.2, 2.6);
     }
   }
-  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); arcs.tick(time); sparks.tick(time); wall.tick(time);
-  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); arcs.flush(); sparks.flush(); wall.flush();
+  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); arcs.tick(time); sparks.tick(time); wall.tick(time); cloud.tick(time);
+  { let last = null; for (const k of strikes) if (k.t <= time) last = k; if (last) cloud.material.uniforms.uStrike.value.set(last.x, 0, last.z, last.t); }
+  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); arcs.flush(); sparks.flush(); wall.flush(); cloud.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -942,15 +980,15 @@ function frame(now){
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, camZ + Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, 1.0, camZ);
+  camera.lookAt(0, 2.6, camZ);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [hits, rings, arcs, sparks, wall].filter(p => p.active).length;
-    S.part.textContent = hits.count + rings.count + arcs.count + sparks.count + wall.count;
+    S.draw.textContent = [hits, rings, arcs, sparks, wall, cloud].filter(p => p.active).length;
+    S.part.textContent = hits.count + rings.count + arcs.count + sparks.count + wall.count + cloud.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
