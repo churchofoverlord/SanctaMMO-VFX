@@ -77,3 +77,5 @@ e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 | Mystic · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta azul e ciano | [prototypes/mystic/cleanse/cleanse-vfx.html](prototypes/mystic/cleanse/cleanse-vfx.html) |
 | Scout · Poison Stance | Glow verde nas duas mãos (persistente), pico + anel no punho na entrada, sem marcador no chão | [prototypes/scout/poison-stance/poison-stance-vfx.html](prototypes/scout/poison-stance/poison-stance-vfx.html) |
 | Scout · Bleed Stance | Glow vermelho nas duas mãos (persistente), pico + anel no punho na entrada, sem marcador no chão | [prototypes/scout/bleed-stance/bleed-stance-vfx.html](prototypes/scout/bleed-stance/bleed-stance-vfx.html) |
+| Scout · Poison Sac | Saco lançado em arco (8 m), 5 stacks convergem ao chão, splash + poça tóxica escura (R 1,6 m) com anel | [prototypes/scout/poison-sac/poison-sac-vfx.html](prototypes/scout/poison-sac/poison-sac-vfx.html) |
+| Scout · Hemorrhage | 5 stacks de Bleed convergem ao peito e rebentam em 9 espinhos vermelhos afiados (single target) | [prototypes/scout/hemorrhage/hemorrhage-vfx.html](prototypes/scout/hemorrhage/hemorrhage-vfx.html) |
