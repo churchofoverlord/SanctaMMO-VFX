@@ -6,7 +6,7 @@
     "handoffArtifactCommit": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
     "handoffDeclaredCanonSourceSha": "d0342374bd5b8b9d5aae305fc0fd60d42e16474d",
     "skillTreeSha": "6a63c5db4f45328627e26eb72f07d26ed82067cd",
-    "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+    "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
     "initialObservedBaseSha": "3f2755de782b4b2f0f399709bc29c78949e48d11"
   },
   "snapshotCounts": {
@@ -258,7 +258,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -295,7 +295,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Warrior",
@@ -331,7 +331,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Tank",
@@ -369,7 +369,7 @@
       ],
       "notes": "Protótipo único com branch explícita Warrior/Rage: convergência comum, pulso de cura/motas no fim.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -408,7 +408,7 @@
       ],
       "notes": "Protótipo único com branch explícita Tank/Bulwark: convergência comum, casca/estilhaços de escudo no fim; as branches estão separadas, sem split físico pendente.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -445,7 +445,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -485,7 +485,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -522,7 +522,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -559,7 +559,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -597,7 +597,7 @@
       ],
       "notes": "Protótipo único com branch explícita: cristas rápidas/agressivas de Battlecry.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -635,7 +635,7 @@
       ],
       "notes": "Protótipo único com branch explícita: pulso estável e anel ancorado de Challenge.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -673,7 +673,7 @@
       ],
       "notes": "Protótipo único com branch explícita: mesmo percurso arma→alvo, três golfadas para Pressure.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -711,7 +711,7 @@
       ],
       "notes": "Protótipo único com branch explícita: fumo contínuo alvo→Tank para Provoke.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -747,7 +747,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -783,7 +783,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -822,7 +822,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -863,7 +863,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -902,7 +902,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -940,7 +940,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -977,7 +977,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1016,7 +1016,7 @@
       ],
       "notes": "O FormId default é apresentado por dois prototypes separados de stance, Warrior e Tank; não há dois FormIds de Rally I no handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1066,7 +1066,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1103,7 +1103,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1145,7 +1145,7 @@
       ],
       "notes": "Dedicated Warrior prototype: it uses the Piercing Strike I thrust visual and adds a magenta directional flash only when the target had Slow pre-hit. This inventory records the visible VFX branch; Canon remains authoritative for mechanics.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -1190,7 +1190,7 @@
       ],
       "notes": "Dedicated Tank prototype: it uses the Piercing Strike I thrust visual and adds a cyan static marker only when the target had Slow pre-hit. The HTML calls this visual Weakened; this inventory does not make that label a gameplay rule.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -1225,14 +1225,14 @@
       "formId": "fighter.defiant-presence.default",
       "displayName": "Defiant Presence",
       "class": "Fighter",
-      "sourcePrototype": null,
+      "sourcePrototype": "prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
       "sourceAsset": null,
-      "status": "MISSING",
+      "status": "EXISTING_EXACT",
       "requiresSplit": false,
       "sharedVisualBaseWith": [],
-      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "notes": "Dedicated Defiant Presence prototype directly matches the current self-protection execution: it visualises the distance boundary, persistent defensive shell and blocked hostile sources. Prototype VFX is evidence only; Canon governs duration, eligibility and gameplay resolution.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1243,7 +1243,21 @@
         "movementType": "None",
         "effectType": "Single Target / Defensive State"
       },
-      "performanceEvidence": [],
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
+          "declaredPerformanceRows": [
+            "Casca facetada — 1 — 1 — 1 — 1 — Uma icosfera instanciada (80 faces planas) por Fighter afetado: Fresnel nítido, arestas ténues, interior quase vazio. Subida, ondulação dos impactos e queda das faces no shader",
+            "Impactos bloqueados — — — — — — — — — Um evento por impacto (anel de 4 posições na instância); a ondulação corre na GPU. Faísca ciano pequena no ponto",
+            "Anel da distância-limite — 1 — 1 — 1 — 1 — Só na ativação, 0,7 s: mostra uma vez onde começa a proteção",
+            "Draw calls — 2–3 — 2–3 — 2–3 — 2–3 — Casca + fx partilhados por todos os Fighters (os projéteis inimigos não contam: são do mundo)"
+          ],
+          "particleApproachEvidence": "Instanced faceted shell; GPU-computed impact ripples; brief distance-limit ring and deflect sparks. These are HTML prototype declarations.",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ],
       "legacyNames": []
     },
     {
@@ -1257,7 +1271,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -1284,7 +1298,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -1311,7 +1325,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1339,7 +1353,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -1370,7 +1384,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -1398,7 +1412,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1425,7 +1439,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Poison",
@@ -1452,7 +1466,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Bleed",
@@ -1479,7 +1493,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1506,7 +1520,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1531,7 +1545,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1556,7 +1570,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1581,7 +1595,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1606,7 +1620,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1631,7 +1645,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1656,7 +1670,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1683,7 +1697,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1710,7 +1724,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1735,7 +1749,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1762,7 +1776,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1787,7 +1801,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1812,7 +1826,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1837,7 +1851,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1862,7 +1876,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1887,7 +1901,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1914,7 +1928,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1939,7 +1953,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1968,7 +1982,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1997,7 +2011,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -2026,7 +2040,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -2055,7 +2069,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -2082,7 +2096,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2109,7 +2123,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2138,7 +2152,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "scout-stance-at-admission",
         "contextValue": "Poison",
@@ -2165,7 +2179,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "scout-stance-at-admission",
         "contextValue": "Bleed",
@@ -2190,7 +2204,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2217,7 +2231,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2244,7 +2258,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2269,7 +2283,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Arcane Shards",
@@ -2294,7 +2308,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Fire",
@@ -2319,7 +2333,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Ice + Ice",
@@ -2344,7 +2358,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Lightning + Lightning",
@@ -2369,7 +2383,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Ice",
@@ -2394,7 +2408,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Lightning",
@@ -2419,7 +2433,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Ice + Lightning",
@@ -2446,7 +2460,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2473,7 +2487,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2500,7 +2514,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2527,7 +2541,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2554,7 +2568,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2581,7 +2595,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2608,7 +2622,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2635,7 +2649,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2662,7 +2676,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2689,7 +2703,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2716,7 +2730,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2743,7 +2757,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2768,7 +2782,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2795,7 +2809,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2824,7 +2838,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2853,7 +2867,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2880,7 +2894,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2907,7 +2921,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2936,7 +2950,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2965,7 +2979,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2992,7 +3006,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -3019,7 +3033,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -3046,7 +3060,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -3071,7 +3085,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3098,7 +3112,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -3127,7 +3141,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -3154,7 +3168,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3181,7 +3195,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3206,7 +3220,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3231,7 +3245,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3258,7 +3272,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3285,7 +3299,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3310,7 +3324,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3337,7 +3351,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Sun",
@@ -3364,7 +3378,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Moon",
@@ -3389,7 +3403,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-and-max-resource",
         "contextValue": "Sun",
@@ -3414,7 +3428,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance-and-max-resource",
         "contextValue": "Moon",
@@ -3441,7 +3455,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3468,7 +3482,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3493,7 +3507,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3518,7 +3532,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3543,7 +3557,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3570,7 +3584,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3597,7 +3611,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3622,7 +3636,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3649,7 +3663,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3676,7 +3690,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3701,7 +3715,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3728,7 +3742,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3757,7 +3771,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3784,7 +3798,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3809,7 +3823,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3834,7 +3848,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3859,7 +3873,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3884,7 +3898,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3909,7 +3923,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3934,7 +3948,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3959,7 +3973,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3984,7 +3998,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -4011,7 +4025,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -4036,7 +4050,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -4061,7 +4075,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -4088,7 +4102,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -4115,7 +4129,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -4140,7 +4154,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+      "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",

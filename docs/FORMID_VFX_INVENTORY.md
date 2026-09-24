@@ -7,30 +7,31 @@ Este inventário relaciona cada `formId` do handoff de 136 forms com o estado ob
 - Canon snapshot/handoff commit: `757f8441f4b9e58e1c616b20bd0c79270ee68de7`; handoff: `generated/CONTEXTUAL_EXECUTION_FORMS_HANDOFF.json`.
 - O handoff declara como fonte Canon `d0342374bd5b8b9d5aae305fc0fd60d42e16474d` e SkillTree `6a63c5db4f45328627e26eb72f07d26ed82067cd`.
 - SkillTree source: `6a63c5db4f45328627e26eb72f07d26ed82067cd`.
-- Base indicada: `3f2755de782b4b2f0f399709bc29c78949e48d11` (ancestral do HEAD revalidado). VFX `origin/main` final revalidado: `ff13b9f3b52758bbc1166246f8d2a50f37923016`; inventário baseado nesse snapshot.
-- O pipeline observado tem 23 prototypes HTML/Three.js activos apenas sob `prototypes/fighter/` (mais 2 revisions arquivadas); não foram encontrados assets Unreal/Niagara correspondentes. `sourceAsset: null` significa que nenhum asset executável foi evidenciado. Ícones e `docs/skills.json` não contam como VFX.
+- Base indicada: `3f2755de782b4b2f0f399709bc29c78949e48d11` (ancestral do HEAD revalidado). VFX `origin/main` final revalidado: `863e38c10b2c6949bd4cb6facc7d567691370ade`; inventário baseado nesse snapshot.
+- O pipeline observado tem 24 prototypes HTML/Three.js activos apenas sob `prototypes/fighter/` (mais 2 revisions arquivadas); não foram encontrados assets Unreal/Niagara correspondentes. `sourceAsset: null` significa que nenhum asset executável foi evidenciado. Ícones e `docs/skills.json` não contam como VFX.
 - A matriz de contexto de execução do handoff foi preservada em cada linha no JSON para distinguir variants sem colapsar `formId`.
 
 ## Resumo
 
 | Estado | FormIds |
 |---|---:|
-| `EXISTING_EXACT` | 18 |
+| `EXISTING_EXACT` | 19 |
 | `EXISTING_SHARED` | 7 |
 | `NEEDS_SPLIT` | 0 |
 | `LEGACY_NAME_MATCH` | 0 |
-| `MISSING` | 111 |
+| `MISSING` | 110 |
 | `NOT_APPLICABLE` | 0 |
 
 Não existe `NEEDS_SPLIT` neste snapshot: os prototypes combinados auditados já declaram branches distintas, e os restantes casos sem implementação são `MISSING`. Isto não afirma equivalência mecânica entre branches.
 
 ## Casos partilhados auditados
 
+- **Defiant Presence** (`fighter.defiant-presence.default`): prototype dedicado no HEAD actual; regista o limite de distância, a casca defensiva e as fontes hostis bloqueadas.
 - **Rage / Bulwark** (`fighter.granted.rage-bulwark.warrior`, `.tank`): um prototype, dois caminhos explícitos com resolução visual própria (cura vs casca/estilhaços de escudo); `EXISTING_SHARED`, split físico não necessário no estado atual.
 - **Battlecry I / Challenge I**: um prototype, cristas de Battlecry e anel ancorado de Challenge; branches estão explícitas.
 - **Pressure I / Provoke I**: um prototype, trajecto reverso/contínuo distinto entre branches; sem split físico pendente.
 - **Rally I**: um FormId default servido por prototypes dedicados Warrior e Tank; ambas referências estão registadas na mesma entrada JSON.
-- **Shoulder Rush II Warrior/Tank** e **Piercing Strike II Warrior/Tank**: entradas distintas por FormId; os prototypes Shoulder Rush II são separados, Piercing Strike II Warrior e Tank têm prototypes dedicados no snapshot `ff13b9f3b52758bbc1166246f8d2a50f37923016`. As duas variantes de Piercing Strike II reutilizam a estocada visual do I e acrescentam payoffs contextuais distintos em prototypes próprios.
+- **Shoulder Rush II Warrior/Tank** e **Piercing Strike II Warrior/Tank**: entradas distintas por FormId; os prototypes Shoulder Rush II são separados, Piercing Strike II Warrior e Tank têm prototypes dedicados no snapshot `863e38c10b2c6949bd4cb6facc7d567691370ade`. As duas variantes de Piercing Strike II reutilizam a estocada visual do I e acrescentam payoffs contextuais distintos em prototypes próprios.
 - As relações `sharedVisualBaseWith` para forms Scout/Mage/Mystic marcam reutilização candidata de motivo comum com resolução/contexto por FormId. Não declaram VFX existente.
 
 ## Aliases legacy
@@ -103,7 +104,7 @@ A tabela seguinte tem exactamente uma linha por `formId`. Os detalhes de context
 | `fighter.chains-ii.default` | Chains II | Fighter | `EXISTING_EXACT` | `prototypes/fighter/chains-ii/chains-ii-vfx.html` | não | — |
 | `fighter.piercing-strike-ii.warrior` | Piercing Strike II — Warrior | Fighter | `EXISTING_EXACT` | `prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html` | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.tank` |
 | `fighter.piercing-strike-ii.tank` | Piercing Strike II — Tank | Fighter | `EXISTING_EXACT` | `prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html` | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.warrior` |
-| `fighter.defiant-presence.default` | Defiant Presence | Fighter | `MISSING` | — | não | — |
+| `fighter.defiant-presence.default` | Defiant Presence | Fighter | `EXISTING_EXACT` | `prototypes/fighter/defiant-presence/defiant-presence-vfx.html` | não | — |
 | `fighter.battlecry-challenge-ii.warrior` | Battlecry II — Warrior | Fighter | `MISSING` | — | não | — |
 | `fighter.battlecry-challenge-ii.tank` | Challenge II — Tank | Fighter | `MISSING` | — | não | — |
 | `fighter.momentum-mastery.default` | Momentum Mastery | Fighter | `MISSING` | — | não | — |
