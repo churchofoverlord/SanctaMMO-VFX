@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um único arco</h3><p>O corte surge inteiro num frame (snap), largo e legível, e desfaz-se da cauda para a ponta em ~220 ms. Os fios finos dentro do arco dão o gesto de pincel do ícone sem partículas.</p></div>
+    <div><h3>Um único arco</h3><p>O corte surge inteiro num frame (snap), largo e legível, segura um instante e desfaz-se da cauda para a ponta em ~0,4 s; o traço é fino nas pontas e largo no meio. Os fios finos dentro do arco dão o gesto de pincel do ícone sem partículas.</p></div>
     <div><h3>Feedback só no acerto</h3><p>Impacto, faíscas e marca de sequência aparecem apenas nos alvos atingidos. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
     <div><h3>Família Severing</h3><p>II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas).</p></div>
   </section>
@@ -416,15 +416,15 @@ const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
 const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .12;                                   // wind-up before the snap (s)
-const SPAN = 1.35;                                  // half-angle of the cleave (rad)
+const SPAN = 1.5;                                   // half-angle of the cleave (rad)
 
 // Layer 1 — the slash: one horizontal quad in World Space per swing
 const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying vec2 vF; varying float vU;
     void main(){
-      float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .3){ ${HIDE} }
-      float S = 2.15; vec2 l = position.xy*S;             // local: x right, y forward
+      float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .48){ ${HIDE} }
+      float S = 2.3; vec2 l = position.xy*S;             // local: x right, y forward
       float c = cos(aYaw), s = sin(aYaw);
       vec2 w = vec2(c*l.x - s*l.y, -(s*l.x + c*l.y));      // forward = -z
       vF = l; vU = u;
@@ -435,19 +435,19 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
       vec2 p = vF; float r = length(p), a = atan(p.x, p.y), SPAN = ${SPAN.toFixed(2)};
       if (abs(a) > SPAN + .05) discard;
       float s = (SPAN - a)/(2.*SPAN);                      // 0 = where the swing starts (right), 1 = leading edge (left)
-      float wipe = vU/.22;                                 // tail dissolves first, toward the leading edge
-      float alive = smoothstep(wipe - .05, wipe + .12, s);
-      float fade = 1. - smoothstep(.15, .3, vU);
-      float thin = 1. - .6*smoothstep(0., .25, vU);
-      float body = (.3 + .7*pow(clamp(s, 0., 1.), 1.2))*smoothstep(0., .12, s)*(1. - smoothstep(.9, 1., s));   // crescent: fullest near the leading edge, sharp ends
+      float wipe = max(vU - .06, 0.)/.34;                  // holds briefly, then the tail dissolves toward the leading edge
+      float alive = smoothstep(wipe - .05, wipe + .14, s);
+      float fade = 1. - smoothstep(.3, .48, vU);
+      float thin = 1. - .55*smoothstep(.04, .42, vU);
+      float body = pow(sin(3.14159*clamp(s, 0., 1.)), .9);   // crescent: hair-fine at both ends, widest in the middle
       float lum = 0., hot = 0.;
-      float rr = 1.55 - .12*(1. - s);
-      float w = (.014 + .15*body)*thin;
+      float rr = 1.6 - .08*(1. - s);
+      float w = (.006 + .25*body)*thin;
       lum += stroke(r - rr, w)*(.35 + .9*body); hot += lcore(r - rr, w*.3)*body*1.2;
       // brush strands inside the arc — the icon's layered swoosh
       for (int i=0;i<3;i++){
         float fi = float(i), off = -.16 - .12*fi, st = .25 + .18*fi;
-        float m = smoothstep(st, st + .15, s)*(1. - smoothstep(.88, .98, s));
+        float m = smoothstep(st, st + .15, s)*(1. - smoothstep(.8, .95, s));
         float ww = (.008 + .016*m)*thin;
         lum += stroke(r - (rr + off), ww)*m*(.7 - .15*fi);
         hot += lcore(r - (rr + off), ww*.4)*m*.3;
@@ -518,7 +518,7 @@ const TIER = { 3:{ sp:6, mark:true }, 2:{ sp:6, mark:true }, 1:{ sp:3, mark:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function swing(O, yaw, tier, t0, targets){
-  const i = slashes.next(); slashes.A.aO.setXYZ(i, O.x, 0, O.z); slashes.A.aYaw.setX(i, yaw); slashes.A.aT.setX(i, t0); slashes.track(t0 + WIND + .3, 1);
+  const i = slashes.next(); slashes.A.aO.setXYZ(i, O.x, 0, O.z); slashes.A.aYaw.setX(i, yaw); slashes.A.aT.setX(i, t0); slashes.track(t0 + WIND + .48, 1);
   const T = TIER[tier], th = t0 + WIND + .01;
   for (const tg of targets || []){
     const dx = tg.p.x - O.x, dz = tg.p.z - O.z, dist = Math.hypot(dx, dz);
@@ -614,7 +614,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Preparação (corpo)', 0, 120, 0x8f8a82],
   ['Arco · snap (2 frames)', 120, 153, 0xffffff],
-  ['Arco apaga da cauda à ponta', 120, 420, 0xff7a1a],
+  ['Arco segura e apaga da cauda à ponta', 120, 600, 0xff7a1a],
   ['Impacto no alvo', 130, 270, 0xfff0d2],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
   ['Marca de sequência', 160, 760, 0xc9a0ff],
