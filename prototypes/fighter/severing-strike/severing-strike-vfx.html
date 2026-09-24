@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; só o arco (fino nas pontas, grosso no meio), no shader; cresce no sentido do golpe e apaga-se a partir da origem</td></tr>
-          <tr><td>Impacto + marca de sequência</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">1/alvo</td><td>Billboards pequenos em linha no alvo; só em acertos confirmados</td></tr>
+          <tr><td>Marca de sequência</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">0</td><td>Billboard em linha por cima do alvo (linha / linhas cruzadas / círculo); sem marcador no corpo do alvo</td></tr>
           <tr><td>Faíscas</td><td class="n">6/alvo</td><td class="n">6/alvo</td><td class="n">3/alvo</td><td class="n">0</td><td>GPU, esticadas pela velocidade, no sentido do golpe</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
@@ -152,7 +152,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
-    <div><h3>Feedback só no acerto</h3><p>Impacto, faíscas e marca de sequência aparecem apenas nos alvos atingidos. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
+    <div><h3>Feedback só no acerto</h3><p>Faíscas e marca de sequência aparecem apenas nos alvos atingidos; nada é desenhado no corpo do alvo. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
     <div><h3>Família Severing</h3><p>II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas).</p></div>
   </section>
 </div>
@@ -533,9 +533,9 @@ function swing(O, yaw, tier, t0, targets){
     const hitT = th + (1 - Math.pow(1 - (SPAN - a)/(2*SPAN), .5))*.09;   // hit lands when the drawing head passes the target
     tg.hitAt = hitT; tg.seq = Math.min(1, (tg.seq || 0) + 1);
     const hp = V3(tg.p.x - dx/dist*.22, 1.15, tg.p.z - dz/dist*.22);
-    let k = marks.next(); marks.A.aO.setXYZ(k, hp.x, hp.y, hp.z); marks.A.aT.setX(k, hitT); marks.A.aK.setXY(k, 0, 0);
+    let k;                                                   // no hit marker on the target's body — sparks + sequence mark only
     if (T.mark){ k = marks.next(); marks.A.aO.setXYZ(k, tg.p.x, 1.62, tg.p.z); marks.A.aT.setX(k, hitT + .03); marks.A.aK.setXY(k, 1, tg.seq); }
-    marks.track(hitT + .65, T.mark ? 2 : 1);
+    if (T.mark) marks.track(hitT + .65, 1);
     const tlx = -Math.cos(a), tlf = Math.sin(a);              // swing tangent in local space (right → left)
     const tx = Math.cos(yaw)*tlx - Math.sin(yaw)*tlf, tz = -(Math.sin(yaw)*tlx + Math.cos(yaw)*tlf);
     for (let n=0;n<T.sp;n++){
@@ -621,7 +621,6 @@ const PHASES = [
   ['Arco cresce no sentido do golpe', 120, 210, 0xffffff],
   ['Segura no tamanho máximo', 210, 350, 0xf2b53a],
   ['Apaga a partir da origem (centro por último)', 350, 800, 0xff7a1a],
-  ['Impacto no alvo', 130, 270, 0xfff0d2],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
   ['Marca de sequência', 160, 760, 0xc9a0ff],
 ];
