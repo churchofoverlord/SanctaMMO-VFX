@@ -98,6 +98,14 @@ tr:last-child td{border-bottom:0}
         </div>
       </fieldset>
       <fieldset>
+        <legend>Arcane Shards (recurso)</legend>
+        <div class="seg" id="shardSeg">
+          <button data-n="0" aria-pressed="false">0</button>
+          <button data-n="1" aria-pressed="false">1</button>
+          <button data-n="2" aria-pressed="true">2</button>
+        </div>
+      </fieldset>
+      <fieldset>
         <legend>Velocidade</legend>
         <div class="seg" id="speed">
           <button data-s="1" aria-pressed="true">1×</button>
@@ -114,7 +122,7 @@ tr:last-child td{border-bottom:0}
         <legend>Custo em tempo real</legend>
         <dl class="stats">
           <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
-          <dt>Shards em órbita</dt><dd class="vfx" id="sMark">0</dd>
+          <dt>Shards visíveis</dt><dd class="vfx" id="sMark">0</dd>
           <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
           <dt>Trocas a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
           <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
@@ -136,8 +144,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Shards em órbita (persistente)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Billboards instanciados (um por shard), órbita calculada na GPU a partir do tempo; cristais em linha com preenchimento ténue</td></tr>
-          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no chão (pico de 2 frames, até 0,22 s) e os shards abrem do centro para a órbita em 0,3 s. Sem selo persistente</td></tr>
+          <tr><td>Linha de órbita (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Quad horizontal à cintura: linha circular fina com halo curto e energia a correr devagar; mesmo pool e draw call dos shards</td></tr>
+          <tr><td>Shards na órbita</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Um billboard por Arcane Shard guardado (0, 1 ou 2), a correr sobre a linha; posição calculada na GPU a partir do tempo</td></tr>
+          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no chão (pico de 2 frames, até 0,22 s); linha e shards abrem do centro para a órbita em 0,3 s. Sem selo persistente</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">1–2</td><td>Todos os Mages em ecrã partilham as mesmas draw calls</td></tr>
         </tbody>
@@ -146,8 +155,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Poucas formas orbitais</h3><p>Como pede a ficha, o Weave não tem selo: mostra só 3 cristais violeta pequenos a orbitar devagar à cintura. Sem rastos persistentes nem cues de Burn, Slow ou Sapped.</p></div>
-    <div><h3>Pulso curto na troca</h3><p>Um anel abre no chão com um pico de 2 frames e os cristais saem do centro para a órbita.</p></div>
+    <div><h3>Órbita + recurso</h3><p>O Weave não tem selo: uma linha circular fina à cintura marca o modo, e os Arcane Shards guardados (0, 1 ou 2) correm sobre ela devagar. Sem shards fica só a linha. Sem rastos persistentes nem cues de Burn, Slow ou Sapped.</p></div>
+    <div><h3>Pulso curto na troca</h3><p>Um anel abre no chão com um pico de 2 frames; a linha de órbita e os cristais abrem do centro para o raio final em 0,3 s.</p></div>
     <div><h3>Um cue por modo</h3><p>O Manifest é um protótipo à parte (outro GameplayCue). Com Elemental Weaver, os cristais passam a glifos de memória elemental (cue dessa especialização).</p></div>
   </section>
 </div>
@@ -425,28 +434,42 @@ const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 
       vec3 col = mix(uCW, uCT, vC);
       gl_FragColor = vec4((col*g + mix(col, vec3(1.), .6)*c) * (1. + 3.*vF*vF), 1.); }` }));
 
-// ---- Weave orbit: 3 small arcane shards per Mage circle the body slowly at waist height (persistent resource read).
-// One instanced billboard per shard, all Mages in one draw; the orbit is computed on the GPU from uTime.
-// aP = (fighter slot phase, shard index), aT = entry time, aV = visible
-const ORB_N = 3, ORBS = 256;
+// ---- Weave orbit: a thin circular line around the Mage at waist height, and 0–2 arcane shards riding it (the resource count).
+// One instanced pool for both: aP.y < 0 = the orbit line (flat quad), aP.y = 0/1 = a shard (billboard). All Mages in one draw;
+// motion from uTime on the GPU. aP = (fighter slot phase, index), aT = entry time, aV = visible.
+const ORB_N = 2, ORBS = 256, ORB_R = .58, ORB_H = .95;
 const orbits = pool(new THREE.PlaneGeometry(2,2), ORBS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
-  uniforms:{ uTime, uCW },
-  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec2 vQ; varying float vU; ${EOX}
+  side:THREE.DoubleSide, uniforms:{ uTime, uCW },
+  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec2 vQ; varying float vU, vK; ${EOX}
     void main(){ if (aV < .5){ ${HIDE} }
-      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.));
-      float ang = aP.x + aP.y*2.0944 + uTime*.7, R = mix(.08, .58, k);
-      vec3 c = aO + vec3(cos(ang)*R, .95 + .06*sin(uTime*1.3 + aP.y*2.1) + .25*(1. - k), sin(ang)*R);
+      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, ${ORB_R}, k);
+      vU = u; vK = aP.y < -.5 ? 1. : 0.;
+      if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane
+        float S = .72; vQ = position.xy*S;
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, ${ORB_H}, -position.y*S), 1.); return; }
+      float ang = aP.x + aP.y*3.14159 + uTime*.7;                  // two shards sit opposite each other on the line
+      vec3 c = aO + vec3(cos(ang)*R, ${ORB_H} + .25*(1. - k), sin(ang)*R);
       vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*vec2(.07, .13);
-      vQ = q; vU = u; gl_Position = projectionMatrix*mv; }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uCW; varying vec2 vQ; varying float vU;
+      vQ = q; gl_Position = projectionMatrix*mv; }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uCW; varying vec2 vQ; varying float vU, vK; ${EOX}
     float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }
     void main(){
-      float d = abs(vQ.x) + abs(vQ.y)*.55 - .55;                          // elongated diamond (the icon's crystal)
-      float edge = lineCore(d, .07), fill = .18*smoothstep(.05, -.1, d), facet = .5*lineCore(vQ.x, .05)*smoothstep(0., -.2, d);
-      float halo = exp(-dot(vQ, vQ)*5.)*.12;
       float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);
-      vec3 o = (uCW*(edge*.8 + fill + halo) + mix(uCW, vec3(1., .96, 1.), .6)*facet*.6)*pk*(.85 + .15*sin(uTime*2. + vQ.y));
-      o *= smoothstep(1., .8, length(vQ));                                  // reaches zero before the quad edge
+      vec3 o;
+      if (vK > .5){
+        // thin orbit line: fine core + narrow soft halo, energy drifting slowly in the shards' direction
+        float r = length(vQ), a = atan(vQ.y, vQ.x), R = mix(.08, ${ORB_R}, eox(clamp(vU/.3, 0., 1.)));
+        float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);
+        float line = lineCore(r - R, .004)*.55 + exp(-pow((r - R)/.025, 2.))*.1;
+        o = (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;
+        o *= smoothstep(.72, .66, r);
+      } else {
+        float d = abs(vQ.x) + abs(vQ.y)*.55 - .55;                          // elongated diamond (the icon's crystal)
+        float edge = lineCore(d, .07), fill = .18*smoothstep(.05, -.1, d), facet = .5*lineCore(vQ.x, .05)*smoothstep(0., -.2, d);
+        float halo = exp(-dot(vQ, vQ)*5.)*.12;
+        o = (uCW*(edge*.8 + fill + halo) + mix(uCW, vec3(1., .96, 1.), .6)*facet*.6)*pk*(.85 + .15*sin(uTime*2. + vQ.y));
+        o *= smoothstep(1., .8, length(vQ));                                // reaches zero before the quad edge
+      }
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
 
@@ -483,11 +506,15 @@ const fighters = [];        // { i, p, yaw, stance }
 function addFighter(p, yaw, stance, visible){
   const i = fighters.length, f = { i, p, yaw, stance };
   markers.A.aO.setXYZ(i, p.x, 0, p.z); markers.A.aYaw.setX(i, yaw); markers.A.aS.setXYZW(i, stance, stance, -1e5, visible ? 1 : 0); markers.mark(i);
-  f.o = []; for (let n=0;n<ORB_N;n++){ const j = orbits.next(); orbits.A.aO.setXYZ(j, p.x, 0, p.z); orbits.A.aP.setXY(j, i*1.7, n);
-    orbits.A.aT.setX(j, -1e5); orbits.A.aV.setX(j, visible ? 1 : 0); orbits.mark(j); f.o.push(j); }
+  f.o = []; f.n = 2; f.vis = visible;                          // f.o[0] = orbit line, f.o[1..2] = shards
+  for (let n=-1;n<ORB_N;n++){ const j = orbits.next(); orbits.A.aO.setXYZ(j, p.x, 0, p.z); orbits.A.aP.setXY(j, i*1.7, n);
+    orbits.A.aT.setX(j, -1e5); f.o.push(j); }
+  paintOrbit(f);
   fighters.push(f); return f;
 }
-function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); f.o.forEach(j => { orbits.A.aV.setX(j, v ? 1 : 0); orbits.mark(j); }); }
+function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); f.vis = v; paintOrbit(f); }
+function paintOrbit(f){ f.o.forEach((j, n) => { orbits.A.aV.setX(j, f.vis && (n === 0 || n <= f.n) ? 1 : 0); orbits.mark(j); }); }   // line always, shards = count
+function setShards(f, n){ f.n = n; paintOrbit(f); }
 const TO = 0;                                   // this page = Weave (its own GameplayCue in UE)
 function switchStance(f, tier, t0){
   const to = TO, from = TO; f.stance = to;           // own palette only: no blend from the other stance (that is its own cue)
@@ -550,7 +577,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 { const o = new THREE.Object3D(); let i = 0;
   while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
-    ghosts.push({ f:addFighter(V3(x,0,z), yaw, TO, false), next:rand(.5,4) }); i++; } }
+    const gf = addFighter(V3(x,0,z), yaw, TO, false); setShards(gf, Math.floor(rand(0, 3))); ghosts.push({ f:gf, next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
 markers.mesh.visible = true;
 
@@ -559,7 +586,7 @@ const PHASES = [
   ['Pico aditivo (2 frames)', 0, 33, 0xfff0d2],
   ['Anel do pulso', 0, 220, 0x9b5cff],
   ['Fragmentos (GPU)', 0, 320, 0xd9c2ff],
-  ['Shards abrem para a órbita', 0, 300, 0x9b5cff],
+  ['Linha + shards abrem para a órbita', 0, 300, 0x9b5cff],
   ['Órbita persistente', 300, 400, 0x8f8a82],
 ];
 const TOTAL = 400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -584,7 +611,7 @@ function localSwitch(){
 $('castBtn').onclick = localSwitch;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwitch(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
-seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
+seg('speed', 's', v => speed = v); seg('shardSeg', 'n', v => setShards(hero_f, v)); seg('quality', 'q', v => quality = v);
 paintChip();
 
 let yaw = .42, pitch = .42, dist = 4.6, drag = null;
@@ -652,7 +679,7 @@ function frame(now){
     switchLog.splice(0, switchLog.length, ...switchLog.filter(t => t > time));
     const nMark = 1 + (tStress.checked ? GN : 0);
     S.draw.textContent = 2 + (shards.active ? 1 : 0);
-    S.mark.textContent = nMark*ORB_N;
+    S.mark.textContent = hero_f.n + ghosts.reduce((a, g) => a + (tStress.checked ? g.f.n : 0), 0);
     S.part.textContent = shards.count;
     S.casts.textContent = switchLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
