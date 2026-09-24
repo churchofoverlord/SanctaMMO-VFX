@@ -30,4 +30,5 @@
 - Pools instanciados: inicializar TODOS os componentes de `aT` com -1e5 (slots por usar têm de estar "mortos"), senão aparecem instâncias fantasma no arranque.
 - Evitar: PMREM/env maps (satura os metais neste setup), sprites individuais por partícula, luz dinâmica fora de Epic.
 - Iterações antigas vão para `archive/`.
+- Teste no painel do browser: se o painel estiver escondido o `requestAnimationFrame` não corre (o tempo da simulação para); cada screenshot força frames, por isso usar screenshots para avançar a animação.
 - Testar com `python -m http.server 8766` na raiz (`.claude/launch.json` já tem a configuração `sancta-vfx`).
