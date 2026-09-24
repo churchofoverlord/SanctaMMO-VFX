@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo a 8 m/s na GPU</td></tr>
+          <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo em arco (sobe primeiro) a 10 m/s na GPU</td></tr>
           <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Anel no chão que abre + coluna de luz que sobe em ease-out, 0,8 s, num só sistema</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
@@ -425,14 +425,15 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
-const V = 8;                                          // astral projectile speed (m/s)
+const V = 10;                                         // astral projectile speed (m/s)
+const ARC = `float arcH(float L){ return min(1.8, .22*L); } vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f) + vec3(0., arcH(length(b - a))*4.*f*(1. - f), 0.); }`;   // goes up first, then down onto the target
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(mix(aO, aE, u/tt), 1.); float S = .32;
+      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); float S = .32;
       float c = cos(u*2.5), s = sin(u*2.5); vec2 q = mat2(c, -s, s, c)*position.xy;     // the star turns slowly
       mv.xy += q*S; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
@@ -445,7 +446,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF; ${ARC}
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt + .2){ ${HIDE} }
@@ -453,8 +454,9 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
       float head = min(u*${V.toFixed(1)}, L), tail = max(0., head - 1.4) + max(0., u - tt)/.2*1.7;   // after the hit, the tail catches up
       if (head - tail < .01){ ${HIDE} }
       float s = position.x*.5 + .5;
-      vec3 P = aO + d*mix(tail, head, s);
-      vec3 side = normalize(cross(d, P - cameraPosition));
+      float fa = mix(tail, head, s)/L;
+      vec3 P = arcAt(aO, aE, fa), T = normalize(arcAt(aO, aE, min(fa + .01, 1.)) - arcAt(aO, aE, max(fa - .01, 0.)));
+      vec3 side = normalize(cross(T, P - cameraPosition));
       vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .09*s), 1.);
     }`,
@@ -691,9 +693,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Estrela astral em voo (8 m: ~1 s)', 100, 1100, 0xf2b53a],
-  ['Anel abre nos pés (ease-out)', 1100, 1450, 0xf2b53a],
-  ['Heal: luz sobe suave (ease-out)', 1100, 1900, 0xfff0c8],
+  ['Estrela astral em arco (8 m: ~0,8 s)', 100, 900, 0xf2b53a],
+  ['Anel abre nos pés (ease-out)', 900, 1250, 0xf2b53a],
+  ['Heal: luz sobe suave (ease-out)', 900, 1700, 0xfff0c8],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
