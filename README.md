@@ -75,3 +75,5 @@ e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 | Scout · Cleanse | Mesmo VFX do Cleanse do Fighter (laranja e dourado) | [prototypes/scout/cleanse/cleanse-vfx.html](prototypes/scout/cleanse/cleanse-vfx.html) |
 | Mage · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta violeta e azul | [prototypes/mage/cleanse/cleanse-vfx.html](prototypes/mage/cleanse/cleanse-vfx.html) |
 | Mystic · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta azul e ciano | [prototypes/mystic/cleanse/cleanse-vfx.html](prototypes/mystic/cleanse/cleanse-vfx.html) |
+| Scout · Poison Stance | Marcador das stances (mesma malha) em verde, emblema gota, pulso de entrada | [prototypes/scout/poison-stance/poison-stance-vfx.html](prototypes/scout/poison-stance/poison-stance-vfx.html) |
+| Scout · Bleed Stance | Marcador das stances (mesma malha) em vermelho, emblema três garras, pulso de entrada | [prototypes/scout/bleed-stance/bleed-stance-vfx.html](prototypes/scout/bleed-stance/bleed-stance-vfx.html) |
