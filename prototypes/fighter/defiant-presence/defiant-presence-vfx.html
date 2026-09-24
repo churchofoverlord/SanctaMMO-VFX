@@ -142,8 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Cúpula de plasma</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma meia-esfera lisa instanciada com o raio da distância-limite (6 m). Veios de ruído a fluir, Fresnel, linha no chão; subida, ondulações e dissolução no shader. Custo sobretudo de fill-rate (cobre muito ecrã): 2 amostras de ruído por píxel</td></tr>
-          <tr><td>Impactos bloqueados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um evento por impacto (anel de 4 posições na instância); a ondulação corre na GPU. Faísca ciano no ponto</td></tr>
+          <tr><td>Cúpula de plasma</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma cúpula baixa lisa instanciada (raio 6 m = distância-limite, altura 3 m). Veios de ruído a fluir, Fresnel, linha no chão; subida e dissolução no shader. Não reage a impactos. Custo sobretudo de fill-rate (cobre muito ecrã): 2 amostras de ruído por píxel</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Cúpula + fx partilhados por todos os Fighters (os projéteis inimigos são do mundo)</td></tr>
         </tbody>
       </table>
@@ -151,9 +150,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>A cúpula é o limite</h3><p>Uma meia-esfera centrada no Fighter com o raio da distância-limite (6 m); a linha no chão é a fronteira exata. Sobe do chão em 200 ms com um pico de 2 frames e dissolve no fim.</p></div>
-    <div><h3>Plasma, não vidro</h3><p>Superfície lisa, quase transparente, com veios finos de energia ciano a fluir devagar e o contorno mais claro (Fresnel). Sem faces nem triângulos.</p></div>
-    <div><h3>Só fontes distantes</h3><p>Os atiradores fora da cúpula batem nela (ondulação e faísca ciano). O atirador dentro da cúpula (3,6 m) acerta no Fighter: a proteção é só contra origem distante.</p></div>
+    <div><h3>A cúpula é o limite</h3><p>Uma cúpula baixa centrada no Fighter com o raio da distância-limite (6 m) e 3 m de altura; a linha no chão é a fronteira exata. Sobe do chão em 200 ms com um pico de 2 frames e dissolve no fim.</p></div>
+    <div><h3>Plasma, não vidro</h3><p>Superfície lisa e ténue, com veios finos de energia ciano a fluir devagar e o contorno um pouco mais claro. Sem faces nem triângulos, luz baixa.</p></div>
+    <div><h3>Só fontes distantes</h3><p>Os disparos de fora terminam na cúpula, sem reação nela (não é um escudo que absorve golpes). O atirador dentro da cúpula (3,6 m) acerta no Fighter: a proteção é só contra origem distante.</p></div>
   </section>
 </div>
 
@@ -415,6 +414,7 @@ const ptsScale = { value:600 };
 const uC = { value:lin(0x3fd8ff) }, uB = { value:lin(0x2a6bff) }, uW = { value:lin(0xbff4ff) }, uHost = { value:lin(0xff5a3a) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const DUR = 4.0, RISE = .2, END = .4;   // active time, shell rise, facet drop-out (s)
+const HY = .5;                           // dome height as a fraction of the radius (low dome)
 const LIM = 6.0;                         // distance limit: new hostile sources beyond it don't affect the Fighter (m)
 
 // Layer 1 — the dome: ONE instanced smooth hemisphere of radius LIM centred on the Fighter — it sits exactly on the distance limit.
@@ -431,18 +431,13 @@ const shells = pool(shellGeo, 64, { aO:3, aT:2, aH0:4, aH1:4, aH2:4, aH3:4 }, ad
     varying vec3 vN, vV, vL; varying float vU, vD; varying vec4 vH0, vH1, vH2, vH3;
     void main(){
       float u = uTime - aT.x; if (u < 0. || u > aT.y + ${END.toFixed(2)}){ ${HIDE} }
-      vec3 P = aO + position*${LIM.toFixed(2)};
-      vN = normal; vV = normalize(cameraPosition - P); vL = position; vU = u; vD = aT.y;
+      vec3 P = aO + position*vec3(${LIM.toFixed(2)}, ${(LIM*HY).toFixed(2)}, ${LIM.toFixed(2)});
+      vN = normalize(normal/vec3(1., ${HY.toFixed(2)}, 1.)); vV = normalize(cameraPosition - P); vL = position; vU = u; vD = aT.y;
       vH0 = aH0; vH1 = aH1; vH2 = aH2; vH3 = aH3;
       gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
   fragmentShader:`uniform vec3 uC, uB, uW; uniform float uTime; varying vec3 vN, vV, vL; varying float vU, vD; varying vec4 vH0, vH1, vH2, vH3;
     ${NOISE}
-    vec2 hit(vec4 h){                                                               // x: ripple ring, y: local flash
-      float a = uTime - h.w; if (a < 0. || a > .6) return vec2(0.);
-      float d = acos(clamp(dot(normalize(vL), h.xyz), -1., 1.))*${LIM.toFixed(2)};  // metres along the dome
-      return vec2(exp(-pow((d - a*6.)/.35, 2.))*exp(-a*4.), exp(-d*d*1.2)*exp(-a*9.));
-    }
     void main(){
       float grow = clamp(vU/${RISE.toFixed(2)}, 0., 1.);
       if (vL.y > grow + .02) discard;                                               // rises from the ground
@@ -452,12 +447,11 @@ const shells = pool(shellGeo, 64, { aO:3, aT:2, aH0:4, aH1:4, aH2:4, aH3:4 }, ad
       float vein = pow(1. - abs(2.*n - 1.), 7.);                                    // ridged noise: thin flowing plasma veins
       float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.2);
       float foot = exp(-vL.y*vL.y/.0012);                                           // the limit itself, on the ground
-      vec2 h = hit(vH0) + hit(vH1) + hit(vH2) + hit(vH3);
       float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0.;
       if (endK > 0.){ float nd = vn(vL*6.); if (nd < endK*1.1) discard; burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
-      float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.8 : 1.;
-      vec3 c = uB*(.008 + .04*fres) + uC*(fres*.22 + vein*(.03 + .22*fres) + foot*.7)
-             + uW*(vein*fres*.12 + rise*.8 + h.x*(.5 + vein) + h.y*.5 + burn*.8);
+      float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.4 : 1.;
+      vec3 c = uB*(.004 + .02*fres) + uC*(fres*.11 + vein*(.015 + .11*fres) + foot*.4)   // low intensity: reads as a boundary, not a light source
+             + uW*(vein*fres*.05 + rise*.45 + burn*.4);
       c *= pk;
       if (max(c.r, max(c.g, c.b)) < .002) discard;
       gl_FragColor = vec4(c, 1.);
@@ -521,16 +515,15 @@ let blocked = 0;
 // a hostile source fires at the Fighter: blocked by the shell only if the source is beyond the limit
 function fireBolt(src, O, t0, sh, flinch){
   const S = V3(src.x, 1.3, src.z), B = V3(O.x, 1.25, O.z), G = V3(O.x, 0, O.z), dist = Math.hypot(src.x - O.x, src.z - O.z);
-  const d = B.clone().sub(S), f = S.clone().sub(G), a = d.dot(d), b = 2*f.dot(d), c = f.dot(f) - LIM*LIM;
-  const disc = b*b - 4*a*c, tq = disc > 0 ? (-b - Math.sqrt(disc))/(2*a) : 1;     // where the bolt meets the dome
-  const onDome = S.clone().addScaledVector(d, Math.max(0, tq)), onBody = B.clone().addScaledVector(d.clone().normalize(), -.22);
-  const tS = S.distanceTo(onDome)/16, stop = dist > LIM && shellUp(sh, t0 + tS);
+  const k3 = V3(1, 1/HY, 1), d = B.clone().sub(S).multiply(k3), f = S.clone().sub(G).multiply(k3);   // meet the low dome (ellipsoid)
+  const a = d.dot(d), b = 2*f.dot(d), c = f.dot(f) - LIM*LIM, disc = b*b - 4*a*c, tq = disc > 0 ? (-b - Math.sqrt(disc))/(2*a) : 1;
+  const onDome = S.clone().lerp(B, Math.max(0, tq)), onBody = B.clone().addScaledVector(B.clone().sub(S).normalize(), -.22);
+  const stop = dist > LIM && shellUp(sh, t0 + S.distanceTo(onDome)/16);
   const E = stop ? onDome : onBody, tr = S.distanceTo(E)/16, th = t0 + tr;
   const bo = bolts.next(); bolts.A.aO.setXYZ(bo, S.x, S.y, S.z); bolts.A.aE.setXYZ(bo, E.x, E.y, E.z); bolts.A.aT.setXY(bo, t0, tr); bolts.track(th, 1);
-  const k = fx.next(); fx.A.aO.setXYZ(k, E.x, E.y, E.z); fx.A.aT.setX(k, th); fx.A.aK.setX(k, stop ? 1 : 2); fx.track(th + .22, 1);
-  if (stop){ const ld = E.clone().sub(G).divideScalar(LIM).normalize(), key = 'aH' + sh.slot; sh.slot = (sh.slot + 1) % 4;
-    shells.A[key].setXYZW(sh.i, ld.x, ld.y, ld.z, th); shells.mark(sh.i); blocked++; }
-  else if (flinch) flinch(th);
+  if (stop){ blocked++; return; }                           // the dome does not react to hits: the bolt just ends at the limit
+  const k = fx.next(); fx.A.aO.setXYZ(k, E.x, E.y, E.z); fx.A.aT.setX(k, th); fx.A.aK.setX(k, 2); fx.track(th + .22, 1);
+  if (flinch) flinch(th);
 }
 
 // ============ post ============
@@ -594,8 +587,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Cúpula sobe do chão + pico (2 frames)', 0, 233, 0xbff4ff],
-  ['Cúpula ativa no limite (6 m): plasma + Fresnel', 233, 4000, 0x2a6bff],
-  ['Impacto de fonte distante: ondulação', 233, 4000, 0x3fd8ff],
+  ['Cúpula baixa no limite (6 m): plasma ténue', 233, 4000, 0x2a6bff],
   ['Dissolve com o mesmo ruído do plasma', 4000, 4400, 0xbff4ff],
 ];
 const TOTAL = 4500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
