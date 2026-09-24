@@ -423,7 +423,7 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying vec2 vF; varying float vU;
     void main(){
-      float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .48){ ${HIDE} }
+      float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .68){ ${HIDE} }
       float S = 2.3; vec2 l = position.xy*S;             // local: x right, y forward
       float c = cos(aYaw), s = sin(aYaw);
       vec2 w = vec2(c*l.x - s*l.y, -(s*l.x + c*l.y));      // forward = -z
@@ -436,16 +436,17 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
       if (abs(a) > SPAN + .05) discard;
       float s = (SPAN - a)/(2.*SPAN);                      // 0 = where the swing starts (right), 1 = leading edge (left)
       float grow = 1. - pow(1. - clamp(vU/.09, 0., 1.), 2.);      // 1) draws out in the swing direction
-      float wipe = max(vU - .15, 0.)/.3;                          // 3) after a short hold, fades starting at the origin
-      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .05, wipe + .14, s);
+      float wipe = max(vU - .23, 0.)/.34;                         // 3) after a longer hold, fades starting at the origin
+      float mid = pow(sin(3.14159*clamp(s, 0., 1.)), 3.);          // the wide centre lingers behind the wipe
+      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .05 - .3*mid, wipe + .14 - .3*mid, s);
       float headGlow = exp(-pow((s - grow)/.035, 2.)) * (1. - step(1., grow));
-      float fade = 1. - smoothstep(.36, .48, vU);
-      float thin = 1. - .55*smoothstep(.04, .42, vU);
+      float fade = 1. - smoothstep(.5, .68, vU);
+      float thin = 1. - .45*smoothstep(.2, .62, vU)*(1. - .5*mid);
       float body = pow(sin(3.14159*clamp(s, 0., 1.)), .9);   // crescent: hair-fine at both ends, widest in the middle
       float lum = 0., hot = 0.;
       float rr = 1.6 - .08*(1. - s);
-      float w = (.006 + .25*body)*thin;
-      lum += stroke(r - rr, w)*(.35 + .9*body); hot += lcore(r - rr, w*.3)*body*1.2;
+      float w = (.006 + .25*body + .12*mid)*thin;
+      lum += stroke(r - rr, w)*(.35 + .9*body + .6*mid); hot += lcore(r - rr, w*.36)*(body*1.2 + mid*1.1);
       // brush strands inside the arc — the icon's layered swoosh
       for (int i=0;i<3;i++){
         float fi = float(i), off = -.16 - .12*fi, st = .25 + .18*fi;
@@ -521,7 +522,7 @@ const TIER = { 3:{ sp:6, mark:true }, 2:{ sp:6, mark:true }, 1:{ sp:3, mark:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function swing(O, yaw, tier, t0, targets){
-  const i = slashes.next(); slashes.A.aO.setXYZ(i, O.x, 0, O.z); slashes.A.aYaw.setX(i, yaw); slashes.A.aT.setX(i, t0); slashes.track(t0 + WIND + .48, 1);
+  const i = slashes.next(); slashes.A.aO.setXYZ(i, O.x, 0, O.z); slashes.A.aYaw.setX(i, yaw); slashes.A.aT.setX(i, t0); slashes.track(t0 + WIND + .68, 1);
   const T = TIER[tier], th = t0 + WIND + .01;
   for (const tg of targets || []){
     const dx = tg.p.x - O.x, dz = tg.p.z - O.z, dist = Math.hypot(dx, dz);
@@ -617,8 +618,8 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Preparação (corpo)', 0, 120, 0x8f8a82],
   ['Arco cresce no sentido do golpe', 120, 210, 0xffffff],
-  ['Segura no tamanho máximo', 210, 270, 0xf2b53a],
-  ['Apaga a partir da origem', 270, 600, 0xff7a1a],
+  ['Segura no tamanho máximo', 210, 350, 0xf2b53a],
+  ['Apaga a partir da origem (centro por último)', 350, 800, 0xff7a1a],
   ['Impacto no alvo', 130, 270, 0xfff0d2],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
   ['Marca de sequência', 160, 760, 0xc9a0ff],
