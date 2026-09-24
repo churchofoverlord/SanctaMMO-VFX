@@ -95,6 +95,10 @@ tr:last-child td{border-bottom:0}
     <aside>
       <button class="cast" id="castBtn">Iceberg</button>
       <fieldset>
+        <legend>Muro (demo · vida do muro inteiro)</legend>
+        <div class="seg"><button id="dmgBtn">Dano −⅓</button><button id="brkBtn">Destruir</button></div>
+      </fieldset>
+      <fieldset>
         <legend>Distância ao alvo</legend>
         <div class="seg" id="distSeg">
           <button data-d="8" aria-pressed="true">Longe · 8 m</button>
@@ -151,7 +155,27 @@ tr:last-child td{border-bottom:0}
           <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo (billboard) com faixa curta, direto a 18 m/s até ao ponto no chão</td></tr>
           <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Prismas de gelo sólidos (malha instanciada, shader opaco com facetas, fresnel ciano e veios claros), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
           <tr><td>Limite + Slow</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: linha de geada fina a marcar a colisão do muro enquanto dura + um anel que abre uma vez até ao raio da AoE (3 m)</td></tr>
+          <tr><td>Estilhaçar</td><td class="n">65</td><td class="n">65</td><td class="n">45</td><td class="n">35</td><td>Só se o muro for destruído: estilhaços GPU (5 por pilar) + pulso de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mages</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="budget">
+    <h2>Asset do muro (UE)</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Item</th><th>Especificação</th></tr></thead>
+        <tbody>
+          <tr><td>Actor</td><td><code>BP_Iceberg</code>, spawn no servidor pela Ability, replicado. Vida do muro inteiro (um só valor). Dura 3 s</td></tr>
+          <tr><td>Malha</td><td>13 pilares de gelo (prisma hexagonal com ponta em bico), raio 0,24–0,36 m, altura 1–2,5 m (mais altos ao centro), ligeiramente inclinados para fora; pivot na base; espalhados ao longo de 3,2 m, perpendicular ao cast. Instanced Static Mesh (1 draw call), Nanite</td></tr>
+          <tr><td>Colisão</td><td>Uma caixa para o muro inteiro (~3,4 × 0,8 × 2,5 m), blocking em Pawn, Projectile e Visibility (movimento, projéteis e LOS). Entra logo no tamanho final e empurra para fora quem estiver dentro. Sem buracos entre pilares</td></tr>
+          <tr><td>Navegação</td><td>NavModifier dinâmico enquanto o muro existe</td></tr>
+          <tr><td>Material</td><td>Parâmetros <code>Rise</code> (0–1, World Position Offset, 0,25 s), <code>Crack</code> (0 · 1 · 2), <code>Sink</code> (0–1). Corpo azul escuro, fresnel ciano, veios claros, pontas emissivas</td></tr>
+          <tr><td>Vida</td><td>100 % → a 66 % <code>Crack = 1</code> (fissuras), a 33 % <code>Crack = 2</code> (mais fissuras), a 0 % destrói</td></tr>
+          <tr><td>Fins</td><td>Expira → afunda em 0,45 s, sem estilhaços. Destruído → cue de estilhaçar</td></tr>
+          <tr><td>GameplayCues</td><td><code>Iceberg.Form</code> (subida, linha de geada, anel de Slow) · <code>Iceberg.Crack</code> (mudança de estágio) · <code>Iceberg.Shatter</code> (os pilares colapsam em 0,16 s, ~65 estilhaços GPU, pulso de geada de 2 m)</td></tr>
         </tbody>
       </table>
     </div>
@@ -160,7 +184,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Bloco sólido, não explosão</h3><p>Como no ícone: um muro de prismas de gelo altos e facetados que sobe depressa do chão, mais alto ao centro. É opaco e lê-se como terreno, sem chuva de estilhaços.</p></div>
     <div><h3>Colisão legível</h3><p>Uma linha de geada fina no chão contorna a base do muro enquanto ele dura: é o limite que bloqueia movimento, LOS e projéteis.</p></div>
-    <div><h3>AoE Slow = um pulso</h3><p>Na formação, um anel de geada abre uma vez até ao raio da AoE. O Slow que fica nos alvos é do cue de status. No fim, o muro afunda no chão.</p></div>
+    <div><h3>Terreno é asset, não VFX</h3><p>No UE, os pilares são um Actor com colisão e vida (ver a tabela acima); aqui são um placeholder com a forma e o material. Usa "Dano −⅓" para ver as fissuras e "Destruir" para o estilhaçar. O anel de AoE Slow abre uma vez; o Slow nos alvos é do cue de status.</p></div>
   </section>
 </div>
 
@@ -478,11 +502,13 @@ const prismGeo = (() => {
   const P = new Float32Array(body.attributes.position.array.length + cap.attributes.position.array.length);
   P.set(body.attributes.position.array, 0); P.set(cap.attributes.position.array, body.attributes.position.array.length);
   const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(P, 3)); g.computeVertexNormals(); return g; })();
-const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1 }, new THREE.ShaderMaterial({
+const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.ShaderMaterial({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
-  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; uniform float uTime; varying vec3 vN, vV; varying float vH, vSeed;
+  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; uniform float uTime; varying vec3 vN, vV; varying float vH, vSeed, vCrack;
     void main(){
       float u = uTime - aT - aD.x; if (u < 0. || u > ${WALL_T.toFixed(2)} + .5){ ${HIDE} }
+      float du = aX.x > 0. ? uTime - aX.x : -1.; if (du > .16){ ${HIDE} }          // destroyed: pillar collapses in 0.16 s (shards take over)
+      float br = du > 0. ? 1. - du/.16 : 1.;
       float k = clamp(u/.25, 0., 1.), c1 = 1.9, rise = 1. + (c1 + 1.)*pow(k - 1., 3.) + c1*pow(k - 1., 2.);   // ease-out-back
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
       vec3 p = position*vec3(aS.x, aS.y*rise, aS.x);
@@ -491,11 +517,12 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1 }, new THREE.ShaderMa
       float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little
       vec3 ax = vec3(cos(td), 0., sin(td));
       p = p*ct + cross(ax, p)*st + ax*dot(ax, p)*(1. - ct); n = n*ct + cross(ax, n)*st + ax*dot(ax, n)*(1. - ct);
+      p *= vec3(1. + (1. - br)*.3, br, 1. + (1. - br)*.3);
       vec3 W = aO + p - vec3(0., sink*aS.y*1.05, 0.);
-      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z;
+      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z; vCrack = aX.y;
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vH, vSeed;
+  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vH, vSeed, vCrack;
     void main(){
       vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
       float l = max(dot(n, uMoon), 0.), fr = pow(1. - abs(dot(n, normalize(vV))), 2.5);
@@ -503,6 +530,13 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1 }, new THREE.ShaderMa
       vec3 col = mix(deep, mid, .2 + .5*vH + .35*l);
       float vein = pow(.5 + .5*sin(vH*23. + vSeed*40. + n.x*9.), 14.)*.35;     // faint inner cracks
       col += ice*(fr*1.3 + vein) + vec3(.3, .7, 1.)*smoothstep(.75, 1., vH)*.35; // cyan rim, glowing tips
+      // damage stages (whole-wall HP): 1 = at 66 %, 2 = at 33 % — bright jagged cracks, darker ice around them
+      if (vCrack > .5){
+        float g = vH*5.5 + vSeed*17. + n.x*3.3 - n.z*2.1, g2 = vH*9. - vSeed*11. + n.z*4.;
+        float cr = pow(1. - abs(fract(g) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2) - .5)*2., 26.) : 0.);
+        cr *= vCrack > 1.5 ? 1. : .6;
+        col = mix(col, col*.5, clamp(cr*2., 0., 1.)*.5) + vec3(.55, .9, 1.)*cr;
+      }
       gl_FragColor = vec4(col, 1.);
     }` }));
 wall.mesh.castShadow = false;
@@ -596,7 +630,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 const RL = 3.6;                                           // rings pool life: long enough for the frost boundary
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vR;
+  vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vR, vW;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
       if (aK > 2.5){                                          // Weave: a resource mote flies back to the caster on a curved path
@@ -607,21 +641,21 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }
       if (aK > 5.5){                                          // frost boundary: flat quad aligned with the wall
         vec3 dir = vec3(aD.x, 0., aD.y), nrm = vec3(-dir.z, 0., dir.x); vec2 hs = vec2(aD.z + .4, .7);
-        vP = position.xy*hs; vR = aD.z;
+        vP = position.xy*hs; vR = aD.z; vW = aD.w;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + dir*vP.x + nrm*vP.y + vec3(0., .025, 0.), 1.); return; }
       vR = aD.x;
       if (aK < .5){ float S = aD.x + .3; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.32; mv.xy += position.xy*vec2(.26, .3); gl_Position = projectionMatrix*mv; }
       else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vR; ${STROKE}
+  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vR, vW; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
     void main(){
       float lum = 0., hot = 0., t = vU/${RL.toFixed(2)};
       if (vK > 5.5){
         // frost boundary around the wall footprint: soft rounded-rectangle line, appears with the wall, fades when it sinks
         vec2 q = abs(vP) - vec2(vR + .1, .32); float sd = length(max(q, 0.)) + min(max(q.x, q.y), 0.) - .12;
-        float f = smoothstep(0., .2, vU)*(1. - smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .4, vU));
+        float f = smoothstep(0., .2, vU)*(1. - smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .4, vU))*(vW > 0. ? 1. - smoothstep(vW, vW + .2, vU) : 1.);
         lum += (exp(-pow(sd/.018, 2.))*.8 + exp(-pow(sd/.09, 2.))*.12)*f; hot += lcore(sd, .006)*f*.4;
         lum *= smoothstep(.7, .55, abs(vP.y)/1.)*1.;
       } else if (vK < .5){
@@ -660,6 +694,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
 const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true }, 0:{ sp:0, slow:false } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
+let lastWall = null;                                  // the hero's most recent wall (demo buttons act on it)
 let rearCount = 0; const RANGE = 12;
 function stab(O, yaw, tier, t0, targets){                   // Iceberg: ice crystal → wall of ice prisms rises + frost boundary + one AoE Slow ring
   const T = TIER[tier], fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
@@ -679,16 +714,17 @@ function stab(O, yaw, tier, t0, targets){                   // Iceberg: ice crys
   castLog.push(hitT + WALL_T + .5);
   if (!G) return;
   const dx = E.x - H.x, dz = E.z - H.z, dn = Math.hypot(dx, dz), wx = -dz/dn, wz = dx/dn, HALF = 1.6;   // wall runs across the cast direction
-  const nW = WALL_N[tier];
+  const nW = WALL_N[tier], ids = [];
   for (let m=0;m<nW;m++){
     const f = nW === 1 ? 0 : m/(nW - 1)*2 - 1, c = 1 - Math.abs(f), jit = rand(-.22, .22), j = wall.next();
     wall.A.aO.setXYZ(j, G.x + wx*f*HALF + dx/dn*jit, 0, G.z + wz*f*HALF + dz/dn*jit);
     wall.A.aS.setXYZW(j, rand(.24, .36)*(.8 + .3*c), (1. + 1.5*c)*rand(.85, 1.15), rand(0, 1.05), rand(.02, .16)*(.4 + Math.abs(f)));
     wall.A.aD.setXYZW(j, Math.abs(f)*.12 + rand(0, .03), Math.atan2(dz, dx) + (f < 0 ? Math.PI : 0) + rand(-.5, .5), Math.random(), 0);
-    wall.A.aT.setX(j, hitT);
+    wall.A.aT.setX(j, hitT); wall.A.aX.setXY(j, 0, 0); ids.push(j);
   }
   wall.track(hitT + WALL_T + .6, nW);
   let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 6); rings.A.aD.setXYZW(k, wx, wz, HALF, 0); rings.track(hitT + RL, 1);   // frost boundary
+  if (targets) lastWall = { ids, ring:k, hitT, G, crack:0, dead:false };
   k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, 3, 0, 0, 0); rings.track(hitT + RL, 1);   // AoE Slow pulse (3 m)
 }
 
@@ -792,7 +828,30 @@ function localSwing(){
   localT = time; idle = 0;
   stab(hero.position, 0, quality, time, dummies);
 }
+// ============ demo: whole-wall HP (damage stages) and destruction ============
+function wallAlive(w){ return w && !w.dead && time >= w.hitT && time < w.hitT + WALL_T; }
+function damageWall(){                                 // −⅓ HP: crack stage 1 → 2 → destroyed
+  const w = lastWall; if (!wallAlive(w)) return;
+  if (w.crack >= 2){ destroyWall(); return; }
+  w.crack++; w.ids.forEach(j => { wall.A.aX.setY(j, w.crack); wall.mark(j); });
+}
+function destroyWall(){                                // HP 0: pillars collapse + ice shards burst out + a short frost pulse
+  const w = lastWall; if (!wallAlive(w)) return;
+  w.dead = true; const t = time;
+  w.ids.forEach(j => {
+    wall.A.aX.setX(j, t); wall.mark(j);
+    const px = wall.A.aO.getX(j), pz = wall.A.aO.getZ(j), h = wall.A.aS.getY(j);
+    for (let m=0;m<5;m++){ const q = sparks.next(), a = rand(0, 6.28);
+      sparks.A.aO.setXYZ(q, px, rand(.2, h), pz); sparks.A.aV.setXYZ(q, Math.cos(a)*rand(1.5, 4), rand(.5, 3.5), Math.sin(a)*rand(1.5, 4)); sparks.A.aT.setXY(q, t, rand(.45, .75)); }
+  });
+  sparks.track(t + .75, w.ids.length*5);
+  rings.A.aD.setW(w.ring, t - w.hitT); rings.mark(w.ring);
+  const k = rings.next(); rings.A.aO.setXYZ(k, w.G.x, 0, w.G.z); rings.A.aT.setX(k, t); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, 2, 0, 0, 0); rings.track(t + RL, 1);
+  flashAt = t;
+}
+let flashAt = -1e9;
 $('castBtn').onclick = localSwing;
+$('dmgBtn').onclick = damageWall; $('brkBtn').onclick = destroyWall;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwing(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
@@ -832,8 +891,8 @@ function frame(now){
       g.next = time + rand(1.2, 2.6);
     }
   }
-  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); wall.tick(time);
-  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); wall.flush();
+  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); wall.tick(time); sparks.tick(time);
+  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); wall.flush(); sparks.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -862,8 +921,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [daggers, trails, hits, rings, wall].filter(p => p.active).length;
-    S.part.textContent = daggers.count + trails.count + hits.count + rings.count + wall.count;
+    S.draw.textContent = [daggers, trails, hits, rings, wall, sparks].filter(p => p.active).length;
+    S.part.textContent = daggers.count + trails.count + hits.count + rings.count + wall.count + sparks.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
