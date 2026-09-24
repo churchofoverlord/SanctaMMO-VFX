@@ -55,6 +55,8 @@ prototypes/
 | Mystic · Ether I · Ally | Otimizado (estrela astral + cometa curto; anel abre e luz sobe em ease-out, dourado, 2–3 draw calls) | [prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html](prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html) |
 | Mystic · Ether I · Enemy | Otimizado (estrela astral + cometa curto; anel fecha e colapsa em ease-in com pop, violeta, 2–3 draw calls) | [prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html](prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html) |
 | Mystic · Lullaby I | Otimizado (orbe lento a ondular com crescente; absorção sem hit stop; anel de Sleep após 1 s de delay, 1–3 draw calls) | [prototypes/mystic/lullaby/lullaby-vfx.html](prototypes/mystic/lullaby/lullaby-vfx.html) |
+| Mage · Combust I · Manifest | Otimizado (orbe de fogo direto, rasto curto; impacto compacto + marca de Burn, 2–3 draw calls) | [prototypes/mage/combust-i-manifest/combust-i-manifest-vfx.html](prototypes/mage/combust-i-manifest/combust-i-manifest-vfx.html) |
+| Mage · Combust I · Weave | Otimizado (orbe de fogo direto; impacto compacto + 5 motas de recurso de volta ao Mage, 2–3 draw calls) | [prototypes/mage/combust-i-weave/combust-i-weave-vfx.html](prototypes/mage/combust-i-weave/combust-i-weave-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
