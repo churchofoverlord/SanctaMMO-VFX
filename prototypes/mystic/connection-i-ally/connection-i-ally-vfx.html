@@ -113,7 +113,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~6,2 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~6,6 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tAway"><span>Alvo sai do range<small>afasta-se até 10 m e o fio parte-se</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>tethers de outros Mystics</small></span></label>
       </fieldset>
@@ -133,7 +133,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do tether</span><span>0 — 5600 ms</span></div>
+    <div class="tl-head"><span>Timing do tether</span><span>0 — 6000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -142,6 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
+          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela astral pequena com cauda curta, da mão do Mystic ao peito do alvo a 14 m/s em arco ligeiro; na chegada formam-se os ramos. Mesma draw call do tether</td></tr>
           <tr><td>Tether</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Dois ramos finos entre a mão do Mystic e o peito do alvo: um corre do Mystic para o alvo, o outro do alvo para o Mystic; juntam-se nas pontas e entrelaçam-se em hélice no meio (2,5 voltas, rodam devagar). Cada ramo é uma fita virada para a câmara com 48 segmentos, na mesma draw call. Material com UV panning: fluxo suave e regular (UV panning) do Mystic para o aliado</td></tr>
           <tr><td>Pulso do tick</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>A cada tick (1 s de exemplo) um pulso percorre o ramo que vai para o alvo em 0,35 s; ao chegar, no aliado, um brilho suave e uma pequena estrela de 4 pontas no peito. Calculado no shader a partir do tempo: o CPU não escreve nada por tick</td></tr>
           <tr><td>Fim</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Fim natural: o fio apaga a partir da origem (0,35 s). Fora de range: o fio abre ao meio com um estalo curto e as metades recolhem para as pontas (0,25 s)</td></tr>
@@ -152,7 +153,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Fluxo entre os dois</h3><p>Um ramo vai do Mystic para o alvo e outro vem do alvo para o Mystic; saem juntos das pontas e entrelaçam-se no meio, como as fitas cruzadas do ícone. O movimento dentro de cada ramo é UV panning no seu sentido, sem partículas.</p></div>
+    <div><h3>Fluxo entre os dois</h3><p>Primeiro um projétil vai da mão do Mystic ao alvo; quando chega, forma-se a ligação. Um ramo vai do Mystic para o alvo e outro vem do alvo para o Mystic; saem juntos das pontas e entrelaçam-se no meio, como as fitas cruzadas do ícone. O movimento dentro de cada ramo é UV panning no seu sentido, sem partículas.</p></div>
     <div><h3>Ramo Ally</h3><p>Mesmo percurso e espessura nos dois ramos; muda o acento: fluxo suave e regular (UV panning) do Mystic para o aliado. O Bliss no alvo é um cue de status, não é animado aqui.</p></div>
     <div><h3>Pulsos só na resolução</h3><p>O fio fica calmo entre ticks. Em cada tick, um pulso percorre a ligação e resolve no alvo: no aliado, um brilho suave e uma pequena estrela de 4 pontas no peito.</p></div>
   </section>
@@ -414,7 +415,7 @@ const ptsScale = { value:600 };
 
 // ============ Connection I ============
 const uGold = { value:lin(0xfff0c8) }, uOrange = { value:lin(0xf2b53a) };      // branch palette (hot tint / main)
-const GROW = .22, TICK = 1.0, PULSE = .35, DUR = 5.0, RANGE = 10;             // draw-out, tick period (example), pulse travel, duration (example), max range (example)
+const PV = 14, GROW = .22, TICK = 1.0, PULSE = .35, DUR = 5.0, RANGE = 10;             // draw-out, tick period (example), pulse travel, duration (example), max range (example)
 const HW = .09;                                                              // ribbon half-width (m): the glow reaches 0 before the edge
 const F2 = x => x.toFixed(3);
 
@@ -425,8 +426,18 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
   vertexShader:`attribute vec3 aA, aB, aT; attribute float aK; uniform float uTime; varying vec2 vQ; varying float vL, vU, vE, vBrk, vEnd, vK, vDir;
     float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }
     void main(){
-      float u = uTime - aT.x, endR = min(aT.y, aT.z) - aT.x, e = u - endR; if (u < 0. || e > .4){ ${HIDE} }
       vec3 d = aB - aA; float L = length(d);
+      if (aK > 2.5){                                   /* projectile: hand -> chest in (aT.y - aT.x), slight arc */
+        float u = uTime - aT.x, tt = aT.y - aT.x; if (u < 0. || u > tt){ ${HIDE} }
+        float f = u/tt; vec3 P = aA + d*f + vec3(0., .25*4.*f*(1. - f), 0.);
+        vec4 c0 = projectionMatrix*viewMatrix*vec4(P, 1.), c1 = projectionMatrix*viewMatrix*vec4(aA + d*min(f + .02, 1.) + vec3(0., .25*4.*(f + .02)*(.98 - f), 0.), 1.);
+        vec2 sd = c1.xy/c1.w - c0.xy/c0.w; sd = length(sd) > 1e-5 ? normalize(sd) : vec2(1., 0.);
+        vec4 mv = viewMatrix*vec4(P, 1.); vec2 q = position.xy;
+        vec2 dir = normalize((viewMatrix*vec4(d, 0.)).xy + 1e-5), nrm = vec2(-dir.y, dir.x);
+        mv.xy += dir*(q.x*.45 - .25) + nrm*q.y*.16;     /* stretched along the flight, head at the front */
+        vK = aK; vDir = 1.; vU = u; vL = L; vE = -1.; vBrk = 0.; vEnd = 1e9; vQ = q;
+        gl_Position = projectionMatrix*mv; return; }
+      float u = uTime - aT.x, endR = min(aT.y, aT.z) - aT.x, e = u - endR; if (u < 0. || e > .4){ ${HIDE} }
       vK = aK; vDir = aK > 1.5 ? -1. : 1.; vL = L; vU = u; vE = e; vBrk = aT.z < aT.y ? 1. : 0.; vEnd = endR;
       if (abs(aK - 1.) > .5){
         float s = position.x*.5 + .5;
@@ -443,6 +454,13 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
     float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }
     void main(){
       float lum = 0., hot = 0.;
+      if (vK > 2.5){                                     /* projectile: 4-point star head + short tail */
+        vec2 q = vQ; vec2 h = vec2((q.x - .72)*.45/.16, q.y); float r = length(h), a = atan(h.y, h.x);
+        float st = pow(abs(cos(a*2.)), 16.)*exp(-r*2.6) + exp(-r*r*6.)*.6;
+        float tail = exp(-q.y*q.y*9.)*smoothstep(-1., .7, q.x)*smoothstep(.95, .7, q.x)*.55;
+        lum = (st + tail)*smoothstep(1., .85, abs(q.y))*smoothstep(-1., -.8, q.x); hot = exp(-r*r*40.)*1.4;
+        vec3 o = uOrange*lum + mix(uGold, vec3(1.), .45)*hot;
+        if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); return; }
       // last tick phase: ticks at k*TICK (k >= 1) that start before the end
       float tt = vU - ${F2(TICK)}, kq = floor(tt), ph = tt - kq, tickOk = tt >= 0. && (kq + 1.)*${F2(TICK)} < vEnd ? 1. : 0.;
       if (abs(vK - 1.) > .5){
@@ -479,11 +497,13 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
 // ============ spawning (CPU: on cast, on break, and the moving endpoints of the local tether) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const tethers = [];                                   // { i:[rib, recv], t0, tEnd, brk, local }
-function link(A, B, tier, t0, local){
+function link(A, B, tier, tc, local){
+  const t0 = tc + A.distanceTo(B)/PV;                // the projectile lands, then the tether forms
   const tt = { i:[], t0, tEnd:t0 + DUR, brk:1e9, local };
   const kinds = tier > 0 ? [0, 2, 1] : [0, 2];
+  { const j = teth.next(); teth.A.aA.setXYZ(j, A.x, A.y, A.z); teth.A.aB.setXYZ(j, B.x, B.y, B.z); teth.A.aT.setXYZ(j, tc, t0, 1e9); teth.A.aK.setX(j, 3); tt.i.push(j); }
   for (const k of kinds){ const j = teth.next(); teth.A.aA.setXYZ(j, A.x, A.y, A.z); teth.A.aB.setXYZ(j, B.x, B.y, B.z); teth.A.aT.setXYZ(j, t0, t0 + DUR, 1e9); teth.A.aK.setX(j, k); tt.i.push(j); }
-  teth.track(t0 + DUR + .4, kinds.length); tethers.push(tt); return tt;
+  teth.track(t0 + DUR + .4, kinds.length + 1); tethers.push(tt); return tt;
 }
 function moveEnds(tt, A, B){ for (const j of tt.i){ teth.A.aA.setXYZ(j, A.x, A.y, A.z); teth.A.aB.setXYZ(j, B.x, B.y, B.z); teth.mark(j); } }
 function snap(tt, t){ tt.brk = t; for (const j of tt.i){ teth.A.aT.setZ(j, t); teth.mark(j); } }
@@ -550,13 +570,14 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Ramos desenham-se (um de cada ponta)', 0, 220, 0xf2b53a],
-  ['Dois ramos entrelaçados (UV panning)', 220, 5000, 0xf2b53a],
-  ['Pulsos do tick (a cada 1 s)', 1000, 4350, 0xfff0c8],
-  ['Heal no aliado (ao chegar o pulso)', 1350, 4950, 0xfff0c8],
-  ['Fim natural: apaga da origem', 5000, 5350, 0x8f8a82],
+  ['Projétil da mão ao alvo (14 m/s)', 0, 450, 0xfff0c8],
+  ['Ramos desenham-se (um de cada ponta)', 450, 670, 0xf2b53a],
+  ['Dois ramos entrelaçados (UV panning)', 670, 5450, 0xf2b53a],
+  ['Pulsos do tick (a cada 1 s)', 1450, 4800, 0xfff0c8],
+  ['Heal no aliado (ao chegar o pulso)', 1800, 5400, 0xfff0c8],
+  ['Fim natural: apaga da origem', 5450, 5800, 0x8f8a82],
 ];
-const TOTAL = 5600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 6000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -573,7 +594,7 @@ tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.check
 function ends(){ handL.getWorldPosition(hW); chest.set(dummy.p.x, 1.25, dummy.p.z + .15); }
 function localCast(){
   if (time - localT < .3) return;
-  if (cur && cur.brk > 1e8 && time < cur.tEnd) { snap(cur, time); }       // recast replaces the old tether
+  if (cur && cur.brk > 1e8 && time > cur.t0 && time < cur.tEnd) { snap(cur, time); }       // recast replaces the old tether
   localT = time; idle = 0; dummy.p.set(0, 0, -6);
   ends(); cur = link(hW, chest, quality, time, true);
 }
@@ -610,12 +631,12 @@ function frame(now){
 
   const dtc = time - localT;
   // target: walks away from 1.5 s when the toggle is on; the tether snaps past the max range
-  if (tAway.checked && dtc > 1.5 && cur && cur.brk > 1e8) dummy.p.z -= dt*2.5;
+  if (tAway.checked && dtc > 2 && cur && cur.brk > 1e8) dummy.p.z -= dt*2.5;
   else if (!tAway.checked || !cur || dtc < 1.5) {}
-  dG.position.copy(dummy.p); dG.rotation.set(0, tAway.checked && dtc > 1.5 && cur && cur.brk > 1e8 ? Math.PI : 0, 0);
+  dG.position.copy(dummy.p); dG.rotation.set(0, tAway.checked && dtc > 2 && cur && cur.brk > 1e8 ? Math.PI : 0, 0);
   if (cur && time < cur.tEnd + .4){ ends(); moveEnds(cur, hW, chest);
-    if (cur.brk > 1e8 && time < cur.tEnd && hW.distanceTo(chest) > RANGE) snap(cur, time); }
-  if (tLoop.checked){ idle += dt; if (idle > 6.2) localCast(); }
+    if (cur.brk > 1e8 && time > cur.t0 && time < cur.tEnd && hW.distanceTo(chest) > RANGE) snap(cur, time); }
+  if (tLoop.checked){ idle += dt; if (idle > 6.6) localCast(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position), a = rand(0, 6.28), r = rand(3, 7);
