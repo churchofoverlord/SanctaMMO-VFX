@@ -148,8 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, deitado na horizontal mas inclinado ~20° para a câmara (nunca fica de perfil: de lado lê-se como uma banda grossa), a oscilar pouco, raio 1,43 m: 8 braços de fogo largos e curvos, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
-          <tr><td>Núcleo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Esfera de fogo grande e quente no centro do disco (billboard, ~0,8 m)</td></tr>
+          <tr><td>Fogo (partículas)</td><td class="n">340</td><td class="n">270</td><td class="n">154</td><td class="n">68</td><td>Chamas GPU (1 draw call): disco de 8 braços (chamas atiradas ao longo dos braços a rodar), núcleo denso e explosão no impacto. Cada chama nasce quente, sobe, arrefece para vermelho e morre em fumo escuro; blending premultiplicado (o quente soma luz, o fumo escurece)</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
@@ -159,7 +158,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Disco de fogo a girar</h3><p>Ao estilo de um Rasenshuriken, mas de fogo: uma esfera quente ao centro e um disco largo que viaja deitado na horizontal, com um desvio e oscilação muito ligeiros, com 8 braços de fogo com espessura curvas e um anel de riscos a rodar muito depressa. A rotação é apresentação; a trajetória é linear, sem rasto longo.</p></div>
+    <div><h3>Fogo feito de chamas</h3><p>O disco tipo shuriken já não é uma superfície pintada: é feito de centenas de chamas pequenas (partículas GPU), atiradas ao longo de 8 braços a rodar, com um núcleo denso ao centro. Cada chama tem temperatura: nasce branca-amarela, passa a laranja e vermelho e acaba em fumo escuro. É assim que se faz no Niagara (sprites com flipbook).</p></div>
     <div><h3>Empurrão lateral claro</h3><p>No impacto, o fogo rebenta no peito e o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
     <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
@@ -518,6 +517,81 @@ const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
 
+// Layer F — FIRE as GPU particles (the Niagara way): many small flame sprites, each born hot, rising and twisting, cooling
+// through orange → red and dying as dark smoke. Premultiplied blending (ONE, ONE_MINUS_SRC_ALPHA): hot parts ADD light,
+// cold parts DARKEN — that is what makes it read as fire instead of a flat glow. Everything from age on the GPU.
+// aM = mode: 0 disc flame (flung out along one of the 8 swept arms, loops while the Vortex flies) · 1 core flame (dense ball
+// in the centre, loops) · 2 impact flame (radial burst from the chest, once). aP = (arm/angle, seed, seed, seed).
+const fireMat = new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
+  blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
+  uniforms:{ uTime },
+  vertexShader:`attribute vec3 aO, aE; attribute float aT, aM; attribute vec4 aP; uniform float uTime;
+    varying vec2 vQ; varying float vAge, vHeat, vSeed; ${ARC} ${EOX}
+    void main(){
+      float L = length(aE - aO), tt = L/${V.toFixed(1)}, u = uTime - aT - ${WIND.toFixed(2)};
+      vec3 P; float size, age, heat;
+      if (aM < 1.5){
+        if (u < 0. || u > tt){ ${HIDE} }
+        vec3 d = (aE - aO)/L, sd = normalize(cross(d, vec3(0., 1., 0.)));
+        vec3 C = arcAt(aO, aE, u/tt);
+        vec3 n = normalize(vec3(0., 1., 0.) + normalize(cameraPosition - C)*.4 + sd*.07*sin(u*5.2) + d*.045*sin(u*3.7 + 1.));
+        vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
+        float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*16.;
+        float life = aM < .5 ? .42 + .2*aP.z : .3 + .15*aP.z;
+        age = fract(u/life + aP.y);                                            // loops: a steady stream of flames
+        if (aM < .5){                                                          // flung out along a swept arm, twisting with the spin
+          float r = mix(.15, 1., age)*${VR}, a = (aP.x*6.28318 + spin)/8. - 1.9*r/${VR} + (aP.w - .5)*.12;
+          P = C + (e1*cos(a) + e2*sin(a))*r*grow + n*(.03 + .18*age*age) + vec3(0., .12*age, 0.);
+          size = (.14 + .1*age)*(.8 + .4*aP.w)*grow;                             // flames widen a little as they fly out
+          heat = 1. - .55*age;                                                   // arms stay hot to the tip; only the very end smokes
+        } else {                                                               // core: dense tumbling ball of flame
+          float a = aP.x*6.28318 + spin*.35, r = .18*sqrt(aP.w)*(1. + .5*age);
+          P = C + (e1*cos(a) + e2*sin(a))*r + vec3(0., .25*age, 0.) + n*.05*sin(aP.w*20.);
+          size = (.2 + .12*aP.w)*(1. - .35*age)*grow;
+          heat = 1.1 - age;
+        }
+      } else {                                                                 // impact burst: radial, once, then smoke rising
+        age = (u - tt - aP.z*.05)/(.55 + .3*aP.w); if (age < 0. || age > 1.){ ${HIDE} }
+        float th = aP.x*6.28318, ph = (aP.y - .5)*2.2;
+        vec3 dir = vec3(cos(th)*cos(ph), sin(ph)*.7 + .25, sin(th)*cos(ph));
+        P = aE + dir*(.2 + 1.1*eox(age)) + vec3(0., .5*age*age, 0.);
+        size = (.22 + .45*age)*(.8 + .4*aP.w);
+        heat = 1.1 - age*1.1;
+      }
+      vec4 mv = viewMatrix*vec4(P, 1.);
+      float rot = (aP.y - .5)*.6;
+      vec2 q = position.xy*2.; q = vec2(cos(rot)*q.x - sin(rot)*q.y, sin(rot)*q.x + cos(rot)*q.y);
+      mv.xy += q*size*vec2(.8, 1.1);                                            // a little taller than wide: flame
+      vQ = position.xy*2.; vAge = age; vHeat = heat; vSeed = aP.y;
+      gl_Position = projectionMatrix*mv;
+    }`,
+  fragmentShader:`uniform float uTime; varying vec2 vQ; varying float vAge, vHeat, vSeed;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
+    void main(){
+      vec2 q = vQ; float t = uTime*2.2 + vSeed*17.;
+      // domain-warped flame: noise pushes the shape around and tears the edges; tongue narrows towards the top
+      vec2 w = vec2(vn(q*1.8 + vec2(0., -t*1.6) + vSeed*9.), vn(q*1.8 + vec2(5.2, -t*1.3) + vSeed*4.)) - .5;
+      vec2 p = q + w*.7;
+      float d = length(vec2(p.x*(1.15 + .55*max(p.y, 0.)), (p.y + .1)*.85));
+      float n = vn(p*3.2 + vec2(0., -t*2.4) + vSeed*3.)*.65 + vn(p*6.5 + vec2(0., -t*3.5))*.35;
+      float dens = smoothstep(1., .15, d)*smoothstep(.15, .6, n + (1. - d)*.55);
+      dens *= smoothstep(1., .75, vAge)*smoothstep(0., .06, vAge);
+      // temperature ramp: white-yellow core → orange → deep red → dark smoke
+      float T = clamp(vHeat*(.4 + .5*(1. - d))*(.8 + .4*n), 0., 1.05);
+      vec3 smoke = vec3(.018, .014, .012), red = vec3(.55, .045, .008), org = vec3(1., .3, .03), yel = vec3(1., .66, .16), wht = vec3(1., .92, .7);
+      vec3 col = T < .22 ? mix(smoke, red, T/.22) : T < .5 ? mix(red, org, (T - .22)/.28) : T < .8 ? mix(org, yel, (T - .5)/.3) : mix(yel, wht, clamp((T - .8)/.4, 0., 1.));
+      float emit = T < .22 ? .1 : .38*T;                                      // per-flame light kept low: hundreds overlap                                      // cold = no light (smoke), hot = emissive
+      float alpha = dens*mix(.6, .18, clamp(T/.6, 0., 1.));                   // smoke occludes, hot flame mostly adds
+      vec3 rgb = col*emit*dens;
+      if (dens < .003){ discard; }
+      gl_FragColor = vec4(rgb, alpha);
+    }` });
+const fire = pool(new THREE.PlaneGeometry(1, 1), 12000, { aO:3, aE:3, aT:1, aM:1, aP:4 }, fireMat);
+const FIRE_N = { 3:[240, 24, 90], 2:[200, 20, 70], 1:[110, 12, 40], 0:[48, 6, 18] };   // disc · core · impact flames per cast
+
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
@@ -685,8 +759,12 @@ function stab(O, yaw, tier, t0, targets){                   // Vortex: spirallin
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
   const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
-  let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
-  { const j = helix.next(); helix.A.aO.setXYZ(j, H.x, H.y, H.z); helix.A.aE.setXYZ(j, E.x, E.y, E.z); helix.A.aT.setX(j, t0); helix.A.aK.setX(j, 0); helix.track(hitT, 1); }   // one spinning disc
+  const [nD, nC, nI] = FIRE_N[tier];                              // the whole Vortex is made of flame particles
+  const put = (m, a, b, c, d) => { const j = fire.next(); fire.A.aO.setXYZ(j, H.x, H.y, H.z); fire.A.aE.setXYZ(j, E.x, E.y, E.z); fire.A.aT.setX(j, t0); fire.A.aM.setX(j, m); fire.A.aP.setXYZW(j, a, b, c, d); };
+  for (let k=0;k<nD;k++) put(0, (k % 8)/8, Math.random(), Math.random(), Math.random());
+  for (let k=0;k<nC;k++) put(1, Math.random(), Math.random(), Math.random(), Math.random());
+  if (G) for (let k=0;k<nI;k++) put(2, Math.random(), Math.random(), Math.random(), Math.random());
+  fire.track(hitT, nD + nC); if (nI) fire.track(hitT + 1., nI);
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
@@ -840,8 +918,8 @@ function frame(now){
       g.next = time + rand(1.2, 2.6);
     }
   }
-  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); helix.tick(time);
-  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); helix.flush();
+  daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); helix.tick(time); fire.tick(time);
+  daggers.flush(); trails.flush(); hits.flush(); rings.flush(); helix.flush(); fire.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -870,8 +948,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [daggers, trails, hits, rings, helix].filter(p => p.active).length;
-    S.part.textContent = daggers.count + trails.count + hits.count + rings.count + helix.count;
+    S.draw.textContent = [daggers, trails, hits, rings, helix, fire].filter(p => p.active).length;
+    S.part.textContent = daggers.count + trails.count + hits.count + rings.count + helix.count + fire.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
