@@ -114,7 +114,7 @@ tr:last-child td{border-bottom:0}
         <legend>Custo em tempo real</legend>
         <dl class="stats">
           <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
-          <dt>Marcadores ativos</dt><dd class="vfx" id="sMark">0</dd>
+          <dt>Mãos com glow</dt><dd class="vfx" id="sMark">0</dd>
           <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
           <dt>Trocas a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
           <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Marcador nos pés (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad; traços finos com halo suave, brilhos e emblema em linha, tudo no shader. Mesma malha que a Bleed Stance (cue próprio)</td></tr>
+          <tr><td>Glow nas duas mãos (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um billboard pequeno por mão, instanciado; respira devagar, pico de 2 frames e anel que fecha no punho na entrada</td></tr>
           <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader do marcador: pico de 2 frames + anel até 0,22 s. Zero partículas</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Fighters em ecrã partilham as mesmas 2 draw calls</td></tr>
@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Mesmo marcador, outra paleta</h3><p>O mesmo marcador-base aos pés; Poison e Bleed diferem pela paleta e pelo emblema do ícone (gota). Esta página é só a Poison Stance; a outra é um protótipo à parte e, no UE, outro GameplayCue.</p></div>
+    <div><h3>Nas mãos, não no chão</h3><p>A stance vive nas duas mãos: um brilho verde baixo com línguas suaves à volta dos punhos. Na entrada, um pico de 2 frames e um anel pequeno fecham-se em cada punho. A outra stance é um protótipo à parte (outro GameplayCue).</p></div>
     <div><h3>Pulso em Local Space</h3><p>A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.</p></div>
     <div><h3>Estado inequívoco</h3><p>O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pelo chão.</p></div>
   </section>
@@ -446,6 +446,30 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
 const MARKER_TRIS = 2;
 
 // ---- shards (icon's scattered crystal diamonds), <= 8 per switch
+// Layer H — hand glow: the stance lives on BOTH hands (no ground marker). One instanced billboard per hand, persistent and low,
+// breathing slowly; the entry resolves in a short 2-frame peak and a small ring that closes on the fist. Hand positions come from the model.
+const HG = 128;
+const hands = pool(new THREE.PlaneGeometry(2,2), HG, { aO:3, aT:1, aV:1 }, addMat({
+  uniforms:{ uTime, uCW, uCT },
+  vertexShader:`attribute vec3 aO; attribute float aT, aV; uniform float uTime; varying vec2 vP; varying float vU;
+    void main(){ if (aV < .5){ ${HIDE} }
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.12; float S = .22; mv.xy += position.xy*S;
+      vP = position.xy; vU = uTime - aT; gl_Position = projectionMatrix*mv; }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vP; varying float vU;
+    void main(){
+      float r = length(vP), a = atan(vP.y, vP.x);
+      vec3 col = mix(uCW, uCT, 0.);
+      float breathe = .75 + .25*sin(uTime*2.2 + a*.0);
+      float lick = .5 + .5*sin(a*5. + uTime*3.)*sin(a*3. - uTime*2.1);          // soft flame tongues around the fist
+      float glow = exp(-r*r*7.)*.7*breathe + exp(-pow(max(r - .28, 0.)/(.1 + .12*lick), 2.))*step(.2, r)*.5*breathe;
+      float core = exp(-r*r*60.)*.35;
+      float e = vU >= 0. ? 1. : 0., k = clamp(vU/.22, 0., 1.);
+      float pk = e*(vU < .033 ? 1.8 : 0.)*exp(-r*r*6.);
+      float ring = e*exp(-pow(abs(r - mix(.95, .3, 1. - pow(1. - k, 3.)))/.04, 2.))*(1. - smoothstep(.15, .22, vU));
+      vec3 o = (col*(glow + ring*.9 + pk) + mix(col, vec3(1.), .6)*(core + pk*.5))*smoothstep(1., .85, r);
+      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
+    }` }));
+
 const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 }, addMat({
   uniforms:{ uTime, uCW, uCT },
   vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; attribute float aC; uniform float uTime; varying vec2 vUv; varying float vF; varying float vC;
@@ -491,23 +515,27 @@ const ptsScale = { value:600 };
 const TIER = { 3:{ shards:8 }, 2:{ shards:8 }, 1:{ shards:4 }, 0:{ shards:0 } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const fighters = [];        // { i, p, yaw, stance }
+markers.mesh.visible = false;   // no ground marker for the Scout stances: the glow is on the hands
 function addFighter(p, yaw, stance, visible){
   const i = fighters.length, f = { i, p, yaw, stance };
   markers.A.aO.setXYZ(i, p.x, 0, p.z); markers.A.aYaw.setX(i, yaw); markers.A.aS.setXYZW(i, stance, stance, -1e5, visible ? 1 : 0); markers.mark(i);
-  fighters.push(f); return f;
+  f.h = [0, 1].map(side => { const j = hands.next(); hands.A.aT.setX(j, -1e5); hands.A.aV.setX(j, visible ? 1 : 0); return j; });
+  placeHands(f); fighters.push(f); return f;
 }
-function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); }
+function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); f.h.forEach(j => { hands.A.aV.setX(j, v ? 1 : 0); hands.mark(j); }); }
+function placeHands(f){ const c = Math.cos(f.yaw), sn = Math.sin(f.yaw);                    // fists at ±0.46 m, 0.7 m high, slightly forward
+  [1, -1].forEach((side, i) => { const lx = side*.46, lz = -.1; hands.A.aO.setXYZ(f.h[i], f.p.x + lx*c + lz*sn, .72, f.p.z - lx*sn + lz*c); hands.mark(f.h[i]); }); }
 const TO = 0;                                   // this page = Poison Stance (its own GameplayCue in UE)
 function switchStance(f, tier, t0){
   const to = TO, from = TO; f.stance = to;           // own palette only: no blend from the other stance (that is its own cue)
   markers.A.aS.setXYZW(f.i, from, to, t0, 1); markers.mark(f.i);
   const n = TIER[tier].shards;
+  f.h.forEach(j => { hands.A.aT.setX(j, t0); hands.mark(j); });
   for (let k=0;k<n;k++){
-    const side = k % 2 ? 1 : -1, a = side*rand(.7, 2.3) - f.yaw;         // spawn on the crescents
-    const dx = Math.sin(a), dz = -Math.cos(a);
+    const hp = hands.A.aO, j0 = f.h[k % 2], a = rand(0, 6.28), dx = Math.cos(a), dz = Math.sin(a);   // spawn at the fists
     const i = shards.next();
-    shards.A.aO.setXYZ(i, f.p.x + dx*.66, .06, f.p.z + dz*.66);
-    shards.A.aV.setXYZ(i, dx*rand(.6,1.2), rand(1.6,3), dz*rand(.6,1.2));
+    shards.A.aO.setXYZ(i, hp.getX(j0), hp.getY(j0), hp.getZ(j0));
+    shards.A.aV.setXYZ(i, dx*rand(.3,.8), rand(.8,1.6), dz*rand(.3,.8));
     shards.A.aT.setXY(i, t0, rand(.26,.32)); shards.A.aC.setX(i, Math.floor(rand(0,5)) + (to ? .75 : .25));
   }
   if (n) shards.track(t0 + .32, n);
@@ -560,14 +588,14 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
     ghosts.push({ f:addFighter(V3(x,0,z), yaw, TO, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
-markers.mesh.visible = true;
+markers.mesh.visible = false; hands.mesh.visible = true;   // hand glow is persistent (always drawn)
 
 // ============ timeline UI ============
 const PHASES = [
   ['Pico aditivo (2 frames)', 0, 33, 0xfff0d2],
   ['Anel do pulso', 0, 220, 0xff3d7f],
   ['Fragmentos (GPU)', 0, 320, 0xc9a0ff],
-  ['Marcador persistente', 120, 400, 0x8f8a82],
+  ['Glow persistente nas mãos', 120, 400, 0x8f8a82],
 ];
 const TOTAL = 400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -629,7 +657,7 @@ function frame(now){
       g.next = time + rand(2.5, 5);
     }
   }
-  shards.tick(time); markers.flush(); shards.flush();
+  shards.tick(time); markers.flush(); hands.flush(); shards.flush();
   const cpuVfx = performance.now() - c0;
 
   // momentum (UI context only): builds up, cleared by the switch
@@ -658,8 +686,8 @@ function frame(now){
   if (now - statT > 300){
     switchLog.splice(0, switchLog.length, ...switchLog.filter(t => t > time));
     const nMark = 1 + (tStress.checked ? GN : 0);
-    S.draw.textContent = 1 + (shards.active ? 1 : 0);
-    S.mark.textContent = nMark;
+    S.draw.textContent = 1 + (shards.active ? 1 : 0);   // hand glow + shards
+    S.mark.textContent = nMark*2;
     S.part.textContent = shards.count;
     S.casts.textContent = switchLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
