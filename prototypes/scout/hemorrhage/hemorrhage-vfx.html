@@ -533,7 +533,7 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
     }` }));
 
 // Layer 3 — sparks: velocity-stretched GPU quads, thrown forward along the thrust
-const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:2.4 };
+const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:1.6 };
 const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, addMat({
   uniforms:{ uTime, uRes, uW, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;
@@ -557,7 +557,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S;
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S*.5;   // splash shown at half size (shape math stays in vP units)
       vP = position.xy*S; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
     void main(){
@@ -621,7 +621,7 @@ function stab(O, yaw, tier, t0, targets){                   // Hemorrhage: Bleed
   const k = rings.next(); rings.A.aO.setXYZ(k, C.x, C.y, C.z); rings.A.aT.setX(k, hitT); rings.track(hitT + RL, 1);
   const n = T.sp ? 8 : 0;
   for (let m=0;m<n;m++){ const j = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(j, C.x, C.y, C.z);
-    sparks.A.aV.setXYZ(j, Math.cos(a)*rand(1.5,3), rand(0,2.5), Math.sin(a)*rand(1.5,3)); sparks.A.aT.setXY(j, hitT, rand(.4,.6)); }
+    sparks.A.aV.setXYZ(j, Math.cos(a)*rand(.75,1.5), rand(0,1.25), Math.sin(a)*rand(.75,1.5)); sparks.A.aT.setXY(j, hitT, rand(.4,.6)); }
   if (n) sparks.track(hitT + .6, n);
   if (tg) tg.hitAt = hitT;
   castLog.push(hitT + RL);
