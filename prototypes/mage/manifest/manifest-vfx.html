@@ -98,6 +98,24 @@ tr:last-child td{border-bottom:0}
         </div>
       </fieldset>
       <fieldset>
+        <legend>Órbita · elemento 1</legend>
+        <div class="seg" id="slot1">
+          <button data-e="0" aria-pressed="false">—</button>
+          <button data-e="1" aria-pressed="true">Fogo</button>
+          <button data-e="2" aria-pressed="false">Gelo</button>
+          <button data-e="3" aria-pressed="false">Raio</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Órbita · elemento 2</legend>
+        <div class="seg" id="slot2">
+          <button data-e="0" aria-pressed="false">—</button>
+          <button data-e="1" aria-pressed="false">Fogo</button>
+          <button data-e="2" aria-pressed="true">Gelo</button>
+          <button data-e="3" aria-pressed="false">Raio</button>
+        </div>
+      </fieldset>
+      <fieldset>
         <legend>Velocidade</legend>
         <div class="seg" id="speed">
           <button data-s="1" aria-pressed="true">1×</button>
@@ -139,7 +157,9 @@ tr:last-child td{border-bottom:0}
           <tr><td>Selo nos pés (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad no chão (Local Space, preso à Root): anel violeta caligráfico, arcos azul e laranja do ícone e cristal em linha ao centro, tudo no shader</td></tr>
           <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader do selo: pico de 2 frames + anel até 0,22 s. Zero partículas</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
-          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Mages em ecrã partilham as mesmas 2 draw calls</td></tr>
+          <tr><td>Linha de órbita (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Quad horizontal à cintura: linha fina violeta que ganha a cor de cada elemento num rasto curto atrás dele; mesmo pool e draw call dos elementos</td></tr>
+          <tr><td>Elementos na órbita</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Um billboard por slot (Fogo = chama pequena, Gelo = cristal, Raio = faísca em zigue-zague); qualquer combinação; pico curto no slot que muda</td></tr>
+          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Todos os Mages em ecrã partilham as mesmas draw calls (selo, órbita, fragmentos da entrada)</td></tr>
         </tbody>
       </table>
     </div>
@@ -147,6 +167,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Selo único e estável</h3><p>Como pede a ficha, o Manifest ancora um só selo preso à personagem: anel violeta com pontas finas, os dois arcos do ícone (azul à esquerda, laranja à direita) e o cristal ao centro. A energia corre devagar; não reage a golpes.</p></div>
+    <div><h3>Órbita com os elementos</h3><p>Uma linha fina à cintura com 2 slots. Cada slot mostra o elemento de uma skill recente (Fogo, Gelo ou Raio), em qualquer combinação, ou fica vazio. A linha é violeta (o modo) e, junto a cada elemento, ganha a cor dele num rasto curto atrás; assim, com dois elementos diferentes, a linha fica meio de cada cor sem misturar tons.</p></div>
     <div><h3>Pulso curto na troca</h3><p>A entrada resolve num pico aditivo de 2 frames e num anel que abre no chão. Sem geometria duplicada.</p></div>
     <div><h3>Assinaturas ficam nos feitiços</h3><p>Burn, Slow e Sapped aparecem só nos alvos atingidos pelos feitiços (cues de status). O Weave é um protótipo à parte (outro GameplayCue).</p></div>
   </section>
@@ -444,6 +465,73 @@ const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 
       vec3 col = mix(uCW, uCT, vC);
       gl_FragColor = vec4((col*g + mix(col, vec3(1.), .6)*c) * (1. + 3.*vF*vF), 1.); }` }));
 
+// ---- Manifest orbit: a thin circular line at waist height with 2 slots riding it. Each slot is empty or holds the element of a
+// recent skill (Fire / Ice / Lightning), any combination. The line stays violet (the mode); near each element it takes that
+// element's colour as a short tail behind it, so the line reads as "Manifest" and the slots read as their elements.
+// One instanced pool: aP.y < 0 = line (flat quad), aP.y = 0/1 = slot (billboard). All Mages in one draw, motion from uTime.
+// aP = (phase, index), aT = entry time, aV = visible, aE = (slot 1 element, slot 2 element) 0 none · 1 fire · 2 ice · 3 lightning,
+// aC = last element change time (short pop on the slot that changed).
+const ORB_N = 2, ORBS = 256, ORB_R = .58, ORB_H = .95;
+const uFire = { value:lin(0xff7a2a) }, uIce = { value:lin(0x5fd8ff) }, uBolt = { value:lin(0xffe36a) };
+const orbits = pool(new THREE.PlaneGeometry(2,2), ORBS, { aO:3, aP:2, aT:1, aV:1, aE:2, aC:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uCW, uFire, uIce, uBolt },
+  vertexShader:`attribute vec3 aO; attribute vec2 aP, aE; attribute float aT, aV, aC; uniform float uTime; varying vec2 vQ, vE, vPh; varying float vU, vK, vC; ${EOX}
+    void main(){ if (aV < .5){ ${HIDE} }
+      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, ${ORB_R}, k);
+      vU = u; vC = uTime - aC; vE = aE; vK = aP.y < -.5 ? 1. : 0.;
+      vPh = vec2(aP.x + uTime*.7, aP.x + 3.14159 + uTime*.7);        // current angle of slot 1 and slot 2
+      if (aP.y < -.5){
+        float S = .72; vQ = position.xy*S;
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, ${ORB_H}, -position.y*S), 1.); return; }
+      float ang = aP.x + aP.y*3.14159 + uTime*.7, e = aP.y < .5 ? aE.x : aE.y;
+      if (e < .5){ ${HIDE} }                                           // empty slot
+      vE = vec2(e, 0.);
+      float pop = 1. + .5*exp(-max(vC, 0.)*14.)*step(0., vC);
+      vec3 c = aO + vec3(cos(ang)*R, ${ORB_H} + .25*(1. - k), sin(ang)*R);
+      vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*vec2(.085, .13)*pop;
+      vQ = q; gl_Position = projectionMatrix*mv; }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uCW, uFire, uIce, uBolt; varying vec2 vQ, vE, vPh; varying float vU, vK, vC; ${EOX}
+    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }
+    vec3 ec(float e){ return e < 1.5 ? uFire : (e < 2.5 ? uIce : uBolt); }
+    float tail(float aw, float as){ float d = mod(as - aw + 3.14159, 6.28318) - 3.14159;   // >0 = behind the slot
+      return d > 0. ? exp(-d*2.4) : exp(d*14.); }
+    void main(){
+      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);
+      vec3 o;
+      if (vK > .5){
+        float r = length(vQ), aw = atan(-vQ.y, vQ.x), R = mix(.08, ${ORB_R}, eox(clamp(vU/.3, 0., 1.)));
+        float w1 = vE.x > .5 ? tail(aw, vPh.x) : 0., w2 = vE.y > .5 ? tail(aw, vPh.y) : 0.;
+        vec3 col = uCW*(1. - max(w1, w2)*.9);
+        if (vE.x > .5) col += ec(vE.x)*w1*.9;
+        if (vE.y > .5) col += ec(vE.y)*w2*.9;
+        float flow = .6 + .4*pow(.5 + .5*sin(aw*3. - uTime*1.4), 2.), boost = 1. + 1.2*max(w1, w2);
+        float line = lineCore(r - R, .004)*.55 + exp(-pow((r - R)/.025, 2.))*.1;
+        o = (col*line*flow + mix(col, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*boost*pk;
+        o *= smoothstep(.72, .66, r);
+      } else {
+        vec2 q = vQ; float e = vE.x; vec3 c = ec(e);
+        float pop = vC >= 0. && vC < .033 ? 2. : 1. + .8*exp(-max(vC - .033, 0.)*10.)*step(0., vC);
+        float shape, hot;
+        if (e < 1.5){        // fire: a small teardrop flame licking upward
+          float wy = clamp(.55 - q.y*.45, .05, 1.), fl = 1. + .1*sin(uTime*17. + q.y*7.);
+          shape = exp(-pow(q.x/(.34*wy*fl), 2.) - pow((q.y + .15)/.6, 2.)*2.);
+          hot = exp(-(q.x*q.x*50. + pow(q.y + .3, 2.)*16.));
+        } else if (e < 2.5){ // ice: the sharp crystal in line-art with a faint fill
+          float d = abs(q.x)*1.15 + abs(q.y)*.55 - .55;
+          shape = lineCore(d, .07)*.8 + .18*smoothstep(.05, -.1, d);
+          hot = .5*lineCore(q.x, .05)*smoothstep(0., -.2, d);
+        } else {             // lightning: a small jagged spark that re-strikes a few times per second
+          float st = floor(uTime*10.), zig = .16*(abs(fract(q.y*2.2 + .25 + fract(st*.37))*2. - 1.)*2. - 1.);
+          float d = abs(q.x - zig), vis = smoothstep(.95, .6, abs(q.y));
+          shape = exp(-pow(d/.07, 2.))*vis + exp(-dot(q, q)*6.)*.2;
+          hot = exp(-pow(d/.025, 2.))*vis;
+        }
+        o = (c*shape + mix(c, vec3(1.), .6)*hot*.7)*pk*pop;
+        o *= smoothstep(1., .8, length(q));
+      }
+      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
+    }` }));
+
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
 const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
   [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
@@ -477,13 +565,20 @@ const fighters = [];        // { i, p, yaw, stance }
 function addFighter(p, yaw, stance, visible){
   const i = fighters.length, f = { i, p, yaw, stance };
   markers.A.aO.setXYZ(i, p.x, 0, p.z); markers.A.aYaw.setX(i, yaw); markers.A.aS.setXYZW(i, stance, stance, -1e5, visible ? 1 : 0); markers.mark(i);
+  f.o = []; f.e = [1, 2]; f.vis = visible;                     // f.o[0] = orbit line, f.o[1..2] = element slots
+  for (let n=-1;n<ORB_N;n++){ const j = orbits.next(); orbits.A.aO.setXYZ(j, p.x, 0, p.z); orbits.A.aP.setXY(j, i*1.7, n);
+    orbits.A.aT.setX(j, -1e5); orbits.A.aC.setX(j, -1e5); f.o.push(j); }
+  paintOrbit(f);
   fighters.push(f); return f;
 }
-function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); }
+function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); f.vis = v; paintOrbit(f); }
+function paintOrbit(f){ f.o.forEach(j => { orbits.A.aV.setX(j, f.vis ? 1 : 0); orbits.A.aE.setXY(j, f.e[0], f.e[1]); orbits.mark(j); }); }
+function setElement(f, slot, e, t){ if (f.e[slot] === e) return; f.e[slot] = e; orbits.A.aC.setX(f.o[slot + 1], e ? t : -1e5); paintOrbit(f); }   // pop only on the slot that changed
 const TO = 0;                                   // this page = Manifest (its own GameplayCue in UE)
 function switchStance(f, tier, t0){
   const to = TO, from = TO; f.stance = to;           // own palette only: no blend from the other stance (that is its own cue)
   markers.A.aS.setXYZW(f.i, from, to, t0, 1); markers.mark(f.i);
+  f.o.forEach(j => { orbits.A.aT.setX(j, t0); orbits.mark(j); });
   const n = TIER[tier].shards;
   for (let k=0;k<n;k++){
     const side = k % 2 ? 1 : -1, a = side*rand(.7, 2.3) - f.yaw;         // spawn on the crescents
@@ -541,7 +636,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 { const o = new THREE.Object3D(); let i = 0;
   while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
-    ghosts.push({ f:addFighter(V3(x,0,z), yaw, TO, false), next:rand(.5,4) }); i++; } }
+    const gf = addFighter(V3(x,0,z), yaw, TO, false); gf.e = [Math.floor(rand(0, 4)), Math.floor(rand(0, 4))]; paintOrbit(gf); ghosts.push({ f:gf, next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
 markers.mesh.visible = true;
 
@@ -550,7 +645,8 @@ const PHASES = [
   ['Pico aditivo (2 frames)', 0, 33, 0xfff0d2],
   ['Anel do pulso', 0, 220, 0x9b5cff],
   ['Fragmentos (GPU)', 0, 320, 0xd9c2ff],
-  ['Selo persistente', 120, 400, 0x8f8a82],
+  ['Linha + elementos abrem para a órbita', 0, 300, 0x9b5cff],
+  ['Selo e órbita persistentes', 300, 400, 0x8f8a82],
 ];
 const TOTAL = 400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -574,7 +670,7 @@ function localSwitch(){
 $('castBtn').onclick = localSwitch;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwitch(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
-seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
+seg('speed', 's', v => speed = v); seg('slot1', 'e', v => setElement(hero_f, 0, v, time)); seg('slot2', 'e', v => setElement(hero_f, 1, v, time)); seg('quality', 'q', v => quality = v);
 paintChip();
 
 let yaw = .42, pitch = .42, dist = 4.6, drag = null;
@@ -612,7 +708,7 @@ function frame(now){
       g.next = time + rand(2.5, 5);
     }
   }
-  shards.tick(time); markers.flush(); shards.flush();
+  shards.tick(time); markers.flush(); orbits.flush(); shards.flush();
   const cpuVfx = performance.now() - c0;
 
   // momentum (UI context only): builds up, cleared by the switch
@@ -641,7 +737,7 @@ function frame(now){
   if (now - statT > 300){
     switchLog.splice(0, switchLog.length, ...switchLog.filter(t => t > time));
     const nMark = 1 + (tStress.checked ? GN : 0);
-    S.draw.textContent = 1 + (shards.active ? 1 : 0);
+    S.draw.textContent = 2 + (shards.active ? 1 : 0);
     S.mark.textContent = nMark;
     S.part.textContent = shards.count;
     S.casts.textContent = switchLog.length;
