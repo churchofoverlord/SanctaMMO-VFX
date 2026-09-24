@@ -1,0 +1,3772 @@
+{
+  "schema": "sancta-formid-vfx-inventory/v1",
+  "authority": {
+    "canonSnapshotSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+    "handoffArtifact": "generated/CONTEXTUAL_EXECUTION_FORMS_HANDOFF.json",
+    "handoffArtifactCommit": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+    "handoffDeclaredCanonSourceSha": "d0342374bd5b8b9d5aae305fc0fd60d42e16474d",
+    "skillTreeSha": "6a63c5db4f45328627e26eb72f07d26ed82067cd",
+    "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+    "inventoryBranch": "task/formid-vfx-inventory"
+  },
+  "snapshotCounts": {
+    "formIds": 136,
+    "classes": 4,
+    "uniqueFormIds": 136
+  },
+  "pipelineObservation": {
+    "observedPipeline": "Browser Three.js HTML prototypes under prototypes/fighter/",
+    "ueNiagaraAssetsObserved": false,
+    "sourceAssetPolicy": "null means no current Unreal/Niagara asset was evidenced; docs, icons, and skill specs are not executable VFX assets.",
+    "performancePolicy": "Only values explicitly declared in prototype HTML are recorded. They are browser-prototype expectations, not UE runtime or Niagara measurements."
+  },
+  "statusTaxonomy": {
+    "EXISTING_EXACT": "Dedicated prototype directly corresponds to this current FormId.",
+    "EXISTING_SHARED": "Prototype is shared across forms or multiple branch prototypes serve this single current FormId; every FormId remains a separate entry.",
+    "NEEDS_SPLIT": "Existing prototype lacks an authored branch for a materially distinct current form and needs future physical split.",
+    "LEGACY_NAME_MATCH": "Only a legacy-named VFX prototype matches; current name/FormId remains canonical.",
+    "MISSING": "No execution VFX prototype/asset corresponding to this FormId in this snapshot.",
+    "NOT_APPLICABLE": "No execution VFX is applicable to the form."
+  },
+  "legacyAliasAudit": [
+    {
+      "legacyName": "Ambush",
+      "resolution": "NO_FORMID_IN_SNAPSHOT",
+      "formIds": [],
+      "evidence": "Not present as a FormId/displayName or VFX prototype in the supplied 136-form handoff and VFX snapshot. Do not alias to Backstab I; a legacy upgrade is not an exact execution match."
+    },
+    {
+      "legacyName": "Shroud Bomb",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.smoke-bomb-ii.default"
+      ],
+      "evidence": "The supplied handoff identity remains Smoke Bomb II; Shroud Bomb is retained as a legacy label only. No matching VFX prototype exists."
+    },
+    {
+      "legacyName": "Breaching Strike",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.piercing-strike-ii.warrior",
+        "fighter.piercing-strike-ii.tank"
+      ],
+      "evidence": "The supplied handoff has two stance forms under Piercing Strike II; keep each current FormId and retain this label only as provenance. No matching VFX prototype exists."
+    },
+    {
+      "legacyName": "Fire Ball",
+      "resolution": "NO_EXACT_FORMID_MATCH",
+      "formIds": [],
+      "evidence": "No exact current FormId or VFX prototype named Fire Ball in the supplied handoff/repo snapshot; no speculative Fire Bolt mapping was made."
+    },
+    {
+      "legacyName": "Nightmare",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mystic.lullaby-ii.default"
+      ],
+      "evidence": "Legacy skill-sheet label in docs/skills.json (mystic-92-lullaby-ii-nightmare); current handoff identity is Lullaby II. No matching VFX prototype exists."
+    },
+    {
+      "legacyName": "Chain Pull",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.chains-ii.default"
+      ],
+      "evidence": "Legacy title in the initially observed VFX snapshot 0341500. At the revalidated origin/main snapshot, the prototype title is Chains II Pull. Current handoff identity remains Chains II and the prototype implements its recast/pull branch."
+    }
+  ],
+  "entries": [
+    {
+      "formId": "fighter.granted.cleanse.default",
+      "displayName": "Cleanse",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/cleanse/cleanse-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/cleanse/cleanse-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 10 + 40 — 40 — 20 — 0 — GPU, trajetória analítica (sem simulação por frame)",
+            "Draw calls — 4 — 4 — 4 — 2 — Constantes: 1 ou 40 casts em simultâneo custam o mesmo em draw calls"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.granted.warrior-stance-tank-stance.warrior",
+      "displayName": "Warrior Stance",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/warrior-stance/warrior-stance-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Warrior",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/warrior-stance/warrior-stance-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 1 — Todos os Fighters em ecrã partilham as mesmas 2 draw calls"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.granted.warrior-stance-tank-stance.tank",
+      "displayName": "Tank Stance",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/tank-stance/tank-stance-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Tank",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/tank-stance/tank-stance-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 1 — Todos os Fighters em ecrã partilham as mesmas 2 draw calls"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.granted.rage-bulwark.warrior",
+      "displayName": "Rage — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.granted.rage-bulwark.tank"
+      ],
+      "notes": "Protótipo único com branch explícita Warrior/Rage: convergência comum, pulso de cura/motas no fim.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html",
+          "declaredPerformanceRows": [
+            "Partículas — 8 + 10 — 8 + 10 — 4 + 5 — 0 — GPU: convergência + motas de cura (Rage) ou lascas de luz a abrir do peito (Bulwark)",
+            "Draw calls — 2 — 2 — 2 — 1 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.granted.rage-bulwark.tank",
+      "displayName": "Bulwark — Tank",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.granted.rage-bulwark.warrior"
+      ],
+      "notes": "Protótipo único com branch explícita Tank/Bulwark: convergência comum, casca/estilhaços de escudo no fim; as branches estão separadas, sem split físico pendente.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html",
+          "declaredPerformanceRows": [
+            "Partículas — 8 + 10 — 8 + 10 — 4 + 5 — 0 — GPU: convergência + motas de cura (Rage) ou lascas de luz a abrir do peito (Bulwark)",
+            "Draw calls — 2 — 2 — 2 — 1 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.severing-strike-i.default",
+      "displayName": "Severing Strike I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/severing-strike/severing-strike-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/severing-strike/severing-strike-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 6/alvo — 6/alvo — 3/alvo — 0 — GPU, esticadas pela velocidade, no sentido do golpe",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.piercing-strike-i.default",
+      "displayName": "Piercing Strike I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.piercing-strike-ii.tank",
+        "fighter.piercing-strike-ii.warrior"
+      ],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 4/alvo — 4/alvo — 2/alvo — 0 — GPU, no sentido da estocada",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.shoulder-rush-i.default",
+      "displayName": "Shoulder Rush I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 5 — 5 — 3 — 0 — GPU, curtas, a partir do ponto de colisão",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.crushing-blow-i.default",
+      "displayName": "Crushing Blow I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/crushing-blow/crushing-blow-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/crushing-blow/crushing-blow-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 3 — 3 — 3 — 1 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.battlecry-i-challenge-i.warrior",
+      "displayName": "Battlecry I — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.battlecry-i-challenge-i.tank"
+      ],
+      "notes": "Protótipo único com branch explícita: cristas rápidas/agressivas de Battlecry.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 1 — 1 — 1 — 1 — Partilhada por todos os Fighters; 0 partículas"
+          ],
+          "particleApproachEvidence": "zero-particle",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.battlecry-i-challenge-i.tank",
+      "displayName": "Challenge I — Tank",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.battlecry-i-challenge-i.warrior"
+      ],
+      "notes": "Protótipo único com branch explícita: pulso estável e anel ancorado de Challenge.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 1 — 1 — 1 — 1 — Partilhada por todos os Fighters; 0 partículas"
+          ],
+          "particleApproachEvidence": "zero-particle",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.pressure-i-provoke-i.warrior",
+      "displayName": "Pressure I — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.pressure-i-provoke-i.tank"
+      ],
+      "notes": "Protótipo único com branch explícita: mesmo percurso arma→alvo, três golfadas para Pressure.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 1 — Partilhadas por todos os Fighters; 0 partículas"
+          ],
+          "particleApproachEvidence": "zero-particle",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.pressure-i-provoke-i.tank",
+      "displayName": "Provoke I — Tank",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.pressure-i-provoke-i.warrior"
+      ],
+      "notes": "Protótipo único com branch explícita: fumo contínuo alvo→Tank para Provoke.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 1 — Partilhadas por todos os Fighters; 0 partículas"
+          ],
+          "particleApproachEvidence": "zero-particle",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.second-wind.default",
+      "displayName": "Second Wind",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/second-wind/second-wind-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/second-wind/second-wind-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 1 — 1 — 1 — 1 — Partilhada por todos os Fighters; 0 partículas"
+          ],
+          "particleApproachEvidence": "zero-particle",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.severing-strike-ii.default",
+      "displayName": "Severing Strike II",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 6/alvo — 6/alvo — 3/alvo — 0 — GPU, esticadas pela velocidade, no sentido do golpe",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.shoulder-rush-ii.warrior",
+      "displayName": "Shoulder Rush II — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.shoulder-rush-ii.tank"
+      ],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 5 — 5 — 3 — 0 — GPU, curtas, a partir do ponto de colisão",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.shoulder-rush-ii.tank",
+      "displayName": "Shoulder Rush II — Tank",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.shoulder-rush-ii.warrior"
+      ],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 5 — 5 — 3 — 0 — GPU, curtas, a partir do ponto de colisão",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.crushing-blow-ii.default",
+      "displayName": "Crushing Blow II",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/crushing-blow-ii/crushing-blow-ii-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/crushing-blow-ii/crushing-blow-ii-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 3–4 — 3–4 — 3–4 — 1–2 — Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver uma trava de Stun viva"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.chains-i.default",
+      "displayName": "Chains I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/chains/chains-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/chains/chains-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas no gancho — 6 — 6 — 3 — 0 — GPU, para trás ao longo da corrente",
+            "Draw calls — 4 — 4 — 4 — 3 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.war-leap.default",
+      "displayName": "War Leap",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/war-leap/war-leap-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/war-leap/war-leap-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 4 — 4 — 4 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.rally-i.default",
+      "displayName": "Rally I",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_SHARED",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.rally-ii.tank",
+        "fighter.rally-ii.warrior"
+      ],
+      "notes": "O FormId default é apresentado por dois prototypes separados de stance, Warrior e Tank; não há dois FormIds de Rally I no handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 2 — Partilhadas por todos os Fighters. Sem aura global fora do grupo"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        },
+        {
+          "prototype": "prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html",
+          "declaredPerformanceRows": [
+            "Draw calls — 2 — 2 — 2 — 2 — Partilhadas por todos os Fighters. Sem aura global fora do grupo"
+          ],
+          "particleApproachEvidence": null,
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ],
+      "sourcePrototypes": [
+        "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+        "prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html"
+      ]
+    },
+    {
+      "formId": "fighter.severing-strike-iii.default",
+      "displayName": "Severing Strike III",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas — 6/alvo — 6/alvo — 3/alvo — 0 — GPU, esticadas pela velocidade, no sentido do golpe",
+            "Draw calls — 3 — 3 — 3 — 2 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ]
+    },
+    {
+      "formId": "fighter.chains-ii.default",
+      "displayName": "Chains II",
+      "class": "Fighter",
+      "sourcePrototype": "prototypes/fighter/chains-ii/chains-ii-vfx.html",
+      "sourceAsset": null,
+      "status": "EXISTING_EXACT",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted — bound target",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Forced Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/chains-ii/chains-ii-vfx.html",
+          "declaredPerformanceRows": [
+            "Faíscas no gancho — 6 — 6 — 3 — 0 — GPU, para trás ao longo da corrente",
+            "Draw calls — 5 — 5 — 5 — 4 — Partilhadas por todos os Fighters"
+          ],
+          "particleApproachEvidence": "GPU-declared",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ],
+      "legacyNames": [
+        "Chain Pull"
+      ]
+    },
+    {
+      "formId": "fighter.piercing-strike-ii.warrior",
+      "displayName": "Piercing Strike II — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.piercing-strike-i.default",
+        "fighter.piercing-strike-ii.tank"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Breaching Strike"
+      ]
+    },
+    {
+      "formId": "fighter.piercing-strike-ii.tank",
+      "displayName": "Piercing Strike II — Tank",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.piercing-strike-i.default",
+        "fighter.piercing-strike-ii.warrior"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Breaching Strike"
+      ]
+    },
+    {
+      "formId": "fighter.defiant-presence.default",
+      "displayName": "Defiant Presence",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Defensive State"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "fighter.battlecry-challenge-ii.warrior",
+      "displayName": "Battlecry II — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "fighter.battlecry-challenge-ii.tank",
+      "displayName": "Challenge II — Tank",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "fighter.momentum-mastery.default",
+      "displayName": "Momentum Mastery",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "fighter.rally-ii.warrior",
+      "displayName": "Rally II — Warrior",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.rally-i.default",
+        "fighter.rally-ii.tank"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "fighter.rally-ii.tank",
+      "displayName": "Rally II — Tank",
+      "class": "Fighter",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "fighter.rally-i.default",
+        "fighter.rally-ii.warrior"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.granted.cleanse.default",
+      "displayName": "Cleanse",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.granted.poison-bleed-stance.poison",
+      "displayName": "Poison Stance",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.granted.poison-bleed-stance.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Poison",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.granted.poison-bleed-stance.bleed",
+      "displayName": "Bleed Stance",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.granted.poison-bleed-stance.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Bleed",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.granted.poison-sac-hemorrhage.poison",
+      "displayName": "Poison Sac",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.granted.poison-sac-hemorrhage.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.granted.poison-sac-hemorrhage.bleed",
+      "displayName": "Hemorrhage",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.granted.poison-sac-hemorrhage.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.exploit-weakness-i.default",
+      "displayName": "Exploit Weakness I",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.quickstep-i.default",
+      "displayName": "Quickstep I",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self / Directional",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.rapid-attack.default",
+      "displayName": "Rapid Attack",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.backstab-i.default",
+      "displayName": "Backstab I",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.torpor.default",
+      "displayName": "Torpor",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.blinding-dart.default",
+      "displayName": "Blinding Dart",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.volley-i.poison",
+      "displayName": "Volley I — Poison",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.volley-i.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.volley-i.bleed",
+      "displayName": "Volley I — Bleed",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.volley-i.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.exploit-weakness-ii.default",
+      "displayName": "Exploit Weakness II",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.quickstep-ii.default",
+      "displayName": "Quickstep II",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.long-jump.default",
+      "displayName": "Long Jump",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point / Directional",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.evasion.default",
+      "displayName": "Evasion",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.sand-shot.default",
+      "displayName": "Sand Shot",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.vine-field-i.default",
+      "displayName": "Vine Field I",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.backstab-ii.default",
+      "displayName": "Backstab II",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.smoke-bomb-i.default",
+      "displayName": "Smoke Bomb I",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.vine-field-ii.default",
+      "displayName": "Vine Field II",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.volley-ii.poison",
+      "displayName": "Volley II — Poison",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.volley-ii.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.volley-ii.bleed",
+      "displayName": "Volley II — Bleed",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.volley-ii.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.poison-sac-hemorrhage-ii.poison",
+      "displayName": "Poison Sac II — Poison",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.poison-sac-hemorrhage-ii.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.poison-sac-hemorrhage-ii.bleed",
+      "displayName": "Hemorrhage II — Bleed",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "scout.poison-sac-hemorrhage-ii.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.exploit-weakness-iii.default",
+      "displayName": "Exploit Weakness III",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "scout.smoke-bomb-ii.default",
+      "displayName": "Smoke Bomb II",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Shroud Bomb"
+      ]
+    },
+    {
+      "formId": "universal.basic-attack.poison",
+      "displayName": "Basic Attack — Poison",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "universal.basic-attack.bleed"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "scout-stance-at-admission",
+        "contextValue": "Poison",
+        "contextCapture": "attack-admission",
+        "targetType": "Weapon-defined",
+        "targetRelation": "Enemy",
+        "travelType": "Weapon-defined",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "universal.basic-attack.bleed",
+      "displayName": "Basic Attack — Bleed",
+      "class": "Scout",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "universal.basic-attack.poison"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "scout-stance-at-admission",
+        "contextValue": "Bleed",
+        "contextCapture": "attack-admission",
+        "targetType": "Weapon-defined",
+        "targetRelation": "Enemy",
+        "travelType": "Weapon-defined",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.cleanse.default",
+      "displayName": "Cleanse",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.manifest-weave.manifest",
+      "displayName": "Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.granted.manifest-weave.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.manifest-weave.weave",
+      "displayName": "Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.granted.manifest-weave.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.arcane-shards",
+      "displayName": "Arcane Burst",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Arcane Shards",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.fire-fire",
+      "displayName": "Vortex — Fire + Fire",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Fire",
+        "contextCapture": "admission",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Line AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.ice-ice",
+      "displayName": "Iceberg — Ice + Ice",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Ice + Ice",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Destructible terrain / AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.lightning-lightning",
+      "displayName": "Coil — Lightning + Lightning",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Lightning + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Self",
+        "targetRelation": "Self / Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Self Shield + AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.fire-ice",
+      "displayName": "Mist — Fire + Ice",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Ice",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Persistent concealment area"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.fire-lightning",
+      "displayName": "Laser — Fire + Lightning",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Beam",
+        "movementType": "None",
+        "effectType": "Repeated line damage"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.granted.arcane-burst.ice-lightning",
+      "displayName": "Tempest — Ice + Lightning",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Ice + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Persistent marked AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.fire-bolt-i.manifest",
+      "displayName": "Fire Bolt I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.fire-bolt-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.fire-bolt-i.weave",
+      "displayName": "Fire Bolt I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.fire-bolt-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.combust-i.manifest",
+      "displayName": "Combust I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.combust-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.combust-i.weave",
+      "displayName": "Combust I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.combust-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.frost-lance-i.manifest",
+      "displayName": "Frost Lance I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.frost-lance-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.frost-lance-i.weave",
+      "displayName": "Frost Lance I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.frost-lance-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.glacial-spike-i.manifest",
+      "displayName": "Glacial Spike I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.glacial-spike-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.glacial-spike-i.weave",
+      "displayName": "Glacial Spike I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.glacial-spike-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.static-bolt-i.manifest",
+      "displayName": "Static Bolt I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.static-bolt-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.static-bolt-i.weave",
+      "displayName": "Static Bolt I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.static-bolt-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.thunderstrike-i.manifest",
+      "displayName": "Thunderstrike I — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.thunderstrike-i.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.thunderstrike-i.weave",
+      "displayName": "Thunderstrike I — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.thunderstrike-i.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.blink.default",
+      "displayName": "Blink",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional / Ground Point",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.fire-bolt-ii.manifest",
+      "displayName": "Fire Bolt II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.fire-bolt-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → conditional secondary targets"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.fire-bolt-ii.weave",
+      "displayName": "Fire Bolt II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.fire-bolt-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → conditional secondary targets"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.combust-ii.manifest",
+      "displayName": "Combust II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.combust-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.combust-ii.weave",
+      "displayName": "Combust II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.combust-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.frost-lance-ii.manifest",
+      "displayName": "Frost Lance II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.frost-lance-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.frost-lance-ii.weave",
+      "displayName": "Frost Lance II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.frost-lance-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.glacial-spike-ii.manifest",
+      "displayName": "Glacial Spike II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.glacial-spike-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.glacial-spike-ii.weave",
+      "displayName": "Glacial Spike II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.glacial-spike-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.thunderstrike-ii.manifest",
+      "displayName": "Thunderstrike II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.thunderstrike-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target + conditional AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.thunderstrike-ii.weave",
+      "displayName": "Thunderstrike II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.thunderstrike-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target + conditional AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.mana-barrier-i.default",
+      "displayName": "Mana Barrier I",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.static-bolt-ii.manifest",
+      "displayName": "Static Bolt II — Manifest",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.static-bolt-ii.weave"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Ground Point → chained targets",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile initial / Instant secondary arcs",
+        "movementType": "None",
+        "effectType": "AoE → chained hits"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.static-bolt-ii.weave",
+      "displayName": "Static Bolt II — Weave",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mage.static-bolt-ii.manifest"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Ground Point → chained targets",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile initial / Instant secondary arcs",
+        "movementType": "None",
+        "effectType": "AoE → chained hits"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.mana-barrier-ii.default",
+      "displayName": "Mana Barrier II",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.arcane-weaving-i.default",
+      "displayName": "Arcane Weaving I",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Resource-system modification"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.elemental-weaver-i.default",
+      "displayName": "Elemental Weaver I",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Depends on Synthesis",
+        "targetRelation": "Depends on Synthesis",
+        "travelType": "Depends on Synthesis",
+        "movementType": "None",
+        "effectType": "Resource-system modification + contextual Skills"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.arcane-weaving-ii.default",
+      "displayName": "Arcane Weaving II",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Cooldown modification"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.elemental-weaver-ii.default",
+      "displayName": "Elemental Weaver II",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Depends on Synthesis",
+        "targetRelation": "Depends on Synthesis",
+        "travelType": "Depends on Synthesis",
+        "movementType": "None",
+        "effectType": "Resource-system expansion"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mage.mana-storm.default",
+      "displayName": "Mana Storm",
+      "class": "Mage",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self / Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.granted.cleanse.default",
+      "displayName": "Cleanse",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Self / Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.granted.sun-moon-stance.sun",
+      "displayName": "Sun Stance",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.granted.sun-moon-stance.moon"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Sun",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.granted.sun-moon-stance.moon",
+      "displayName": "Moon Stance",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.granted.sun-moon-stance.sun"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Moon",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.granted.bright-star-full-moon.sun",
+      "displayName": "Bright Star",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-and-max-resource",
+        "contextValue": "Sun",
+        "contextCapture": "admission",
+        "targetType": "Self / Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant (Bright Star) / Projectile (Full Moon)",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.granted.bright-star-full-moon.moon",
+      "displayName": "Full Moon",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance-and-max-resource",
+        "contextValue": "Moon",
+        "contextCapture": "admission",
+        "targetType": "Self / Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant (Bright Star) / Projectile (Full Moon)",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.ether-i.ally",
+      "displayName": "Ether I — Ally",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.ether-i.enemy"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target Heal"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.ether-i.enemy",
+      "displayName": "Ether I — Enemy",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.ether-i.ally"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target Damage"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-orbit.sun",
+      "displayName": "Spirit of the Orbit — Sun",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Persistent Spirit / conditional AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-orbit.moon",
+      "displayName": "Spirit of the Orbit — Moon",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Persistent Spirit / conditional AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.cosmic-ray-i.default",
+      "displayName": "Cosmic Ray I",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.connection-i.ally",
+      "displayName": "Connection I — Ally",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.connection-i.enemy"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Tether — Heal"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.connection-i.enemy",
+      "displayName": "Connection I — Enemy",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.connection-i.ally"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Tether — Damage"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.lullaby-i.default",
+      "displayName": "Lullaby I",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.sun-aura-moon-aura.sun",
+      "displayName": "Sun Aura",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.sun-aura-moon-aura.moon"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "aura-pulse",
+        "targetType": "Self",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Aura"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.sun-aura-moon-aura.moon",
+      "displayName": "Moon Aura",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.sun-aura-moon-aura.sun"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "aura-pulse",
+        "targetType": "Self",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Aura"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.astral-step.default",
+      "displayName": "Astral Step",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Ally / Enemy",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.ether-ii.ally",
+      "displayName": "Ether II — Ally",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.ether-ii.enemy"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Heal + conditional Buffs"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.ether-ii.enemy",
+      "displayName": "Ether II — Enemy",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.ether-ii.ally"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Damage + conditional Debuffs"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.resurrect.default",
+      "displayName": "Resurrect",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Dead Player",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-star.sun",
+      "displayName": "Spirit of the Star — Sun",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-star.moon",
+      "displayName": "Spirit of the Star — Moon",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.cosmic-ray-ii.default",
+      "displayName": "Cosmic Ray II",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.serenity.default",
+      "displayName": "Serenity",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.astral-pull.default",
+      "displayName": "Astral Pull",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-comet.sun",
+      "displayName": "Spirit of the Comet — Sun",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.spirit-of-the-comet.moon",
+      "displayName": "Spirit of the Comet — Moon",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.lullaby-ii.default",
+      "displayName": "Lullaby II",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Nightmare"
+      ]
+    },
+    {
+      "formId": "mystic.black-hole-i.default",
+      "displayName": "Black Hole I",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Forced Displacement",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.astral-veil.default",
+      "displayName": "Astral Veil",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "World Placement",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Barrier / Area"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.eclipse.default",
+      "displayName": "Eclipse",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.connection-ii.ally",
+      "displayName": "Connection II — Ally",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.connection-ii.enemy"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Tether + AoE completion"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.connection-ii.enemy",
+      "displayName": "Connection II — Enemy",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [
+        "mystic.connection-ii.ally"
+      ],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Tether + AoE completion"
+      },
+      "performanceEvidence": []
+    },
+    {
+      "formId": "mystic.black-hole-ii.default",
+      "displayName": "Black Hole II",
+      "class": "Mystic",
+      "sourcePrototype": null,
+      "sourceAsset": null,
+      "status": "MISSING",
+      "requiresSplit": false,
+      "sharedVisualBaseWith": [],
+      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "executionContext": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "performanceEvidence": []
+    }
+  ]
+}
