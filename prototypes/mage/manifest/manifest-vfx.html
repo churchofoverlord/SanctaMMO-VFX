@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Só a trança</h3><p>O Manifest não tem nada no chão nem nada em órbita: só um círculo à cintura feito de três fios de luz, vermelho, azul e amarelo, torcidos uns nos outros.</p></div>
-    <div><h3>Trança de plasma</h3><p>Os três fios torcem-se juntos à volta do núcleo do círculo (7 voltas, afastamento curto) e a torção corre devagar. Cada fio é um corpo suave tipo plasma/nuvem: a densidade corre ao longo do fio com ruído e as bordas ondulam. Brilho baixo, sem núcleo branco forte. O corpo tapa a parte de trás.</p></div>
+    <div><h3>Trança de plasma</h3><p>Os três fios torcem-se juntos à volta do núcleo do círculo (7 voltas, afastamento curto) e a torção corre devagar. O círculo inteiro ondula devagar em altura (não fica num plano fixo). Cada fio é um corpo suave tipo plasma/nuvem: a densidade corre ao longo do fio com ruído e as bordas ondulam. Brilho baixo, sem núcleo branco forte. O corpo tapa a parte de trás.</p></div>
     <div><h3>Assinaturas ficam nos feitiços</h3><p>Burn, Slow e Sapped aparecem só nos alvos atingidos (cues de status). O Weave é um protótipo à parte (outro GameplayCue).</p></div>
   </section>
 </div>
@@ -457,7 +457,8 @@ const orbits = pool(braidGeo, BRS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
     vec3 path(float a, float R, float k){                             // centre of thread k at ring angle a: twisted around the ring core in 3D
       float tw = 7.*a + k*2.0944 - uTime*1.1, A = .02;          // threads kept close together
       vec3 rad = vec3(cos(a), 0., sin(a));
-      return vec3(cos(a)*R, ${BR_H}, sin(a)*R) + A*(cos(tw)*rad + sin(tw)*vec3(0., 1., 0.));
+      float y = ${BR_H} + .045*sin(2.*a + uTime*.7) + .025*sin(3.*a - uTime*1.1);   // the whole ring undulates gently in height
+      return vec3(cos(a)*R, y, sin(a)*R) + A*(cos(tw)*rad + sin(tw)*vec3(0., 1., 0.));
     }
     void main(){ if (aV < .5){ ${HIDE} }
       float u = uTime - aT, R = mix(.08, ${BR_R}, eox(clamp(u/.3, 0., 1.)));
