@@ -817,7 +817,7 @@ function localSwing(){
     pull(live, time); pullRel = time - localT; endRel = pullRel + PT + PD + PO; idle = 0; return;
   }
   if (time - localT < 1.2) return;
-  dummies.forEach(d => { d.pullT = -1e9; d.pullD = 0; });        // new cycle: targets back at their spots
+  dummies.forEach(d => { d.pullT = -1e9; d.pullD = 0; d.p.copy(d.base); });   // new cycle: targets back at their spots BEFORE aiming (else it aims at the old pulled position)
   localT = time; idle = 0; pullRel = -1;
   const th = chain(hero.position, 0, quality, time, dummies, handsAtRelease());
   live = chain.last; hitRel = th > 0 ? th - time : -1; endRel = chain.lastEnd - time;
