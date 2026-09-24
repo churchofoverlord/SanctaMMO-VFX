@@ -568,7 +568,7 @@ const beam = pool(new THREE.PlaneGeometry(1, 1, 96, 1), 128, { aO:3, aT:1, aP:2 
       float body = exp(-yy*yy*3.)*smoothstep(.05, .95, n + .4*(1. - abs(yy)));
       float coreL = exp(-y*y*26.);
       float fade = smoothstep(${BEAM_T.toFixed(2)}, ${BEAM_T.toFixed(2)} - .3, t)*smoothstep(0., .5, x)*smoothstep(14., 12.5, x);
-      float T = clamp(.2 + .45*body + .3*coreL + .2*vPk, 0., 1.);
+      float T = clamp(.2 + .4*body + .08*coreL + .12*vPk, 0., .62);   // centre stays red-orange: no yellow core
       vec3 smoke = vec3(.012, .008, .006), red = vec3(.42, .025, .004), org = vec3(1., .22, .015), yel = vec3(1., .5, .06), wht = vec3(1., .8, .38);
       vec3 col = T < .25 ? mix(smoke, red, T/.25) : T < .55 ? mix(red, org, (T - .25)/.3) : T < .85 ? mix(org, yel, (T - .55)/.3) : mix(yel, wht, clamp((T - .85)/.3, 0., 1.));
       float dens = (body*.85 + coreL*.6)*fade*smoothstep(1., .8, abs(y));
