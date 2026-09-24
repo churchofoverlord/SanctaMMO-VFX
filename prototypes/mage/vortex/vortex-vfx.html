@@ -120,7 +120,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~2,9 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~3,6 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1800 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2300 ms</span></div>
   </div>
 
   <section class="budget">
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, virado entre a câmara e o céu (lê-se sempre inteiro, com ligeira inclinação 3D), raio 0,62 m: 4 lâminas de fogo curvas, anel de riscos e textura de chama, tudo a rodar depressa no shader; 12 m/s</td></tr>
+          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, virado entre a câmara e o céu (lê-se sempre inteiro, com ligeira inclinação 3D), raio 0,95 m: 4 lâminas de fogo largas e curvas, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
           <tr><td>Núcleo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Esfera de fogo quente no centro do disco (billboard)</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
@@ -427,7 +427,7 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
-const V = 12;                                         // vortex speed (m/s): large, massive, linear
+const V = 7;                                         // vortex speed (m/s): large, massive, linear
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
@@ -435,7 +435,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .22;
+      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .32;
       float c = cos(u*6.), s = sin(u*6.); vec2 q = mat2(c, -s, s, c)*position.xy;       // corona churns
       mv.xy += q*S*1.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
@@ -445,7 +445,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
       float fl = .5 + .5*sin(a*7. + vU*40.)*sin(a*3. - vU*23.);             // flickering flame tongues
       float sphere = smoothstep(.34, .28, r), corona = exp(-pow(max(r - .3, 0.)/(.07 + .09*fl), 2.))*step(.28, r);
       float core = exp(-r*r*40.), halo = exp(-r*r*5.)*.2;
-      vec3 o = (uOrange*(corona*1.1 + halo + sphere*.5) + uGold*sphere*.9 + vec3(1., .9, .7)*core*.9)*smoothstep(1., .85, r);
+      vec3 o = (uOrange*(corona*1.1 + halo + sphere*.7) + uGold*sphere*.6 + vec3(1., .7, .35)*core*.5)*smoothstep(1., .85, r);   // fire core: orange-red, only a small hot centre
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
@@ -471,7 +471,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // Layer 1b — the vortex, shuriken-style (like a Rasenshuriken, in fire): a wide spinning disc lying almost flat around the flight
 // axis — 4 swept flame blades, a ring of fast streaks and a hot core ball in the middle (the core is the orb billboard).
 // ONE instanced quad per cast; the GPU spins it from age; CPU writes start/end/time only.
-const VR = .62;
+const VR = .95;
 const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU;
@@ -493,20 +493,22 @@ const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
     void main(){
-      float r = length(vP), a = atan(vP.y, vP.x), spin = vU*22.;
-      // 4 swept blades: arms curve back against the spin, thick near the core, thin sharp tips, bright leading edge
+      float r = length(vP), a0 = atan(vP.y, vP.x), spin = vU*16.;
+      // turbulent flame: the angle itself is warped by noise so blade edges tear into licks of fire
+      float w1 = vn(vec2(a0*3. - spin*.6, r*6. - vU*9.)), w2 = vn(vec2(a0*9. - spin*1.1, r*17. - vU*14.));
+      float a = a0 + (w1 - .5)*.5*r;
       float ph = 4.*(a + 1.9*r) - spin, c = cos(ph);
-      float env = smoothstep(.1, .22, r)*(1. - smoothstep(.6, .98, r));
-      float blade = smoothstep(.35 + .45*r, .95, c)*env;
-      float edge = exp(-pow((mod(ph + 3.14159, 6.28318) - 3.14159 + .35)/.18, 2.))*env;   // hot lip on the leading side
-      // swirling ring of streaks around the core + turbulent flame texture riding the spin
-      float n = vn(vec2(a*6. - spin*.9, r*9.)), n2 = vn(vec2(a*14. - spin*1.4, r*22.));
-      float ring = exp(-pow((r - .3)/.16, 2.))*(.35 + .65*n)*.55;
-      float streaks = pow(.5 + .5*sin(a*18. + r*26. - spin*1.3), 8.)*smoothstep(.12, .3, r)*(1. - smoothstep(.45, .85, r))*.5;
-      float inner = exp(-r*r*18.)*.7;
-      float lum = (blade*(.6 + .6*n2) + ring + streaks)*(.8 + .2*n) + inner;
-      float hot = edge*.8 + inner*.6 + blade*n2*.2;
-      vec3 o = mix(uOrange, uGold, clamp(.2 + .8*(1. - r), 0., 1.))*lum + mix(uGold, vec3(1., .95, .8), .6)*hot;
+      float env = smoothstep(.08, .2, r)*(1. - smoothstep(.65, .98, r));
+      float blade = smoothstep(.1 + .45*r, .9, c)*env*smoothstep(.2, .55, w2 + .35*(1. - r));   // broad blades, ragged flame edges
+      float edge = exp(-pow((mod(ph + 3.14159, 6.28318) - 3.14159 + .35)/.14, 2.))*env*w2;
+      float ring = exp(-pow((r - .3)/.16, 2.))*(.3 + .7*w1)*.5;
+      float inner = exp(-r*r*14.)*.8;
+      float heat = (blade*(.55 + .6*w2) + ring)*(.75 + .25*w1) + inner + edge*.5;   // 0 … ~1.6
+      // fire ramp: deep red → red-orange → orange; yellow only where it is hottest (core, lips), almost no white
+      vec3 deep = vec3(.45, .02, .0), red = uOrange, org = vec3(1., .28, .02), yel = vec3(1., .62, .12);
+      float t = clamp(heat*.75, 0., 1.);
+      vec3 col = t < .4 ? mix(deep, red, t/.4) : (t < .75 ? mix(red, org, (t - .4)/.35) : mix(org, yel, (t - .75)/.25));
+      vec3 o = col*heat*1.15;
       o *= (1. - smoothstep(.85, 1., r));                                      // zero before the quad edge
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
@@ -764,12 +766,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Disco de fogo a girar, linear (8 m: ~630 ms)', 100, 730, 0xff3a12],
-  ['Explosão no peito', 730, 1080, 0xffb347],
-  ['Empurrão lateral + risco no chão', 730, 1480, 0xff7a1a],
-  ['Marca de Burn (alvo deslocado)', 930, 1730, 0xff3a12],
+  ['Disco de fogo a girar, linear (8 m: ~1,1 s)', 100, 1190, 0xff3a12],
+  ['Explosão no peito', 1190, 1540, 0xffb347],
+  ['Empurrão lateral + risco no chão', 1190, 1940, 0xff7a1a],
+  ['Marca de Burn (alvo deslocado)', 1390, 2190, 0xff3a12],
 ];
-const TOTAL = 1800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -825,7 +827,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 2.9) localSwing(); }   // wait for the pushed target to return
+  if (tLoop.checked){ idle += dt; if (idle > 3.6) localSwing(); }   // wait for the pushed target to return
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
