@@ -7,19 +7,19 @@ Este inventário relaciona cada `formId` do handoff de 136 forms com o estado ob
 - Canon snapshot/handoff commit: `757f8441f4b9e58e1c616b20bd0c79270ee68de7`; handoff: `generated/CONTEXTUAL_EXECUTION_FORMS_HANDOFF.json`.
 - O handoff declara como fonte Canon `d0342374bd5b8b9d5aae305fc0fd60d42e16474d` e SkillTree `6a63c5db4f45328627e26eb72f07d26ed82067cd`.
 - SkillTree source: `6a63c5db4f45328627e26eb72f07d26ed82067cd`.
-- VFX `origin/main` revalidado: `9767f8a6bfe92b76140fbe49d19320d257e5dade`; inventário baseado nesse snapshot.
-- O pipeline observado tem prototypes HTML/Three.js apenas sob `prototypes/fighter/`; não foram encontrados assets Unreal/Niagara correspondentes. `sourceAsset: null` significa que nenhum asset executável foi evidenciado. Ícones e `docs/skills.json` não contam como VFX.
+- Base indicada: `3f2755de782b4b2f0f399709bc29c78949e48d11` (ancestral do HEAD revalidado). VFX `origin/main` final revalidado: `ff13b9f3b52758bbc1166246f8d2a50f37923016`; inventário baseado nesse snapshot.
+- O pipeline observado tem 23 prototypes HTML/Three.js activos apenas sob `prototypes/fighter/` (mais 2 revisions arquivadas); não foram encontrados assets Unreal/Niagara correspondentes. `sourceAsset: null` significa que nenhum asset executável foi evidenciado. Ícones e `docs/skills.json` não contam como VFX.
 - A matriz de contexto de execução do handoff foi preservada em cada linha no JSON para distinguir variants sem colapsar `formId`.
 
 ## Resumo
 
 | Estado | FormIds |
 |---|---:|
-| `EXISTING_EXACT` | 16 |
+| `EXISTING_EXACT` | 18 |
 | `EXISTING_SHARED` | 7 |
 | `NEEDS_SPLIT` | 0 |
 | `LEGACY_NAME_MATCH` | 0 |
-| `MISSING` | 113 |
+| `MISSING` | 111 |
 | `NOT_APPLICABLE` | 0 |
 
 Não existe `NEEDS_SPLIT` neste snapshot: os prototypes combinados auditados já declaram branches distintas, e os restantes casos sem implementação são `MISSING`. Isto não afirma equivalência mecânica entre branches.
@@ -30,7 +30,7 @@ Não existe `NEEDS_SPLIT` neste snapshot: os prototypes combinados auditados já
 - **Battlecry I / Challenge I**: um prototype, cristas de Battlecry e anel ancorado de Challenge; branches estão explícitas.
 - **Pressure I / Provoke I**: um prototype, trajecto reverso/contínuo distinto entre branches; sem split físico pendente.
 - **Rally I**: um FormId default servido por prototypes dedicados Warrior e Tank; ambas referências estão registadas na mesma entrada JSON.
-- **Shoulder Rush II Warrior/Tank** e **Piercing Strike II Warrior/Tank**: entradas distintas por FormId; os prototypes Shoulder Rush II são separados, Piercing Strike II não tem prototype no snapshot.
+- **Shoulder Rush II Warrior/Tank** e **Piercing Strike II Warrior/Tank**: entradas distintas por FormId; os prototypes Shoulder Rush II são separados, Piercing Strike II Warrior e Tank têm prototypes dedicados no snapshot `ff13b9f3b52758bbc1166246f8d2a50f37923016`. As duas variantes de Piercing Strike II reutilizam a estocada visual do I e acrescentam payoffs contextuais distintos em prototypes próprios.
 - As relações `sharedVisualBaseWith` para forms Scout/Mage/Mystic marcam reutilização candidata de motivo comum com resolução/contexto por FormId. Não declaram VFX existente.
 
 ## Aliases legacy
@@ -39,14 +39,34 @@ A coluna de identidade continua a usar `displayName` e `formId` do handoff. Alia
 
 | Nome legacy | Resolução no snapshot | FormId atual |
 |---|---|---|
-| Ambush | `NO_FORMID_IN_SNAPSHOT` | — |
-| Shroud Bomb | `PROVENANCE_ALIAS` | `scout.smoke-bomb-ii.default` |
-| Breaching Strike | `PROVENANCE_ALIAS` | `fighter.piercing-strike-ii.warrior`, `fighter.piercing-strike-ii.tank` |
-| Fire Ball | `NO_EXACT_FORMID_MATCH` | — |
-| Nightmare | `PROVENANCE_ALIAS` | `mystic.lullaby-ii.default` |
+| Blade Rush | `PROVENANCE_ALIAS` | `fighter.shoulder-rush-ii.warrior` |
+| Shield Rush | `PROVENANCE_ALIAS` | `fighter.shoulder-rush-ii.tank` |
+| Crushing Combo | `PROVENANCE_ALIAS` | `fighter.crushing-blow-ii.default` |
 | Chain Pull | `PROVENANCE_ALIAS` | `fighter.chains-ii.default` |
+| Breaching Strike | `PROVENANCE_ALIAS` | `fighter.piercing-strike-ii.warrior`, `fighter.piercing-strike-ii.tank` |
+| Battlerage | `PROVENANCE_ALIAS` | `fighter.battlecry-challenge-ii.warrior` |
+| Chain Challenge | `PROVENANCE_ALIAS` | `fighter.battlecry-challenge-ii.tank` |
+| Bloodlust | `PROVENANCE_ALIAS` | `fighter.rally-ii.warrior`, `fighter.rally-ii.tank` |
+| Inspiration | `PROVENANCE_ALIAS` | `fighter.rally-ii.warrior`, `fighter.rally-ii.tank` |
+| Sentence | `PROVENANCE_ALIAS` | `scout.exploit-weakness-ii.default` |
+| Ambush | `PROVENANCE_ALIAS` | `scout.backstab-ii.default` |
+| Entangle | `PROVENANCE_ALIAS` | `scout.vine-field-ii.default` |
+| Narrowing Volley | `PROVENANCE_ALIAS` | `scout.volley-ii.poison`, `scout.volley-ii.bleed` |
+| Executioner | `PROVENANCE_ALIAS` | `scout.exploit-weakness-iii.default` |
+| Shroud Bomb | `PROVENANCE_ALIAS` | `scout.smoke-bomb-ii.default` |
+| Sickness | `PROVENANCE_ALIAS` | `scout.poison-sac-hemorrhage-ii.poison`, `scout.poison-sac-hemorrhage-ii.bleed` |
+| Fire Ball | `PROVENANCE_ALIAS` | `mage.fire-bolt-ii.manifest`, `mage.fire-bolt-ii.weave` |
+| Permafrost | `PROVENANCE_ALIAS` | `mage.frost-lance-ii.manifest`, `mage.frost-lance-ii.weave` |
+| Conductive Lightning | `PROVENANCE_ALIAS` | `mage.static-bolt-ii.manifest`, `mage.static-bolt-ii.weave` |
+| Overcharge | `PROVENANCE_ALIAS` | `mage.mana-barrier-ii.default` |
+| Arcane Master | `PROVENANCE_ALIAS` | `mage.arcane-weaving-ii.default` |
+| Elemental Master | `PROVENANCE_ALIAS` | `mage.elemental-weaver-ii.default` |
+| Tick | `PROVENANCE_ALIAS` | `mystic.ether-ii.ally` |
+| Tack | `PROVENANCE_ALIAS` | `mystic.ether-ii.enemy` |
+| Nightmare | `PROVENANCE_ALIAS` | `mystic.lullaby-ii.default` |
+| White Hole | `PROVENANCE_ALIAS` | `mystic.black-hole-ii.default` |
 
-Para `Ambush` e `Fire Ball` não foi encontrada equivalência exacta entre os 136 FormIds e prototypes; não foi criado um alias presumido. `Shroud Bomb`, `Breaching Strike` e `Nightmare` são conservados apenas como provenance das identidades correntes listadas acima. `Chain Pull` era o título legacy no snapshot inicialmente observado; o título actual em `origin/main` é `Chains II Pull`, com identidade `Chains II`.
+Os nomes legacy desta tabela são provenance de identidade: cada um aponta para os FormIds actuais acima, sem alterar display name ou gameplay. Os prototypes usam os nomes correntes (excepto o rótulo descritivo `Chains II Pull`); as fichas e ícones com aliases não são VFX executáveis. A cobertura é dada pelo status individual de cada FormId.
 
 ## Performance e qualidade
 
@@ -81,8 +101,8 @@ A tabela seguinte tem exactamente uma linha por `formId`. Os detalhes de context
 | `fighter.rally-i.default` | Rally I | Fighter | `EXISTING_SHARED` | `prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html`, `prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html` | não | `fighter.rally-ii.tank`, `fighter.rally-ii.warrior` |
 | `fighter.severing-strike-iii.default` | Severing Strike III | Fighter | `EXISTING_EXACT` | `prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html` | não | — |
 | `fighter.chains-ii.default` | Chains II | Fighter | `EXISTING_EXACT` | `prototypes/fighter/chains-ii/chains-ii-vfx.html` | não | — |
-| `fighter.piercing-strike-ii.warrior` | Piercing Strike II — Warrior | Fighter | `MISSING` | — | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.tank` |
-| `fighter.piercing-strike-ii.tank` | Piercing Strike II — Tank | Fighter | `MISSING` | — | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.warrior` |
+| `fighter.piercing-strike-ii.warrior` | Piercing Strike II — Warrior | Fighter | `EXISTING_EXACT` | `prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html` | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.tank` |
+| `fighter.piercing-strike-ii.tank` | Piercing Strike II — Tank | Fighter | `EXISTING_EXACT` | `prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html` | não | `fighter.piercing-strike-i.default`, `fighter.piercing-strike-ii.warrior` |
 | `fighter.defiant-presence.default` | Defiant Presence | Fighter | `MISSING` | — | não | — |
 | `fighter.battlecry-challenge-ii.warrior` | Battlecry II — Warrior | Fighter | `MISSING` | — | não | — |
 | `fighter.battlecry-challenge-ii.tank` | Challenge II — Tank | Fighter | `MISSING` | — | não | — |
