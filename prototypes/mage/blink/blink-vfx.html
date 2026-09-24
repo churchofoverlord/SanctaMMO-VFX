@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Blink</span><span>0 — 2500 ms</span></div>
+    <div class="tl-head"><span>Timing do Blink</span><span>0 — 1800 ms</span></div>
   </div>
 
   <section class="budget">
@@ -464,7 +464,7 @@ const arcs = pool(new THREE.PlaneGeometry(2, 2, 40, 1), 128, { aO:3, aE:3, aT:1 
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vU;
     vec3 arcAt(float f){ float L = length(aE - aO); return mix(aO, aE, f) + vec3(0., min(.7, .14*L)*4.*f*(1. - f), 0.); }
     void main(){
-      float u = uTime - aT; if (u < 0. || u > ${(2*OUT + GAP + .95).toFixed(2)}){ ${HIDE} }
+      float u = uTime - aT; if (u < 0. || u > ${(OUT + GAP + .3).toFixed(2)}){ ${HIDE} }
       float s = position.x*.5 + .5;
       vec3 P = arcAt(s), T = normalize(arcAt(min(s + .01, 1.)) - arcAt(max(s - .01, 0.)));
       P += cross(T, vec3(0., 1., 0.))*.07*sin(s*23. + u*40.)*sin(3.14159*s);            // electric jitter
@@ -475,7 +475,7 @@ const arcs = pool(new THREE.PlaneGeometry(2, 2, 40, 1), 128, { aO:3, aE:3, aT:1 
   fragmentShader:`uniform vec3 uV, uBl, uW; varying float vS, vY, vU;
     void main(){
       float head = clamp((vU - ${OUT.toFixed(3)})/${GAP.toFixed(3)}, 0., 1.);                // leaves once the fade-out is complete, arrives as the fade-in starts
-      float tail = clamp((vU - ${(2*OUT + GAP + .35).toFixed(3)})/.6, 0., 1.);             // holds through the whole fade-in (+0.35 s), then retracts from the origin
+      float tail = clamp((vU - ${(OUT + GAP).toFixed(3)})/.25, 0., 1.);                    // as soon as it reaches the destination, retracts from the origin into it
       float alive = smoothstep(head + .02, head - .06, vS)*smoothstep(tail - .02, tail + .12, vS);
       float fl = .65 + .35*sin(vU*90. + vS*20.);
       float twist = sin(vS*40. - vU*14.)*.35;                                   // two strands twisting around the core
@@ -495,7 +495,7 @@ function blink(O, D, t0){
   const dx = D.x - O.x, dz = D.z - O.z, dn = Math.hypot(dx, dz) || 1, ux = dx/dn, uz = dz/dn;
   i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0); cuts.A.aD.setXY(i, ux, uz);
   i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP); cuts.A.aK.setX(i, 1); cuts.A.aD.setXY(i, ux, uz); cuts.track(t0 + 2*OUT + GAP, 2);
-  i = arcs.next(); arcs.A.aO.setXYZ(i, O.x, 2.0, O.z); arcs.A.aE.setXYZ(i, D.x, 2.0, D.z); arcs.A.aT.setX(i, t0); arcs.track(t0 + 2*OUT + GAP + .95, 1);   // head to head: the cut rises into the beam, the beam descends into the reveal
+  i = arcs.next(); arcs.A.aO.setXYZ(i, O.x, 2.0, O.z); arcs.A.aE.setXYZ(i, D.x, 2.0, D.z); arcs.A.aT.setX(i, t0); arcs.track(t0 + OUT + GAP + .3, 1);   // head to head: the cut rises into the beam, the beam descends into the reveal
   castLog.push(t0 + OUT + GAP + .87);
 }
 
@@ -560,12 +560,11 @@ const PHASES = [
   ['Origem: anel pisca e fecha', 0, 870, 0x9b5cff],
   ['Origem: linha roxa sobe pés → cabeça', 0, 670, 0xe6dcff],
   ['Invisível (12 frames) · beam viaja cabeça → cabeça', 670, 870, 0x9b5cff],
-  ['Beam segura durante o fade-in (+0,35 s)', 870, 1890, 0x9b5cff],
   ['Destino: linha roxa desce cabeça → pés', 870, 1540, 0xe6dcff],
   ['Destino: anel abre', 870, 1740, 0x4a7bff],
-  ['Beam recolhe a partir da origem', 1890, 2490, 0x4a7bff],
+  ['Beam recolhe para o destino ao chegar', 870, 1120, 0x4a7bff],
 ];
-const TOTAL = 2500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
