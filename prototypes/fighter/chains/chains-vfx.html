@@ -142,8 +142,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Corrente (elos 3D)</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~17–25</td><td>Uma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Aditivo, com o brilho no contorno dos elos (aura, não metal). Em Baixo os elos ficam mais espaçados</td></tr>
-          <tr><td>Aura ao longo da corrente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma faixa suave virada para a câmara por corrente, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
+          <tr><td>Corrente (elos 3D)</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~34–50</td><td>Duas correntes (uma por mão), mesma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Aditivo, com o brilho no contorno dos elos (aura, não metal). Em Baixo os elos ficam mais espaçados</td></tr>
+          <tr><td>Aura ao longo da corrente</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Duas faixas suaves (uma por corrente) viradas para a câmara, na mesma draw call, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
           <tr><td>Ancoragem no chão</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. Um quad no chão: anel que fecha em 60 ms com 4 estacas para dentro, 0,45 s</td></tr>
           <tr><td>Faíscas no gancho</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>GPU, para trás ao longo da corrente</td></tr>
           <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Fighters</td></tr>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Corrente de energia</h3><p>Elos finos de luz dourada, alternados a 90°, com o brilho no contorno e uma aura suave ao longo da corrente, no mesmo registo das outras skills. Depois de uma preparação de 260 ms, sai devagar da mão e acelera até ao alvo, com um chicote ligeiro; os elos da frente vão mais quentes.</p></div>
+    <div><h3>Corrente de energia</h3><p>Duas correntes, uma de cada mão, que convergem no alvo. Elos finos de luz dourada, alternados a 90°, com o brilho no contorno e uma aura suave ao longo da corrente, no mesmo registo das outras skills. Depois de uma preparação de 260 ms, sai devagar da mão e acelera até ao alvo, com um chicote ligeiro; os elos da frente vão mais quentes.</p></div>
     <div><h3>Ancoragem</h3><p>No primeiro alvo válido: hit stop de 2 frames, a corrente estica rígida com um único estremeção e uma onda de calor volta do alvo à mão. No chão, um anel fecha-se com quatro estacas (0,45 s). O Root que fica no alvo é do cue de status.</p></div>
     <div><h3>Fim e falha</h3><p>Com hit, segura esticada 0,45 s e dissolve a partir da mão; o gancho no alvo é o último a desaparecer. Sem alvo, chega aos 6,5 m e recolhe, sem ancoragem.</p></div>
   </section>
@@ -566,29 +566,34 @@ const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function chain(O, yaw, tier, t0, targets){
   const T = TIER[tier], fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
-  const H = V3(O.x + rx*.32 + fx*.35, 1.22, O.z + rz*.32 + fz*.35);
   let tg = null, best = 1e9;                                   // first valid target on the narrow line
   for (const d of targets || []){
     const dx = d.p.x - O.x, dz = d.p.z - O.z, along = dx*fx + dz*fz, off = Math.abs(dx*fz - dz*fx);
     if (along > .5 && along < LMAX && off < .45 && along < best){ best = along; tg = d; }
   }
-  const E = tg ? V3(tg.p.x - fx*.2, 1.15, tg.p.z - fz*.2) : V3(H.x + fx*LMAX, 1.05, H.z + fz*LMAX);
-  const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = travel(L), hit = tg ? 1 : 0;
-  for (let i=0;i<n;i++){
-    const j = links.next();
-    links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, hit, i, T.SP); links.A.aT.setX(j, t0);
+  const hit = tg ? 1 : 0;
+  let tEnd = 0, th = 1e9, Ec = null;
+  for (const side of [1, -1]){                                 // one chain from each hand, converging on the same target
+    const H = V3(O.x + rx*.34*side + fx*.3, 1.2, O.z + rz*.34*side + fz*.3);
+    const E = tg ? V3(tg.p.x - fx*.2 + rx*.07*side, 1.15 + .04*side, tg.p.z - fz*.2 + rz*.07*side)
+                 : V3(H.x + fx*LMAX, 1.05, H.z + fz*LMAX);
+    const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = travel(L), end = t0 + WIND + tR + (hit ? HOLD + DIS : L/VR);
+    for (let i=0;i<n;i++){
+      const j = links.next();
+      links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, hit, i, T.SP); links.A.aT.setX(j, t0);
+    }
+    links.track(end, n);
+    const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hit); haze.A.aT.setX(h, t0);
+    haze.track(end, 1);
+    tEnd = Math.max(tEnd, end); th = Math.min(th, t0 + WIND + tR); Ec = E;
   }
-  links.track(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR), n);
-  { const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hit); haze.A.aT.setX(h, t0);
-    haze.track(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR), 1); }
-  castLog.push(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR));
+  castLog.push(tEnd);
   if (!tg) return -1;
-  const th = t0 + WIND + tR;
   tg.hitAt = th;
   let k = anchors.next(); anchors.A.aO.setXYZ(k, tg.p.x, 0, tg.p.z); anchors.A.aT.setX(k, th); anchors.track(th + ANCH, 1);
   for (let m=0;m<T.sp;m++){
     const j = sparks.next();
-    sparks.A.aO.setXYZ(j, E.x, E.y + rand(-.06,.06), E.z);
+    sparks.A.aO.setXYZ(j, Ec.x - rx*.07, Ec.y + rand(-.08,.08), Ec.z - rz*.07);
     sparks.A.aV.setXYZ(j, -fx*rand(1.5,3.5) + rand(-1.4,1.4), rand(.6,2.2), -fz*rand(1.5,3.5) + rand(-1.4,1.4));
     sparks.A.aT.setXY(j, th, rand(.2,.35));
   }
@@ -699,7 +704,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = 1.25, pitch = .34, dist = 7.4, drag = null;   // side view so the chain reads along its length
+let yaw = .62, pitch = .42, dist = 7.2, drag = null;   // 3/4 from behind: both chains read, leaving each hand and converging
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -743,9 +748,10 @@ function frame(now){
   // throw: twist back, whip forward along the chain; hit stop holds the pose 2 frames on contact, then leans back against the taut chain
   const ta = hitRel > 0 && dtc > hitRel ? Math.max(hitRel, dtc - 2/60) : dtc;
   let ry = 0, lx = 0, lz = 0;
-  if (ta >= 0 && ta < WIND){ const k = ta/WIND; ry = .45*k; lx = -.06*k; }
-  else if (ta >= WIND && ta < WIND + .12){ const k = easeOutCubic((ta - WIND)/.12); ry = .45 - .7*k; lx = -.06 + .16*k; lz = -.12*k; }
-  else if (ta >= WIND + .12 && ta < 1.2){ const k = easeOutCubic((ta - WIND - .12)/(1.08 - WIND)); ry = -.25*(1 - k); lx = .1*(1 - k); lz = -.12*(1 - k);
+  // two-handed: draw both arms back, then thrust forward (no twist — both chains leave together)
+  if (ta >= 0 && ta < WIND){ const k = ta/WIND; lx = -.1*k; lz = .07*k; }
+  else if (ta >= WIND && ta < WIND + .12){ const k = easeOutCubic((ta - WIND)/.12); lx = -.1 + .24*k; lz = .07 - .21*k; }
+  else if (ta >= WIND + .12 && ta < 1.6){ const k = easeOutCubic((ta - WIND - .12)/(1.48 - WIND)); lx = .14*(1 - k); lz = -.14*(1 - k);
     if (hitRel > 0 && ta > hitRel && ta < hitRel + HOLD){ const h = (ta - hitRel)/HOLD; lx -= .12*Math.sin(h*3.14159); } }
   body.rotation.y = ry; body.rotation.x = lx; body.position.z = lz; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
