@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Linha perfurante</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad alinhado ao eixo do golpe e virado para a câmara; forma de lança no shader</td></tr>
-          <tr><td>Impacto + cue de Slow</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">1/alvo</td><td>Estrela de impacto (billboard) e anel breve de Slow no chão do alvo (Local Space)</td></tr>
+          <tr><td>Impacto</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Estrela de impacto pequena (billboard) no alvo atravessado</td></tr>
           <tr><td>Faíscas</td><td class="n">4/alvo</td><td class="n">4/alvo</td><td class="n">2/alvo</td><td class="n">0</td><td>GPU, no sentido da estocada</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
@@ -152,8 +152,8 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Uma linha, lida de frente</h3><p>A estocada desenha-se para a frente em 80 ms, segura e apaga a partir do Fighter; a ponta é a última a desaparecer. Fina na origem, mais grossa perto da frente, ponta afiada.</p></div>
-    <div><h3>Atravessa</h3><p>Cada alvo é atingido quando a ponta passa por ele: impacto pequeno, poucas faíscas para a frente, e só aí o cue de Slow.</p></div>
-    <div><h3>Slow ≠ skill</h3><p>O anel no chão é só o momento de aplicação (~0,5 s). O estado Slow que se mantém pertence ao cue de status partilhado.</p></div>
+    <div><h3>Atravessa</h3><p>Cada alvo é atingido quando a ponta passa por ele: impacto pequeno e poucas faíscas para a frente.</p></div>
+    <div><h3>Skill ≠ status</h3><p>O Slow aplicado aos alvos é VFX do cue de status partilhado (<code>GameplayCue.Status.Slow</code>), não desta skill.</p></div>
   </section>
 </div>
 
@@ -528,8 +528,7 @@ function thrust(O, yaw, tier, t0, targets){
     tg.hitAt = hitT;
     const hp = V3(tg.p.x - fx*.2, 1.12, tg.p.z - fz*.2);
     let k = hits.next(); hits.A.aO.setXYZ(k, hp.x, hp.y, hp.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 0);
-    if (T.slow){ k = hits.next(); hits.A.aO.setXYZ(k, tg.p.x, 0, tg.p.z); hits.A.aT.setX(k, hitT + .03); hits.A.aK.setX(k, 1); }
-    hits.track(hitT + .6, T.slow ? 2 : 1);
+    hits.track(hitT + .15, 1);                          // the Slow itself is shown by the status cue
     for (let n=0;n<T.sp;n++){
       const j = sparks.next();
       sparks.A.aO.setXYZ(j, hp.x, hp.y + rand(-.08,.08), hp.z);
@@ -615,7 +614,6 @@ const PHASES = [
   ['Apaga a partir do Fighter (ponta por último)', 300, 800, 0xff7a1a],
   ['Impacto nos alvos atravessados', 110, 310, 0xfff0d2],
   ['Faíscas (GPU)', 110, 550, 0xf2b53a],
-  ['Cue de Slow no chão do alvo', 140, 720, 0xc9a0ff],
 ];
 const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
