@@ -113,7 +113,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~3,8 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~4,6 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tValid" checked><span>Alvo válido no fim do delay<small>sem isto, a estrela apaga-se sem Heal</small></span></label>
         <label class="tg"><input type="checkbox" id="tMove" checked><span>Aliado a mover-se<small>a estrela acompanha-o (Local Space)</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>casts de outros Mystics</small></span></label>
@@ -134,7 +134,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do cast</span><span>0 — 3500 ms</span></div>
+    <div class="tl-head"><span>Timing do cast</span><span>0 — 4300 ms</span></div>
   </div>
 
   <section class="budget">
@@ -143,9 +143,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Raio astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela desce do céu numa curva (0,45 s) com um rasto de 3 fios curvos (ícone), fita de 16 segmentos virada para a câmara; trajetória na GPU</td></tr>
+          <tr><td>Raio astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela desce do céu numa curva (0,9 s) com um rasto de 3 fios curvos (ícone), fita de 16 segmentos virada para a câmara; trajetória na GPU</td></tr>
           <tr><td>Estrela no aliado</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard por cima da cabeça, preso ao aliado (Local Space); estrela de 4 pontas + anel fino que se esvazia como relógio durante o delay fixo</td></tr>
-          <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Só se o alvo ainda for válido: a estrela cai no aliado, o anel abre nos pés e a luz sobe (0,8 s). Se não for válido, a estrela apaga-se em 0,35 s e não há Heal</td></tr>
+          <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Só se o alvo ainda for válido: quando o relógio fecha, a estrela desfaz-se por cima da cabeça num pequeno chuveiro de estrelas pequeninas que cai sobre o aliado (16 estrelas desenhadas num só quad, 1 s) e um anel ténue abre nos pés quando chegam ao chão. Se não for válido, a estrela apaga-se em 0,35 s e não há Heal</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Estrela, rasto e Heal partilhados por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
         </tbody>
       </table>
@@ -154,7 +154,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Raio do céu, como no ícone</h3><p>A estrela chega do alto numa curva larga, com três fios de luz atrás. Sem pathfinding: chega ao aliado e fica com ele.</p></div>
-    <div><h3>Delay fixo legível</h3><p>Por cima da cabeça do aliado, a estrela acompanha-o enquanto o anel à volta se esvazia como um relógio. Quando fecha, resolve.</p></div>
+    <div><h3>Delay fixo legível</h3><p>Por cima da cabeça do aliado, a estrela acompanha-o enquanto o anel à volta se esvazia como um relógio. Quando fecha, a estrela desfaz-se num pequeno chuveiro de estrelas que cai sobre o aliado.</p></div>
     <div><h3>Heal condicional</h3><p>O Heal só aparece se a vida/encarnação original ainda for válida. Senão a estrela apaga-se em silêncio. O Cosmic Ray II não muda o visual: cada charge tem a sua própria estrela.</p></div>
   </section>
 </div>
@@ -417,7 +417,7 @@ const ptsScale = { value:600 };
 const uGold = { value:lin(0xffe6b0) }, uOrange = { value:lin(0xf5a524) };   // orange-gold (main) + pale gold (hot)
 const uAlly = { value:new THREE.Vector3(0, 0, -6) };                          // the ally's root: the star rides it (Local Space in UE)
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const WIND = .1, DESC = .45, DELAY = 2.0, HEAL = .8;                          // cast, ray descent, fixed delay (example), heal
+const WIND = .1, DESC = .9, DELAY = 2.0, HEAL = 1.2;   /* ray at half speed */                          // cast, ray descent, fixed delay (example), heal
 const F2 = x => x.toFixed(3);
 // path: from high in the sky, a wide curve onto the manifestation point above the ally's head (all relative to the anchor)
 const PATH = `vec3 anc(vec3 o, float at){ return at > .5 ? uAlly : o; }
@@ -440,8 +440,8 @@ const stars = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:2, aF:2 }, addM
         sz = .4*(1. + .35*exp(-m*9.)); vPk = m < .033 ? 2.2 : 1. + .8*exp(-m*8.); vPh = 1.; }
       vClock = clamp(1. - (u - ${F2(DESC)})/${F2(DELAY)}, 0., 1.);
       if (r >= 0.){
-        if (aF.y > .5){ float k = clamp(r/.15, 0., 1.); if (r > .15){ ${HIDE} }
-          p = mix(p, A + vec3(0., 1.25, 0.), k*k); sz *= 1. - .6*k; vPk = 1. + 1.5*k; }
+        if (aF.y > .5){ float k = clamp(r/.2, 0., 1.); if (r > .2){ ${HIDE} }
+          sz *= 1. - k*k; vPk = 1. + 1.2*(1. - k); }
         else { if (r > .35){ ${HIDE} } a = 1. - r/.35; a *= a; sz *= 1. - .25*r/.35; }
       }
       vA = a;
@@ -484,36 +484,42 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 16, 1), 256, { aO:3, aT:2, aF:
       vec3 o = (uOrange*lum*.5 + mix(uGold, vec3(1.), .4)*hot*.35)*vF*(1. - smoothstep(.8, 1., abs(vY)));
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 
-// Layer 3 — Heal resolve (only when valid): 0 ground ring that opens · 1 upright column of light rising (Y-dominant)
-const RL = HEAL;
-const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
-    void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
+// Layer 3 — Heal resolve (only when valid): 0 ground ring that opens when the shower lands ·
+// 1 a small shower of tiny stars falling from above the head over the body (one upright quad, stars drawn in the shader,
+//   Y-dominant, only turned about Y to the camera). aA = attached to the moving ally (Local Space).
+const SH = 1.0, RG = .7;                                  // shower life, ring life
+const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aA:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange, uAlly },
+  vertexShader:`attribute vec3 aO; attribute float aT, aK, aA; uniform float uTime; uniform vec3 uAlly; varying vec2 vP; varying float vU, vK;
+    void main(){ float u = uTime - aT; if (u < 0. || u > (aK < .5 ? ${F2(RG)} : ${F2(SH)})){ ${HIDE} }
+      vec3 O = aA > .5 ? uAlly : aO;
       vU = u; vK = aK; vP = position.xy;
-      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
-      else { vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }
+      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(O + vec3(position.x*S, .03, -position.y*S), 1.); }
+      else { vec3 f = cameraPosition - O; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
+        vP = vec2(position.x*.7, (position.y*.5 + .5)*2.5);                 /* metres: x across, y up from the feet */
+        gl_Position = projectionMatrix*viewMatrix*vec4(O + rt*vP.x + vec3(0., vP.y, 0.), 1.); }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
     void main(){
-      float lum = 0., hot = 0., t = vU/${RL.toFixed(2)};
+      float lum = 0., hot = 0.;
       if (vK < .5){
-        float r = length(vP), e = 1. - pow(1. - clamp(vU/.35, 0., 1.), 3.), R = .2 + .6*e, f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.55, 1., t));
-        lum += exp(-pow(abs(r - R)/.016, 2.4))*f; hot += lcore(r - R, .005)*f*.6;
+        float t = vU/${F2(RG)}, r = length(vP), e = 1. - pow(1. - clamp(vU/.35, 0., 1.), 3.), R = .2 + .55*e, f = .7*(1. - smoothstep(.5, 1., t));
+        lum += exp(-pow(abs(r - R)/.014, 2.4))*f; hot += lcore(r - R, .005)*f*.5;
         lum *= smoothstep(.95, .85, r); hot *= smoothstep(.95, .85, r);
       } else {
-        float x = vP.x, y = vP.y*.5 + .5, f = 1. - smoothstep(.5, 1., t);
-        for (int i=0;i<6;i++){
-          float fi = float(i), ox = (h1(fi) - .5)*1.1*(.4 + .6*y), dl = h1(fi + 3.)*.12;
-          float kk = 1. - pow(1. - clamp((vU - dl)/.55, 0., 1.), 3.), head = kk*1.05, tail = head - .35;
-          lum += exp(-pow((x - ox)/.03, 2.))*smoothstep(tail, tail + .2, y)*smoothstep(head + .02, head - .1, y)*(.6 + .4*h1(fi + 9.));
-          vec2 sp = vec2(x - ox*.8, y - head*.9);
-          float sa = atan(sp.y, sp.x), sr = length(sp*vec2(1., 2.3));
-          lum += pow(abs(cos(sa*2.)), 12.)*exp(-sr*40.)*.8;
+        // tiny 4-point stars fall from the head (2.25 m), spreading a little as they drop, twinkling, gone before the feet
+        for (int i=0;i<16;i++){
+          float fi = float(i), d = h1(fi)*.35, t = vU - d;
+          if (t < 0. || t > .65) continue;
+          float x0 = (h1(fi + 3.) - .5)*.3, x = x0*(1. + t*2.2) + (h1(fi + 7.) - .5)*.25*t;
+          float y = 2.2 - (1.1*t + 2.*t*t), sz = .065 + .035*h1(fi + 11.);
+          vec2 q = vP - vec2(x, y); float r = length(q), a = atan(q.y, q.x);
+          float tw = .65 + .35*sin(vU*30. + fi*2.3), life = sin(3.14159*clamp(t/.65, 0., 1.));
+          float st = pow(abs(cos(a*2.)), 14.)*exp(-r/sz*1.6) + exp(-r*r/(sz*sz*.08));
+          lum += st*tw*life*1.4; hot += 1.3*exp(-r*r/(sz*sz*.03))*tw*life;
         }
-        lum *= f*smoothstep(1., .75, abs(x))*smoothstep(1., .85, y); hot = lum*.3;
+        lum *= smoothstep(.1, .5, vP.y)*smoothstep(.7, .55, abs(vP.x)); hot *= smoothstep(.1, .5, vP.y)*smoothstep(.7, .55, abs(vP.x));
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
       if (max(o.r, max(o.g, o.b)) < .002) discard;
@@ -533,9 +539,10 @@ function cast(anchor, attached, tier, t0, valid){
 function resolve(p){                                   // Heal only if the original life/incarnation is still valid
   if (!p.valid) return;
   const G = p.attached ? uAlly.value : p.anchor;
-  const kinds = p.tier > 0 ? [0, 1] : [1];
-  for (const kk of kinds){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, p.t + .15); rings.A.aK.setX(k, kk); rings.track(p.t + .15 + RL, 1); }
-  if (p.attached) dummy.hitAt = p.t + .15;
+  const kinds = p.tier > 0 ? [1, 0] : [1];
+  for (const kk of kinds){ const k = rings.next(), t = p.t + (kk ? 0 : .5); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, t); rings.A.aK.setX(k, kk); rings.A.aA.setX(k, p.attached ? 1 : 0);
+    rings.track(t + (kk ? SH : RG), 1); }
+  if (p.attached) dummy.hitAt = p.t + .5;
 }
 
 // ============ post ============
@@ -607,12 +614,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Raio desce do céu em curva', 100, 550, 0xf5a524],
-  ['Estrela no aliado (delay fixo 2 s)', 550, 2550, 0xf5a524],
-  ['Estrela cai no aliado (se válido)', 2550, 2700, 0xffe6b0],
-  ['Heal: anel + luz sobe', 2700, 3500, 0xffe6b0],
+  ['Raio desce do céu em curva (metade da velocidade)', 100, 1000, 0xf5a524],
+  ['Estrela no aliado (delay fixo 2 s)', 1000, 3000, 0xf5a524],
+  ['Chuveiro de estrelas (se válido)', 3000, 4000, 0xffe6b0],
+  ['Anel ténue nos pés', 3500, 4200, 0xf5a524],
 ];
-const TOTAL = 3500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 4300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -663,7 +670,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 3.8) localCast(); }
+  if (tLoop.checked){ idle += dt; if (idle > 4.6) localCast(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
