@@ -425,26 +425,26 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 40, 1), 96, { aO:3, aD:3, aT:1
   vertexShader:`attribute vec3 aO, aD; attribute float aT; uniform float uTime; varying float vS, vY, vU;
     vec3 arc(float s){ return mix(aO, aD, s) + vec3(0., ${HOP.toFixed(2)}*4.*s*(1. - s) + 1.0, 0.); }
     void main(){
-      float u = uTime - aT - ${CH.toFixed(2)}; if (u < 0. || u > ${(LEAP + .6).toFixed(2)}){ ${HIDE} }
+      float u = uTime - aT - ${CH.toFixed(2)}; if (u < 0. || u > ${(LEAP + 1.).toFixed(2)}){ ${HIDE} }
       float s = position.x*.5 + .5;
       vec3 P = arc(s), T = normalize(arc(min(s + .01, 1.)) - arc(max(s - .01, 0.)));
       vec3 side = normalize(cross(T, P - cameraPosition));
-      float W = .2;
+      float W = .5;
       vS = s; vY = position.y*W; vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vU; ${STROKE}
     void main(){
       float s = vS, head = clamp(vU/${LEAP.toFixed(2)}, 0., 1.);                 // where the Fighter is on the arc
-      float wipe = max(vU - ${(LEAP + .05).toFixed(2)}, 0.)/.45;                  // after landing, fades from the take-off point
+      float wipe = max(vU - ${(LEAP + .2).toFixed(2)}, 0.)/.6;                    // holds after landing, then fades from the take-off point
       float alive = smoothstep(head + .01, head - .1, s)*smoothstep(wipe - .05, wipe + .25, s);
       float prof = sin(3.14159*clamp(s/max(head, .05), 0., 1.));                // thin at take-off and at the body, fullest mid-arc
-      float w = (.004 + .05*pow(prof, 1.2));
+      float w = (.008 + .12*pow(prof, 1.2));                                       // wide stroke, fullest mid-arc
       float d = abs(vY);
-      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
-      float fade = 1. - smoothstep(${(LEAP + .35).toFixed(2)}, ${(LEAP + .6).toFixed(2)}, vU);
+      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.3), aura = exp(-pow(d/(w*2.6), 2.))*.18*smoothstep(.5, .32, d);   // soft aura, zero before the strip edge
+      float fade = 1. - smoothstep(${(LEAP + .7).toFixed(2)}, ${(LEAP + 1.).toFixed(2)}, vU);
       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
-      vec3 outc = (col*band*(.5 + .4*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.5*prof)*alive*fade*pow(prof, .7);
+      vec3 outc = (col*(band*(.55 + .45*prof) + aura) + mix(uGold, vec3(1., .96, .88), .6)*core*.55*prof)*alive*fade*pow(prof, .7);
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
@@ -557,7 +557,7 @@ const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function leap(O, c, tier, t0, targets){                     // O: take-off point, c: landing point (both on the ground)
   const T = TIER[tier], ti = t0 + WIND;
-  let i = trails.next(); trails.A.aO.setXYZ(i, O.x, 0, O.z); trails.A.aD.setXYZ(i, c.x, 0, c.z); trails.A.aT.setX(i, t0); trails.track(t0 + CH + LEAP + .6, 1);
+  let i = trails.next(); trails.A.aO.setXYZ(i, O.x, 0, O.z); trails.A.aD.setXYZ(i, c.x, 0, c.z); trails.A.aT.setX(i, t0); trails.track(t0 + CH + LEAP + 1., 1);
   i = grounds.next(); grounds.A.aO.setXYZ(i, c.x, 0, c.z); grounds.A.aT.setX(i, t0); grounds.track(t0 + WIND + .75, 1);
   if (T.bolt){ i = bolts.next(); bolts.A.aO.setXYZ(i, c.x, 0, c.z); bolts.A.aT.setX(i, t0); bolts.track(ti + .26, 1); }
   for (let n=0;n<T.deb;n++){
@@ -646,7 +646,7 @@ const PHASES = [
   ['Decalque de destino desenha-se', 40, 450, 0xf2b53a],
   ['Decalque estático até aterrar', 450, 1000, 0x6b5a3a],
   ['Salto · rasto cresce com o Fighter', 450, 1000, 0xfff0d2],
-  ['Rasto apaga a partir da descolagem', 1050, 1600, 0xff7a1a],
+  ['Rasto segura e apaga a partir da descolagem', 1000, 2000, 0xff7a1a],
   ['Aterragem · squash + pico (2 frames)', 1000, 1033, 0xffffff],
   ['Onda de choque + rachas', 1000, 1580, 0xc9a0ff],
   ['Fragmentos de terreno (GPU)', 1000, 2000, 0x8f8a82],
