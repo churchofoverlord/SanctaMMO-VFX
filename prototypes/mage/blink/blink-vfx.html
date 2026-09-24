@@ -142,17 +142,18 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Quads no chão com sigilo: o da origem fecha, o do destino abre; 0,84 s cada</td></tr>
-          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Faixa fina que acompanha o plano de corte da malha (origem e destino), 240 ms</td></tr>
+          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Linha vertical fina que varre a silhueta de lado, na direção do Blink (origem e destino), 240 ms</td></tr>
+          <tr><td>Arco de energia</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Faixa fina em arco, peito a peito, com tremor elétrico; desenha-se da origem ao destino e recolhe a partir da origem</td></tr>
           <tr><td>Clip plane na malha</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um plano de corte no material do Mage; sem geometria extra</td></tr>
-          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Partilhadas por todos os Mages; nada entre os dois pontos</td></tr>
+          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Dois pontos</h3><p>Lê-se como origem e destino: um anel com sigilo pisca e fecha onde o Mage estava, e outro abre onde aparece. Nada entre os dois: sem rasto nem fumo, para não parecer um Dash.</p></div>
-    <div><h3>Fecha antes de abrir</h3><p>Um plano de corte apaga a silhueta dos pés à cabeça em 240 ms na origem, com uma linha violeta a acompanhar o corte; 2 frames invisível; depois a silhueta abre no destino do mesmo modo.</p></div>
+    <div><h3>Dois pontos ligados</h3><p>Um anel com sigilo pisca e fecha onde o Mage estava e outro abre onde aparece. Um arco fino de energia liga os dois: desenha-se da origem até ao destino e recolhe logo a seguir.</p></div>
+    <div><h3>Corte na horizontal</h3><p>Um plano de corte apaga a silhueta de lado, na direção do Blink, com uma linha violeta vertical a acompanhar; o lado virado para o destino é o último a desaparecer. 2 frames invisível; no destino abre do lado virado para a origem.</p></div>
     <div><h3>Âncora parada</h3><p>O boneco ao lado é só referência e não se mexe; o loop vai e volta entre os dois pontos. O Blink não cancela o Cast/Channel (lógica de jogo, não VFX).</p></div>
   </section>
 </div>
@@ -440,17 +441,46 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addM
 
 // Layer 2 — clip edge glow on the caster: a thin horizontal band that runs with the clip plane (up at the origin as the body
 // closes, up at the destination as it opens). One billboard strip per cut, 2 per Blink.
-const cuts = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
+const HW = .62;                                             // half-width of the silhouette swept by the cut (m)
+const cuts = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1, aD:2 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uV, uW },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vF;
+  vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec2 aD; uniform float uTime; varying vec2 vP; varying float vF;
     void main(){ float u = uTime - aT, k = clamp(u/${OUT.toFixed(2)}, 0., 1.); if (u < 0. || u > ${OUT.toFixed(2)}){ ${HIDE} }
-      float y = mix(0., 1.95, k);                                             // both cuts sweep feet → head
-      vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
-      vec3 P = aO + vec3(0., y, 0.) + rt*position.x*.5 + vec3(0., position.y*.05, 0.);
+      float e = aK < .5 ? k*k : 1. - (1. - k)*(1. - k);
+      vec3 d = vec3(aD.x, 0., aD.y), C = aO + d*mix(-${HW.toFixed(2)}, ${HW.toFixed(2)}, e);   // the cut moves sideways, towards the destination
+      vec3 f = cameraPosition - C; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
+      vec3 P = C + rt*position.x*.05 + vec3(0., (position.y*.5 + .5)*2.05, 0.);   // a thin vertical line, body height
       vP = position.xy; vF = 1. - k*.3; gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.); }`,
   fragmentShader:`uniform vec3 uV, uW; varying vec2 vP; varying float vF;
-    void main(){ float b = exp(-vP.y*vP.y*4.)*smoothstep(1., .5, abs(vP.x)), c = exp(-vP.y*vP.y*25.)*smoothstep(1., .3, abs(vP.x));
+    void main(){ float y = vP.y*.5 + .5, ends = smoothstep(0., .12, y)*smoothstep(1., .85, y);
+      float b = exp(-vP.x*vP.x*4.)*ends, c = exp(-vP.x*vP.x*25.)*ends;
       vec3 o = (uV*b + uW*c)*vF*1.4; if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+
+// Layer 3 — energy arc linking origin and destination: a thin ribbon over an arc (chest to chest), drawn from the origin while the
+// silhouette closes, held while the Mage reopens, then retracted from the origin. Flickering, electric-looking core.
+const arcs = pool(new THREE.PlaneGeometry(2, 2, 40, 1), 128, { aO:3, aE:3, aT:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uV, uBl, uW },
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vU;
+    vec3 arcAt(float f){ float L = length(aE - aO); return mix(aO, aE, f) + vec3(0., min(1.4, .28*L)*4.*f*(1. - f), 0.); }
+    void main(){
+      float u = uTime - aT; if (u < 0. || u > ${(2*OUT + GAP + .35).toFixed(2)}){ ${HIDE} }
+      float s = position.x*.5 + .5;
+      vec3 P = arcAt(s), T = normalize(arcAt(min(s + .01, 1.)) - arcAt(max(s - .01, 0.)));
+      P += cross(T, vec3(0., 1., 0.))*.05*sin(s*31. + u*60.)*sin(3.14159*s);            // electric jitter
+      vec3 side = normalize(cross(T, P - cameraPosition));
+      vS = s; vY = position.y; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.09, 1.);
+    }`,
+  fragmentShader:`uniform vec3 uV, uBl, uW; varying float vS, vY, vU;
+    void main(){
+      float head = clamp(vU/${(OUT + GAP).toFixed(3)}, 0., 1.);                              // reaches the destination as the Mage reappears
+      float tail = clamp((vU - ${(2*OUT + GAP).toFixed(3)})/.35, 0., 1.);                   // then retracts from the origin
+      float alive = smoothstep(head + .02, head - .06, vS)*smoothstep(tail - .02, tail + .12, vS);
+      float fl = .65 + .35*sin(vU*90. + vS*20.);
+      float band = exp(-vY*vY*9.), core = exp(-vY*vY*70.);
+      vec3 o = (uBl*band*.35 + uV*band*.4 + uW*core*.9*fl)*alive*pow(sin(3.14159*vS), .35);
+      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
+    }` }));
 
 // ============ spawning (CPU work only at cast time) ============
 const TIER = { 3:{}, 2:{}, 1:{}, 0:{} };
@@ -459,8 +489,10 @@ const castLog = [];
 function blink(O, D, t0){
   let i = rings.next(); rings.A.aO.setXYZ(i, O.x, 0, O.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, 0);
   i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, t0 + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(t0 + OUT + GAP + .84, 2);
-  i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0);
-  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP); cuts.A.aK.setX(i, 1); cuts.track(t0 + 2*OUT + GAP, 2);
+  const dx = D.x - O.x, dz = D.z - O.z, dn = Math.hypot(dx, dz) || 1, ux = dx/dn, uz = dz/dn;
+  i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0); cuts.A.aD.setXY(i, ux, uz);
+  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP); cuts.A.aK.setX(i, 1); cuts.A.aD.setXY(i, ux, uz); cuts.track(t0 + 2*OUT + GAP, 2);
+  i = arcs.next(); arcs.A.aO.setXYZ(i, O.x, 1.15, O.z); arcs.A.aE.setXYZ(i, D.x, 1.15, D.z); arcs.A.aT.setX(i, t0); arcs.track(t0 + 2*OUT + GAP + .35, 1);
   castLog.push(t0 + OUT + GAP + .84);
 }
 
@@ -523,9 +555,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Origem: anel pisca e fecha', 0, 840, 0x9b5cff],
-  ['Silhueta fecha (clip, pés → cabeça)', 0, 240, 0xe6dcff],
+  ['Silhueta fecha na horizontal (clip lateral)', 0, 240, 0xe6dcff],
+  ['Arco de energia origem → destino', 0, 513, 0x9b5cff],
+  ['Arco recolhe a partir da origem', 513, 863, 0x4a7bff],
   ['Invisível (2 frames)', 240, 273, 0x2a2440],
-  ['Destino: silhueta abre (clip, pés → cabeça)', 273, 513, 0xe6dcff],
+  ['Destino: silhueta abre na horizontal', 273, 513, 0xe6dcff],
   ['Destino: anel abre', 273, 1113, 0x4a7bff],
 ];
 const TOTAL = 1200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -543,6 +577,7 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = fals
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
 let START = V3(0, 0, 0), LAND = V3(1.2, 0, -DIST);
 let from = START.clone(), to = LAND.clone();
+const mix1 = (a, b, k) => a + (b - a)*k;
 function localSwing(){
   if (time - localT < 1.0) return;
   if (localT > -1e8){ const t = from; from = to; to = t; }   // go back and forth from wherever the Mage is
@@ -589,17 +624,20 @@ function frame(now){
       g.next = time + rand(1.5, 3.5);
     }
   }
-  rings.tick(time); cuts.tick(time);
-  rings.flush(); cuts.flush();
+  rings.tick(time); cuts.tick(time); arcs.tick(time);
+  rings.flush(); cuts.flush(); arcs.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
   // Blink: the silhouette closes at the origin (clip plane sweeps feet → head), stays hidden 2 frames, then opens at the destination
   let st = 0, lean = 0, tw = 0;
   // three.js keeps fragments with dot(n, p) + c >= 0
-  if (dtc >= 0 && dtc < OUT){ const k = dtc/OUT, h = -.05 + 2.05*k*k; hero.position.copy(from); clipPlane.normal.set(0, 1, 0); clipPlane.constant = -h; st = .04*k; }   // keep above h: feet vanish first
-  else if (dtc >= OUT && dtc < OUT + GAP){ hero.position.copy(from); clipPlane.normal.set(0, -1, 0); clipPlane.constant = -1; }                  // fully hidden
-  else if (dtc >= OUT + GAP && dtc < 2*OUT + GAP){ const k = (dtc - OUT - GAP)/OUT, h = -.05 + 2.05*(1 - (1 - k)*(1 - k)); hero.position.copy(to); clipPlane.normal.set(0, -1, 0); clipPlane.constant = h; }   // keep below h: grows up
+  const bx = to.x - from.x, bz = to.z - from.z, bn = Math.hypot(bx, bz) || 1, ux = bx/bn, uz = bz/bn;
+  if (dtc >= 0 && dtc < OUT){ const k = dtc/OUT, h = mix1(-HW, HW, k*k), c = from.x*ux + from.z*uz;          // origin: the far side goes first,
+    hero.position.copy(from); clipPlane.normal.set(ux, 0, uz); clipPlane.constant = -(c + h); st = .04*k; }       // the side facing the destination last
+  else if (dtc >= OUT && dtc < OUT + GAP){ hero.position.copy(from); clipPlane.normal.set(0, -1, 0); clipPlane.constant = -1; }   // fully hidden
+  else if (dtc >= OUT + GAP && dtc < 2*OUT + GAP){ const k = (dtc - OUT - GAP)/OUT, h = mix1(-HW, HW, 1 - (1 - k)*(1 - k)), c = to.x*ux + to.z*uz;
+    hero.position.copy(to); clipPlane.normal.set(-ux, 0, -uz); clipPlane.constant = c + h; }                     // destination: opens from the side facing the origin
   else { hero.position.copy(dtc >= 2*OUT + GAP ? to : from); clipPlane.normal.set(0, -1, 0); clipPlane.constant = 10; }
   body.scale.set(1 - st*.4, 1 + st, 1 - st*.4); body.rotation.x = lean; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
@@ -621,8 +659,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [rings, cuts].filter(p => p.active).length;
-    S.part.textContent = rings.count + cuts.count;
+    S.draw.textContent = [rings, cuts, arcs].filter(p => p.active).length;
+    S.part.textContent = rings.count + cuts.count + arcs.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
