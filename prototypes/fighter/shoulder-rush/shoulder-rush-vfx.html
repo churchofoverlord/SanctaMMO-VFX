@@ -141,9 +141,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Rasto no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad em World Space da origem à chegada; a ponta anda com o Fighter (mesma curva), apaga a partir da origem</td></tr>
-          <tr><td>Flash de colisão + anel de aterragem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Flash aditivo único (maior contraste) e anel compacto no chão; só na chegada</td></tr>
-          <tr><td>Faíscas</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, para a frente e para cima, a partir do ponto de colisão</td></tr>
+          <tr><td>Rasto atrás do Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma fita à altura do tronco, alinhada à investida e virada para a câmara; a ponta anda com o Fighter, apaga a partir da origem</td></tr>
+          <tr><td>Flash de colisão + anel de aterragem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Flash aditivo único, leve e pequeno, e anel compacto no chão; só na chegada</td></tr>
+          <tr><td>Faíscas</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>GPU, curtas, a partir do ponto de colisão</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
       </table>
@@ -417,16 +417,18 @@ const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const PREP = .06, RUSH = .22;                       // crouch before the rush, rush duration (s)
 const ease = x => 1 - Math.pow(1 - clamp01(x), 3);  // fast start, settles into the arrival
 
-// Layer 1 — the trail: one ground quad per rush, from origin to arrival; the head rides with the Fighter
+// Layer 1 — the trail: one ribbon per rush at torso height, behind the Fighter, turned to the camera around the rush axis
 const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vU, vL;
     void main(){
       float u = uTime - aT - ${PREP.toFixed(2)}; if (u < 0. || u > ${(RUSH+.5).toFixed(2)}){ ${HIDE} }
-      vec3 d = aE - aO; float L = length(d); vec3 f = d/L, side = vec3(-f.z, 0., f.x);
-      float s = position.x*.5 + .5, W = .5;
+      vec3 d = aE - aO; float L = length(d); vec3 f = d/L;
+      float s = position.x*.5 + .5, W = .42;
+      vec3 P = aO + f*(s*L - .25) + vec3(0., 1.15, 0.);              // ends just behind the shoulder
+      vec3 side = normalize(cross(f, P - cameraPosition));
       vS = s; vY = position.y*W; vU = u; vL = L;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + f*(s*L) + side*position.y*W + vec3(0., .03, 0.), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vU, vL; ${STROKE}
     void main(){
@@ -438,11 +440,11 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
-      float w = .015 + .27*prof, d = abs(vY);
+      float w = .01 + .22*prof, d = abs(vY);
       float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.28);
       float k = alive*fade*pow(prof, .75);
       vec3 col = mix(uOrange, uGold, .3 + .7*prof);
-      vec3 outc = (col*band*(.35 + .45*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.5*prof)*k;
+      vec3 outc = (col*band*(.3 + .4*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.45*prof)*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
@@ -457,9 +459,9 @@ const impacts = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1 }, ad
       vU = u; vK = aK;
       if (aK < .5){
         vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.35;
-        float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
+        float S = .38; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
       } else {
-        float S = 1.; vP = position.xy*S;
+        float S = .5; vP = position.xy*S;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
       }
     }`,
@@ -469,14 +471,14 @@ const impacts = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1 }, ad
       if (vK < .5){
         // single collision flash: a crisp ring that snaps open + a hot centre, gone in 160 ms
         float t = vU/.16, f = pow(1. - t, 1.6);
-        float R = .08 + .5*(1. - pow(1. - t, 3.)), w = .012 + .02*(1. - t);
-        lum += exp(-pow(abs(r - R)/w, 2.4))*f*1.3 + exp(-r*r*60.)*(vU < .033 ? 2.2 : .9*f);
-        hot += lcore(r - R, w*.35)*f*.8 + exp(-r*r*180.)*f;
+        float R = .04 + .25*(1. - pow(1. - t, 3.)), w = .007 + .01*(1. - t);
+        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.8 + exp(-r*r*240.)*(vU < .033 ? 1.2 : .5*f);
+        hot += lcore(r - R, w*.35)*f*.45 + exp(-r*r*700.)*f*.6;
       } else {
         // landing ring on the floor: thin, compact, settles quickly
         float t = vU/.3, f = pow(1. - t, 1.8);
-        float R = .15 + .7*(1. - pow(1. - t, 3.)), w = .01 + .03*(1. - t);
-        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.8; hot += lcore(r - R, w*.3)*f*.4;
+        float R = .08 + .35*(1. - pow(1. - t, 3.)), w = .006 + .015*(1. - t);
+        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.5; hot += lcore(r - R, w*.3)*f*.25;
       }
       vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
@@ -502,7 +504,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
       gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }` }));
 
 // ============ spawning (CPU work only at rush start) ============
-const TIER = { 3:{ sp:8, ring:true }, 2:{ sp:8, ring:true }, 1:{ sp:4, ring:true }, 0:{ sp:0, ring:false } };
+const TIER = { 3:{ sp:5, ring:true }, 2:{ sp:5, ring:true }, 1:{ sp:3, ring:true }, 0:{ sp:0, ring:false } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function rush(O, E, tier, t0){
@@ -515,8 +517,8 @@ function rush(O, E, tier, t0){
   for (let n=0;n<T.sp;n++){
     const j = sparks.next();
     sparks.A.aO.setXYZ(j, hp.x, hp.y + rand(-.15,.1), hp.z);
-    sparks.A.aV.setXYZ(j, f.x*rand(2.5,5) + rand(-1.8,1.8), rand(1,3.2), f.z*rand(2.5,5) + rand(-1.8,1.8));
-    sparks.A.aT.setXY(j, ta, rand(.25,.4));
+    sparks.A.aV.setXYZ(j, f.x*rand(1.5,3) + rand(-1,1), rand(.6,2), f.z*rand(1.5,3) + rand(-1,1));
+    sparks.A.aT.setXY(j, ta, rand(.18,.3));
   }
   if (T.sp) sparks.track(ta + .4, T.sp);
   castLog.push(t0 + .9);
@@ -581,7 +583,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Preparação (corpo)', 0, 60, 0x8f8a82],
-  ['Investida · rasto cresce com o Fighter', 60, 280, 0xffffff],
+  ['Investida · rasto cresce atrás do Fighter', 60, 280, 0xffffff],
   ['Hit stop (1 frame)', 280, 297, 0xff7a1a],
   ['Flash de colisão', 280, 440, 0xfff0d2],
   ['Anel de aterragem', 280, 580, 0xf2b53a],

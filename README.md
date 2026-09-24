@@ -24,7 +24,7 @@ prototypes/
 | Fighter · Rage / Bulwark | Otimizado (convergência em espiral no chão, pulso de cura ou de escudo, 2 draw calls) | [prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html](prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html) |
 | Fighter · Severing Strike I | Otimizado (arco em snap num quad, impacto + marca de sequência, faíscas GPU, 3 draw calls) | [prototypes/fighter/severing-strike/severing-strike-vfx.html](prototypes/fighter/severing-strike/severing-strike-vfx.html) |
 | Fighter · Piercing Strike I | Otimizado (linha perfurante num quad, impacto + cue breve de Slow, faíscas GPU, 3 draw calls) | [prototypes/fighter/piercing-strike/piercing-strike-vfx.html](prototypes/fighter/piercing-strike/piercing-strike-vfx.html) |
-| Fighter · Shoulder Rush I | Otimizado (rasto no chão com a investida, flash de colisão + anel de aterragem, hit stop, 3 draw calls) | [prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html](prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html) |
+| Fighter · Shoulder Rush I | Otimizado (rasto à altura do tronco atrás do Fighter, impacto leve, hit stop, 3 draw calls) | [prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html](prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
