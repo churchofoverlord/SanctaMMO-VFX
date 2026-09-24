@@ -31,4 +31,5 @@
 - Evitar: PMREM/env maps (satura os metais neste setup), sprites individuais por partícula, luz dinâmica fora de Epic.
 - Iterações antigas vão para `archive/`.
 - Teste no painel do browser: se o painel estiver escondido o `requestAnimationFrame` não corre (o tempo da simulação para); cada screenshot força frames, por isso usar screenshots para avançar a animação.
+- Hook de teste nos protótipos: `window.__freezeAt = <segundos>` congela a animação nesse instante do cast local (útil para capturar um momento exato).
 - Testar com `python -m http.server 8766` na raiz (`.claude/launch.json` já tem a configuração `sancta-vfx`).
