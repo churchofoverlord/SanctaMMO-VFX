@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1500 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo a 16 m/s na GPU</td></tr>
+          <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo a 8 m/s na GPU</td></tr>
           <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Anel no chão que abre + coluna de luz que sobe em ease-out, 0,8 s, num só sistema</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
@@ -425,7 +425,7 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
-const V = 16;                                         // astral projectile speed (m/s)
+const V = 8;                                          // astral projectile speed (m/s)
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
@@ -691,11 +691,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Estrela astral em voo (8 m: ~500 ms)', 100, 600, 0xf2b53a],
-  ['Anel abre nos pés (ease-out)', 600, 950, 0xf2b53a],
-  ['Heal: luz sobe suave (ease-out)', 600, 1400, 0xfff0c8],
+  ['Estrela astral em voo (8 m: ~1 s)', 100, 1100, 0xf2b53a],
+  ['Anel abre nos pés (ease-out)', 1100, 1450, 0xf2b53a],
+  ['Heal: luz sobe suave (ease-out)', 1100, 1900, 0xfff0c8],
 ];
-const TOTAL = 1500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -751,7 +751,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 1.6) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 2.2) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
