@@ -21,6 +21,7 @@ prototypes/
 |---|---|---|
 | Fighter · Cleanse | Otimizado (GPU, instanciado, níveis de qualidade, stress test) | [prototypes/fighter/cleanse/cleanse-vfx.html](prototypes/fighter/cleanse/cleanse-vfx.html) |
 | Fighter · Warrior / Tank Stance | Otimizado (marcador num só quad, pulso de 2 frames, stress test) | [prototypes/fighter/warrior-tank-stance/warrior-tank-stance-vfx.html](prototypes/fighter/warrior-tank-stance/warrior-tank-stance-vfx.html) |
+| Fighter · Rage / Bulwark | Otimizado (convergência em espiral, cura ou casca de escudo, 3 draw calls) | [prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html](prototypes/fighter/rage-bulwark/rage-bulwark-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 

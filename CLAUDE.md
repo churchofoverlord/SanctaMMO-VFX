@@ -10,6 +10,7 @@
 - Dark fantasy realista: cenário frio e dessaturado, VFX quente e saturado. Preferir simples a carregado — uma forma dominante, poucas camadas.
 - Paleta vem do ícone da skill; dourado não domina (reservado à UI).
 - Cues condicionais (procs, "havia debuffs") só aparecem quando a condição é verdadeira.
+- Estilo aprovado (referência: `prototypes/fighter/warrior-tank-stance/`): traços finos caligráficos com pontas afiladas, núcleo quente quase branco + halo suave na cor da skill, energia a correr devagar, emblemas desenhados em linha com preenchimento ténue, luz suave no chão. Evitar formas chapadas, blocos facetados e arestas duras.
 
 ## Protótipos (`prototypes/<classe>/<skill>/`)
 - Um ficheiro HTML autónomo por skill; Three.js r128 do cdnjs + postprocessing de `cdn.jsdelivr.net/npm/three@0.128.0/examples/js/`.
