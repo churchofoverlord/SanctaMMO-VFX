@@ -56,7 +56,7 @@ prototypes/
 | Mystic · Ether I · Enemy | Otimizado (estrela astral + cometa curto; anel fecha e colapsa em ease-in com pop, violeta, 2–3 draw calls) | [prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html](prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html) |
 | Mystic · Lullaby I | Otimizado (orbe lento a ondular com crescente; absorção sem hit stop; anel de Sleep após 1 s de delay, 1–3 draw calls) | [prototypes/mystic/lullaby/lullaby-vfx.html](prototypes/mystic/lullaby/lullaby-vfx.html) |
 | Mage · Combust I | Otimizado (orbe de fogo direto, rasto curto; impacto compacto + marca de chama; igual em Manifest e Weave, 2–3 draw calls) | [prototypes/mage/combust-i/combust-i-vfx.html](prototypes/mage/combust-i/combust-i-vfx.html) |
-| Mage · Blink | Otimizado (clip plane lateral: fecha na origem e abre no destino na horizontal; arco de energia entre os dois pontos; anel em cada ponto, 3 draw calls) | [prototypes/mage/blink/blink-vfx.html](prototypes/mage/blink/blink-vfx.html) |
+| Mage · Blink | Otimizado (linha roxa horizontal sobe pés→cabeça na origem, vira beam cabeça→cabeça e desce cabeça→pés no destino; anel em cada ponto, 3 draw calls) | [prototypes/mage/blink/blink-vfx.html](prototypes/mage/blink/blink-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
