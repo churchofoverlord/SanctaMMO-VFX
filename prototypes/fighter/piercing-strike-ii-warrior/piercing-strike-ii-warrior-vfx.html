@@ -156,7 +156,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Mesma estocada</h3><p>A linha perfurante, o impacto e as faíscas são os do I, na paleta laranja e dourada. O Slow normal continua a aplicar-se (o aspeto dele é do cue de status).</p></div>
+    <div><h3>Mesma estocada</h3><p>A linha perfurante, o impacto e as faíscas são os do I, mas na paleta da Warrior Stance (magenta). O Slow normal continua a aplicar-se (o aspeto dele é do cue de status).</p></div>
     <div><h3>Payoff só com condição</h3><p>Só nos alvos que já estavam com Slow antes do golpe: flash direcional magenta ao longo da estocada. O 1.º golpe aplica Slow; a partir do 2.º (dentro de 3 s) aparece o payoff. "Limpar Slow" repõe.</p></div>
     <div><h3>Variante Warrior</h3><p>O flash segue o eixo da estocada e passa pelo alvo, fino nas pontas: lê-se como dano a mais, não como um estado. A outra variante é um protótipo à parte.</p></div>
   </section>
@@ -417,7 +417,7 @@ const ptsScale = { value:600 };
 
 
 // ============ Piercing Strike I ============
-const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
+const uGold = { value:lin(0xff8fb8) }, uOrange = { value:lin(0xff3d7f) };   // Warrior Stance palette (light tint / main) for the whole variant; names kept from Piercing Strike I
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .1;                                    // pull-back before the thrust (s)
 const LEN = 3.3, GROW = .08;                        // line length (m) and draw-out time (s)
@@ -662,10 +662,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Recuo (corpo)', 0, 100, 0x8f8a82],
   ['Linha cresce para a frente', 100, 180, 0xffffff],
-  ['Segura', 180, 300, 0xf2b53a],
-  ['Apaga a partir do Fighter (ponta por último)', 300, 800, 0xff7a1a],
+  ['Segura', 180, 300, 0xff8fb8],
+  ['Apaga a partir do Fighter (ponta por último)', 300, 800, 0xff3d7f],
   ['Impacto nos alvos atravessados', 110, 310, 0xfff0d2],
-  ['Faíscas (GPU)', 110, 550, 0xf2b53a],
+  ['Faíscas (GPU)', 110, 550, 0xff8fb8],
   ['II · flash direcional (só alvos com Slow)', 110, 330, 0xff3d7f],
 ];
 const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
