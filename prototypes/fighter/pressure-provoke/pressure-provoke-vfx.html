@@ -514,8 +514,11 @@ const tethers = pool(new THREE.PlaneGeometry(2,2,24,1), 96, { aA:3, aB:3, aT:1, 
       float n  = fbm(vec2(x*2.2 - dir*u*9., vY*14. + u*1.5));
       float n2 = fbm(vec2(x*5.  - dir*u*14., vY*26. - u*2.));
       float prof = pow(sin(3.14159*s), .5);
-      float w = (.025 + .045*prof)*(.7 + .6*n);                   // ragged, breathing edges
-      float dens = exp(-pow(abs(vY)/w, 2.))*(.35 + .9*n2)*prof;
+      float w = (.03 + .05*prof)*(.75 + .5*n);                    // ragged, breathing edges
+      float yy = vY + (fbm(vec2(x*1.3 - dir*u*6., 4.2)) - .5)*.08; // the centre wanders — no fixed spine
+      float body = exp(-pow(abs(yy)/w, 3.2));                     // flat-topped profile: no bright centre line
+      float wisp = smoothstep(.25, .75, n2*.7 + fbm(vec2(x*3.3 - dir*u*11., yy*20. + 9.))*.5);
+      float dens = body*(.25 + .75*wisp)*prof;
       // resolution: denser puffs rush along the smoke
       float r = u - M, puff = 0.;
       if (r > 0.){

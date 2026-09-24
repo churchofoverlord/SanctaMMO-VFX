@@ -24,6 +24,7 @@
   - Quads construídos à mão no vertex shader: usar `side: DoubleSide` (a orientação dos triângulos pode ficar invertida e o quad desaparece).
   - Rastos/efeitos presos ao corpo seguem a silhueta da personagem (mais alta que larga) e fundem-se nela com fade suave — nunca terminam num corte ou numa ponta cónica junto ao corpo (lê-se como escape de míssil).
   - Faixas presas ao corpo ficam verticais (orientação dominada pelo eixo Y, só ligeiramente viradas para a câmara): altas de lado, estreitas vistas de cima. Nunca billboard total, que de cima fica deitado e largo.
+  - Fumo/névoa: perfil achatado (expoente ≥3) e centro deslocado por ruído — um perfil gaussiano simétrico cria uma "espinha" brilhante fixa no meio.
   - Enquadrar a câmara do protótipo para a leitura da skill (linhas e investidas lêem-se de lado/3/4, não de trás).
 - Skill ≠ status: o VFX da skill cobre só o cast/impacto. Estados resultantes (Shield, heal-over-time, buffs, debuffs, CC persistente) são cues de status próprios (`GameplayCue.Status.*`, Looping), partilhados por todas as fontes — não os animar no protótipo da skill. Isto inclui marcadores de aplicação nos alvos (Silence, Taunt, Slow, etc.): a skill mostra o próprio golpe/pulso e o impacto; o que indica o estado no alvo é do cue de status.
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
