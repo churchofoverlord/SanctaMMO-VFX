@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 800 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Stacks</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td>Billboards pequenos à volta do alvo que convergem para o peito com reverse ease-in (0,12 s)</td></tr>
-          <tr><td>Rutura</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard aditivo no peito: 9 espinhos agudos a partir do centro, pico de 2 frames, 0,45 s</td></tr>
+          <tr><td>Rutura</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard aditivo no peito: splash de sangue viscoso (campo metaball: 9 jorros com cabeças redondas que abrandam, esticam e caem com gravidade), pico de 2 frames, 0,7 s</td></tr>
           <tr><td>Faíscas</td><td class="n">8</td><td class="n">8</td><td class="n">8</td><td class="n">0</td><td>GPU, radiais</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2</td><td>Partilhadas por todos os Scouts</td></tr>
         </tbody>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesma composição</h3><p>Como no Poison Sac, as stacks convergem para o alvo com reverse ease-in; aqui fecham-se no peito. Só com Bleed máximo; consome as stacks.</p></div>
-    <div><h3>Rutura single-target</h3><p>Um flash agudo e focado no peito: espinhos vermelhos finos saem do centro (como no ícone), pico de 2 frames, somem em 0,45 s. Sem área.</p></div>
+    <div><h3>Rutura single-target</h3><p>Um rebentamento focado no peito com aspeto líquido: jorros grossos de sangue saem do centro, abrandam como algo viscoso, esticam-se e descaem com a gravidade, e algumas gotas soltam-se. Pico de 2 frames, dura 0,7 s. Sem área.</p></div>
     <div><h3>Skill ≠ status</h3><p>O Wounded que fica no alvo é do cue de status.</p></div>
   </section>
 </div>
@@ -533,11 +533,11 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
     }` }));
 
 // Layer 3 — sparks: velocity-stretched GPU quads, thrown forward along the thrust
-const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:1.6 };
+const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:2.4 };
 const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, addMat({
   uniforms:{ uTime, uRes, uW, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;
-    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 4.*((1.-e)/(k*k) - t/k); return p; }
+    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 9.*((1.-e)/(k*k) - t/k); return p; }
     void main(){
       float age = uTime - aT.x; if (age < 0. || age > aT.y){ ${HIDE} }
       vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);
@@ -548,29 +548,42 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;
     void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;
-      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }` }));
+      gl_FragColor = vec4((uOrange*a*.9 + mix(uOrange, vec3(1.), .4)*c*.35*vF)*(.4 + .9*vF), 1.); }   // blood droplets, no gold` }));
 
 // Layer 3b — Slow ring decal: flat on the ground under the target, appears at once on the hit and stays static
 // (no expansion, no spin): three concentric rings, the inner ones drawn as slow dashed arcs. Brief; the Slow that stays is the status cue.
-const RL = .45;
+const RL = .7;
 const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.2; mv.xy += position.xy*S;
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S;
       vP = position.xy*S; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
     void main(){
-      // rupture: sharp blade-like spikes burst outward from the chest (single target), fast in, fast out
-      float r = length(vP), a = atan(vP.y, vP.x), t = vU/${RL.toFixed(2)};
-      float g = 1. - pow(1. - clamp(vU/.08, 0., 1.), 3.), f = pow(1. - t, 1.8)*(vU < .033 ? 1.8 : 1.);
-      float lum = 0.;
+      // rupture: viscous blood splash. A metaball field: central blob + 9 thick streams ending in round heads that
+      // slow down (ease-out), stretch thin and sag under gravity; some heads pinch off into droplets. Soft threshold = liquid edge.
+      float t = vU/${RL.toFixed(2)};
+      float g = 1. - pow(1. - clamp(vU/.2, 0., 1.), 3.), f = (1. - smoothstep(.55, 1., t))*(vU < .033 ? 1.5 : 1.);
+      vec2 p = vP; float r = length(p);
+      float F = exp(-dot(p, p)*22.)*1.3*(1. - .6*smoothstep(.1, .7, t));
       for (int i=0;i<9;i++){ float fi = float(i), h = fract(sin(fi*53.7)*4375.5);
-        float ac = fi*.698 + h*.4 + .6, L = (.45 + .6*h)*g, d = abs(sin(a - ac))*r;
-        float w = .06*(1. - clamp(r/max(L, .01), 0., 1.)) + .004;                        // wide at the base, needle tip
-        lum += exp(-pow(d/w, 2.))*step(0., cos(a - ac))*smoothstep(L, L*.7, r); }
-      float core = exp(-r*r*70.)*1.1 + exp(-r*r*9.)*.12;              // narrow hot core, almost no halo
-      vec3 o = (uOrange*(lum + core*.6) + mix(uGold, vec3(1.), .6)*(lum*.2 + core*.5))*f*smoothstep(1.2, 1.05, r);
+        float ac = fi*.698 + h*.4 + .6; vec2 dir = vec2(cos(ac), sin(ac));
+        float L = (.32 + .45*h)*g; vec2 sag = vec2(0., -.45*t*t*(.6 + h));
+        vec2 mid = dir*L*.5 + sag*.3, head = dir*L + sag;
+        float thin = 1. - .55*smoothstep(.25, .9, t);                                   // streams stretch thin
+        vec2 pa = p; float k1 = clamp(dot(pa, mid)/dot(mid, mid), 0., 1.), d1 = length(pa - mid*k1);
+        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/dot(bb, bb), 0., 1.), d2 = length(pb - bb*k2);
+        float rad1 = mix(.075, .045, k1)*thin, rad2 = mix(.045, .03, k2)*thin;
+        F += exp(-pow(d1/rad1, 2.))*.9 + exp(-pow(d2/rad2, 2.))*.9;
+        float rb = (.05 + .035*h)*(1. - .3*t);
+        F += exp(-pow(length(p - head)/rb, 2.))*1.3;                                       // round heavy head
+        vec2 dr = dir*L*1.3 + sag*1.7;                                                     // detached droplet
+        F += exp(-pow(length(p - dr)/(rb*.6), 2.))*step(.45, h)*smoothstep(.15, .35, t)*1.2; }
+      float body = smoothstep(.5, .8, F);                                                  // soft liquid edge
+      float thick = smoothstep(.9, 2.2, F);
+      float gloss = smoothstep(1.6, 2.6, F);                                               // small wet highlight in the thickest parts
+      vec3 o = (uOrange*(body*.55 + thick*.35) + mix(uOrange, vec3(1., .9, .88), .55)*gloss*.35)*f*smoothstep(1.5, 1.3, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
 
@@ -608,8 +621,8 @@ function stab(O, yaw, tier, t0, targets){                   // Hemorrhage: Bleed
   const k = rings.next(); rings.A.aO.setXYZ(k, C.x, C.y, C.z); rings.A.aT.setX(k, hitT); rings.track(hitT + RL, 1);
   const n = T.sp ? 8 : 0;
   for (let m=0;m<n;m++){ const j = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(j, C.x, C.y, C.z);
-    sparks.A.aV.setXYZ(j, Math.cos(a)*rand(2,4), rand(-.5,3), Math.sin(a)*rand(2,4)); sparks.A.aT.setXY(j, hitT, rand(.2,.35)); }
-  if (n) sparks.track(hitT + .35, n);
+    sparks.A.aV.setXYZ(j, Math.cos(a)*rand(1.5,3), rand(0,2.5), Math.sin(a)*rand(1.5,3)); sparks.A.aT.setXY(j, hitT, rand(.4,.6)); }
+  if (n) sparks.track(hitT + .6, n);
   if (tg) tg.hitAt = hitT;
   castLog.push(hitT + RL);
 }
@@ -685,10 +698,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Gesto (corpo)', 0, 100, 0x8f8a82],
   ['Stacks convergem no peito (reverse ease-in)', 130, 250, 0xffb0a8],
-  ['Rutura ST: espinhos aditivos', 250, 700, 0xff2e3a],
+  ['Rutura ST: splash viscoso', 250, 950, 0xff2e3a],
   ['Pico (2 frames)', 250, 283, 0xffffff],
 ];
-const TOTAL = 800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
