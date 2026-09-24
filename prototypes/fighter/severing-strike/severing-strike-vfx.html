@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; traço principal + fios de pincel no shader; cresce no sentido do golpe e apaga-se a partir da origem</td></tr>
+          <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; só o arco (fino nas pontas, grosso no meio), no shader; cresce no sentido do golpe e apaga-se a partir da origem</td></tr>
           <tr><td>Impacto + marca de sequência</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">1/alvo</td><td>Billboards pequenos em linha no alvo; só em acertos confirmados</td></tr>
           <tr><td>Faíscas</td><td class="n">6/alvo</td><td class="n">6/alvo</td><td class="n">3/alvo</td><td class="n">0</td><td>GPU, esticadas pela velocidade, no sentido do golpe</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio. Os fios finos dentro do arco dão o gesto de pincel do ícone sem partículas.</p></div>
+    <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
     <div><h3>Feedback só no acerto</h3><p>Impacto, faíscas e marca de sequência aparecem apenas nos alvos atingidos. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
     <div><h3>Família Severing</h3><p>II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas).</p></div>
   </section>
@@ -430,36 +430,30 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
       vF = l; vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, 1.05 - l.x*.12, w.y), 1.);  // slight tilt
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vF; varying float vU; ${STROKE}
+  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vF; varying float vU;
     void main(){
       vec2 p = vF; float r = length(p), a = atan(p.x, p.y), SPAN = ${SPAN.toFixed(2)};
-      if (abs(a) > SPAN + .05) discard;
-      float s = (SPAN - a)/(2.*SPAN);                      // 0 = where the swing starts (right), 1 = leading edge (left)
-      float grow = 1. - pow(1. - clamp(vU/.09, 0., 1.), 2.);      // 1) draws out in the swing direction
-      float wipe = max(vU - .23, 0.)/.34;                         // 3) after a longer hold, fades starting at the origin
-      float mid = pow(sin(3.14159*clamp(s, 0., 1.)), 3.);          // the wide centre lingers behind the wipe
-      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .05 - .3*mid, wipe + .14 - .3*mid, s);
-      float headGlow = exp(-pow((s - grow)/.035, 2.)) * (1. - step(1., grow));
+      float s = clamp((SPAN - a)/(2.*SPAN), 0., 1.);        // 0 = where the swing starts (right), 1 = leading edge (left)
+      float edgeA = smoothstep(SPAN + .02, SPAN - .08, abs(a)); // soft angular limit (no hard radial line)
+      float prof = sin(3.14159*s);
+      float mid = pow(prof, 3.);                              // the thick centre
+      // 1) draws out in the swing direction  2) holds  3) fades from the origin, the centre goes last
+      float grow = 1. - pow(1. - clamp(vU/.09, 0., 1.), 2.);
+      float wipe = max(vU - .23, 0.)/.34;
+      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .08 - .3*mid, wipe + .2 - .3*mid, s);
       float fade = 1. - smoothstep(.5, .68, vU);
-      float thin = 1. - .45*smoothstep(.2, .62, vU)*(1. - .5*mid);
-      float body = pow(sin(3.14159*clamp(s, 0., 1.)), .9);   // crescent: hair-fine at both ends, widest in the middle
-      float lum = 0., hot = 0.;
-      float rr = 1.6 - .08*(1. - s);
-      float w = (.006 + .25*body + .12*mid)*thin;
-      lum += stroke(r - rr, w)*(.35 + .9*body + .6*mid); hot += lcore(r - rr, w*.36)*(body*1.2 + mid*1.1);
-      // brush strands inside the arc — the icon's layered swoosh
-      for (int i=0;i<3;i++){
-        float fi = float(i), off = -.16 - .12*fi, st = .25 + .18*fi;
-        float m = smoothstep(st, st + .15, s)*(1. - smoothstep(.8, .95, s));
-        float ww = (.008 + .016*m)*thin;
-        lum += stroke(r - (rr + off), ww)*m*(.7 - .15*fi);
-        hot += lcore(r - (rr + off), ww*.4)*m*.3;
-      }
-      lum += smoothstep(.95, 1.4, r)*smoothstep(1.8, 1.55, r)*body*.18;        // faint motion fill
-      lum += headGlow*body*1.2; hot += headGlow*body;                         // bright leading head while it draws
-      float k = alive*fade*(vU > .09 && vU < .123 ? 1.5 : 1.);                // 2-frame peak when it reaches full size
-      vec3 col = mix(uOrange, uGold, .45 + .55*body);
-      vec3 outc = (col*lum + mix(uGold, vec3(1., .96, .88), .65)*hot*1.3)*k;
+      float thin = 1. - .4*smoothstep(.2, .62, vU)*(1. - .5*mid);
+      // just the arc: thin at both ends, thick in the middle, with a gentle ease at the tips
+      float ends = pow(prof, .75);
+      float rr = 1.6 - .06*(1. - s);
+      float w = (.004 + .1*pow(prof, 1.3) + .2*mid)*thin;
+      float d = r - rr;
+      float band = exp(-pow(abs(d)/w, 2.4));                  // flatter core, crisp but soft edge
+      float core = exp(-pow(abs(d)/(w*.35), 2.));
+      float head = exp(-pow((s - grow)/.035, 2.)) * (1. - step(1., grow));
+      float k = alive*fade*edgeA*ends*(vU > .09 && vU < .123 ? 1.25 : 1.);
+      vec3 col = mix(uOrange, uGold, .35 + .65*prof);
+      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
