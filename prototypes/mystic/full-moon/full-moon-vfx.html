@@ -489,7 +489,7 @@ const gdec = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
       for (int i=0;i<4;i++){ float ca = float(i)*1.5708; vec2 c = vec2(cos(ca), sin(ca))*R*.91, q = vP - c;
         float o1 = length(q) - .28, o2 = length(q - normalize(c)*.13) - .24; float sd = max(o1, -o2);
         cres += lc(sd, .03)*step(.35, draw); }
-      float f = (vU > ${RES} && vU < ${RES} + .05 ? 2.2 : 1.)*(1. - smoothstep(1.3, 1.9, vU));
+      float f = (vU > ${RES} && vU < ${RES} + .05 ? 1.5 : 1.)*(1. - smoothstep(1.3, 1.9, vU))*.7;
       float wash = smoothstep(R, R*.2, r)*(vU > ${RES} ? .25*exp(-(vU - ${RES})*5.) : .03);
       vec3 o = (uC*(outer*.85 + inner + cres*.8 + wash) + uCl*lc(r - R, .01)*.4*shown)*f;
       o *= smoothstep(R + .5, R + .3, r);
@@ -511,7 +511,7 @@ const moonB = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
       float disc = smoothstep(1., .96, r), rim = exp(-pow((r - .98)/.05, 2.)), halo = exp(-max(r - 1., 0.)*5.)*(1. - disc)*.35;
       float crat = vn(vQ*5.)*.6 + vn(vQ*11. + 3.)*.4;
       float f = smoothstep(.05, .25, vU)*(vU > ${RES} ? 1. - smoothstep(${RES}, ${RES} + .15, vU) : 1.);
-      vec3 o = (uC*(disc*(.35 + .35*crat) + halo + rim*.6) + uCl*(disc*(.25 + .3*(1. - crat)) + rim*.5))*f*smoothstep(1.6, 1.3, r);
+      vec3 o = (uC*(disc*(.25 + .25*crat) + halo*.6 + rim*.4) + uCl*(disc*(.12 + .15*(1. - crat)) + rim*.25))*f*smoothstep(1.6, 1.3, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 // Layer V — the explosion volume, strictly inside the perimeter: open cylinder on the circle (2 walls at slightly different radii,
 // noisy radius), rises in 0.12 s, holds, fades; faded where the wall is edge-on (|n·v| low) so it never reads as a tube outline.
@@ -536,7 +536,7 @@ const vol = pool(cylGeo, 128, { aO:3, aT:1, aL:1 }, addMat({
       float vert = pow(1. - vY, 1.6)*smoothstep(0., .04, vY);                         // strongest at the ground, fading up
       float f = (vU < .033 ? 1.8 : 1.)*(1. - smoothstep(.3, 1., vU));
       float face = smoothstep(.15, .6, vNV);                                              // fade where edge-on
-      vec3 o = (uC*(.5 + .7*n) + uCl*pow(n, 3.)*.6)*vert*f*face*.55;
+      vec3 o = (uC*(.5 + .7*n) + uCl*pow(n, 3.)*.4)*vert*f*face*.3;
       gl_FragColor = vec4(o, 1.); }` }));
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)

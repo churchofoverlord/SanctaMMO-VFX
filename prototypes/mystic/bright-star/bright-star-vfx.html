@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Pulso hemisférico</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Icosfera de faces planas (só a metade de cima), translúcida e aditiva, abre em ease-out até 6 m em 0,55 s a partir do caster e apaga; fresnel no rebordo, não esconde o terreno</td></tr>
+          <tr><td>Pulso hemisférico</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Meia-esfera lisa, translúcida e aditiva, abre em ease-out até 6 m em 0,55 s a partir do caster e apaga; fresnel no rebordo, não esconde o terreno</td></tr>
           <tr><td>Estrela no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela de 8 pontas do ícone dentro de um anel fino, abre com o pulso, 1,2 s</td></tr>
           <tr><td>Faíscas nos aliados</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td>Estrela de 4 pontas pequena no peito de cada aliado válido, quando a frente do pulso lhe chega. O Shield que fica é do cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mystics</td></tr>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Fecha a partir do caster</h3><p>Um pulso hemisférico facetado e translúcido abre em ease-out a partir do Mystic, com a estrela de 8 pontas do ícone no chão. Não esconde o terreno.</p></div>
+    <div><h3>Fecha a partir do caster</h3><p>Um pulso hemisférico liso e translúcido abre em ease-out a partir do Mystic, com a estrela de 8 pontas do ícone no chão. Não esconde o terreno.</p></div>
     <div><h3>Só nos aliados válidos</h3><p>Quando a frente do pulso chega a cada aliado dentro da área, aparece-lhe uma estrela pequena no peito. Inimigos e aliados fora do alcance não recebem nada.</p></div>
     <div><h3>Skill ≠ status</h3><p>O Shield que fica nos aliados é o cue de status partilhado por todos os shields. Referência Sun: dourado, estrela de 4 pontas.</p></div>
   </section>
@@ -465,13 +465,13 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // ============ Bright Star (Sun payoff): faceted translucent hemisphere pulse from the caster → tiny Shield sparks on allies ============
 // Layer D — dome: low-poly icosphere (flat facets), additive, grows ease-out to R, only the upper half; facet edges + fresnel rim.
 const R_AOE = 6, DOME_T = .9;
-const domeGeo = new THREE.IcosahedronGeometry(1, 2).toNonIndexed(); domeGeo.computeVertexNormals();
+const domeGeo = new THREE.SphereGeometry(1, 48, 24, 0, Math.PI*2, 0, Math.PI/2);   // smooth hemisphere (no facets)
 const dome = pool(domeGeo, 64, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uC, uCl },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec3 vN, vV, vL; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${DOME_T}){ ${HIDE} }
       float k = 1. - pow(1. - clamp(u/.55, 0., 1.), 3.), R = mix(.4, ${R_AOE}., k);
-      vec3 W = aO + position*R; vL = position; vN = normal; vV = normalize(cameraPosition - W); vU = u;
+      vec3 W = aO + position*R; vL = position; vN = position; vV = normalize(cameraPosition - W); vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
   fragmentShader:`uniform vec3 uC, uCl; varying vec3 vN, vV, vL; varying float vU;
     void main(){
@@ -479,10 +479,10 @@ const dome = pool(domeGeo, 64, { aO:3, aT:1 }, addMat({
       vec3 n = normalize(vN); float nv = abs(dot(n, normalize(vV)));
       float fr = pow(1. - nv, 2.2);
       vec3 b = fract(vL*6.5 + .5); float e = min(min(b.x, b.y), b.z);             // cheap facet-ish seams
-      float facet = (.35 + .65*fract(sin(dot(floor(n*9.), vec3(12.9, 78.2, 37.7)))*43758.5))*.018;
-      float f = (vU < .033 ? 1.8 : 1.)*(1. - smoothstep(.45, ${DOME_T}, vU));
+      float facet = (.35 + .65*fract(sin(dot(floor(n*9.), vec3(12.9, 78.2, 37.7)))*43758.5))*0.;
+      float f = (vU < .033 ? 1.3 : 1.)*(1. - smoothstep(.45, ${DOME_T}, vU));
       float base = smoothstep(0., .06, vL.y);                                      // soft where it meets the ground
-      vec3 o = (uC*(fr*.38 + facet) + uCl*pow(fr, 6.)*.35)*f*base;   // translucent: the terrain stays visible
+      vec3 o = (uC*(fr*.22 + facet) + uCl*pow(fr, 6.)*.18)*f*base;   // smooth, soft   // translucent: the terrain stays visible
       gl_FragColor = vec4(o, 1.);
     }` }));
 // Layer G — ground: the icon's 8-point star inside a thin ring, opening with the dome, then fading.
