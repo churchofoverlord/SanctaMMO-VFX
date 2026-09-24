@@ -440,7 +440,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
       vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .78;
-      float c = cos(u*2.67), s = sin(u*2.67); vec2 q = mat2(c, -s, s, c)*position.xy;   // corona turns with the arms (same angular speed)
+      float c = cos(u*4.33), s = sin(u*4.33); vec2 q = mat2(c, -s, s, c)*position.xy;   // corona turns with the arms (same angular speed)
       mv.xy += q*S*1.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
@@ -539,7 +539,7 @@ const fireMat = new THREE.ShaderMaterial({
         vec3 C = arcAt(aO, aE, u/tt);
         vec3 n = normalize(vec3(0., 1., 0.) + normalize(cameraPosition - C)*.4 + sd*.07*sin(u*5.2) + d*.045*sin(u*3.7 + 1.));
         vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
-        float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*16.;
+        float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*26.;
         float life = .3 + .15*aP.z;
         if (aM < .5){                                                          // ARM flame: evenly spaced along its arm, flowing slowly outwards
           age = fract(aP.y + u*.9);                                            // 0 = at the core, 1 = at the tip (then it re-enters at the core)
@@ -624,7 +624,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       vec3 C = arcAt(aO, aE, u/tt);
       vec3 n = normalize(vec3(0., 1., 0.) + normalize(cameraPosition - C)*.4 + sd*.07*sin(u*5.2) + d*.045*sin(u*3.7 + 1.));
       vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
-      float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*16.;
+      float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*26.;
       float s = position.x + .5;
       vec3 P = armAt(s, C, e1, e2, n, spin, grow), T = normalize(armAt(min(s + .02, 1.), C, e1, e2, n, spin, grow) - armAt(max(s - .02, 0.), C, e1, e2, n, spin, grow));
       vec3 side = normalize(cross(n, T));                                       // width lies in the disc plane
@@ -653,6 +653,9 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       vec3 col = T < .25 ? mix(smoke, red, T/.25) : T < .55 ? mix(red, org, (T - .25)/.3) : T < .85 ? mix(org, yel, (T - .55)/.3) : mix(yel, wht, clamp((T - .85)/.3, 0., 1.));
       float emit = T < .25 ? .08 : 1.15*T;
       float alpha = dens*mix(.3, .06, clamp(T/.6, 0., 1.));                     // mostly see-through: dark shows between the filaments
+      // the arm root takes the ball's outer colour (orange-red corona) and blends into the arm's own ramp as it leaves the ball
+      float root = 1. - smoothstep(.05, .38, s);
+      col = mix(col, vec3(1., .16, .02), root*.85); emit = mix(emit, .75, root*.6);
       float glow = exp(-y*y*2.5)*smoothstep(1., .55, s)*smoothstep(0., .1, s)*smoothstep(1., .85, abs(y))*(1. - .5*s);   // soft glow hugging the arm
       vec3 g = mix(vec3(1., .22, .02), vec3(1., .45, .06), 1. - s)*glow*.3;
       if (dens < .003 && glow < .003){ discard; }
