@@ -113,7 +113,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir lançamento<small>a cada ~1,9 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir lançamento<small>a cada ~2,3 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tLine" checked><span>Alvo na linha<small>desligado: a corrente falha e recolhe</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>correntes de outros jogadores</small></span></label>
       </fieldset>
@@ -133,7 +133,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do lançamento (alvo a 4,3 m)</span><span>0 — 1100 ms</span></div>
+    <div class="tl-head"><span>Timing do lançamento (alvo a 4,3 m)</span><span>0 — 1500 ms</span></div>
   </div>
 
   <section class="budget">
@@ -142,17 +142,18 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Corrente (elos 3D)</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~17–25</td><td>Uma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Material opaco (metal), não aditivo. Em Baixo os elos ficam mais espaçados</td></tr>
+          <tr><td>Corrente (elos 3D)</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~25–38</td><td class="n">~17–25</td><td>Uma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Aditivo, com o brilho no contorno dos elos (aura, não metal). Em Baixo os elos ficam mais espaçados</td></tr>
+          <tr><td>Aura ao longo da corrente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma faixa suave virada para a câmara por corrente, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
           <tr><td>Ancoragem no chão</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. Um quad no chão: anel que fecha em 60 ms com 4 estacas para dentro, 0,45 s</td></tr>
           <tr><td>Faíscas no gancho</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>GPU, para trás ao longo da corrente</td></tr>
-          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
+          <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Corrente sólida</h3><p>Elos 3D opacos em ferro escuro com calor dourado, alternados a 90°. Desenrola-se da mão numa linha estreita a 26 m/s, com um chicote ligeiro; os elos da frente vão mais quentes.</p></div>
+    <div><h3>Corrente de energia</h3><p>Elos finos de luz dourada, alternados a 90°, com o brilho no contorno e uma aura suave ao longo da corrente, no mesmo registo das outras skills. Depois de uma preparação de 260 ms, sai devagar da mão e acelera até ao alvo, com um chicote ligeiro; os elos da frente vão mais quentes.</p></div>
     <div><h3>Ancoragem</h3><p>No primeiro alvo válido: hit stop de 2 frames, a corrente estica rígida com um único estremeção e uma onda de calor volta do alvo à mão. No chão, um anel fecha-se com quatro estacas (0,45 s). O Root que fica no alvo é do cue de status.</p></div>
     <div><h3>Fim e falha</h3><p>Com hit, segura esticada 0,45 s e dissolve a partir da mão; o gancho no alvo é o último a desaparecer. Sem alvo, chega aos 6,5 m e recolhe, sem ancoragem.</p></div>
   </section>
@@ -415,24 +416,25 @@ const ptsScale = { value:600 };
 // ============ Chains I ============
 const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const WIND = .12;                  // throw wind-up (s)
-const V = 26, VR = 30;             // chain travel / reel-in speed (m/s)
+const WIND = .26;                  // throw wind-up (s) — readable, not instant
+const V = 14, VR = 24;             // chain cruise / reel-in speed (m/s)
+const travel = L => .1 + L/V;      // travel time: eases in from the hand (slow start), arrives fast
 const HOLD = .45, DIS = .32;       // time the chain stays taut after the hit, then dissolve time (s)
 const LMAX = 6.5;                  // max range (m)
 
 // Layer 1 — the chain: ONE instanced link mesh; every link of every cast is an instance.
 // Link i is counted from the tip, so the chain unrolls out of the hand. Position, whip, snap, heat and dissolve are all
-// derived from age in the vertex shader. Opaque material (solid metal, not an additive light beam).
-const linkGeo = new THREE.TorusGeometry(1, .28, 6, 12);
-const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1 }, new THREE.ShaderMaterial({
+// derived from age in the vertex shader. Additive energy links (aura, glowing contour), not metal.
+const linkGeo = new THREE.TorusGeometry(1, .13, 6, 16);
+const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange, uMoon:{ value:moonDir } },
   vertexShader:`attribute vec3 aO, aE, aF; attribute float aT; uniform float uTime; varying vec3 vN, vV; varying float vHeat;
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)};
       vec3 D = aE - aO; float L = length(D); vec3 dir = D/L;
       float hit = aF.x, i = aF.y, SP = aF.z;
-      float tR = L/${V.toFixed(1)}, kc = u - tR;                        // time since contact (or since reaching max range)
-      float ext = min(${V.toFixed(1)}*u, L);
+      float tR = .1 + L/${V.toFixed(1)}, kc = u - tR;                   // time since contact (or since reaching max range)
+      float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);          // slow out of the hand, fast on arrival
       if (hit < .5 && kc > 0.) ext = L - ${VR.toFixed(1)}*kc;          // miss: reel back in
       float s = ext - i*SP;                                             // this link's distance from the hand
       float life = hit > .5 ? tR + ${(HOLD+DIS).toFixed(2)} : tR + L/${VR.toFixed(1)};
@@ -464,12 +466,48 @@ const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1 }, new THREE.ShaderMa
   fragmentShader:`uniform vec3 uGold, uOrange, uMoon; varying vec3 vN, vV; varying float vHeat;
     void main(){
       vec3 n = normalize(vN), v = normalize(vV);
-      float l = .15 + .6*max(dot(n, uMoon), 0.) + .2*max(n.y, 0.);
-      float rim = pow(1. - abs(dot(n, v)), 2.), spec = pow(max(dot(reflect(-v, n), uMoon), 0.), 18.);
-      vec3 base = vec3(.11, .095, .08)*l + vec3(.5, .52, .6)*spec*.35;          // dark forged iron
-      vec3 hot = mix(uOrange, uGold, .55 + .35*rim);
-      vec3 c = base + hot*vHeat*(.3 + .9*rim) + vec3(1., .95, .85)*max(vHeat - .9, 0.)*.6;
+      float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
+      vec3 col = mix(uOrange, uGold, .45 + .45*rim);
+      vec3 c = col*(.04 + .6*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.45;
       gl_FragColor = vec4(c, 1.);
+    }` }));
+
+// Layer 1b — aura haze along the chain: one camera-facing soft strip per cast, same timing as the links (grow, recoil, dissolve)
+const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1, aT:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
+  vertexShader:`attribute vec3 aO, aE; attribute float aF, aT; uniform float uTime; varying float vS, vY, vX, vL, vKc, vHit, vU;
+    void main(){
+      float u = uTime - aT - ${WIND.toFixed(2)};
+      vec3 D = aE - aO; float L = length(D); vec3 dir = D/L;
+      float tR = .1 + L/${V.toFixed(1)}, kc = u - tR;
+      float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);
+      if (aF < .5 && kc > 0.) ext = L - ${VR.toFixed(1)}*kc;
+      float life = aF > .5 ? tR + ${(HOLD+DIS).toFixed(2)} : tR + L/${VR.toFixed(1)};
+      if (u < 0. || u > life || ext <= 0.){ ${HIDE} }
+      float x = position.x*.5 + .5, s = x*ext;
+      vec3 P = aO + dir*s;
+      vec3 side = normalize(cross(dir, P - cameraPosition));
+      float W = .2;
+      vS = s; vX = x; vY = position.y; vL = L; vKc = kc; vHit = aF; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
+    }`,
+  fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vX, vL, vKc, vHit, vU; ${STROKE}
+    void main(){
+      float band = exp(-vY*vY*5.), core = lcore(vY, .12);
+      float ends = pow(sin(3.14159*clamp(vX, 0., 1.)), .6);                 // soft at the hand and at the tip
+      float heat = .5 + .6*smoothstep(.6, 1., vX)*(vKc < 0. ? 1. : exp(-vKc*8.));
+      float m = 1.;
+      if (vHit > .5 && vKc >= 0.){
+        heat += .6*exp(-vKc*9.);
+        float w = vL - 20.*vKc; heat += 1.2*exp(-pow((vS - w)/.35, 2.))*step(-.3, w);
+        float wipe = (vKc - ${HOLD.toFixed(2)})/${DIS.toFixed(2)}*(vL + .6) - .3;
+        m = smoothstep(wipe - .05, wipe + .5, vS);
+      }
+      if (vHit < .5 && vKc >= 0.) heat *= exp(-vKc*3.);
+      vec3 col = mix(uOrange, uGold, .5);
+      vec3 outc = (col*band*.2 + mix(uGold, vec3(1., .96, .88), .5)*core*.12)*heat*ends*m;
+      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      gl_FragColor = vec4(outc, 1.);
     }` }));
 
 // Layer 2 — anchoring at the hit: flat on the ground under the target, a ring snaps shut with four stakes pointing in; gone by 0.45 s.
@@ -535,12 +573,14 @@ function chain(O, yaw, tier, t0, targets){
     if (along > .5 && along < LMAX && off < .45 && along < best){ best = along; tg = d; }
   }
   const E = tg ? V3(tg.p.x - fx*.2, 1.15, tg.p.z - fz*.2) : V3(H.x + fx*LMAX, 1.05, H.z + fz*LMAX);
-  const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = L/V, hit = tg ? 1 : 0;
+  const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = travel(L), hit = tg ? 1 : 0;
   for (let i=0;i<n;i++){
     const j = links.next();
     links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, hit, i, T.SP); links.A.aT.setX(j, t0);
   }
   links.track(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR), n);
+  { const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hit); haze.A.aT.setX(h, t0);
+    haze.track(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR), 1); }
   castLog.push(t0 + WIND + tR + (hit ? HOLD + DIS : L/VR));
   if (!tg) return -1;
   const th = t0 + WIND + tR;
@@ -625,16 +665,16 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Preparação (corpo)', 0, 120, 0x8f8a82],
-  ['Corrente viaja (26 m/s)', 120, 280, 0xf2b53a],
-  ['Contacto · hit stop 2 frames', 280, 313, 0xffffff],
-  ['Onda de calor: alvo → mão', 280, 490, 0xff7a1a],
-  ['Ancoragem no chão', 280, 730, 0xfff0d2],
-  ['Segura esticada', 280, 730, 0xf2b53a],
-  ['Dissolve a partir da mão (gancho por último)', 730, 1050, 0xff7a1a],
-  ['Faíscas no gancho (GPU)', 280, 630, 0xc9a0ff],
+  ['Preparação (corpo)', 0, 260, 0x8f8a82],
+  ['Corrente sai devagar e acelera', 260, 650, 0xf2b53a],
+  ['Contacto · hit stop 2 frames', 650, 683, 0xffffff],
+  ['Onda de calor: alvo → mão', 650, 860, 0xff7a1a],
+  ['Ancoragem no chão', 650, 1100, 0xfff0d2],
+  ['Segura esticada', 650, 1100, 0xf2b53a],
+  ['Dissolve a partir da mão (gancho por último)', 1100, 1420, 0xff7a1a],
+  ['Faíscas no gancho (GPU)', 650, 1000, 0xc9a0ff],
 ];
-const TOTAL = 1100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -649,7 +689,7 @@ tLine.onchange = () => { const off = tLine.checked ? 0 : 1.7; dummies.forEach((d
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
 function localSwing(){
-  if (time - localT < .9) return;
+  if (time - localT < 1.2) return;
   localT = time; idle = 0;
   const th = chain(hero.position, 0, quality, time, dummies);
   hitRel = th > 0 ? th - time : -1;
@@ -686,7 +726,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 1.9) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 2.3) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
@@ -694,8 +734,8 @@ function frame(now){
       g.next = time + rand(1.8, 3.4);
     }
   }
-  links.tick(time); anchors.tick(time); sparks.tick(time);
-  links.flush(); anchors.flush(); sparks.flush();
+  links.tick(time); haze.tick(time); anchors.tick(time); sparks.tick(time);
+  links.flush(); haze.flush(); anchors.flush(); sparks.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -726,8 +766,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [links, anchors, sparks].filter(p => p.active).length;
-    S.part.textContent = links.count + anchors.count + sparks.count;
+    S.draw.textContent = [links, haze, anchors, sparks].filter(p => p.active).length;
+    S.part.textContent = links.count + haze.count + anchors.count + sparks.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
