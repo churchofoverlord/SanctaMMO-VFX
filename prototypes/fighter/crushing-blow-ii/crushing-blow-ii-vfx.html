@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1250 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1550 ms</span></div>
   </div>
 
   <section class="budget">
@@ -147,7 +147,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Chão: telegraph + rachas + onda</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad no chão: anel desenhado na preparação, 14 rachas procedurais com ramificações (II; o I tem 9) e uma onda fina, tudo no shader</td></tr>
           <tr><td>Traço vertical</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Um quad vertical fino no ponto de contacto, ~0,25 s</td></tr>
-          <tr><td>Fragmentos de terreno</td><td class="n">16</td><td class="n">16</td><td class="n">8</td><td class="n">0</td><td>II: o dobro do I, 5 blocos pesados + lascas. Pedras opacas low-poly instanciadas; trajetória e rotação no vertex shader, arestas quentes que arrefecem</td></tr>
+          <tr><td>Fragmentos de terreno</td><td class="n">24</td><td class="n">24</td><td class="n">12</td><td class="n">0</td><td>II: 3× o I, 8 blocos pesados + lascas, vida ~1,1 s. Pedras opacas low-poly instanciadas; trajetória e rotação no vertex shader, arestas quentes que arrefecem</td></tr>
           <tr><td>II · anel do Slow</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo quad do chão: segundo anel fino que segue a onda, ~0,3 s. Zero custo extra</td></tr>
           <tr><td>II · trava de Stun</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no proc. Um quad no chão por alvo, losango que fecha em 70 ms e desaparece aos 0,34 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">1–2</td><td>Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver uma trava de Stun viva</td></tr>
@@ -157,7 +157,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Impacto mais pesado</h3><p>Mesma silhueta e timing do I, mas mais pesado: 14 rachas com ramificações em vez de 9, e o dobro das pedras, com alguns blocos grandes.</p></div>
+    <div><h3>Impacto mais pesado</h3><p>Mesma silhueta e timing do I, mas muito mais forte: 14 rachas grossas e quentes com ramificações (o I tem 9), o triplo das pedras com 8 blocos grandes lançados mais alto, clarão central maior e um tremor curto de câmara (só no jogador local).</p></div>
     <div><h3>Slow: anel secundário</h3><p>Um segundo anel fino, mais dourado, segue a onda de choque 70 ms depois e apaga aos ~0,3 s. Aparece em todos os golpes, porque o Slow aplica-se sempre.</p></div>
     <div><h3>Stun: só com condição</h3><p>Se o alvo já estava com Slow antes do golpe, um losango rígido fecha-se no chão por baixo dele e desaparece aos 0,34 s. O Slow e o Stun que ficam no alvo são cues de status. Para ver o proc: o 1.º golpe aplica Slow e o 2.º (dentro de 3 s) faz Stun; "Limpar Slow" repõe.</p></div>
   </section>
@@ -457,18 +457,18 @@ const grounds = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
           vec2 dir = vec2(sin(th), cos(th));
           float along = dot(p, dir), d = abs(p.x*dir.y - p.y*dir.x);
           float len = R*(.62 + .36*h1(fi + 7.));
-          float w = mix(.028, .004, clamp(along/len, 0., 1.));      // thick at the centre, hair-fine at the ends
+          float w = mix(.04, .005, clamp(along/len, 0., 1.));      // thick at the centre, hair-fine at the ends
           float on = step(0., along)*smoothstep(len, len*.8, along)*smoothstep(.1, .22, along);
           cr = max(cr, exp(-pow(d/w, 2.))*on);
           // branch: splits off at 40–65% of the crack, ±0.5 rad, short and fine
           float bs = len*(.4 + .25*h1(fi + 3.)), bt = th + (h1(fi + 5.) > .5 ? .5 : -.5);
           vec2 bo = dir*bs, bd = vec2(sin(bt), cos(bt)), q = p - bo;
           float ba = dot(q, bd), bdd = abs(q.x*bd.y - q.y*bd.x), bl = R*(.22 + .2*h1(fi + 11.));
-          float bw = mix(.012, .003, clamp(ba/bl, 0., 1.));
+          float bw = mix(.018, .004, clamp(ba/bl, 0., 1.));
           cr = max(cr, exp(-pow(bdd/bw, 2.))*step(0., ba)*smoothstep(bl, bl*.7, ba)*.85);
         }
         float lit = smoothstep(front + .05, front - .2, r) * smoothstep(wipe - .1, wipe + .4, r);
-        lum += cr*lit*.9; hot += cr*lit*.35;
+        lum += cr*lit*1.35; hot += cr*lit*.6;          // II: hotter cracks
         // shock ring: one thin pulse from the centre to the rim
         float rr = eox(clamp(u/.2, 0., 1.))*R, fs = 1. - clamp(u/.24, 0., 1.);
         lum += exp(-pow(abs(r - rr)/.02, 2.4))*fs*fs*.8;
@@ -478,7 +478,7 @@ const grounds = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
           float w2 = .014 + .03*clamp(u2/.32, 0., 1.);
           slow += (exp(-pow(abs(r2 - r)/w2, 2.2))*.75 + lcore(r - r2, w2*.3)*.35)*f2*f2*smoothstep(.15, .5, r); }
         // centre: brief contact glow
-        lum += exp(-r*r*6.)*(u < .033 ? 1.2 : .6*exp(-u*10.));
+        lum += exp(-r*r*4.)*(u < .033 ? 1.8 : .9*exp(-u*8.));   // II: bigger, hotter contact glow
       }
       vec3 outc = mix(uOrange, uGold, .55)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot + mix(uGold, vec3(1., .93, .8), .35)*slow;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
@@ -562,7 +562,7 @@ const debris = pool(debrisGeo, 512, { aO:3, aV:3, aT:2, aR:4 }, new THREE.Shader
       gl_FragColor = vec4(vec3(.09,.08,.07)*l + uOrange*vHeat*(.6 + .6*(1. - abs(n.y))), 1.); }` }));
 
 // ============ spawning (CPU work only at cast time) ============
-const TIER = { 3:{ deb:16, bolt:true }, 2:{ deb:16, bolt:true }, 1:{ deb:8, bolt:true }, 0:{ deb:0, bolt:false } };   // II: twice the debris of I
+const TIER = { 3:{ deb:24, bolt:true }, 2:{ deb:24, bolt:true }, 1:{ deb:12, bolt:true }, 0:{ deb:0, bolt:false } };   // II: 3× the debris of I
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 const SLOW = 3.0;                                    // gameplay: Slow duration (s) — drives the Stun condition
@@ -571,12 +571,12 @@ function crush(O, yaw, tier, t0, targets){
   let i = grounds.next(); grounds.A.aO.setXYZ(i, c.x, 0, c.z); grounds.A.aT.setX(i, t0); grounds.track(t0 + WIND + .75, 1);
   if (T.bolt){ i = bolts.next(); bolts.A.aO.setXYZ(i, c.x, 0, c.z); bolts.A.aT.setX(i, t0); bolts.track(ti + .26, 1); }
   for (let n=0;n<T.deb;n++){
-    const big = n < 5, a = rand(0, 6.28), s = big ? rand(.9, 1.8) : rand(1.4, 3.), j = debris.next();   // II: a few heavy chunks + more small ones
+    const big = n < 8, a = rand(0, 6.28), s = big ? rand(1.1, 2.2) : rand(1.8, 3.8), j = debris.next();   // II: a few heavy chunks + more small ones
     debris.A.aO.setXYZ(j, c.x + Math.cos(a)*.2, .1, c.z + Math.sin(a)*.2);
-    debris.A.aV.setXYZ(j, Math.cos(a)*s, rand(2.6, 4.2), Math.sin(a)*s);
-    debris.A.aT.setXY(j, ti, rand(.75, 1.)); debris.A.aR.setXYZW(j, rand(-1,1), rand(-1,1), rand(-1,1), big ? rand(.11, .17) : rand(.05, .1));
+    debris.A.aV.setXYZ(j, Math.cos(a)*s, big ? rand(3.2, 4.6) : rand(3.6, 5.6), Math.sin(a)*s);
+    debris.A.aT.setXY(j, ti, rand(1., 1.3)); debris.A.aR.setXYZW(j, rand(-1,1), rand(-1,1), rand(-1,1), big ? rand(.14, .22) : rand(.05, .11));
   }
-  if (T.deb) debris.track(ti + 1., T.deb);
+  if (T.deb) debris.track(ti + 1.3, T.deb);
   for (const tg of targets || []){                         // hit when the shock ring reaches them
     const d = Math.hypot(tg.p.x - c.x, tg.p.z - c.z);
     if (d > R + .2) continue;
@@ -663,12 +663,13 @@ const PHASES = [
   ['Traço vertical', 220, 480, 0xfff0d2],
   ['Onda de choque até ao anel', 220, 440, 0xff7a1a],
   ['Rachas: acendem e apagam do centro', 220, 800, 0xc9a0ff],
-  ['Fragmentos de terreno (GPU)', 220, 1220, 0x8f8a82],
+  ['Fragmentos de terreno (GPU)', 220, 1520, 0x8f8a82],
+  ['II · tremor de câmara (local)', 220, 520, 0xff7a1a],
   ['Anel apaga por último', 670, 970, 0xf2b53a],
   ['II · anel do Slow (sempre)', 290, 610, 0xffd98a],
   ['II · Stun: losango (só se já tinha Slow)', 220, 640, 0xfff0d2],
 ];
-const TOTAL = 1250, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1550, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -749,6 +750,8 @@ function frame(now){
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+  { const k = dtc - WIND; if (k >= 0 && k < .3){ const a = .07*Math.exp(-k*14);   // II: short camera kick on contact (local player only)
+      camera.position.x += a*Math.sin(k*90); camera.position.y += a*Math.cos(k*73)*1.3; } }
   camera.lookAt(0, .6, -1.2);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
