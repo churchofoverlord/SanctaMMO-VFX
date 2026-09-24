@@ -148,8 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anéis elétricos</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Dois anéis de raio à volta do Mage (0,6 m e 1,35 m de altura), como no ícone: fita virada para a câmara com zigue-zague que volta a disparar ~20×/s; desenham-se à volta em 0,12 s, crepitam durante ~3 s e apagam</td></tr>
-          <tr><td>Casca de Shield</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Casca de ~3 s (pico na aplicação, depois mais ténue): aro fino dourado à volta do corpo com escudo em linha. O Shield que fica é do cue de status</td></tr>
+          <tr><td>Anéis elétricos</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td class="n">2</td><td>Quatro anéis de raio à volta do Mage (0,45 · 0,95 · 1,45 · 1,8 m de altura, sentidos alternados), como no ícone: fita virada para a câmara com zigue-zague que volta a disparar ~20×/s; desenham-se à volta em 0,12 s, crepitam durante ~3 s e apagam</td></tr>
           <tr><td>AoE</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Anel no chão que abre uma vez até ao limite (4 m); o limite é o traço mais claro</td></tr>
           <tr><td>Descargas</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td>Raio dos anéis até cada alvo dentro da área, 0,2 s, com faíscas no ponto de contacto</td></tr>
           <tr><td>Root (condicional)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só em alvos que já tinham Sapped: anel que fecha nos pés com 4 grampos de luz, 0,45 s, antes da nova aplicação</td></tr>
@@ -160,7 +159,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Anéis à volta do Mage</h3><p>Como no ícone: dois anéis de corrente elétrica a envolver o corpo, com um pulso breve de Shield. A AoE resolve num único anel no chão, com o limite mais claro que os ornamentos.</p></div>
+    <div><h3>Anéis à volta do Mage</h3><p>Como no ícone: quatro anéis de corrente elétrica a envolver o corpo. O Shield tem um cue de status próprio, partilhado por todos os shields. A AoE resolve num único anel no chão, com o limite mais claro que os ornamentos.</p></div>
     <div><h3>Root só se era verdade</h3><p>O cue de Root aparece apenas nos alvos que já tinham Sapped (usa o seletor). Surge antes da nova aplicação de Sapped; os estados que ficam (Shield, Root, Sapped) são cues de status.</p></div>
     <div><h3>Descargas curtas</h3><p>Um raio por alvo atingido, rápido e irregular, sem cruzar a cena. Faíscas pequenas no contacto.</p></div>
   </section>
@@ -639,15 +638,15 @@ const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 let rearCount = 0; const RANGE = 12;
-const COIL_N = { 3:2, 2:2, 1:2, 0:1 };
+const COIL_N = { 3:4, 2:4, 1:3, 0:2 };
+const COILS = [[.45, .8, 1], [1.45, .74, -1], [.95, .86, -1], [1.8, .62, 1]];   // height, radius, direction
 let preSapped = true;
 function stab(O, yaw, tier, t0, targets){                   // Coil: two lightning coils + Shield pulse around the Mage → AoE ring → bolts, Root only if pre-Sapped
   const put = (k, A, B, p) => { const j = arcs.next(); arcs.A.aO.setXYZ(j, A.x, A.y, A.z); arcs.A.aE.setXYZ(j, B.x, B.y, B.z); arcs.A.aT.setX(j, t0 + (k ? .1 : 0)); arcs.A.aK.setX(j, k); arcs.A.aP.setXYZW(j, p[0], p[1], p[2], p[3]); };
   const nC = COIL_N[tier];
-  put(0, O, O, [.6, .78, Math.random(), 1]); if (nC > 1) put(0, O, O, [1.35, .72, Math.random(), -1]);
+  for (let c=0;c<nC;c++) put(0, O, O, [COILS[c][0], COILS[c][1], Math.random(), COILS[c][2]]);
   arcs.track(t0 + HOLD + .05, nC);
-  let k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, 1, 0, 0, 0); rings.track(t0 + RL, 1);   // Shield pulse
-  k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0 + .05); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, AOE, 0, 0, 0); rings.track(t0 + RL, 1);   // AoE ring
+  let k = rings.next();   // no shield shell here: shields get one shared status cue rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0 + .05); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, AOE, 0, 0, 0); rings.track(t0 + RL, 1);   // AoE ring
   castLog.push(t0 + HOLD);
   if (!targets) return;
   let nb = 0;
@@ -735,7 +734,6 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Anéis elétricos à volta do Mage', 0, 3000, 0xffc21e],
-  ['Casca de Shield', 0, 3000, 0xfff1a8],
   ['Anel da AoE (4 m)', 50, 650, 0xffc21e],
   ['Descargas até aos alvos', 100, 320, 0xfff1a8],
   ['Root (só se já Sapped)', 100, 550, 0xffc21e],
