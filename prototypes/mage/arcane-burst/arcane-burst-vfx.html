@@ -157,7 +157,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Carga (shards)</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Os shards guardados saem da órbita à cintura e convergem para a mão (0,4 s, reverse ease-in). Só apresentação da carga</td></tr>
-          <tr><td>Esfera</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard: esfera violeta opaca com luz e aro fino; escala cresce com os shards (0 · 1 · 2 = 0,12 · 0,18 · 0,24 m de raio); direta a 14 m/s com faixa curta</td></tr>
+          <tr><td>Esfera</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard: esfera violeta opaca com luz e aro fino; escala cresce com os shards (0 · 1 · 2 = 0,12 · 0,18 · 0,24 m de raio); a 14 m/s com um drift ligeiro (curva lateral suave, diferente em cada cast) e faixa curta</td></tr>
           <tr><td>Impacto</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Hit stop de 0,06 s (a esfera segura no alvo), depois pop no peito + anel circular no chão; raio 1,2 · 1,7 · 2,2 m. Sem detritos</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
@@ -167,7 +167,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Carga legível</h3><p>Os Arcane Shards que estavam na órbita do Weave convergem para a mão antes do disparo: mostram quantos vão ser consumidos. Com 0 shards, a esfera sai pequena e sem carga.</p></div>
-    <div><h3>Uma esfera, maior com shards</h3><p>Uma única esfera violeta opaca, direta e com rasto curto. O tamanho da esfera e o raio do impacto crescem com o número de shards.</p></div>
+    <div><h3>Uma esfera, maior com shards</h3><p>Uma única esfera violeta opaca com rasto curto. Não vai em linha reta como uma seta: faz um drift ligeiro para o lado e volta a assentar no alvo. O tamanho da esfera e o raio do impacto crescem com o número de shards.</p></div>
     <div><h3>Hit stop + círculo</h3><p>No alvo, a esfera segura 0,06 s (hit stop), rebenta num pop curto e abre um anel no chão com o raio da AoE. Sem chuva de detritos.</p></div>
   </section>
 </div>
@@ -436,7 +436,14 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
 const V = 14;                                         // arcane sphere speed (m/s): direct
-const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
+// gentle drift: the sphere floats off the straight line (sideways + a little up) and settles back onto the target.
+// Seeded per cast (aT) so each Burst drifts differently; zero at both ends, so it always leaves the hand and hits the chest.
+const ARC = `vec3 arcAt(vec3 a, vec3 b, float f, float sd){
+    vec3 d = b - a; float L = length(d); vec3 side = normalize(cross(d, vec3(0., 1., 0.)));
+    float h = fract(sin(sd*91.7)*43758.5), sg = h < .5 ? -1. : 1.;
+    float lat = sg*L*(.03 + .025*fract(h*7.))*sin(3.14159*f) + L*.008*sin(6.28318*f + h*6.);   // main bow + a faint S wobble
+    float up = L*.015*sin(3.14159*f);
+    return mix(a, b, f) + side*lat + vec3(0., up, 0.); }`;
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1, aS:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aS; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
@@ -444,7 +451,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1, aS:1
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt + ${HS.toFixed(2)}){ ${HIDE} }                      // holds on the target during the hit stop
       float grow = 1. - pow(1. - clamp(u/.08, 0., 1.), 3.);                  // forms in the hand from the converged shards
-      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, min(u/tt, 1.)), 1.); mv.xyz += normalize(-mv.xyz)*.1;
+      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, min(u/tt, 1.), aT), 1.); mv.xyz += normalize(-mv.xyz)*.1;
       mv.xy += position.xy*aS*grow*1.25; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
@@ -468,7 +475,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
       if (head - tail < .01){ ${HIDE} }
       float s = position.x*.5 + .5;
       float fa = mix(tail, head, s)/L;
-      vec3 P = arcAt(aO, aE, fa), T = normalize(arcAt(aO, aE, min(fa + .01, 1.)) - arcAt(aO, aE, max(fa - .01, 0.)));
+      vec3 P = arcAt(aO, aE, fa, aT), T = normalize(arcAt(aO, aE, min(fa + .01, 1.), aT) - arcAt(aO, aE, max(fa - .01, 0.), aT));
       vec3 side = normalize(cross(T, P - cameraPosition));
       vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .09*s), 1.);
@@ -729,7 +736,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Carga: shards convergem para a mão', 0, 400, 0xd9c2ff],
-  ['Esfera violeta, direta (8 m: ~540 ms)', 400, 940, 0x9b5cff],
+  ['Esfera violeta com drift (8 m: ~540 ms)', 400, 940, 0x9b5cff],
   ['Hit stop', 940, 1000, 0xfff0d2],
   ['Pop no peito + círculo da AoE', 1000, 1600, 0x9b5cff],
 ];
