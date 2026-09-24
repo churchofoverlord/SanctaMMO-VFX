@@ -150,7 +150,8 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Anéis elétricos</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td class="n">2</td><td>Quatro anéis de raio à volta do Mage (0,45 · 0,95 · 1,45 · 1,8 m de altura, sentidos alternados), como no ícone: fita virada para a câmara com zigue-zague que volta a disparar ~20×/s; desenham-se à volta em 0,12 s, crepitam durante ~3 s e apagam</td></tr>
           <tr><td>AoE</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Anel no chão que abre uma vez até ao limite (4 m); o limite é o traço mais claro</td></tr>
-          <tr><td>Descargas</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td>Raio dos anéis até cada alvo dentro da área, 0,2 s, com faíscas no ponto de contacto</td></tr>
+          <tr><td>Raios ambiente</td><td class="n">7+7</td><td class="n">6+6</td><td class="n">3+3</td><td class="n">0</td><td>Raios que saem dos anéis em todas as direções (1,4–3 m) com uma ramificação cada; nova direção a cada 0,16 s, calculada na GPU, durante os ~3 s</td></tr>
+          <tr><td>Descargas</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td>Raio fractal (3 oitavas) de um dos anéis até cada alvo, com 3 ramificações, núcleo branco, a piscar e a re-disparar ~26×/s; 0,32 s; flash e faíscas no contacto</td></tr>
           <tr><td>Root (condicional)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só em alvos que já tinham Sapped: anel que fecha nos pés com 4 grampos de luz, 0,45 s, antes da nova aplicação</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
@@ -476,31 +477,49 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; attribute vec4 aP; uniform float uTime; varying float vS, vY, vF, vFl;
     float h1(float x){ return fract(sin(x*127.1)*43758.5); }
     float jag(float s, float st, float k){ float x = s*k, i = floor(x); return mix(h1(mod(i, k) + st), h1(mod(i + 1., k) + st), fract(x)) - .5; }   // periodic in s: the coil closes without a step
+    vec3 boltAt(float s, float st, vec3 A, vec3 B){                        // fractal zigzag (3 octaves), bowed a little
+      vec3 d = B - A, sd = normalize(cross(d, vec3(0., 1., 0.))), up = normalize(cross(sd, d));
+      float env = pow(sin(3.14159*s), .7), L = length(d);
+      float j1 = jag(s, st, 7.) + .45*jag(s, st + 3., 19.) + .2*jag(s, st + 9., 43.);
+      float j2 = jag(s, st + 7., 6.) + .45*jag(s, st + 11., 17.) + .2*jag(s, st + 13., 39.);
+      return mix(A, B, s) + (sd*j1 + up*j2)*env*L*.11 + up*env*L*.05;
+    }
     vec3 at(float s, float st, float u){
       if (aK < .5){
         float a = s*6.28318*aP.w + aP.z*6.28 + u*2.5*aP.w, R = aP.y*(1. + .08*jag(s, st, 26.));
         return aO + vec3(cos(a)*R, aP.x + .09*jag(s, st*1.7 + 3., 20.) + .06*sin(a*2. + aP.z*9.), sin(a)*R);
       }
-      vec3 d = aE - aO, sd = normalize(cross(d, vec3(0., 1., 0.))), up = normalize(cross(sd, d));
-      float env = sin(3.14159*s), L = length(d);
-      return mix(aO, aE, s) + (sd*jag(s, st, 11.) + up*jag(s, st + 7., 9.))*env*L*.14 + up*env*L*.06;
+      vec3 A = aO, B = aE;
+      if (aK > 2.5){                                   // ambient strike: a new outward direction every 0.16 s, from a coil point
+        float idx = floor(u/.16 + aP.z), h = h1(idx*1.37 + aP.z*91.), h2 = h1(idx*2.11 + aP.z*37.), h3 = h1(idx*3.7 + aP.z*13.);
+        float a = h*6.28318; vec3 r = vec3(cos(a), 0., sin(a));
+        A = aO + r*.75 + vec3(0., mix(.4, 1.8, h2), 0.);
+        B = A + normalize(r + vec3(0., (h3 - .5)*1.3, 0.))*(1.4 + 1.6*h3);
+      }
+      if (aK < 1.5 || (aK > 2.5 && aK < 3.5)) return boltAt(s, st, A, B);
+      // branch: forks off its main bolt at aP.x (same path, computed here), heads outward at angle aP.y for aP.w metres
+      vec3 S = boltAt(aP.x, st, A, B), d = normalize(B - A), sd = normalize(cross(d, vec3(0., 1., 0.))), up = cross(sd, d);
+      vec3 E2 = S + normalize(d*.6 + sd*cos(aP.y) + up*sin(aP.y))*aP.w;
+      return boltAt(s, st + 17., S, E2);
     }
     void main(){
-      float u = uTime - aT, life = aK < .5 ? 3. : .22;                       // coils hold ~3 s
+      float u = uTime - aT, life = aK < .5 || aK > 2.5 ? 3. : (aK < 1.5 ? .32 : .24);                       // coils hold ~3 s
       if (u < 0. || u > life){ ${HIDE} }
-      float st = floor(uTime*20.) + aP.z*50., s = position.x + .5;
+      float st = (aK > 2.5 ? floor((uTime - aT)/.16 + aP.z)*3.3 + floor(uTime*26.)*.0 : floor(uTime*(aK < .5 ? 20. : 26.))) + aP.z*50., s = position.x + .5;   // bolts re-strike faster
       float draw = aK < .5 ? clamp(u/.12, 0., 1.) : 1.;
       if (s > draw + .002){ ${HIDE} }                                           // coil draws itself around in 0.12 s
       vec3 P = at(s, st, u), T = normalize(at(min(s + .01, 1.), st, u) - at(max(s - .01, 0.), st, u));
       vec3 side = normalize(cross(T, P - cameraPosition));
-      float w = aK < .5 ? .05 : .045;
-      vS = s; vY = position.y*2.; vFl = .7 + .3*h1(st*3.1); vF = (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.2, .6, u))*(1. - smoothstep(2.6, 3., u)) : 1. - smoothstep(life*.55, life, u));
+      float w = aK < .5 ? .05 : (aK < 1.5 || aK > 2.5 && aK < 3.5 ? .09 : .05)*(.3 + .7*sin(3.14159*s));   // bolts taper at both ends
+      vS = s; vY = position.y*2.; vFl = aK < .5 ? .7 + .3*h1(st*3.1) : step(.22, h1(st*3.1))*(.7 + .6*h1(st*1.7));;   // bolts strobe on/off like real strikes
+      vF = (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.2, .6, u))*(1. - smoothstep(2.6, 3., u)) : aK > 2.5 ? step(fract(u/.16 + aP.z), .6)*(1. - smoothstep(2.6, 3., u))*1.3 : (1. - smoothstep(life*.55, life, u))*1.3);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*w*2., 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF, vFl;
     void main(){
-      float core = exp(-vY*vY*55.), halo = exp(-vY*vY*5.)*.35;
-      vec3 o = (uOrange*(halo + core*.6) + mix(uGold, vec3(1.), .55)*core*.9)*vF*vFl;
+      float core = exp(-vY*vY*40.), halo = exp(-vY*vY*3.5)*.5;
+      float core2 = exp(-vY*vY*140.);
+      vec3 o = (uOrange*(halo*1.1 + core*.8) + uGold*core*.6 + vec3(1., .95, .7)*core2*.35)*vF*vFl;   // saturated yellow, only a thin pale thread   // white-hot thread in the middle
       o *= smoothstep(1., .8, abs(vY));
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
@@ -646,19 +665,27 @@ function stab(O, yaw, tier, t0, targets){                   // Coil: two lightni
   const nC = COIL_N[tier];
   for (let c=0;c<nC;c++) put(0, O, O, [COILS[c][0], COILS[c][1], Math.random(), COILS[c][2]]);
   arcs.track(t0 + HOLD + .05, nC);
+  const nA = { 3:7, 2:6, 1:3, 0:0 }[tier];                         // ambient strikes crackling outward in all directions for the whole hold
+  for (let m=0;m<nA;m++){ const sd = Math.random(); put(3, O, O, [0, 0, sd, 0]); put(4, O, O, [rand(.3, .7), rand(0, 6.28), sd, rand(.5, 1.)]);
+    arcs.A.aT.setX((arcs.cur + arcs.N - 1) % arcs.N, t0); arcs.A.aT.setX((arcs.cur + arcs.N - 2) % arcs.N, t0); }
+  if (nA) arcs.track(t0 + HOLD + .05, nA*2);
   let k = rings.next();   // no shield shell here: shields get one shared status cue rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0 + .05); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, AOE, 0, 0, 0); rings.track(t0 + RL, 1);   // AoE ring
   castLog.push(t0 + HOLD);
   if (!targets) return;
   let nb = 0;
   for (const d of targets){
     if (Math.hypot(d.p.x - O.x, d.p.z - O.z) > AOE) continue;
-    const A = V3(O.x + (d.p.x - O.x)*.2, 1.05, O.z + (d.p.z - O.z)*.2), B = V3(d.p.x, 1.2, d.p.z);
-    put(1, A, B, [0, 0, Math.random(), 0]); nb++;
+    const dl = Math.hypot(d.p.x - O.x, d.p.z - O.z), ux = (d.p.x - O.x)/dl, uz = (d.p.z - O.z)/dl;
+    const A = V3(O.x + ux*.8, rand(.7, 1.5), O.z + uz*.8), B = V3(d.p.x - ux*.15, 1.25, d.p.z - uz*.15), sd = Math.random();
+    put(1, A, B, [0, 0, sd, 0]); nb++;
+    const nBr = tier ? 3 : 1;
+    for (let b=0;b<nBr;b++){ put(2, A, B, [rand(.25, .75), rand(0, 6.28), sd, rand(.45, 1.)]); nb++; }   // forks share the main bolt's seed
+    { const q = hits.next(); hits.A.aO.setXYZ(q, B.x, B.y, B.z); hits.A.aT.setX(q, t0 + .1); hits.A.aK.setX(q, 0); hits.track(t0 + .3, 1); }   // contact flash
     d.hitAt = t0 + .1;
     for (let m=0;m<(tier ? 4 : 0);m++){ const q = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(q, B.x, B.y, B.z); sparks.A.aV.setXYZ(q, Math.cos(a)*rand(1.5, 3), rand(0, 2.5), Math.sin(a)*rand(1.5, 3)); sparks.A.aT.setXY(q, t0 + .1, rand(.15, .28)); }
     if (d.sapped){ const r = rings.next(); rings.A.aO.setXYZ(r, d.p.x, 0, d.p.z); rings.A.aT.setX(r, t0 + .1); rings.A.aK.setX(r, 7); rings.A.aD.setXYZW(r, .7, 0, 0, 0); rings.track(t0 + .1 + RL, 1); }   // Root cue only if pre-Sapped
   }
-  if (nb){ arcs.track(t0 + .35, nb); sparks.track(t0 + .4, nb*4); }
+  if (nb){ arcs.track(t0 + .45, nb); sparks.track(t0 + .4, nb*4); }
 }
 
 // ============ post ============
