@@ -120,7 +120,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~3,8 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~6,8 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 3200 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 6200 ms</span></div>
   </div>
 
   <section class="budget">
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Feixe de fogo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Fita contínua da mão até 14 m, largura estável (0,32 m), virada para a câmara: fogo com a rampa de temperatura aprovada (Vortex), textura a correr para a frente, núcleo quente; segue a mira (steerable), sem se prender a alvos</td></tr>
+          <tr><td>Feixe de fogo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Fita contínua da mão até 22 m, largura estável (0,32 m), virada para a câmara: fogo com a rampa de temperatura aprovada (Vortex), textura a correr para a frente, núcleo quente; segue a mira (steerable), sem se prender a alvos</td></tr>
           <tr><td>Raios à volta</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td class="n">1</td><td>Raios dourados com a textura aprovada (Coil) enrolados ao longo do feixe, a re-disparar</td></tr>
           <tr><td>Ticks</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td>A cada 0,5 s: pulso curto de emissão e largura no feixe inteiro + pequeno impacto no ponto onde o feixe acerta (alvo ou fim do alcance)</td></tr>
           <tr><td>Boca</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Brilho quente na mão, onde o feixe nasce</td></tr>
@@ -484,11 +484,11 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       float j2 = jag(s, st + 7., 6.) + .45*jag(s, st + 11., 17.) + .2*jag(s, st + 13., 39.);
       return mix(A, B, s) + (sd*j1 + up*j2)*env*L*.11 + up*env*L*.05;
     }
-    vec3 aimDir(float base, float sweep, float u){ float y = base + sweep*.42*sin(u*.95); return vec3(-sin(y), -.012, -cos(y)); }
+    vec3 aimDir(float base, float sweep, float u){ float y = base + sweep*.42*sin(u*.6); return vec3(-sin(y), -.012, -cos(y)); }
     vec3 at(float s, float st, float u){
       if (aK > 4.5){                                   // bolt coiled along the beam
         vec3 d = aimDir(aP.x, aP.y, u), sd = normalize(cross(d, vec3(0., 1., 0.))), up = cross(sd, d);
-        float L = 14.*clamp(u/.12, 0., 1.), a = s*L*1.6 + aP.w*6.28 - u*9.;
+        float L = 22.*clamp(u/.12, 0., 1.), a = s*L*1.6 + aP.w*6.28 - u*9.;
         float r = .2 + .06*jag(s, st, 30.);
         return aO + d*s*L + (sd*cos(a) + up*sin(a))*r + (sd*jag(s, st + 3., 60.) + up*jag(s, st + 5., 55.))*.08;
       }
@@ -511,7 +511,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
     }
     void main(){
       float u = uTime - aT, life = aK < .5 || aK > 2.5 ? 3. : (aK < 1.5 ? .32 : .24);
-      if (aK > 4.5) life = 3.;                       // coils hold ~3 s
+      if (aK > 4.5) life = 6.;                       // coils hold ~3 s
       if (u < 0. || u > life){ ${HIDE} }
       float st = (aK > 4.5 ? floor(uTime*18.) : aK > 2.5 ?  floor((uTime - aT)/.32 + aP.z)*3.3 + floor(uTime*26.)*.0 : floor(uTime*(aK < .5 ? 20. : 14.))) + aP.z*50., s = position.x + .5;   // bolts re-strike faster
       float draw = aK < .5 ? clamp(u/.12, 0., 1.) : 1.;
@@ -520,7 +520,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       vec3 side = normalize(cross(T, P - cameraPosition));
       float w = aK > 4.5 ? .035*(.4 + .6*smoothstep(0., .05, s)*smoothstep(1., .9, s)) : aK < .5 ? .05 : (aK < 1.5 ? .09 : aK > 2.5 && aK < 3.5 ? .028 : .018)*(.3 + .7*sin(3.14159*s));   // bolts taper at both ends
       vS = s; vY = position.y*2.; vSt = st; vFl = aK < .5 ? .7 + .3*h1(st*3.1) : step(.22, h1(st*3.1))*(.7 + .6*h1(st*1.7));;   // bolts strobe on/off like real strikes
-      vF = aK > 4.5 ? .45*(1. - smoothstep(2.7, 3., u))*(.8 + .6*exp(-fract(u/.5)*9.)) : (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.2, .6, u))*(1. - smoothstep(2.6, 3., u)) : aK > 2.5 ? smoothstep(0., .04, fract(u/.32 + aP.z))*(1. - smoothstep(.22, .34, fract(u/.32 + aP.z)))*.45*(1. - smoothstep(2.6, 3., u))*1.3 : (1. - smoothstep(life*.55, life, u))*1.3);
+      vF = aK > 4.5 ? .45*(1. - smoothstep(5.7, 6., u))*(.8 + .6*exp(-fract(u/.5)*9.)) : (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.2, .6, u))*(1. - smoothstep(2.6, 3., u)) : aK > 2.5 ? smoothstep(0., .04, fract(u/.32 + aP.z))*(1. - smoothstep(.22, .34, fract(u/.32 + aP.z)))*.45*(1. - smoothstep(2.6, 3., u))*1.3 : (1. - smoothstep(life*.55, life, u))*1.3);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*w*3.2, 1.);   // wider strip: room for the soft glow
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF, vFl, vSt;
@@ -544,17 +544,17 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
 // Layer B — the beam: ONE continuous camera-facing fire ribbon from the hand along the aim (steerable, not locked to a target).
 // Fire look = approved Vortex recipe (temperature ramp, premultiplied, flow stretched along the beam). Ticks pulse it every 0.5 s.
 // aO = hand, aP = (base yaw, sweep 0/1).
-const BEAM_T = 3.0, TICK = .5;
+const BEAM_T = 6.0, TICK = .5;
 const beam = pool(new THREE.PlaneGeometry(1, 1, 96, 1), 128, { aO:3, aT:1, aP:2 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime },
   vertexShader:`attribute vec3 aO; attribute float aT; attribute vec2 aP; uniform float uTime; varying vec2 vS; varying float vU, vPk;
-    vec3 aimDir(float base, float sweep, float u){ float y = base + sweep*.42*sin(u*.95); return vec3(-sin(y), -.012, -cos(y)); }
+    vec3 aimDir(float base, float sweep, float u){ float y = base + sweep*.42*sin(u*.6); return vec3(-sin(y), -.012, -cos(y)); }
     void main(){ float u = uTime - aT; if (u < 0. || u > ${BEAM_T.toFixed(2)}){ ${HIDE} }
-      vec3 d = aimDir(aP.x, aP.y, u); float s = position.x + .5, L = 14.*(1. - pow(1. - clamp(u/.12, 0., 1.), 3.));
+      vec3 d = aimDir(aP.x, aP.y, u); float s = position.x + .5, L = 22.*(1. - pow(1. - clamp(u/.12, 0., 1.), 3.));
       vec3 P = aO + d*s*L, side = normalize(cross(d, P - cameraPosition));
       float pk = exp(-fract(u/${TICK.toFixed(2)})*9.);                               // tick pulse
-      float w = .16*(1. + .25*pk)*(.55 + .45*smoothstep(0., .04, s))*(1. - smoothstep(2.75, 3., u)*.7);
+      float w = .16*(1. + .25*pk)*(.55 + .45*smoothstep(0., .04, s))*(1. - smoothstep(5.75, 6., u)*.7);
       vS = vec2(s*L, position.y*2.); vU = u; vPk = pk;
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*2.*w, 1.); }`,
   fragmentShader:`varying vec2 vS; varying float vU, vPk;
@@ -567,7 +567,7 @@ const beam = pool(new THREE.PlaneGeometry(1, 1, 96, 1), 128, { aO:3, aT:1, aP:2 
       float n = n1*.6 + n2*.4, yy = y + (n1 - .5)*.35;
       float body = exp(-yy*yy*3.)*smoothstep(.05, .95, n + .4*(1. - abs(yy)));
       float coreL = exp(-y*y*26.);
-      float fade = smoothstep(${BEAM_T.toFixed(2)}, ${BEAM_T.toFixed(2)} - .3, t)*smoothstep(0., .5, x)*smoothstep(14., 12.5, x);
+      float fade = smoothstep(${BEAM_T.toFixed(2)}, ${BEAM_T.toFixed(2)} - .3, t)*smoothstep(0., .5, x)*smoothstep(22., 20., x);
       float T = clamp(.2 + .4*body + .08*coreL + .12*vPk, 0., .62);   // centre stays red-orange: no yellow core
       vec3 smoke = vec3(.012, .008, .006), red = vec3(.42, .025, .004), org = vec3(1., .22, .015), yel = vec3(1., .5, .06), wht = vec3(1., .8, .38);
       vec3 col = T < .25 ? mix(smoke, red, T/.25) : T < .55 ? mix(red, org, (T - .25)/.3) : T < .85 ? mix(org, yel, (T - .55)/.3) : mix(yel, wht, clamp((T - .85)/.3, 0., 1.));
@@ -724,10 +724,10 @@ function stab(O, yaw, tier, t0, targets, sw = sweepOn){      // Laser: steerable
   { const q = hits.next(); hits.A.aO.setXYZ(q, H.x, H.y, H.z); hits.A.aT.setX(q, t0); hits.A.aK.setX(q, 0); hits.track(t0 + .2, 1); }   // muzzle flash
   // ticks: where does the beam land at each tick? (same aim function as the GPU) → impact there
   for (let tk=1; tk*TICK <= BEAM_T - .05; tk++){
-    const u = tk*TICK, ay = yaw + sw*.42*Math.sin(u*.95), dx = -Math.sin(ay), dz = -Math.cos(ay);
-    let P = V3(H.x + dx*14, H.y - .012*14, H.z + dz*14), hitD = null;
+    const u = tk*TICK, ay = yaw + sw*.42*Math.sin(u*.6), dx = -Math.sin(ay), dz = -Math.cos(ay);
+    let P = V3(H.x + dx*22, H.y - .012*22, H.z + dz*22), hitD = null;
     for (const d of targets || []){ const vx = d.p.x - H.x, vz = d.p.z - H.z, along = vx*dx + vz*dz, off = Math.abs(vx*dz - vz*dx);
-      if (along > .3 && along < 14 && off < .45){ P = V3(H.x + dx*along, 1.25, H.z + dz*along); hitD = d; break; } }
+      if (along > .3 && along < 22 && off < .45){ P = V3(H.x + dx*along, 1.25, H.z + dz*along); hitD = d; break; } }
     const q = hits.next(); hits.A.aO.setXYZ(q, P.x, P.y, P.z); hits.A.aT.setX(q, t0 + u); hits.A.aK.setX(q, 0); hits.track(t0 + u + .2, 1);
     for (let m=0;m<(tier ? 4 : 1);m++){ const z = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(z, P.x, P.y, P.z); sparks.A.aV.setXYZ(z, Math.cos(a)*rand(1, 2.5), rand(.5, 2.5), Math.sin(a)*rand(1, 2.5)); sparks.A.aT.setXY(z, t0 + u, rand(.2, .35)); }
     sparks.track(t0 + u + .35, tier ? 4 : 1);
@@ -809,10 +809,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Feixe estende-se da mão', 0, 120, 0xff4a12],
-  ['Feixe contínuo + raios (steerable)', 120, 3000, 0xffc21e],
-  ['Ticks: pulso + impacto (0,5 s)', 500, 3000, 0xfff1a8],
+  ['Feixe contínuo + raios (steerable)', 120, 6000, 0xffc21e],
+  ['Ticks: pulso + impacto (0,5 s)', 500, 6000, 0xfff1a8],
 ];
-const TOTAL = 3200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 6200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -826,7 +826,7 @@ const tLoop = $('tLoop'), tStress = $('tStress');
 const posBtns = document.querySelectorAll('#posSeg button');
 function setPos(r){ rearPos = r; setFacing(r); posBtns.forEach(b => b.setAttribute('aria-pressed', (+b.dataset.p === 1) === r)); }
 
-let camZ = -5; const distBtns = document.querySelectorAll('#distSeg button');
+let camZ = -8; const distBtns = document.querySelectorAll('#distSeg button');
 distBtns.forEach(b => b.onclick = () => { sweepOn = +b.dataset.d;
   distBtns.forEach(x => x.setAttribute('aria-pressed', x === b)); });
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
@@ -841,7 +841,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = 1.1, pitch = .5, dist = 13, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
+let yaw = 1.1, pitch = .5, dist = 18, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -868,7 +868,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 3.8) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 6.8) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
