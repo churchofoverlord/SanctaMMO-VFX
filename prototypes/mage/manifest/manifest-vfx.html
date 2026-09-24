@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Trança à cintura (persistente)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Três fios de luz por Mage (vermelho, azul, amarelo): uma só malha instanciada (240 segmentos) que a GPU dobra no círculo e torce em 3D a partir do tempo; cada fio é uma fita fina virada para a câmara, aditiva</td></tr>
+          <tr><td>Trança à cintura (persistente)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Três fios de luz por Mage (vermelho, azul, amarelo): uma só malha instanciada (240 segmentos) que a GPU dobra no círculo e torce em 3D a partir do tempo; cada fio é uma fita suave virada para a câmara, aditiva, com densidade de plasma em ruído</td></tr>
           <tr><td>Entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader: a trança abre do centro para o raio em 0,3 s com pico de 2 frames. Zero partículas</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todos os Mages em ecrã partilham a mesma draw call</td></tr>
         </tbody>
@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Só a trança</h3><p>O Manifest não tem nada no chão nem nada em órbita: só um círculo à cintura feito de três fios de luz, vermelho, azul e amarelo, torcidos uns nos outros.</p></div>
-    <div><h3>Trança em 3D, só luz</h3><p>Os três fios torcem-se à volta do núcleo do círculo (7 voltas), com deslocamento radial e vertical, e a torção corre devagar. Não têm estrutura sólida: cada um é um núcleo fino quase branco com um brilho curto na sua cor. O corpo tapa a parte de trás.</p></div>
+    <div><h3>Trança de plasma</h3><p>Os três fios torcem-se juntos à volta do núcleo do círculo (7 voltas, afastamento curto) e a torção corre devagar. Cada fio é um corpo suave tipo plasma/nuvem: a densidade corre ao longo do fio com ruído e as bordas ondulam. Brilho baixo, sem núcleo branco forte. O corpo tapa a parte de trás.</p></div>
     <div><h3>Assinaturas ficam nos feitiços</h3><p>Burn, Slow e Sapped aparecem só nos alvos atingidos (cues de status). O Weave é um protótipo à parte (outro GameplayCue).</p></div>
   </section>
 </div>
@@ -453,9 +453,9 @@ const uFire = { value:lin(0xff3a2a) }, uIce = { value:lin(0x3f8cff) }, uBolt = {
 const braidGeo = new THREE.PlaneGeometry(1, 1, 240, 1);           // x = along the ring, y = across the thread (camera-facing)
 const orbits = pool(braidGeo, BRS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uFire, uIce, uBolt },
-  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying float vY, vU, vK; ${EOX}
+  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying float vY, vU, vK, vA; ${EOX}
     vec3 path(float a, float R, float k){                             // centre of thread k at ring angle a: twisted around the ring core in 3D
-      float tw = 7.*a + k*2.0944 - uTime*1.1, A = .045;
+      float tw = 7.*a + k*2.0944 - uTime*1.1, A = .02;          // threads kept close together
       vec3 rad = vec3(cos(a), 0., sin(a));
       return vec3(cos(a)*R, ${BR_H}, sin(a)*R) + A*(cos(tw)*rad + sin(tw)*vec3(0., 1., 0.));
     }
@@ -464,14 +464,23 @@ const orbits = pool(braidGeo, BRS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
       float a = (position.x + .5)*6.28318 + aP.x, k = aP.y;
       vec3 P = aO + path(a, R, k), T = normalize(path(a + .004, R, k) - path(a, R, k));
       vec3 side = normalize(cross(T, P - cameraPosition));             // ribbon always faces the camera: a thread of light
-      vY = position.y*2.; vU = u; vK = k;
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.036, 1.); }`,
-  fragmentShader:`uniform vec3 uFire, uIce, uBolt; varying float vY, vU, vK;
+      vY = position.y*2.; vU = u; vK = k; vA = a;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.075, 1.); /* wider ribbon: room for a soft plasma body */ }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uFire, uIce, uBolt; varying float vY, vU, vK, vA;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
     void main(){
       vec3 c = vK < .5 ? uFire : (vK < 1.5 ? uIce : uBolt);
-      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);
-      float core = exp(-vY*vY*60.), halo = exp(-vY*vY*7.)*.35;           // thin bright core + short soft glow, zero at the ribbon edge
-      vec3 o = (c*(core*.9 + halo) + mix(c, vec3(1.), .6)*core*.45)*pk;
+      float pk = vU < .033 ? 1.6 : 1. + .5*exp(-max(vU - .033, 0.)*10.);
+      // plasma / cloud: a soft body whose density drifts along the thread with two octaves of noise; the edge wobbles too
+      vec2 q = vec2(vA*9. - uTime*.9 + vK*7.3, vY*1.6);
+      float n = vn(q)*.6 + vn(q*2.3 + vec2(uTime*.4, 3.1))*.4;
+      float wob = vY + (vn(vec2(vA*14. + uTime*.7, vK*5.)) - .5)*.5;
+      float body = exp(-wob*wob*4.)*(.35 + .65*n);
+      float core = exp(-wob*wob*22.)*(.4 + .6*n);
+      vec3 o = (c*(body*.32 + core*.28) + mix(c, vec3(1.), .35)*core*.1)*pk;
+      o *= smoothstep(1., .75, abs(vY));                                   // zero at the ribbon edge
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
 
