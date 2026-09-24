@@ -72,3 +72,6 @@ e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 2. **Cliente:** cada skill cabe no orçamento do seu tipo (ver `docs/ue-vfx-tech-spec.html`, secção 04). Sem trabalho por partícula no CPU, sem luz dinâmica por defeito, sem refração.
 3. **Escalabilidade:** o próprio jogador vê a versão completa; os outros degradam por distância e quantidade até ficar só a silhueta.
 4. **Visual:** dark fantasy realista mas simples — uma forma dominante por skill, paleta do ícone, brilho só no instante do impacto.
+| Scout · Cleanse | Mesmo VFX do Cleanse do Fighter (laranja e dourado) | [prototypes/scout/cleanse/cleanse-vfx.html](prototypes/scout/cleanse/cleanse-vfx.html) |
+| Mage · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta violeta e azul | [prototypes/mage/cleanse/cleanse-vfx.html](prototypes/mage/cleanse/cleanse-vfx.html) |
+| Mystic · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta azul e ciano | [prototypes/mystic/cleanse/cleanse-vfx.html](prototypes/mystic/cleanse/cleanse-vfx.html) |
