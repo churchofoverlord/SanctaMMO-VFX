@@ -1,4 +1,4 @@
-<title>Severing Strike I</title>
+<title>Severing Strike III</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -81,10 +81,10 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Fighter · Cone / cleave · Paleta neutra</div>
-      <h1>Severing <span>Strike</span> I</h1>
+      <div class="eyebrow">SanctaMMO · Fighter · Cone / cleave · Profundidade III · Paleta neutra</div>
+      <h1>Severing <span>Strike</span> III</h1>
     </div>
-    <p class="canon"><b>Efeito canónico:</b> cleave corpo-a-corpo largo. Acertos repetidos no mesmo alvo avançam a sequência Severing.</p>
+    <p class="canon"><b>Efeito canónico:</b> Upgrade: capacidade passa a 3; o terceiro hit no mesmo alvo aplica Wounded + Brittle + Sapped.</p>
   </header>
 
   <div class="main">
@@ -151,9 +151,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um único arco</h3><p>Arco de nível I: raio 1,25 m, abertura ~140°. O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
-    <div><h3>Feedback só no acerto</h3><p>Faíscas e marca de sequência aparecem apenas nos alvos atingidos; nada é desenhado no corpo do alvo. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.</p></div>
-    <div><h3>Família Severing</h3><p>II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas).</p></div>
+    <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
+    <div><h3>Só o payoff novo</h3><p>Arco de nível III: maior (raio 2,05 m, ~190°), mesma forma e timing. A profundidade III fecha a marca de sequência: ao 3.º acerto no mesmo alvo, um círculo desenha-se à volta das linhas cruzadas.</p></div>
+    <div><h3>Skill ≠ status</h3><p>Wounded, Brittle e Sapped que ficam no alvo são VFX dos cues de status partilhados. A marca de sequência desaparece em ~0,6 s; não há aura nem marcador persistente.</p></div>
   </section>
 </div>
 
@@ -416,8 +416,8 @@ const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
 const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .12;                                   // wind-up before the snap (s)
-const SPAN = 1.2;                                   // half-angle of the cleave (rad)
-const ARC_R = 1.25;                                  // arc radius (m)
+const SPAN = 1.68;                                   // half-angle of the cleave (rad)
+const ARC_R = 2.05;                                  // arc radius (m)
 
 // Layer 1 — the slash: one horizontal quad in World Space per swing
 const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, addMat({
@@ -464,10 +464,10 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; attribute vec2 aK; uniform float uTime; varying vec2 vP; varying float vU, vK, vN;
     void main(){
-      float u = uTime - aT; float life = aK.x < .5 ? .14 : .6;
+      float u = uTime - aT; float life = aK.x < .5 ? .14 : (aK.x < 1.5 ? .3 : .6);
       if (u < 0. || u > life){ ${HIDE} }
       vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;
-      float S = aK.x < .5 ? .5 : .3; mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK.x; vN = aK.y;
+      float S = aK.x < .5 ? .5 : (aK.x < 1.5 ? .55 : .3); mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK.x; vN = aK.y;
       gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vN; ${STROKE}
@@ -480,8 +480,20 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
         float d = min(seg(p, vec2(-L,0.), vec2(L,0.)), seg(p, vec2(0.,-L*.55), vec2(0.,L*.55)));
         float f = 1. - t;
         lum += stroke(d, .006 + .006*f)*f*1.6 + exp(-dot(p,p)*90.)*f*1.4; hot += lcore(d, .003)*f;
+      } else if (vK < 1.5) {
+        // II payoff (2nd Severing on the same target): the impact becomes two quick crossing cuts —
+        // drawn in 60 ms, gone by 300 ms. A proc pulse only; the lasting Wounded state is the status cue's job.
+        float t = vU/.3, f = pow(1. - smoothstep(.35, 1., t), 1.3);
+        float d1 = clamp(t/.12, 0., 1.), d2 = clamp((t - .08)/.12, 0., 1.);
+        vec2 a1 = vec2(-.22, .14), b1 = mix(a1, vec2(.22, -.12), d1);
+        vec2 a2 = vec2(-.2, -.16), b2 = mix(a2, vec2(.2, .15), d2);
+        float s1 = seg(p, a1, b1), s2 = seg(p, a2, b2);
+        float tp1 = sin(3.14159*clamp(dot(p - a1, normalize(b1 - a1 + 1e-4))/.5, 0., 1.));   // thin ends, full middle
+        float tp2 = sin(3.14159*clamp(dot(p - a2, normalize(b2 - a2 + 1e-4))/.5, 0., 1.));
+        lum += (stroke(s1, .004 + .012*tp1)*step(.001, d1) + stroke(s2, .004 + .012*tp2)*step(.001, d2))*f*1.3;
+        hot += (lcore(s1, .003)*tp1 + lcore(s2, .003)*tp2)*f*.9;
       } else {
-        // sequence mark: one calligraphic cut + count pips, draws in, holds, fades
+        // sequence mark (same as Severing I): one calligraphic cut + count pips (capacity 2)
         // count is read by shape: 1 = one cut, 2 = two crossed cuts, 3 = crossed cuts inside a circle
         float t = vU/.6, f = 1. - smoothstep(.55, 1., t);
         float d1 = smoothstep(0., .1, t), d2 = smoothstep(.06, .16, t), d3 = smoothstep(.1, .26, t);
@@ -532,10 +544,10 @@ function swing(O, yaw, tier, t0, targets){
     const a = Math.atan2(lx, lf);
     if (dist > ARC_R + .7 || Math.abs(a) > SPAN) continue;
     const hitT = th + (1 - Math.pow(1 - (SPAN - a)/(2*SPAN), .5))*.09;   // hit lands when the drawing head passes the target
-    tg.hitAt = hitT; tg.seq = Math.min(1, (tg.seq || 0) + 1);
+    tg.hitAt = hitT; tg.seq = (tg.seq || 0) + 1; const seqNow = tg.seq, proc = seqNow >= 3; if (proc) tg.seq = 0;   // capacity 3: the 3rd Severing procs
     const hp = V3(tg.p.x - dx/dist*.22, 1.15, tg.p.z - dz/dist*.22);
     let k;                                                   // no hit marker on the target's body — sparks + sequence mark only
-    if (T.mark){ k = marks.next(); marks.A.aO.setXYZ(k, tg.p.x, 1.62, tg.p.z); marks.A.aT.setX(k, hitT + .03); marks.A.aK.setXY(k, 1, tg.seq); }
+    if (T.mark){ k = marks.next(); marks.A.aO.setXYZ(k, tg.p.x, 1.62, tg.p.z); marks.A.aT.setX(k, hitT + .03); marks.A.aK.setXY(k, 2, seqNow); }
     if (T.mark) marks.track(hitT + .65, 1);
     const tlx = -Math.cos(a), tlf = Math.sin(a);              // swing tangent in local space (right → left)
     const tx = Math.cos(yaw)*tlx - Math.sin(yaw)*tlf, tz = -(Math.sin(yaw)*tlx + Math.cos(yaw)*tlf);
@@ -589,7 +601,7 @@ if (hasPost){
 
 // ============ targets: 3 training dummies in front (1 instanced draw each part) ============
 const dummyMat = new THREE.MeshStandardMaterial({ color:lin(0x4a3a2c), roughness:.9 });
-const dummies = [V3(-.8,0,-1.05), V3(.1,0,-1.35), V3(.85,0,-1.0)].map(p => ({ p, base:p.clone(), hitAt:-1e9, seq:0 }));
+const dummies = [V3(-1.3,0,-1.7), V3(.1,0,-2.25), V3(1.4,0,-1.65)].map(p => ({ p, base:p.clone(), hitAt:-1e9, seq:0 }));
 const dPost = new THREE.InstancedMesh(new THREE.CylinderGeometry(.05,.06,1.1,8).translate(0,.55,0), dummyMat, 3);
 const dBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.22,.2,.7,14).translate(0,1.25,0), dummyMat, 3);
 const dHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.13,14,10).translate(0,1.75,0), dummyMat, 3);
@@ -623,7 +635,7 @@ const PHASES = [
   ['Segura no tamanho máximo', 210, 350, 0xf2b53a],
   ['Apaga a partir da origem (centro por último)', 350, 800, 0xff7a1a],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
-  ['Marca de sequência', 160, 760, 0xc9a0ff],
+  ['Marca: linha · cruz · cruz + círculo (3.º)', 160, 760, 0xc9a0ff],
 ];
 const TOTAL = 800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {

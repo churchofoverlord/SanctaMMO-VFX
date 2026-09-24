@@ -152,7 +152,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
-    <div><h3>Só o payoff novo</h3><p>O arco é exatamente o do Severing I. A profundidade II só muda a marca de sequência: ao 2.º acerto no mesmo alvo, a linha ganha uma segunda linha cruzada.</p></div>
+    <div><h3>Só o payoff novo</h3><p>Arco de nível II: raio 1,6 m, ~170°. A profundidade II só muda a marca de sequência: ao 2.º acerto no mesmo alvo, a linha ganha uma segunda linha cruzada.</p></div>
     <div><h3>Skill ≠ status</h3><p>A ferida que fica no alvo (Wounded) é VFX do cue de status partilhado. A marca de sequência desaparece em ~0,6 s; não há aura nem marcador persistente.</p></div>
   </section>
 </div>
@@ -417,6 +417,7 @@ const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*e
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .12;                                   // wind-up before the snap (s)
 const SPAN = 1.5;                                   // half-angle of the cleave (rad)
+const ARC_R = 1.6;                                  // arc radius (m)
 
 // Layer 1 — the slash: one horizontal quad in World Space per swing
 const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, addMat({
@@ -424,7 +425,7 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
   vertexShader:`attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying vec2 vF; varying float vU;
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .68){ ${HIDE} }
-      float S = 2.3; vec2 l = position.xy*S;             // local: x right, y forward
+      float S = ${(ARC_R*1.44).toFixed(2)}; vec2 l = position.xy*S;             // local: x right, y forward
       float c = cos(aYaw), s = sin(aYaw);
       vec2 w = vec2(c*l.x - s*l.y, -(s*l.x + c*l.y));      // forward = -z
       vF = l; vU = u;
@@ -445,7 +446,7 @@ const slashes = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
       float thin = 1. - .4*smoothstep(.2, .62, vU)*(1. - .5*mid);
       // just the arc: thin at both ends, thick in the middle, with a gentle ease at the tips
       float ends = pow(prof, .75);
-      float rr = 1.6 - .06*(1. - s);
+      float rr = ${ARC_R.toFixed(2)} - .06*(1. - s);
       float w = (.004 + .1*pow(prof, 1.3) + .2*mid)*thin;
       float d = r - rr;
       float band = exp(-pow(abs(d)/w, 2.4));                  // flatter core, crisp but soft edge
@@ -541,7 +542,7 @@ function swing(O, yaw, tier, t0, targets){
     const dx = tg.p.x - O.x, dz = tg.p.z - O.z, dist = Math.hypot(dx, dz);
     const lx = Math.cos(yaw)*dx - Math.sin(yaw)*dz, lf = -(Math.sin(yaw)*dx + Math.cos(yaw)*dz);   // local x / forward
     const a = Math.atan2(lx, lf);
-    if (dist > 2.3 || Math.abs(a) > SPAN) continue;
+    if (dist > ARC_R + .7 || Math.abs(a) > SPAN) continue;
     const hitT = th + (1 - Math.pow(1 - (SPAN - a)/(2*SPAN), .5))*.09;   // hit lands when the drawing head passes the target
     tg.hitAt = hitT; tg.seq = (tg.seq || 0) + 1; const seqNow = tg.seq, proc = seqNow >= 2; if (proc) tg.seq = 0;   // capacity 2: the 2nd Severing procs
     const hp = V3(tg.p.x - dx/dist*.22, 1.15, tg.p.z - dz/dist*.22);
