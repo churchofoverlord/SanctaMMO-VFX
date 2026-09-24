@@ -51,7 +51,7 @@ prototypes/
 | Fighter · Severing Strike II | Otimizado (arco do I; marca de sequência linha → linhas cruzadas no 2.º acerto, 3 draw calls) | [prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html](prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html) |
 | Fighter · Severing Strike III | Otimizado (arco maior; marca linha → cruz → cruz + círculo no 3.º acerto, 3 draw calls) | [prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html](prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html) |
 | Scout · Backstab I | Otimizado (adaga atirada com rasto fino, melee ou range; flash pequeno só no acerto pelas costas = Interrupt, 2–4 draw calls) | [prototypes/scout/backstab/backstab-vfx.html](prototypes/scout/backstab/backstab-vfx.html) |
-| Scout · Torpor | Otimizado (dardo sólido rápido + anel de lentidão estático nos pés, 2–4 draw calls) | [prototypes/scout/torpor/torpor-vfx.html](prototypes/scout/torpor/torpor-vfx.html) |
+| Scout · Torpor | Otimizado (seta sólida rápida + anel de lentidão estático nos pés, 2–4 draw calls) | [prototypes/scout/torpor/torpor-vfx.html](prototypes/scout/torpor/torpor-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 

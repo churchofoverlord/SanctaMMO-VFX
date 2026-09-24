@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Dardo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha sólida pequena instanciada (ponta, haste, aletas), de ponta para a frente a 30 m/s; voo na GPU</td></tr>
+          <tr><td>Dardo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha sólida instanciada em forma de seta (ponta larga, haste, penas), de ponta para a frente a 30 m/s; voo na GPU</td></tr>
           <tr><td>Rasto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Faixa fina e curta (até 1,2 m) atrás do dardo</td></tr>
           <tr><td>Anel de lentidão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão sob o alvo: 3 anéis concêntricos (os de dentro em arcos), estático, 0,9 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2–4</td><td class="n">2–4</td><td class="n">2–4</td><td class="n">2–4</td><td>Partilhadas por todos os Scouts</td></tr>
@@ -158,7 +158,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Projétil sólido e rápido</h3><p>Um dardo pequeno com ponta, haste e aletas, de ponta para a frente, a 30 m/s, com um rasto curto. Lê-se como um objeto, não como magia.</p></div>
+    <div><h3>Projétil sólido e rápido</h3><p>Uma seta com ponta larga e plana, haste e penas, de ponta para a frente, a 30 m/s, com um rasto curto. Lê-se como um objeto, não como magia.</p></div>
     <div><h3>Anel nos pés, estático</h3><p>No hit, aparecem de imediato três anéis concêntricos no chão sob o alvo, como no ícone; os de dentro partidos em arcos. Não expandem nem rodam: pico de 2 frames, seguram e apagam.</p></div>
     <div><h3>Skill ≠ status</h3><p>O anel é o cue curto do hit. O Slow que fica no alvo é do cue de status.</p></div>
   </section>
@@ -427,9 +427,9 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
 const V = 30;                                         // dart speed (m/s): solid and fast
-const bladeGeo = (() => { const tip = new THREE.ConeGeometry(.035, .2, 6).rotateZ(-Math.PI/2).translate(.12, 0, 0);
-  const shaft = new THREE.CylinderGeometry(.012, .012, .26, 6).rotateZ(Math.PI/2).translate(-.1, 0, 0);
-  const fin1 = new THREE.BoxGeometry(.08, .07, .004).translate(-.2, 0, 0), fin2 = new THREE.BoxGeometry(.08, .004, .07).translate(-.2, 0, 0);
+const bladeGeo = (() => { const tip = new THREE.ConeGeometry(.075, .24, 4).rotateZ(-Math.PI/2).scale(1, 1, .25).translate(.16, 0, 0);   // broad flat arrowhead
+  const shaft = new THREE.CylinderGeometry(.011, .011, .42, 6).rotateZ(Math.PI/2).translate(-.17, 0, 0);
+  const fin1 = new THREE.BoxGeometry(.1, .08, .004).translate(-.33, 0, 0), fin2 = new THREE.BoxGeometry(.1, .004, .08).translate(-.33, 0, 0);
   const parts = [tip, shaft, fin1, fin2].map(x => x.toNonIndexed().attributes.position.array), P = new Float32Array(parts.reduce((n, p) => n + p.length, 0));
   let o = 0; for (const p of parts){ P.set(p, o); o += p.length; }
   const m = new THREE.BufferGeometry(); m.setAttribute('position', new THREE.BufferAttribute(P, 3)); m.computeVertexNormals(); return m; })();
