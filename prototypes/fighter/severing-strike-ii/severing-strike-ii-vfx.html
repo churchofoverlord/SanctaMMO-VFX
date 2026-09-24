@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Arco do corte</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal em World Space; só o arco (fino nas pontas, grosso no meio), no shader; cresce no sentido do golpe e apaga-se a partir da origem</td></tr>
-          <tr><td>Impacto / payoff II</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Billboard no ponto de impacto: estrela normal, ou corte cruzado breve no 2.º Severing (proc)</td></tr>
+          <tr><td>Impacto / payoff II + marca de sequência</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">2/alvo</td><td class="n">1/alvo</td><td>Estrela normal ou corte cruzado breve no 2.º Severing (proc); marca de sequência com 1–2 pontos, como no I</td></tr>
           <tr><td>Faíscas</td><td class="n">6/alvo</td><td class="n">6/alvo</td><td class="n">3/alvo</td><td class="n">0</td><td>GPU, esticadas pela velocidade, no sentido do golpe</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Um único arco</h3><p>O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.</p></div>
     <div><h3>Só o payoff novo</h3><p>O arco é exatamente o do Severing I. A profundidade II só acrescenta o momento do proc: ao 2.º acerto no mesmo alvo, o impacto vira um corte cruzado que se desenha em 60 ms e desaparece aos 300 ms.</p></div>
-    <div><h3>Skill ≠ status</h3><p>A ferida que fica no alvo (Wounded) é VFX do cue de status partilhado. Aqui não há aura, marcador persistente nem contador por cima do alvo.</p></div>
+    <div><h3>Skill ≠ status</h3><p>A ferida que fica no alvo (Wounded) é VFX do cue de status partilhado. A marca de sequência (como no I) mostra 1 ou 2 pontos e desaparece em ~0,6 s; não há aura nem marcador persistente.</p></div>
   </section>
 </div>
 
@@ -463,10 +463,10 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; attribute vec2 aK; uniform float uTime; varying vec2 vP; varying float vU, vK, vN;
     void main(){
-      float u = uTime - aT; float life = aK.x < .5 ? .14 : .3;
+      float u = uTime - aT; float life = aK.x < .5 ? .14 : (aK.x < 1.5 ? .3 : .6);
       if (u < 0. || u > life){ ${HIDE} }
       vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;
-      float S = aK.x < .5 ? .5 : .55; mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK.x; vN = aK.y;
+      float S = aK.x < .5 ? .5 : (aK.x < 1.5 ? .55 : .3); mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK.x; vN = aK.y;
       gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vN; ${STROKE}
@@ -479,7 +479,7 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
         float d = min(seg(p, vec2(-L,0.), vec2(L,0.)), seg(p, vec2(0.,-L*.55), vec2(0.,L*.55)));
         float f = 1. - t;
         lum += stroke(d, .006 + .006*f)*f*1.6 + exp(-dot(p,p)*90.)*f*1.4; hot += lcore(d, .003)*f;
-      } else {
+      } else if (vK < 1.5) {
         // II payoff (2nd Severing on the same target): the impact becomes two quick crossing cuts —
         // drawn in 60 ms, gone by 300 ms. A proc pulse only; the lasting Wounded state is the status cue's job.
         float t = vU/.3, f = pow(1. - smoothstep(.35, 1., t), 1.3);
@@ -491,6 +491,14 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
         float tp2 = sin(3.14159*clamp(dot(p - a2, normalize(b2 - a2 + 1e-4))/.5, 0., 1.));
         lum += (stroke(s1, .004 + .012*tp1)*step(.001, d1) + stroke(s2, .004 + .012*tp2)*step(.001, d2))*f*1.3;
         hot += (lcore(s1, .003)*tp1 + lcore(s2, .003)*tp2)*f*.9;
+      } else {
+        // sequence mark (same as Severing I): one calligraphic cut + count pips (capacity 2)
+        float t = vU/.6, draw = smoothstep(0., .12, t), f = 1. - smoothstep(.55, 1., t);
+        vec2 a = vec2(-.11, -.06), b = mix(a, vec2(.11, .07), draw);
+        float d = seg(p, a, b), w = .013;
+        float taper = clamp(1. - length(p - b)/.25, .25, 1.);
+        lum += stroke(d, w*taper)*f; hot += lcore(d, .003)*f*.8;
+        for (int i=0;i<3;i++){ if (float(i) >= vN) break; vec2 c = vec2(-.03 + .06*float(i), -.14); lum += exp(-dot(p-c,p-c)/.0004)*f*1.2; }
       }
       vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .65)*hot*1.2;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
@@ -516,7 +524,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
       gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.6 + vec3(1., .95, .85)*c*vF*1.4)*(.4 + 1.6*vF*vF), 1.); }` }));
 
 // ============ spawning (CPU work only when a swing lands) ============
-const TIER = { 3:{ sp:6 }, 2:{ sp:6 }, 1:{ sp:3 }, 0:{ sp:0 } };
+const TIER = { 3:{ sp:6, mark:true }, 2:{ sp:6, mark:true }, 1:{ sp:3, mark:true }, 0:{ sp:0, mark:false } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function swing(O, yaw, tier, t0, targets){
@@ -528,10 +536,11 @@ function swing(O, yaw, tier, t0, targets){
     const a = Math.atan2(lx, lf);
     if (dist > 2.3 || Math.abs(a) > SPAN) continue;
     const hitT = th + (1 - Math.pow(1 - (SPAN - a)/(2*SPAN), .5))*.09;   // hit lands when the drawing head passes the target
-    tg.hitAt = hitT; tg.seq = (tg.seq || 0) + 1; const proc = tg.seq >= 2; if (proc) tg.seq = 0;   // capacity 2: the 2nd Severing procs
+    tg.hitAt = hitT; tg.seq = (tg.seq || 0) + 1; const seqNow = tg.seq, proc = seqNow >= 2; if (proc) tg.seq = 0;   // capacity 2: the 2nd Severing procs
     const hp = V3(tg.p.x - dx/dist*.22, 1.15, tg.p.z - dz/dist*.22);
-    const k = marks.next(); marks.A.aO.setXYZ(k, hp.x, hp.y, hp.z); marks.A.aT.setX(k, hitT); marks.A.aK.setXY(k, proc ? 1 : 0, 0);
-    marks.track(hitT + (proc ? .3 : .14), 1);
+    let k = marks.next(); marks.A.aO.setXYZ(k, hp.x, hp.y, hp.z); marks.A.aT.setX(k, hitT); marks.A.aK.setXY(k, proc ? 1 : 0, 0);
+    if (T.mark){ k = marks.next(); marks.A.aO.setXYZ(k, tg.p.x, 1.62, tg.p.z); marks.A.aT.setX(k, hitT + .03); marks.A.aK.setXY(k, 2, seqNow); }
+    marks.track(hitT + .65, T.mark ? 2 : 1);
     const tlx = -Math.cos(a), tlf = Math.sin(a);              // swing tangent in local space (right → left)
     const tx = Math.cos(yaw)*tlx - Math.sin(yaw)*tlf, tz = -(Math.sin(yaw)*tlx + Math.cos(yaw)*tlf);
     for (let n=0;n<T.sp;n++){
@@ -619,6 +628,7 @@ const PHASES = [
   ['Apaga a partir da origem (centro por último)', 350, 800, 0xff7a1a],
   ['Impacto no alvo', 130, 270, 0xfff0d2],
   ['Faíscas (GPU)', 130, 580, 0xf2b53a],
+  ['Marca de sequência (1 / 2)', 160, 760, 0x8f8a82],
   ['Payoff II: corte cruzado (2.º acerto)', 130, 430, 0xc9a0ff],
 ];
 const TOTAL = 800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
