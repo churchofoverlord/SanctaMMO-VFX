@@ -81,7 +81,7 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Scout · Ataque ST · rear arc · Paleta laranja e dourado</div>
+      <div class="eyebrow">SanctaMMO · Scout · Adaga atirada ST · melee ou range · rear arc · Paleta laranja e dourado</div>
       <h1><span>Backstab</span> I</h1>
     </div>
     <p class="canon"><b>Efeito canónico:</b> ataque ST; se o Scout estiver no rear arc no hit autoritativo, também Interrupta.</p>
@@ -99,6 +99,13 @@ tr:last-child td{border-bottom:0}
         <div class="seg" id="posSeg">
           <button data-p="1" aria-pressed="true">Atrás do alvo</button>
           <button data-p="0" aria-pressed="false">À frente</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Distância ao alvo</legend>
+        <div class="seg" id="distSeg">
+          <button data-d="8" aria-pressed="true">Longe · 8 m</button>
+          <button data-d="1.6" aria-pressed="false">Perto · 1,6 m</button>
         </div>
       </fieldset>
       <fieldset>
@@ -120,7 +127,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>alterna atrás / à frente</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>alterna atrás / à frente, a cada ~1,6 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>ataques de outros jogadores</small></span></label>
       </fieldset>
       <fieldset>
@@ -149,19 +156,19 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Estocada</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad alinhado ao golpe (1,25 m), fino na origem, ponta afiada</td></tr>
-          <tr><td>Impacto + flash traseiro</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>No mesmo sistema: estrela de impacto sempre; flash de raios assimétrico só no acerto pelas costas, 0,28 s</td></tr>
-          <tr><td>Faíscas</td><td class="n">4–6</td><td class="n">4–6</td><td class="n">2–4</td><td class="n">0</td><td>GPU, no sentido do golpe; +2 no acerto pelas costas</td></tr>
-          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Scouts</td></tr>
+          <tr><td>Adaga</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha sólida pequena instanciada (lâmina + punho); voo em linha a 24 m/s calculado na GPU</td></tr>
+          <tr><td>Rasto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma faixa fina virada para a câmara, até 1,7 m atrás da adaga; recolhe para o alvo no hit</td></tr>
+          <tr><td>Flash traseiro</td><td class="n">0–1</td><td class="n">0–1</td><td class="n">0–1</td><td class="n">0–1</td><td>Só no acerto pelas costas: flash pequeno de raios assimétrico, 0,28 s, + 3 faíscas (0 em Baixo)</td></tr>
+          <tr><td>Draw calls</td><td class="n">2–4</td><td class="n">2–4</td><td class="n">2–4</td><td class="n">2–3</td><td>Partilhadas por todos os Scouts</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Ataque simples</h3><p>Uma estocada curta e afiada até ao alvo, com a estrela de impacto e poucas faíscas. De frente, é só isto.</p></div>
-    <div><h3>Pelas costas: inequívoco</h3><p>Quando o Scout está no rear arc do alvo, rebenta um flash de raios dourados assimétrico (longo para cima e para a frente, curto do outro lado), como no ícone, com um pico de 2 frames. É o sinal do Interrupt; o alvo cambaleia com mais força.</p></div>
-    <div><h3>Frente legível</h3><p>O boneco tem uma placa no peito para se ver para onde está virado. "Atrás do alvo" / "À frente" roda o boneco; o loop alterna entre as duas.</p></div>
+    <div><h3>Adaga atirada</h3><p>Uma adaga sólida sai da mão e voa em linha reta até ao alvo, com um rasto fino dourado atrás. Funciona igual perto ou à distância (teste a 8 m).</p></div>
+    <div><h3>De frente: nada mais</h3><p>Acertar de frente é só a adaga a chegar e o alvo a reagir; sem flash nem faíscas.</p></div>
+    <div><h3>Pelas costas: flash pequeno</h3><p>No rear arc, um flash curto e assimétrico nas costas do alvo, com 3 faíscas: é o sinal do Interrupt. A placa no peito do boneco mostra para onde está virado.</p></div>
   </section>
 </div>
 
@@ -425,40 +432,49 @@ const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .1;                                    // pull-back before the stab (s)
 const LEN = 1.25, GROW = .07;                       // short stab: line length (m) and draw-out time (s)
 
-// Layer 1 — the thrust: one quad per attack, aligned to the thrust axis and turned to face the camera
-const lines = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, addMat({
-  uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying float vS, vY, vU;
+// Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
+// thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
+const V = 24;                                         // dagger speed (m/s) — also used at range
+const bladeGeo = (() => { const g = new THREE.OctahedronGeometry(1, 0); g.scale(.17, .018, .032); g.translate(.05, 0, 0);
+  const grip = new THREE.BoxGeometry(.1, .022, .022).translate(-.16, 0, 0), m = new THREE.BufferGeometry();
+  const a = g.toNonIndexed(), b = grip.toNonIndexed(), P = new Float32Array(a.attributes.position.count*3 + b.attributes.position.count*3), N = new Float32Array(P.length);
+  P.set(a.attributes.position.array); P.set(b.attributes.position.array, a.attributes.position.array.length);
+  m.setAttribute('position', new THREE.BufferAttribute(P, 3)); m.computeVertexNormals(); return m; })();
+const daggers = pool(bladeGeo, 256, { aO:3, aE:3, aT:1 }, new THREE.ShaderMaterial({
+  uniforms:{ uTime, uGold, uMoon:{ value:moonDir } },
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec3 vN, vV;
     void main(){
-      float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > .7){ ${HIDE} }
-      vec3 dir = vec3(-sin(aYaw), 0., -cos(aYaw));             // forward = -z at yaw 0
-      float s = position.x*.5 + .5, W = .2;
-      vec3 P = aO + vec3(0., 1.12, 0.) + dir*(.25 + s*${LEN.toFixed(2)});
-      vec3 side = normalize(cross(dir, P - cameraPosition));
-      vS = s; vY = position.y*W; vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
+      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
+      if (u < 0. || u > tt){ ${HIDE} }
+      vec3 d = (aE - aO)/L, up = vec3(0., 1., 0.), sd = normalize(cross(d, up)), vu = cross(sd, d);
+      float roll = u*14.;                                    // a slow roll along the flight axis
+      vec3 b1 = sd*cos(roll) + vu*sin(roll), b2 = cross(d, b1);
+      vec3 P = mix(aO, aE, u/tt) + d*position.x + b2*position.y + b1*position.z;
+      vN = normalize(d*normal.x + b2*normal.y + b1*normal.z); vV = normalize(cameraPosition - P);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vU; ${STROKE}
+  fragmentShader:`uniform vec3 uGold, uMoon; varying vec3 vN, vV;
+    void main(){ vec3 n = normalize(vN); float l = .18 + .7*max(dot(n, uMoon), 0.), rim = pow(1. - abs(dot(n, normalize(vV))), 3.);
+      gl_FragColor = vec4(vec3(.5, .5, .52)*l*.6 + uGold*rim*.9, 1.); }` }));
+const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF;
     void main(){
-      float s = vS;
-      float prof = sin(3.14159*pow(s, 1.35));                 // thin at the origin, fullest near the front, sharp tip
-      float front = pow(prof, 3.)*smoothstep(.3, .8, s);       // the part that matters: the piercing front
-      float grow = 1. - pow(1. - clamp(vU/${GROW.toFixed(2)}, 0., 1.), 2.);
-      float wipe = max(vU - .2, 0.)/.35;                       // after the hold, fades from the Fighter outward; tip last
-      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .08 - .35*front, wipe + .2 - .35*front, s);
-      float fade = 1. - smoothstep(.52, .7, vU);
-      float thin = 1. - .4*smoothstep(.15, .6, vU)*(1. - .5*front);
-      float ends = pow(prof, .75);
-      float w = (.003 + .06*pow(prof, 1.3) + .07*front)*thin;
-      float d = abs(vY);
-      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
-      float head = exp(-pow((s - grow)/.03, 2.)) * (1. - step(1., grow));
-      float k = alive*fade*ends*(vU > ${GROW.toFixed(2)} && vU < ${(GROW+.033).toFixed(3)} ? 1.25 : 1.);
-      vec3 col = mix(uOrange, uGold, .35 + .65*prof);
-      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-      gl_FragColor = vec4(outc, 1.);
-    }` }));
+      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
+      if (u < 0. || u > tt + .2){ ${HIDE} }
+      vec3 d = (aE - aO)/L;
+      float head = min(u*${V.toFixed(1)}, L), tail = max(0., head - 1.7) + max(0., u - tt)/.2*1.7;   // after the hit, the tail catches up
+      if (head - tail < .01){ ${HIDE} }
+      float s = position.x*.5 + .5;
+      vec3 P = aO + d*mix(tail, head - .12, s);
+      vec3 side = normalize(cross(d, P - cameraPosition));
+      vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.03, 1.);
+    }`,
+  fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF;
+    void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);
+      vec3 o = (mix(uOrange, uGold, .6)*a*.55 + vec3(1., .95, .85)*c*.35)*vF;
+      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
@@ -470,7 +486,7 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
       vU = u; vK = aK;
       if (aK < .5 || aK > 1.5){
         vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;
-        float S = aK < .5 ? .4 : 1.05; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
+        float S = aK < .5 ? .4 : .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
       } else {
         float S = .62; vP = position.xy*S;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);
@@ -483,13 +499,13 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
       if (vK > 1.5){
         // rear flash (Interrupt): an asymmetric burst of rays from the stab point — long up-and-forward, short elsewhere
         float r = length(p), a = atan(p.y, p.x), t = vU/.28, f = pow(1. - t, 1.6)*(vU < .033 ? 1.7 : 1.);
-        float N = 13., fa = floor(a/6.2832*N + .5), ac = fa/N*6.2832;
+        float N = 9., fa = floor(a/6.2832*N + .5), ac = fa/N*6.2832;
         float h = fract(sin(fa*37.1)*4375.5);
-        float L = (.22 + .7*pow(max(0., cos(ac - .75)), 2.) + .15*h)*(1. - pow(1. - clamp(vU/.07, 0., 1.), 3.));
+        float L = (.1 + .3*pow(max(0., cos(ac - .75)), 2.) + .06*h)*(1. - pow(1. - clamp(vU/.07, 0., 1.), 3.));
         float d = abs(sin(a - ac))*r, w = .014*(1. - r/max(L, .01)) + .003;
         float ray = exp(-pow(d/w, 2.))*smoothstep(L, L*.55, r)*smoothstep(.02, .06, r);
         lum += ray*f*1.2 + exp(-r*r*60.)*f*1.4; hot += ray*f*.5 + exp(-r*r*200.)*f;
-        lum *= smoothstep(1.05, .9, r); hot *= smoothstep(1.05, .9, r);
+        lum *= smoothstep(.5, .42, r); hot *= smoothstep(.5, .42, r);
       } else if (vK < .5){
         float t = vU/.13, L = .06 + .24*sqrt(t), f = 1. - t;
         float d = min(seg(p, vec2(-L,0.), vec2(L,0.)), seg(p, vec2(0.,-L*.5), vec2(0.,L*.5)));
@@ -535,36 +551,34 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true }, 0:{ sp:0, slow:false } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
-let rearCount = 0;
-function stab(O, yaw, tier, t0, targets){
-  const i = lines.next(); lines.A.aO.setXYZ(i, O.x, 0, O.z); lines.A.aYaw.setX(i, yaw); lines.A.aT.setX(i, t0); lines.track(t0 + WIND + .7, 1);
-  const T = TIER[tier], fx = -Math.sin(yaw), fz = -Math.cos(yaw);
-  let tg = null, best = 1e9;                               // single target: the first one on the stab line
+let rearCount = 0; const RANGE = 12;
+function stab(O, yaw, tier, t0, targets){                   // thrown dagger (melee or range)
+  const T = TIER[tier], fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
+  const H = V3(O.x + rx*.36 + fx*.3, 1.3, O.z + rz*.36 + fz*.3);    // released from the throwing hand
+  let tg = null, best = 1e9;
   for (const d of targets || []){
     const dx = d.p.x - O.x, dz = d.p.z - O.z, along = dx*fx + dz*fz, off = Math.abs(dx*fz - dz*fx);
-    if (along > .2 && along < LEN + .5 && off < .45 && along < best){ best = along; tg = d; }
+    if (along > .3 && along < RANGE && off < .6 && along < best){ best = along; tg = d; }
   }
-  castLog.push(t0 + .9);
-  let hp, hitT, rear;
-  if (tg){
-    const s0 = clamp01((best - .25)/LEN); hitT = t0 + WIND + (1 - Math.sqrt(1 - s0))*GROW; tg.hitAt = hitT;
-    hp = V3(tg.p.x - fx*.2, 1.12, tg.p.z - fz*.2);
-    const rx = O.x - tg.p.x, rz = O.z - tg.p.z, rn = Math.hypot(rx, rz) || 1;
-    rear = (rx*tg.fx + rz*tg.fz)/rn < -.5;                  // the Scout is behind the target's facing (authoritative hit)
-  } else if (!targets){                                     // stress: other Scouts stab the air, half of them "from behind"
-    hitT = t0 + WIND + GROW; hp = V3(O.x + fx*1.2, 1.12, O.z + fz*1.2); rear = Math.random() < .5;
-  } else return;
-  let k = hits.next(); hits.A.aO.setXYZ(k, hp.x, hp.y, hp.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 0); hits.track(hitT + .15, 1);
-  if (rear){ k = hits.next(); hits.A.aO.setXYZ(k, hp.x, hp.y + .05, hp.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 2); hits.track(hitT + .28, 1);
-    if (tg){ tg.intAt = hitT; rearCount++; } }
-  const n = rear ? T.sp + 2 : T.sp;
-  for (let m=0;m<n;m++){
-    const j = sparks.next();
-    sparks.A.aO.setXYZ(j, hp.x, hp.y + rand(-.08,.08), hp.z);
-    sparks.A.aV.setXYZ(j, fx*rand(3,6) + rand(-1.5,1.5), rand(.4,2.4), fz*rand(3,6) + rand(-1.5,1.5));
-    sparks.A.aT.setXY(j, hitT, rand(.2,.36));
+  let E, rear;
+  if (tg){ const tx = tg.p.x - H.x, tz = tg.p.z - H.z, tn = Math.hypot(tx, tz); E = V3(tg.p.x - tx/tn*.2, 1.2, tg.p.z - tz/tn*.2);
+    const ax = O.x - tg.p.x, az = O.z - tg.p.z, an = Math.hypot(ax, az) || 1; rear = (ax*tg.fx + az*tg.fz)/an < -.5; }
+  else if (!targets){ E = V3(O.x + fx*rand(3, 9), 1.2, O.z + fz*rand(3, 9)); rear = Math.random() < .5; }
+  else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); rear = false; }
+  const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
+  let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
+  i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, t0); trails.track(hitT + .2, 1);
+  castLog.push(hitT + .3);
+  if (!tg && targets) return;
+  if (tg) tg.hitAt = hitT;
+  if (rear){                                               // only from behind: a small flash (Interrupt); from the front, nothing more
+    const k = hits.next(); hits.A.aO.setXYZ(k, E.x, E.y, E.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 2); hits.track(hitT + .28, 1);
+    if (tg){ tg.intAt = hitT; rearCount++; }
+    const n = T.sp ? 3 : 0, dx = (E.x - H.x), dz = (E.z - H.z), dn = Math.hypot(dx, dz);
+    for (let m=0;m<n;m++){ const j = sparks.next(); sparks.A.aO.setXYZ(j, E.x, E.y, E.z);
+      sparks.A.aV.setXYZ(j, dx/dn*rand(2,4) + rand(-1,1), rand(.4,2), dz/dn*rand(2,4) + rand(-1,1)); sparks.A.aT.setXY(j, hitT, rand(.18,.3)); }
+    if (n) sparks.track(hitT + .3, n);
   }
-  if (n) sparks.track(hitT + .4, n);
 }
 
 // ============ post ============
@@ -607,7 +621,7 @@ if (hasPost){
 // ============ target: one dummy with a readable front (chest plate); the toggle turns it away from / towards the Scout ============
 const dummyMat = new THREE.MeshStandardMaterial({ color:lin(0x4a3a2c), roughness:.9 });
 const plateMat = new THREE.MeshStandardMaterial({ color:lin(0x8a7a62), roughness:.6, metalness:.3 });
-const dummy = { p:V3(0,0,-1.45), base:V3(0,0,-1.45), hitAt:-1e9, intAt:-1e9, yaw:0, fx:0, fz:-1 };
+const dummy = { p:V3(0,0,-8), base:V3(0,0,-8), hitAt:-1e9, intAt:-1e9, yaw:0, fx:0, fz:-1 };
 const dummies = [dummy];
 const dG = new THREE.Group(); scene.add(dG);
 [[new THREE.CylinderGeometry(.05,.06,1.1,8), 0,.55,0, dummyMat], [new THREE.CylinderGeometry(.22,.2,.7,14), 0,1.25,0, dummyMat],
@@ -636,12 +650,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Recuo (corpo)', 0, 100, 0x8f8a82],
-  ['Estocada curta cresce', 100, 170, 0xffffff],
-  ['Segura e apaga a partir do Scout', 170, 800, 0xff7a1a],
-  ['Impacto no alvo', 110, 240, 0xfff0d2],
-  ['Rear: flash assimétrico (Interrupt)', 110, 390, 0xf2b53a],
-  ['Faíscas (GPU)', 110, 470, 0xc9a0ff],
+  ['Lançamento (corpo)', 0, 100, 0x8f8a82],
+  ['Adaga em voo + rasto fino (8 m: ~330 ms)', 100, 430, 0xf2b53a],
+  ['Rasto recolhe até ao alvo', 430, 630, 0xff7a1a],
+  ['Pelas costas: flash pequeno (Interrupt)', 430, 710, 0xfff0d2],
 ];
 const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -657,10 +669,13 @@ const tLoop = $('tLoop'), tStress = $('tStress');
 const posBtns = document.querySelectorAll('#posSeg button');
 function setPos(r){ rearPos = r; setFacing(r); posBtns.forEach(b => b.setAttribute('aria-pressed', (+b.dataset.p === 1) === r)); }
 posBtns.forEach(b => b.onclick = () => setPos(+b.dataset.p === 1));
+let camZ = -4; const distBtns = document.querySelectorAll('#distSeg button');
+distBtns.forEach(b => b.onclick = () => { const d = +b.dataset.d; dummy.base.set(0, 0, -d); dummy.p.copy(dummy.base); camZ = -d/2; dist = d > 4 ? 9.5 : 4.3;
+  distBtns.forEach(x => x.setAttribute('aria-pressed', x === b)); });
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
 function localSwing(){
-  if (time - localT < .45) return;
+  if (time - localT < .7) return;
   localT = time; idle = 0;
   stab(hero.position, 0, quality, time, dummies);
 }
@@ -669,7 +684,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = 1.0, pitch = .3, dist = 4.3, drag = null;   // 3/4 side view so the thrust reads along its length
+let yaw = 1.25, pitch = .28, dist = 9.5, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -704,8 +719,8 @@ function frame(now){
       g.next = time + rand(1.2, 2.6);
     }
   }
-  lines.tick(time); hits.tick(time); sparks.tick(time);
-  lines.flush(); hits.flush(); sparks.flush();
+  daggers.tick(time); trails.tick(time); hits.tick(time); sparks.tick(time);
+  daggers.flush(); trails.flush(); hits.flush(); sparks.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -726,16 +741,16 @@ function frame(now){
   heads.forEach(h => { h.style.opacity = ms >= 0 ? 1 : 0; h.style.left = (clamp01(ms/TOTAL)*100) + '%'; });
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
-  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, 1.0, -.8);
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, camZ + Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(0, 1.0, camZ);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [lines, hits, sparks].filter(p => p.active).length;
-    S.part.textContent = lines.count + hits.count + sparks.count;
+    S.draw.textContent = [daggers, trails, hits, sparks].filter(p => p.active).length;
+    S.part.textContent = daggers.count + trails.count + hits.count + sparks.count;
     S.casts.textContent = castLog.length; S.rear.textContent = rearCount;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
