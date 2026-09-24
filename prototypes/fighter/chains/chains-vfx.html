@@ -350,6 +350,8 @@ part(new THREE.BoxGeometry(.018,.07,.26), darkArmor, 0,1.86,0);                 
 const blade = part(new THREE.BoxGeometry(.055,1.0,.01), new THREE.MeshStandardMaterial({ color:lin(0xb9b4ad), metalness:.6, roughness:.28, roughnessMap:mTex, envMapIntensity:1.3 }), .5,.18,-.12, 1,1,1, .12,0,.05);
 part(new THREE.BoxGeometry(.24,.03,.04), darkArmor, .47,.68,-.06, 1,1,1, .12,0,.05);
 part(new THREE.CylinderGeometry(.018,.018,.16,8), leather, .465,.77,-.05, 1,1,1, .12,0,.05);
+// chain origins: the fists (in front of each gauntlet), read from the model at the release pose
+const handMk = [1, -1].map(sd => { const o = new THREE.Object3D(); o.position.set(sd*.46, .7, -.11); body.add(o); return o; });
 // cape
 const capeGeo = new THREE.PlaneGeometry(.6, 1.18, 12, 20); capeGeo.translate(0, -.59, 0);
 const capeBase = capeGeo.attributes.position.array.slice();
@@ -564,7 +566,15 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 const TIER = { 3:{ sp:6, SP:.17 }, 2:{ sp:6, SP:.17 }, 1:{ sp:3, SP:.17 }, 0:{ sp:0, SP:.26 } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
-function chain(O, yaw, tier, t0, targets){
+const REL_LX = .14, REL_LZ = -.14;                           // release pose (body lean / push) — held while the chains are out
+function handsAtRelease(){
+  const rx0 = body.rotation.x, ry0 = body.rotation.y, pz0 = body.position.z;
+  body.rotation.set(REL_LX, 0, 0); body.position.z = REL_LZ; hero.updateMatrixWorld(true);
+  const out = handMk.map(o => o.getWorldPosition(new THREE.Vector3()));
+  body.rotation.set(rx0, ry0, 0); body.position.z = pz0; hero.updateMatrixWorld(true);
+  return out;
+}
+function chain(O, yaw, tier, t0, targets, hands){
   const T = TIER[tier], fx = -Math.sin(yaw), fz = -Math.cos(yaw), rx = Math.cos(yaw), rz = -Math.sin(yaw);
   let tg = null, best = 1e9;                                   // first valid target on the narrow line
   for (const d of targets || []){
@@ -573,10 +583,10 @@ function chain(O, yaw, tier, t0, targets){
   }
   const hit = tg ? 1 : 0;
   let tEnd = 0, th = 1e9, Ec = null;
-  for (const side of [1, -1]){                                 // one chain from each hand, converging on the same target
-    const H = V3(O.x + rx*.34*side + fx*.3, 1.2, O.z + rz*.34*side + fz*.3);
+  [1, -1].forEach((side, hi) => {                              // one chain from each hand, converging on the same target
+    const H = hands ? hands[hi].clone() : V3(O.x + rx*.46*side + fx*.25, .72, O.z + rz*.46*side + fz*.25);
     const E = tg ? V3(tg.p.x - fx*.2 + rx*.07*side, 1.15 + .04*side, tg.p.z - fz*.2 + rz*.07*side)
-                 : V3(H.x + fx*LMAX, 1.05, H.z + fz*LMAX);
+                 : V3(H.x + fx*LMAX, H.y + .25, H.z + fz*LMAX);
     const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = travel(L), end = t0 + WIND + tR + (hit ? HOLD + DIS : L/VR);
     for (let i=0;i<n;i++){
       const j = links.next();
@@ -586,7 +596,8 @@ function chain(O, yaw, tier, t0, targets){
     const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hit); haze.A.aT.setX(h, t0);
     haze.track(end, 1);
     tEnd = Math.max(tEnd, end); th = Math.min(th, t0 + WIND + tR); Ec = E;
-  }
+  });
+  chain.lastEnd = tEnd;
   castLog.push(tEnd);
   if (!tg) return -1;
   tg.hitAt = th;
@@ -688,7 +699,7 @@ PHASES.forEach(([l,a,b,c]) => {
 const heads = [...tl.querySelectorAll('.playhead')];
 
 // ============ state / input ============
-let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, hitRel = -1;
+let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, hitRel = -1, endRel = 0;
 const tLoop = $('tLoop'), tStress = $('tStress'), tLine = $('tLine');
 tLine.onchange = () => { const off = tLine.checked ? 0 : 1.7; dummies.forEach((d, i) => { if (i < 2) d.base.x = [.12, -.08][i] + off; }); };
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
@@ -696,8 +707,8 @@ tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.check
 function localSwing(){
   if (time - localT < 1.2) return;
   localT = time; idle = 0;
-  const th = chain(hero.position, 0, quality, time, dummies);
-  hitRel = th > 0 ? th - time : -1;
+  const th = chain(hero.position, 0, quality, time, dummies, handsAtRelease());
+  hitRel = th > 0 ? th - time : -1; endRel = chain.lastEnd - time;
 }
 $('castBtn').onclick = localSwing;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwing(); } });
@@ -748,11 +759,12 @@ function frame(now){
   // throw: twist back, whip forward along the chain; hit stop holds the pose 2 frames on contact, then leans back against the taut chain
   const ta = hitRel > 0 && dtc > hitRel ? Math.max(hitRel, dtc - 2/60) : dtc;
   let ry = 0, lx = 0, lz = 0;
-  // two-handed: draw both arms back, then thrust forward (no twist — both chains leave together)
+  // two-handed: draw both arms back, thrust forward, and HOLD the release pose while the chains are out
+  // (the chains start at the fists in this pose), then recover
   if (ta >= 0 && ta < WIND){ const k = ta/WIND; lx = -.1*k; lz = .07*k; }
-  else if (ta >= WIND && ta < WIND + .12){ const k = easeOutCubic((ta - WIND)/.12); lx = -.1 + .24*k; lz = .07 - .21*k; }
-  else if (ta >= WIND + .12 && ta < 1.6){ const k = easeOutCubic((ta - WIND - .12)/(1.48 - WIND)); lx = .14*(1 - k); lz = -.14*(1 - k);
-    if (hitRel > 0 && ta > hitRel && ta < hitRel + HOLD){ const h = (ta - hitRel)/HOLD; lx -= .12*Math.sin(h*3.14159); } }
+  else if (ta >= WIND && ta < WIND + .12){ const k = easeOutCubic((ta - WIND)/.12); lx = -.1 + (REL_LX + .1)*k; lz = .07 + (REL_LZ - .07)*k; }
+  else if (ta >= WIND + .12 && ta < endRel){ lx = REL_LX; lz = REL_LZ; }
+  else if (ta >= endRel && ta < endRel + .45){ const k = easeOutCubic((ta - endRel)/.45); lx = REL_LX*(1 - k); lz = REL_LZ*(1 - k); }
   body.rotation.y = ry; body.rotation.x = lx; body.position.z = lz; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
