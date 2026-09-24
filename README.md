@@ -25,6 +25,7 @@ prototypes/
 | Fighter · Severing Strike I | Otimizado (arco em snap num quad, impacto + marca de sequência, faíscas GPU, 3 draw calls) | [prototypes/fighter/severing-strike/severing-strike-vfx.html](prototypes/fighter/severing-strike/severing-strike-vfx.html) |
 | Fighter · Piercing Strike I | Otimizado (linha perfurante num quad, impacto + cue breve de Slow, faíscas GPU, 3 draw calls) | [prototypes/fighter/piercing-strike/piercing-strike-vfx.html](prototypes/fighter/piercing-strike/piercing-strike-vfx.html) |
 | Fighter · Shoulder Rush I | Otimizado (rasto à altura do tronco atrás do Fighter, impacto leve, hit stop, 3 draw calls) | [prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html](prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html) |
+| Fighter · Crushing Blow I | Otimizado (telegraph + rachas + onda num quad, traço vertical, fragmentos GPU, 3 draw calls) | [prototypes/fighter/crushing-blow/crushing-blow-vfx.html](prototypes/fighter/crushing-blow/crushing-blow-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
