@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, virado entre a câmara e o céu (lê-se sempre inteiro, com ligeira inclinação 3D), raio 0,95 m: 4 lâminas de fogo largas e curvas, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
+          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, deitado na horizontal (como um shuriken lançado) e a oscilar uns graus, raio 0,95 m: 4 lâminas de fogo largas e curvas, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
           <tr><td>Núcleo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Esfera de fogo quente no centro do disco (billboard)</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Disco de fogo a girar</h3><p>Ao estilo de um Rasenshuriken, mas de fogo: uma esfera quente ao centro e um disco largo virado para a câmara com ligeira inclinação, com 4 lâminas curvas e um anel de riscos a rodar muito depressa. A rotação é apresentação; a trajetória é linear, sem rasto longo.</p></div>
+    <div><h3>Disco de fogo a girar</h3><p>Ao estilo de um Rasenshuriken, mas de fogo: uma esfera quente ao centro e um disco largo que viaja deitado na horizontal, com um ligeiro desvio e oscilação, com 4 lâminas curvas e um anel de riscos a rodar muito depressa. A rotação é apresentação; a trajetória é linear, sem rasto longo.</p></div>
     <div><h3>Empurrão lateral claro</h3><p>No impacto, o fogo rebenta no peito e o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
     <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
@@ -428,7 +428,10 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
 const V = 7;                                         // vortex speed (m/s): large, massive, linear
-const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
+// flat, near-linear flight with a gentle weave: small sideways sway + a slight bob, zero at both ends (leaves the hand, hits the chest)
+const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){
+    vec3 d = b - a; vec3 side = normalize(cross(d, vec3(0., 1., 0.))); float e = sin(3.14159*f);
+    return mix(a, b, f) + side*.22*sin(f*9.)*e + vec3(0., .07*sin(f*13. + 1.), 0.)*e; }`;
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
@@ -474,15 +477,16 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 const VR = .95;
 const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
       vec3 d = (aE - aO)/L, sd = normalize(cross(d, vec3(0., 1., 0.))), up = cross(sd, d);
       // disc faces between the camera and the sky: always reads as a full spinning disc, with a slight 3D lean
-      vec3 C = aO + d*u*${V.toFixed(1)};
-      vec3 n = normalize(normalize(cameraPosition - C) + vec3(0., .8, 0.));
-      vec3 e1 = normalize(cross(vec3(0., 1., 0.), n) + d*.001), e2 = cross(n, e1);
+      // travels flat (horizontal disc, like a thrown shuriken) and wobbles: the plane rocks a few degrees on both axes
+      vec3 C = arcAt(aO, aE, u/tt);
+      vec3 n = normalize(vec3(0., 1., 0.) + sd*.16*sin(u*5.2) + d*.1*sin(u*3.7 + 1.));
+      vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
       float grow = 1. - pow(1. - clamp(u/.12, 0., 1.), 3.);
       vec3 P = C + (e1*position.x + e2*position.y)*${VR}*grow;
       vP = position.xy; vU = u;
