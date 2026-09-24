@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Brisa</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad vertical à volta do corpo (virado à câmara só em Y): oito fiapos suaves que sobem dos pés e se dissipam, tudo no shader</td></tr>
+          <tr><td>Brisa</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um cilindro aberto à volta do corpo: oito fiapos suaves que sobem dos pés em hélice e se dissipam, tudo no shader</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Partilhada por todos os Fighters; 0 partículas</td></tr>
         </tbody>
       </table>
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Uma brisa</h3><p>Oito fiapos suaves nascem nos pés e sobem à volta do corpo até acima da cabeça (~2,7 m), ondulando levemente — o fôlego a regressar. Ténue e curta (~1,3 s).</p></div>
+    <div><h3>Uma brisa</h3><p>Oito fiapos suaves nascem nos pés e enrolam-se à volta do corpo numa hélice larga (~¾ de volta) até acima da cabeça — o fôlego a regressar. Ténue e curta (~1,3 s).</p></div>
     <div><h3>Sobe e dissipa</h3><p>A brisa cresce para cima e depois dissipa-se a partir dos pés; o topo é o último a desaparecer. Sem anéis, sem brilhos, sem rodopios.</p></div>
     <div><h3>Skill ≠ status</h3><p>A cura em si (números, barra de vida) é UI; qualquer regeneração contínua pertence ao cue de status. Aqui só o momento do cast.</p></div>
   </section>
@@ -413,36 +413,37 @@ const ptsScale = { value:600 };
 const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
 const LIFE = 1.3;                                    // breeze life (s)
 
-// One upright quad above the head per cast (turns to the camera around Y only): a small, light breeze —
-// three thin wisps leave the head and rise, drifting and thinning; the base clears first. No rings, no sparkle.
-const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
+// One open cylinder around the Fighter per cast: eight soft wisps rise from the feet and wind around the body
+// in a loose helix (≈¾ turn), drifting and breaking up; the base clears first. No rings, no sparkle.
+const breaths = pool(new THREE.CylinderGeometry(1, 1, 1, 64, 24, true), 96, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;
+  vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying float vTh, vY, vU, vR;
     void main(){
       float u = uTime - aT; if (u < 0. || u > ${LIFE.toFixed(2)}){ ${HIDE} }
-      vec3 base = aO + vec3(0., .02, 0.);                         // from the feet
-      vec3 toCam = cameraPosition - base; toCam.y = 0.; vec3 side = normalize(vec3(-toCam.z, 0., toCam.x) + 1e-4);
-      float Wd = .75, H = 2.7, t = position.y*.5 + .5;
-      vQ = vec2(position.x*Wd, t*H); vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(base + side*position.x*Wd + vec3(0., t*H, 0.), 1.);
+      float H = 2.7, y = (position.y + .5)*H, yn = y/H;
+      float r = .44 + .16*yn;                                     // opens slightly as it rises
+      vec2 d = normalize(position.xz);
+      vTh = atan(d.y, d.x); vY = y; vU = u; vR = r;
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(d.x*r, y + .02, d.y*r), 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vU;
+  fragmentShader:`uniform vec3 uGold, uOrange; varying float vTh, vY, vU, vR;
     float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }
     void main(){
-      float x = vQ.x, y = vQ.y, u = vU, H = 2.7, yn = y/H;
-      float rise = (1. - pow(1. - clamp(u/.6, 0., 1.), 2.))*H;    // the breeze climbs from the feet, past the head
-      float clear = max(u - .45, 0.)/.65*H;                        // then the base clears first, the top goes last
+      float y = vY, u = vU, H = 2.7, yn = y/H, TAU = 6.28318;
+      float rise = (1. - pow(1. - clamp(u/.6, 0., 1.), 2.))*H;      // climbs from the feet, past the head
+      float clear = max(u - .45, 0.)/.65*H;                          // the base clears first, the top goes last
       float d = 0.;
       for (int i=0;i<8;i++){
         float fi = float(i);
-        float cx = (fi - 3.5)*(.075 + .02*yn) + sin(y*2.6 - u*3. + fi*2.1)*.05*(.4 + yn) + (vn(vec2(y*1.8 - u*2., fi*3.)) - .5)*.1*yn;   // around the body, drifting as they rise
-        float w = .02 + .05*yn;                                    // soft, a little broader as they rise
+        float c = fi*TAU/8. + y*1.75 + u*.9 + (vn(vec2(y*1.6 - u*2., fi*3.)) - .5)*.9;   // helix around the body
+        float da = mod(vTh - c + 3.14159, TAU) - 3.14159;          // angular distance, wrapped
+        float w = .05 + .09*yn;                                    // metres along the surface
         float brk = smoothstep(.25, .7, vn(vec2(y*2.2 - u*4. + fi*5.7, fi)));
-        d += exp(-pow(abs(x - cx)/w, 1.4))*brk*(.6 + .4*fract(fi*.37));
+        d += exp(-pow(abs(da*vR)/w, 1.4))*brk*(.6 + .4*fract(fi*.37));
       }
-      float mask = smoothstep(rise + .02, rise - .12, y)*smoothstep(clear - .05, clear + .2, y)*smoothstep(.75, .55, abs(x));   // fade before the quad's sides
+      float mask = smoothstep(rise + .02, rise - .15, y)*smoothstep(clear - .05, clear + .25, y);
       float fade = (1. - smoothstep(.95, ${LIFE.toFixed(2)}, u))*smoothstep(0., .08, y)*(1. - smoothstep(.75, .97, yn));
       float k = d*mask*fade*(1. - .5*yn)*.16;                      // light: many wisps, little each
       vec3 outc = mix(uGold, vec3(1., .97, .92), .55)*k;           // pale warm air, not flame

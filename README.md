@@ -28,7 +28,7 @@ prototypes/
 | Fighter · Crushing Blow I | Otimizado (telegraph + rachas + onda num quad, traço vertical, fragmentos GPU, 3 draw calls) | [prototypes/fighter/crushing-blow/crushing-blow-vfx.html](prototypes/fighter/crushing-blow/crushing-blow-vfx.html) |
 | Fighter · Battlecry / Challenge I | Otimizado (pulso radial no chão: cristas ou anel ancorado, 1 draw call, 0 partículas) | [prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html](prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html) |
 | Fighter · Pressure / Provoke | Otimizado (fio de fumo rápido arma→alvo, golfadas ou onda contínua, 2 draw calls, 0 partículas) | [prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html](prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html) |
-| Fighter · Second Wind | Otimizado (brisa de 8 fiapos a subir dos pés à volta do corpo, 1 draw call, 0 partículas) | [prototypes/fighter/second-wind/second-wind-vfx.html](prototypes/fighter/second-wind/second-wind-vfx.html) |
+| Fighter · Second Wind | Otimizado (brisa de 8 fiapos em hélice dos pés à volta do corpo, 1 draw call, 0 partículas) | [prototypes/fighter/second-wind/second-wind-vfx.html](prototypes/fighter/second-wind/second-wind-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
