@@ -959,7 +959,7 @@ function frame(now){
     }
   }
   daggers.tick(time); trails.tick(time); hits.tick(time); rings.tick(time); arcs.tick(time); sparks.tick(time); wall.tick(time); cloud.tick(time);
-  { let last = null; for (const k of strikes) if (k.t <= time) last = k; if (last) cloud.material.uniforms.uStrike.value.set(last.x, 0, last.z, last.t); }
+  { let last = null; for (const k of strikes) if (k.t <= time) last = k; if (last) cloud.mesh.material.uniforms.uStrike.value.set(last.x, 0, last.z, last.t); }
   daggers.flush(); trails.flush(); hits.flush(); rings.flush(); arcs.flush(); sparks.flush(); wall.flush(); cloud.flush();
   const cpuVfx = performance.now() - c0;
 
