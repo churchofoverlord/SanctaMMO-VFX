@@ -481,12 +481,19 @@ const marks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:2 }, addM
         lum += stroke(d, .006 + .006*f)*f*1.6 + exp(-dot(p,p)*90.)*f*1.4; hot += lcore(d, .003)*f;
       } else {
         // sequence mark: one calligraphic cut + count pips, draws in, holds, fades
-        float t = vU/.6, draw = smoothstep(0., .12, t), f = 1. - smoothstep(.55, 1., t);
-        vec2 a = vec2(-.11, -.06), b = mix(a, vec2(.11, .07), draw);
-        float d = seg(p, a, b), w = .013;
-        float taper = clamp(1. - length(p - b)/.25, .25, 1.);
-        lum += stroke(d, w*taper)*f; hot += lcore(d, .003)*f*.8;
-        for (int i=0;i<3;i++){ if (float(i) >= vN) break; vec2 c = vec2(-.03 + .06*float(i), -.14); lum += exp(-dot(p-c,p-c)/.0004)*f*1.2; }
+        // count is read by shape: 1 = one cut, 2 = two crossed cuts, 3 = crossed cuts inside a circle
+        float t = vU/.6, f = 1. - smoothstep(.55, 1., t);
+        float d1 = smoothstep(0., .1, t), d2 = smoothstep(.06, .16, t), d3 = smoothstep(.1, .26, t);
+        vec2 a1 = vec2(-.1, -.07), b1 = mix(a1, vec2(.1, .07), d1);
+        vec2 a2 = vec2(-.1, .07), b2 = mix(a2, vec2(.1, -.07), d2);
+        float s1 = seg(p, a1, b1), s2 = seg(p, a2, b2);
+        float t1 = sin(3.14159*clamp(dot(p - a1, vec2(.819, .573))/.244, 0., 1.));   // thin ends, full middle
+        float t2 = sin(3.14159*clamp(dot(p - a2, vec2(.819, -.573))/.244, 0., 1.));
+        float m = stroke(s1, .003 + .009*t1);
+        if (vN > 1.5) m = max(m, stroke(s2, .003 + .009*t2));
+        if (vN > 2.5){ float r = length(p), ang = atan(p.y, p.x) + 3.14159;
+          m = max(m, stroke(abs(r - .155), .0065)*step(ang, d3*6.2832)); }                // circle draws around
+        lum += m*f*1.1; hot += (lcore(s1, .003)*t1 + (vN > 1.5 ? lcore(s2, .003)*t2 : 0.))*f*.7;
       }
       vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .65)*hot*1.2;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;

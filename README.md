@@ -29,7 +29,7 @@ prototypes/
 | Fighter · Battlecry / Challenge I | Otimizado (pulso radial no chão: cristas ou anel ancorado, 1 draw call, 0 partículas) | [prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html](prototypes/fighter/battlecry-challenge/battlecry-challenge-vfx.html) |
 | Fighter · Pressure / Provoke | Otimizado (fio de fumo rápido arma→alvo, golfadas ou onda contínua, 2 draw calls, 0 partículas) | [prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html](prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html) |
 | Fighter · Second Wind | Otimizado (brisa de 10 fiapos em hélice à volta do corpo, 2 camadas irregulares, 1 draw call, 0 partículas) | [prototypes/fighter/second-wind/second-wind-vfx.html](prototypes/fighter/second-wind/second-wind-vfx.html) |
-| Fighter · Severing Strike II | Otimizado (arco do I + corte cruzado breve no 2.º acerto, 3 draw calls) | [prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html](prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html) |
+| Fighter · Severing Strike II | Otimizado (arco do I; marca de sequência linha → linhas cruzadas no 2.º acerto, 3 draw calls) | [prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html](prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
