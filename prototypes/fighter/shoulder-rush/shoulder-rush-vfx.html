@@ -426,7 +426,8 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
       vec3 d = aE - aO; float L = length(d); vec3 f = d/L;
       float s = position.x*.5 + .5, W = .85;                             // body-tall smear (a Fighter is taller than wide)
       vec3 P = aO + f*(s*L - .05) + vec3(0., 1.0, 0.);                // ends inside the body, not behind it
-      vec3 side = normalize(cross(f, P - cameraPosition));
+      vec3 cside = normalize(cross(f, P - cameraPosition));
+      vec3 side = normalize(vec3(0., 1., 0.) + .3*cside*sign(dot(cside, vec3(0., 1., 0.)) + 1e-4));   // stays upright: tall from the side, narrow from above
       vS = s; vY = position.y*W; vU = u; vL = L;
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
     }`,
@@ -443,8 +444,8 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
       float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
       float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
       float k = alive*fade*pow(prof, .75)*blend;
-      vec3 col = mix(uOrange, uGold, .3 + .7*prof);
-      vec3 outc = (col*band*(.22 + .3*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.25*prof)*k;
+      vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.5, .42, .32), .25);   // a little desaturated
+      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
