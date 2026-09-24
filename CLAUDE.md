@@ -11,6 +11,8 @@
 - Paleta vem do ícone da skill; dourado não domina (reservado à UI).
 - Cues condicionais (procs, "havia debuffs") só aparecem quando a condição é verdadeira.
 - Estilo aprovado (referência: `prototypes/fighter/warrior-stance/` e `tank-stance/`): traços finos caligráficos com pontas afiladas, núcleo quente quase branco + halo suave na cor da skill, energia a correr devagar, emblemas desenhados em linha com preenchimento ténue, luz suave no chão. Evitar formas chapadas, blocos facetados e arestas duras.
+- Raio/Lightning aprovado (referência: `prototypes/mage/coil/`): fitas viradas para a câmara com zigue-zague fractal (3 oitavas) que volta a disparar; textura elétrica — espessura irregular ao longo do fio, núcleo quente que incha e aperta, franja fina a crepitar nas bordas, glow suave em camadas; amarelo saturado com só um fio claro fino no meio (sem branco). Ruído periódico em anéis fechados (sem degrau na junção). Raios secundários finos, curtos (~0,7–1,5 m), discretos (~45 % do brilho), breves e com fade suave.
+- Fogo aprovado (referência: `prototypes/mage/vortex/`): nunca superfície chapada — fitas/partículas com rampa de temperatura (fumo → vermelho → laranja → amarelo só nos pontos mais quentes), blending premultiplicado (o quente soma luz, o fumo escurece), transparente, transições de cor esbatidas tipo nuvem, ruído esticado ao longo do movimento (nunca grão).
 
 ## Protótipos (`prototypes/<classe>/<skill>/`)
 - Um ficheiro HTML autónomo por skill; Three.js r128 do cdnjs + postprocessing de `cdn.jsdelivr.net/npm/three@0.128.0/examples/js/`.
