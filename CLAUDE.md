@@ -3,6 +3,7 @@
 - Idioma: português europeu em toda a documentação, UI dos protótipos e mensagens ao utilizador.
 - Motor alvo: Unreal Engine 5 com GAS e Niagara. Os protótipos HTML servem só para validar aspeto e arquitetura; não são o produto.
 - Fonte de verdade da direção visual: `docs/VFX_Skills_SanctaMMO.docx` (dados em `docs/skills.json`, ícones em `docs/icons/`).
+- Git: trabalhar sempre em `main` e fazer push logo a seguir ao commit. Sem branches paralelos — uma única versão dos ficheiros, local e no GitHub.
 - Regras de implementação e orçamentos: `docs/ue-vfx-tech-spec.html`. Qualquer VFX novo tem de caber no orçamento do seu tipo de skill.
 
 ## Direção visual
