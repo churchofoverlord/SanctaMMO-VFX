@@ -365,7 +365,7 @@ function pool(base, N, attrs, material){
   g.instanceCount = N;
   const A = {};
   for (const [k, s] of Object.entries(attrs)){
-    const arr = new Float32Array(N*s); if (k === 'aT') for (let i=0;i<N;i++) arr[i*s] = -1e5;
+    const arr = new Float32Array(N*s); if (k === 'aT') arr.fill(-1e5);          // every aT slot starts "long dead"
     const a = new THREE.InstancedBufferAttribute(arr, s); a.setUsage(THREE.DynamicDrawUsage); g.setAttribute(k, a); A[k] = a;
   }
   const mesh = new THREE.Mesh(g, material); mesh.frustumCulled = false; scene.add(mesh);

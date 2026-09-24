@@ -150,7 +150,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Convergência + impacto + emblema</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um billboard no torso: traços em espiral (ease-in), pulso e cruz/escudo em linha, tudo no shader</td></tr>
+          <tr><td>Convergência + impacto + emblema</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um sistema de quads: espiral (ease-in) e pulso deitados no chão aos pés; cruz/escudo em linha no peito. Tudo no shader</td></tr>
           <tr><td>Casca do Bulwark</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha única, alpha blend: fresnel + linhas finas; fecha de baixo para cima e dissolve no fim do Shield</td></tr>
           <tr><td>Partículas</td><td class="n">8 + 10</td><td class="n">8 + 10</td><td class="n">4 + 5</td><td class="n">0</td><td>GPU: convergência + motas de cura (Rage) ou brilhos na casca (Bulwark)</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters; a casca persistente custa 0 partículas</td></tr>
@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral convergem para o torso em ease-in. Só o final muda — pulso de cura com a cruz do ícone, ou casca com o escudo.</p></div>
+    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral varrem o chão e convergem para os pés em ease-in. Só o final muda — pulso de cura com a cruz do ícone, ou casca com o escudo.</p></div>
     <div><h3>Casca legível</h3><p>O Shield é quase transparente: só o contorno (fresnel) e linhas muito finas brilham, para o corpo e o combate continuarem legíveis durante toda a duração.</p></div>
     <div><h3>Contexto</h3><p>O marcador nos pés é o da Warrior / Tank Stance (skill anterior) e não conta no custo desta skill. O Momentum na UI esvazia no cast.</p></div>
   </section>
@@ -379,7 +379,7 @@ function pool(base, N, attrs, material){
   g.instanceCount = N;
   const A = {};
   for (const [k, s] of Object.entries(attrs)){
-    const arr = new Float32Array(N*s); if (k === 'aT') for (let i=0;i<N;i++) arr[i*s] = -1e5;
+    const arr = new Float32Array(N*s); if (k === 'aT') arr.fill(-1e5);          // every aT slot starts "long dead"
     const a = new THREE.InstancedBufferAttribute(arr, s); a.setUsage(THREE.DynamicDrawUsage); g.setAttribute(k, a); A[k] = a;
   }
   const mesh = new THREE.Mesh(g, material); mesh.frustumCulled = false; scene.add(mesh);
@@ -488,49 +488,62 @@ const SHIELD = 4;                                 // demo Shield duration (s)
 const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 
-// Layer A — torso billboard: converging spiral strokes, impact pulse, line-art emblem (1 draw for all casts)
-const cores = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1, aK:1 }, addMat({
+// Layer A — one quad system, two instances per cast (1 draw for all casts):
+//   aM = 0 → lies on the ground at the feet: converging spiral strokes (ease-in) + impact pulse rings
+//   aM = 1 → small chest billboard: line-art emblem (Rage cross / Bulwark shield)
+const cores = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aM:1 }, addMat({
   uniforms:{ uTime, uCR, uCB },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vAge, vK;
+  vertexShader:`attribute vec3 aO; attribute float aT, aK, aM; uniform float uTime; varying vec2 vP; varying float vAge, vK, vM;
     void main(){
       float age = uTime - aT; if (age < 0. || age > ${(TC+.95).toFixed(2)}){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.38;   // just in front of the chest
-      float S = 1.35; mv.xy += position.xy*S; vP = position.xy*S; vAge = age; vK = aK;
-      gl_Position = projectionMatrix*mv;
+      vAge = age; vK = aK; vM = aM;
+      if (aM < .5){
+        float S = 1.9; vP = position.xy*S;
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
+      } else {
+        if (age < ${TC.toFixed(2)}){ ${HIDE} }
+        vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.22, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.38;
+        float S = .42; mv.xy += position.xy*S; vP = position.xy*S;
+        gl_Position = projectionMatrix*mv;
+      }
     }`,
-  fragmentShader:`uniform vec3 uCR, uCB; varying vec2 vP; varying float vAge, vK; ${EOX} ${STROKE}
+  fragmentShader:`uniform vec3 uCR, uCB; varying vec2 vP; varying float vAge, vK, vM; ${EOX} ${STROKE}
     float box(vec2 p, vec2 b){ vec2 d = abs(p) - b; return length(max(d,0.)) + min(max(d.x,d.y),0.); }
     void main(){
       vec2 p = vP; float r = length(p), ph = atan(p.y, p.x), T = ${TC.toFixed(2)};
       vec3 col = mix(uCR, uCB, vK);
       float lum = 0., hot = 0.;
-      if (vAge < T){
-        float t = vAge/T, e = t*t, R = mix(1.15, .1, e);
-        for (int i=0;i<5;i++){
-          float h = float(i)*1.2566 + e*2.6 + .6*(1.-vK);
-          float dl = mod(h - ph, 6.28318), L = 1.3;
-          if (dl < L){
-            float s = dl/L, rr = R + dl*.2*(1. - e*.6), w = (.01 + .02*(1.-s))*(1. - e*.4), fall = pow(1.-s, 1.4)*(.35 + .65*t);
-            lum += stroke(r - rr, w)*fall; hot += lcore(r - rr, w*.4)*fall*(1.-s);
+      if (vM < .5){
+        if (vAge < T){
+          // spiral strokes sweep in across the floor and gather under the feet
+          float t = vAge/T, e = t*t, R = mix(1.7, .14, e);
+          for (int i=0;i<5;i++){
+            float h = float(i)*1.2566 + e*2.6 + .6*(1.-vK);
+            float dl = mod(h - ph, 6.28318), L = 1.3;
+            if (dl < L){
+              float s = dl/L, rr = R + dl*.28*(1. - e*.6), w = (.014 + .026*(1.-s))*(1. - e*.4), fall = pow(1.-s, 1.4)*(.35 + .65*t);
+              lum += stroke(r - rr, w)*fall; hot += lcore(r - rr, w*.4)*fall*(1.-s);
+            }
+          }
+          lum += exp(-r*r*18.)*t*t*1.4;
+        } else {
+          float u = vAge - T;
+          lum += exp(-r*r*6.)*((u < .033 ? 2. : 0.) + .9*exp(-u*8.));
+          for (int j=0;j<2;j++){                     // Rage: two quick heal pulses; Bulwark: one
+            float uj = u - float(j)*.09;
+            if (uj < 0. || (j == 1 && vK > .5)) continue;
+            float rr = .15 + eox(clamp(uj/.32, 0., 1.))*1.55, f = 1. - clamp(uj/.36, 0., 1.);
+            lum += (lcore(r - rr, .016)*1.2 + exp(-pow((r-rr)/.11, 2.))*.3)*f*f*(j == 0 ? 1. : .7);
+            hot += lcore(r - rr, .008)*f*f*.6;
           }
         }
-        lum += exp(-r*r*40.)*t*t*1.6;
       } else {
-        float u = vAge - T;
-        lum += exp(-r*r*10.)*((u < .033 ? 2.4 : 0.) + 1.2*exp(-u*9.));
-        for (int j=0;j<2;j++){                       // Rage: two quick heal pulses; Bulwark: one
-          float uj = u - float(j)*.09;
-          if (uj < 0. || (j == 1 && vK > .5)) continue;
-          float rr = .12 + eox(clamp(uj/.3, 0., 1.))*1.15, f = 1. - clamp(uj/.34, 0., 1.);
-          lum += (lcore(r - rr, .012)*1.2 + exp(-pow((r-rr)/.08, 2.))*.3)*f*f*(j == 0 ? 1. : .7);
-          hot += lcore(r - rr, .006)*f*f*.6;
-        }
-        float em = 1.7*exp(-u*3.2) + .25*exp(-u*1.2);
+        float u = vAge - T, em = 1.7*exp(-u*3.2) + .25*exp(-u*1.2);
         float cross = min(box(p, vec2(.028,.13)), box(p, vec2(.13,.028)));
         float top = .13, tip = -.16, hw = .12, wy = p.y > 0. ? hw : hw*clamp((p.y - tip)/(0. - tip), 0., 1.);
         float sd = max(abs(p.x) - wy, max(p.y - top, tip - p.y));
         float d = mix(cross, sd, vK);
-        lum += (stroke(d, .006) + .14*step(d, 0.))*em; hot += lcore(d, .004)*em*.8;
+        lum += (stroke(d, .006) + .14*step(d, 0.))*em + exp(-r*r*60.)*em*.3; hot += lcore(d, .004)*em*.8;
       }
       vec3 outc = col*lum + mix(col, vec3(1., .95, .92), .6)*hot;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
@@ -599,9 +612,10 @@ function setStance(f, s, t0){ if (f.stance === s) return; markers.A.aS.setXYZW(f
 function mote(O, V, t0, life, mode, kind){ const i = motes.next(); motes.A.aO.setXYZ(i, O.x, O.y, O.z); motes.A.aV.setXYZ(i, V.x, V.y, V.z); motes.A.aT.setXY(i, t0, life); motes.A.aM.setXY(i, mode, kind); }
 function castRB(f, tier, t0){
   const k = f.stance, T = TIER[tier], chest = V3(f.p.x, 1.22, f.p.z);
-  let i = cores.next(); cores.A.aO.setXYZ(i, chest.x, chest.y, chest.z); cores.A.aT.setX(i, t0); cores.A.aK.setX(i, k); cores.track(t0 + TC + .95, 1);
+  for (const m of [0, 1]){ const i = cores.next(); cores.A.aO.setXYZ(i, f.p.x, 0, f.p.z); cores.A.aT.setX(i, t0); cores.A.aK.setX(i, k); cores.A.aM.setX(i, m); }
+  cores.track(t0 + TC + .95, 2);
   for (let n=0;n<T.pre;n++){ const a = rand(0,6.28), r = rand(1.1,1.6);
-    mote(V3(chest.x + Math.cos(a)*r, chest.y + rand(-.7,.6), chest.z + Math.sin(a)*r), chest, t0 + rand(0,.05), TC - .02, 1, k); }
+    mote(V3(f.p.x + Math.cos(a)*r*1.2, rand(.04,.25), f.p.z + Math.sin(a)*r*1.2), V3(f.p.x, .08, f.p.z), t0 + rand(0,.05), TC - .02, 1, k); }
   for (let n=0;n<T.post;n++){
     if (k === 0){ const a = rand(0,6.28), r = rand(.2,.42);        // Rage: heal motes rise from the body
       mote(V3(f.p.x + Math.cos(a)*r, rand(.5,1.5), f.p.z + Math.sin(a)*r), V3(rand(-.15,.15), rand(.8,1.4), rand(-.15,.15)), t0 + TC + rand(0,.12), rand(.8,1.2), 0, 0); }

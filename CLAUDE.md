@@ -15,6 +15,8 @@
 ## Protótipos (`prototypes/<classe>/<skill>/`)
 - Um ficheiro HTML autónomo por skill; Three.js r128 do cdnjs + postprocessing de `cdn.jsdelivr.net/npm/three@0.128.0/examples/js/`.
 - Arquitetura obrigatória: cada camada é UM sistema instanciado partilhado por todos os casts; o CPU só escreve dados de spawn; a GPU calcula tudo a partir da idade (`uTime - aT`). Incluir níveis de qualidade, stress test e contadores (draw calls, partículas, CPU).
+- Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
+- Pools instanciados: inicializar TODOS os componentes de `aT` com -1e5 (slots por usar têm de estar "mortos"), senão aparecem instâncias fantasma no arranque.
 - Evitar: PMREM/env maps (satura os metais neste setup), sprites individuais por partícula, luz dinâmica fora de Epic.
 - Iterações antigas vão para `archive/`.
 - Testar com `python -m http.server 8766` na raiz (`.claude/launch.json` já tem a configuração `sancta-vfx`).
