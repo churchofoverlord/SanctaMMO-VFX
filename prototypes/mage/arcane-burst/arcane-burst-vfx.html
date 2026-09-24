@@ -147,7 +147,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1300 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1700 ms</span></div>
   </div>
 
   <section class="budget">
@@ -156,8 +156,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Carga (shards)</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Os shards guardados saem da órbita à cintura e convergem para a mão (0,2 s, reverse ease-in). Só apresentação da carga</td></tr>
-          <tr><td>Esfera</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard: esfera violeta opaca com luz e aro fino; escala cresce com os shards (0 · 1 · 2 = 0,12 · 0,18 · 0,24 m de raio); direta a 18 m/s com faixa curta</td></tr>
+          <tr><td>Carga (shards)</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Os shards guardados saem da órbita à cintura e convergem para a mão (0,4 s, reverse ease-in). Só apresentação da carga</td></tr>
+          <tr><td>Esfera</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard: esfera violeta opaca com luz e aro fino; escala cresce com os shards (0 · 1 · 2 = 0,12 · 0,18 · 0,24 m de raio); direta a 14 m/s com faixa curta</td></tr>
           <tr><td>Impacto</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Hit stop de 0,06 s (a esfera segura no alvo), depois pop no peito + anel circular no chão; raio 1,2 · 1,7 · 2,2 m. Sem detritos</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
@@ -429,13 +429,13 @@ const ptsScale = { value:600 };
 // ============ Piercing Strike I ============
 const uGold = { value:lin(0xd9c2ff) }, uOrange = { value:lin(0x9b5cff) };   // Arcane: pale violet / violet
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const WIND = .2;                                    // charge: shards converge to the hand before the release (s)
+const WIND = .4;                                    // charge: shards converge to the hand before the release (s)
 const HS = .06;                                     // hit stop: the orb holds on the target before the burst (s)
 const LEN = 1.25, GROW = .07;                       // short stab: line length (m) and draw-out time (s)
 
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
-const V = 18;                                         // arcane sphere speed (m/s): direct
+const V = 14;                                         // arcane sphere speed (m/s): direct
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1, aS:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
@@ -728,12 +728,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Carga: shards convergem para a mão', 0, 200, 0xd9c2ff],
-  ['Esfera violeta, direta (8 m: ~420 ms)', 200, 620, 0x9b5cff],
-  ['Hit stop', 620, 680, 0xfff0d2],
-  ['Pop no peito + círculo da AoE', 680, 1280, 0x9b5cff],
+  ['Carga: shards convergem para a mão', 0, 400, 0xd9c2ff],
+  ['Esfera violeta, direta (8 m: ~540 ms)', 400, 940, 0x9b5cff],
+  ['Hit stop', 940, 1000, 0xfff0d2],
+  ['Pop no peito + círculo da AoE', 1000, 1600, 0x9b5cff],
 ];
-const TOTAL = 1300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
