@@ -1,0 +1,1397 @@
+[
+  {
+    "classe": "Fighter",
+    "nome": "Cleanse",
+    "paleta": "laranja e dourado",
+    "efeito": "Remove Debuffs e CC persistente do próprio Fighter e cancela Forced Displacement ativo.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Botão ativo concedido.",
+    "visual": "Usar a mesma silhueta central nas variantes. Anel limpo que expande do corpo, com quebra/remoção de pequenos marcadores; muito curto. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Laranja e dourado. Expansão snappy em World Space de um anel facetado a partir do Root. A quebra visual dos debuffs utiliza Alpha Erosion instantânea.",
+    "id": "fighter-00-cleanse",
+    "icones": [
+      "icons/fighter/cleanse.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Warrior Stance / Tank Stance",
+    "paleta": "ciano e magenta",
+    "efeito": "Troca entre stances mutuamente exclusivas. Warrior permite usar Skills durante Dodge; Tank durante Guard. A troca limpa Momentum.",
+    "contexto": "PALETA: DINÂMICA: paleta Warrior quando Warrior; paleta Tank quando Tank.BAR: Mesmo slot/toggle. O estado selecionado deve ser inequívoco.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo marcador geométrico junto aos pés nas duas formas; alterar paleta e 1 detalhe interno, não a linguagem inteira. A cor dominante segue o ícone/estado selecionado (ciano e magenta); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: ciano e magenta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Warrior magenta; Tank ciano. Warrior — Pulso Additive curto de 2 frames em Local Space. Aplica um marcador geométrico aos pés da personagem.\nTank — Pulso Additive curto de 2 frames em Local Space. O marcador de chão utiliza a mesma malha do Warrior, mas altera a cor e o detalhe UV interior para distinção imediata.",
+    "id": "fighter-01-warrior-stance-tank-stance",
+    "icones": [
+      "icons/fighter/warrior-stance-tank-stance-1.jpg",
+      "icons/fighter/warrior-stance-tank-stance-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Rage / Bulwark",
+    "paleta": "ciano e vermelho",
+    "efeito": "Consome todo o Momentum. Warrior -> Rage: Heal próprio. Tank -> Bulwark: Shield próprio.",
+    "contexto": "PALETA: CONTEXTUAL: Warrior=Rage; Tank=Bulwark. Paleta segue a forma.BAR: Mesmo botão; forma muda com stance.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesma composição-base: energia converge ao corpo. Rage termina em pulso de recuperação; Bulwark fecha numa casca/escudo. A cor dominante segue o ícone/estado selecionado (ciano e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: ciano e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Rage magenta-avermelhado; Bulwark ciano. Rage — Anticipação com a energia a convergir para o torso em Ease-in. O impacto emite um pulso rápido em modo Additive para sinalizar a cura.\nBulwark — Anticipação com a energia a convergir para o torso em Ease-in. O impacto fecha uma casca facetada em Alpha Blend à volta da personagem, com transparência para manter o corpo e o combate legíveis (Shield).",
+    "id": "fighter-02-rage-bulwark",
+    "icones": [
+      "icons/fighter/rage-bulwark-1.jpg",
+      "icons/fighter/rage-bulwark-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Severing Strike I",
+    "paleta": "laranja e dourado",
+    "efeito": "Cleave corpo-a-corpo largo. Acertos repetidos no mesmo alvo avançam a sequência Severing.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; ícone-base da família Severing.",
+    "visual": "Usar a mesma silhueta central nas variantes. Arco horizontal amplo, único e muito legível; pequena marca de sequência no alvo após hit. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Laranja e dourado. I: Arco horizontal amplo (World Space) desenhado num único frame (Snap).",
+    "id": "fighter-03-severing-strike-i",
+    "icones": [
+      "icons/fighter/severing-strike-i.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Piercing Strike I",
+    "paleta": "laranja e dourado",
+    "efeito": "Ataque linear curto que atravessa alvos, causa dano físico e aplica Slow.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Faixa estreita frontal com leitura linear; pequeno cue de Slow apenas no alvo. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. I: Emissão de uma malha linear estreita que perfura o World Space, seguida de uma calcomania breve de Slow no alvo (Local Space).",
+    "id": "fighter-04-piercing-strike-i",
+    "icones": [
+      "icons/fighter/piercing-strike-i.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Shoulder Rush I",
+    "paleta": "laranja e dourado",
+    "efeito": "Rush curto até ao alvo e dano físico na chegada.",
+    "contexto": "PALETA: Neutra na base.BAR: Skill ativa; a profundidade II mantém este slot.",
+    "visual": "A movimentação deixa uma faixa direcional curta que termina num impacto/aterragem compacto. Trail curta e compacta durante o Rush; flash único de colisão na chegada. A origem, direção e destino devem ser legíveis num olhar; reservar o maior contraste para o ponto de chegada. Usar no máximo uma silhueta residual simples e não desenhar uma zona persistente se a skill apenas se desloca.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: Trail direcional opaca em World Space. Na chegada, aplica um Hit Stop de 1 frame com um flash de colisão Additive.",
+    "id": "fighter-05-shoulder-rush-i",
+    "icones": [
+      "icons/fighter/shoulder-rush-i.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Crushing Blow I",
+    "paleta": "laranja e dourado",
+    "efeito": "Ground-bash local em pequena AoE, com dano físico.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II é upgrade do mesmo slot.",
+    "visual": "Usar a mesma silhueta central nas variantes. Telegraph circular curto + impacto vertical/fragmentos mínimos no centro. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: Colisão com Squash & Stretch invertido na malha da personagem. O impacto vertical gera fragmentos de terreno em Alpha Blend opaco.",
+    "id": "fighter-06-crushing-blow-i",
+    "icones": [
+      "icons/fighter/crushing-blow-i.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Battlecry / Challenge I",
+    "paleta": "ciano e magenta",
+    "efeito": "Warrior: AoE local com dano físico e Silence. Tank: AoE local com Taunt.",
+    "contexto": "PALETA: CONTEXTUAL: paleta Warrior=Battlecry; Tank=Challenge.BAR: Mesmo slot; forma selecionada pela stance no cast.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo pulso radial. Warrior usa onda agressiva + cue de Silence; Tank usa anel ancorado + marcador de Taunt nos inimigos. A cor dominante segue o ícone/estado selecionado (ciano e magenta); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: ciano e magenta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Battlecry magenta; Challenge ciano. Warrior — I: Onda expansiva agressiva (World Space) em modo Additive, num Snap forte e compacto a partir do Root.\nTank — I: Emite um anel de área ancorado no chão com um marcador Local Space aplicado aos inimigos afetados (Taunt).",
+    "id": "fighter-07-battlecry-challenge-i",
+    "icones": [
+      "icons/fighter/battlecry-challenge-i-1.jpg",
+      "icons/fighter/battlecry-challenge-i-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Pressure / Provoke",
+    "paleta": "ciano e magenta",
+    "efeito": "Warrior: dano físico + Hindered num alvo. Tank: dano físico + Taunt a média distância.",
+    "contexto": "PALETA: CONTEXTUAL: paleta Warrior=Pressure; Tank=Provoke.BAR: Mesmo slot; forma selecionada pela stance.",
+    "visual": "A composição parte dos dois extremos e usa um único fio contínuo para tornar o vínculo legível. Ligação curta ao alvo + marcador breve. Warrior comunica pressão/slow attack; Tank comunica ameaça/taunt. Manter o tether fino, de alto contraste e com curva mínima; os pulsos percorrem a ligação apenas nos momentos de resolução. Nos ramos aliado/inimigo, conservar percurso e espessura e mudar só o acento e o pulso correspondente ao resultado canónico.",
+    "producao": "Paleta e material: ciano e magenta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Pressure magenta; Provoke ciano. Warrior — Fio contínuo e rígido (Ribbon) que liga a arma ao alvo. A resolução utiliza UV Panning rápido e agressivo para comunicar a pressão/lentidão do ataque no alvo.\nTank — Fio contínuo (Ribbon) entre os sockets. A resolução aplica uma onda de UV Panning diferente, visualmente desenhada para comunicar ameaça constante e ininterrupta ao Tank.",
+    "id": "fighter-08-pressure-provoke",
+    "icones": [
+      "icons/fighter/pressure-provoke-1.jpg",
+      "icons/fighter/pressure-provoke-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Second Wind",
+    "paleta": "laranja e dourado",
+    "efeito": "Heal próprio baseado numa percentagem do dano que realmente reduziu HP numa janela recente; limitado por Missing HP.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Pulso converge para o torso e resolve num halo curto; evitar linguagem de “heal mágico” exuberante. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Pulso denso em Ease-in que converge e ressalta no torso, criando um halo estático e limpo de regeneração. Sem linguagem mágica ou rodopiante.",
+    "id": "fighter-09-second-wind",
+    "icones": [
+      "icons/fighter/second-wind.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Severing Strike II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: capacidade passa a 2; o segundo Severing no mesmo alvo aplica Wounded.",
+    "contexto": "PALETA: Neutra.BAR: PASSIVO/DEPTH: não criar botão novo; usar o mesmo ícone de Severing I.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Mesmo slash de Severing; no segundo hit, acrescentar uma marca de ferida curta no alvo. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado. II: Mantém o arco e acrescenta uma calcomania UV breve de ferida em Local Space sobre a malha do inimigo.",
+    "id": "fighter-10-severing-strike-ii",
+    "icones": [
+      "icons/fighter/severing-strike-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Shoulder Rush II",
+    "paleta": "ciano e vermelho",
+    "efeito": "Upgrade contextual: Warrior aplica Slow na chegada e ganha Haste; Tank Interrupta na chegada e ganha Fortified.",
+    "contexto": "PALETA: CONTEXTUAL: payoff e paleta seguem Warrior/Tank.BAR: Mesmo slot de Shoulder Rush; sem botão permanente adicional.",
+    "visual": "A movimentação deixa uma faixa direcional curta que termina num impacto/aterragem compacto. Manter a mesma trail. Só a chegada muda: Warrior -> cue de Slow/Haste; Tank -> impacto firme + cue de Interrupt/Fortified. A origem, direção e destino devem ser legíveis num olhar; reservar o maior contraste para o ponto de chegada. Usar no máximo uma silhueta residual simples e não desenhar uma zona persistente se a skill apenas se desloca.",
+    "producao": "Paleta e material: ciano e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Warrior magenta; Tank ciano. II: Aumenta o Hit Stop para 2 frames. O impacto acrescenta um pulso instantâneo com o acento magenta da forma Warrior ou cyan da forma Tank, correspondente ao resultado recebido na chegada (Slow/Haste ou Interrupt/Fortified).",
+    "id": "fighter-11-shoulder-rush-ii",
+    "icones": [
+      "icons/fighter/shoulder-rush-ii-1.jpg",
+      "icons/fighter/shoulder-rush-ii-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Crushing Blow II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: passa a aplicar Slow; se o alvo já estava Slowed antes do hit, aplica Stun e depois o novo Slow.",
+    "contexto": "PALETA: Neutra.BAR: PASSIVO/DEPTH: mesmo slot e ícone de Crushing Blow I.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Mesmo impacto. Acrescentar ring secundário curto para Slow; pre-Slow -> snap/lock breve de Stun. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado. II: Adiciona um anel secundário instantâneo para Slow; Stun usa uma marca geométrica rígida e breve apenas se a condição prévia se confirmar.",
+    "id": "fighter-12-crushing-blow-ii",
+    "icones": [
+      "icons/fighter/crushing-blow-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Chains I",
+    "paleta": "laranja e dourado",
+    "efeito": "Skillshot linear estreito; primeiro alvo válido é Rooted. O Root habilita Chain Pull quando a profundidade II está aprendida.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II é recast contextual do mesmo skill.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Corrente/segmentos sólidos a viajar numa linha estreita; no hit, ancoragem visível do Root. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. Projeta uma cadeia sólida em 3D (Alpha Blend). A colisão no alvo aplica um Hit Stop e ancora rigidamente a corrente, indicando Root.",
+    "id": "fighter-13-chains-i",
+    "icones": [
+      "icons/fighter/chains-i.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "War Leap",
+    "paleta": "laranja e dourado",
+    "efeito": "Channel e Leap para ground point; landing válido causa dano físico em AoE e Slow.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "A forma nasce como preparação legível e só conclui quando a execução termina. Círculo de destino durante preparação, arco/trail de salto e impacto circular único na aterragem. Usar poucas faces grandes para a acumulação e uma única resolução no release/landing. Não antecipar o impacto nem manter partículas a circular durante toda a preparação; o ponto ou a linha de destino deve acompanhar exatamente o input descrito.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Um decalque (Decal) marca o destino no chão de forma estática. O salto gera uma trail limpa. A aterragem aplica gravidade pesada (Squash da malha do jogador) com uma resolução radial única de impacto.",
+    "id": "fighter-14-war-leap",
+    "icones": [
+      "icons/fighter/war-leap.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Rally I",
+    "paleta": "ciano e vermelho",
+    "efeito": "Requer Momentum máximo, consome-o e concede Vigor ao Fighter e membros da Party em alcance.",
+    "contexto": "PALETA: Neutra na forma base.BAR: Skill ativa; II modifica o mesmo slot.",
+    "visual": "A forma abre a partir do centro de execução e assenta numa marca circular no chão ou à volta do ator, conforme descrito. Anel de grupo expande uma vez a partir do Fighter; pequenos pulsos simultâneos nos aliados válidos. Separar telegraph, resolução e eventual persistência com mudanças simples de escala e opacidade. O limite da área deve ficar mais claro que os ornamentos; resolver num único pulso quando a skill tem uma só aplicação.",
+    "producao": "Paleta e material: ciano e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Warrior magenta; Tank ciano. I: Anel Additive de suporte que se expande de forma perfeitamente linear e rápida a partir do Fighter, pulsando apenas nos aliados válidos (Local Space).",
+    "id": "fighter-15-rally-i",
+    "icones": [
+      "icons/fighter/rally-i-1.jpg",
+      "icons/fighter/rally-i-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Severing Strike III",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: capacidade passa a 3; o terceiro hit no mesmo alvo aplica Wounded + Brittle + Sapped.",
+    "contexto": "PALETA: Neutra.BAR: PASSIVO/DEPTH: mesmo slot/ícone de Severing.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Mesmo slash. No terceiro hit, 3 marcas muito breves/empilhadas no alvo; não multiplicar partículas no ataque base. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado. III: Acopla três marcas geométricas que colapsam juntas e se dissipam no frame seguinte, sem duplicar a geometria do ataque principal.",
+    "id": "fighter-16-severing-strike-iii",
+    "icones": [
+      "icons/fighter/severing-strike-iii.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Chains II / Chain Pull",
+    "paleta": "laranja e dourado",
+    "efeito": "Recast disponível enquanto o alvo continua Rooted pelas tuas Chains: Interrupt e pull até melee range.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: RECAST CONTEXTUAL: o mesmo slot pode mudar temporariamente para “Pull”.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. A corrente já presa encurta e puxa o alvo; pulso curto no início comunica Interrupt. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. Um pulso Additive viaja pela corrente até ao Fighter (comunicando o Interrupt). A malha da corrente contrai-se violentamente em Ease-in para puxar o inimigo pelo World Space.",
+    "id": "fighter-17-chains-ii-chain-pull",
+    "icones": [
+      "icons/fighter/chains-ii-chain-pull.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Piercing Strike II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: Warrior, alvos com Slow recebem dano físico adicional; Tank, alvos com Slow recebem Weakened. O Slow normal mantém-se.",
+    "contexto": "PALETA: CONTEXTUAL no payoff: paleta do cue secundário segue Warrior/Tank.BAR: PASSIVO/DEPTH: mesmo slot/ícone de Piercing Strike I.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Manter a linha perfurante. Apenas no payoff adicionar flash Warrior ou marcador Weakened Tank. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado; payoff Warrior magenta, Tank ciano. II: Mantém o ataque linear e sobrepõe um flash direcional (se Warrior) ou um marcador Weakened estático (se Tank) no momento do impacto.",
+    "id": "fighter-18-piercing-strike-ii",
+    "icones": [
+      "icons/fighter/piercing-strike-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Defiant Presence",
+    "paleta": "ciano e azul",
+    "efeito": "Estado defensivo temporário: novas fontes de dano/efeitos hostis acima da distância-limite não te afetam.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Casca exterior simples, com limite claro e poucos planos; deve ler “proteção contra origem distante”, não invulnerabilidade total. A cor dominante segue o ícone/estado selecionado (ciano e azul); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: ciano e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Ciano e azul. Cria uma casca protetora em redor do Fighter utilizando um material de planos largos e com delimitações nítidas (Fresnel). A fronteira representa a proteção contra fontes hostis além do limite de distância da skill; não a apresentar como invulnerabilidade geral.",
+    "id": "fighter-19-defiant-presence",
+    "icones": [
+      "icons/fighter/defiant-presence.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Battlecry / Challenge II",
+    "paleta": "ciano e magenta",
+    "efeito": "Upgrade: Warrior - inimigos já Silenced recebem Fear antes do novo Silence. Tank - o Taunt desta execução, se expirar naturalmente, aplica Root.",
+    "contexto": "PALETA: CONTEXTUAL: palette/secondary cue Warrior vs Tank.BAR: DEPTH do mesmo slot; não criar botão novo.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Base VFX idêntico ao I. Warrior: segundo pulso/expansão de Fear. Tank: marcador de cadeia/raiz só no expiry válido. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: ciano e magenta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Battlecry magenta; Challenge ciano. Warrior — II: A onda base gera uma contra-onda breve (Reverse Ease-in) apenas nos inimigos que já estavam Silenced, assinalando Fear antes do novo Silence.\nTank — II: No momento exato de expiração do Taunt, projeta uma textura de raiz a partir dos pés do inimigo (Root).",
+    "id": "fighter-20-battlecry-challenge-ii",
+    "icones": [
+      "icons/fighter/battlecry-challenge-ii-1.jpg",
+      "icons/fighter/battlecry-challenge-ii-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Momentum Mastery",
+    "paleta": "ciano e vermelho",
+    "efeito": "Passivo: Rage/Bulwark restaura Stamina por cada Momentum consumido.",
+    "contexto": "PALETA: Cue do proc acompanha a forma Rage/Bulwark que o desencadeou.BAR: PASSIVO: sem skill-bar icon ativo; apenas ícone de árvore/passiva se necessário.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Sem VFX permanente. Pequeno pulso de Stamina no momento do consumo. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: ciano e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Rage magenta-avermelhado; Bulwark ciano. O consumo de Momentum emite um pulso de Stamina breve (Alpha Emissive) e limpo sobre o próprio jogador no instante da execução, sem aura persistente.",
+    "id": "fighter-21-momentum-mastery",
+    "icones": [
+      "icons/fighter/momentum-mastery-1.jpg",
+      "icons/fighter/momentum-mastery-2.jpg"
+    ]
+  },
+  {
+    "classe": "Fighter",
+    "nome": "Rally II",
+    "paleta": "ciano e vermelho",
+    "efeito": "Upgrade contextual: Warrior acrescenta Focus + Fierce; Tank acrescenta Fortified + Warded.",
+    "contexto": "PALETA: CONTEXTUAL: paleta e buffs adicionais seguem stance.BAR: Mesmo slot/ícone de Rally I.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo anel de Rally; segundo anel/acentos de buff apenas no cast, na paleta da stance. A cor dominante segue o ícone/estado selecionado (ciano e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: ciano e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Warrior magenta; Tank ciano. I: Anel Additive de suporte que se expande de forma perfeitamente linear e rápida a partir do Fighter, pulsando apenas nos aliados válidos (Local Space).\nII: O mesmo anel de base incorpora acentos e formas geométricas secundárias que refletem a paleta da postura selecionada (Warrior ou Tank).",
+    "id": "fighter-22-rally-ii",
+    "icones": [
+      "icons/fighter/rally-ii-1.jpg",
+      "icons/fighter/rally-ii-2.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Cleanse",
+    "paleta": "laranja",
+    "efeito": "Remove Debuffs e CC persistente do Scout e cancela Forced Displacement ativo.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Botão ativo concedido.",
+    "visual": "Usar a mesma silhueta central nas variantes. Anel curto e limpo a expandir do Scout; pouca persistência. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Laranja e dourado. Anel curto de expansão veloz, focado numa quebra rígida de UVs dos debuffs aplicados ao Scout, minimizando a persistência visual na área.",
+    "id": "scout-23-cleanse",
+    "icones": [
+      "icons/scout/cleanse.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Poison / Bleed Stance",
+    "paleta": "verde e vermelho",
+    "efeito": "Seleciona qual DoT futuros Basic Attacks e Volley aplicam. A stance é snapshot por execução.",
+    "contexto": "PALETA: DINÂMICA: paleta Poison ou Bleed.BAR: Mesmo slot/toggle.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo marcador-base junto à arma/pés; Poison e Bleed diferem sobretudo por paleta e textura simples. A cor dominante segue o ícone/estado selecionado (verde e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: verde e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Poison verde; Bleed vermelho. Poison Stance — Pulso direcional curto que atualiza instantaneamente o material base do marcador do Scout em Local Space (junto aos pés ou arma) para verde, sem emitir duplicação de malhas ou fumo persistente.\nBleed Stance — Pulso direcional curto que atualiza instantaneamente o material do marcador em Local Space para vermelho. A transição deve ser imediata e sem sobreposição de geometria.",
+    "id": "scout-24-poison-bleed-stance",
+    "icones": [
+      "icons/scout/poison-bleed-stance-1.jpg",
+      "icons/scout/poison-bleed-stance-2.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Poison Sac / Hemorrhage",
+    "paleta": "verde e vermelho",
+    "efeito": "Poison Sac: com Poison máximo, consome-o e cria área de dano + Slow. Hemorrhage: com Bleed máximo, consome-o para burst ST + Wounded.",
+    "contexto": "PALETA: CONTEXTUAL: Poison stance -> Poison Sac; Bleed stance -> Hemorrhage.BAR: Mesmo slot contextual; Sickness pode substituí-lo quando elegível.",
+    "visual": "Usar a mesma silhueta central nas variantes. Stacks convergem para o alvo. Poison resolve em pool/anel; Bleed resolve em ruptura ST. Mesma composição-base. A cor dominante segue o ícone/estado selecionado (verde e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: verde e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Poison Sac verde; Hemorrhage vermelho. Poison Sac — As stacks convergem do inimigo para o centro num Reverse Ease-in de 1 frame. O impacto desenha uma forma baixa de Pool no chão com material Opaque/Masked, sem sugerir persistência além da área criada pela skill.\nHemorrhage — As stacks convergem da mesma forma veloz. O impacto cria uma rutura visual Single-Target, manifestada num flash focalizado e agudo em modo Additive.",
+    "id": "scout-25-poison-sac-hemorrhage",
+    "icones": [
+      "icons/scout/poison-sac-hemorrhage-1.jpg",
+      "icons/scout/poison-sac-hemorrhage-2.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Exploit Weakness I",
+    "paleta": "laranja e dourado",
+    "efeito": "Dano físico ST que aumenta com o número de tipos distintos de Negative State ativos no alvo.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II/III são upgrades da mesma família.",
+    "visual": "Usar a mesma silhueta central nas variantes. Flash de precisão no alvo; pequenos segmentos podem acender conforme estados, sem poluição. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: Flash geométrico direto, rápido e de alta precisão sobre o alvo.",
+    "id": "scout-26-exploit-weakness-i",
+    "icones": [
+      "icons/scout/exploit-weakness-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Quickstep I",
+    "paleta": "laranja",
+    "efeito": "Dash curto na direção de movimento; usa charges.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II modifica charges/recuperação.",
+    "visual": "Usar a mesma silhueta central nas variantes. Trail curta, fina e direcional; ghosting mínimo. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: Malha geométrica fixa (Trail) em World Space. Não utiliza emissão de partículas em nuvem (sprites) para não esbater o recorte visual do Scout.",
+    "id": "scout-27-quickstep-i",
+    "icones": [
+      "icons/scout/quickstep-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Rapid Attack",
+    "paleta": "laranja",
+    "efeito": "Buff que aumenta Attack Speed para um número fixo de Basic Attacks ou até expirar.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Pulsos curtos junto às mãos/arma; sem aura contínua grande. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Cria pulsos geométricos rítmicos firmemente ancorados aos ossos das mãos/arma do Scout em Local Space. Não há criação de aura contínua ou rasto prolongado.",
+    "id": "scout-28-rapid-attack",
+    "icones": [
+      "icons/scout/rapid-attack.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Backstab I",
+    "paleta": "laranja",
+    "efeito": "Ataque ST; se o Scout estiver no rear arc no hit autoritativo, também Interrupta.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II aprofunda o mesmo slot.",
+    "visual": "Usar a mesma silhueta central nas variantes. Trajetória/ataque simples e flash traseiro inequívoco quando rear condition é válida. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Laranja e dourado. I: Trajetória de ataque simples. Se o ataque acertar nas costas, detona um flash traseiro inequívoco e asimétrico (Interrupt).",
+    "id": "scout-29-backstab-i",
+    "icones": [
+      "icons/scout/backstab-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Torpor",
+    "paleta": "laranja",
+    "efeito": "Aplica Slow a um alvo.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Projétil/cue curto + ring desacelerado nos pés do alvo. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Projétil composto por uma malha sólida e rápida em World Space. Ao acertar, projeta de imediato um decalque de anel (Ring Decal) de lentidão, de forma estática no chão sob os pés do alvo.",
+    "id": "scout-30-torpor",
+    "icones": [
+      "icons/scout/torpor.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Blinding Dart",
+    "paleta": "laranja",
+    "efeito": "Projétil ST que aplica Blind.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Dart pequeno, rápido; flash branco curto no rosto/alvo. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Projétil de malha rápida (World Space). Ao embater no alvo, cega-o gerando um flash branco estourado de 2 frames diretamente acoplado ao osso da cabeça (Head socket).",
+    "id": "scout-31-blinding-dart",
+    "icones": [
+      "icons/scout/blinding-dart.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Volley I",
+    "paleta": "verde e vermelho",
+    "efeito": "Cone frontal largo; cada alvo recebe no máximo uma aplicação do DoT definido pela stance snapshot dessa Volley.",
+    "contexto": "PALETA: CONTEXTUAL: paleta Poison/Bleed no componente DoT; geometria do ataque não muda.BAR: Skill ativa; II usa o mesmo slot.",
+    "visual": "Usar a mesma silhueta central nas variantes. Várias linhas/projéteis em cone; accent DoT segue a stance snapshot. A cor dominante segue o ícone/estado selecionado (verde e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: verde e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Poison verde ou Bleed vermelho, segundo a stance snapshot da Volley. I: O Scout não emite partículas de preparação. Os projéteis são instanciados e escalonados com 1-2 frames de atraso entre si (Spread animado) e detonam num piscar rápido com a cor do estado instanciado (Poison ou Bleed).",
+    "id": "scout-32-volley-i",
+    "icones": [
+      "icons/scout/volley-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Exploit Weakness II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: mantém o scaling por Negative States e acrescenta bónus de dano baseado no HP% atual - menor HP, maior bónus.",
+    "contexto": "PALETA: Neutra.BAR: DEPTH: mesmo slot/ícone de Exploit Weakness I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo impacto, com segundo flash mais concentrado quando o alvo está baixo em HP. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. II: Quando o HP atual é baixo e o bónus de dano aumenta, usa um flash Additive mais concentrado; não acrescenta Hit Stop.",
+    "id": "scout-33-exploit-weakness-ii",
+    "icones": [
+      "icons/scout/exploit-weakness-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Quickstep II",
+    "paleta": "laranja",
+    "efeito": "Upgrade: aumenta a capacidade de charges e uma Takedown qualificada repõe 1 charge até ao máximo.",
+    "contexto": "PALETA: Neutra.BAR: DEPTH: mesmo slot/ícone de Quickstep I; charges são UI.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesma trail; nenhum VFX adicional permanente para charges. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. II: O dash mantém a mesma trail. A atribuição de charges extra através de Takedown é assinalada apenas com um flash seco Alpha Emissive no próprio Scout, sem deixar partículas flutuantes permanentes.",
+    "id": "scout-34-quickstep-ii",
+    "icones": [
+      "icons/scout/quickstep-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Long Jump",
+    "paleta": "laranja e dourado",
+    "efeito": "Hold aumenta a distância disponível; ao soltar fixa o landing point e executa Leap.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "A forma nasce como preparação legível e só conclui quando a execução termina. Arco/linha de destino durante hold; trail limpa durante o salto; landing discreto. Usar poucas faces grandes para a acumulação e uma única resolução no release/landing. Não antecipar o impacto nem manter partículas a circular durante toda a preparação; o ponto ou a linha de destino deve acompanhar exatamente o input descrito.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. A trajetória do salto usa Spline projection para desenhar um arco limpo de destino. O movimento aéreo decorre sem emissão de partículas acessórias. A colisão da aterragem liberta apenas um anel sólido acionado pelo Squash do impacto.",
+    "id": "scout-35-long-jump",
+    "icones": [
+      "icons/scout/long-jump.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Evasion",
+    "paleta": "laranja e dourado",
+    "efeito": "Buff temporário de Evasion elevada; AoE continua a ser counter posicional.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Silhueta offset/afterimage muito subtil ou ring de desvio; não parecer invisibilidade. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Ativa um shader de desvio (Offset Shader) na malha do Scout. Isto gera imagens residuais (afterimages) secas e curtas durante o movimento, evitando a utilização de transparência genérica (invisibilidade).",
+    "id": "scout-36-evasion",
+    "icones": [
+      "icons/scout/evasion.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Sand Shot",
+    "paleta": "laranja",
+    "efeito": "Cone melee que causa dano físico e Interrupta cada inimigo válido atingido.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Cone curto no chão + flashes secos nos alvos; partículas de areia mínimas. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate.",
+    "implementacao": "Paleta: Laranja e dourado. Cone frontal muito raso, rápido e rente ao solo, provocando flashes secos nos alvos atingidos. Não possui fumo ou persistência volumétrica.",
+    "id": "scout-37-sand-shot",
+    "icones": [
+      "icons/scout/sand-shot.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Vine Field I",
+    "paleta": "laranja e dourado",
+    "efeito": "Área persistente no chão que aplica Slow aos inimigos.",
+    "contexto": "PALETA: Neutra; não depende de stance.BAR: Skill ativa; II é upgrade do mesmo field.",
+    "visual": "Usar a mesma silhueta central nas variantes. Círculo de terreno bem delimitado com 3-5 linhas/vinhas largas; readable sem folhagem detalhada. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: Emissão em 0.2s de vinhas geométricas grossas através de World Position Offset a emergirem do chão. Renderizadas em Alpha Blend, sem criação de folhas ou ruído detalhado.",
+    "id": "scout-38-vine-field-i",
+    "icones": [
+      "icons/scout/vine-field-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Backstab II",
+    "paleta": "laranja",
+    "efeito": "Upgrade: rear hit passa a Stun em vez de Interrupt e aplica exatamente 1 Poison + 1 Bleed; non-rear fica sem esses extras.",
+    "contexto": "PALETA: HÍBRIDA no rear payoff: usa simultaneamente accents Poison + Bleed; não depende da stance atual.BAR: DEPTH: mesmo slot de Backstab I.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo ataque; rear success = snap de Stun + duas marcas compactas Poison/Bleed. A cor dominante segue o ícone/estado selecionado (laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado; Poison verde e Bleed vermelho apenas no acerto traseiro. II: Apenas no acerto traseiro: aplica Stun e exatamente uma marca Poison verde e uma marca Bleed vermelha na malha do alvo. O acerto frontal não recebe estes cues.",
+    "id": "scout-39-backstab-ii",
+    "icones": [
+      "icons/scout/backstab-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Smoke Bomb I",
+    "paleta": "laranja",
+    "efeito": "Projétil para ground point; impacto causa dano inicial e cria área persistente que aplica Blind + Slow na criação/entrada e pode re-tentar depois.",
+    "contexto": "PALETA: Neutra; não depende de Poison/Bleed.BAR: Skill ativa; II modifica o mesmo campo.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Objeto curto até ao ground point + esfera/disco de fumo de baixo contraste com boundary legível. Preservar a forma do ícone e a paleta (laranja); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. I: O projétil cai no destino e instancia uma esfera de fumo sólida (semi-opaca e de baixo contraste), com Fresnel acentuado para garantir que a borda da cortina é sempre legível em combate.",
+    "id": "scout-40-smoke-bomb-i",
+    "icones": [
+      "icons/scout/smoke-bomb-i.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Vine Field II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: num único check atrasado, inimigos ainda dentro e com Slow verdadeiro recebem Root.",
+    "contexto": "PALETA: Neutra.BAR: DEPTH: mesmo slot/ícone de Vine Field I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo field; no EntangleResolve, 2-3 linhas fecham rapidamente sobre alvos elegíveis. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. II: Só no check atrasado, e apenas nos inimigos ainda dentro e realmente Slowed, as lianas fecham com um Snap para assinalar Root (Entangle).",
+    "id": "scout-41-vine-field-ii",
+    "icones": [
+      "icons/scout/vine-field-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Volley II",
+    "paleta": "verde e vermelho",
+    "efeito": "Upgrade hold-to-shape: estreita o cone e aumenta o alcance; mantém 1 aplicação do DoT snapshot por alvo.",
+    "contexto": "PALETA: CONTEXTUAL: accent Poison/Bleed continua a seguir a stance snapshot.BAR: DEPTH: mesmo slot/ícone de Volley I.",
+    "visual": "A forma nasce como preparação legível e só conclui quando a execução termina. Telegraph do cone estreita progressivamente durante hold; projéteis mantêm a mesma linguagem. Usar poucas faces grandes para a acumulação e uma única resolução no release/landing. Não antecipar o impacto nem manter partículas a circular durante toda a preparação; o ponto ou a linha de destino deve acompanhar exatamente o input descrito.",
+    "producao": "Paleta e material: verde e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Poison verde ou Bleed vermelho, segundo a stance snapshot da Volley. II: A trail e os projéteis mantêm-se. A antecipação de manter a tecla (Hold-to-shape) altera mecanicamente o decalque do chão, aplicando um Morph/Scale Y para estreitar o cone de mira visível.",
+    "id": "scout-42-volley-ii",
+    "icones": [
+      "icons/scout/volley-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Sickness",
+    "paleta": "verde e vermelho",
+    "efeito": "Quando Poison e Bleed estão ambos no máximo, substitui o Pop: consome ambos, faz burst ST e AoE com Wounded + Slow + Weakened + Dulled.",
+    "contexto": "PALETA: DUAL: combina as paletas Poison + Bleed; sobrepõe-se à stance atual quando elegível.BAR: FORMA CONTEXTUAL do mesmo slot Poison Sac/Hemorrhage.",
+    "visual": "Usar a mesma silhueta central nas variantes. Ambos os conjuntos de stacks convergem, impacto ST e ring AoE único. Mistura cromática controlada, não arco-íris. A cor dominante segue o ícone/estado selecionado (verde e vermelho); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: verde e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Poison verde e Bleed vermelho. As stacks de ambos os estados convergem simultaneamente. Utiliza uma máscara de mistura (Blend Mask) para fundir a poça de Poison e a rutura de Bleed num único anel amplo, baixo e de curta duração no chão, com poucas faces e sem camadas de explosão adicionais.",
+    "id": "scout-43-sickness",
+    "icones": [
+      "icons/scout/sickness.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Exploit Weakness III",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: uma Takedown qualificada faz reset ao cooldown da família Exploit Weakness.",
+    "contexto": "PALETA: Neutra.BAR: PASSIVO/DEPTH: mesmo slot/ícone; não criar botão novo.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Sem VFX permanente; flash curto no Scout/slot quando o reset acontece. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado. III: O reinício de cooldown não gera aura no mundo; manifesta-se apenas com um pulso Local Space muito breve no modelo ou arma do Scout.",
+    "id": "scout-44-exploit-weakness-iii",
+    "icones": [
+      "icons/scout/exploit-weakness-iii.jpg"
+    ]
+  },
+  {
+    "classe": "Scout",
+    "nome": "Smoke Bomb II",
+    "paleta": "laranja",
+    "efeito": "Upgrade: mantém Smoke Bomb; dentro do próprio smoke apenas o Scout ganha Mist concealment.",
+    "contexto": "PALETA: Neutra; não é Poison/Bleed-dependent.BAR: DEPTH: mesmo slot/ícone de Smoke Bomb I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo volume; quando o Scout está dentro, outline/ghost muito subtil apenas nele. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Laranja e dourado. II: O volume mantém a mesma opacidade geral. Contudo, quando o Scout entra na área, o motor liga um Custom Depth Pass apenas na silhueta do jogador, desenhando um contorno de ocultação fantasma (Mist). ---",
+    "id": "scout-45-smoke-bomb-ii",
+    "icones": [
+      "icons/scout/smoke-bomb-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Cleanse",
+    "paleta": "violeta e azul",
+    "efeito": "Remove Debuffs e CC persistente do Mage e cancela Forced Displacement.",
+    "contexto": "PALETA: Neutra; não depende de Manifest/Weave.BAR: Botão ativo concedido.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Anel arcano curto a expandir; cue de ruptura limpo. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta e azul. Anel arcano curto ancorado ao chão com um perímetro delimitado, expandindo-se a partir do Mago com uma rotura rápida via Alpha Erosion.",
+    "id": "mage-46-cleanse",
+    "icones": [
+      "icons/mage/cleanse.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Manifest / Weave",
+    "paleta": "violeta e azul",
+    "efeito": "Troca o modelo de execução elemental. Manifest aplica assinaturas Fire=Burn, Ice=Slow, Lightning=Sapped; Weave substitui essas assinaturas por geração de recurso.",
+    "contexto": "PALETA: DINÂMICA: palette/secondary accent Manifest vs Weave. Elemento mantém a própria identidade.BAR: Mesmo slot/toggle; estado deve ser sempre legível.",
+    "visual": "Usar a mesma silhueta central nas variantes. Manifest: aura/selo único e estável. Weave: shards/memory mínimos orbitais. Evitar partículas permanentes excessivas. A cor dominante segue o ícone/estado selecionado (violeta e azul); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta e azul; os acentos Fire, Ice ou Lightning seguem o ícone elemental usado. Manifest — O feitiço de alteração de stance ancora um selo/runa de energia único e estável ligado ao osso principal da personagem (Root) em Local Space.\nWeave — Weave remove a assinatura de estado e mostra poucas formas orbitais de recurso: shards com Arcane Weaving ou glifos de memória elemental com Elemental Weaver. Sem trilhos persistentes nem cues de Burn, Slow ou Sapped.",
+    "id": "mage-47-manifest-weave",
+    "icones": [
+      "icons/mage/manifest-weave-1.jpg",
+      "icons/mage/manifest-weave-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Arcane Burst",
+    "paleta": "violeta",
+    "efeito": "Projétil que consome Arcane Shards armazenados; dano e raio crescem com shards. Elemental Weaver pode substituir este slot por uma Synthesis preparada.",
+    "contexto": "PALETA: WEAVE/RESOURCE. Em Elemental Weaver, o ícone muda para a Synthesis derivada da memória.BAR: Botão ativo contextual; 1 projétil, não um por shard.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Esfera/projétil único + impacto circular; shards visíveis apenas como apresentação de carga. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta. Projétil que consiste numa esfera opaca, cujo tamanho (Scale) aumenta em função da quantidade de Arcane Shards consumidas. O impacto tem um Hit Stop seguido da emissão de um impacto circular, sem criar chuva de detritos.",
+    "id": "mage-48-arcane-burst",
+    "icones": [
+      "icons/mage/arcane-burst.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Fire Bolt I",
+    "paleta": "laranja e dourado",
+    "efeito": "Projétil Fire ST. Manifest: aplica Burn depois do dano. Weave: não aplica Burn e gera o evento de recurso.",
+    "contexto": "PALETA: ELEMENTO Fire. MODO: Manifest acrescenta cue Burn; Weave acrescenta cue de recurso e omite Burn.BAR: Skill ativa; II mantém o mesmo slot.",
+    "visual": "Usar a mesma silhueta central nas variantes. Bolt simples e rápido. Manifest -> pequena marca Burn no hit; Weave -> flash/shard de recurso, sem marca Burn. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e vermelho. I (Manifest): Bolt simples que colide no alvo e acopla uma malha rígida e compacta de queimadura (Burn) ao modelo do inimigo.\nI (Weave): O Bolt colide e não aplica queimadura. Emite um cue direcional curto de recurso que viaja até ao Mago: Arcane Shard ou memória elemental, conforme a especialização.",
+    "id": "mage-49-fire-bolt-i",
+    "icones": [
+      "icons/mage/fire-bolt-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Combust I",
+    "paleta": "laranja e vermelho",
+    "efeito": "Spell Fire ST mais forte. Manifest aplica Burn; Weave gera recurso em vez da assinatura.",
+    "contexto": "PALETA: ELEMENTO Fire; secondary accent depende Manifest/Weave.BAR: Skill ativa; II é depth do mesmo slot.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Impacto Fire compacto diretamente no alvo; nada de projectile trail longa. Preservar a forma do ícone e a paleta (laranja e vermelho); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: laranja e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e vermelho. I: Impacto Fire compacto diretamente no alvo (sem trail longa). Comportamento de impacto dividido dependendo de Manifest (marca) ou Weave (recurso) exatamente como no Fire Bolt.",
+    "id": "mage-50-combust-i",
+    "icones": [
+      "icons/mage/combust-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Frost Lance I",
+    "paleta": "azul e ciano",
+    "efeito": "Spell Ice ST. Manifest: Slow após dano. Weave: recurso em vez de Slow.",
+    "contexto": "PALETA: ELEMENTO Ice; secondary accent Manifest/Weave.BAR: Skill ativa.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Lance/bolt estreito. Manifest -> ring/gel visual breve de Slow nos pés; Weave -> cue de recurso sem Slow. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Azul e ciano. I: Lança estreita de deslocação única. Em Manifest, aplica um decalque breve de Slow na base do alvo. Em Weave, gera um cue de recurso: Arcane Shard ou memória elemental, conforme a especialização, em vez do anel de Slow.",
+    "id": "mage-51-frost-lance-i",
+    "icones": [
+      "icons/mage/frost-lance-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Glacial Spike I",
+    "paleta": "azul e ciano",
+    "efeito": "Cone Ice AoE. Manifest aplica Slow; Weave gera no máximo um evento de recurso por execução.",
+    "contexto": "PALETA: ELEMENTO Ice; secondary accent Manifest/Weave.BAR: Skill ativa; II é depth.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Cone frontal legível com 3-5 formas de gelo largas; não chuva de shards. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Azul e ciano. I: O cone instancializa 3 a 5 prismas de gelo massivos (Material Opaque) que irrompem velozmente em Ease-out do chão do campo de batalha.",
+    "id": "mage-52-glacial-spike-i",
+    "icones": [
+      "icons/mage/glacial-spike-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Static Bolt I",
+    "paleta": "laranja e dourado",
+    "efeito": "Projétil Lightning cujo impacto resolve uma AoE circular. Manifest aplica Sapped; Weave gera recurso.",
+    "contexto": "PALETA: ELEMENTO Lightning; secondary accent Manifest/Weave.BAR: Skill ativa; II é depth.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Bolt compacto + círculo de impacto elétrico. Manifest -> marca Sapped; Weave -> cue de recurso. Preservar a forma do ícone e a paleta (laranja e dourado); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. I: Projétil compacto de eletricidade que colide e descarrega num círculo de impacto perfeitamente elétrico no chão. Transmite Sapped ou cria um cue de recurso (Arcane Shard ou memória elemental, conforme a especialização).",
+    "id": "mage-53-static-bolt-i",
+    "icones": [
+      "icons/mage/static-bolt-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Thunderstrike I",
+    "paleta": "laranja e dourado",
+    "efeito": "Strike Lightning instantâneo ST. Manifest aplica Sapped; Weave gera recurso.",
+    "contexto": "PALETA: ELEMENTO Lightning; secondary accent Manifest/Weave.BAR: Skill ativa; II é depth.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Linha/coluna instantânea sobre o alvo + flash seco; sem projectile travel. Preservar a forma do ícone e a paleta (laranja e dourado); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. I: Coluna de eletricidade instantânea invocada num único frame diretamente sobre o alvo (sem projétil ou deslocação vertical).",
+    "id": "mage-54-thunderstrike-i",
+    "icones": [
+      "icons/mage/thunderstrike-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Blink",
+    "paleta": "violeta e azul",
+    "efeito": "Teleport curto em direção livre; pode ser usado durante Cast/Channel sem os cancelar.",
+    "contexto": "PALETA: Neutra arcana; não depende de Manifest/Weave.BAR: Skill ativa.",
+    "visual": "A leitura é de duas posições: origem e destino, com um marcador breve em cada ponto. Ring/flash na origem, corte espacial limpo, ring/flash no destino. Evitar trail que pareça Dash. Fechar a silhueta na origem antes de a abrir no destino; o rasto entre ambos deve ser curto e não parecer dash ou puxão. Se outra personagem for apenas âncora, mantê-la parada e deslocar visualmente só o caster/alvo que a mecânica move.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta e azul. O Mago desaparece aplicando um Clip Plane na sua malha e materializa-se na posição de destino passados 2 frames. Assinalado apenas por dois anéis rápidos na origem e no destino, sem rasto de fumo entre ambos.",
+    "id": "mage-55-blink",
+    "icones": [
+      "icons/mage/blink.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Fire Bolt II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: em Manifest, se o alvo já tinha Burn, espalha 1 Burn a alvos próximos antes do novo Burn do alvo principal. Em Weave não há spread.",
+    "contexto": "PALETA: MANIFEST-specific payoff; em Weave o extra visual deve desaparecer.BAR: DEPTH: mesmo slot/ícone de Fire Bolt I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo bolt. Só em Manifest + pre-Burn surgem pequenos secondary bolts/links para alvos próximos. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e vermelho. II: Em Manifest, ao acertar num alvo que já possua Burn, são gerados micro-ribbons imediatos de 1 frame de duração que saltam do alvo principal para os inimigos adjacentes, transmitindo o efeito antes do impacto final.",
+    "id": "mage-56-fire-bolt-ii",
+    "icones": [
+      "icons/mage/fire-bolt-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Combust II",
+    "paleta": "laranja e vermelho",
+    "efeito": "Upgrade: lê Burn preexistente, ganha dano por stack e consome essas stacks; em Manifest aplica depois um novo Burn; em Weave não.",
+    "contexto": "PALETA: Payoff depende de Burn preexistente; assinatura final depende Manifest/Weave.BAR: DEPTH: mesmo slot de Combust I.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Stacks Burn convergem/colapsam no impacto; Manifest termina com nova marca Burn, Weave não. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: laranja e vermelho; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e vermelho. II: Ao invocar sobre marcas Burn preexistentes, todos os stacks convergem visualmente e colapsam no ponto de impacto num golpe único. Manifest termina aplicando uma nova marca; Weave omite-a.",
+    "id": "mage-57-combust-ii",
+    "icones": [
+      "icons/mage/combust-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Frost Lance II",
+    "paleta": "azul e ciano",
+    "efeito": "Upgrade: alvos já Slowed também recebem Hindered + Dazed; Manifest volta a aplicar o Slow normal.",
+    "contexto": "PALETA: Payoff por pre-Slow; assinatura final depende Manifest/Weave.BAR: DEPTH: mesmo slot de Frost Lance I.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Mesmo lance; se pre-Slow, segundo snap/mark de controlo. Weave omite novo Slow. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Azul e ciano. II: Se o inimigo já apresentar Slow, a lança aplica um acento angular curto no alvo para Hindered/Dazed, sem bloquear a animação como se fosse Stun.",
+    "id": "mage-58-frost-lance-ii",
+    "icones": [
+      "icons/mage/frost-lance-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Glacial Spike II",
+    "paleta": "azul e ciano",
+    "efeito": "Upgrade: alvos já Slowed são Stunned; Manifest aplica depois o Slow normal.",
+    "contexto": "PALETA: Payoff por pre-Slow; assinatura final depende Manifest/Weave.BAR: DEPTH: mesmo slot de Glacial Spike I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo cone; pre-Slow -> breve lock/cristal rígido no Stun. Não criar “Frozen” como CC separado. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Azul e ciano. II: O impacto deteta se os alvos já contêm Slow. Se sim, injeta um Shader Overlay instantâneo que reveste o modelo do inimigo em textura de cristal duro para comunicar Stun, sem espalhar estilhaços extra pelo ecrã.",
+    "id": "mage-59-glacial-spike-ii",
+    "icones": [
+      "icons/mage/glacial-spike-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Thunderstrike II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: pre-Sapped -> splash AoE; pre-Stun -> burst ST adicional; ambos podem ocorrer. Manifest depois aplica Sapped; Weave não.",
+    "contexto": "PALETA: Payoffs por estados preexistentes; signature final depende Manifest/Weave.BAR: DEPTH: mesmo slot de Thunderstrike I.",
+    "visual": "A forma abre a partir do centro de execução e assenta numa marca circular no chão ou à volta do ator, conforme descrito. Mesmo strike principal; splash = arcos curtos laterais; burst ST = segundo flash central. Separar telegraph, resolução e eventual persistência com mudanças simples de escala e opacidade. O limite da área deve ficar mais claro que os ornamentos; resolver num único pulso quando a skill tem uma só aplicação.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. II: O relâmpago comporta-se mediante estados prévios: se pré-Sapped, abre ramos curtos laterais na base da coluna (Splash AoE); se pré-Stun, o núcleo do relâmpago detona um segundo flash central para assinalar dano extra.",
+    "id": "mage-60-thunderstrike-ii",
+    "icones": [
+      "icons/mage/thunderstrike-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Mana Barrier I",
+    "paleta": "violeta e azul",
+    "efeito": "Channel que converte uma quantidade escolhida de MP num único Shield final.",
+    "contexto": "PALETA: Neutra arcana; não depende de Manifest/Weave.BAR: Skill ativa; II cria reativação contextual.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Casca translúcida cresce durante channel e fecha uma única vez no release. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta e azul. A barreira materializa-se em redor do Mago, crescendo via Vertex Displacement com o channel da skill, e fecha a sua malha visual no momento do lançamento final (Release).",
+    "id": "mage-61-mana-barrier-i",
+    "icones": [
+      "icons/mage/mana-barrier-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Static Bolt II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: um inimigo pre-Sapped atingido pode encadear Lightning ao alvo elegível mais próximo; cada novo alvo só prolonga a cadeia se já tinha Sapped.",
+    "contexto": "PALETA: Payoff por pre-Sapped; Manifest/Weave só altera a assinatura Sapped/resource da execução.BAR: DEPTH: mesmo slot de Static Bolt I.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Após impacto, arcos limpos entre poucos alvos; nova Sapped nunca deve “alimentar” visualmente o salto seguinte no mesmo chain. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. II: Se o alvo for atingido com Sapped prévio, do impacto central partem correntes elétricas em ziguezague simples até ao inimigo elegível mais próximo; cada novo alvo só prolonga a cadeia se já tinha Sapped antes de ser atingido.",
+    "id": "mage-62-static-bolt-ii",
+    "icones": [
+      "icons/mage/static-bolt-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Mana Barrier II / Overcharge",
+    "paleta": "violeta e azul",
+    "efeito": "Reativação enquanto existe Shield: consome todo o Shield atual e ganha Empower conforme o valor consumido.",
+    "contexto": "PALETA: Neutra arcana; não depende de Manifest/Weave.BAR: RECAST CONTEXTUAL do mesmo slot de Mana Barrier.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Barreira colapsa rapidamente para dentro do Mage -> pulso de poder curto. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Violeta e azul. Ao ser reativada, a malha da barreira ativa atual sofre uma implosão rápida (Collapse) em direção ao Mago, culminando num pulso de poder curto que indica o recebimento do buff Empower.",
+    "id": "mage-63-mana-barrier-ii-overcharge",
+    "icones": [
+      "icons/mage/mana-barrier-ii-overcharge.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Arcane Weaving I",
+    "paleta": "violeta",
+    "efeito": "Especialização Weave: mantém Arcane Shards, aumenta o máximo e passa a gerar mais shards por evento elegível.",
+    "contexto": "PALETA: WEAVE-only. Paleta de Weave/Arcane Shards.BAR: PASSIVO/SPECIALIZATION: não é botão ativo; ícone de árvore/sistema.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Feedback só no ganho de shards; sem aura permanente pesada. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Violeta. Nos eventos elegíveis, mostrar o ganho de Arcane Shards com pequenos flashes junto às shards; sem aura permanente.",
+    "id": "mage-64-arcane-weaving-i",
+    "icones": [
+      "icons/mage/arcane-weaving-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Elemental Weaver I",
+    "paleta": "laranja e azul",
+    "efeito": "Especialização Weave: substitui Shards por Element Memory e desbloqueia pares puros Fire+Fire, Ice+Ice, Lightning+Lightning.",
+    "contexto": "PALETA: WEAVE-only. Paleta segue os elementos armazenados.BAR: PASSIVO/SPECIALIZATION; as Syntheses é que aparecem contextualmente no slot Arcane Burst.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Dois elementos/shapes orbitais mínimos; memória deve ser legível sem simular projéteis reais. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja, azul e acentos do par elemental. Substituir o cue de Shards por Element Memory; mostrar apenas os pares puros Fire+Fire, Ice+Ice ou Lightning+Lightning disponíveis, com a cor de cada elemento.",
+    "id": "mage-65-elemental-weaver-i",
+    "icones": [
+      "icons/mage/elemental-weaver-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Arcane Weaving II",
+    "paleta": "violeta",
+    "efeito": "Upgrade: com Arcane Shards no máximo, um evento Weave elegível reduz o cooldown restante de Arcane Burst.",
+    "contexto": "PALETA: WEAVE-only.BAR: PASSIVO/DEPTH: sem botão novo.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Pequeno flash nos shards + pulso de cooldown/slot; sem VFX no mundo além do recurso. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Violeta. Quando Arcane Shards estão no máximo e ocorre um evento Weave elegível, dar um pulso curto nas shards e no feedback de cooldown de Arcane Burst; sem VFX de mundo persistente.",
+    "id": "mage-66-arcane-weaving-ii",
+    "icones": [
+      "icons/mage/arcane-weaving-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Elemental Weaver II",
+    "paleta": "laranja e azul",
+    "efeito": "Upgrade: acrescenta pares mistos Fire+Ice, Fire+Lightning e Ice+Lightning, mantendo os pares puros.",
+    "contexto": "PALETA: WEAVE-only; paleta dual nos pares mistos.BAR: PASSIVO/DEPTH: sem botão novo; unlock de Syntheses.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Sem VFX próprio permanente; apenas feedback da memória e das Syntheses. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja, azul e acentos do par elemental. Manter os pares puros e acrescentar Fire+Ice, Fire+Lightning e Ice+Lightning; usar duas cores apenas nos pares mistos.",
+    "id": "mage-67-elemental-weaver-ii",
+    "icones": [
+      "icons/mage/elemental-weaver-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Mana Storm",
+    "paleta": "violeta e azul",
+    "efeito": "Área circular estacionária: self/Party recebem Clarity; Skills iniciadas dentro têm +damage e +MP cost; Basic Attacks não são afetados.",
+    "contexto": "PALETA: Neutra arcana; não depende de Manifest/Weave.BAR: Skill ativa.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Ground circle persistente com volume vertical muito subtil; pulse só no admission de Skill/Clarity, não em loop intenso. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: violeta e azul; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Violeta e azul. Instalação no chão de um círculo estático persistente, dotado de um volume vertical quase impercetível. A área emite um pulso de leitura rápida única e exclusivamente quando uma Skill elegível é ativada no seu interior.",
+    "id": "mage-68-mana-storm",
+    "icones": [
+      "icons/mage/mana-storm.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Vortex - Fire + Fire",
+    "paleta": "laranja e dourado",
+    "efeito": "Synthesis: grande projétil linear; dano + Burn + Forced Displacement lateral.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta Fire pura, mais intensa; não usar accent de outro elemento.BAR: FORMA CONTEXTUAL do slot Arcane Burst; cooldown próprio de Synthesis.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Vórtice/projétil único e largo; rotação é apresentação. No hit, empurrão lateral deve ser claro. Preservar a forma do ícone e a paleta (laranja e dourado); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e vermelho. Projétil espiral largo e maciço, cuja rotação é visível. Ao colidir, gera um empurrão lateral limpo no alvo acompanhado de uma marca de queimadura.",
+    "id": "mage-69-vortex-fire-fire",
+    "icones": [
+      "icons/mage/vortex-fire-fire.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Iceberg - Ice + Ice",
+    "paleta": "azul e ciano",
+    "efeito": "Synthesis: cria terreno temporário destrutível que bloqueia movimento e geometria aplicável de LOS/projectiles, com AoE Slow.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta Ice pura.BAR: FORMA CONTEXTUAL do slot Arcane Burst.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Formação rápida de uma parede/bloco de gelo sólido, não explosão de shards; boundary/colisão legível. Preservar a forma do ícone e a paleta (azul e ciano); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Azul e ciano. Formação veloz de um muro/bloco geométrico em Opaque shader. Criação de terreno bloqueante com leitura de colisão perfeitamente delineada, sem recurso a explosões de fragmentos.",
+    "id": "mage-70-iceberg-ice-ice",
+    "icones": [
+      "icons/mage/iceberg-ice-ice.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Coil - Lightning + Lightning",
+    "paleta": "laranja e dourado",
+    "efeito": "Synthesis: dá Shield ao Mage e causa AoE Lightning; alvos pre-Sapped podem ser Rooted antes da nova aplicação de Sapped.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta Lightning pura.BAR: FORMA CONTEXTUAL do slot Arcane Burst.",
+    "visual": "A forma abre a partir do centro de execução e assenta numa marca circular no chão ou à volta do ator, conforme descrito. Anel/coils elétricos em torno do Mage + casca Shield; Root cue curto em pre-Sapped. Separar telegraph, resolução e eventual persistência com mudanças simples de escala e opacidade. O limite da área deve ficar mais claro que os ornamentos; resolver num único pulso quando a skill tem uma só aplicação.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. Forma correntes anelares elétricas à volta do Mago e resolve a AoE. Apenas alvos atingidos que já tinham Sapped recebem primeiro o cue de Root, antes da nova aplicação de Sapped.",
+    "id": "mage-71-coil-lightning-lightning",
+    "icones": [
+      "icons/mage/coil-lightning-lightning.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Mist - Fire + Ice",
+    "paleta": "azul e laranja",
+    "efeito": "Synthesis: área estacionária de concealment/target denial; não causa dano.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta dual Fire+Ice, equilibrada.BAR: FORMA CONTEXTUAL do slot Arcane Burst.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Volume baixo, opaco o suficiente para ler boundary; sem flames/ice particles agressivas que sugiram dano. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: azul e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Fire laranja e Ice azul-ciano. A zona de ocultação surge como uma forma baixa e estacionária com Alpha Erosion constante e contida, desenhada de forma a apresentar os limites sem oscilações agressivas ou flames.",
+    "id": "mage-72-mist-fire-ice",
+    "icones": [
+      "icons/mage/mist-fire-ice.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Laser - Fire + Lightning",
+    "paleta": "laranja e dourado",
+    "efeito": "Synthesis: beam direcional steerable com dano em ticks autoritativos discretos.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta dual Fire+Lightning.BAR: FORMA CONTEXTUAL do slot Arcane Burst.",
+    "visual": "A direção e a secção do feixe são a silhueta dominante. Beam contínuo visualmente, mas impacto/pulse nos ticks; linhas muito limpas e direção inequívoca. Construir um feixe limpo, de largura estável e com extremidade de impacto clara; quando houver ticks, sincronizar apenas pequenos pulsos de impacto com eles. Manter os acentos elementais do ícone e não converter o feixe num projétil ou explosão.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Fire laranja-vermelho e Lightning dourado. Feixe direcional, maciço e não particulado, emitido pelo Mago e orientado pela mira; manter a geometria contínua e steerable, sem a prender visualmente a um alvo. Cada tick de dano pulsa brevemente a emissividade (Additive) e altera ligeiramente o perfil da geometria, mantendo o feixe contínuo e steerable.",
+    "id": "mage-73-laser-fire-lightning",
+    "icones": [
+      "icons/mage/laser-fire-lightning.jpg"
+    ]
+  },
+  {
+    "classe": "Mage",
+    "nome": "Tempest - Ice + Lightning",
+    "paleta": "azul e laranja",
+    "efeito": "Synthesis: grande área persistente com impactos Ice/Lightning telegrafados; Ice usa Slow/Stun e Lightning Sapped/burst condicional.",
+    "contexto": "PALETA: ELEMENTAL WEAVER / WEAVE. Paleta dual Ice+Lightning.BAR: FORMA CONTEXTUAL do slot Arcane Burst.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Círculo de storm persistente + sub-telegraphs separados para impactos Ice e Lightning; poucos elementos por impacto. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: azul e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Ice azul-ciano e Lightning dourado. Círculo de tempestade no chão com divisões geométricas claras. Telegraphs separados e concisos para impactos Ice e Lightning; o cue Ice comunica Slow/Stun e o cue Lightning comunica Sapped e o burst condicional.",
+    "id": "mage-74-tempest-ice-lightning",
+    "icones": [
+      "icons/mage/tempest-ice-lightning.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Cleanse",
+    "paleta": "azul e ciano",
+    "efeito": "Remove Debuffs e CC persistente do próprio Mystic ou aliado elegível e cancela Forced Displacement.",
+    "contexto": "PALETA: Neutra; efeito não muda com Sun/Moon.BAR: Skill ativa concedida.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Pulso centrado no receptor, não necessariamente no caster; leitura de purificação curta. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Azul e ciano. O pulso de libertação de debuffs é instanciado em modo Ease-out e centrado estritamente sobre a malha do recetor do feitiço, acompanhado por três ou quatro grandes formas interiores de limpeza.",
+    "id": "mystic-75-cleanse",
+    "icones": [
+      "icons/mystic/cleanse.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Sun / Moon Stance",
+    "paleta": "laranja e violeta",
+    "efeito": "Seleciona a stance para ChargeGrantEvents: resultados benéficos podem gerar Sun Charges; resultados hostis podem gerar Moon Charges.",
+    "contexto": "PALETA: DINÂMICA: paleta Sun ou Moon. A stance atual é lida no evento de charge.BAR: Mesmo slot/toggle.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo marcador celeste persistente; Sun/Moon por paleta e geometria mínima (disco/crescente). A cor dominante segue o ícone/estado selecionado (laranja e violeta); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Sun dourado; Moon violeta. Sun Stance — Altera a malha orbital do marcador da personagem para um disco geométrico estável que não requer partículas espalhadas pelo vento.\nMoon Stance — Altera a malha orbital do marcador da personagem para um formato crescente conciso. A transição não duplica a posição da órbita.",
+    "id": "mystic-76-sun-moon-stance",
+    "icones": [
+      "icons/mystic/sun-moon-stance-1.jpg",
+      "icons/mystic/sun-moon-stance-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Bright Star / Full Moon",
+    "paleta": "violeta e laranja",
+    "efeito": "Payoff contextual. Bright Star consome Sun máximo e dá Shield em AoE a aliados. Full Moon consome Moon máximo e lança AoE ground com dano mágico + Silence.",
+    "contexto": "PALETA: CONTEXTUAL: Sun -> Bright Star; Moon -> Full Moon. Paleta da forma.BAR: Mesmo slot/cooldown contextual.",
+    "visual": "Um motivo sólido inspirado no ícone viaja numa trajetória direta e resolve no alvo/área indicada. Mesmo grammar de “celestial payoff”: Bright Star fecha Shield a partir do caster; Full Moon projeta/resolve círculo no ground point. Preservar a forma do ícone e a paleta (violeta e laranja); limitar o rasto a uma faixa curta e poucas faces angulares. O cue de estado, recurso, cura ou dano surge só depois do impacto e apenas quando a variante canónica o aplica.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Bright Star dourado; Full Moon violeta. Bright Star — O feitiço emite um pulso hemisférico facetado e translúcido (Ease-out) a partir do caster; em seguida, mostra cues pequenos de Shield apenas nos aliados válidos, sem ocultar o terreno.\nFull Moon — Marca o chão através de um decalque circular estrito (Decal). Projeta e resolve a explosão mágica num volume 3D encerrado perfeitamente nas linhas desse mesmo perímetro, sem escape visual de projéteis em flecha.",
+    "id": "mystic-77-bright-star-full-moon",
+    "icones": [
+      "icons/mystic/bright-star-full-moon-1.jpg",
+      "icons/mystic/bright-star-full-moon-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Ether I",
+    "paleta": "violeta e laranja",
+    "efeito": "Projétil ST dual: aliado -> Heal; inimigo -> dano mágico.",
+    "contexto": "PALETA: Efeito base não é stance-locked. Apenas o feedback de charge usa a paleta Sun/Moon quando o resultado é compatível com a stance.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Projétil neutro Mystic; no resolve, Heal sobe/abre e Damage fecha/impacta. Charge proc, se existir, é um cue secundário da stance. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Ally dourado; enemy violeta. I: Projétil astral de comportamento duplo. Ao chocar num inimigo, colapsa-se sobre si mesmo (Dano). Ao colidir num aliado, executa uma ascensão suave no eixo vertical em Ease-out (Heal).",
+    "id": "mystic-78-ether-i",
+    "icones": [
+      "icons/mystic/ether-i-1.jpg",
+      "icons/mystic/ether-i-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Spirit of the Orbit",
+    "paleta": "violeta e laranja",
+    "efeito": "Coloca Spirit num host da Player Group. Variante fica FIXA no cast: Sun -> Shield periódico condicional; Moon -> AoE Slow periódico.",
+    "contexto": "PALETA: FIXED AT PLACEMENT: paleta Sun/Moon fica presa ao Spirit e não muda com stance posterior.BAR: Skill ativa; a mesma skill gera variante contextual.",
+    "visual": "Usar a mesma silhueta central nas variantes. Pequeno objeto orbital persistente; Sun e Moon usam o mesmo modelo-base, paleta/secondary shape diferentes. Pulso só no proc. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Sun dourado; Moon violeta. A variante fica fixa no placement. O espírito manifestado ancora-se (Local Space) no membro válido do Player Group escolhido e mantém fixa a variante definida no cast, sem mudar após futuras alterações de stance. Usa base semelhante entre si e difere apenas nas formas e nas cores estáticas iniciais (Sun=Shield; Moon=AoE Slow).",
+    "id": "mystic-79-spirit-of-the-orbit",
+    "icones": [
+      "icons/mystic/spirit-of-the-orbit-1.jpg",
+      "icons/mystic/spirit-of-the-orbit-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Cosmic Ray I",
+    "paleta": "laranja e dourado",
+    "efeito": "Manifestação/projétil astral para aliado; após delay fixo resolve Heal se a vida/encarnação original ainda for válida.",
+    "contexto": "PALETA: Efeito não muda com stance; eventual charge segue a gramática Sun no evento elegível.BAR: Skill ativa; II altera charges, não o visual base.",
+    "visual": "Usar a mesma silhueta central nas variantes. Orbe/manifestação acompanha visualmente o aliado e resolve num pulso de Heal no tempo fixo; sem pathfinding visual complexo. A cor dominante segue o ícone/estado selecionado (laranja e dourado); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Manter a silhueta da skill fixa entre Manifest e Weave; mostrar Burn/Slow/Sapped apenas na forma que os aplica e trocar esse cue por recurso/memória quando a execução Weave assim o especifica.",
+    "implementacao": "Paleta: Laranja e dourado. I: Manifestação curativa esférica que segue o aliado sem animação agressiva de pathfinding. Desencadeia o impacto num tempo delay fixo.",
+    "id": "mystic-80-cosmic-ray-i",
+    "icones": [
+      "icons/mystic/cosmic-ray-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Connection I",
+    "paleta": "violeta e laranja",
+    "efeito": "Tether dual. Ally: Bliss + Heal periódico. Enemy: Curse + dano mágico periódico. Termina se ultrapassar range máximo.",
+    "contexto": "PALETA: Não stance-locked. Manter core Mystic neutro; diferenciar ramo ally/enemy sem fingir mudança de stance.BAR: Skill ativa; II melhora o mesmo slot.",
+    "visual": "A composição parte dos dois extremos e usa um único fio contínuo para tornar o vínculo legível. Tether contínuo, fino e muito legível. Ally e enemy diferem por movimento/pulso secundário, não por espessura excessiva. Manter o tether fino, de alto contraste e com curva mínima; os pulsos percorrem a ligação apenas nos momentos de resolução. Nos ramos aliado/inimigo, conservar percurso e espessura e mudar só o acento e o pulso correspondente ao resultado canónico.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base.",
+    "implementacao": "Paleta: Ally dourado; enemy violeta. Um tether contínuo ininterrupto (Ribbon/Spline) unindo o Mystic à malha alvo. Utiliza UV Panning para rolar graficamente textura na corrente num loop limpo e ritmado ao tick (Heal ou Dano).",
+    "id": "mystic-81-connection-i",
+    "icones": [
+      "icons/mystic/connection-i-1.jpg",
+      "icons/mystic/connection-i-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Lullaby I",
+    "paleta": "azul e ciano",
+    "efeito": "Projétil hostil; após delay aplica Sleep.",
+    "contexto": "PALETA: Não stance-locked; não recolorir automaticamente com Moon.BAR: Skill ativa; II cria follow-up contextual.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Projétil suave e lento visualmente + ring que fecha no alvo no momento de Sleep. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Azul e ciano. Projétil deslocando-se com lentidão extrema e silhueta arredondada até ao embate. No momento em que Sleep se aplica após o delay canónico, fecha um anel curto no alvo; não aplica Hit Stop no impacto do projétil.",
+    "id": "mystic-82-lullaby-i",
+    "icones": [
+      "icons/mystic/lullaby-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Astral Aura - Sun / Moon Aura",
+    "paleta": "laranja e violeta",
+    "efeito": "Toggle de aura independente da stance. Sun Aura: Regeneration + Swiftness. Moon Aura: Clarity + Might + Empower. Match de aura+stance elimina upkeep; mismatch custa MP.",
+    "contexto": "PALETA: CRÍTICO: paleta segue AURA SELECIONADA, não a stance atual. Stance só altera upkeep.BAR: Mesmo toggle; modo Aura pode alternar Sun/Moon e OFF.",
+    "visual": "Usar a mesma silhueta central nas variantes. Ring persistente discreto. Sun/Moon usam a mesma geometria-base com paleta/secondary rune diferente. A cor dominante segue o ícone/estado selecionado (laranja e violeta); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: laranja e violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Sun dourado; Moon violeta. A cor segue o modo Aura selecionado. Sun Aura — Anel geométrico persistente e simples no plano horizontal sob o Mystic, na cor dourada do modo Sun.\nMoon Aura — A mesma base de anel geométrico, mas com runas secundárias emitidas apenas com as tonalidades da paleta de lua, com a cor e as runas do modo Aura selecionado, independentemente da stance atual.",
+    "id": "mystic-83-astral-aura-sun-moon-aura",
+    "icones": [
+      "icons/mystic/astral-aura-sun-moon-aura-1.jpg",
+      "icons/mystic/astral-aura-sun-moon-aura-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Astral Step",
+    "paleta": "azul e ciano",
+    "efeito": "Teleport do Mystic para junto de um ally/enemy usado apenas como anchor; só o Mystic move.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: Skill ativa.",
+    "visual": "A leitura é de duas posições: origem e destino, com um marcador breve em cada ponto. Ring/flash na origem e destino junto ao anchor; nenhuma linha que sugira puxar o alvo. Fechar a silhueta na origem antes de a abrir no destino; o rasto entre ambos deve ser curto e não parecer dash ou puxão. Se outra personagem for apenas âncora, mantê-la parada e deslocar visualmente só o caster/alvo que a mecânica move.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Azul e ciano. Ativa um mecanismo instantâneo que executa os passos invertidos de materialização. Utiliza unicamente Clip Planes nas malhas, sem exibir trails ou vetores em World Space a apontar para o sítio do teleporte. Se o ponto for estático, nenhum impacto é projetado de forma visível sobre os aliados que serviram de âncora.",
+    "id": "mystic-84-astral-step",
+    "icones": [
+      "icons/mystic/astral-step.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Ether II",
+    "paleta": "violeta e laranja",
+    "efeito": "Upgrade: ally com Buff recebe Haste + Acumen; enemy com Debuff recebe Hindered + Dazed.",
+    "contexto": "PALETA: Não stance-locked; charge cue continua separado.BAR: DEPTH: mesmo slot/ícone de Ether I.",
+    "visual": "Usar a mesma silhueta central nas variantes. Mesmo Ether; apenas segundo pulso/mark no target quando condição é cumprida. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Ally dourado; enemy violeta. II: A trajetória não sofre transformações espaciais adicionais, emitindo meramente um micro-pulso poligonal complementar aquando do contacto para sinalizar e comunicar buff ou debuff secundário.",
+    "id": "mystic-85-ether-ii",
+    "icones": [
+      "icons/mystic/ether-ii-1.jpg",
+      "icons/mystic/ether-ii-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Resurrect",
+    "paleta": "azul e ciano",
+    "efeito": "Resurrection de alto commitment e curto alcance; cast longo, sem invulnerabilidade implícita.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: Skill ativa concedida.",
+    "visual": "A direção e a secção do feixe são a silhueta dominante. Círculo pequeno no cadáver + coluna/feixe estável durante cast; resolução limpa, sem explosão. Construir um feixe limpo, de largura estável e com extremidade de impacto clara; quando houver ticks, sincronizar apenas pequenos pulsos de impacto com eles. Manter os acentos elementais do ícone e não converter o feixe num projétil ou explosão.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Azul e ciano. Cria uma linha de energia (feixe contínuo sólido e translúcido) sobre o osso principal do cadáver, totalmente despida de flutuação e oscilação horizontal, comunicando sem explosões o custo letárgico e alto compromisso exigido em combate pela skill.",
+    "id": "mystic-86-resurrect",
+    "icones": [
+      "icons/mystic/resurrect.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Spirit of the Star",
+    "paleta": "violeta e laranja",
+    "efeito": "Spirit fixo. Sun: cada 3.ª Skill elegível dá MPRegen/Clarity ao host. Moon: cada 3.ª Skill aplica Withering aos hostis atingidos ou arma um Pending para a próxima.",
+    "contexto": "PALETA: FIXED AT PLACEMENT: paleta Sun/Moon não muda após stance swap.BAR: Skill ativa; mesma skill, variante contextual.",
+    "visual": "Usar a mesma silhueta central nas variantes. Objeto em forma de estrela orbitante. Só pulsa no trigger; Moon Pending pode ter glow discreto no Spirit, não no mundo inteiro. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Sun dourado; Moon violeta. A variante fica fixa no placement. Um formato em estrela orbita no hospedeiro. Estando inativo a esmagadora maioria do tempo, desponta apenas em hit frames estourados (Additive) circulares quando a terceira skill elegível do host concede MPRegen/Clarity ou aplica Withering aos inimigos atingidos ou arma o Pending para a próxima skill, conforme a execução.",
+    "id": "mystic-87-spirit-of-the-star",
+    "icones": [
+      "icons/mystic/spirit-of-the-star-1.jpg",
+      "icons/mystic/spirit-of-the-star-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Cosmic Ray II",
+    "paleta": "laranja e dourado",
+    "efeito": "Upgrade: aumenta Max Charges; cada charge pode manter um delayed heal independente.",
+    "contexto": "PALETA: Não stance-locked.BAR: PASSIVO/DEPTH: mesmo slot/ícone de Cosmic Ray I; charges ficam no HUD.",
+    "visual": "O ícone define o motivo principal e a cor; no mundo, a skill não mantém uma aura ativa. Sem mudança de VFX base; múltiplas manifestações podem coexistir quando charges permitem. O feedback aparece apenas no evento de recurso ou proc descrito: um pulso curto junto ao ator/alvo válido, com a silhueta a desaparecer logo após a leitura. Se for uma profundidade, manter a animação base e realçar só o payoff acrescentado.",
+    "producao": "Paleta e material: laranja e dourado; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Tratar como feedback de proc/árvore, sem botão ativo ou VFX contínuo de mundo.",
+    "implementacao": "Paleta: Laranja e dourado. Cada charge mantém uma cura atrasada independente; mostrar as manifestações pendentes separadamente e deixar a contagem de charges no HUD.",
+    "id": "mystic-88-cosmic-ray-ii",
+    "icones": [
+      "icons/mystic/cosmic-ray-ii.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Serenity",
+    "paleta": "violeta e laranja",
+    "efeito": "Ground point com uma única resolução atrasada: Heal a allies elegíveis e Sleep a enemies. Não é zona persistente.",
+    "contexto": "PALETA: Efeito misto; não stance-locked. Não usar uma só paleta de stance como se fosse forma contextual.BAR: Skill ativa.",
+    "visual": "Usar a mesma silhueta central nas variantes. Telegraph circular durante delay; no resolve, pulso único com dois cues discretos: Heal e Sleep. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Violeta, dourado e acento azul do ícone. Assinala o ponto no chão com um telegraph circular plano durante o delay, sem o apresentar como área persistente. A resolução única combina um pulso de Heal nos aliados válidos com um cue distinto de Sleep nos inimigos; não comunica dano nos inimigos nem uma zona persistente.",
+    "id": "mystic-89-serenity",
+    "icones": [
+      "icons/mystic/serenity.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Astral Pull",
+    "paleta": "azul e ciano",
+    "efeito": "Após delay, teleporta um membro atual da Party/Raid para junto do Mystic se checks finais forem válidos.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: Skill ativa.",
+    "visual": "A leitura é de duas posições: origem e destino, com um marcador breve em cada ponto. Linha/feixe fino ally->Mystic durante preparação; dissolve no teleport + ring no destino. Fechar a silhueta na origem antes de a abrir no destino; o rasto entre ambos deve ser curto e não parecer dash ou puxão. Se outra personagem for apenas âncora, mantê-la parada e deslocar visualmente só o caster/alvo que a mecânica move.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Azul e ciano. Semelhante ao Step, contudo desenha primeiro um feixe visual estreito (Ally->Mystic) durante o delay de preparação, que logo esmaece no frame do teleporte; apenas o membro atual da Party/Raid se desloca para junto do Mystic.",
+    "id": "mystic-90-astral-pull",
+    "icones": [
+      "icons/mystic/astral-pull.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Spirit of the Comet",
+    "paleta": "violeta e laranja",
+    "efeito": "Spirit fixo. Sun: cada 3.º Basic do host concede Omnivamp. Moon: cada 3.º Basic aplica Wounded a todos os hostis atingidos.",
+    "contexto": "PALETA: FIXED AT PLACEMENT: paleta Sun/Moon não muda com stance posterior.BAR: Skill ativa; mesma skill, variante contextual.",
+    "visual": "Usar a mesma silhueta central nas variantes. Cometa pequeno orbitante com trail curta; pulso apenas no 3.º Basic. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Sun dourado; Moon violeta. A variante fica fixa no placement. Cometa com arrastamento conciso atrelado em Local Space ao alvo. Tal como o Spirit of the Star, reage perfeitamente a cada três Basic Attacks efetuados pela personagem para pulsar Omnivamp ou emanar estilhaços de Wounded.",
+    "id": "mystic-91-spirit-of-the-comet",
+    "icones": [
+      "icons/mystic/spirit-of-the-comet-1.jpg",
+      "icons/mystic/spirit-of-the-comet-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Lullaby II / Nightmare",
+    "paleta": "azul e ciano",
+    "efeito": "Follow-up temporário após Lullaby: pode atingir qualquer enemy com Sleep, causa dano mágico e aplica Fear.",
+    "contexto": "PALETA: Não stance-locked.BAR: RECAST/FOLLOW-UP CONTEXTUAL da família Lullaby; pode mudar temporariamente o ícone.",
+    "visual": "A execução tem um único foco visual e uma resolução curta no alvo ou no espaço descrito. Projétil da mesma família, mais agudo/agressivo; impacto expande ring de Fear. A silhueta principal mantém-se limpa durante o hit; estados e procs aparecem como marcas secundárias breves. Evitar uma explosão genérica: o perfil e a direção devem continuar a corresponder ao motivo do ícone e à mecânica desta skill.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Azul e ciano em ambos; Nightmare usa uma silhueta mais angular. Como seguimento, o mesmo projétil letárgico usa uma forma angular mais firme, avança até a um inimigo que já está com Sleep e resolve dano com um anel curto de Fear.",
+    "id": "mystic-92-lullaby-ii-nightmare",
+    "icones": [
+      "icons/mystic/lullaby-ii-nightmare-1.jpg",
+      "icons/mystic/lullaby-ii-nightmare-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Black Hole I",
+    "paleta": "violeta",
+    "efeito": "Ground area: no início faz uma única query e tenta um pull lento para o centro; late entrants não são puxados retroativamente.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: Skill ativa; II é payoff final do mesmo skill.",
+    "visual": "A área é ancorada ao chão e tem um perímetro fácil de reconhecer. Disco/anel no chão + linhas a convergir uma única vez no início. Não pulsar pulls repetidos. Desenhar uma borda baixa com 3 a 5 motivos largos no interior; manter o centro visível e a animação lenta. Mostrar impacto ou estado apenas no momento e nos alvos autorizados pela regra, sem pulsar como dano contínuo quando a mecânica não o faz.",
+    "producao": "Paleta e material: violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante. Executar a indicação de alvo apenas no momento de query descrito; entradas tardias não recebem uma repetição visual retroativa.",
+    "implementacao": "Paleta: Violeta. Projeta, sobre um disco de base imóvel ancorado ao chão, os raios/fios virtuais convergentes para o meio num lapso de tempo estrito, ignorando quem entre tardiamente.",
+    "id": "mystic-93-black-hole-i",
+    "icones": [
+      "icons/mystic/black-hole-i.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Astral Veil",
+    "paleta": "azul e ciano",
+    "efeito": "Barreira temporária que intercepta gameplay Projectiles dos dois lados; não bloqueia characters, LOS, beams, cones ou ground AoE; sem HP.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: Skill ativa.",
+    "visual": "A direção e a secção do feixe são a silhueta dominante. Plano/parede translúcida, boundary muito claro; hit de projectile termina em ripple local pequeno. Construir um feixe limpo, de largura estável e com extremidade de impacto clara; quando houver ticks, sincronizar apenas pequenos pulsos de impacto com eles. Manter os acentos elementais do ícone e não converter o feixe num projétil ou explosão.",
+    "producao": "Paleta e material: azul e ciano; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Azul e ciano. Ergue uma parede visual em plano perfeitamente regular (Alpha Blend), suportada num fresnel intenso que corta a opacidade ao meio no interior. Quando um projectile é intercetado, de qualquer lado, propaga em duas dimensões um anel seco de Alpha Erosion originado estritamente nas UV's de toque do plano 3D (Ripple).",
+    "id": "mystic-94-astral-veil",
+    "icones": [
+      "icons/mystic/astral-veil.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Eclipse",
+    "paleta": "violeta e laranja",
+    "efeito": "Com ambos os pools Sun+Moon no máximo, consome ambos num payoff ground: Shield allies + dano mágico e Silence enemies.",
+    "contexto": "PALETA: DUAL: usar simultaneamente as paletas Sun + Moon; nunca apenas a stance atual.BAR: Payoff clicável separado no estado atual do SkillTree; icon próprio.",
+    "visual": "Usar a mesma silhueta central nas variantes. Ground circle grande, dois rings/opostos convergem e resolvem num único impacto dual support/offense. A cor dominante segue o ícone/estado selecionado (violeta e laranja); a segunda forma troca apenas o detalhe de identidade visível no próprio ícone. A troca de estado deve resolver num pulso curto, sem duplicar a geometria nem sugerir efeitos fora da mecânica descrita.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. O cue condicional só aparece quando a condição indicada no efeito canónico é verdadeira; não o mostrar no telegraph base. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante. Distribuir pulsos apenas aos aliados elegíveis em alcance; usar poucos marcadores e não desenhar uma aura global fora do grupo afetado.",
+    "implementacao": "Paleta: Violeta e dourado. O Mystic colapsa dois anéis de acentos opostos num círculo de ground AoE claramente delimitado. Hit Frame central rápido combina os dois acentos num flash claro e dissolve o VFX com Alpha Erosion; o terreno permanece visível e inalterado.",
+    "id": "mystic-95-eclipse",
+    "icones": [
+      "icons/mystic/eclipse.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Connection II / Ritual",
+    "paleta": "violeta e laranja",
+    "efeito": "Upgrade. Ally: +Swiftness e, em expiry natural, Heal principal + spread Bliss/Swiftness. Enemy: +Slow e, em expiry natural, Root principal + spread Curse/Slow.",
+    "contexto": "PALETA: Não stance-locked; manter branch ally/enemy consistente com Connection I.BAR: DEPTH: mesmo slot/ícone de Connection I.",
+    "visual": "A composição parte dos dois extremos e usa um único fio contínuo para tornar o vínculo legível. Mesmo tether. No expiry natural, pulso percorre a linha e depois espalha em ring curto aos alvos válidos. Manter o tether fino, de alto contraste e com curva mínima; os pulsos percorrem a ligação apenas nos momentos de resolução. Nos ramos aliado/inimigo, conservar percurso e espessura e mudar só o acento e o pulso correspondente ao resultado canónico.",
+    "producao": "Paleta e material: violeta e laranja; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz.",
+    "implementacao": "Paleta: Ally dourado; enemy violeta. Na expiração natural, um pulso compacto percorre o tether e forma um anel curto à volta do recetor, espalhando apenas os efeitos descritos para o ramo aliado ou inimigo.",
+    "id": "mystic-96-connection-ii-ritual",
+    "icones": [
+      "icons/mystic/connection-ii-ritual-1.jpg",
+      "icons/mystic/connection-ii-ritual-2.jpg"
+    ]
+  },
+  {
+    "classe": "Mystic",
+    "nome": "Black Hole II",
+    "paleta": "violeta",
+    "efeito": "Upgrade: no expiry faz uma nova query independente e causa dano mágico + Silence aos enemies ainda dentro.",
+    "contexto": "PALETA: Neutra astral; não depende de Sun/Moon.BAR: DEPTH: mesmo slot/ícone de Black Hole I.",
+    "visual": "A emissão abre num leque frontal curto e termina nos alvos válidos. Mesmo Black Hole; no fim, um único pulso circular para dano+Silence. Marcar a borda do cone com 2 a 4 planos largos, deixando o centro aberto para a leitura da direção. Aplicações de DoT ou CC ficam como marcas breves nos alvos que realmente receberam o efeito; evitar trilhas que cruzem todo o cenário.",
+    "producao": "Paleta e material: violeta; aplicar como acentos limpos e grandes formas facetadas, preservando o motivo do ícone. Limitar detalhe fino, bloom e partículas; calibrar a silhueta para continuar legível em combate. Reutilizar o mesmo motivo e a mesma animação-base do nível anterior; acrescentar apenas o cue novo que esta profundidade introduz. Aplicar as variantes Sun/Moon descritas sem as deixar seguir automaticamente a stance quando a própria skill fixa outro modo/variante.",
+    "implementacao": "Paleta: Violeta. No expiry, executa a nova query independente da skill; um pulso circular curto resolve dano e Silence nos inimigos ainda dentro, seguindo-se um dissolve limpo do efeito.",
+    "id": "mystic-97-black-hole-ii",
+    "icones": [
+      "icons/mystic/black-hole-ii.jpg"
+    ]
+  }
+]

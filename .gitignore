@@ -1,0 +1,12 @@
+# Unreal (se um projeto UE for adicionado mais tarde)
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+*.sln
+.vs/
+
+# Office / SO
+~$*
+Thumbs.db
+.DS_Store

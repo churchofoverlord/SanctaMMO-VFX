@@ -1,0 +1,231 @@
+<title>SanctaMMO VFX Tech Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f6f4f0; --surface:#ffffff; --sunk:#efebe4; --line:#ddd6cb; --ink:#1f1c18; --muted:#6b645a;
+  --accent:#a8660f; --accent-soft:#f3e3c8; --violet:#6b52b8; --ok:#2f7a45; --warn:#9a5a00; --bad:#a3342a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --bg:#101113; --surface:#17181b; --sunk:#1d1e22; --line:#2c2d31; --ink:#ebe6dd; --muted:#9a948a;
+    --accent:#f2b53a; --accent-soft:#3a2c14; --violet:#a594e6; --ok:#7fbf8a; --warn:#e0a24a; --bad:#e2766b; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#101113; --surface:#17181b; --sunk:#1d1e22; --line:#2c2d31; --ink:#ebe6dd; --muted:#9a948a;
+  --accent:#f2b53a; --accent-soft:#3a2c14; --violet:#a594e6; --ok:#7fbf8a; --warn:#e0a24a; --bad:#e2766b; }
+body{background:var(--bg);color:var(--ink);font:15px/1.6 "IBM Plex Sans",system-ui,sans-serif;margin:0;padding-inline:16px;padding-block:32px 64px}
+.doc{max-width:1000px;margin:0 auto;display:grid;gap:44px}
+header{display:grid;gap:10px;border-bottom:1px solid var(--line);padding-bottom:24px}
+.eyebrow{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{font:700 clamp(30px,5vw,44px)/1.05 "Cinzel",Georgia,serif;margin:0;letter-spacing:.02em;text-wrap:balance}
+h2{font:700 22px/1.2 "Cinzel",Georgia,serif;margin:0 0 4px;letter-spacing:.03em;text-wrap:balance}
+h3{font:600 15px/1.3 "IBM Plex Sans",sans-serif;margin:0}
+p{margin:0;max-width:72ch}
+.lead{font-size:17px;color:var(--muted);max-width:68ch}
+section{display:grid;gap:14px}
+.sec-no{font:500 12px "IBM Plex Mono",monospace;color:var(--accent);letter-spacing:.1em}
+code,.tag{font:500 13px "IBM Plex Mono",monospace;background:var(--sunk);border:1px solid var(--line);padding:1px 6px;border-radius:3px;white-space:nowrap}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.rule{background:var(--surface);border:1px solid var(--line);padding:14px 16px;display:grid;gap:6px;align-content:start}
+.rule h3{display:flex;gap:8px;align-items:baseline}
+.rule h3 b{font:500 11px "IBM Plex Mono",monospace;color:var(--accent);letter-spacing:.08em}
+.rule p{color:var(--muted);font-size:14px}
+ul{margin:0;padding-left:20px;display:grid;gap:6px;max-width:76ch}
+li::marker{color:var(--accent)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+.wide{min-width:860px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--sunk);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.t{font-weight:600;white-space:nowrap}
+.pill{display:inline-block;font:500 11px "IBM Plex Mono",monospace;padding:1px 7px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.ok{color:var(--ok)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:0;border:1px solid var(--line);background:var(--surface)}
+.flow div{padding:12px 14px;border-right:1px solid var(--line);display:grid;gap:4px;align-content:start}
+.flow div:last-child{border-right:0}
+.flow small{font:500 11px "IBM Plex Mono",monospace;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+.flow p{font-size:13.5px;color:var(--muted)}
+@media (max-width:640px){.flow div{border-right:0;border-bottom:1px solid var(--line)}.flow div:last-child{border-bottom:0}}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;display:grid;gap:4px}
+.callout p{max-width:none}
+.check{list-style:none;padding:0}
+.check li{padding-left:26px;position:relative}
+.check li::before{content:"";position:absolute;left:0;top:5px;width:13px;height:13px;border:1.5px solid var(--accent);border-radius:2px}
+.example{border:1px solid var(--line);background:var(--surface);padding:18px;display:grid;gap:14px}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+@media (max-width:560px){.kv{grid-template-columns:1fr}.kv dd{margin-bottom:6px}}
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:16px}
+a{color:var(--accent)}
+</style>
+
+<div class="doc">
+  <header>
+    <div class="eyebrow">SanctaMMO · Unreal Engine 5 · GAS + Niagara</div>
+    <h1>Ficha técnica de VFX das skills</h1>
+    <p class="lead">Regras e orçamentos comuns para implementar os VFX das quatro classes com custo mínimo no servidor e no cliente. Aplica-se a todas as skills do guia de VFX; o Cleanse do Fighter é o exemplo trabalhado no fim.</p>
+  </header>
+
+  <section>
+    <div class="sec-no">01</div>
+    <h2>Princípios</h2>
+    <div class="rules">
+      <div class="rule"><h3><b>S1</b> O servidor não sabe que o VFX existe</h3><p>Nenhum VFX tem lógica, timers ou RPCs próprios no servidor. Tudo é disparado por GameplayCues associados a habilidades e efeitos que já são replicados.</p></div>
+      <div class="rule"><h3><b>S2</b> Os estados vêm nos parâmetros</h3><p>Cues condicionais (proc, "havia debuffs", stance) viajam nos <code>FGameplayCueParameters</code> do próprio cue, sem mensagens extra.</p></div>
+      <div class="rule"><h3><b>C1</b> Orçamento fixo por tipo de skill</h3><p>Cada skill cabe no orçamento do seu tipo de geometria (secção 04). Exceder exige justificação e medição.</p></div>
+      <div class="rule"><h3><b>C2</b> Zero trabalho por partícula no CPU</h3><p>Emissores GPU ou com trajetória analítica por defeito; CPU só quando a contagem é pequena e precisa de colisão ou de eventos.</p></div>
+      <div class="rule"><h3><b>C3</b> Escala com a significância</h3><p>O próprio jogador vê a versão completa; os outros degradam por distância e por quantidade de efeitos em ecrã, até ficar só a silhueta.</p></div>
+      <div class="rule"><h3><b>C4</b> Sem luz, sem refração, sem pós próprio</h3><p>Brilho por emissive + bloom global do jogo. Luz dinâmica só em Epic, só para o próprio, sem sombras. Nada de distorção nem translucência lit.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-no">02</div>
+    <h2>Rede e GameplayCues</h2>
+    <div class="flow">
+      <div><small>Habilidade</small><p>O servidor ativa a GA ou aplica o GE — isto já é replicado.</p></div>
+      <div><small>Cue</small><p>O GE ou a GA dispara o cue com a tag da skill e os parâmetros condicionais.</p></div>
+      <div><small>Previsão</small><p>O cliente que lança prevê o cue localmente; não espera pelo servidor.</p></div>
+      <div><small>Proxies</small><p>Os outros clientes recebem o cue pela replicação do ASC (multicast não fiável).</p></div>
+      <div><small>Servidor dedicado</small><p>Não executa cues nem Niagara — confirmar que nenhum Blueprint de VFX corre lá.</p></div>
+    </div>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead><tr><th>Situação</th><th>Classe de cue</th><th>Quando usar</th></tr></thead>
+        <tbody>
+          <tr><td>Impacto instantâneo (cast, hit, proc)</td><td><code>UGameplayCueNotify_Burst</code></td><td>Por defeito. Não instanciado, sem actor, spawn de Niagara pelo pool.</td></tr>
+          <tr><td>Instantâneo com sequência temporizada</td><td><code>AGameplayCueNotify_BurstLatent</code></td><td>Só se precisar de vários momentos que o Niagara não consiga fazer sozinho. Evitar se possível.</td></tr>
+          <tr><td>Estados com duração (buff, debuff, CC, stance, aura, área persistente)</td><td><code>AGameplayCueNotify_Looping</code></td><td>Ligado ao GE; os efeitos de remoção tocam quando o GE sai. É aqui que vive a "quebra" dos debuffs.</td></tr>
+          <tr><td>Cosmético puro derivado de estado já replicado</td><td><code>ExecuteGameplayCueLocal</code></td><td>Quando cada cliente já sabe o que aconteceu (ex.: troca de stance vista via tag replicada). Zero tráfego.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>Nomes: <span class="tag">GameplayCue.&lt;Classe&gt;.&lt;Skill&gt;[.&lt;Variante&gt;]</span> para skills e <span class="tag">GameplayCue.Status.&lt;Tipo&gt;.&lt;Nome&gt;</span> para estados. Variantes de stance (Warrior/Tank) são tags irmãs, não parâmetros.</li>
+      <li>Condições (proc, "havia debuffs") vão em <code>RawMagnitude</code> como bitmask ou em <code>AggregatedSourceTags</code>. Nunca num RPC separado.</li>
+      <li>ASC dos jogadores em modo de replicação <code>Mixed</code>; NPCs em <code>Minimal</code>. Os cues continuam a chegar aos proxies.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-no">03</div>
+    <h2>Niagara: configuração comum</h2>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead><tr><th>Effect Type</th><th>Para</th><th>Distância máx.</th><th>Instâncias máx.</th><th>Culling / reação</th></tr></thead>
+        <tbody>
+          <tr><td><code>EFT_Combat_Burst</code></td><td>Casts, impactos, procs</td><td class="n">40 m</td><td class="n">32 detalhadas</td><td>Significance por distância; acima do limite, os menos significativos passam ao nível Baixo</td></tr>
+          <tr><td><code>EFT_Combat_Projectile</code></td><td>Projéteis, skillshots, linhas</td><td class="n">50 m</td><td class="n">48</td><td>Trail reduzido ao longe; só núcleo no nível Baixo</td></tr>
+          <tr><td><code>EFT_Area_Persistent</code></td><td>Áreas no chão, channels</td><td class="n">45 m</td><td class="n">16</td><td>Nunca cortar o contorno da área (é informação de gameplay); cortar só o interior animado</td></tr>
+          <tr><td><code>EFT_Status</code></td><td>Buffs, debuffs, CC, stances</td><td class="n">30 m</td><td class="n">64</td><td>Fora do ecrã: pausa. Ao longe: só a marca base, sem partículas</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li><b>Bounds fixos</b> em todos os sistemas (obrigatório em GPU; evita cálculo por frame em CPU).</li>
+      <li><b>Pooling:</b> spawn por <code>SpawnSystemAtLocation</code> / <code>SpawnSystemAttached</code> com <code>ENCPoolMethod::AutoRelease</code>; fazer o prime do pool das skills mais comuns ao carregar a classe.</li>
+      <li><b>Scalability por emissor:</b> <em>Spawn Count Scale</em> por nível de qualidade; emissores decorativos desativados em Baixo; <em>Visibility Culling</em> ativo.</li>
+      <li><b>GPU vs CPU:</b> GPU para faíscas, brasas e poeira (≥ 20 partículas, sem eventos); CPU para 1–10 partículas de malha (anéis, marcas, placas) e quando é preciso colisão exata com o chão.</li>
+      <li><b>Emissores simples</b> (burst de vida fixa, sem módulos dinâmicos): avaliar os <em>stateless emitters</em> do Niagara se a versão do motor os suportar em produção.</li>
+      <li><b>Sem Tick nem Timeline em Blueprint</b> para animar VFX: tamanho, cor e fade vêm de curvas por idade da partícula ou de <em>Dynamic Material Parameters</em>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-no">04</div>
+    <h2>Orçamentos por tipo de skill</h2>
+    <p>Valores de partida para o nível <b>Alto</b> do próprio jogador; Médio ≈ 50 % das partículas; Baixo mantém só as camadas marcadas como silhueta. Validar com medição (secção 06) e ajustar por tipo, não por skill.</p>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead><tr><th>Tipo</th><th>Draw calls</th><th>Partículas</th><th>Duração</th><th>Silhueta (fica em Baixo)</th><th>Notas</th></tr></thead>
+        <tbody>
+          <tr><td class="t">Cone / cleave</td><td class="n">≤ 3</td><td class="n">≤ 40</td><td class="n">≤ 0,6 s</td><td>Arco/cone em malha</td><td>Arco numa só malha; faíscas só no hit confirmado</td></tr>
+          <tr><td class="t">Linha / skillshot</td><td class="n">≤ 3</td><td class="n">≤ 40</td><td class="n">≤ 0,8 s</td><td>Faixa em malha</td><td>Telegraph em decal ou quad; nunca ribbon longo com muitos segmentos</td></tr>
+          <tr><td class="t">Projétil</td><td class="n">≤ 3 + 2 impacto</td><td class="n">≤ 30 voo · ≤ 40 impacto</td><td class="n">voo + 0,6 s</td><td>Núcleo</td><td>Trail com ≤ 16 segmentos; impacto é um cue Burst separado</td></tr>
+          <tr><td class="t">Tether</td><td class="n">≤ 2</td><td class="n">≤ 20</td><td class="n">enquanto ligado</td><td>Ribbon fino</td><td>Um ribbon de 2 pontos + UV panning no material; pulsos por material, não por partículas</td></tr>
+          <tr><td class="t">Rush / teleporte</td><td class="n">≤ 3</td><td class="n">≤ 30</td><td class="n">≤ 0,5 s</td><td>Chegada</td><td>Máx. 1 silhueta residual; o maior contraste no destino</td></tr>
+          <tr><td class="t">AoE instantânea</td><td class="n">≤ 4</td><td class="n">≤ 50</td><td class="n">≤ 1,5 s</td><td>Anel + brilho no chão</td><td>O Cleanse cabe aqui (exemplo na secção 07)</td></tr>
+          <tr><td class="t">Channel</td><td class="n">≤ 3</td><td class="n">≤ 30 vivas</td><td class="n">enquanto canaliza</td><td>Forma principal</td><td>Taxa de spawn baixa e constante; animação no material, não em spawn</td></tr>
+          <tr><td class="t">Área persistente</td><td class="n">≤ 3</td><td class="n">≤ 30 vivas</td><td class="n">duração do GE</td><td>Contorno da área</td><td>Contorno em decal ou malha; interior com shader de ruído, poucas partículas</td></tr>
+          <tr><td class="t">Stance / toggle</td><td class="n">≤ 2</td><td class="n">≤ 10</td><td class="n">pulso ≤ 0,3 s</td><td>Marcador nos pés</td><td>Marcador persistente é malha estática com material; o pulso é Burst</td></tr>
+          <tr><td class="t">Proc / passivo</td><td class="n">≤ 2</td><td class="n">≤ 12</td><td class="n">≤ 0,4 s</td><td>—</td><td>Só no evento; nunca aura contínua</td></tr>
+          <tr><td class="t">Status (buff, debuff, CC)</td><td class="n">≤ 2</td><td class="n">0 contínuas</td><td class="n">duração do GE</td><td>Marca base</td><td>Aplicar/remover são Bursts pequenos; o estado em si é malha + material animado</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <h3>Luz dinâmica</h3>
+      <p>Por defeito <b>nenhuma</b>. Exceção: Niagara Light Renderer só em Epic, só no cast do próprio jogador, sem sombras, raio ≤ 6 m e vida ≤ 0,4 s. O "brilho no chão" em quad aditivo substitui-a nos outros níveis.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-no">05</div>
+    <h2>Materiais e texturas</h2>
+    <div class="tablewrap">
+      <table class="wide">
+        <thead><tr><th>Master material</th><th>Blend / shading</th><th>Uso</th><th>Parâmetros</th></tr></thead>
+        <tbody>
+          <tr><td><code>M_VFX_Additive</code></td><td>Additive · Unlit</td><td>Anéis, faíscas, brilho no chão, núcleos</td><td>Cor e intensidade por partícula; máscara em textura partilhada</td></tr>
+          <tr><td><code>M_VFX_Flipbook</code></td><td>Translucent · Unlit · depth fade</td><td>Poeira, fumo</td><td>SubUV; fade de profundidade curto; sem iluminação da translucência</td></tr>
+          <tr><td><code>M_VFX_Dissolve</code></td><td>Masked · Unlit ou Default Lit</td><td>Marcas de status e a sua quebra</td><td>Dissolve e cor da orla por <em>Custom Primitive Data</em> (sem criar instâncias dinâmicas de material)</td></tr>
+          <tr><td><code>M_VFX_Ribbon</code></td><td>Additive · Unlit</td><td>Tethers, trails</td><td>UV panning e pulso por parâmetro</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul>
+      <li>Texturas de VFX num conjunto partilhado: máscaras 64–128 px, flipbooks até 1024² (4×4), compressão BC4/BC5 para máscaras. Mips ativos.</li>
+      <li>Cor via parâmetro, não via textura: a mesma máscara serve o dourado do Fighter, o violeta de CC e as paletas de stance.</li>
+      <li>Emissive calibrado para o limiar do bloom global: o brilho aparece só no pico do cast e nas orlas incandescentes.</li>
+      <li>Sem refração, sem <em>translucency lighting</em>, sem texturas de ruído em várias camadas no mesmo material.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="sec-no">06</div>
+    <h2>Validação</h2>
+    <ul class="check">
+      <li>Cena de stress fixa: 40 personagens da mesma classe a lançar a skill em loop, câmara a 15 m, qualidade Alto e Baixo.</li>
+      <li><code>stat Niagara</code> e o Niagara Debugger: instâncias e partículas dentro do orçamento do tipo.</li>
+      <li>Vistas <em>Shader Complexity</em> e <em>Quad Overdraw</em> no pico do cast: sem vermelho em área maior que o próprio anel/cone.</li>
+      <li><code>stat GPU</code>, <code>ProfileGPU</code> e Unreal Insights: custo de translucência e de Niagara GPU antes/depois da skill.</li>
+      <li>Servidor dedicado: confirmar em Insights que nenhum evento de VFX aparece na thread de jogo do servidor.</li>
+      <li>Rede: o cast não acrescenta RPCs além dos da própria habilidade (verificar no Network Profiler).</li>
+      <li>Leitura: em Baixo, a silhueta da skill continua a comunicar forma, alcance e resultado.</li>
+    </ul>
+    <p>Estados: <span class="pill ok">dentro</span> <span class="pill warn">até +20 % com justificação</span> <span class="pill bad">acima: rever antes de integrar</span></p>
+  </section>
+
+  <section>
+    <div class="sec-no">07</div>
+    <h2>Exemplo aplicado: Fighter · Cleanse</h2>
+    <div class="example">
+      <dl class="kv">
+        <dt>Tipo</dt><dd>AoE instantânea (orçamento ≤ 4 draw calls, ≤ 50 partículas, ≤ 1,5 s)</dd>
+        <dt>Cue do cast</dt><dd><code>GameplayCue.Fighter.Cleanse</code> · <code>UGameplayCueNotify_Burst</code> · <code>EFT_Combat_Burst</code></dd>
+        <dt>Parâmetros</dt><dd><code>RawMagnitude</code> bitmask: <code>1</code> = removeu debuffs, <code>2</code> = cancelou displacement. <code>Location</code> = root do Fighter.</dd>
+        <dt>Quebra dos debuffs</dt><dd>Não é do Cleanse: cada debuff tem o seu <code>GameplayCue.Status.Debuff.*</code> (Looping). Ao ser removido, toca o dissolve (CPD) + burst de 7 partículas. Em Baixo, só o dissolve.</dd>
+        <dt>Sistema</dt><dd><code>NS_Fighter_Cleanse</code>, bounds fixos 6×6×3 m, pool com prime de 8</dd>
+      </dl>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Emissor</th><th>Sim</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo</th><th>Material</th></tr></thead>
+          <tbody>
+            <tr><td>Anel (malha de 5+7 arcos)</td><td>CPU · 1 mesh</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td><code>M_VFX_Additive</code></td></tr>
+            <tr><td>Brilho no chão (quad)</td><td>CPU · 1 mesh</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td><code>M_VFX_Additive</code></td></tr>
+            <tr><td>Faíscas (velocity aligned)</td><td>GPU</td><td class="n">10 + 40</td><td class="n">40</td><td class="n">20</td><td class="n">0</td><td><code>M_VFX_Additive</code></td></tr>
+            <tr><td>Poeira (flipbook 2×2)</td><td>GPU</td><td class="n">10</td><td class="n">10</td><td class="n">6</td><td class="n">0</td><td><code>M_VFX_Flipbook</code></td></tr>
+            <tr><td>Luz</td><td>Light renderer</td><td>próprio, sem sombras</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Timing: antecipação 0–90 ms (brilho nos pés) → anel expande 90–280 ms (ease-out exponencial) → dissipa até 540 ms → faíscas até ~1 s → poeira até 1,7 s. Protótipo interativo com contadores: <a href="https://claude.ai/artifact/V5BSuTngfw9WV1VHqDWt92" target="_blank" rel="noopener">Cleanse · VFX</a>.</p>
+    </div>
+  </section>
+
+  <footer>Orçamentos são pontos de partida; medir na cena de stress e ajustar por tipo de skill. Complementa o "Guia de VFX das Skills" (direção visual) — esta ficha trata só de implementação e custo.</footer>
+</div>
