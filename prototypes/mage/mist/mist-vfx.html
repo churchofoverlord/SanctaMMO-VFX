@@ -148,9 +148,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Névoa (vapor)</td><td class="n">48</td><td class="n">40</td><td class="n">24</td><td class="n">14</td><td>Fiapos de vapor GPU, baixos (0,2–1,4 m), a derivar devagar com erosão de alpha por ruído; opacos o suficiente para esconder (blending premultiplicado); tingidos de laranja de um lado e azul-ciano do outro</td></tr>
-          <tr><td>Limite</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: anel fino (R 3,5 m), metade laranja, metade azul-ciano, fluxo lento; abre uma vez na formação. É o traço mais claro da área</td></tr>
-          <tr><td>Motivos</td><td class="n">4</td><td class="n">4</td><td class="n">2</td><td class="n">0</td><td>4 volutas largas em S (como no ícone), 2 de fogo e 2 de gelo, junto à borda, a subir devagar; o centro fica livre</td></tr>
+          <tr><td>Névoa (vapor)</td><td class="n">110</td><td class="n">90</td><td class="n">55</td><td class="n">30</td><td>Fiapos de vapor GPU (0,4–2,8 m de altura), a derivar devagar com erosão de alpha por ruído; opacos o suficiente para esconder (blending premultiplicado); tingidos de laranja de um lado e azul-ciano do outro</td></tr>
+          <tr><td>Limite</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: anel fino (R 7 m), metade laranja, metade azul-ciano, fluxo lento; abre uma vez na formação. É o traço mais claro da área</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -159,7 +158,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Névoa baixa, limite claro</h3><p>Um volume baixo de vapor que esconde quem está dentro, com o perímetro marcado por um anel fino no chão, meio laranja, meio azul-ciano, como no ícone. O limite é mais claro do que os ornamentos.</p></div>
-    <div><h3>Sem sugerir dano</h3><p>Nada de chamas nem estilhaços agressivos: vapor a derivar devagar e 4 volutas largas que sobem com calma. Não pulsa, porque a área não faz dano.</p></div>
+    <div><h3>Sem sugerir dano</h3><p>Nada de chamas nem estilhaços agressivos: só vapor a derivar devagar. Não pulsa, porque a área não faz dano.</p></div>
     <div><h3>Estável enquanto dura</h3><p>A área forma-se em 0,6 s, fica estável ~6 s e dissolve. Não reage a golpes. A concealment nos alvos é do cue de status.</p></div>
   </section>
 </div>
@@ -471,7 +470,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // ============ Mist (Fire + Ice): stationary concealment area ============
 // Layer M — vapour wisps (GPU, premultiplied: occludes like real mist). aO = zone centre, aE = side axis (fire → +, ice → −),
 // aP = (angle, radius 0..1, height, seed), aT = cast time. Wisps spread from the centre on formation, drift slowly, erode with noise.
-const DUR = 6, ZR = 3.5;
+const DUR = 6, ZR = "7.0";                                 // string so GLSL gets a float literal
 const mist = pool(new THREE.PlaneGeometry(2, 2), 4096, { aO:3, aE:3, aT:1, aP:4 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
@@ -482,8 +481,8 @@ const mist = pool(new THREE.PlaneGeometry(2, 2), 4096, { aO:3, aE:3, aT:1, aP:4 
       float grow = 1. - pow(1. - clamp(u/.6, 0., 1.), 3.);
       float ang = aP.x + u*.06*(aP.w - .5), r = aP.y*${ZR}*.92*(.25 + .75*grow);
       vec3 dir = vec3(cos(ang), 0., sin(ang));
-      vec3 c = aO + dir*r + vec3(0., aP.z + .08*sin(u*.6 + aP.w*6.), 0.) + vec3(sin(u*.25 + aP.w*9.), 0., cos(u*.21 + aP.w*5.))*.18;
-      vec4 mv = viewMatrix*vec4(c, 1.); float S = mix(.8, 1.5, aP.w)*(.55 + .45*grow);
+      vec3 c = aO + dir*r + vec3(0., aP.z*2. + .16*sin(u*.6 + aP.w*6.), 0.) + vec3(sin(u*.25 + aP.w*9.), 0., cos(u*.21 + aP.w*5.))*.36;
+      vec4 mv = viewMatrix*vec4(c, 1.); float S = mix(1.6, 3., aP.w)*(.55 + .45*grow);
       mv.xy += position.xy*S*vec2(1.25, .8);                                 // wider than tall: low-lying vapour
       vQ = position.xy; vU = u; vW = dot(dir, aE)*aP.y; vSeed = aP.w;
       gl_Position = projectionMatrix*mv;
@@ -553,7 +552,7 @@ const vol = pool(new THREE.PlaneGeometry(1, 1, 1, 40), 256, { aO:3, aT:1, aK:1, 
       o *= smoothstep(1., .8, abs(y));
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
-const MIST_N = { 3:48, 2:40, 1:24, 0:14 }, VOL_N = { 3:4, 2:4, 1:2, 0:0 };
+const MIST_N = { 3:110, 2:90, 1:55, 0:30 }, VOL_N = { 3:0, 2:0, 1:0, 0:0 };   // no volutes
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
@@ -784,7 +783,6 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Formação: névoa espalha + anel abre', 0, 600, 0xbfeaff],
-  ['Volutas sobem', 0, 800, 0xff5a1a],
   ['Área estável (~6 s)', 600, 6000, 0x8f8a82],
   ['Dissolve', 6000, 6900, 0x4fc3ff],
 ];
@@ -817,7 +815,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = 1.25, pitch = .28, dist = 9.5, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
+let yaw = .55, pitch = .38, dist = 16, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
