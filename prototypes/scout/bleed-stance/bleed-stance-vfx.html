@@ -453,7 +453,7 @@ const hands = pool(new THREE.PlaneGeometry(2,2), HG, { aO:3, aT:1, aV:1 }, addMa
   uniforms:{ uTime, uCW, uCT },
   vertexShader:`attribute vec3 aO; attribute float aT, aV; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){ if (aV < .5){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.12; float S = .22; mv.xy += position.xy*S;
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.12; float S = .275; mv.xy += position.xy*S;
       vP = position.xy; vU = uTime - aT; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vP; varying float vU;
     void main(){
