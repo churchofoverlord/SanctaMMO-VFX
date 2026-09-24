@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Nuvem</td><td class="n">40</td><td class="n">32</td><td class="n">22</td><td class="n">12</td><td>Nuvem de tempestade escura a ~6 m sobre a área (fiapos GPU, premultiplicado), a rodar devagar; cada raio acende-a por dentro</td></tr>
+          <tr><td>Nuvem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>2 camadas horizontais (1 quad cada, 1 draw call) a ~6,5 m: ruído fbm com domain warp em mundo, a rodar devagar, borda irregular; overdraw máx. 2×; cada raio acende-a por dentro</td></tr>
           <tr><td>Círculo da tempestade</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão (R 6 m, ~6,5 s): anel exterior meio azul-ciano meio dourado, anel interior e 6 divisões radiais, rotação lenta, luz baixa e estável</td></tr>
           <tr><td>Telegraphs</td><td class="n">12</td><td class="n">12</td><td class="n">8</td><td class="n">6</td><td>0,6 s antes de cada impacto, um círculo pequeno (R 1 m) na cor do tipo enche-se até ao centro; azul = Ice, dourado = Lightning</td></tr>
           <tr><td>Impacto Lightning</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Raio do céu até ao chão (receita Coil) com ramificações, flash, faíscas e anel curto; burst extra só se o alvo já estava Sapped</td></tr>
@@ -740,39 +740,41 @@ const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 let rearCount = 0; const RANGE = 12;
-// Layer C — storm cloud over the area (premultiplied wisps, dark, slowly churning), lit from inside by each strike.
-// aO = area centre, aP = (angle, radius, height offset, seed), aT = cast time. Strike glow comes from uStrike (xyz pos, w time).
-const cloud = pool(new THREE.PlaneGeometry(2, 2), 2048, { aO:3, aT:1, aP:4 }, new THREE.ShaderMaterial({
-  transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
+// Layer C — storm cloud, optimised: 2 stacked horizontal layers (ONE quad each, one draw for all casts) instead of dozens of
+// overlapping sprites. Cloud shape = domain-warped fbm on world XZ, churning slowly; radial mask to the area; fades where the
+// layer is seen edge-on. Each strike lights it from inside (uStrike). Premultiplied: dark cloud occludes the sky.
+// aO = area centre, aP.x = layer 0/1, aT = cast time.
+const cloud = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1, aP:4 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uIceC, uOrange, uStrike:{ value:new THREE.Vector4(0, -99, 0, -1e5) } },
-  vertexShader:`attribute vec3 aO; attribute float aT; attribute vec4 aP; uniform float uTime; varying vec2 vQ; varying float vU, vSeed, vNear; varying vec3 vW;
-    void main(){ float u = uTime - aT; if (u < 0. || u > 6.5 + 1.){ ${HIDE} }
-      float g = 1. - pow(1. - clamp(u/.8, 0., 1.), 3.);
-      float ang = aP.x + u*.12*(aP.w - .3), r = aP.y*6.*(.35 + .65*g);
-      vec3 c = aO + vec3(cos(ang)*r, 6.2 + .35 + aP.z + .15*sin(u*.5 + aP.w*7.), sin(ang)*r);
-      vec4 mv = viewMatrix*vec4(c, 1.); float S = mix(1.8, 3.2, aP.w)*(.5 + .5*g);
-      float z = -mv.z; if (z < 2.5){ ${HIDE} }                                   // never draw a sprite that sits on the camera (full-screen overdraw)
-      S = min(S, z*.35);                                                          // cap on-screen size
-      mv.xy += position.xy*S*vec2(1.3, .75);
-      vQ = position.xy; vU = u; vSeed = aP.w; vW = c; vNear = smoothstep(2.5, 6., z);
-      gl_Position = projectionMatrix*mv; }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uIceC, uOrange; uniform vec4 uStrike; varying vec2 vQ; varying float vU, vSeed, vNear; varying vec3 vW;
+  vertexShader:`attribute vec3 aO; attribute float aT; attribute vec4 aP; uniform float uTime; varying vec2 vL; varying float vU, vLy, vEdge; varying vec3 vW;
+    void main(){ float u = uTime - aT; if (u < 0. || u > 7.5){ ${HIDE} }
+      float S = 7.2; vec3 W = aO + vec3(position.x*S, 6.55 + aP.x*.45, -position.y*S);
+      vL = position.xy*S; vU = u; vLy = aP.x; vW = W;
+      vEdge = abs(normalize(cameraPosition - W).y);                              // 0 = seen edge-on
+      gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uIceC, uOrange; uniform vec4 uStrike; varying vec2 vL; varying float vU, vLy, vEdge; varying vec3 vW;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
+    float fbm(vec2 p){ return vn(p)*.55 + vn(p*2.1 + 3.1)*.3 + vn(p*4.3 + 7.7)*.15; }
     void main(){
-      float d = length(vQ), n = vn(vQ*1.6 + vec2(vSeed*9., uTime*.12))*.6 + vn(vQ*3.4 - vec2(uTime*.08, vSeed*5.))*.4;
-      float dens = smoothstep(1., .25, d)*smoothstep(.35, .8, n + (1. - d)*.3);   // lumpy, broken edges
-      dens *= smoothstep(0., .6, vU)*(1. - smoothstep(6.5 - .2, 6.5 + .9, vU));
-      vec3 base = mix(vec3(.012, .015, .025), vec3(.05, .065, .11), n*n);   // dark storm cloud
+      float r = length(vL), g = 1. - pow(1. - clamp(vU/.8, 0., 1.), 3.), R = 6.6*(.4 + .6*g);
+      float a = uTime*.06*(vLy*2. - 1.), c = cos(a), s = sin(a); vec2 q = mat2(c, -s, s, c)*vL*.32 + vLy*5.3;
+      vec2 w = vec2(fbm(q + uTime*.05), fbm(q - uTime*.04 + 4.2));                 // domain warp: billowy, churning
+      float n = fbm(q + w*1.4);
+      float mask = smoothstep(R, R*.55, r + (n - .5)*2.2);                           // ragged edge
+      float dens = smoothstep(.32, .72, n)*mask*smoothstep(.05, .35, vEdge);
+      dens *= smoothstep(0., .6, vU)*(1. - smoothstep(6.3, 7.4, vU));
+      vec3 base = mix(vec3(.012, .015, .025), vec3(.06, .075, .12), n*n)*(vLy > .5 ? 1.15 : 1.);
       float sd = distance(vW.xz, uStrike.xz), st = uTime - uStrike.w;
-      float lit = exp(-sd*sd*.18)*exp(-max(st, 0.)*9.)*step(0., st)*2.2;             // strike lights the cloud from inside
-      vec3 col = base + mix(uIceC, uOrange, .6)*lit*(.4 + .6*n) + vec3(.08, .14, .25)*(1. - d)*.06;
-      float a = dens*.6*vNear;
-      if (a < .004) discard;
-      gl_FragColor = vec4(col*a, a);
+      float lit = exp(-sd*sd*.16)*exp(-max(st, 0.)*9.)*step(0., st)*2.4;
+      vec3 col = base + mix(uIceC, uOrange, .6)*lit*(.3 + .7*n);
+      float al = dens*.7;
+      if (al < .004) discard;
+      gl_FragColor = vec4(col*al, al);
     }` }));
-const CLOUD_N = { 3:40, 2:32, 1:22, 0:12 };
+const CLOUD_N = { 3:2, 2:2, 1:2, 0:1 };   // layers
 const strikes = [];   // for the cloud's inner flashes
 const TR = 6, TDUR = 6.5, IMP_N = { 3:12, 2:12, 1:8, 0:6 };
 function stab(O, yaw, tier, t0, targets){                   // Tempest: storm circle + telegraphed Ice / Lightning impacts
@@ -781,7 +783,7 @@ function stab(O, yaw, tier, t0, targets){                   // Tempest: storm ci
   const sa = rand(0, 6.28);
   let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, t0); rings.A.aK.setX(k, 8); rings.A.aD.setXYZW(k, TR, sa, 0, 0); rings.track(t0 + TDUR, 1);
   const nCl = CLOUD_N[tier];
-  for (let c=0;c<nCl;c++){ const j = cloud.next(); cloud.A.aO.setXYZ(j, G.x, 0, G.z); cloud.A.aT.setX(j, t0); cloud.A.aP.setXYZW(j, rand(0, 6.28), Math.sqrt(Math.random())*1.05, rand(-.3, .5), Math.random()); }
+  for (let c=0;c<nCl;c++){ const j = cloud.next(); cloud.A.aO.setXYZ(j, G.x, 0, G.z); cloud.A.aT.setX(j, t0); cloud.A.aP.setXYZW(j, c, 0, 0, 0); }
   cloud.track(t0 + TDUR + 1, nCl);
   const n = IMP_N[tier]; let nArcs = 0, nSpk = 0, nSp = 0;
   for (let m=0;m<n;m++){
