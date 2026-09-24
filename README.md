@@ -20,14 +20,15 @@ prototypes/
 | Skill | Estado | Ficheiro |
 |---|---|---|
 | Fighter · Cleanse | Otimizado (GPU, instanciado, níveis de qualidade, stress test) | [prototypes/fighter/cleanse/cleanse-vfx.html](prototypes/fighter/cleanse/cleanse-vfx.html) |
+| Fighter · Warrior / Tank Stance | Otimizado (marcador num só quad, pulso de 2 frames, stress test) | [prototypes/fighter/warrior-tank-stance/warrior-tank-stance-vfx.html](prototypes/fighter/warrior-tank-stance/warrior-tank-stance-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
 ```bash
-python -m http.server 8765
+python -m http.server 8766
 ```
 
-e ir a `http://localhost:8765/prototypes/fighter/cleanse/cleanse-vfx.html`.
+e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 
 ## Regras base
 
