@@ -6,8 +6,8 @@
     "handoffArtifactCommit": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
     "handoffDeclaredCanonSourceSha": "d0342374bd5b8b9d5aae305fc0fd60d42e16474d",
     "skillTreeSha": "6a63c5db4f45328627e26eb72f07d26ed82067cd",
-    "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
-    "inventoryBranch": "task/formid-vfx-inventory"
+    "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
+    "initialObservedBaseSha": "3f2755de782b4b2f0f399709bc29c78949e48d11"
   },
   "snapshotCounts": {
     "formIds": 136,
@@ -30,18 +30,36 @@
   },
   "legacyAliasAudit": [
     {
-      "legacyName": "Ambush",
-      "resolution": "NO_FORMID_IN_SNAPSHOT",
-      "formIds": [],
-      "evidence": "Not present as a FormId/displayName or VFX prototype in the supplied 136-form handoff and VFX snapshot. Do not alias to Backstab I; a legacy upgrade is not an exact execution match."
-    },
-    {
-      "legacyName": "Shroud Bomb",
+      "legacyName": "Blade Rush",
       "resolution": "PROVENANCE_ALIAS",
       "formIds": [
-        "scout.smoke-bomb-ii.default"
+        "fighter.shoulder-rush-ii.warrior"
       ],
-      "evidence": "The supplied handoff identity remains Smoke Bomb II; Shroud Bomb is retained as a legacy label only. No matching VFX prototype exists."
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Shield Rush",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.shoulder-rush-ii.tank"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Crushing Combo",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.crushing-blow-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Chain Pull",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.chains-ii.default"
+      ],
+      "evidence": "The current prototype title is Chains II Pull and its recast implements this action within Chains II; no separate Chain Pull FormId or skill identity is created."
     },
     {
       "legacyName": "Breaching Strike",
@@ -50,13 +68,166 @@
         "fighter.piercing-strike-ii.warrior",
         "fighter.piercing-strike-ii.tank"
       ],
-      "evidence": "The supplied handoff has two stance forms under Piercing Strike II; keep each current FormId and retain this label only as provenance. No matching VFX prototype exists."
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Battlerage",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.battlecry-challenge-ii.warrior"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Chain Challenge",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.battlecry-challenge-ii.tank"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Bloodlust",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.rally-ii.warrior",
+        "fighter.rally-ii.tank"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Inspiration",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "fighter.rally-ii.warrior",
+        "fighter.rally-ii.tank"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Sentence",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.exploit-weakness-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Ambush",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.backstab-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Entangle",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.vine-field-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Narrowing Volley",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.volley-ii.poison",
+        "scout.volley-ii.bleed"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Executioner",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.exploit-weakness-iii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Shroud Bomb",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.smoke-bomb-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Sickness",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "scout.poison-sac-hemorrhage-ii.poison",
+        "scout.poison-sac-hemorrhage-ii.bleed"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
     },
     {
       "legacyName": "Fire Ball",
-      "resolution": "NO_EXACT_FORMID_MATCH",
-      "formIds": [],
-      "evidence": "No exact current FormId or VFX prototype named Fire Ball in the supplied handoff/repo snapshot; no speculative Fire Bolt mapping was made."
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.fire-bolt-ii.manifest",
+        "mage.fire-bolt-ii.weave"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Permafrost",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.frost-lance-ii.manifest",
+        "mage.frost-lance-ii.weave"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Conductive Lightning",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.static-bolt-ii.manifest",
+        "mage.static-bolt-ii.weave"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Overcharge",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.mana-barrier-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Arcane Master",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.arcane-weaving-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Elemental Master",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mage.elemental-weaver-ii.default"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Tick",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mystic.ether-ii.ally"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
+    },
+    {
+      "legacyName": "Tack",
+      "resolution": "PROVENANCE_ALIAS",
+      "formIds": [
+        "mystic.ether-ii.enemy"
+      ],
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
     },
     {
       "legacyName": "Nightmare",
@@ -64,15 +235,15 @@
       "formIds": [
         "mystic.lullaby-ii.default"
       ],
-      "evidence": "Legacy skill-sheet label in docs/skills.json (mystic-92-lullaby-ii-nightmare); current handoff identity is Lullaby II. No matching VFX prototype exists."
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
     },
     {
-      "legacyName": "Chain Pull",
+      "legacyName": "White Hole",
       "resolution": "PROVENANCE_ALIAS",
       "formIds": [
-        "fighter.chains-ii.default"
+        "mystic.black-hole-ii.default"
       ],
-      "evidence": "Legacy title in the initially observed VFX snapshot 0341500. At the revalidated origin/main snapshot, the prototype title is Chains II Pull. Current handoff identity remains Chains II and the prototype implements its recast/pull branch."
+      "evidence": "Owner-approved naming reconciliation maps this historical label to the listed current FormId(s). Keep it as provenance only; the VFX repository has no prototype titled with this legacy identity. Assess current-name prototype coverage from each entry status."
     }
   ],
   "entries": [
@@ -87,7 +258,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -110,7 +281,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.granted.warrior-stance-tank-stance.warrior",
@@ -123,7 +295,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Warrior",
@@ -145,7 +317,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.granted.warrior-stance-tank-stance.tank",
@@ -158,7 +331,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Tank",
@@ -180,7 +353,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.granted.rage-bulwark.warrior",
@@ -195,7 +369,7 @@
       ],
       "notes": "Protótipo único com branch explícita Warrior/Rage: convergência comum, pulso de cura/motas no fim.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -218,7 +392,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.granted.rage-bulwark.tank",
@@ -233,7 +408,7 @@
       ],
       "notes": "Protótipo único com branch explícita Tank/Bulwark: convergência comum, casca/estilhaços de escudo no fim; as branches estão separadas, sem split físico pendente.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -256,7 +431,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.severing-strike-i.default",
@@ -269,7 +445,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -292,7 +468,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.piercing-strike-i.default",
@@ -308,7 +485,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -331,7 +508,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.shoulder-rush-i.default",
@@ -344,7 +522,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -367,7 +545,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.crushing-blow-i.default",
@@ -380,7 +559,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -402,7 +581,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.battlecry-i-challenge-i.warrior",
@@ -417,7 +597,7 @@
       ],
       "notes": "Protótipo único com branch explícita: cristas rápidas/agressivas de Battlecry.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -439,7 +619,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.battlecry-i-challenge-i.tank",
@@ -454,7 +635,7 @@
       ],
       "notes": "Protótipo único com branch explícita: pulso estável e anel ancorado de Challenge.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -476,7 +657,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.pressure-i-provoke-i.warrior",
@@ -491,7 +673,7 @@
       ],
       "notes": "Protótipo único com branch explícita: mesmo percurso arma→alvo, três golfadas para Pressure.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -513,7 +695,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.pressure-i-provoke-i.tank",
@@ -528,7 +711,7 @@
       ],
       "notes": "Protótipo único com branch explícita: fumo contínuo alvo→Tank para Provoke.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -550,7 +733,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.second-wind.default",
@@ -563,7 +747,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -585,7 +769,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.severing-strike-ii.default",
@@ -598,7 +783,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -621,7 +806,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.shoulder-rush-ii.warrior",
@@ -636,7 +822,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -659,6 +845,9 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
+      ],
+      "legacyNames": [
+        "Blade Rush"
       ]
     },
     {
@@ -674,7 +863,7 @@
       ],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -697,6 +886,9 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
+      ],
+      "legacyNames": [
+        "Shield Rush"
       ]
     },
     {
@@ -710,7 +902,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -732,6 +924,9 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
+      ],
+      "legacyNames": [
+        "Crushing Combo"
       ]
     },
     {
@@ -745,7 +940,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -768,7 +963,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.war-leap.default",
@@ -781,7 +977,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -803,7 +999,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.rally-i.default",
@@ -819,7 +1016,7 @@
       ],
       "notes": "O FormId default é apresentado por dois prototypes separados de stance, Warrior e Tank; não há dois FormIds de Rally I no handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -855,7 +1052,8 @@
       "sourcePrototypes": [
         "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
         "prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html"
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.severing-strike-iii.default",
@@ -868,7 +1066,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -891,7 +1089,8 @@
           "stressControlDeclared": true,
           "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
         }
-      ]
+      ],
+      "legacyNames": []
     },
     {
       "formId": "fighter.chains-ii.default",
@@ -904,7 +1103,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Protótipo dedicado com correspondência direta ao FormId e ao displayName do handoff.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -936,17 +1135,17 @@
       "formId": "fighter.piercing-strike-ii.warrior",
       "displayName": "Piercing Strike II — Warrior",
       "class": "Fighter",
-      "sourcePrototype": null,
+      "sourcePrototype": "prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
       "sourceAsset": null,
-      "status": "MISSING",
+      "status": "EXISTING_EXACT",
       "requiresSplit": false,
       "sharedVisualBaseWith": [
         "fighter.piercing-strike-i.default",
         "fighter.piercing-strike-ii.tank"
       ],
-      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "notes": "Dedicated Warrior prototype: it uses the Piercing Strike I thrust visual and adds a magenta directional flash only when the target had Slow pre-hit. This inventory records the visible VFX branch; Canon remains authoritative for mechanics.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -957,7 +1156,22 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": [],
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
+          "declaredPerformanceRows": [
+            "Linha perfurante — 1 — 1 — 1 — 1 — Um quad alinhado ao eixo do golpe e virado para a câmara; forma de lança no shader",
+            "Impacto — 1/alvo — 1/alvo — 1/alvo — 1/alvo — Estrela de impacto pequena (billboard) no alvo atravessado",
+            "Faíscas — 4/alvo — 4/alvo — 2/alvo — 0 — GPU, no sentido da estocada",
+            "II · flash direcional — 1/alvo — 1/alvo — 1/alvo — 1/alvo — Só em alvos que já tinham Slow. Um quad alinhado com a estocada, magenta, 0,18 s",
+            "Draw calls — 3–4 — 3–4 — 3–4 — 2–3 — Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver um payoff vivo"
+          ],
+          "particleApproachEvidence": "HTML declares GPU sparks, a single-quad contextual payoff, and live counters; these are prototype declarations, not UE/Niagara measurements.",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ],
       "legacyNames": [
         "Breaching Strike"
       ]
@@ -966,17 +1180,17 @@
       "formId": "fighter.piercing-strike-ii.tank",
       "displayName": "Piercing Strike II — Tank",
       "class": "Fighter",
-      "sourcePrototype": null,
+      "sourcePrototype": "prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
       "sourceAsset": null,
-      "status": "MISSING",
+      "status": "EXISTING_EXACT",
       "requiresSplit": false,
       "sharedVisualBaseWith": [
         "fighter.piercing-strike-i.default",
         "fighter.piercing-strike-ii.warrior"
       ],
-      "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
+      "notes": "Dedicated Tank prototype: it uses the Piercing Strike I thrust visual and adds a cyan static marker only when the target had Slow pre-hit. The HTML calls this visual Weakened; this inventory does not make that label a gameplay rule.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -987,7 +1201,22 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": [],
+      "performanceEvidence": [
+        {
+          "prototype": "prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
+          "declaredPerformanceRows": [
+            "Linha perfurante — 1 — 1 — 1 — 1 — Um quad alinhado ao eixo do golpe e virado para a câmara; forma de lança no shader",
+            "Impacto — 1/alvo — 1/alvo — 1/alvo — 1/alvo — Estrela de impacto pequena (billboard) no alvo atravessado",
+            "Faíscas — 4/alvo — 4/alvo — 2/alvo — 0 — GPU, no sentido da estocada",
+            "II · marcador Weakened — 1/alvo — 1/alvo — 1/alvo — 1/alvo — Só em alvos que já tinham Slow. Um quad no chão: anel partido em quatro arcos, ciano, estático, 0,5 s",
+            "Draw calls — 3–4 — 3–4 — 3–4 — 2–3 — Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver um payoff vivo"
+          ],
+          "particleApproachEvidence": "HTML declares GPU sparks, a single-quad contextual payoff, and live counters; these are prototype declarations, not UE/Niagara measurements.",
+          "qualityTiersDeclared": true,
+          "stressControlDeclared": true,
+          "evidenceKind": "HTML prototype declarations; not runtime or UE/Niagara profiling"
+        }
+      ],
       "legacyNames": [
         "Breaching Strike"
       ]
@@ -1003,7 +1232,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1014,7 +1243,8 @@
         "movementType": "None",
         "effectType": "Single Target / Defensive State"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "fighter.battlecry-challenge-ii.warrior",
@@ -1027,7 +1257,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -1038,7 +1268,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Battlerage"
+      ]
     },
     {
       "formId": "fighter.battlecry-challenge-ii.tank",
@@ -1051,7 +1284,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -1062,7 +1295,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Chain Challenge"
+      ]
     },
     {
       "formId": "fighter.momentum-mastery.default",
@@ -1075,7 +1311,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1086,7 +1322,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "fighter.rally-ii.warrior",
@@ -1102,7 +1339,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Warrior",
@@ -1113,7 +1350,11 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Bloodlust",
+        "Inspiration"
+      ]
     },
     {
       "formId": "fighter.rally-ii.tank",
@@ -1129,7 +1370,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Tank",
@@ -1140,7 +1381,11 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Bloodlust",
+        "Inspiration"
+      ]
     },
     {
       "formId": "scout.granted.cleanse.default",
@@ -1153,7 +1398,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1164,7 +1409,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.granted.poison-bleed-stance.poison",
@@ -1179,7 +1425,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Poison",
@@ -1190,7 +1436,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.granted.poison-bleed-stance.bleed",
@@ -1205,7 +1452,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Bleed",
@@ -1216,7 +1463,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.granted.poison-sac-hemorrhage.poison",
@@ -1231,7 +1479,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1242,7 +1490,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.granted.poison-sac-hemorrhage.bleed",
@@ -1257,7 +1506,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1268,7 +1517,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.exploit-weakness-i.default",
@@ -1281,7 +1531,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1292,7 +1542,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.quickstep-i.default",
@@ -1305,7 +1556,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1316,7 +1567,8 @@
         "movementType": "Self Displacement",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.rapid-attack.default",
@@ -1329,7 +1581,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1340,7 +1592,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.backstab-i.default",
@@ -1353,7 +1606,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1364,7 +1617,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.torpor.default",
@@ -1377,7 +1631,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1388,7 +1642,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.blinding-dart.default",
@@ -1401,7 +1656,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1412,7 +1667,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.volley-i.poison",
@@ -1427,7 +1683,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1438,7 +1694,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.volley-i.bleed",
@@ -1453,7 +1710,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1464,7 +1721,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.exploit-weakness-ii.default",
@@ -1477,7 +1735,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1488,7 +1746,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Sentence"
+      ]
     },
     {
       "formId": "scout.quickstep-ii.default",
@@ -1501,7 +1762,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1512,7 +1773,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.long-jump.default",
@@ -1525,7 +1787,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1536,7 +1798,8 @@
         "movementType": "Self Displacement",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.evasion.default",
@@ -1549,7 +1812,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1560,7 +1823,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.sand-shot.default",
@@ -1573,7 +1837,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1584,7 +1848,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.vine-field-i.default",
@@ -1597,7 +1862,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1608,7 +1873,8 @@
         "movementType": "None",
         "effectType": "AoE / Persistent Area"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.backstab-ii.default",
@@ -1621,7 +1887,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1632,7 +1898,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Ambush"
+      ]
     },
     {
       "formId": "scout.smoke-bomb-i.default",
@@ -1645,7 +1914,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1656,7 +1925,8 @@
         "movementType": "None",
         "effectType": "AoE / Persistent Area"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "scout.vine-field-ii.default",
@@ -1669,7 +1939,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1680,7 +1950,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Entangle"
+      ]
     },
     {
       "formId": "scout.volley-ii.poison",
@@ -1695,7 +1968,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1706,7 +1979,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Narrowing Volley"
+      ]
     },
     {
       "formId": "scout.volley-ii.bleed",
@@ -1721,7 +1997,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1732,7 +2008,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Narrowing Volley"
+      ]
     },
     {
       "formId": "scout.poison-sac-hemorrhage-ii.poison",
@@ -1747,7 +2026,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Poison",
@@ -1758,7 +2037,10 @@
         "movementType": "None",
         "effectType": "Single Target → AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Sickness"
+      ]
     },
     {
       "formId": "scout.poison-sac-hemorrhage-ii.bleed",
@@ -1773,7 +2055,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Bleed",
@@ -1784,7 +2066,10 @@
         "movementType": "None",
         "effectType": "Single Target → AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Sickness"
+      ]
     },
     {
       "formId": "scout.exploit-weakness-iii.default",
@@ -1797,7 +2082,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1808,7 +2093,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Executioner"
+      ]
     },
     {
       "formId": "scout.smoke-bomb-ii.default",
@@ -1821,7 +2109,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1850,7 +2138,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "scout-stance-at-admission",
         "contextValue": "Poison",
@@ -1861,7 +2149,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "universal.basic-attack.bleed",
@@ -1876,7 +2165,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "scout-stance-at-admission",
         "contextValue": "Bleed",
@@ -1887,7 +2176,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.cleanse.default",
@@ -1900,7 +2190,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -1911,7 +2201,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.manifest-weave.manifest",
@@ -1926,7 +2217,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -1937,7 +2228,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.manifest-weave.weave",
@@ -1952,7 +2244,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -1963,7 +2255,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.arcane-shards",
@@ -1976,7 +2269,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Arcane Shards",
@@ -1987,7 +2280,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.fire-fire",
@@ -2000,7 +2294,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Fire",
@@ -2011,7 +2305,8 @@
         "movementType": "None",
         "effectType": "Line AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.ice-ice",
@@ -2024,7 +2319,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Ice + Ice",
@@ -2035,7 +2330,8 @@
         "movementType": "None",
         "effectType": "Destructible terrain / AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.lightning-lightning",
@@ -2048,7 +2344,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Lightning + Lightning",
@@ -2059,7 +2355,8 @@
         "movementType": "None",
         "effectType": "Self Shield + AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.fire-ice",
@@ -2072,7 +2369,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Ice",
@@ -2083,7 +2380,8 @@
         "movementType": "None",
         "effectType": "Persistent concealment area"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.fire-lightning",
@@ -2096,7 +2394,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Fire + Lightning",
@@ -2107,7 +2405,8 @@
         "movementType": "None",
         "effectType": "Repeated line damage"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.granted.arcane-burst.ice-lightning",
@@ -2120,7 +2419,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "Element Memory",
         "contextValue": "Ice + Lightning",
@@ -2131,7 +2430,8 @@
         "movementType": "None",
         "effectType": "Persistent marked AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.fire-bolt-i.manifest",
@@ -2146,7 +2446,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2157,7 +2457,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.fire-bolt-i.weave",
@@ -2172,7 +2473,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2183,7 +2484,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.combust-i.manifest",
@@ -2198,7 +2500,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2209,7 +2511,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.combust-i.weave",
@@ -2224,7 +2527,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2235,7 +2538,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.frost-lance-i.manifest",
@@ -2250,7 +2554,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2261,7 +2565,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.frost-lance-i.weave",
@@ -2276,7 +2581,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2287,7 +2592,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.glacial-spike-i.manifest",
@@ -2302,7 +2608,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2313,7 +2619,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.glacial-spike-i.weave",
@@ -2328,7 +2635,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2339,7 +2646,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.static-bolt-i.manifest",
@@ -2354,7 +2662,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2365,7 +2673,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.static-bolt-i.weave",
@@ -2380,7 +2689,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2391,7 +2700,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.thunderstrike-i.manifest",
@@ -2406,7 +2716,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2417,7 +2727,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.thunderstrike-i.weave",
@@ -2432,7 +2743,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2443,7 +2754,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.blink.default",
@@ -2456,7 +2768,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2467,7 +2779,8 @@
         "movementType": "Teleport",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.fire-bolt-ii.manifest",
@@ -2482,7 +2795,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2493,7 +2806,10 @@
         "movementType": "None",
         "effectType": "Single Target → conditional secondary targets"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Fire Ball"
+      ]
     },
     {
       "formId": "mage.fire-bolt-ii.weave",
@@ -2508,7 +2824,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2519,7 +2835,10 @@
         "movementType": "None",
         "effectType": "Single Target → conditional secondary targets"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Fire Ball"
+      ]
     },
     {
       "formId": "mage.combust-ii.manifest",
@@ -2534,7 +2853,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2545,7 +2864,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.combust-ii.weave",
@@ -2560,7 +2880,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2571,7 +2891,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.frost-lance-ii.manifest",
@@ -2586,7 +2907,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2597,7 +2918,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Permafrost"
+      ]
     },
     {
       "formId": "mage.frost-lance-ii.weave",
@@ -2612,7 +2936,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2623,7 +2947,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Permafrost"
+      ]
     },
     {
       "formId": "mage.glacial-spike-ii.manifest",
@@ -2638,7 +2965,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2649,7 +2976,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.glacial-spike-ii.weave",
@@ -2664,7 +2992,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2675,7 +3003,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.thunderstrike-ii.manifest",
@@ -2690,7 +3019,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2701,7 +3030,8 @@
         "movementType": "None",
         "effectType": "Single Target + conditional AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.thunderstrike-ii.weave",
@@ -2716,7 +3046,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2727,7 +3057,8 @@
         "movementType": "None",
         "effectType": "Single Target + conditional AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.mana-barrier-i.default",
@@ -2740,7 +3071,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2751,7 +3082,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.static-bolt-ii.manifest",
@@ -2766,7 +3098,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Manifest",
@@ -2777,7 +3109,10 @@
         "movementType": "None",
         "effectType": "AoE → chained hits"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Conductive Lightning"
+      ]
     },
     {
       "formId": "mage.static-bolt-ii.weave",
@@ -2792,7 +3127,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Weave",
@@ -2803,7 +3138,10 @@
         "movementType": "None",
         "effectType": "AoE → chained hits"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Conductive Lightning"
+      ]
     },
     {
       "formId": "mage.mana-barrier-ii.default",
@@ -2816,7 +3154,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2827,7 +3165,10 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Overcharge"
+      ]
     },
     {
       "formId": "mage.arcane-weaving-i.default",
@@ -2840,7 +3181,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2851,7 +3192,8 @@
         "movementType": "None",
         "effectType": "Resource-system modification"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.elemental-weaver-i.default",
@@ -2864,7 +3206,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2875,7 +3217,8 @@
         "movementType": "None",
         "effectType": "Resource-system modification + contextual Skills"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mage.arcane-weaving-ii.default",
@@ -2888,7 +3231,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2899,7 +3242,10 @@
         "movementType": "None",
         "effectType": "Cooldown modification"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Arcane Master"
+      ]
     },
     {
       "formId": "mage.elemental-weaver-ii.default",
@@ -2912,7 +3258,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2923,7 +3269,10 @@
         "movementType": "None",
         "effectType": "Resource-system expansion"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Elemental Master"
+      ]
     },
     {
       "formId": "mage.mana-storm.default",
@@ -2936,7 +3285,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2947,7 +3296,8 @@
         "movementType": "None",
         "effectType": "AoE / Persistent Area"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.granted.cleanse.default",
@@ -2960,7 +3310,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -2971,7 +3321,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.granted.sun-moon-stance.sun",
@@ -2986,7 +3337,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Sun",
@@ -2997,7 +3348,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.granted.sun-moon-stance.moon",
@@ -3012,7 +3364,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-swap",
         "contextValue": "Moon",
@@ -3023,7 +3375,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.granted.bright-star-full-moon.sun",
@@ -3036,7 +3389,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-and-max-resource",
         "contextValue": "Sun",
@@ -3047,7 +3400,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.granted.bright-star-full-moon.moon",
@@ -3060,7 +3414,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance-and-max-resource",
         "contextValue": "Moon",
@@ -3071,7 +3425,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.ether-i.ally",
@@ -3086,7 +3441,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3097,7 +3452,8 @@
         "movementType": "None",
         "effectType": "Single Target Heal"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.ether-i.enemy",
@@ -3112,7 +3468,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3123,7 +3479,8 @@
         "movementType": "None",
         "effectType": "Single Target Damage"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-orbit.sun",
@@ -3136,7 +3493,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3147,7 +3504,8 @@
         "movementType": "None",
         "effectType": "Persistent Spirit / conditional AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-orbit.moon",
@@ -3160,7 +3518,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3171,7 +3529,8 @@
         "movementType": "None",
         "effectType": "Persistent Spirit / conditional AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.cosmic-ray-i.default",
@@ -3184,7 +3543,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3195,7 +3554,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.connection-i.ally",
@@ -3210,7 +3570,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3221,7 +3581,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Tether — Heal"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.connection-i.enemy",
@@ -3236,7 +3597,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3247,7 +3608,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Tether — Damage"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.lullaby-i.default",
@@ -3260,7 +3622,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3271,7 +3633,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.sun-aura-moon-aura.sun",
@@ -3286,7 +3649,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3297,7 +3660,8 @@
         "movementType": "None",
         "effectType": "AoE / Persistent Aura"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.sun-aura-moon-aura.moon",
@@ -3312,7 +3676,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3323,7 +3687,8 @@
         "movementType": "None",
         "effectType": "AoE / Persistent Aura"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.astral-step.default",
@@ -3336,7 +3701,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3347,7 +3712,8 @@
         "movementType": "Teleport",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.ether-ii.ally",
@@ -3362,7 +3728,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3373,7 +3739,10 @@
         "movementType": "None",
         "effectType": "Heal + conditional Buffs"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Tick"
+      ]
     },
     {
       "formId": "mystic.ether-ii.enemy",
@@ -3388,7 +3757,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3399,7 +3768,10 @@
         "movementType": "None",
         "effectType": "Damage + conditional Debuffs"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "Tack"
+      ]
     },
     {
       "formId": "mystic.resurrect.default",
@@ -3412,7 +3784,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3423,7 +3795,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-star.sun",
@@ -3436,7 +3809,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3447,7 +3820,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Spirit"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-star.moon",
@@ -3460,7 +3834,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3471,7 +3845,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Spirit"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.cosmic-ray-ii.default",
@@ -3484,7 +3859,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3495,7 +3870,8 @@
         "movementType": "None",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.serenity.default",
@@ -3508,7 +3884,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3519,7 +3895,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.astral-pull.default",
@@ -3532,7 +3909,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3543,7 +3920,8 @@
         "movementType": "Teleport",
         "effectType": "Single Target"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-comet.sun",
@@ -3556,7 +3934,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Sun",
@@ -3567,7 +3945,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Spirit"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.spirit-of-the-comet.moon",
@@ -3580,7 +3959,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "stance",
         "contextValue": "Moon",
@@ -3591,7 +3970,8 @@
         "movementType": "None",
         "effectType": "Single Target / Persistent Spirit"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.lullaby-ii.default",
@@ -3604,7 +3984,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3631,7 +4011,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3642,7 +4022,8 @@
         "movementType": "Forced Displacement",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.astral-veil.default",
@@ -3655,7 +4036,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3666,7 +4047,8 @@
         "movementType": "None",
         "effectType": "Barrier / Area"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.eclipse.default",
@@ -3679,7 +4061,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3690,7 +4072,8 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.connection-ii.ally",
@@ -3705,7 +4088,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Ally",
@@ -3716,7 +4099,8 @@
         "movementType": "None",
         "effectType": "Tether + AoE completion"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.connection-ii.enemy",
@@ -3731,7 +4115,7 @@
       ],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "target-relation",
         "contextValue": "Enemy",
@@ -3742,7 +4126,8 @@
         "movementType": "None",
         "effectType": "Tether + AoE completion"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": []
     },
     {
       "formId": "mystic.black-hole-ii.default",
@@ -3755,7 +4140,7 @@
       "sharedVisualBaseWith": [],
       "notes": "Nenhum prototype de execução correspondente no snapshot VFX; fichas e ícones não contam como VFX.",
       "canonSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
-      "vfxRepoSha": "9767f8a6bfe92b76140fbe49d19320d257e5dade",
+      "vfxRepoSha": "ff13b9f3b52758bbc1166246f8d2a50f37923016",
       "executionContext": {
         "contextSelector": "always",
         "contextValue": "default",
@@ -3766,7 +4151,10 @@
         "movementType": "None",
         "effectType": "AoE"
       },
-      "performanceEvidence": []
+      "performanceEvidence": [],
+      "legacyNames": [
+        "White Hole"
+      ]
     }
   ]
 }
