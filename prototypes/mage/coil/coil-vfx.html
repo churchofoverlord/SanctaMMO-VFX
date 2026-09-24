@@ -120,7 +120,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~1,6 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~3,8 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 900 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 3100 ms</span></div>
   </div>
 
   <section class="budget">
@@ -148,8 +148,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anéis elétricos</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Dois anéis de raio à volta do Mage (0,6 m e 1,35 m de altura), como no ícone: fita virada para a câmara com zigue-zague que volta a disparar ~20×/s; desenham-se à volta em 0,12 s, seguram e apagam em 0,75 s</td></tr>
-          <tr><td>Casca de Shield</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Pulso breve de aplicação (0,6 s): aro fino dourado à volta do corpo com escudo em linha. O Shield que fica é do cue de status</td></tr>
+          <tr><td>Anéis elétricos</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Dois anéis de raio à volta do Mage (0,6 m e 1,35 m de altura), como no ícone: fita virada para a câmara com zigue-zague que volta a disparar ~20×/s; desenham-se à volta em 0,12 s, crepitam durante ~3 s e apagam</td></tr>
+          <tr><td>Casca de Shield</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Casca de ~3 s (pico na aplicação, depois mais ténue): aro fino dourado à volta do corpo com escudo em linha. O Shield que fica é do cue de status</td></tr>
           <tr><td>AoE</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Anel no chão que abre uma vez até ao limite (4 m); o limite é o traço mais claro</td></tr>
           <tr><td>Descargas</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td class="n">1 por alvo</td><td>Raio dos anéis até cada alvo dentro da área, 0,2 s, com faíscas no ponto de contacto</td></tr>
           <tr><td>Root (condicional)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só em alvos que já tinham Sapped: anel que fecha nos pés com 4 grampos de luz, 0,45 s, antes da nova aplicação</td></tr>
@@ -487,7 +487,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       return mix(aO, aE, s) + (sd*jag(s, st, 11.) + up*jag(s, st + 7., 9.))*env*L*.14 + up*env*L*.06;
     }
     void main(){
-      float u = uTime - aT, life = aK < .5 ? .75 : .22;
+      float u = uTime - aT, life = aK < .5 ? 3. : .22;                       // coils hold ~3 s
       if (u < 0. || u > life){ ${HIDE} }
       float st = floor(uTime*20.) + aP.z*50., s = position.x + .5;
       float draw = aK < .5 ? clamp(u/.12, 0., 1.) : 1.;
@@ -495,7 +495,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       vec3 P = at(s, st, u), T = normalize(at(min(s + .01, 1.), st, u) - at(max(s - .01, 0.), st, u));
       vec3 side = normalize(cross(T, P - cameraPosition));
       float w = aK < .5 ? .05 : .045;
-      vS = s; vY = position.y*2.; vFl = .7 + .3*h1(st*3.1); vF = (u < .033 ? 1.8 : 1.)*(1. - smoothstep(life*.55, life, u));
+      vS = s; vY = position.y*2.; vFl = .7 + .3*h1(st*3.1); vF = (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.2, .6, u))*(1. - smoothstep(2.6, 3., u)) : 1. - smoothstep(life*.55, life, u));
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*w*2., 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF, vFl;
@@ -591,7 +591,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 //   0 ground ring (ally: opens outward, ease-out · enemy: closes inward, ease-in)
 //   1 ally: upright column of light rising in a soft ease-out (Heal) — Y-dominant, only turned about Y to the camera
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
-const RL = 1.0, AOE = 4;
+const RL = 3.1, AOE = 4, HOLD = 3.;
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vR;
@@ -620,7 +620,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
       } else {
         // Shield application pulse: a thin golden rim around the body + the icon's shield drawn in line, brief (status cue keeps it)
         vec2 p = vP; float r = length(p);
-        float f = smoothstep(0., .08, vU)*(vU < .1 ? 1.5 : 1.)*(1. - smoothstep(.35, .6, vU));
+        float f = smoothstep(0., .08, vU)*(vU < .1 ? 1.5 : 1.)*mix(1., .45, smoothstep(.25, .7, vU))*(1. - smoothstep(2.6, 3., vU));   // shell stays ~3 s, dimmer after the peak
         float rim = exp(-pow((r - .88)/.025, 2.)) + exp(-pow((r - .88)/.12, 2.))*.15 + smoothstep(.88, .3, r)*.05;
         vec2 e = p*vec2(1., 1.) - vec2(0., .02); float top = .3, tip = -.36, hw = .24;
         float wy = e.y > 0. ? hw : hw*clamp((e.y - tip)/(0. - tip), 0., 1.);
@@ -645,10 +645,10 @@ function stab(O, yaw, tier, t0, targets){                   // Coil: two lightni
   const put = (k, A, B, p) => { const j = arcs.next(); arcs.A.aO.setXYZ(j, A.x, A.y, A.z); arcs.A.aE.setXYZ(j, B.x, B.y, B.z); arcs.A.aT.setX(j, t0 + (k ? .1 : 0)); arcs.A.aK.setX(j, k); arcs.A.aP.setXYZW(j, p[0], p[1], p[2], p[3]); };
   const nC = COIL_N[tier];
   put(0, O, O, [.6, .78, Math.random(), 1]); if (nC > 1) put(0, O, O, [1.35, .72, Math.random(), -1]);
-  arcs.track(t0 + .8, nC);
+  arcs.track(t0 + HOLD + .05, nC);
   let k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, 1, 0, 0, 0); rings.track(t0 + RL, 1);   // Shield pulse
   k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t0 + .05); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, AOE, 0, 0, 0); rings.track(t0 + RL, 1);   // AoE ring
-  castLog.push(t0 + 1);
+  castLog.push(t0 + HOLD);
   if (!targets) return;
   let nb = 0;
   for (const d of targets){
@@ -734,13 +734,13 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Anéis elétricos à volta do Mage', 0, 750, 0xffc21e],
-  ['Pulso de Shield (aplicação)', 0, 600, 0xfff1a8],
+  ['Anéis elétricos à volta do Mage', 0, 3000, 0xffc21e],
+  ['Casca de Shield', 0, 3000, 0xfff1a8],
   ['Anel da AoE (4 m)', 50, 650, 0xffc21e],
   ['Descargas até aos alvos', 100, 320, 0xfff1a8],
   ['Root (só se já Sapped)', 100, 550, 0xffc21e],
 ];
-const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 3100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -796,7 +796,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 2.2) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 3.8) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
