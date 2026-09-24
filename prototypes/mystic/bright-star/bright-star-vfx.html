@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Pulso hemisférico</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Meia-esfera lisa, translúcida e aditiva, abre em ease-out até 6 m em 0,55 s a partir do caster e apaga; fresnel no rebordo, não esconde o terreno</td></tr>
-          <tr><td>Estrela no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela de 8 pontas do ícone dentro de um anel fino, abre com o pulso, 1,2 s</td></tr>
+          <tr><td>Anel no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só um anel fino que abre com o pulso, 1,2 s</td></tr>
           <tr><td>Faíscas nos aliados</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td class="n">1/aliado</td><td>Estrela de 4 pontas pequena no peito de cada aliado válido, quando a frente do pulso lhe chega. O Shield que fica é do cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Fecha a partir do caster</h3><p>Um pulso hemisférico liso e translúcido abre em ease-out a partir do Mystic, com a estrela de 8 pontas do ícone no chão. Não esconde o terreno.</p></div>
+    <div><h3>Fecha a partir do caster</h3><p>Um pulso hemisférico liso e translúcido abre em ease-out a partir do Mystic. Não esconde o terreno.</p></div>
     <div><h3>Só nos aliados válidos</h3><p>Quando a frente do pulso chega a cada aliado dentro da área, aparece-lhe uma estrela pequena no peito. Inimigos e aliados fora do alcance não recebem nada.</p></div>
     <div><h3>Skill ≠ status</h3><p>O Shield que fica nos aliados é o cue de status partilhado por todos os shields. Referência Sun: dourado, estrela de 4 pontas.</p></div>
   </section>
@@ -471,7 +471,7 @@ const dome = pool(domeGeo, 64, { aO:3, aT:1 }, addMat({
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec3 vN, vV, vL; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${DOME_T}){ ${HIDE} }
       float k = 1. - pow(1. - clamp(u/.55, 0., 1.), 3.), R = mix(.4, ${R_AOE}., k);
-      vec3 W = aO + position*vec3(R, R*.4, R); /* flattened dome: 40% as tall */ vL = position; vN = normalize(position*vec3(1., 2.5, 1.)); vV = normalize(cameraPosition - W); vU = u;
+      vec3 W = aO + position*vec3(R, R*.6, R); /* flattened dome: 60% as tall */ vL = position; vN = normalize(position*vec3(1., 1.67, 1.)); vV = normalize(cameraPosition - W); vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
   fragmentShader:`uniform vec3 uC, uCl; varying vec3 vN, vV, vL; varying float vU;
     void main(){
@@ -499,9 +499,9 @@ const gdec = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
       float c8 = pow(max(abs(cos(a*2.)), 0.), 1.)*.6 + pow(max(abs(cos(a*2. + .785)), 0.), 1.)*.4;   // 4 long + 4 short points
       float spokeL = 1.6*pow(abs(cos(a*2.)), 40.), spokeS = .9*pow(abs(cos(a*2. + 1.5708)), 40.);
       float starR = 1.7*(pow(abs(cos(a*2.)), 6.)*1. + pow(abs(sin(a*2.)), 6.)*.55);
-      float star = lc(r - starR*k*.9, .03)*smoothstep(0., .3, r) + (spokeL + spokeS)*smoothstep(starR*k, 0., r)*.25;
+      float star = 0.;   // no ground flower
       float f = (vU < .033 ? 1.8 : 1.)*(1. - smoothstep(.6, 1.2, vU));
-      vec3 o = (uC*(ring*.8 + star*.8) + uCl*lc(r, .25)*.6)*f;
+      vec3 o = (uC*(ring*.8 + star*.8) + uCl*lc(r, .25)*0.)*f;
       o *= smoothstep(${R_AOE}. + .3, ${R_AOE}. + .15, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
