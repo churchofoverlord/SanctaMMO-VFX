@@ -15,6 +15,12 @@
 ## Protótipos (`prototypes/<classe>/<skill>/`)
 - Um ficheiro HTML autónomo por skill; Three.js r128 do cdnjs + postprocessing de `cdn.jsdelivr.net/npm/three@0.128.0/examples/js/`.
 - Arquitetura obrigatória: cada camada é UM sistema instanciado partilhado por todos os casts; o CPU só escreve dados de spawn; a GPU calcula tudo a partir da idade (`uTime - aT`). Incluir níveis de qualidade, stress test e contadores (draw calls, partículas, CPU).
+- Lições do Severing Strike (aplicar por defeito):
+  - Menos brilho: a forma principal vale por si. Sem halos largos, preenchimentos ou fios decorativos à volta; bloom contido. Brilho forte só no núcleo estreito.
+  - Perfil das formas: fino nas pontas, grosso no meio (tipo `sin(πs)`), com o centro reforçado. Fades das pontas em curva (`pow(sin, <1)`), nunca lineares.
+  - Máscaras sempre suaves: nada de `discard` ou cortes duros nos limites (criam linhas retas no chão).
+  - Leitura do movimento: cresce no sentido da ação → segura no tamanho máximo → apaga a partir da origem; a parte mais importante (o centro) desaparece por último. Não encurtar demasiado: a forma principal fica ~0,5–0,7 s.
+  - A animação do corpo (torção, preparação) tem de ir no mesmo sentido do VFX.
 - Skill ≠ status: o VFX da skill cobre só o cast/impacto. Estados resultantes (Shield, heal-over-time, buffs, debuffs, CC persistente) são cues de status próprios (`GameplayCue.Status.*`, Looping), partilhados por todas as fontes — não os animar no protótipo da skill.
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
 - Pools instanciados: inicializar TODOS os componentes de `aT` com -1e5 (slots por usar têm de estar "mortos"), senão aparecem instâncias fantasma no arranque.
