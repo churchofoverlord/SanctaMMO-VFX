@@ -142,19 +142,18 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Casca facetada</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma icosfera instanciada (80 faces planas) por Fighter afetado: Fresnel nítido, arestas ténues, interior quase vazio. Subida, ondulação dos impactos e queda das faces no shader</td></tr>
-          <tr><td>Impactos bloqueados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um evento por impacto (anel de 4 posições na instância); a ondulação corre na GPU. Faísca ciano pequena no ponto</td></tr>
-          <tr><td>Anel da distância-limite</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só na ativação, 0,7 s: mostra uma vez onde começa a proteção</td></tr>
-          <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Casca + fx partilhados por todos os Fighters (os projéteis inimigos não contam: são do mundo)</td></tr>
+          <tr><td>Cúpula de plasma</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma meia-esfera lisa instanciada com o raio da distância-limite (6 m). Veios de ruído a fluir, Fresnel, linha no chão; subida, ondulações e dissolução no shader. Custo sobretudo de fill-rate (cobre muito ecrã): 2 amostras de ruído por píxel</td></tr>
+          <tr><td>Impactos bloqueados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um evento por impacto (anel de 4 posições na instância); a ondulação corre na GPU. Faísca ciano no ponto</td></tr>
+          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Cúpula + fx partilhados por todos os Fighters (os projéteis inimigos são do mundo)</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Casca, não invulnerabilidade</h3><p>Poucos planos largos em ciano e azul, com o limite nítido no contorno (Fresnel) e o interior quase vazio. Sobe do chão em 200 ms com um pico de 2 frames e cai face a face no fim.</p></div>
-    <div><h3>Só fontes distantes</h3><p>Os dois atiradores longe (além dos 6 m) batem na casca: ondulação local e uma faísca ciano. O atirador perto (3,6 m) passa pela casca e acerta no Fighter (faísca vermelha, recuo): a proteção é contra origem distante.</p></div>
-    <div><h3>Limite mostrado uma vez</h3><p>Na ativação, um anel fino no chão abre até à distância-limite e apaga. A linha tracejada é só referência do protótipo. Com a casca desligada, também os disparos distantes acertam.</p></div>
+    <div><h3>A cúpula é o limite</h3><p>Uma meia-esfera centrada no Fighter com o raio da distância-limite (6 m); a linha no chão é a fronteira exata. Sobe do chão em 200 ms com um pico de 2 frames e dissolve no fim.</p></div>
+    <div><h3>Plasma, não vidro</h3><p>Superfície lisa, quase transparente, com veios finos de energia ciano a fluir devagar e o contorno mais claro (Fresnel). Sem faces nem triângulos.</p></div>
+    <div><h3>Só fontes distantes</h3><p>Os atiradores fora da cúpula batem nela (ondulação e faísca ciano). O atirador dentro da cúpula (3,6 m) acerta no Fighter: a proteção é só contra origem distante.</p></div>
   </section>
 </div>
 
@@ -417,53 +416,48 @@ const uC = { value:lin(0x3fd8ff) }, uB = { value:lin(0x2a6bff) }, uW = { value:l
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const DUR = 4.0, RISE = .2, END = .4;   // active time, shell rise, facet drop-out (s)
 const LIM = 6.0;                         // distance limit: new hostile sources beyond it don't affect the Fighter (m)
-const SC = new THREE.Vector3(1.15, 1.35, 1.15), CY = .95;   // shell ellipsoid scale, centre height
 
-// Layer 1 — the shell: ONE instanced faceted icosphere (80 flat faces), one instance per Fighter under the effect.
-// Large planes, crisp Fresnel limit, faint facet edges. Hits from beyond the limit are written once per hit (4-slot ring buffer)
-// and the ripple is computed on the GPU. Facets drop out one by one at the end.
-const shellGeo = (() => {
-  const g = new THREE.IcosahedronGeometry(1, 1).toNonIndexed(), P = g.attributes.position, n = P.count;
-  const nrm = new Float32Array(n*3), bar = new Float32Array(n*3), a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
-  for (let i=0;i<n;i+=3){
-    a.fromBufferAttribute(P, i); b.fromBufferAttribute(P, i+1); c.fromBufferAttribute(P, i+2);
-    const f = b.clone().sub(a).cross(c.clone().sub(a)).normalize();              // flat face normal: large, readable planes
-    for (let k=0;k<3;k++){ nrm.set([f.x, f.y, f.z], (i+k)*3); bar[(i+k)*3 + k] = 1; }
-  }
-  g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3)); g.setAttribute('aBary', new THREE.BufferAttribute(bar, 3));
-  return g;
-})();
+// Layer 1 — the dome: ONE instanced smooth hemisphere of radius LIM centred on the Fighter — it sits exactly on the distance limit.
+// Plasma look: flowing ridged-noise veins + Fresnel rim + a bright foot line on the ground (the limit itself). No facets.
+// Hits from beyond the limit are written once per hit (4-slot ring buffer); ripple on the GPU. Ends by dissolving with the same noise.
+const shellGeo = new THREE.SphereGeometry(1, 72, 24, 0, Math.PI*2, 0, Math.PI/2);
+const NOISE = `float h3(vec3 p){ return fract(sin(dot(p, vec3(127.1, 311.7, 74.7)))*43758.5453); }
+  float vn(vec3 p){ vec3 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+    return mix(mix(mix(h3(i), h3(i + vec3(1,0,0)), f.x), mix(h3(i + vec3(0,1,0)), h3(i + vec3(1,1,0)), f.x), f.y),
+               mix(mix(h3(i + vec3(0,0,1)), h3(i + vec3(1,0,1)), f.x), mix(h3(i + vec3(0,1,1)), h3(i + vec3(1,1,1)), f.x), f.y), f.z); }`;
 const shells = pool(shellGeo, 64, { aO:3, aT:2, aH0:4, aH1:4, aH2:4, aH3:4 }, addMat({
-  uniforms:{ uTime, uC, uB, uW },
-  vertexShader:`attribute vec3 aO, aBary; attribute vec2 aT; attribute vec4 aH0, aH1, aH2, aH3; uniform float uTime;
-    varying vec3 vN, vV, vL, vBar; varying float vU, vEnd; varying vec4 vH0, vH1, vH2, vH3;
+  side:THREE.DoubleSide, uniforms:{ uTime, uC, uB, uW },
+  vertexShader:`attribute vec3 aO; attribute vec2 aT; attribute vec4 aH0, aH1, aH2, aH3; uniform float uTime;
+    varying vec3 vN, vV, vL; varying float vU, vD; varying vec4 vH0, vH1, vH2, vH3;
     void main(){
-      float u = uTime - aT.x, D = aT.y; if (u < 0. || u > D + ${END.toFixed(2)}){ ${HIDE} }
-      float endK = clamp((u - D)/${END.toFixed(2)}, 0., 1.);
-      float rnd = fract(sin(dot(normal, vec3(12.99, 78.23, 37.71)))*43758.5);      // per-face id from its flat normal
-      if (endK > rnd*.9 + .05){ ${HIDE} }                                           // facets drop out one by one
-      vec3 sc = vec3(${SC.x.toFixed(2)}, ${SC.y.toFixed(2)}, ${SC.z.toFixed(2)}), C = aO + vec3(0., ${CY.toFixed(2)}, 0.);
-      vec3 P = C + position*sc + normal*.1*smoothstep(rnd*.9 - .15, rnd*.9 + .05, endK);   // a face lifts off just before it goes
-      vN = normalize(normal/sc); vV = normalize(cameraPosition - P); vL = position; vBar = aBary; vU = u; vEnd = endK;
+      float u = uTime - aT.x; if (u < 0. || u > aT.y + ${END.toFixed(2)}){ ${HIDE} }
+      vec3 P = aO + position*${LIM.toFixed(2)};
+      vN = normal; vV = normalize(cameraPosition - P); vL = position; vU = u; vD = aT.y;
       vH0 = aH0; vH1 = aH1; vH2 = aH2; vH3 = aH3;
       gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
-  fragmentShader:`uniform vec3 uC, uB, uW; uniform float uTime; varying vec3 vN, vV, vL, vBar; varying float vU, vEnd; varying vec4 vH0, vH1, vH2, vH3;
-    vec2 hit(vec4 h){                                                               // x: ripple ring, y: local facet flash
-      float a = uTime - h.w; if (a < 0. || a > .5) return vec2(0.);
-      float d = acos(clamp(dot(normalize(vL), h.xyz), -1., 1.));
-      return vec2(exp(-pow((d - a*3.5)/.12, 2.))*exp(-a*5.), smoothstep(.6, 0., d)*exp(-a*12.));
+  fragmentShader:`uniform vec3 uC, uB, uW; uniform float uTime; varying vec3 vN, vV, vL; varying float vU, vD; varying vec4 vH0, vH1, vH2, vH3;
+    ${NOISE}
+    vec2 hit(vec4 h){                                                               // x: ripple ring, y: local flash
+      float a = uTime - h.w; if (a < 0. || a > .6) return vec2(0.);
+      float d = acos(clamp(dot(normalize(vL), h.xyz), -1., 1.))*${LIM.toFixed(2)};  // metres along the dome
+      return vec2(exp(-pow((d - a*6.)/.35, 2.))*exp(-a*4.), exp(-d*d*1.2)*exp(-a*9.));
     }
     void main(){
-      float grow = clamp(vU/${RISE.toFixed(2)}, 0., 1.), front = mix(-1.05, 1.05, grow);
-      if (vL.y > front) discard;                                                    // rises from the ground
-      float rise = exp(-pow((vL.y - front)/.07, 2.))*(1. - step(1., grow));
-      float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 3.2);
-      float e = min(min(vBar.x, vBar.y), vBar.z), edge = 1. - smoothstep(0., .035, e);
-      float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.8 : 1.;
+      float grow = clamp(vU/${RISE.toFixed(2)}, 0., 1.);
+      if (vL.y > grow + .02) discard;                                               // rises from the ground
+      float rise = exp(-pow((vL.y - grow)/.05, 2.))*(1. - step(1., grow));
+      vec3 q = vL*3.2;
+      float n = vn(q + vec3(0., uTime*.35, uTime*.12))*.65 + vn(q*2.3 - vec3(uTime*.2, 0., 0.))*.35;
+      float vein = pow(1. - abs(2.*n - 1.), 7.);                                    // ridged noise: thin flowing plasma veins
+      float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.2);
+      float foot = exp(-vL.y*vL.y/.0012);                                           // the limit itself, on the ground
       vec2 h = hit(vH0) + hit(vH1) + hit(vH2) + hit(vH3);
-      vec3 c = uB*.015 + uC*fres*.5 + uW*edge*(.012 + .07*fres)                    // clear limit on the contour, faint planes, empty inside
-             + uW*(rise*.9 + h.x*.8 + h.y*.35 + edge*h.y*1.2) + uC*vEnd*.25;
+      float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0.;
+      if (endK > 0.){ float nd = vn(vL*6.); if (nd < endK*1.1) discard; burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
+      float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.8 : 1.;
+      vec3 c = uB*(.008 + .04*fres) + uC*(fres*.22 + vein*(.03 + .22*fres) + foot*.7)
+             + uW*(vein*fres*.12 + rise*.8 + h.x*(.5 + vein) + h.y*.5 + burn*.8);
       c *= pk;
       if (max(c.r, max(c.g, c.b)) < .002) discard;
       gl_FragColor = vec4(c, 1.);
@@ -519,7 +513,6 @@ function presence(O, t0, dur){
   const i = shells.next(); shells.A.aO.setXYZ(i, O.x, 0, O.z); shells.A.aT.setXY(i, t0, dur);
   for (const k of ['aH0','aH1','aH2','aH3']) shells.A[k].setXYZW(i, 0, 1, 0, -1e5);
   shells.track(t0 + dur + END, 1);
-  const j = fx.next(); fx.A.aO.setXYZ(j, O.x, 0, O.z); fx.A.aT.setX(j, t0); fx.A.aK.setX(j, 0); fx.track(t0 + .7, 1);
   castLog.push(t0 + dur + END);
   return { i, t0, dur, slot:0, O:O.clone() };
 }
@@ -527,14 +520,15 @@ const shellUp = (sh, t) => sh && t >= sh.t0 + RISE*.5 && t < sh.t0 + sh.dur;
 let blocked = 0;
 // a hostile source fires at the Fighter: blocked by the shell only if the source is beyond the limit
 function fireBolt(src, O, t0, sh, flinch){
-  const C = V3(O.x, CY, O.z), S = V3(src.x, 1.3, src.z), dist = Math.hypot(src.x - O.x, src.z - O.z);
-  const q = S.clone().sub(C).divide(SC), ld = q.clone().normalize();              // hit direction in the shell's unit-sphere space
-  const onShell = C.clone().add(ld.clone().multiply(SC)), onBody = V3(O.x, 1.25, O.z).addScaledVector(S.clone().sub(C).normalize(), .22);
-  const tS = S.distanceTo(onShell)/16, stop = dist > LIM && shellUp(sh, t0 + tS);
-  const E = stop ? onShell : onBody, tr = S.distanceTo(E)/16, th = t0 + tr;
-  const b = bolts.next(); bolts.A.aO.setXYZ(b, S.x, S.y, S.z); bolts.A.aE.setXYZ(b, E.x, E.y, E.z); bolts.A.aT.setXY(b, t0, tr); bolts.track(th, 1);
+  const S = V3(src.x, 1.3, src.z), B = V3(O.x, 1.25, O.z), G = V3(O.x, 0, O.z), dist = Math.hypot(src.x - O.x, src.z - O.z);
+  const d = B.clone().sub(S), f = S.clone().sub(G), a = d.dot(d), b = 2*f.dot(d), c = f.dot(f) - LIM*LIM;
+  const disc = b*b - 4*a*c, tq = disc > 0 ? (-b - Math.sqrt(disc))/(2*a) : 1;     // where the bolt meets the dome
+  const onDome = S.clone().addScaledVector(d, Math.max(0, tq)), onBody = B.clone().addScaledVector(d.clone().normalize(), -.22);
+  const tS = S.distanceTo(onDome)/16, stop = dist > LIM && shellUp(sh, t0 + tS);
+  const E = stop ? onDome : onBody, tr = S.distanceTo(E)/16, th = t0 + tr;
+  const bo = bolts.next(); bolts.A.aO.setXYZ(bo, S.x, S.y, S.z); bolts.A.aE.setXYZ(bo, E.x, E.y, E.z); bolts.A.aT.setXY(bo, t0, tr); bolts.track(th, 1);
   const k = fx.next(); fx.A.aO.setXYZ(k, E.x, E.y, E.z); fx.A.aT.setX(k, th); fx.A.aK.setX(k, stop ? 1 : 2); fx.track(th + .22, 1);
-  if (stop){ const key = 'aH' + sh.slot; sh.slot = (sh.slot + 1) % 4;               // one event write: the ripple runs on the GPU
+  if (stop){ const ld = E.clone().sub(G).divideScalar(LIM).normalize(), key = 'aH' + sh.slot; sh.slot = (sh.slot + 1) % 4;
     shells.A[key].setXYZW(sh.i, ld.x, ld.y, ld.z, th); shells.mark(sh.i); blocked++; }
   else if (flinch) flinch(th);
 }
@@ -586,9 +580,6 @@ archers.forEach(a => { const g = new THREE.Group(); g.position.copy(a.p); g.look
   [[new THREE.CylinderGeometry(.18,.15,1.3,12), .65], [new THREE.SphereGeometry(.13,12,10), 1.47]].forEach(([geo, y]) => {
     const m = new THREE.Mesh(geo, archerMat); m.position.y = y; m.castShadow = true; g.add(m); });
   scene.add(g); });
-{ const pts = [], N = 96; for (let i=0;i<=N;i++){ const a = i/N*6.2832; pts.push(new THREE.Vector3(Math.cos(a)*LIM, .02, Math.sin(a)*LIM)); }
-  const ln = new THREE.LineDashedMaterial({ color:0x3a4550, dashSize:.25, gapSize:.35, transparent:true, opacity:.35 });
-  const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), ln); l.computeLineDistances(); scene.add(l); }   // reference only (debug), not part of the VFX
 
 // ============ stress: 40 other Fighters slamming the ground ============
 const GN = 40, ghosts = [];
@@ -602,11 +593,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Casca sobe do chão + pico (2 frames)', 0, 233, 0xbff4ff],
-  ['Anel da distância-limite (uma vez)', 0, 700, 0x3fd8ff],
-  ['Casca ativa: só Fresnel + arestas', 233, 4000, 0x2a6bff],
+  ['Cúpula sobe do chão + pico (2 frames)', 0, 233, 0xbff4ff],
+  ['Cúpula ativa no limite (6 m): plasma + Fresnel', 233, 4000, 0x2a6bff],
   ['Impacto de fonte distante: ondulação', 233, 4000, 0x3fd8ff],
-  ['Faces caem uma a uma', 4000, 4400, 0xbff4ff],
+  ['Dissolve com o mesmo ruído do plasma', 4000, 4400, 0xbff4ff],
 ];
 const TOTAL = 4500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -632,7 +622,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = .95, pitch = .5, dist = 10.5, drag = null;   // high 3/4: the Fighter, the shell and both far archers read
+let yaw = .95, pitch = .5, dist = 24, drag = null;   // high 3/4: the Fighter, the shell and both far archers read
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -690,7 +680,7 @@ function frame(now){
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, .9, -2.2);
+  camera.lookAt(0, 1.2, -1.5);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
