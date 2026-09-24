@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Brisa</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad vertical por cima da cabeça (virado à câmara só em Y): três fiapos finos que sobem e se dissipam, tudo no shader</td></tr>
+          <tr><td>Brisa</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad vertical por cima da cabeça (virado à câmara só em Y): cinco fiapos suaves que sobem e se dissipam, tudo no shader</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Partilhada por todos os Fighters; 0 partículas</td></tr>
         </tbody>
       </table>
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Uma brisa</h3><p>Três fiapos finos saem do topo da cabeça e sobem ~1 m, ondulando levemente — o fôlego a regressar. Pequena, ténue e curta (~0,95 s).</p></div>
+    <div><h3>Uma brisa</h3><p>Cinco fiapos suaves saem do topo da cabeça e sobem ~1 m, ondulando levemente — o fôlego a regressar. Pequena, ténue e curta (~0,95 s).</p></div>
     <div><h3>Sobe e dissipa</h3><p>A brisa cresce para cima e depois dissipa-se a partir da cabeça; o topo é o último a desaparecer. Sem anéis, sem brilhos, sem rodopios.</p></div>
     <div><h3>Skill ≠ status</h3><p>A cura em si (números, barra de vida) é UI; qualquer regeneração contínua pertence ao cue de status. Aqui só o momento do cast.</p></div>
   </section>
@@ -422,7 +422,7 @@ const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
       float u = uTime - aT; if (u < 0. || u > ${LIFE.toFixed(2)}){ ${HIDE} }
       vec3 base = aO + vec3(0., 1.78, 0.);                        // top of the head
       vec3 toCam = cameraPosition - base; toCam.y = 0.; vec3 side = normalize(vec3(-toCam.z, 0., toCam.x) + 1e-4);
-      float Wd = .32, H = .95, t = position.y*.5 + .5;
+      float Wd = .45, H = .95, t = position.y*.5 + .5;
       vQ = vec2(position.x*Wd, t*H); vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(base + side*position.x*Wd + vec3(0., t*H, 0.), 1.);
     }`,
@@ -435,16 +435,16 @@ const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
       float rise = (1. - pow(1. - clamp(u/.45, 0., 1.), 2.))*H;   // the breeze climbs out of the head
       float clear = max(u - .35, 0.)/.5*H;                         // then the base clears first, the top goes last
       float d = 0.;
-      for (int i=0;i<3;i++){
+      for (int i=0;i<5;i++){
         float fi = float(i);
-        float cx = (fi - 1.)*(.03 + .09*y) + sin(y*5. - u*3. + fi*2.1)*.05*(.3 + y) + (vn(vec2(y*4. - u*2., fi*3.)) - .5)*.08*y;   // wisps fan out as they rise
-        float w = .012 + .055*y;                                   // thin at the head, soft and airy as it rises
+        float cx = (fi - 2.)*(.025 + .07*y) + sin(y*5. - u*3. + fi*2.1)*.05*(.3 + y) + (vn(vec2(y*4. - u*2., fi*3.)) - .5)*.08*y;   // wisps fan out as they rise
+        float w = .022 + .08*y;                                    // soft at the head, broad and airy as it rises
         float brk = smoothstep(.25, .7, vn(vec2(y*5. - u*4. + fi*5.7, fi)));
-        d += exp(-pow(abs(x - cx)/w, 1.4))*brk*(.7 + .3*fi/2.);
+        d += exp(-pow(abs(x - cx)/w, 1.4))*brk*(.6 + .4*fract(fi*.37));
       }
-      float mask = smoothstep(rise + .02, rise - .12, y)*smoothstep(clear - .05, clear + .2, y);
+      float mask = smoothstep(rise + .02, rise - .12, y)*smoothstep(clear - .05, clear + .2, y)*smoothstep(.45, .3, abs(x));   // fade before the quad's sides
       float fade = (1. - smoothstep(.65, ${LIFE.toFixed(2)}, u))*smoothstep(0., .06, y)*(1. - smoothstep(.7, .95, y/H));
-      float k = d*mask*fade*(1. - .55*y/H)*.3;                     // small and light
+      float k = d*mask*fade*(1. - .55*y/H)*.2;                     // small and light (more wisps → less each)
       vec3 outc = mix(uGold, vec3(1., .97, .92), .55)*k;           // pale warm air, not flame
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
