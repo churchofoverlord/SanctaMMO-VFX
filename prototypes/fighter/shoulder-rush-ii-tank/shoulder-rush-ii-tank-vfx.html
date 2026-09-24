@@ -287,7 +287,7 @@ moon.position.copy(moonDir).multiplyScalar(20); moon.castShadow = true;
 Object.assign(moon.shadow.camera, { left:-8, right:8, top:8, bottom:-8, near:1, far:50 });
 moon.shadow.mapSize.set(1024, 1024); moon.shadow.bias = -0.0004; moon.shadow.normalBias = .03;
 scene.add(moon, moon.target);
-const flash = new THREE.PointLight(COL.light, 0, 14, 2); scene.add(flash);
+const flash = new THREE.PointLight(lin(0x9fe9ff), 0, 14, 2); scene.add(flash);
 
 // ============ ground + ruins ============
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90),
@@ -413,7 +413,7 @@ const ptsScale = { value:600 };
 
 
 // ============ Shoulder Rush I ============
-const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
+const uGold = { value:lin(0x9fe9ff) }, uOrange = { value:lin(0x3fd8ff) };   // Tank Stance palette (light tint / main); names kept from Shoulder Rush I
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const PREP = .06, RUSH = .22;                       // crouch before the rush, rush duration (s)
 const ease = x => 1 - Math.pow(1 - clamp01(x), 3);  // fast start, settles into the arrival
@@ -445,7 +445,7 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
       float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
       float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
       float k = alive*fade*pow(prof, .75)*blend;
-      vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.5, .42, .32), .25);   // a little desaturated
+      vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.46, .45, .48), .25);   // a little desaturated
       vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
@@ -603,11 +603,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Preparação (corpo)', 0, 60, 0x8f8a82],
   ['Investida · rasto cresce atrás do Fighter', 60, 280, 0xffffff],
-  ['Hit stop (2 frames)', 280, 313, 0xff7a1a],
+  ['Hit stop (2 frames)', 280, 313, 0x3fd8ff],
   ['Pulso do payoff (ciano)', 280, 600, 0xc9a0ff],
   ['Flash de colisão', 280, 440, 0xfff0d2],
-  ['Anel de aterragem', 280, 580, 0xf2b53a],
-  ['Faíscas (GPU)', 280, 680, 0xf2b53a],
+  ['Anel de aterragem', 280, 580, 0x9fe9ff],
+  ['Faíscas (GPU)', 280, 680, 0x9fe9ff],
   ['Rasto apaga a partir da origem', 380, 780, 0xc9a0ff],
 ];
 const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');

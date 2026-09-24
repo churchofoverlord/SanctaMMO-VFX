@@ -1,4 +1,4 @@
-<title>Shoulder Rush II Warrior</title>
+<title>Warrior Stance</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -70,30 +70,24 @@ tr:last-child td{border-bottom:0}
 .pips{display:flex;gap:4px}
 .pips span{width:22px;height:6px;border:1px solid var(--line);background:#0c0d0f;transition:background .15s}
 </style>
-<style>
-.chip{display:inline-flex;align-items:center;gap:8px;font:600 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor}
-.chip i{width:9px;height:9px;background:currentColor;display:inline-block}
-.momentum{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:grid;gap:4px;justify-items:center;pointer-events:none}
-.momentum small{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.pips{display:flex;gap:4px}
-.pips span{width:22px;height:6px;border:1px solid var(--line);background:#0c0d0f;transition:background .12s}
-</style>
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Fighter · Rush · Profundidade II · Payoff contextual</div>
-      <h1>Shoulder <span>Rush</span> II · Warrior</h1>
+      <div class="eyebrow">SanctaMMO · Fighter · Stance · Paleta magenta</div>
+      <h1>Warrior <span>Stance</span></h1>
     </div>
-    <p class="canon"><b>Efeito canónico:</b> Upgrade contextual: Warrior aplica Slow na chegada e ganha Haste.</p>
+    <p class="canon"><b>Efeito canónico:</b> entra na stance Warrior (magenta). Permite usar Skills durante Dodge. A troca limpa Momentum.</p>
   </header>
 
   <div class="main">
     <div class="stage" id="stage">
-      <div class="key">arrastar = orbitar · roda = zoom · Q / espaço = investida</div>
+      <div class="key">arrastar = orbitar · roda = zoom · Q / espaço = entrar na stance</div>
       <div class="hud" id="hud">idle</div>
+      <div class="momentum"><small>Momentum (UI)</small><div class="pips" id="pips"><span></span><span></span><span></span><span></span><span></span></div></div>
     </div>
     <aside>
-      <button class="cast" id="castBtn">Shoulder Rush</button>
+      <button class="cast" id="castBtn">Warrior Stance</button>
+      <div class="chip" id="chip"><i></i><span>Warrior</span></div>
       <fieldset>
         <legend>Qualidade (scalability)</legend>
         <div class="seg" id="quality">
@@ -113,15 +107,16 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir investida<small>a cada ~1,9 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>investidas curtas de outros jogadores</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir entrada<small>a cada ~2,5 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>marcadores + entradas em Warrior de outros</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
         <dl class="stats">
           <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
+          <dt>Marcadores ativos</dt><dd class="vfx" id="sMark">0</dd>
           <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
-          <dt>Investidas a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
+          <dt>Trocas a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
           <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
           <div class="sep"></div>
           <dt>Frame (média)</dt><dd id="sFrame">—</dd>
@@ -132,7 +127,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing da investida</span><span>0 — 900 ms</span></div>
+    <div class="tl-head"><span>Timing da entrada</span><span>0 — 400 ms</span></div>
   </div>
 
   <section class="budget">
@@ -141,20 +136,19 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Rasto atrás do Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um rasto com a altura do corpo, alinhado à investida e virado para a câmara, que se funde suavemente no Fighter; apaga a partir da origem</td></tr>
-          <tr><td>Flash de colisão + anel de aterragem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Flash aditivo único, leve e pequeno, e anel compacto no chão; só na chegada</td></tr>
-          <tr><td>Faíscas</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>GPU, curtas, a partir do ponto de colisão</td></tr>
-          <tr><td>Pulso do payoff</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>No mesmo sistema do flash: Warrior 1 pulso magenta; Tank pulso ciano + anel ciano no chão</td></tr>
-          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
+          <tr><td>Marcador nos pés (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad; traços finos com halo suave, brilhos e emblema em linha, tudo no shader. Mesma malha que a Tank Stance (cue próprio)</td></tr>
+          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader do marcador: pico de 2 frames + anel até 0,22 s. Zero partículas</td></tr>
+          <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
+          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Fighters em ecrã partilham as mesmas 2 draw calls</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Origem → direção → destino</h3><p>O rasto é fino na origem e alarga até ao Fighter, por isso a direção lê-se num olhar. A chegada tem o maior contraste: um único flash e um hit stop de 1 frame.</p></div>
-    <div><h3>Curto e compacto</h3><p>Sem silhueta residual e sem zona persistente: o rasto apaga a partir da origem em ~0,3 s e a chegada é a última coisa a desaparecer.</p></div>
-    <div><h3>Payoff por stance</h3><p>Warrior: um anel magenta rápido no chão, à chegada. Tank: anel ciano e um segundo anel mais apertado e pesado. Hit stop passa a 2 frames. Slow, Haste, Interrupt e Fortified que ficam são VFX dos cues de status.</p></div>
+    <div><h3>Uma malha, um cue por stance</h3><p>As lâminas curvas do ícone viram traços caligráficos com pontas finas e energia a correr devagar. Esta página é só a Warrior Stance (magenta, emblema de lâmina); a Tank Stance usa a mesma malha num protótipo à parte, e no UE é outro GameplayCue.</p></div>
+    <div><h3>Pulso em Local Space</h3><p>A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.</p></div>
+    <div><h3>Estado inequívoco</h3><p>O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pelo chão.</p></div>
   </section>
 </div>
 
@@ -287,7 +281,7 @@ moon.position.copy(moonDir).multiplyScalar(20); moon.castShadow = true;
 Object.assign(moon.shadow.camera, { left:-8, right:8, top:8, bottom:-8, near:1, far:50 });
 moon.shadow.mapSize.set(1024, 1024); moon.shadow.bias = -0.0004; moon.shadow.normalBias = .03;
 scene.add(moon, moon.target);
-const flash = new THREE.PointLight(lin(0xff8fb8), 0, 14, 2); scene.add(flash);
+const flash = new THREE.PointLight(COL.light, 0, 14, 2); scene.add(flash);
 
 // ============ ground + ruins ============
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90),
@@ -384,6 +378,86 @@ function pool(base, N, attrs, material){
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
+// ---- marker: same geometry for both stances; palette + inner detail (blade / shield) change
+// aS = (fromStance, toStance, switchTime, visible)
+const MARKERS = 64;
+const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, { aO:3, aYaw:1, aS:4 }, addMat({
+  uniforms:{ uTime, uCW, uCT },
+  vertexShader:`attribute vec3 aO; attribute float aYaw; attribute vec4 aS; uniform float uTime; varying vec2 vF; varying float vAge, vFrom, vTo;
+    void main(){
+      if (aS.w < .5){ ${HIDE} }
+      float age = uTime - aS.z, S = age < .24 ? 1.45 : .98;
+      vec2 l = position.xz*S;                           // local metres, -z = forward
+      float c = cos(aYaw), s = sin(aYaw);
+      vec2 w = vec2(c*l.x + s*l.y, -s*l.x + c*l.y);
+      vF = vec2(l.x, -l.y); vAge = age; vFrom = aS.x; vTo = aS.y;
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .03, w.y), 1.);
+    }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; ${EOX}
+    // soft stroke: bright thin core + wide feathered halo (no hard edges, no flat facets)
+    float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
+    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }
+    void main(){
+      vec2 p = vF; float r = length(p), ang = atan(p.x, p.y), a = abs(ang);
+      float k = clamp(vAge/.14, 0., 1.), m = mix(vFrom, vTo, k*k*(3.-2.*k));
+      vec3 col = mix(uCW, uCT, m);
+      // calligraphic crescents: taper to hair-fine tips, energy drifting slowly along the arc
+      float t = clamp((a - .42)/2.25, 0., 1.), taper = pow(sin(3.14159*t), .7);
+      float flow = .78 + .22*sin(a*9. - uTime*2.2 + sign(ang)*1.3);
+      float arcA = stroke(r - .66, .006 + .016*taper) * step(.42, a) * step(a, 2.67) * taper * flow;
+      float tb = clamp((a - .75)/1.6, 0., 1.), taperB = pow(sin(3.14159*tb), 1.2);
+      float arcB = stroke(r - .57, .004 + .006*taperB) * step(.75, a) * step(a, 2.35) * taperB * .55;
+      float core = lineCore(r - .66, .004 + .006*taper) * step(.42, a) * step(a, 2.67) * taper;
+      // four glints where the icon has crystal shards: soft points that breathe
+      float gl = 0.;
+      for (int i=0;i<4;i++){
+        float g = (i < 2 ? 1.15 : 2.05) * (mod(float(i),2.) < .5 ? 1. : -1.);
+        vec2 c = .8*vec2(sin(g), cos(g)); float d2 = dot(p-c, p-c);
+        gl += (exp(-d2/.00012) + .25*exp(-d2/.0025)) * (.7 + .3*sin(uTime*1.7 + float(i)*1.9));
+      }
+      // emblem in the back opening, drawn as fine line-art with a faint fill
+      vec2 e = p - vec2(0., -.76);
+      float bd = abs(e.x)/.05 + abs(e.y)/.19 - 1.;
+      float blade = stroke(bd*.05, .006) + .12*step(bd, 0.);
+      float top = .1, tip = -.13, hw = .1;
+      float wy = e.y > 0. ? hw : hw*clamp((e.y - tip)/(0. - tip), 0., 1.);
+      float sd = max(abs(e.x) - wy, max(e.y - top, tip - e.y));
+      float shield = stroke(sd, .006) + .12*step(sd, 0.) + .5*lineCore(sd + .028, .004)*step(sd, 0.);
+      float emblem = mix(blade, shield, m);
+      // warm ground light under the Fighter: the marker reads as light on stone, not a sticker
+      float pool = exp(-r*r*4.5)*.16 + exp(-r*r*1.2)*.05;
+      float body = arcA + arcB + gl*.9 + emblem*.9 + pool;
+      // switch: 2-frame bloom peak, then a feathered ring with a thin leading edge
+      float peak = vAge < .033 ? 2.2 : 1. + 1.1*exp(-(vAge-.033)*16.);
+      float rr = mix(.4, 1.35, eox(clamp(vAge/.2, 0., 1.))), fade = 1. - clamp(vAge/.24, 0., 1.);
+      float ring = (lineCore(r - rr, .012)*1.3 + exp(-pow((r-rr)/.09, 2.))*.35) * fade*fade * step(0., vAge);
+      float disk = exp(-r*r*6.) * (vAge < .033 ? 1.2 : 0.);
+      float lum = body*(vAge < .26 ? peak : 1.) + ring + disk;
+      vec3 hot = mix(col, vec3(1., .93, .9), .55);             // near-white core, stance-tinted halo
+      vec3 outc = col*lum + hot*(core*.9 + ring*.25)*(vAge < .26 ? peak : 1.);
+      float S = vAge < .24 ? 1.45 : .98;
+      outc *= smoothstep(S, S*.78, r);                            // everything fades to zero before the quad's edge — no visible square
+      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      gl_FragColor = vec4(outc*1.1, 1.);
+    }` }));
+const MARKER_TRIS = 2;
+
+// ---- shards (icon's scattered crystal diamonds), <= 8 per switch
+const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 }, addMat({
+  uniforms:{ uTime, uCW, uCT },
+  vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; attribute float aC; uniform float uTime; varying vec2 vUv; varying float vF; varying float vC;
+    void main(){
+      float age = uTime - aT.x; if (age < 0. || age > aT.y){ ${HIDE} }
+      float k = 3., e = exp(-k*age); vec3 p = aO + aV*(1.-e)/k; p.y -= .3*9.8*(age*age*.5);
+      float f = 1. - age/aT.y, sz = .09*(.4 + .6*f), rot = aC*3. + age*9.;
+      vec4 mv = viewMatrix*vec4(p,1.); vec2 q = position.xy; q = vec2(cos(rot)*q.x - sin(rot)*q.y, sin(rot)*q.x + cos(rot)*q.y);
+      mv.xy += q*vec2(sz*.9, sz*1.8); gl_Position = projectionMatrix*mv; vUv = position.xy; vF = f; vC = step(.5, fract(aC));
+    }`,
+  fragmentShader:`uniform vec3 uCW, uCT; varying vec2 vUv; varying float vF, vC;
+    void main(){ float g = exp(-(vUv.x*vUv.x*60. + vUv.y*vUv.y*14.)), c = exp(-(vUv.x*vUv.x*400. + vUv.y*vUv.y*60.));
+      vec3 col = mix(uCW, uCT, vC);
+      gl_FragColor = vec4((col*g + mix(col, vec3(1.), .6)*c) * (1. + 3.*vF*vF), 1.); }` }));
+
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
 const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
   [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
@@ -410,139 +484,33 @@ const ptsScale = { value:600 };
     fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
   m.frustumCulled = false; scene.add(m); }
 
-
-
-// ============ Shoulder Rush I ============
-const uGold = { value:lin(0xff8fb8) }, uOrange = { value:lin(0xff3d7f) };   // Warrior Stance palette (light tint / main); names kept from Shoulder Rush I
-const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const PREP = .06, RUSH = .22;                       // crouch before the rush, rush duration (s)
-const ease = x => 1 - Math.pow(1 - clamp01(x), 3);  // fast start, settles into the arrival
-
-// Layer 1 — the trail: one ribbon per rush at torso height, behind the Fighter, turned to the camera around the rush axis
-const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vU, vL;
-    void main(){
-      float u = uTime - aT - ${PREP.toFixed(2)}; if (u < 0. || u > ${(RUSH+.5).toFixed(2)}){ ${HIDE} }
-      vec3 d = aE - aO; float L = length(d); vec3 f = d/L;
-      float s = position.x*.5 + .5, W = .85;                             // body-tall smear (a Fighter is taller than wide)
-      vec3 P = aO + f*(s*L - .05) + vec3(0., 1.0, 0.);                // ends inside the body, not behind it
-      vec3 cside = normalize(cross(f, P - cameraPosition));
-      vec3 side = normalize(vec3(0., 1., 0.) + .3*cside*sign(dot(cside, vec3(0., 1., 0.)) + 1e-4));   // stays upright: tall from the side, narrow from above
-      vS = s; vY = position.y*W; vU = u; vL = L;
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
-    }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vU, vL; ${STROKE}
-    void main(){
-      float h = 1. - pow(1. - clamp(vU/${RUSH.toFixed(2)}, 0., 1.), 3.);   // head = Fighter position (same ease as the rush)
-      float q = vS/max(h, .001);                                           // 0 at origin, 1 at the Fighter
-      float prof = pow(sin(1.5708*clamp(q, 0., 1.)), 1.1);                // thin at origin, full body height near the Fighter
-      float blend = smoothstep(1.02, .7, q);                               // melts softly into the body — no hard front edge
-      float arr = pow(prof, 3.);                                                        // arrival end: the part that stays longest
-      float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
-      float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
-      float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
-      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
-      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
-      float k = alive*fade*pow(prof, .75)*blend;
-      vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.46, .45, .48), .25);   // a little desaturated
-      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-      gl_FragColor = vec4(outc, 1.);
-    }` }));
-
-// Layer 2 — arrival: kind 0 = collision flash (billboard, the highest contrast), kind 1 = compact landing ring (ground)
-const impacts = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aC:1 }, addMat({
-  uniforms:{ uTime, uGold, uOrange, uCW, uCT },
-  vertexShader:`attribute vec3 aO; attribute float aT, aK, aC; uniform float uTime; varying vec2 vP; varying float vU, vK, vC;
-    void main(){
-      // kinds: 0 collision flash · 1 landing ring · 2 stance-accent ground pulse (fast, thin) · 3 Tank second ring (firm impact)
-      float u = uTime - aT, life = aK < .5 ? .16 : (aK < 1.5 ? .3 : (aK < 2.5 ? .24 : .32));
-      if (u < 0. || u > life){ ${HIDE} }
-      vU = u; vK = aK; vC = aC;
-      bool bb = aK < .5;
-      if (bb){
-        vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.35;
-        float S = .38; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
-      } else {
-        float S = aK < 1.5 ? .5 : (aK < 2.5 ? .95 : .75); vP = position.xy*S;
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
-      }
-    }`,
-  fragmentShader:`uniform vec3 uGold, uOrange, uCW, uCT; varying vec2 vP; varying float vU, vK, vC; ${STROKE}
-    void main(){
-      vec2 p = vP; float r = length(p), lum = 0., hot = 0.;
-      if (vK > 1.5){
-        // II payoff: one instant pulse in the stance accent (Warrior magenta / Tank cyan)
-        float T = vK < 2.5 ? .24 : .32, t = vU/T, f = pow(1. - t, 1.7);
-        float R = vK < 2.5 ? .15 + .72*(1. - pow(1. - t, 3.)) : .1 + .55*(1. - pow(1. - t, 5.));
-        float w = (vK < 2.5 ? .018 : .035)*(1. - .5*t);
-        float ring = exp(-pow(abs(r - R)/w, 2.4)), core = lcore(r - R, w*.35);
-        vec3 col = mix(uCW, uCT, vC);
-        vec3 outc = (col*ring*(vK < 2.5 ? 1. : .8) + mix(col, vec3(1.), .6)*core*.5)*f;
-        if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-        gl_FragColor = vec4(outc, 1.); return;
-      }
-      if (vK < .5){
-        // single collision flash: a crisp ring that snaps open + a hot centre, gone in 160 ms
-        float t = vU/.16, f = pow(1. - t, 1.6);
-        float R = .04 + .25*(1. - pow(1. - t, 3.)), w = .007 + .01*(1. - t);
-        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.8 + exp(-r*r*240.)*(vU < .033 ? 1.2 : .5*f);
-        hot += lcore(r - R, w*.35)*f*.45 + exp(-r*r*700.)*f*.6;
-      } else {
-        // landing ring on the floor: thin, compact, settles quickly
-        float t = vU/.3, f = pow(1. - t, 1.8);
-        float R = .08 + .35*(1. - pow(1. - t, 3.)), w = .006 + .015*(1. - t);
-        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.5; hot += lcore(r - R, w*.3)*f*.25;
-      }
-      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-      gl_FragColor = vec4(outc, 1.);
-    }` }));
-
-// Layer 3 — sparks at the collision, thrown forward and up
-const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:1.6 };
-const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, addMat({
-  uniforms:{ uTime, uRes, uW, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;
-    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 5.*((1.-e)/(k*k) - t/k); p.y = max(p.y, .02); return p; }
-    void main(){
-      float age = uTime - aT.x; if (age < 0. || age > aT.y){ ${HIDE} }
-      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);
-      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);
-      float s = position.y + .5; vec4 c = mix(ct, ch, s);
-      c.xy += (nrm*position.x*uW*2. + dir*(s-.5)*uW)*2./uRes*c.w;
-      gl_Position = c; vF = 1. - age/aT.y; vQ = vec2(position.x*2., s);
-    }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;
-    void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;
-      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }` }));
-
-// ============ spawning (CPU work only at rush start) ============
-const TIER = { 3:{ sp:5, ring:true }, 2:{ sp:5, ring:true }, 1:{ sp:3, ring:true }, 0:{ sp:0, ring:false } };
-const stance = 0;                                            // this page = Warrior variant (separate GameplayCue in UE)
+// ============ spawning (CPU work only on switch) ============
+const TIER = { 3:{ shards:8 }, 2:{ shards:8 }, 1:{ shards:4 }, 0:{ shards:0 } };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
-const castLog = [];
-function rush(O, E, tier, t0){
-  const i = trails.next(); trails.A.aO.setXYZ(i, O.x, 0, O.z); trails.A.aE.setXYZ(i, E.x, 0, E.z); trails.A.aT.setX(i, t0); trails.track(t0 + PREP + RUSH + .5, 1);
-  const T = TIER[tier], ta = t0 + PREP + RUSH, f = E.clone().sub(O).setY(0).normalize();
-  const hp = V3(E.x + f.x*.35, 1.2, E.z + f.z*.35);
-  let k = impacts.next(); impacts.A.aO.setXYZ(k, hp.x, hp.y, hp.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 0);
-  if (T.ring){ k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 1); }
-  // II payoff at the collision: flat on the ground at the arrival; Warrior → one magenta ring; Tank → cyan ring + a tighter, heavier cyan ring
-  k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 2); impacts.A.aC.setX(k, stance);
-  if (stance === 1){ k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 3); impacts.A.aC.setX(k, 1); }
-  impacts.track(ta + .32, (T.ring ? 2 : 1) + (stance === 1 ? 2 : 1));
-  for (let n=0;n<T.sp;n++){
-    const j = sparks.next();
-    sparks.A.aO.setXYZ(j, hp.x, hp.y + rand(-.15,.1), hp.z);
-    sparks.A.aV.setXYZ(j, f.x*rand(1.5,3) + rand(-1,1), rand(.6,2), f.z*rand(1.5,3) + rand(-1,1));
-    sparks.A.aT.setXY(j, ta, rand(.18,.3));
-  }
-  if (T.sp) sparks.track(ta + .4, T.sp);
-  castLog.push(t0 + .9);
-  return ta;
+const fighters = [];        // { i, p, yaw, stance }
+function addFighter(p, yaw, stance, visible){
+  const i = fighters.length, f = { i, p, yaw, stance };
+  markers.A.aO.setXYZ(i, p.x, 0, p.z); markers.A.aYaw.setX(i, yaw); markers.A.aS.setXYZW(i, stance, stance, -1e5, visible ? 1 : 0); markers.mark(i);
+  fighters.push(f); return f;
 }
+function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); }
+const TO = 0;                                   // this page = Warrior Stance (its own GameplayCue in UE)
+function switchStance(f, tier, t0){
+  const to = TO, from = 1 - to; f.stance = to;       // always shown as an entry from the other stance
+  markers.A.aS.setXYZW(f.i, from, to, t0, 1); markers.mark(f.i);
+  const n = TIER[tier].shards;
+  for (let k=0;k<n;k++){
+    const side = k % 2 ? 1 : -1, a = side*rand(.7, 2.3) - f.yaw;         // spawn on the crescents
+    const dx = Math.sin(a), dz = -Math.cos(a);
+    const i = shards.next();
+    shards.A.aO.setXYZ(i, f.p.x + dx*.66, .06, f.p.z + dz*.66);
+    shards.A.aV.setXYZ(i, dx*rand(.6,1.2), rand(1.6,3), dz*rand(.6,1.2));
+    shards.A.aT.setXY(i, t0, rand(.26,.32)); shards.A.aC.setX(i, Math.floor(rand(0,5)) + (to ? .75 : .25));
+  }
+  if (n) shards.track(t0 + .32, n);
+  switchLog.push(t0 + .3);
+}
+const switchLog = [];
 
 // ============ post ============
 let composer = null, grade = null, bloom = null;
@@ -579,61 +547,52 @@ if (hasPost){
 }
 
 
-
-
-// ============ target: 1 dummy at the end of the rush ============
-const dummyMat = new THREE.MeshStandardMaterial({ color:lin(0x4a3a2c), roughness:.9 });
-const DUMMY = V3(0,0,-4.4), START = V3(0,0,0), ARRIVE = V3(0,0,-3.75);
-const dummy = new THREE.Group();
-[[new THREE.CylinderGeometry(.05,.06,1.1,8), .55], [new THREE.CylinderGeometry(.22,.2,.7,14), 1.25], [new THREE.SphereGeometry(.13,14,10), 1.75]]
-  .forEach(([g, y]) => { const m = new THREE.Mesh(g, dummyMat); m.position.y = y; m.castShadow = m.receiveShadow = true; dummy.add(m); });
-dummy.position.copy(DUMMY); scene.add(dummy);
-
-// ============ stress: 40 other Fighters rushing short distances ============
+// ============ fighters: hero + 40 stress-test Fighters (2 instanced draws for bodies) ============
+const hero_f = addFighter(V3(0,0,0), 0, 0, true);
 const GN = 40, ghosts = [];
 const ghostBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.2,.16,1.35,10).translate(0,.68,0), darkArmor, GN);
 const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).translate(0,1.52,0), darkArmor, GN);
 { const o = new THREE.Object3D(); let i = 0;
-  while (i < GN){ const x = rand(-13,13), z = rand(-15,6); if (Math.hypot(x, z + 2) < 4) continue;
+  while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
-    ghosts.push({ p:V3(x,0,z), dir:V3(-Math.sin(yaw), 0, -Math.cos(yaw)), next:rand(.3,2) }); i++; } }
+    ghosts.push({ f:addFighter(V3(x,0,z), yaw, Math.random() < .5 ? 0 : 1, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
+markers.mesh.visible = true;
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Preparação (corpo)', 0, 60, 0x8f8a82],
-  ['Investida · rasto cresce atrás do Fighter', 60, 280, 0xffffff],
-  ['Hit stop (2 frames)', 280, 313, 0xff3d7f],
-  ['Pulso do payoff (magenta)', 280, 600, 0xc9a0ff],
-  ['Flash de colisão', 280, 440, 0xfff0d2],
-  ['Anel de aterragem', 280, 580, 0xff8fb8],
-  ['Faíscas (GPU)', 280, 680, 0xff8fb8],
-  ['Rasto apaga a partir da origem', 380, 780, 0xc9a0ff],
+  ['Pico aditivo (2 frames)', 0, 33, 0xfff0d2],
+  ['Anel do pulso', 0, 220, 0xff3d7f],
+  ['Entrada de cor e emblema (lâmina)', 0, 120, 0xff3d7f],
+  ['Fragmentos (GPU)', 0, 320, 0xc9a0ff],
+  ['Marcador persistente', 120, 400, 0x8f8a82],
 ];
-const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
-  r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
+  r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b === 400 ? '∞' : b}</span>`;
   tl.appendChild(r);
 });
 const heads = [...tl.querySelectorAll('.playhead')];
 
 // ============ state / input ============
-let speed = 1, quality = 2, time = 0, localT = -1e9, arriveT = -1e9, idle = 0;
-const tLoop = $('tLoop'), tStress = $('tStress');
+let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, momentum = 0;
+const tLoop = $('tLoop'), tStress = $('tStress'), pips = [...document.querySelectorAll('#pips span')], chip = $('chip');
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
-tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
-function localRush(){
-  if (time - localT < 1.2) return;
-  hero.position.copy(START); localT = time; idle = 0;
-  arriveT = rush(START, ARRIVE, quality, time);
+function paintChip(){ const s = STANCE[hero_f.stance]; chip.style.color = s.css; chip.querySelector('span').textContent = s.name; }
+tStress.onchange = () => { const on = tStress.checked; ghostBody.visible = ghostHead.visible = on; ghosts.forEach(g => { setVisible(g.f, on); g.next = time + rand(.3, 3); }); };
+function localSwitch(){
+  if (time - localT < .1) return;
+  localT = time; idle = 0; momentum = 0;           // the switch clears Momentum
+  switchStance(hero_f, quality, time); paintChip();
 }
-$('castBtn').onclick = localRush;
-addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localRush(); } });
+$('castBtn').onclick = localSwitch;
+addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwitch(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
+paintChip();
 
-let yaw = 1.3, pitch = .42, dist = 6.6, drag = null;   // side-on so origin → direction → arrival read at a glance
+let yaw = .42, pitch = .42, dist = 4.6, drag = null;
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -643,13 +602,12 @@ function resize(){
   const w = stage.clientWidth, h = stage.clientHeight;
   renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
   if (composer){ composer.setPixelRatio(PR); composer.setSize(w, h); grade.uniforms.uRes.value.set(w*PR, h*PR); }
-  uRes.value.set(w*PR, h*PR); uW.value = 1.6*PR;
   ptsScale.value = h*PR / (2*Math.tan(camera.fov*Math.PI/360));
 }
 new ResizeObserver(resize).observe(stage); resize();
 
 // ============ main loop ============
-const hud = $('hud'), S = { draw:$('sDraw'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
+const hud = $('hud'), S = { draw:$('sDraw'), mark:$('sMark'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
 renderer.info.autoReset = false;
 let last = performance.now(), acc = { n:0, frame:0, cpu:0, prev:null }, statT = 0;
 
@@ -657,52 +615,51 @@ function frame(now){
   const rdt = Math.min(.05, (now-last)/1000); last = now;
   let dt = rdt*speed; if (window.__freezeAt !== undefined && time - localT >= window.__freezeAt) dt = Math.max(0, localT + window.__freezeAt - time);   // test hook
   time += dt; uTime.value = time;
-  const hitStop = time >= arriveT && time < arriveT + 2/60;   // II: hold the Fighter's pose for two frames on contact
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 1.9) localRush(); }
+  if (tLoop.checked){ idle += dt; if (idle > 2.5) localSwitch(); }
+
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
-      const d = g.p.distanceTo(camera.position);
-      rush(g.p, g.p.clone().addScaledVector(g.dir, 3), d < 10 ? Math.min(1, quality) : 0, time);
-      g.next = time + rand(1.5, 3);
+      const d = g.f.p.distanceTo(camera.position);
+      switchStance(g.f, d < 9 ? Math.min(1, quality) : 0, time);
+      g.next = time + rand(2.5, 5);
     }
   }
-  trails.tick(time); impacts.tick(time); sparks.tick(time);
-  trails.flush(); impacts.flush(); sparks.flush();
+  shards.tick(time); markers.flush(); shards.flush();
   const cpuVfx = performance.now() - c0;
 
-  // gameplay-side: the Fighter rushes (same ease as the trail head), shoulder leads; dummy recoils on contact
-  let lean = 0;
-  if (dtc >= 0 && dtc < PREP){ lean = .12*(dtc/PREP); }
-  else if (dtc >= PREP && dtc < PREP + RUSH){ hero.position.lerpVectors(START, ARRIVE, ease((dtc - PREP)/RUSH)); lean = .32; }
-  else if (dtc >= PREP + RUSH && dtc < 1.2){ hero.position.copy(ARRIVE); lean = .32*(1 - easeOutCubic((dtc - PREP - RUSH)/.4)); }
-  else if (dtc >= 1.2 && dtc < 1.3){ hero.position.copy(START); }
-  if (!hitStop){ body.rotation.x = -lean; body.rotation.y = .35*lean; body.position.y = Math.sin(time*1.8)*.006 - lean*.1; }
-  const hk = time - arriveT, kick = hk >= 0 && hk < .45 ? Math.exp(-hk*9)*Math.sin(hk*40) : 0;
-  dummy.position.set(DUMMY.x, 0, DUMMY.z - Math.max(0, kick)*.12); dummy.rotation.x = -kick*.18;
+  // momentum (UI context only): builds up, cleared by the switch
+  momentum = Math.min(5, momentum + dt/.6);
+  const sc = STANCE[hero_f.stance].css;
+  pips.forEach((p, i) => p.style.background = i < Math.floor(momentum) ? sc : '');
+
+  // knight idle + cape
+  body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
-      P[i] = bx*(1 + v*.22); P[i+1] = by + lean*vv*.3;
-      P[i+2] = capeBase[i+2] - bx*bx*(1.1 - .6*v) + vv*(.1 + .045*Math.sin(time*1.7 + bx*5 + v*5) + lean*.9); }
+      P[i] = bx*(1 + v*.22); P[i+1] = by;
+      P[i+2] = capeBase[i+2] - bx*bx*(1.1 - .6*v) + vv*(.1 + .045*Math.sin(time*1.7 + bx*5 + v*5)); }
     capeGeo.attributes.position.needsUpdate = true; capeGeo.computeVertexNormals(); }
 
   const ms = dtc >= 0 && dtc <= TOTAL/1000 ? dtc*1000 : -1;
   heads.forEach(h => { h.style.opacity = ms >= 0 ? 1 : 0; h.style.left = (clamp01(ms/TOTAL)*100) + '%'; });
-  hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
+  hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `${STANCE[hero_f.stance].name} · ${speed}×`;
 
-  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, -1.9 + Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, .8, -2.1);
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, .9 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(0, .7, -.3);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
-    castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [trails, impacts, sparks].filter(p => p.active).length;
-    S.part.textContent = trails.count + impacts.count + sparks.count;
-    S.casts.textContent = castLog.length;
+    switchLog.splice(0, switchLog.length, ...switchLog.filter(t => t > time));
+    const nMark = 1 + (tStress.checked ? GN : 0);
+    S.draw.textContent = 1 + (shards.active ? 1 : 0);
+    S.mark.textContent = nMark;
+    S.part.textContent = shards.count;
+    S.casts.textContent = switchLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
     S.total.textContent = renderer.info.render.calls;

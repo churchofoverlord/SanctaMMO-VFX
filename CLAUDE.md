@@ -10,7 +10,7 @@
 - Dark fantasy realista: cenário frio e dessaturado, VFX quente e saturado. Preferir simples a carregado — uma forma dominante, poucas camadas.
 - Paleta vem do ícone da skill; dourado não domina (reservado à UI).
 - Cues condicionais (procs, "havia debuffs") só aparecem quando a condição é verdadeira.
-- Estilo aprovado (referência: `prototypes/fighter/warrior-tank-stance/`): traços finos caligráficos com pontas afiladas, núcleo quente quase branco + halo suave na cor da skill, energia a correr devagar, emblemas desenhados em linha com preenchimento ténue, luz suave no chão. Evitar formas chapadas, blocos facetados e arestas duras.
+- Estilo aprovado (referência: `prototypes/fighter/warrior-stance/` e `tank-stance/`): traços finos caligráficos com pontas afiladas, núcleo quente quase branco + halo suave na cor da skill, energia a correr devagar, emblemas desenhados em linha com preenchimento ténue, luz suave no chão. Evitar formas chapadas, blocos facetados e arestas duras.
 
 ## Protótipos (`prototypes/<classe>/<skill>/`)
 - Um ficheiro HTML autónomo por skill; Three.js r128 do cdnjs + postprocessing de `cdn.jsdelivr.net/npm/three@0.128.0/examples/js/`.
@@ -28,7 +28,7 @@
   - Fumo/névoa: vários fiapos finos independentes, cada um a ondular e a interromper-se com ruído — uma faixa única (gaussiana ou achatada) lê-se sempre como barra/linha ao meio.
   - Efeitos que envolvem o corpo (cilindros/conchas): raio irregular com ruído, 2 camadas a profundidades diferentes (mesma draw call via atributo) e fade onde a superfície fica de perfil (|n·v| baixo) — senão lê-se o cilindro.
   - Enquadrar a câmara do protótipo para a leitura da skill (linhas e investidas lêem-se de lado/3/4, não de trás).
-- Variantes por stance em separado: quando uma skill tem versão Warrior e versão Tank (ex.: Shoulder Rush II), cada variante é um protótipo próprio (`<skill>-warrior/`, `<skill>-tank/`), sem seletor de stance. No UE são GameplayCues / Niagara Systems distintos, com custo medido à parte.
+- Variantes por stance em separado: quando uma skill tem versão Warrior e versão Tank (ex.: Shoulder Rush II), cada variante é um protótipo próprio (`<skill>-warrior/`, `<skill>-tank/`), sem seletor de stance, e toda a variante (rasto, impacto, faíscas, luz) usa a paleta da sua stance: Warrior magenta #ff3d7f (tom claro #ff8fb8), Tank ciano #3fd8ff (tom claro #9fe9ff). No UE são GameplayCues / Niagara Systems distintos, com custo medido à parte.
 - Skill ≠ status: o VFX da skill cobre só o cast/impacto. Estados resultantes (Shield, heal-over-time, buffs, debuffs, CC persistente) são cues de status próprios (`GameplayCue.Status.*`, Looping), partilhados por todas as fontes — não os animar no protótipo da skill. Isto inclui marcadores de aplicação nos alvos (Silence, Taunt, Slow, etc.): a skill mostra o próprio golpe/pulso e o impacto; o que indica o estado no alvo é do cue de status. Exceção: contadores de sequência/carga da própria skill mantêm-se no alvo, breves. Marca de sequência Severing: 1 = uma linha, 2 = duas linhas cruzadas, 3 = círculo à volta das linhas cruzadas. Arco Severing cresce por nível: I raio 1,25 m / ~140°, II 1,6 m / ~170°, III 2,05 m / ~190° e meio mais largo (largura central ~+60% face ao II).
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
 - Pools instanciados: inicializar TODOS os componentes de `aT` com -1e5 (slots por usar têm de estar "mortos"), senão aparecem instâncias fantasma no arranque.
