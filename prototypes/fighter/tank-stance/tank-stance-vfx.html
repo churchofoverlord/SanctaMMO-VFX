@@ -87,7 +87,7 @@ tr:last-child td{border-bottom:0}
     </div>
     <aside>
       <button class="cast" id="castBtn">Tank Stance</button>
-      <div class="chip" id="chip"><i></i><span>Warrior</span></div>
+      <div class="chip" id="chip"><i></i><span>Tank</span></div>
       <fieldset>
         <legend>Qualidade (scalability)</legend>
         <div class="seg" id="quality">
@@ -496,7 +496,7 @@ function addFighter(p, yaw, stance, visible){
 function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); }
 const TO = 1;                                   // this page = Tank Stance (its own GameplayCue in UE)
 function switchStance(f, tier, t0){
-  const to = TO, from = 1 - to; f.stance = to;       // always shown as an entry from the other stance
+  const to = TO, from = TO; f.stance = to;           // own palette only: no blend from the other stance (that is its own cue)
   markers.A.aS.setXYZW(f.i, from, to, t0, 1); markers.mark(f.i);
   const n = TIER[tier].shards;
   for (let k=0;k<n;k++){
@@ -555,7 +555,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 { const o = new THREE.Object3D(); let i = 0;
   while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
-    ghosts.push({ f:addFighter(V3(x,0,z), yaw, Math.random() < .5 ? 0 : 1, false), next:rand(.5,4) }); i++; } }
+    ghosts.push({ f:addFighter(V3(x,0,z), yaw, TO, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
 markers.mesh.visible = true;
 
@@ -563,7 +563,6 @@ markers.mesh.visible = true;
 const PHASES = [
   ['Pico aditivo (2 frames)', 0, 33, 0xfff0d2],
   ['Anel do pulso', 0, 220, 0x3fd8ff],
-  ['Entrada de cor e emblema (escudo)', 0, 120, 0x3fd8ff],
   ['Fragmentos (GPU)', 0, 320, 0xc9a0ff],
   ['Marcador persistente', 120, 400, 0x8f8a82],
 ];
