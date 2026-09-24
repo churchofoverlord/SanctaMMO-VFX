@@ -474,7 +474,7 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){
-      float u = uTime - aT, life = aK < .5 ? .13 : (aK < 1.5 ? .55 : .28);
+      float u = uTime - aT, life = aK < .5 ? .2 : (aK < 1.5 ? .55 : .28);
       if (u < 0. || u > life){ ${HIDE} }
       vU = u; vK = aK;
       if (aK < .5 || aK > 1.5){
@@ -500,9 +500,19 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMa
         lum += ray*f*1.2 + exp(-r*r*60.)*f*1.4; hot += ray*f*.5 + exp(-r*r*200.)*f;
         lum *= smoothstep(.5, .42, r); hot *= smoothstep(.5, .42, r);
       } else if (vK < .5){
-        float t = vU/.13, L = .06 + .24*sqrt(t), f = 1. - t;
-        float d = min(seg(p, vec2(-L,0.), vec2(L,0.)), seg(p, vec2(0.,-L*.5), vec2(0.,L*.5)));
-        lum += exp(-pow(d/(.007 + .006*f), 2.))*f*1.2; hot += lcore(d, .003)*f*.8;
+        // splash: a soft burst + droplets thrown out radially, irregular lengths, thinning as they fly
+        float t = vU/.2, f = pow(1. - t, 1.4), r = length(p), a = atan(p.y, p.x);
+        float k = 1. - pow(1. - clamp(t/.6, 0., 1.), 3.);
+        lum += exp(-r*r*(90. + 400.*t))*f*1.3;                               // splat core
+        for (int j=0;j<9;j++){
+          float fj = float(j), h = fract(sin(fj*71.3)*4375.5), aj = fj*.698 + h*.5;
+          vec2 dir = vec2(cos(aj), sin(aj)); float Rj = (.12 + .2*h)*k;       // each droplet travels its own distance
+          vec2 q = p - dir*Rj; float sz = (.018 + .014*fract(h*7.))*(1. - .6*t);
+          float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x));
+          lum += exp(-(across*across)/(sz*sz) - (along*along)/(sz*sz*4.))*f;  // stretched along its motion
+        }
+        hot = lum*.5;
+        lum *= smoothstep(.4, .32, r); hot *= smoothstep(.4, .32, r);
       } else {
         // Slow: a thin ring settles inward (weight), three small chevrons point to the centre, then it fades
         float t = vU/.55, f = pow(1. - smoothstep(.45, 1., t), 1.5)*smoothstep(0., .08, t);
@@ -586,7 +596,7 @@ function stab(O, yaw, tier, t0, targets){                   // Torpor: fast soli
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
-  let k = hits.next(); hits.A.aO.setXYZ(k, E.x, E.y, E.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 0); hits.track(hitT + .15, 1);   // small impact star
+  let k = hits.next(); hits.A.aO.setXYZ(k, E.x, E.y, E.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 0); hits.track(hitT + .2, 1);   // small splash
   k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.track(hitT + RL, 1);
 }
 
@@ -661,7 +671,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Dardo sólido em voo (8 m: ~270 ms)', 100, 370, 0xf2b53a],
-  ['Impacto pequeno no alvo', 370, 520, 0xfff0d2],
+  ['Splash pequeno no alvo', 370, 570, 0xfff0d2],
   ['Anel de lentidão estático nos pés', 370, 1270, 0xff7a1a],
 ];
 const TOTAL = 1300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
