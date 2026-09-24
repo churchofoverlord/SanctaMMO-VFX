@@ -639,15 +639,15 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
     void main(){
       float s = vS.x, y = vS.y, t = vU;
       // flame texture flowing outward along the arm; the trailing edge (y > 0) tears into licks
-      float n1 = vn(vec2(s*3.5 - t*2.2, y*2. + t*.4)), n2 = vn(vec2(s*6. - t*3.5, y*4. - t*.8));   // low frequency along the arm: no grain
+      float n1 = vn(vec2(s*3.5 - t*2.2, y*2. + t*.4)), n2 = vn(vec2(s*5. - t*3., y*2.5 - t*.6));   // low frequency along the arm: no grain
       float n = n1*.65 + n2*.35;
       float yy = y + (n1 - .5)*.5;                                               // wavy, uneven width
       float body = exp(-yy*yy*(2.2 + 1.5*step(0., yy)));                         // leading edge firmer, trailing edge softer
-      float lick = smoothstep(.25, .8, n + .45*(1. - abs(yy)));                  // torn, flickering edges
-      float streak = vn(vec2(s*2.5 - t*1.8, yy*7. + n1*1.5))*.7 + vn(vec2(s*4. - t*2.6, yy*13.))*.3;   // long smooth filaments: stretched ALONG the arm
-      streak = smoothstep(.25, .8, streak);
-      float dens = body*lick*(.25 + .75*streak)*smoothstep(1., .72, s)*smoothstep(0., .08, s)*smoothstep(1., .82, abs(y));
-      float T = clamp((1. - .55*s)*(.2 + .8*body*streak)*(.85 + .3*n), 0., 1.);
+      float lick = smoothstep(.05, .95, n + .5*(1. - abs(yy)));                 // soft, cloudy edges (no hard tears)                  // torn, flickering edges
+      float streak = vn(vec2(s*2. - t*1.6, yy*3.5 + n1*1.2))*.7 + vn(vec2(s*3.5 - t*2.2, yy*6.))*.3;   // long smooth filaments: stretched ALONG the arm
+      streak = smoothstep(.05, .95, streak);                                    // wide, blurred bands instead of lines
+      float dens = body*lick*(.55 + .45*streak)*smoothstep(1., .72, s)*smoothstep(0., .08, s)*smoothstep(1., .82, abs(y));
+      float T = clamp((1. - .55*s)*(.4 + .6*body*mix(1., streak, .4))*(.9 + .2*n), 0., 1.);   // smooth colour transitions
       // saturated fire ramp (refs): smoke → deep red → strong orange → yellow-orange; pale yellow only in the hottest thin veins
       vec3 smoke = vec3(.012, .008, .006), red = vec3(.42, .025, .004), org = vec3(1., .22, .015), yel = vec3(1., .5, .06), wht = vec3(1., .8, .38);
       vec3 col = T < .25 ? mix(smoke, red, T/.25) : T < .55 ? mix(red, org, (T - .25)/.3) : T < .85 ? mix(org, yel, (T - .55)/.3) : mix(yel, wht, clamp((T - .85)/.3, 0., 1.));
