@@ -152,7 +152,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Círculo da tempestade</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão (R 6 m, ~6,5 s): anel exterior meio azul-ciano meio dourado, anel interior e 6 divisões radiais, rotação lenta, luz baixa e estável</td></tr>
           <tr><td>Telegraphs</td><td class="n">12</td><td class="n">12</td><td class="n">8</td><td class="n">6</td><td>0,6 s antes de cada impacto, um círculo pequeno (R 1 m) na cor do tipo enche-se até ao centro; azul = Ice, dourado = Lightning</td></tr>
           <tr><td>Impacto Lightning</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Raio do céu até ao chão (receita Coil) com ramificações, flash, faíscas e anel curto; burst extra só se o alvo já estava Sapped</td></tr>
-          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de estalactites de gelo sólidas (mesma malha do Iceberg, ponta para baixo) que caem da nuvem em 0,3 s, cravam-se no chão e afundam + anel de geada</td></tr>
+          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de espinhos de gelo afiados (malha do Iceberg afunilada até à ponta, ponta para baixo) que caem da nuvem em 0,3 s, cravam-se no chão e afundam + anel de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">5–6</td><td class="n">5–6</td><td class="n">5</td><td class="n">4</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -551,7 +551,7 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.Sh
       float br = du > 0. ? 1. - du/.16 : 1.;
       float k = clamp(u/.3, 0., 1.), rise = 1., fall = 1. - k*k;                 // Tempest: icicle falls from the cloud (ease-in)
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
-      vec3 p = position*vec3(aS.x, aS.y, aS.x); p.y = aS.y - p.y;   // flipped: point down
+      vec3 p = position*vec3(aS.x, aS.y, aS.x); p.xz *= pow(max(0., 1. - position.y*.97), .8); p.y = aS.y - p.y;   // tapered to a sharp point, flipped: point down (spike, not a cylinder)
       float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z);
       vec3 n = normal; n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
       float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little
@@ -807,7 +807,7 @@ function stab(O, yaw, tier, t0, targets){                   // Tempest: storm ci
       const nS = { 3:5, 2:5, 1:4, 0:3 }[tier];
       for (let e=0;e<nS;e++){ const a = e/nS*6.28 + rand(-.3, .3), rr = e === 0 ? 0 : rand(.25, .5), j = wall.next();
         wall.A.aO.setXYZ(j, px + Math.cos(a)*rr, 0, pz + Math.sin(a)*rr);
-        wall.A.aS.setXYZW(j, rand(.1, .16), e === 0 ? rand(1.2, 1.6) : rand(.6, 1.1), rand(0, 1.05), e === 0 ? .03 : rand(.08, .22));
+        wall.A.aS.setXYZW(j, rand(.14, .22), e === 0 ? rand(1.2, 1.6) : rand(.6, 1.1), rand(0, 1.05), e === 0 ? .03 : rand(.08, .22));
         wall.A.aD.setXYZW(j, rand(0, .06), a, Math.random(), 0); wall.A.aT.setX(j, tI - .3); if (wall.A.aX) wall.A.aX.setXY(j, 0, 0); nSp++; }
       k = rings.next(); rings.A.aO.setXYZ(k, px, 0, pz); rings.A.aT.setX(k, tI); rings.A.aK.setX(k, 10); rings.A.aD.setXYZW(k, 1.3, 0, 0, 0); rings.track(tI + 1, 1);
       if (targets) targets.forEach(d => { if (Math.hypot(d.p.x - px, d.p.z - pz) < 1.3) d.hitAt = tI; });
