@@ -447,6 +447,8 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
       float lum = body*(vAge < .26 ? peak : 1.) + ring + disk;
       vec3 hot = mix(col, vec3(1., .93, .9), .55);             // near-white core, stance-tinted halo
       vec3 outc = col*lum + hot*(core*.9 + ring*.25)*(vAge < .26 ? peak : 1.);
+      float S = vAge < .24 ? 1.45 : .98;
+      outc *= smoothstep(S, S*.78, r);                            // everything fades to zero before the quad's edge — no visible square
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc*1.1, 1.);
     }` }));

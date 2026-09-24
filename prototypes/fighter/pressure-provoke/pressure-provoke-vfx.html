@@ -446,6 +446,8 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
       float lum = body*(vAge < .26 ? peak : 1.) + ring + disk;
       vec3 hot = mix(col, vec3(1., .93, .9), .55);             // near-white core, stance-tinted halo
       vec3 outc = col*lum + hot*(core*.9 + ring*.25)*(vAge < .26 ? peak : 1.);
+      float S = vAge < .24 ? 1.45 : .98;
+      outc *= smoothstep(S, S*.78, r);                            // everything fades to zero before the quad's edge — no visible square
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc*1.1, 1.);
     }` }));
@@ -514,11 +516,16 @@ const tethers = pool(new THREE.PlaneGeometry(2,2,24,1), 96, { aA:3, aB:3, aT:1, 
       float n  = fbm(vec2(x*2.2 - dir*u*9., vY*14. + u*1.5));
       float n2 = fbm(vec2(x*5.  - dir*u*14., vY*26. - u*2.));
       float prof = pow(sin(3.14159*s), .5);
-      float w = (.03 + .05*prof)*(.75 + .5*n);                    // ragged, breathing edges
-      float yy = vY + (fbm(vec2(x*1.3 - dir*u*6., 4.2)) - .5)*.08; // the centre wanders — no fixed spine
-      float body = exp(-pow(abs(yy)/w, 3.2));                     // flat-topped profile: no bright centre line
-      float wisp = smoothstep(.25, .75, n2*.7 + fbm(vec2(x*3.3 - dir*u*11., yy*20. + 9.))*.5);
-      float dens = body*(.25 + .75*wisp)*prof;
+      // three loose wisps, each wandering and breaking up on its own — no band, no fixed centre
+      float dens = 0.;
+      for (int i=0;i<3;i++){
+        float fi = float(i);
+        float yy = vY + (fbm(vec2(x*1.1 - dir*u*6. + fi*5.3, fi*2.7)) - .5)*.16;
+        float w = (.012 + .03*prof)*(.7 + .6*fbm(vec2(x*2. - dir*u*8. + fi*3.1, fi + 1.)));
+        float brk = smoothstep(.3, .75, fbm(vec2(x*2.4 - dir*u*12. + fi*7.7, fi*4.3 + 2.)));
+        dens += exp(-pow(abs(yy)/w, 1.6))*brk*(.5 + .5*n2);
+      }
+      dens *= prof*.55;
       // resolution: denser puffs rush along the smoke
       float r = u - M, puff = 0.;
       if (r > 0.){

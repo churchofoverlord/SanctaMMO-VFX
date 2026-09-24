@@ -18,13 +18,14 @@
 - Lições do Severing Strike (aplicar por defeito):
   - Menos brilho: a forma principal vale por si. Sem halos largos, preenchimentos ou fios decorativos à volta; bloom contido. Brilho forte só no núcleo estreito.
   - Perfil das formas: fino nas pontas, grosso no meio (tipo `sin(πs)`), com o centro reforçado. Fades das pontas em curva (`pow(sin, <1)`), nunca lineares.
+  - Todo o brilho de um quad tem de chegar a zero antes da borda do quad (fade radial pela meia-largura); senão o `discard` recorta a luz e vê-se um quadrado.
   - Máscaras sempre suaves: nada de `discard` ou cortes duros nos limites (criam linhas retas no chão).
   - Leitura do movimento: cresce no sentido da ação → segura no tamanho máximo → apaga a partir da origem; a parte mais importante (o centro) desaparece por último. Não encurtar demasiado: a forma principal fica ~0,5–0,7 s.
   - A animação do corpo (torção, preparação) tem de ir no mesmo sentido do VFX.
   - Quads construídos à mão no vertex shader: usar `side: DoubleSide` (a orientação dos triângulos pode ficar invertida e o quad desaparece).
   - Rastos/efeitos presos ao corpo seguem a silhueta da personagem (mais alta que larga) e fundem-se nela com fade suave — nunca terminam num corte ou numa ponta cónica junto ao corpo (lê-se como escape de míssil).
   - Faixas presas ao corpo ficam verticais (orientação dominada pelo eixo Y, só ligeiramente viradas para a câmara): altas de lado, estreitas vistas de cima. Nunca billboard total, que de cima fica deitado e largo.
-  - Fumo/névoa: perfil achatado (expoente ≥3) e centro deslocado por ruído — um perfil gaussiano simétrico cria uma "espinha" brilhante fixa no meio.
+  - Fumo/névoa: vários fiapos finos independentes, cada um a ondular e a interromper-se com ruído — uma faixa única (gaussiana ou achatada) lê-se sempre como barra/linha ao meio.
   - Enquadrar a câmara do protótipo para a leitura da skill (linhas e investidas lêem-se de lado/3/4, não de trás).
 - Skill ≠ status: o VFX da skill cobre só o cast/impacto. Estados resultantes (Shield, heal-over-time, buffs, debuffs, CC persistente) são cues de status próprios (`GameplayCue.Status.*`, Looping), partilhados por todas as fontes — não os animar no protótipo da skill. Isto inclui marcadores de aplicação nos alvos (Silence, Taunt, Slow, etc.): a skill mostra o próprio golpe/pulso e o impacto; o que indica o estado no alvo é do cue de status.
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
