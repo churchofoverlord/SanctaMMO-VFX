@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Fio (tether)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma fita fina entre o socket da arma e o alvo, virada para a câmara em torno do eixo; pulsos por shader (equivalente a UV panning)</td></tr>
+          <tr><td>Fio (tether)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma fita de fumo rápido entre o socket da arma e o alvo, virada para a câmara em torno do eixo; densidade arrastada ao longo do fio (equivalente a UV panning)</td></tr>
           <tr><td>Contacto no alvo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Anel pequeno e leve quando o primeiro pulso chega</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Partilhadas por todos os Fighters; 0 partículas</td></tr>
         </tbody>
@@ -157,8 +157,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um fio, dois extremos</h3><p>O fio nasce ao mesmo tempo na arma e no alvo e encontra-se a meio; fino, de alto contraste e com curva mínima. Apaga do lado do Fighter, e o lado do alvo desaparece por último.</p></div>
-    <div><h3>Mesmo percurso, pulso diferente</h3><p>Pressure: três traços rápidos e duros correm para o alvo. Provoke: uma onda contínua corre do alvo de volta para o Tank — ameaça constante. Espessura e percurso iguais.</p></div>
+    <div><h3>Um fio, dois extremos</h3><p>O fio de fumo nasce ao mesmo tempo na arma e no alvo e encontra-se a meio; ténue, rápido e com curva mínima. Apaga do lado do Fighter, e o lado do alvo desaparece por último.</p></div>
+    <div><h3>Mesmo percurso, pulso diferente</h3><p>Pressure: o fumo corre para o alvo com três golfadas rápidas. Provoke: o fumo corre do alvo de volta para o Tank em onda contínua — ameaça constante. Espessura e percurso iguais.</p></div>
     <div><h3>Skill ≠ status</h3><p>O Hindered e o Taunt no alvo são VFX dos cues de status; aqui o alvo só reage (empurrado ou puxado).</p></div>
   </section>
 </div>
@@ -483,45 +483,47 @@ const FORM = [ { name:'Pressure', css:'#ff3d7f' }, { name:'Provoke', css:'#3fd8f
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 const WIND = .1, MEET = .09, LIFE = .95;              // wind-up, both ends meet in the middle, total tether life (s)
 
-// Layer 1 — the tether: one thin ribbon from the weapon socket to the target, turned to the camera around its axis
+// Layer 1 — the tether: one soft ribbon of fast-moving smoke from the weapon socket to the target,
+// turned to the camera around its axis. Density is advected along the line (the equivalent of UV panning).
 const tethers = pool(new THREE.PlaneGeometry(2,2,24,1), 96, { aA:3, aB:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uCW, uCT },
-  vertexShader:`attribute vec3 aA, aB; attribute float aT, aK; uniform float uTime; varying float vS, vY, vU, vK;
+  vertexShader:`attribute vec3 aA, aB; attribute float aT, aK; uniform float uTime; varying float vS, vY, vU, vK, vL;
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > ${LIFE.toFixed(2)}){ ${HIDE} }
-      float s = position.x*.5 + .5, W = .07;
+      float s = position.x*.5 + .5, W = .16;
       vec3 d = aB - aA, t = normalize(d);
       vec3 P = aA + d*s + vec3(0., -.1*4.*s*(1. - s), 0.);       // minimal sag
       vec3 side = normalize(cross(t, P - cameraPosition));
-      vS = s; vY = position.y*W; vU = u; vK = aK;
+      vS = s; vY = position.y*W; vU = u; vK = aK; vL = length(d);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uCW, uCT; varying float vS, vY, vU, vK; ${STROKE}
+  fragmentShader:`uniform vec3 uCW, uCT; varying float vS, vY, vU, vK, vL;
+    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }
+    float fbm(vec2 p){ return .55*vn(p) + .3*vn(p*2.1 + 3.7) + .15*vn(p*4.3 + 7.1); }
     void main(){
       float s = vS, u = vU, M = ${MEET.toFixed(2)};
       vec3 col = mix(uCW, uCT, vK);
-      // 1) grows from both ends and meets in the middle
-      float g = (1. - pow(1. - clamp(u/M, 0., 1.), 2.))*.5;
-      float grown = max(smoothstep(g + .01, g - .02, s), smoothstep(1. - g - .01, 1. - g + .02, s));
-      // 3) fades from the Fighter's end toward the target; the target end goes last
-      float wipe = max(u - .55, 0.)/.3;
-      float alive = grown*smoothstep(wipe - .06, wipe + .18, s);
-      float prof = pow(sin(3.14159*s), .35);                     // thin line, a touch finer at the two sockets
-      float w = (.004 + .007*prof), d = abs(vY);
-      float line = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
-      // 2) resolution pulses travel the line
-      float pulse = 0., r = u - M;
+      float g = (1. - pow(1. - clamp(u/M, 0., 1.), 2.))*.5;       // forms from both ends and meets in the middle
+      float grown = max(smoothstep(g + .04, g - .06, s), smoothstep(1. - g - .04, 1. - g + .06, s));
+      float wipe = max(u - .55, 0.)/.3;                           // clears from the Fighter's end; the target end goes last
+      float alive = grown*smoothstep(wipe - .1, wipe + .25, s);
+      // smoke drifts fast along the line: toward the target (Pressure) or back toward the Tank (Provoke)
+      float dir = vK < .5 ? 1. : -1., x = s*vL;
+      float n  = fbm(vec2(x*2.2 - dir*u*9., vY*14. + u*1.5));
+      float n2 = fbm(vec2(x*5.  - dir*u*14., vY*26. - u*2.));
+      float prof = pow(sin(3.14159*s), .5);
+      float w = (.025 + .045*prof)*(.7 + .6*n);                   // ragged, breathing edges
+      float dens = exp(-pow(abs(vY)/w, 2.))*(.35 + .9*n2)*prof;
+      // resolution: denser puffs rush along the smoke
+      float r = u - M, puff = 0.;
       if (r > 0.){
-        if (vK < .5){                                            // Pressure: three fast, hard dashes toward the target
-          for (int i=0;i<3;i++){ float h = (r - float(i)*.06)*3.6; pulse += exp(-pow((s - h)/.05, 2.))*step(0., h)*step(h, 1.05); }
-        } else {                                                 // Provoke: a steady wave flowing from the target back to the Tank
-          pulse = (.5 + .5*sin((s + r*2.2)*22.))*smoothstep(0., .08, r)*(1. - smoothstep(.35, .5, r))*.8;
-        }
+        if (vK < .5){ for (int i=0;i<3;i++){ float h = (r - float(i)*.06)*3.6; puff += exp(-pow((s - h)/.08, 2.))*step(0., h)*step(h, 1.08); } }
+        else puff = (.5 + .5*sin((s + r*2.2)*18.))*smoothstep(0., .08, r)*(1. - smoothstep(.35, .5, r))*.7;
       }
-      float ends = exp(-pow(s/.03, 2.)) + exp(-pow((1. - s)/.03, 2.));
-      float peak = r > 0. && r < .033 ? 1.3 : 1.;
-      float lum = (line*(.7 + 1.4*pulse) + ends*line*.6)*alive*peak;
-      vec3 outc = col*lum + mix(col, vec3(1., .96, .95), .6)*core*(.4 + 1.2*pulse)*alive;
+      vec3 smoke = mix(col, vec3(.55, .55, .6), .35);             // tinted, slightly greyed smoke — not a light beam
+      vec3 outc = smoke*dens*(.28 + .55*puff)*alive;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
@@ -541,7 +543,7 @@ const hits = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMa
       vec2 p = vP; float r = length(p), t = vU/.16, f = pow(1. - t, 1.6);
       float R = .03 + .22*(1. - pow(1. - t, 3.)), w = .006 + .008*(1. - t);
       vec3 col = mix(uCW, uCT, vK);
-      float lum = exp(-pow(abs(r - R)/w, 2.4))*f*.8 + exp(-r*r*300.)*f*.8;
+      float lum = exp(-pow(abs(r - R)/w, 2.4))*f*.45 + exp(-r*r*300.)*f*.4;
       vec3 outc = col*lum + mix(col, vec3(1.), .6)*lcore(r - R, w*.35)*f*.4;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
