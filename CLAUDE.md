@@ -39,6 +39,7 @@
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
 - Pools instanciados: inicializar TODOS os componentes de `aT` com -1e5 (slots por usar têm de estar "mortos"), senão aparecem instâncias fantasma no arranque.
 - Evitar: PMREM/env maps (satura os metais neste setup), sprites individuais por partícula, luz dinâmica fora de Epic.
+- Volumes (nuvem, névoa, fumo) em sprites grandes: nunca deixar a câmara ficar dentro da camada; no shader, esconder sprites a < ~2,5 m da câmara, desvanecer até ~6 m e limitar o tamanho no ecrã (senão o overdraw em ecrã cheio bloqueia a GPU — aconteceu no Tempest).
 - Iterações antigas vão para `archive/`.
 - Teste no painel do browser: se o painel estiver escondido o `requestAnimationFrame` não corre (o tempo da simulação para); cada screenshot força frames, por isso usar screenshots para avançar a animação.
 - Hook de teste nos protótipos: `window.__freezeAt = <segundos>` congela a animação nesse instante do cast local (útil para capturar um momento exato).
