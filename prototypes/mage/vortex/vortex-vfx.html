@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Disco (tipo shuriken)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad por cast, deitado na horizontal (como um shuriken lançado) e a oscilar uns graus, raio 0,95 m: 4 lâminas de fogo largas e curvas, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
+          <tr><td>Disco (tipo shuriken)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>3 quads empilhados por cast (dão espessura aos braços), deitados na horizontal e a oscilar pouco, raio 1,43 m: 8 braços de fogo largos e curvos, anel de riscos e textura de chama, tudo a rodar no shader; 7 m/s (lento, dura mais)</td></tr>
           <tr><td>Núcleo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Esfera de fogo quente no centro do disco (billboard)</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Disco de fogo a girar</h3><p>Ao estilo de um Rasenshuriken, mas de fogo: uma esfera quente ao centro e um disco largo que viaja deitado na horizontal, com um ligeiro desvio e oscilação, com 4 lâminas curvas e um anel de riscos a rodar muito depressa. A rotação é apresentação; a trajetória é linear, sem rasto longo.</p></div>
+    <div><h3>Disco de fogo a girar</h3><p>Ao estilo de um Rasenshuriken, mas de fogo: uma esfera quente ao centro e um disco largo que viaja deitado na horizontal, com um desvio e oscilação muito ligeiros, com 8 braços de fogo com espessura curvas e um anel de riscos a rodar muito depressa. A rotação é apresentação; a trajetória é linear, sem rasto longo.</p></div>
     <div><h3>Empurrão lateral claro</h3><p>No impacto, o fogo rebenta no peito e o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
     <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
@@ -431,14 +431,14 @@ const V = 7;                                         // vortex speed (m/s): larg
 // flat, near-linear flight with a gentle weave: small sideways sway + a slight bob, zero at both ends (leaves the hand, hits the chest)
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){
     vec3 d = b - a; vec3 side = normalize(cross(d, vec3(0., 1., 0.))); float e = sin(3.14159*f);
-    return mix(a, b, f) + side*.22*sin(f*9.)*e + vec3(0., .07*sin(f*13. + 1.), 0.)*e; }`;
+    return mix(a, b, f) + side*.11*sin(f*9.)*e + vec3(0., .035*sin(f*13. + 1.), 0.)*e; }`;
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .32;
+      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .48;
       float c = cos(u*6.), s = sin(u*6.); vec2 q = mat2(c, -s, s, c)*position.xy;       // corona churns
       mv.xy += q*S*1.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
@@ -474,10 +474,10 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // Layer 1b — the vortex, shuriken-style (like a Rasenshuriken, in fire): a wide spinning disc lying almost flat around the flight
 // axis — 4 swept flame blades, a ring of fast streaks and a hot core ball in the middle (the core is the orb billboard).
 // ONE instanced quad per cast; the GPU spins it from age; CPU writes start/end/time only.
-const VR = .95;
+const VR = 1.43;
 const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
+  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vL; ${ARC}
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
@@ -485,23 +485,25 @@ const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 
       // disc faces between the camera and the sky: always reads as a full spinning disc, with a slight 3D lean
       // travels flat (horizontal disc, like a thrown shuriken) and wobbles: the plane rocks a few degrees on both axes
       vec3 C = arcAt(aO, aE, u/tt);
-      vec3 n = normalize(vec3(0., 1., 0.) + sd*.16*sin(u*5.2) + d*.1*sin(u*3.7 + 1.));
+      vec3 n = normalize(vec3(0., 1., 0.) + sd*.07*sin(u*5.2) + d*.045*sin(u*3.7 + 1.));
       vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
       float grow = 1. - pow(1. - clamp(u/.12, 0., 1.), 3.);
-      vec3 P = C + (e1*position.x + e2*position.y)*${VR}*grow;
+      float ly = aK - 1.;                                                       // layers -1 · 0 · +1: give the arms body/thickness
+      vec3 P = C + n*ly*.07*grow + (e1*position.x + e2*position.y)*${VR}*grow*(1. - .06*abs(ly));
+      vL = ly;
       vP = position.xy; vU = u;
       gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
+  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vL;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
     void main(){
-      float r = length(vP), a0 = atan(vP.y, vP.x), spin = vU*16.;
+      float r = length(vP), a0 = atan(vP.y, vP.x) + vL*.06, spin = vU*16.;
       // turbulent flame: the angle itself is warped by noise so blade edges tear into licks of fire
       float w1 = vn(vec2(a0*3. - spin*.6, r*6. - vU*9.)), w2 = vn(vec2(a0*9. - spin*1.1, r*17. - vU*14.));
       float a = a0 + (w1 - .5)*.5*r;
-      float ph = 4.*(a + 1.9*r) - spin, c = cos(ph);
+      float ph = 8.*(a + 1.9*r) - spin*2., c = cos(ph);                 // 8 swept arms
       float env = smoothstep(.08, .2, r)*(1. - smoothstep(.65, .98, r));
       float blade = smoothstep(.1 + .45*r, .9, c)*env*smoothstep(.2, .55, w2 + .35*(1. - r));   // broad blades, ragged flame edges
       float edge = exp(-pow((mod(ph + 3.14159, 6.28318) - 3.14159 + .35)/.14, 2.))*env*w2;
@@ -512,7 +514,7 @@ const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 
       vec3 deep = vec3(.45, .02, .0), red = uOrange, org = vec3(1., .28, .02), yel = vec3(1., .62, .12);
       float t = clamp(heat*.75, 0., 1.);
       vec3 col = t < .4 ? mix(deep, red, t/.4) : (t < .75 ? mix(red, org, (t - .4)/.35) : mix(org, yel, (t - .75)/.25));
-      vec3 o = col*heat*1.15;
+      vec3 o = col*heat*1.15*(vL == 0. ? .75 : .5);                          // 3 stacked layers add up: each a bit dimmer
       o *= (1. - smoothstep(.85, 1., r));                                      // zero before the quad edge
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
@@ -685,7 +687,8 @@ function stab(O, yaw, tier, t0, targets){                   // Vortex: spirallin
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
   const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
   let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
-  { const j = helix.next(); helix.A.aO.setXYZ(j, H.x, H.y, H.z); helix.A.aE.setXYZ(j, E.x, E.y, E.z); helix.A.aT.setX(j, t0); helix.A.aK.setX(j, 0); helix.track(hitT, 1); }   // one spinning disc
+  for (let ly=0;ly<3;ly++){ const j = helix.next(); helix.A.aO.setXYZ(j, H.x, H.y, H.z); helix.A.aE.setXYZ(j, E.x, E.y, E.z); helix.A.aT.setX(j, t0); helix.A.aK.setX(j, ly); }
+  helix.track(hitT, 3);   // one spinning disc, 3 stacked layers for thickness
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
