@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do cast</span><span>0 — 900 ms</span></div>
+    <div class="tl-head"><span>Timing do cast</span><span>0 — 950 ms</span></div>
   </div>
 
   <section class="budget">
@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Respiração + halo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad horizontal à altura do peito: anel que converge (ease-in) e halo de dois arcos, tudo no shader</td></tr>
+          <tr><td>Brisa</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad vertical por cima da cabeça (virado à câmara só em Y): três fiapos finos que sobem e se dissipam, tudo no shader</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Partilhada por todos os Fighters; 0 partículas</td></tr>
         </tbody>
       </table>
@@ -149,8 +149,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Uma respiração</h3><p>Um anel denso fecha-se sobre o tronco em ease-in (260 ms) — o Fighter puxa o ar. Sem espirais, sem partículas a subir, sem rodopios.</p></div>
-    <div><h3>Ressalto e halo</h3><p>No ressalto o anel fecha-se por 2 frames e abre ligeiramente num halo estático: dois arcos laterais, finos à frente e atrás, cheios dos lados. Dura ~0,35 s e desvanece.</p></div>
+    <div><h3>Uma brisa</h3><p>Três fiapos finos saem do topo da cabeça e sobem ~1 m, ondulando levemente — o fôlego a regressar. Pequena, ténue e curta (~0,95 s).</p></div>
+    <div><h3>Sobe e dissipa</h3><p>A brisa cresce para cima e depois dissipa-se a partir da cabeça; o topo é o último a desaparecer. Sem anéis, sem brilhos, sem rodopios.</p></div>
     <div><h3>Skill ≠ status</h3><p>A cura em si (números, barra de vida) é UI; qualquer regeneração contínua pertence ao cue de status. Aqui só o momento do cast.</p></div>
   </section>
 </div>
@@ -411,45 +411,41 @@ const ptsScale = { value:600 };
 
 // ============ Second Wind ============
 const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) };
-const CONV = .26;                                    // converge (ease-in) duration (s)
+const LIFE = .95;                                    // breeze life (s)
 
-// One horizontal quad at chest height per cast: a dense ring draws in to the torso (a deep breath),
-// then rebounds into a short, static halo — two side arcs, thin at the ends, full in the middle. No spin.
-const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, addMat({
+// One upright quad above the head per cast (turns to the camera around Y only): a small, light breeze —
+// three thin wisps leave the head and rise, drifting and thinning; the base clears first. No rings, no sparkle.
+const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying vec2 vP; varying float vU;
+  vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;
     void main(){
-      float u = uTime - aT; if (u < 0. || u > ${(CONV+.62).toFixed(2)}){ ${HIDE} }
-      float S = 1.4; vec2 l = position.xy*S;
-      float c = cos(aYaw), s = sin(aYaw);
-      vP = vec2(l.x, l.y); vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(c*l.x - s*l.y, 1.2, -(s*l.x + c*l.y)), 1.);
+      float u = uTime - aT; if (u < 0. || u > ${LIFE.toFixed(2)}){ ${HIDE} }
+      vec3 base = aO + vec3(0., 1.78, 0.);                        // top of the head
+      vec3 toCam = cameraPosition - base; toCam.y = 0.; vec3 side = normalize(vec3(-toCam.z, 0., toCam.x) + 1e-4);
+      float Wd = .32, H = .95, t = position.y*.5 + .5;
+      vQ = vec2(position.x*Wd, t*H); vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(base + side*position.x*Wd + vec3(0., t*H, 0.), 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
-    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }
-    float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }
+  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vU;
+    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }
     void main(){
-      vec2 p = vP; float r = length(p), a = abs(atan(p.x, p.y)), T = ${CONV.toFixed(2)};
-      float lum = 0., hot = 0.;
-      if (vU < T){
-        // converge: full ring draws in with ease-in, getting denser as it tightens
-        float t = vU/T, e = t*t, R = mix(1.3, .5, e);
-        float w = mix(.01, .032, e);
-        float ring = exp(-pow(abs(r - R)/w, 2.4));
-        lum += ring*(.3 + .8*e); hot += lcore(r - R, w*.3)*e*.5;
-      } else {
-        // rebound: a short snap outward, then a clean static halo of two side arcs (the icon's wrap)
-        float u = vU - T, R = .5 + .16*eox(clamp(u/.08, 0., 1.));   // halo sits just outside the shoulders
-        float side = clamp((a - .35)/2.45, 0., 1.), prof = pow(sin(3.14159*side), .9);   // thin toward front/back, full at the sides
-        float w = (.006 + .03*prof)*(1. - .35*smoothstep(.1, .55, u));
-        float hold = 1. - smoothstep(.34, .6, u);
-        float arc = exp(-pow(abs(r - R)/w, 2.4))*pow(prof, .75)*hold;
-        float peak = u < .033 ? 1.4 : 1.;
-        lum += arc*.95*peak; hot += lcore(r - R, w*.3)*prof*hold*.6*peak;
-        lum += exp(-pow(abs(r - R)/.02, 2.))*(u < .033 ? .6 : 0.);          // the rebound itself closes the ring for 2 frames
+      float x = vQ.x, y = vQ.y, u = vU, H = .95;
+      float rise = (1. - pow(1. - clamp(u/.45, 0., 1.), 2.))*H;   // the breeze climbs out of the head
+      float clear = max(u - .35, 0.)/.5*H;                         // then the base clears first, the top goes last
+      float d = 0.;
+      for (int i=0;i<3;i++){
+        float fi = float(i);
+        float cx = (fi - 1.)*(.03 + .09*y) + sin(y*5. - u*3. + fi*2.1)*.05*(.3 + y) + (vn(vec2(y*4. - u*2., fi*3.)) - .5)*.08*y;   // wisps fan out as they rise
+        float w = .012 + .055*y;                                   // thin at the head, soft and airy as it rises
+        float brk = smoothstep(.25, .7, vn(vec2(y*5. - u*4. + fi*5.7, fi)));
+        d += exp(-pow(abs(x - cx)/w, 1.4))*brk*(.7 + .3*fi/2.);
       }
-      lum *= smoothstep(1.4, 1.2, r);                                        // fade before the quad edge
-      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;
+      float mask = smoothstep(rise + .02, rise - .12, y)*smoothstep(clear - .05, clear + .2, y);
+      float fade = (1. - smoothstep(.65, ${LIFE.toFixed(2)}, u))*smoothstep(0., .06, y)*(1. - smoothstep(.7, .95, y/H));
+      float k = d*mask*fade*(1. - .55*y/H)*.3;                     // small and light
+      vec3 outc = mix(uGold, vec3(1., .97, .92), .55)*k;           // pale warm air, not flame
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
@@ -458,9 +454,9 @@ const breaths = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, a
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function secondWind(O, yaw, tier, t0){
-  const i = breaths.next(); breaths.A.aO.setXYZ(i, O.x, 0, O.z); breaths.A.aYaw.setX(i, yaw); breaths.A.aT.setX(i, t0);
-  breaths.track(t0 + CONV + .62, 1);
-  castLog.push(t0 + CONV + .62);
+  const i = breaths.next(); breaths.A.aO.setXYZ(i, O.x, 0, O.z); breaths.A.aT.setX(i, t0);
+  breaths.track(t0 + LIFE, 1);
+  castLog.push(t0 + LIFE);
 }
 
 // ============ post ============
@@ -512,12 +508,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Anel converge para o tronco (ease-in)', 0, 260, 0xf2b53a],
-  ['Ressalto · anel fecha (2 frames)', 260, 293, 0xffffff],
-  ['Halo estático (dois arcos)', 260, 600, 0xff7a1a],
-  ['Halo desvanece', 600, 880, 0x8f8a82],
+  ['Brisa sai da cabeça e sobe', 0, 450, 0xf2b53a],
+  ['Base dissipa primeiro', 350, 850, 0xff7a1a],
+  ['Topo desaparece por último', 650, 950, 0x8f8a82],
 ];
-const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 950, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -579,10 +574,10 @@ function frame(now){
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: the Fighter draws breath (rises, chest opens) and exhales on the rebound
-  let br = 0, tw = 0;
-  if (dtc >= 0 && dtc < CONV){ const a = dtc/CONV; br = a*a; }
-  else if (dtc >= CONV && dtc < CONV + .5){ br = 1 - easeOutCubic((dtc - CONV)/.5); }
-  body.scale.set(1 + .03*br, 1 + .015*br, 1 + .03*br); body.rotation.x = .06*br; body.position.y = Math.sin(time*1.8)*.006 + .02*br;
+  let br = 0, tw = 0;                                          // a small exhale: chest settles, head lifts slightly
+  if (dtc >= 0 && dtc < .15){ br = dtc/.15; }
+  else if (dtc >= .15 && dtc < .7){ br = 1 - easeOutCubic((dtc - .15)/.55); }
+  body.scale.set(1, 1 + .012*br, 1); body.rotation.x = -.05*br; body.position.y = Math.sin(time*1.8)*.006 + .01*br;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
       P[i] = bx*(1 + v*.22) - tw*vv*.25; P[i+1] = by;
@@ -594,7 +589,7 @@ function frame(now){
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, 1.0, -.2);
+  camera.lookAt(0, 1.5, -.2);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
