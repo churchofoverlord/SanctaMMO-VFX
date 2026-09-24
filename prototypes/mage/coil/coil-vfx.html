@@ -476,7 +476,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; attribute vec4 aP; uniform float uTime; varying float vS, vY, vF, vFl;
     float h1(float x){ return fract(sin(x*127.1)*43758.5); }
-    float jag(float s, float st, float k){ float x = s*k, i = floor(x); return mix(h1(i + st), h1(i + 1. + st), fract(x)) - .5; }
+    float jag(float s, float st, float k){ float x = s*k, i = floor(x); return mix(h1(mod(i, k) + st), h1(mod(i + 1., k) + st), fract(x)) - .5; }   // periodic in s: the coil closes without a step
     vec3 at(float s, float st, float u){
       if (aK < .5){
         float a = s*6.28318*aP.w + aP.z*6.28 + u*2.5*aP.w, R = aP.y*(1. + .08*jag(s, st, 26.));
