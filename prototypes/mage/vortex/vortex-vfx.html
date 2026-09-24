@@ -591,6 +591,7 @@ const fireMat = new THREE.ShaderMaterial({
       float n = vn(p*3.2 + vec2(0., -t*2.4) + vSeed*3.)*.65 + vn(p*6.5 + vec2(0., -t*3.5))*.35;
       float dens = smoothstep(1., .15, d)*smoothstep(.15, .6, n + (1. - d)*.55);
       dens *= smoothstep(1., .75, vAge)*smoothstep(0., .06, vAge);
+      dens *= smoothstep(1., .7, length(q))*smoothstep(1., .85, max(abs(q.x), abs(q.y)));   // reach zero before the quad edge (no visible rotated square)
       // temperature ramp: white-yellow core → orange → deep red → dark smoke
       float T = clamp(vHeat*(.4 + .5*(1. - d))*(.8 + .4*n), 0., 1.05);
       // saturated fire ramp (refs): smoke → deep red → strong orange → yellow-orange; pale yellow only in the hottest thin veins
@@ -614,7 +615,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
   uniforms:{ uTime },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; attribute vec2 aP; uniform float uTime; varying vec2 vS; varying float vU; ${ARC}
     vec3 armAt(float s, vec3 C, vec3 e1, vec3 e2, vec3 n, float spin, float grow){
-      float r = mix(.16, 1., s)*${VR}, a = aP.x*6.28318 + spin/6. - 2.5*r/${VR};
+      float r = mix(.06, 1., s)*${VR}, a = aP.x*6.28318 + spin/6. - 2.5*r/${VR};   // roots start inside the ball
       return C + (e1*cos(a) + e2*sin(a))*r*grow + n*.06*s*s;
     }
     void main(){
@@ -628,7 +629,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       float s = position.x + .5;
       vec3 P = armAt(s, C, e1, e2, n, spin, grow), T = normalize(armAt(min(s + .02, 1.), C, e1, e2, n, spin, grow) - armAt(max(s - .02, 0.), C, e1, e2, n, spin, grow));
       vec3 side = normalize(cross(n, T));                                       // width lies in the disc plane
-      float w = ${VR}*(.3 - .23*pow(s, .7))*grow;                                // thick at the base, narrow tip
+      float w = ${VR}*(.3 - .23*pow(s, .7))*(.25 + .75*smoothstep(0., .2, s))*grow;   // thick at the base, narrow tip; root pinches in (no straight cut)
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*2.*w, 1.);
       vS = vec2(s, position.y*2.); vU = u + aP.y*7.;
     }`,
@@ -646,7 +647,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       float lick = smoothstep(.05, .95, n + .5*(1. - abs(yy)));                 // soft, cloudy edges (no hard tears)                  // torn, flickering edges
       float streak = vn(vec2(s*2. - t*1.6, yy*3.5 + n1*1.2))*.7 + vn(vec2(s*3.5 - t*2.2, yy*6.))*.3;   // long smooth filaments: stretched ALONG the arm
       streak = smoothstep(.05, .95, streak);                                    // wide, blurred bands instead of lines
-      float dens = body*lick*(.55 + .45*streak)*smoothstep(1., .72, s)*smoothstep(0., .08, s)*smoothstep(1., .82, abs(y));
+      float dens = body*lick*(.55 + .45*streak)*smoothstep(1., .72, s)*smoothstep(.02, .22, s)*smoothstep(1., .82, abs(y));
       float T = clamp((1. - .55*s)*(.4 + .6*body*mix(1., streak, .4))*(.9 + .2*n), 0., 1.);   // smooth colour transitions
       // saturated fire ramp (refs): smoke → deep red → strong orange → yellow-orange; pale yellow only in the hottest thin veins
       vec3 smoke = vec3(.012, .008, .006), red = vec3(.42, .025, .004), org = vec3(1., .22, .015), yel = vec3(1., .5, .06), wht = vec3(1., .8, .38);
@@ -654,9 +655,9 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       float emit = T < .25 ? .08 : 1.15*T;
       float alpha = dens*mix(.3, .06, clamp(T/.6, 0., 1.));                     // mostly see-through: dark shows between the filaments
       // the arm root takes the ball's outer colour (orange-red corona) and blends into the arm's own ramp as it leaves the ball
-      float root = 1. - smoothstep(.05, .38, s);
+      float root = 1. - smoothstep(.15, .45, s);
       col = mix(col, vec3(1., .16, .02), root*.85); emit = mix(emit, .75, root*.6);
-      float glow = exp(-y*y*2.5)*smoothstep(1., .55, s)*smoothstep(0., .1, s)*smoothstep(1., .85, abs(y))*(1. - .5*s);   // soft glow hugging the arm
+      float glow = exp(-y*y*2.5)*smoothstep(1., .55, s)*smoothstep(.04, .26, s)*smoothstep(1., .85, abs(y))*(1. - .5*s);   // soft glow hugging the arm
       vec3 g = mix(vec3(1., .22, .02), vec3(1., .45, .06), 1. - s)*glow*.3;
       if (dens < .003 && glow < .003){ discard; }
       gl_FragColor = vec4(col*emit*dens + g, alpha);
