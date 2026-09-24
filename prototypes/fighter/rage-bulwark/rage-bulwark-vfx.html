@@ -129,7 +129,6 @@ tr:last-child td{border-bottom:0}
         <dl class="stats">
           <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
           <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
-          <dt>Cascas (Shield) ativas</dt><dd class="vfx" id="sShell">0</dd>
           <dt>Casts a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
           <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
           <div class="sep"></div>
@@ -151,17 +150,16 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Convergência + impacto + emblema</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um sistema de quads: espiral (ease-in) e pulso deitados no chão aos pés; cruz/escudo em linha no peito. Tudo no shader</td></tr>
-          <tr><td>Casca do Bulwark</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha única, alpha blend: fresnel + linhas finas; fecha de baixo para cima e dissolve no fim do Shield</td></tr>
-          <tr><td>Partículas</td><td class="n">8 + 10</td><td class="n">8 + 10</td><td class="n">4 + 5</td><td class="n">0</td><td>GPU: convergência + motas de cura (Rage) ou brilhos na casca (Bulwark)</td></tr>
-          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters; a casca persistente custa 0 partículas</td></tr>
+          <tr><td>Partículas</td><td class="n">8 + 10</td><td class="n">8 + 10</td><td class="n">4 + 5</td><td class="n">0</td><td>GPU: convergência + motas de cura (Rage) ou lascas de luz a abrir do peito (Bulwark)</td></tr>
+          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral varrem o chão e convergem para os pés em ease-in. Só o final muda — pulso de cura com a cruz do ícone, ou casca com o escudo.</p></div>
-    <div><h3>Casca legível</h3><p>O Shield é quase transparente: só o contorno (fresnel) e linhas muito finas brilham, para o corpo e o combate continuarem legíveis durante toda a duração.</p></div>
+    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral varrem o chão e convergem para os pés em ease-in. Só o final muda — dois pulsos de cura com a cruz do ícone, ou um pulso firme com o escudo.</p></div>
+    <div><h3>Skill ≠ status</h3><p>Esta página mostra só o cast. A cura e o Shield resultantes têm os seus próprios cues de status (<code>GameplayCue.Status.*</code>), partilhados por todas as fontes — a casca persistente do Shield vive lá, não aqui.</p></div>
     <div><h3>Contexto</h3><p>O marcador nos pés é o da Warrior / Tank Stance (skill anterior) e não conta no custo desta skill. O Momentum na UI esvazia no cast.</p></div>
   </section>
 </div>
@@ -484,7 +482,6 @@ const ptsScale = { value:600 };
 const RB = [ { name:'Rage', css:'#ff2d5f', col:lin(0xff2d5f) }, { name:'Bulwark', css:'#3fd8ff', col:lin(0x3fd8ff) } ];
 const uCR = { value:RB[0].col }, uCB = { value:RB[1].col };
 const TC = .26;                                   // converge (anticipation) duration, ease-in
-const SHIELD = 4;                                 // demo Shield duration (s)
 const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 
@@ -550,34 +547,6 @@ const cores = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aM:1 }
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer B — Bulwark shell: one slot per Fighter, alpha blend, fresnel rim + hairline facets
-const shellGeo = (() => { const g = new THREE.IcosahedronGeometry(1, 3), n = g.attributes.position.count, b = new Float32Array(n*3);
-  for (let i=0;i<n;i++) b[i*3 + (i%3)] = 1; g.setAttribute('aBary', new THREE.BufferAttribute(b,3)); return g; })();
-const shells = pool(shellGeo, MARKERS, { aO:3, aT:2 }, new THREE.ShaderMaterial({
-  transparent:true, depthWrite:false, uniforms:{ uTime, uCB },
-  vertexShader:`attribute vec3 aO, aBary; attribute vec2 aT; uniform float uTime; varying vec3 vN, vV, vB; varying float vY, vAge, vLeft;
-    void main(){
-      float age = uTime - aT.x; if (age < 0. || uTime > aT.y + .35){ ${HIDE} }
-      vec3 wp = aO + vec3(0., .98, 0.) + position*vec3(.62, 1.02, .62);
-      vY = position.y; vAge = age; vLeft = aT.y - uTime; vB = aBary;
-      vN = normalize(position*vec3(1./.62, 1./1.02, 1./.62)); vV = normalize(cameraPosition - wp);
-      gl_Position = projectionMatrix*viewMatrix*vec4(wp, 1.);
-    }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uCB; varying vec3 vN, vV, vB; varying float vY, vAge, vLeft; ${EOX}
-    void main(){
-      float close = eox(clamp(vAge/.18, 0., 1.)), front = mix(-1.1, 1.1, close);
-      float dis = clamp(-vLeft/.3, 0., 1.), top = mix(1.1, -1.1, dis), edgeY = min(front, top);
-      if (vY > edgeY) discard;
-      float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 3.2);
-      float bm = min(vB.x, min(vB.y, vB.z)), line = exp(-bm*bm/.00015);
-      float lead = exp(-pow((vY - edgeY)/.04, 2.)) * step(.001, (1. - close) + dis);
-      float settle = 1. + 1.2*exp(-max(vAge - .18, 0.)*6.);           // brighter while closing, then calm
-      float shimmer = .8 + .2*sin(vY*7. - uTime*1.6);
-      float a = (fres*.34 + line*fres*.22 + line*.012)*shimmer*settle + lead*.7;
-      vec3 c = uCB*(fres*1.5 + line*.35) + vec3(1., .97, .95)*lead*1.4;
-      gl_FragColor = vec4(c, clamp(a, 0., 1.));
-    }` }));
-shells.mesh.visible = true;
 
 // Layer C — soft motes (GPU): mode 0 = drift (heal motes / glints), mode 1 = converge ease-in to aV
 const motes = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2, aM:2 }, addMat({
@@ -602,9 +571,8 @@ const TIER = { 3:{ pre:8, post:10 }, 2:{ pre:8, post:10 }, 1:{ pre:4, post:5 }, 
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const fighters = [], castLog = [];
 function addFighter(p, yaw, stance, visible){
-  const i = fighters.length, f = { i, p, yaw, stance, shellEnd:-1 };
+  const i = fighters.length, f = { i, p, yaw, stance };
   markers.A.aO.setXYZ(i, p.x, 0, p.z); markers.A.aYaw.setX(i, yaw); markers.A.aS.setXYZW(i, stance, stance, -1e5, visible ? 1 : 0); markers.mark(i);
-  shells.A.aT.setXY(i, -1e5, -1e5); shells.A.aO.setXYZ(i, p.x, 0, p.z); shells.mark(i);
   fighters.push(f); return f;
 }
 function setVisible(f, v){ markers.A.aS.setW(f.i, v ? 1 : 0); markers.mark(f.i); }
@@ -619,15 +587,10 @@ function castRB(f, tier, t0){
   for (let n=0;n<T.post;n++){
     if (k === 0){ const a = rand(0,6.28), r = rand(.2,.42);        // Rage: heal motes rise from the body
       mote(V3(f.p.x + Math.cos(a)*r, rand(.5,1.5), f.p.z + Math.sin(a)*r), V3(rand(-.15,.15), rand(.8,1.4), rand(-.15,.15)), t0 + TC + rand(0,.12), rand(.8,1.2), 0, 0); }
-    else { const a = rand(0,6.28), y = rand(-.7,.8), s = Math.sqrt(1 - y*y);   // Bulwark: glints on the shell
-      mote(V3(f.p.x + Math.cos(a)*s*.62, .98 + y*1.02, f.p.z + Math.sin(a)*s*.62), V3(Math.cos(a)*.3, .1, Math.sin(a)*.3), t0 + TC + rand(0,.15), rand(.4,.6), 0, 1); }
+    else { const a = rand(0,6.28);                                    // Bulwark: short light shards open out from the chest
+      mote(V3(f.p.x + Math.cos(a)*.15, rand(1.,1.4), f.p.z + Math.sin(a)*.15), V3(Math.cos(a)*rand(1.,1.6), rand(-.2,.3), Math.sin(a)*rand(1.,1.6)), t0 + TC, rand(.35,.5), 0, 1); }
   }
   if (T.pre + T.post) motes.track(t0 + TC + 1.35, T.pre + T.post);
-  if (k === 1){
-    const active = f.shellEnd > t0;
-    shells.A.aT.setXY(f.i, active ? shells.A.aT.getX(f.i) : t0 + TC, t0 + TC + SHIELD); shells.mark(f.i);
-    f.shellEnd = t0 + TC + SHIELD;
-  }
   castLog.push(t0 + TC + .95);
 }
 
@@ -685,7 +648,7 @@ const PHASES = [
   ['Impacto · pico de 2 frames', 260, 293, 0xffffff],
   ['Rage · pulsos de cura', 260, 690, 0xff2d5f],
   ['Emblema em linha (cruz / escudo)', 260, 1000, 0xc9a0ff],
-  ['Bulwark · casca fecha', 260, 440, 0x3fd8ff],
+  ['Bulwark · pulso firme', 260, 600, 0x3fd8ff],
   ['Motas de cura / brilhos (GPU)', 260, 1300, 0x8f8a82],
 ];
 const TOTAL = 1300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -694,9 +657,6 @@ PHASES.forEach(([l,a,b,c]) => {
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
   tl.appendChild(r);
 });
-{ const r = document.createElement('div'); r.className = 'tl-row';
-  r.innerHTML = `<span>Bulwark · casca persiste</span><div class="track"><div class="bar" style="left:${440/TOTAL*100}%;right:0;background:repeating-linear-gradient(90deg,#3fd8ff 0 6px,transparent 6px 10px)"></div><div class="playhead"></div></div><span class="ms">duração do Shield</span>`;
-  tl.appendChild(r); }
 const heads = [...tl.querySelectorAll('.playhead')];
 
 // ============ state / input ============
@@ -736,7 +696,7 @@ function resize(){
 new ResizeObserver(resize).observe(stage); resize();
 
 // ============ main loop ============
-const hud = $('hud'), S = { draw:$('sDraw'), part:$('sPart'), shell:$('sShell'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
+const hud = $('hud'), S = { draw:$('sDraw'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
 renderer.info.autoReset = false;
 let last = performance.now(), acc = { n:0, frame:0, cpu:0, prev:null }, statT = 0;
 
@@ -757,7 +717,7 @@ function frame(now){
     }
   }
   cores.tick(time); motes.tick(time);
-  markers.flush(); cores.flush(); motes.flush(); shells.flush();
+  markers.flush(); cores.flush(); motes.flush();
   const cpuVfx = performance.now() - c0;
 
   // momentum (UI context): refills, fully consumed by the cast
@@ -788,10 +748,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    const nShell = fighters.filter(f => f.shellEnd + .35 > time && (f === hero_f || tStress.checked)).length;
-    S.draw.textContent = (cores.active ? 1 : 0) + (nShell ? 1 : 0) + (motes.active ? 1 : 0);
+    S.draw.textContent = (cores.active ? 1 : 0) + (motes.active ? 1 : 0);
     S.part.textContent = motes.count;
-    S.shell.textContent = nShell;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
