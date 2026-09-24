@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Rasto atrás do Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma fita à altura do tronco, alinhada à investida e virada para a câmara; a ponta anda com o Fighter, apaga a partir da origem</td></tr>
+          <tr><td>Rasto atrás do Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um rasto com a altura do corpo, alinhado à investida e virado para a câmara, que se funde suavemente no Fighter; apaga a partir da origem</td></tr>
           <tr><td>Flash de colisão + anel de aterragem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Flash aditivo único, leve e pequeno, e anel compacto no chão; só na chegada</td></tr>
           <tr><td>Faíscas</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>GPU, curtas, a partir do ponto de colisão</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
@@ -424,8 +424,8 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
     void main(){
       float u = uTime - aT - ${PREP.toFixed(2)}; if (u < 0. || u > ${(RUSH+.5).toFixed(2)}){ ${HIDE} }
       vec3 d = aE - aO; float L = length(d); vec3 f = d/L;
-      float s = position.x*.5 + .5, W = .42;
-      vec3 P = aO + f*(s*L - .25) + vec3(0., 1.15, 0.);              // ends just behind the shoulder
+      float s = position.x*.5 + .5, W = .85;                             // body-tall smear (a Fighter is taller than wide)
+      vec3 P = aO + f*(s*L - .05) + vec3(0., 1.0, 0.);                // ends inside the body, not behind it
       vec3 side = normalize(cross(f, P - cameraPosition));
       vS = s; vY = position.y*W; vU = u; vL = L;
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
@@ -434,17 +434,17 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
     void main(){
       float h = 1. - pow(1. - clamp(vU/${RUSH.toFixed(2)}, 0., 1.), 3.);   // head = Fighter position (same ease as the rush)
       float q = vS/max(h, .001);                                           // 0 at origin, 1 at the Fighter
-      if (q > 1.04) discard;
-      float prof = pow(sin(1.5708*clamp(q, 0., 1.)), 1.3) * smoothstep(1.04, .9, q);   // thin at origin, widest by the Fighter
+      float prof = pow(sin(1.5708*clamp(q, 0., 1.)), 1.1);                // thin at origin, full body height near the Fighter
+      float blend = smoothstep(1.02, .7, q);                               // melts softly into the body — no hard front edge
       float arr = pow(prof, 3.);                                                        // arrival end: the part that stays longest
       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
-      float w = .01 + .22*prof, d = abs(vY);
-      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.28);
-      float k = alive*fade*pow(prof, .75);
+      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
+      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
+      float k = alive*fade*pow(prof, .75)*blend;
       vec3 col = mix(uOrange, uGold, .3 + .7*prof);
-      vec3 outc = (col*band*(.3 + .4*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.45*prof)*k;
+      vec3 outc = (col*band*(.22 + .3*prof) + mix(uGold, vec3(1., .96, .88), .6)*core*.25*prof)*k;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));

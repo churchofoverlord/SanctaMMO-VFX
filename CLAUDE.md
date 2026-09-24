@@ -22,6 +22,7 @@
   - Leitura do movimento: cresce no sentido da ação → segura no tamanho máximo → apaga a partir da origem; a parte mais importante (o centro) desaparece por último. Não encurtar demasiado: a forma principal fica ~0,5–0,7 s.
   - A animação do corpo (torção, preparação) tem de ir no mesmo sentido do VFX.
   - Quads construídos à mão no vertex shader: usar `side: DoubleSide` (a orientação dos triângulos pode ficar invertida e o quad desaparece).
+  - Rastos/efeitos presos ao corpo seguem a silhueta da personagem (mais alta que larga) e fundem-se nela com fade suave — nunca terminam num corte ou numa ponta cónica junto ao corpo (lê-se como escape de míssil).
   - Enquadrar a câmara do protótipo para a leitura da skill (linhas e investidas lêem-se de lado/3/4, não de trás).
 - Skill ≠ status: o VFX da skill cobre só o cast/impacto. Estados resultantes (Shield, heal-over-time, buffs, debuffs, CC persistente) são cues de status próprios (`GameplayCue.Status.*`, Looping), partilhados por todas as fontes — não os animar no protótipo da skill.
 - Efeitos de chão (convergências, pulsos, anéis) ficam deitados no plano do chão, não em billboards virados para o ecrã; billboards só para emblemas pequenos no corpo.
