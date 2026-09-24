@@ -146,17 +146,18 @@ tr:last-child td{border-bottom:0}
           <tr><td>Aura ao longo da corrente</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Duas faixas suaves (uma por corrente) viradas para a câmara, na mesma draw call, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
           <tr><td>Ancoragem no chão</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. Um quad no chão: anel que fecha em 60 ms com 4 estacas para dentro, 0,45 s</td></tr>
           <tr><td>Faíscas no gancho</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>GPU, para trás ao longo da corrente</td></tr>
+          <tr><td>II · Enrolamento</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Só no hit: 11 elos por corrente numa volta à volta do alvo; mesma malha e material. Segue o alvo no Pull (mesmo ease, na GPU) e só solta depois de ele chegar. +1 draw call</td></tr>
           <tr><td>II · Pull</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem instâncias novas: o recast escreve só o instante do Pull nos elos e na aura que já existem; pulso, contração e dissolução no vertex shader. Flash de Interrupt: 1 quad no sistema da ancoragem</td></tr>
-          <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Fighters</td></tr>
+          <tr><td>Draw calls</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Mesmo slot, recast</h3><p>Primeiro as Chains, iguais ao I. Enquanto o alvo está preso (Rooted), a corrente fica ligada e o botão passa a "Pull". Sem recast, dissolve como no I.</p></div>
+    <div><h3>Mesmo slot, recast</h3><p>Primeiro as Chains, como no I; no hit, cada corrente dá uma volta à volta do alvo (a da mão direita mais acima, a da esquerda mais abaixo). Enquanto o alvo está preso (Rooted), a corrente fica ligada e o botão passa a "Pull". Sem recast, dissolve como no I.</p></div>
     <div><h3>Interrupt primeiro</h3><p>No recast, um pulso aditivo forte corre pela corrente do alvo até à mão (120 ms) e no gancho rebenta um flash pequeno com seis estilhaços: é o Interrupt.</p></div>
-    <div><h3>Puxão violento</h3><p>A corrente contrai-se com ease-in (lenta no início, brutal no fim) e enrola-se para a mão; o alvo vem com ela até melee range e o Fighter dá um esticão para trás. Depois dissolve a partir da mão.</p></div>
+    <div><h3>Puxão violento</h3><p>A corrente contrai-se com ease-in (lenta no início, brutal no fim) e enrola-se para a mão; o alvo vem com ela, ainda enrolado, até melee range e o Fighter dá um esticão para trás. A corrente dissolve a partir da mão; o enrolamento só solta depois de o alvo chegar.</p></div>
   </section>
 </div>
 
@@ -491,6 +492,38 @@ const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1, aP:1 }, addMat({
       gl_FragColor = vec4(c, 1.);
     }` }));
 
+// Layer 1c — II: on a hit each chain wraps once around the target (same link mesh and material as the chain).
+// The loop follows the target during the pull (same ease as the chain) and only goes once the target has arrived.
+const WR = .3, WN = 11, WREV = .15;  // wrap radius (m), links per loop, time to wind the loop (s)
+const wraps = pool(linkGeo, 1024, { aO:3, aW:4, aT:1, aP:1, aD:3 }, addMat({
+  uniforms:{ uTime, uGold, uOrange },
+  vertexShader:`attribute vec3 aO, aD; attribute vec4 aW; attribute float aT, aP; uniform float uTime; varying vec3 vN, vV; varying float vHeat;
+    void main(){
+      float u = uTime - aT; if (u < 0.){ ${HIDE} }
+      float y = aW.x, a = aW.y, sd = aW.z, fr = aW.w, a0 = a - sd*6.2832*fr;
+      float rev = smoothstep(fr*${WREV.toFixed(2)}, fr*${WREV.toFixed(2)} + .04, u);           // winds on around the target
+      float kp = uTime - aP, pulled = step(.5, aP)*step(0., kp);
+      float pc = clamp((kp - ${PT.toFixed(2)})/${PD.toFixed(2)}, 0., 1.), pe = pc*pc*pc*pulled;
+      float gone = pulled > .5 ? clamp((kp - ${(PT + PD).toFixed(2)})/.25, 0., 1.)              // pulled: goes only after the target has arrived
+                               : clamp((u - ${HOLD.toFixed(2)})/${DIS.toFixed(2)}, 0., 1.);    // no recast: goes with the chain
+      float sc = rev*(1. - smoothstep(fr*.6, fr*.6 + .4, gone));                                // unwinds from the chain's end
+      if (sc < .01){ ${HIDE} }
+      vec3 C = aO + aD*pe + vec3(0., y, 0.);
+      float tilt = .07*sd*sin(a - a0);                                                          // slightly helical, not a flat ring
+      vec3 Rd = vec3(cos(a), 0., sin(a));
+      vec3 T = normalize(vec3(-sin(a), .07*sd*cos(a - a0)/${WR.toFixed(2)}, cos(a)));
+      vec3 up = vec3(0., 1., 0.);
+      bool odd = mod(fr*${WN.toFixed(1)} + .5, 2.) > 1.;
+      vec3 ax = odd ? Rd : up, az = odd ? up : Rd;
+      vec3 wp = (T*position.x*.12 + ax*position.y*.07 + az*position.z*.07)*sc;
+      vN = normalize(T*normal.x/.12 + ax*normal.y/.07 + az*normal.z/.07);
+      vec3 P = C + Rd*${WR.toFixed(2)} + vec3(0., tilt, 0.) + wp;
+      float heat = .3 + .9*exp(-u*6.) + 2.*exp(-pow(kp/.06, 2.))*pulled + .8*pe + .9*gone*(1. - gone)*4.;
+      vV = normalize(cameraPosition - P); vHeat = heat;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
+    }`,
+  fragmentShader: links.mesh.material.fragmentShader }));
+
 // Layer 1b — aura haze along the chain: one camera-facing soft strip per cast, same timing as the links (grow, recoil, dissolve)
 const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1, aT:1, aP:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
@@ -619,7 +652,9 @@ function pull(hd, t){
   links.track(t + PT + PD + PO, 0); haze.track(t + PT + PD + PO, 0);
   const k = anchors.next(); anchors.A.aO.setXYZ(k, hd.E.x, hd.E.y, hd.E.z); anchors.A.aT.setX(k, t); anchors.A.aK.setX(k, 1); anchors.track(t + .24, 1);
   if (hd.tg){ const L = hd.Ls[0], dx = hd.Hs[0].x - hd.E.x, dz = hd.Hs[0].z - hd.E.z, n = Math.hypot(dx, dz);
-    hd.tg.pullT = t; hd.tg.pullD = L - LMIN; hd.tg.pullDir = V3(dx/n, 0, dz/n); }
+    hd.tg.pullT = t; hd.tg.pullD = L - LMIN; hd.tg.pullDir = V3(dx/n, 0, dz/n);
+    for (const j of hd.wr){ wraps.A.aP.setX(j, t); wraps.A.aD.setXYZ(j, dx/n*(L - LMIN), 0, dz/n*(L - LMIN)); wraps.mark(j); }
+    if (hd.wr.length) wraps.track(t + PT + PD + .25, 0); }
   hd.pulled = t;
 }
 function handsAtRelease(){
@@ -638,10 +673,11 @@ function chain(O, yaw, tier, t0, targets, hands){
   }
   const hit = tg ? 1 : 0;
   let tEnd = 0, th = 1e9, Ec = null;
-  const handle = { idx:[], hz:[], tg, Ls:[], Hs:[] };
+  const handle = { idx:[], hz:[], wr:[], tg, Ls:[], Hs:[] };
   [1, -1].forEach((side, hi) => {                              // one chain from each hand, converging on the same target
     const H = hands ? hands[hi].clone() : V3(O.x + rx*.46*side + fx*.25, .72, O.z + rz*.46*side + fz*.25);
-    const E = tg ? V3(tg.p.x - fx*.2 + rx*.07*side, 1.15 + .04*side, tg.p.z - fz*.2 + rz*.07*side)
+    const wy = side > 0 ? 1.38 : 1.06, a0 = tg ? Math.atan2(H.z - tg.p.z, H.x - tg.p.x) : 0;     // II: each chain ends on its wrap
+    const E = tg ? V3(tg.p.x + Math.cos(a0)*WR, wy, tg.p.z + Math.sin(a0)*WR)
                  : V3(H.x + fx*LMAX, H.y + .25, H.z + fz*LMAX);
     const L = E.distanceTo(H), n = Math.floor(L/T.SP) + 1, tR = travel(L), end = t0 + WIND + tR + (hit ? HOLD + DIS : L/VR);
     for (let i=0;i<n;i++){
@@ -652,6 +688,14 @@ function chain(O, yaw, tier, t0, targets, hands){
     links.track(end, n);
     const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hit); haze.A.aT.setX(h, t0); haze.A.aP.setX(h, 0);
     handle.hz.push(h); handle.Ls.push(L); handle.Hs.push(H);
+    if (tg){ const tHit = t0 + WIND + tR;
+      for (let w=0; w<WN; w++){                                 // one loop, winding from where the chain arrives (right hand one way, left the other)
+        const fr = (w + .5)/WN, j = wraps.next();
+        wraps.A.aO.setXYZ(j, tg.p.x, 0, tg.p.z); wraps.A.aW.setXYZW(j, wy, a0 + side*6.2832*fr, side, fr);
+        wraps.A.aT.setX(j, tHit); wraps.A.aP.setX(j, 0); wraps.A.aD.setXYZ(j, 0, 0, 0);
+        handle.wr.push(j);
+      }
+      wraps.track(tHit + HOLD + DIS, WN); }
     haze.track(end, 1);
     tEnd = Math.max(tEnd, end); th = Math.min(th, t0 + WIND + tR); Ec = E;
   });
@@ -743,11 +787,13 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Chains (como no I): viaja e prende', 0, 650, 0xf2b53a],
+  ['Enrola 1 volta à volta do alvo (por corrente)', 650, 800, 0xf2b53a],
   ['Preso · recast Pull disponível', 650, 2250, 0x6b5a3a],
   ['Pull (0,5 s depois): Interrupt · pulso alvo → mão', 1150, 1270, 0xffffff],
   ['Flash de Interrupt no gancho', 1150, 1390, 0xfff0d2],
   ['Contração violenta (ease-in) · alvo puxado', 1270, 1490, 0xff7a1a],
   ['Corrente dissolve a partir da mão', 1490, 1790, 0xc9a0ff],
+  ['Enrolamento segura até o alvo chegar, depois solta', 650, 1740, 0xfff0d2],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
@@ -819,8 +865,8 @@ function frame(now){
     }
   }
   for (let q = pending.length - 1; q >= 0; q--) if (time >= pending[q].t){ pull(pending[q].hd, pending[q].t); pending.splice(q, 1); }
-  links.tick(time); haze.tick(time); anchors.tick(time); sparks.tick(time);
-  links.flush(); haze.flush(); anchors.flush(); sparks.flush();
+  links.tick(time); wraps.tick(time); haze.tick(time); anchors.tick(time); sparks.tick(time);
+  links.flush(); wraps.flush(); haze.flush(); anchors.flush(); sparks.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -854,8 +900,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [links, haze, anchors, sparks].filter(p => p.active).length;
-    S.part.textContent = links.count + haze.count + anchors.count + sparks.count;
+    S.draw.textContent = [links, wraps, haze, anchors, sparks].filter(p => p.active).length;
+    S.part.textContent = links.count + wraps.count + haze.count + anchors.count + sparks.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
