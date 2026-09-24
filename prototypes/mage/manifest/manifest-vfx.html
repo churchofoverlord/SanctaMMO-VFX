@@ -73,7 +73,7 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Mage · Granted · Modo de execução · Trança Fogo · Gelo · Raio</div>
+      <div class="eyebrow">SanctaMMO · Mage · Granted · Modo de execução · Trança de luz vermelha · azul · amarela</div>
       <h1><span>Manifest</span></h1>
     </div>
     <p class="canon"><b>Efeito canónico:</b> o Mage passa a executar no modo Manifest: os feitiços aplicam as assinaturas elementais (Fire = Burn, Ice = Slow, Lightning = Sapped).</p>
@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Trança à cintura (persistente)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Três tubos 3D por Mage (Fogo, Gelo, Raio), uma só malha instanciada (240×8 segmentos) que a GPU dobra no círculo e torce a partir do tempo; sólidos com profundidade, por isso passam uns por cima dos outros e por trás do corpo</td></tr>
+          <tr><td>Trança à cintura (persistente)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Três fios de luz por Mage (vermelho, azul, amarelo): uma só malha instanciada (240 segmentos) que a GPU dobra no círculo e torce em 3D a partir do tempo; cada fio é uma fita fina virada para a câmara, aditiva</td></tr>
           <tr><td>Entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader: a trança abre do centro para o raio em 0,3 s com pico de 2 frames. Zero partículas</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todos os Mages em ecrã partilham a mesma draw call</td></tr>
         </tbody>
@@ -145,8 +145,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Só a trança</h3><p>O Manifest não tem nada no chão nem nada em órbita: só um círculo à cintura feito de três fios entrelaçados. O Fogo é laranja e tremeluz, o Gelo é ciano, fino e estável, e o Raio é amarelo pálido e salta em pequenos cortes.</p></div>
-    <div><h3>Trança em 3D</h3><p>Os três fios torcem-se à volta do núcleo do círculo como um cordão entrançado (7 voltas), com deslocamento radial e vertical. São tubos sólidos: o fio da frente tapa o de trás e o corpo tapa a parte de trás da trança. O centro de cada fio é quase branco e as bordas ficam na cor do elemento.</p></div>
+    <div><h3>Só a trança</h3><p>O Manifest não tem nada no chão nem nada em órbita: só um círculo à cintura feito de três fios de luz, vermelho, azul e amarelo, torcidos uns nos outros.</p></div>
+    <div><h3>Trança em 3D, só luz</h3><p>Os três fios torcem-se à volta do núcleo do círculo (7 voltas), com deslocamento radial e vertical, e a torção corre devagar. Não têm estrutura sólida: cada um é um núcleo fino quase branco com um brilho curto na sua cor. O corpo tapa a parte de trás.</p></div>
     <div><h3>Assinaturas ficam nos feitiços</h3><p>Burn, Slow e Sapped aparecem só nos alvos atingidos (cues de status). O Weave é um protótipo à parte (outro GameplayCue).</p></div>
   </section>
 </div>
@@ -444,46 +444,35 @@ const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 
       gl_FragColor = vec4((col*g + mix(col, vec3(1.), .6)*c) * (1. + 3.*vF*vF), 1.); }` }));
 
 // ---- Manifest: the ONLY persistent element is a ring around the Mage at waist height, made of three real 3D strands — Fire, Ice
-// and Lightning — twisted around the ring's core like a braided cord (nothing on the ground, nothing orbiting).
+// and Lightning as red, blue and yellow threads of light — twisted around the ring's core (nothing on the ground, nothing orbiting).
 // One tube mesh (along × around) instanced 3× per Mage; the GPU bends it along the ring and twists it from uTime, so the braid
-// flows slowly. Solid emissive tubes with depth: the strands really pass over/under each other and behind the body.
+// flows slowly. Each thread is a thin camera-facing ribbon (additive): pure light, no solid structure; the body still hides the back.
 // aP = (phase, strand 0 fire · 1 ice · 2 lightning), aT = entry time, aV = visible.
 const BR_R = .58, BR_H = .95, BRS = 128;           // 3 strands × (hero + 40 stress Mages)
-const uFire = { value:lin(0xff7a2a) }, uIce = { value:lin(0x5fd8ff) }, uBolt = { value:lin(0xffe36a) };
-const braidGeo = new THREE.PlaneGeometry(1, 1, 240, 8);           // x = along the ring, y = around the strand
-const orbits = pool(braidGeo, BRS, { aO:3, aP:2, aT:1, aV:1 }, new THREE.ShaderMaterial({
+const uFire = { value:lin(0xff3a2a) }, uIce = { value:lin(0x3f8cff) }, uBolt = { value:lin(0xffe04a) };   // red · blue · yellow
+const braidGeo = new THREE.PlaneGeometry(1, 1, 240, 1);           // x = along the ring, y = across the thread (camera-facing)
+const orbits = pool(braidGeo, BRS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uFire, uIce, uBolt },
-  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec3 vN, vV; varying float vU, vA, vK; ${EOX}
-    float h1(float x){ return fract(sin(x*127.1)*43758.5); }
-    vec3 path(float a, float R, float k){                             // centre of strand k at ring angle a
+  vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying float vY, vU, vK; ${EOX}
+    vec3 path(float a, float R, float k){                             // centre of thread k at ring angle a: twisted around the ring core in 3D
       float tw = 7.*a + k*2.0944 - uTime*1.1, A = .045;
       vec3 rad = vec3(cos(a), 0., sin(a));
-      vec3 p = vec3(cos(a)*R, ${BR_H}, sin(a)*R) + A*(cos(tw)*rad + sin(tw)*vec3(0., 1., 0.));
-      if (k > 1.5){                                                   // lightning: small jagged kinks that re-strike ~12×/s
-        float st = floor(uTime*12.), sg = floor(a*38.), f = fract(a*38.);
-        float j = mix(h1(sg + st*7.1), h1(sg + 1. + st*7.1), f) - .5;
-        p += (rad*.014 + vec3(0., .012, 0.))*j*2.;
-      }
-      return p;
+      return vec3(cos(a)*R, ${BR_H}, sin(a)*R) + A*(cos(tw)*rad + sin(tw)*vec3(0., 1., 0.));
     }
     void main(){ if (aV < .5){ ${HIDE} }
       float u = uTime - aT, R = mix(.08, ${BR_R}, eox(clamp(u/.3, 0., 1.)));
-      float a = (position.x + .5)*6.28318 + aP.x, th = (position.y + .5)*6.28318, k = aP.y;
-      vec3 P = path(a, R, k), T = normalize(path(a + .004, R, k) - P);
-      vec3 B1 = normalize(cross(T, vec3(0., 1., 0.))), B2 = cross(B1, T);
-      float rt = k < .5 ? .013*(1. + .25*sin(a*23. - uTime*7.)*sin(a*9. + uTime*4.)) : (k < 1.5 ? .010 : .007);   // fire breathes, ice crisp, lightning thin
-      vec3 n = cos(th)*B1 + sin(th)*B2, W = aO + P + n*rt;
-      vN = n; vV = normalize(cameraPosition - W); vU = u; vA = a; vK = k;
-      gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uFire, uIce, uBolt; varying vec3 vN, vV; varying float vU, vA, vK;
-    float h1(float x){ return fract(sin(x*127.1)*43758.5); }
+      float a = (position.x + .5)*6.28318 + aP.x, k = aP.y;
+      vec3 P = aO + path(a, R, k), T = normalize(path(a + .004, R, k) - path(a, R, k));
+      vec3 side = normalize(cross(T, P - cameraPosition));             // ribbon always faces the camera: a thread of light
+      vY = position.y*2.; vU = u; vK = k;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.036, 1.); }`,
+  fragmentShader:`uniform vec3 uFire, uIce, uBolt; varying float vY, vU, vK;
     void main(){
       vec3 c = vK < .5 ? uFire : (vK < 1.5 ? uIce : uBolt);
-      float face = abs(dot(normalize(vN), normalize(vV)));            // strand centre (facing the eye) = hot core, edges = colour
       float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);
-      float mod1 = vK < .5 ? .8 + .2*sin(vA*19. - uTime*6.) : (vK < 1.5 ? 1. : .75 + .25*step(.3, h1(floor(uTime*12.) + floor(vA*38.)*.13)));
-      vec3 o = (c*(.45 + .75*face) + mix(c, vec3(1.), .65)*pow(face, 6.)*.8)*mod1*pk;
-      gl_FragColor = vec4(o*1.2, 1.);
+      float core = exp(-vY*vY*60.), halo = exp(-vY*vY*7.)*.35;           // thin bright core + short soft glow, zero at the ribbon edge
+      vec3 o = (c*(core*.9 + halo) + mix(c, vec3(1.), .6)*core*.45)*pk;
+      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);
     }` }));
 
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each

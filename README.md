@@ -74,7 +74,7 @@ e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 4. **Visual:** dark fantasy realista mas simples — uma forma dominante por skill, paleta do ícone, brilho só no instante do impacto.
 | Scout · Cleanse | Mesmo VFX do Cleanse do Fighter (laranja e dourado) | [prototypes/scout/cleanse/cleanse-vfx.html](prototypes/scout/cleanse/cleanse-vfx.html) |
 | Mage · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta violeta e azul | [prototypes/mage/cleanse/cleanse-vfx.html](prototypes/mage/cleanse/cleanse-vfx.html) |
-| Mage · Manifest | Só um círculo à cintura: trança 3D de três tubos (Fogo, Gelo, Raio) torcidos como um cordão, com profundidade real, a fluir devagar; nada no chão nem em órbita (1 draw call) | [prototypes/mage/manifest/manifest-vfx.html](prototypes/mage/manifest/manifest-vfx.html) |
+| Mage · Manifest | Só um círculo à cintura: trança 3D de três fios de luz (vermelho, azul, amarelo) torcidos à volta do círculo, a fluir devagar; nada no chão nem em órbita (1 draw call) | [prototypes/mage/manifest/manifest-vfx.html](prototypes/mage/manifest/manifest-vfx.html) |
 | Mage · Weave | Sem selo: linha de órbita fina à cintura com 0, 1 ou 2 Arcane Shards a correr sobre ela (GPU, 1 draw call); anel no chão + órbita abre do centro na entrada | [prototypes/mage/weave/weave-vfx.html](prototypes/mage/weave/weave-vfx.html) |
 | Mystic · Cleanse | Mesmo VFX do Cleanse do Fighter, paleta azul e ciano | [prototypes/mystic/cleanse/cleanse-vfx.html](prototypes/mystic/cleanse/cleanse-vfx.html) |
 | Scout · Poison Stance | Glow verde nas duas mãos (persistente), pico + anel no punho na entrada, sem marcador no chão | [prototypes/scout/poison-stance/poison-stance-vfx.html](prototypes/scout/poison-stance/poison-stance-vfx.html) |
