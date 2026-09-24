@@ -612,7 +612,8 @@ let last = performance.now(), acc = { n:0, frame:0, cpu:0, prev:null }, statT = 
 
 function frame(now){
   const rdt = Math.min(.05, (now-last)/1000); last = now;
-  const dt = rdt*speed; time += dt; uTime.value = time;
+  let dt = rdt*speed; if (window.__freezeAt !== undefined && time - localT >= window.__freezeAt) dt = Math.max(0, localT + window.__freezeAt - time);   // test hook
+  time += dt; uTime.value = time;
   const c0 = performance.now();
 
   const dtc = time - localT;
