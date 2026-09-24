@@ -149,9 +149,8 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Bola central</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de fogo quente no centro do disco (~0,8 m)</td></tr>
-          <tr><td>Braços (fitas de chama)</td><td class="n">8</td><td class="n">8</td><td class="n">8</td><td class="n">8</td><td>Uma fita curva por braço que segue a espiral inteira (1 draw call): textura de chama a correr para fora, bordas rasgadas, quente junto à bola e fumo na ponta</td></tr>
+          <tr><td>Braços (fitas de chama)</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td>6 braços grossos na base, com glow; uma fita curva por braço que segue a espiral inteira (1 draw call): textura de chama a correr para fora, bordas rasgadas, quente junto à bola e fumo na ponta</td></tr>
           <tr><td>Chamas soltas</td><td class="n">32</td><td class="n">24</td><td class="n">16</td><td class="n">0</td><td>Algumas chamas GPU espalhadas à volta de cada braço, só para dar vida e volume</td></tr>
-          <tr><td>Explosão (partículas)</td><td class="n">40</td><td class="n">32</td><td class="n">20</td><td class="n">12</td><td>Chamas radiais no impacto que sobem e acabam em fumo</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
@@ -161,8 +160,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Bola + braços de chama</h3><p>Uma bola de fogo quente ao centro e 8 braços curvos, cada um uma fita contínua de chama que segue a espiral inteira (sem segmentos retos), com a textura a correr para fora e bordas rasgadas. Algumas chamas soltas à volta dão volume. Temperatura: quente junto à bola, vermelho e fumo na ponta.</p></div>
-    <div><h3>Empurrão lateral claro</h3><p>No impacto, o fogo rebenta no peito e o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
+    <div><h3>Bola + braços de chama</h3><p>Uma bola de fogo quente ao centro (roda com os braços) e 6 braços curvos, grossos na base e com glow,, cada um uma fita contínua de chama que segue a espiral inteira (sem segmentos retos), com a textura a correr para fora e bordas rasgadas. Algumas chamas soltas à volta dão volume. Temperatura: quente junto à bola, vermelho e fumo na ponta.</p></div>
+    <div><h3>Empurrão lateral claro</h3><p>No impacto não há explosão de fogo: o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
     <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
 </div>
@@ -441,7 +440,7 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
       vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); mv.xyz += normalize(-mv.xyz)*.05; float S = .78;
-      float c = cos(u*6.), s = sin(u*6.); vec2 q = mat2(c, -s, s, c)*position.xy;       // corona churns
+      float c = cos(u*2.67), s = sin(u*2.67); vec2 q = mat2(c, -s, s, c)*position.xy;   // corona turns with the arms (same angular speed)
       mv.xy += q*S*1.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
@@ -544,7 +543,7 @@ const fireMat = new THREE.ShaderMaterial({
         float life = .3 + .15*aP.z;
         if (aM < .5){                                                          // ARM flame: evenly spaced along its arm, flowing slowly outwards
           age = fract(aP.y + u*.9);                                            // 0 = at the core, 1 = at the tip (then it re-enters at the core)
-          float r = mix(.2, 1., age)*${VR}, a = aP.x*6.28318 + spin/8. - 2.5*r/${VR} + (aP.w - .5)*.35;   // loose flames scattered around the arm   // aP.x = arm/8 → arms 45° apart
+          float r = mix(.2, 1., age)*${VR}, a = aP.x*6.28318 + spin/6. - 2.5*r/${VR} + (aP.w - .5)*.35;   // loose flames scattered around the arm (aP.x = arm/6)
           P = C + (e1*cos(a) + e2*sin(a))*r*grow + n*(.02 + .1*age*age) + vec3(0., .06*age, 0.);
           float r2 = r + .08, a2 = a - 2.5*.08/${VR};
           Pn = C + (e1*cos(a2) + e2*sin(a2))*r2*grow;                          // next point along the arm: flame stretches along it, tip outwards
@@ -615,7 +614,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
   uniforms:{ uTime },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; attribute vec2 aP; uniform float uTime; varying vec2 vS; varying float vU; ${ARC}
     vec3 armAt(float s, vec3 C, vec3 e1, vec3 e2, vec3 n, float spin, float grow){
-      float r = mix(.16, 1., s)*${VR}, a = aP.x*6.28318 + spin/8. - 2.5*r/${VR};
+      float r = mix(.16, 1., s)*${VR}, a = aP.x*6.28318 + spin/6. - 2.5*r/${VR};
       return C + (e1*cos(a) + e2*sin(a))*r*grow + n*.06*s*s;
     }
     void main(){
@@ -629,7 +628,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       float s = position.x + .5;
       vec3 P = armAt(s, C, e1, e2, n, spin, grow), T = normalize(armAt(min(s + .02, 1.), C, e1, e2, n, spin, grow) - armAt(max(s - .02, 0.), C, e1, e2, n, spin, grow));
       vec3 side = normalize(cross(n, T));                                       // width lies in the disc plane
-      float w = ${VR}*(.2 - .13*s)*grow;                                         // broad at the ball, narrow tip
+      float w = ${VR}*(.3 - .23*pow(s, .7))*grow;                                // thick at the base, narrow tip
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*2.*w, 1.);
       vS = vec2(s, position.y*2.); vU = u + aP.y*7.;
     }`,
@@ -652,10 +651,12 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 2048, { aO:3, aE:3, aT:1
       // saturated fire ramp (refs): smoke → deep red → strong orange → yellow-orange; pale yellow only in the hottest thin veins
       vec3 smoke = vec3(.012, .008, .006), red = vec3(.42, .025, .004), org = vec3(1., .22, .015), yel = vec3(1., .5, .06), wht = vec3(1., .8, .38);
       vec3 col = T < .25 ? mix(smoke, red, T/.25) : T < .55 ? mix(red, org, (T - .25)/.3) : T < .85 ? mix(org, yel, (T - .55)/.3) : mix(yel, wht, clamp((T - .85)/.3, 0., 1.));
-      float emit = T < .25 ? .08 : .9*T;
+      float emit = T < .25 ? .08 : 1.15*T;
       float alpha = dens*mix(.3, .06, clamp(T/.6, 0., 1.));                     // mostly see-through: dark shows between the filaments
-      if (dens < .003){ discard; }
-      gl_FragColor = vec4(col*emit*dens, alpha);
+      float glow = exp(-y*y*2.5)*smoothstep(1., .55, s)*smoothstep(0., .1, s)*smoothstep(1., .85, abs(y))*(1. - .5*s);   // soft glow hugging the arm
+      vec3 g = mix(vec3(1., .22, .02), vec3(1., .45, .06), 1. - s)*glow*.3;
+      if (dens < .003 && glow < .003){ discard; }
+      gl_FragColor = vec4(col*emit*dens + g, alpha);
     }` }));
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
@@ -828,20 +829,19 @@ function stab(O, yaw, tier, t0, targets){                   // Vortex: spirallin
   let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);   // central fire ball
   const [nD, nC, nI] = FIRE_N[tier];                              // the whole Vortex is made of flame particles
   const put = (m, a, b, c, d) => { const j = fire.next(); fire.A.aO.setXYZ(j, H.x, H.y, H.z); fire.A.aE.setXYZ(j, E.x, E.y, E.z); fire.A.aT.setX(j, t0); fire.A.aM.setX(j, m); fire.A.aP.setXYZW(j, a, b, c, d); };
-  for (let arm=0;arm<8;arm++){ const j = ribs.next(); ribs.A.aO.setXYZ(j, H.x, H.y, H.z); ribs.A.aE.setXYZ(j, E.x, E.y, E.z); ribs.A.aT.setX(j, t0); ribs.A.aP.setXY(j, arm/8, Math.random()); }
-  ribs.track(hitT, 8);   // 8 continuous curved flame arms
-  for (let arm=0;arm<8;arm++) for (let k=0;k<nD;k++) put(0, arm/8, (k + Math.random())/Math.max(nD, 1), Math.random(), Math.random());   // a few loose flames per arm
+  for (let arm=0;arm<6;arm++){ const j = ribs.next(); ribs.A.aO.setXYZ(j, H.x, H.y, H.z); ribs.A.aE.setXYZ(j, E.x, E.y, E.z); ribs.A.aT.setX(j, t0); ribs.A.aP.setXY(j, arm/6, Math.random()); }
+  ribs.track(hitT, 6);   // 6 continuous curved flame arms
+  for (let arm=0;arm<6;arm++) for (let k=0;k<nD;k++) put(0, arm/6, (k + Math.random())/Math.max(nD, 1), Math.random(), Math.random());   // a few loose flames per arm
   for (let k=0;k<nC;k++) put(1, Math.random(), Math.random(), Math.random(), Math.random());
-  if (G) for (let k=0;k<nI;k++) put(2, Math.random(), Math.random(), Math.random(), Math.random());
-  fire.track(hitT, nD*8 + nC); if (nI) fire.track(hitT + 1., nI);
+  fire.track(hitT, nD*6 + nC);
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
   const dx = E.x - H.x, dz = E.z - H.z, dn = Math.hypot(dx, dz), px = -dz/dn, pz = dx/dn;   // push to the side the vortex spins towards
   const G2 = V3(G.x + px*PUSH, 0, G.z + pz*PUSH);
   if (tg){ tg.pushAt = hitT; tg.push = V3(px, 0, pz); }
-  let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // compact fire burst
-  k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 5); rings.A.aD.setXYZW(k, px, pz, PUSH, 0); rings.track(hitT + RL, 1);   // scorch streak along the push
+  let k = rings.next();   // no fire burst on hit: push + scorch + Burn mark carry the impact
+  rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 5); rings.A.aD.setXYZW(k, px, pz, PUSH, 0); rings.track(hitT + RL, 1);   // scorch streak along the push
   k = rings.next(); rings.A.aO.setXYZ(k, G2.x, 0, G2.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 1); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // Burn mark on the displaced target
 }
 
@@ -919,7 +919,6 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Disco de fogo a girar, linear (8 m: ~1,1 s)', 100, 1190, 0xff3a12],
-  ['Explosão no peito', 1190, 1540, 0xffb347],
   ['Empurrão lateral + risco no chão', 1190, 1940, 0xff7a1a],
   ['Marca de Burn (alvo deslocado)', 1390, 2190, 0xff3a12],
 ];
