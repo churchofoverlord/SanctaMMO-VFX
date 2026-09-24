@@ -54,6 +54,7 @@ prototypes/
 | Scout · Torpor | Otimizado (seta sólida rápida + anel de lentidão estático nos pés, 2–4 draw calls) | [prototypes/scout/torpor/torpor-vfx.html](prototypes/scout/torpor/torpor-vfx.html) |
 | Mystic · Ether I · Ally | Otimizado (estrela astral + cometa curto; anel abre e luz sobe em ease-out, dourado, 2–3 draw calls) | [prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html](prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html) |
 | Mystic · Ether I · Enemy | Otimizado (estrela astral + cometa curto; anel fecha e colapsa em ease-in com pop, violeta, 2–3 draw calls) | [prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html](prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html) |
+| Mystic · Lullaby I | Otimizado (orbe lento a ondular com crescente; absorção sem hit stop; anel de Sleep após 1 s de delay, 1–3 draw calls) | [prototypes/mystic/lullaby/lullaby-vfx.html](prototypes/mystic/lullaby/lullaby-vfx.html) |
 
 Abrir localmente (as bibliotecas vêm de CDN, por isso é preciso internet):
 
