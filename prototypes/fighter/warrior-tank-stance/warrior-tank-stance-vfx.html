@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Marcador nos pés (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad; lâminas, fragmentos e detalhe interior desenhados no shader (SDF). Mesma malha nas duas stances</td></tr>
+          <tr><td>Marcador nos pés (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad; traços finos com halo suave, brilhos e emblema em linha, tudo no shader. Mesma malha nas duas stances</td></tr>
           <tr><td>Pulso da troca</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader do marcador: pico de 2 frames + anel até 0,22 s. Zero partículas</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Fighters em ecrã partilham as mesmas 2 draw calls</td></tr>
@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Uma malha, duas identidades</h3><p>As lâminas curvas e os fragmentos do ícone ficam iguais; muda a cor (Warrior magenta, Tank ciano) e o detalhe interior — lâmina ou escudo — com transição de 120 ms.</p></div>
+    <div><h3>Uma malha, duas identidades</h3><p>As lâminas curvas do ícone viram traços caligráficos com pontas finas e energia a correr devagar; muda a cor (Warrior magenta, Tank ciano) e o emblema em linha — lâmina ou escudo — com transição suave de 140 ms.</p></div>
     <div><h3>Pulso em Local Space</h3><p>A troca resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.</p></div>
     <div><h3>Estado inequívoco</h3><p>O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pelo chão.</p></div>
   </section>
@@ -393,51 +393,50 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
       vF = vec2(l.x, -l.y); vAge = age; vFrom = aS.x; vTo = aS.y;
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .03, w.y), 1.);
     }`,
-  fragmentShader:`uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; ${EOX}
-    const float AA = .012;
-    float diamond(vec2 p, vec2 c, float ang, vec2 hs){ p -= c; float co = cos(ang), si = sin(ang); p = vec2(co*p.x + si*p.y, -si*p.x + co*p.y); return abs(p.x)/hs.x + abs(p.y)/hs.y - 1.; }
-    float side(vec2 p, vec2 c, float ang){ p -= c; return -sin(ang)*p.x + cos(ang)*p.y; }
+  fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; ${EOX}
+    // soft stroke: bright thin core + wide feathered halo (no hard edges, no flat facets)
+    float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }
+    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }
     void main(){
-      vec2 p = vF; float r = length(p), a = abs(atan(p.x, p.y));
-      // crescents (icon's curved blades): open at front and back, pointed tips
-      float t = clamp((a - .5)/2.1, 0., 1.), taper = sin(3.14159*t);
-      float band = abs(r - .66) - .055*taper;
-      float cres = smoothstep(AA, 0., band) * step(.5, a) * step(a, 2.6);
-      float cresShade = r < .66 ? 1. : .62;                          // two facets
-      // four small shards around the crescents
-      float sh = 0., shShade = 1.;
-      for (int i=0;i<4;i++){
-        float ang = (i < 2 ? 1.15 : 2.05) * (mod(float(i),2.) < .5 ? 1. : -1.);
-        vec2 c = .84*vec2(sin(ang), cos(ang));
-        float d = diamond(p, c, -ang, vec2(.028,.06));
-        float m = smoothstep(AA*4., 0., d); if (m > sh){ sh = m; shShade = side(p, c, -ang) > 0. ? 1. : .6; }
-      }
-      // inner detail: Warrior blade / Tank shield, morph over 120 ms
-      float k = clamp(vAge/.12, 0., 1.), m = mix(vFrom, vTo, k);
-      // emblem sits in the crescents' back opening (toward the usual MMO camera) so the body never hides it
-      vec2 e = p - vec2(0., -.74);
-      float blade = smoothstep(AA*2., 0., diamond(e, vec2(0.), 0., vec2(.055,.2)));
-      float bladeShade = e.x > 0. ? 1. : .6;
-      float top = .1, tip = -.13, hw = .1;
-      vec2 q = vec2(e.x, e.y);                                        // shield tip points away from the character
-      float wy = q.y > 0. ? hw : hw*clamp((q.y - tip)/(0. - tip), 0., 1.);
-      float shieldD = max(abs(q.x) - wy, max(q.y - top, tip - q.y));
-      float shield = smoothstep(AA, 0., shieldD);
-      float rim = shield * smoothstep(-.02, -.03, shieldD);          // inner panel darker = bevel
-      float shieldShade = mix(1., .55, rim) * (e.x > 0. ? 1. : .8);
-      float inner = mix(blade*bladeShade, shield*shieldShade, m);
-      // palette follows the stance being entered
+      vec2 p = vF; float r = length(p), ang = atan(p.x, p.y), a = abs(ang);
+      float k = clamp(vAge/.14, 0., 1.), m = mix(vFrom, vTo, k*k*(3.-2.*k));
       vec3 col = mix(uCW, uCT, m);
-      float idle = 1.05;
-      float flash = vAge < .033 ? 3. : 1. + 1.6*exp(-(vAge-.033)*18.); // 2-frame peak, then settle
-      float body = cres*cresShade + sh*shShade*.9 + inner*.95 + exp(-r*r*14.)*.12;
-      // switch pulse ring (local space, <= 0.24 s)
-      float rr = mix(.45, 1.35, eox(clamp(vAge/.18, 0., 1.)));
-      float ring = exp(-pow((r-rr)/.035, 2.)) * (1. - clamp(vAge/.22, 0., 1.)) * 2.4 * step(0., vAge);
-      float disk = exp(-r*r*5.) * (vAge < .033 ? 1.6 : 0.);
-      vec3 outc = col*(body*idle*(vAge < .24 ? flash : 1.) + ring + disk);
+      // calligraphic crescents: taper to hair-fine tips, energy drifting slowly along the arc
+      float t = clamp((a - .42)/2.25, 0., 1.), taper = pow(sin(3.14159*t), .7);
+      float flow = .78 + .22*sin(a*9. - uTime*2.2 + sign(ang)*1.3);
+      float arcA = stroke(r - .66, .006 + .016*taper) * step(.42, a) * step(a, 2.67) * taper * flow;
+      float tb = clamp((a - .75)/1.6, 0., 1.), taperB = pow(sin(3.14159*tb), 1.2);
+      float arcB = stroke(r - .57, .004 + .006*taperB) * step(.75, a) * step(a, 2.35) * taperB * .55;
+      float core = lineCore(r - .66, .004 + .006*taper) * step(.42, a) * step(a, 2.67) * taper;
+      // four glints where the icon has crystal shards: soft points that breathe
+      float gl = 0.;
+      for (int i=0;i<4;i++){
+        float g = (i < 2 ? 1.15 : 2.05) * (mod(float(i),2.) < .5 ? 1. : -1.);
+        vec2 c = .8*vec2(sin(g), cos(g)); float d2 = dot(p-c, p-c);
+        gl += (exp(-d2/.00012) + .25*exp(-d2/.0025)) * (.7 + .3*sin(uTime*1.7 + float(i)*1.9));
+      }
+      // emblem in the back opening, drawn as fine line-art with a faint fill
+      vec2 e = p - vec2(0., -.76);
+      float bd = abs(e.x)/.05 + abs(e.y)/.19 - 1.;
+      float blade = stroke(bd*.05, .006) + .12*step(bd, 0.);
+      float top = .1, tip = -.13, hw = .1;
+      float wy = e.y > 0. ? hw : hw*clamp((e.y - tip)/(0. - tip), 0., 1.);
+      float sd = max(abs(e.x) - wy, max(e.y - top, tip - e.y));
+      float shield = stroke(sd, .006) + .12*step(sd, 0.) + .5*lineCore(sd + .028, .004)*step(sd, 0.);
+      float emblem = mix(blade, shield, m);
+      // warm ground light under the Fighter: the marker reads as light on stone, not a sticker
+      float pool = exp(-r*r*4.5)*.16 + exp(-r*r*1.2)*.05;
+      float body = arcA + arcB + gl*.9 + emblem*.9 + pool;
+      // switch: 2-frame bloom peak, then a feathered ring with a thin leading edge
+      float peak = vAge < .033 ? 2.2 : 1. + 1.1*exp(-(vAge-.033)*16.);
+      float rr = mix(.4, 1.35, eox(clamp(vAge/.2, 0., 1.))), fade = 1. - clamp(vAge/.24, 0., 1.);
+      float ring = (lineCore(r - rr, .012)*1.3 + exp(-pow((r-rr)/.09, 2.))*.35) * fade*fade * step(0., vAge);
+      float disk = exp(-r*r*6.) * (vAge < .033 ? 1.2 : 0.);
+      float lum = body*(vAge < .26 ? peak : 1.) + ring + disk;
+      vec3 hot = mix(col, vec3(1., .93, .9), .55);             // near-white core, stance-tinted halo
+      vec3 outc = col*lum + hot*(core*.9 + ring*.25)*(vAge < .26 ? peak : 1.);
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
-      gl_FragColor = vec4(outc, 1.);
+      gl_FragColor = vec4(outc*1.1, 1.);
     }` }));
 const MARKER_TRIS = 2;
 
@@ -450,11 +449,12 @@ const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 
       float k = 3., e = exp(-k*age); vec3 p = aO + aV*(1.-e)/k; p.y -= .3*9.8*(age*age*.5);
       float f = 1. - age/aT.y, sz = .09*(.4 + .6*f), rot = aC*3. + age*9.;
       vec4 mv = viewMatrix*vec4(p,1.); vec2 q = position.xy; q = vec2(cos(rot)*q.x - sin(rot)*q.y, sin(rot)*q.x + cos(rot)*q.y);
-      mv.xy += q*vec2(sz*.55, sz); gl_Position = projectionMatrix*mv; vUv = position.xy; vF = f; vC = step(.5, fract(aC));
+      mv.xy += q*vec2(sz*.9, sz*1.8); gl_Position = projectionMatrix*mv; vUv = position.xy; vF = f; vC = step(.5, fract(aC));
     }`,
   fragmentShader:`uniform vec3 uCW, uCT; varying vec2 vUv; varying float vF, vC;
-    void main(){ float d = abs(vUv.x)*2. + abs(vUv.y)*2.; if (d > 1.) discard;
-      gl_FragColor = vec4(mix(uCW, uCT, vC) * (vUv.x > 0. ? 1. : .55) * (1.5 + 4.*vF*vF), 1.); }` }));
+    void main(){ float g = exp(-(vUv.x*vUv.x*60. + vUv.y*vUv.y*14.)), c = exp(-(vUv.x*vUv.x*400. + vUv.y*vUv.y*60.));
+      vec3 col = mix(uCW, uCT, vC);
+      gl_FragColor = vec4((col*g + mix(col, vec3(1.), .6)*c) * (1. + 3.*vF*vF), 1.); }` }));
 
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
 const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
