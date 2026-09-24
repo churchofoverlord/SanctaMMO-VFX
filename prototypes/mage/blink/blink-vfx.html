@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Blink</span><span>0 — 2600 ms</span></div>
+    <div class="tl-head"><span>Timing do Blink</span><span>0 — 2800 ms</span></div>
   </div>
 
   <section class="budget">
@@ -415,7 +415,7 @@ const ptsScale = { value:600 };
 // ============ Blink ============
 const uV = { value:lin(0x9b5cff) }, uBl = { value:lin(0x4a7bff) }, uW = { value:lin(0xe6dcff) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const OUT = 1.0, GAP = 4/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
+const OUT = 1.0, GAP = 12/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
 
 // Layer 1 — two quick sigil rings, flat on the ground (origin, then destination). kind 0 = origin: flashes and closes inward;
 // kind 1 = destination: opens outward. Same quad system; no smoke or streak between the two points.
@@ -559,14 +559,13 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Origem: anel pisca e fecha', 0, 1300, 0x9b5cff],
   ['Origem: linha roxa sobe pés → cabeça', 0, 1000, 0xe6dcff],
-  ['Invisível (4 frames)', 1000, 1067, 0x2a2440],
-  ['Beam cabeça → cabeça (continua a linha)', 1000, 1067, 0x9b5cff],
-  ['Arco segura durante o fade-in', 1067, 2067, 0x9b5cff],
-  ['Destino: linha roxa desce cabeça → pés', 1067, 2067, 0xe6dcff],
-  ['Destino: anel abre', 1067, 2367, 0x4a7bff],
-  ['Arco recolhe a partir da origem', 2067, 2567, 0x4a7bff],
+  ['Invisível (12 frames) · beam viaja cabeça → cabeça', 1000, 1200, 0x9b5cff],
+  ['Beam segura durante o fade-in', 1200, 2200, 0x9b5cff],
+  ['Destino: linha roxa desce cabeça → pés', 1200, 2200, 0xe6dcff],
+  ['Destino: anel abre', 1200, 2500, 0x4a7bff],
+  ['Beam recolhe a partir da origem', 2200, 2700, 0x4a7bff],
 ];
-const TOTAL = 2600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
