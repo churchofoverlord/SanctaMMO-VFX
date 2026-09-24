@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Blink</span><span>0 — 1900 ms</span></div>
+    <div class="tl-head"><span>Timing do Blink</span><span>0 — 2600 ms</span></div>
   </div>
 
   <section class="budget">
@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Quads no chão com sigilo: o da origem fecha, o do destino abre; 1,3 s cada</td></tr>
-          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Linha vertical fina que varre a silhueta de lado, na direção do Blink (origem e destino), 500 ms</td></tr>
+          <tr><td>Linha do corte</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Linha vertical fina que varre a silhueta de lado, na direção do Blink (origem e destino), 1 s</td></tr>
           <tr><td>Arco de energia</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Faixa fina em arco, peito a peito, com tremor elétrico; desenha-se da origem ao destino e recolhe a partir da origem</td></tr>
           <tr><td>Clip plane na malha</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um plano de corte no material do Mage; sem geometria extra</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
@@ -415,7 +415,7 @@ const ptsScale = { value:600 };
 // ============ Blink ============
 const uV = { value:lin(0x9b5cff) }, uBl = { value:lin(0x4a7bff) }, uW = { value:lin(0xe6dcff) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const OUT = .5, GAP = 4/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
+const OUT = 1.0, GAP = 4/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
 
 // Layer 1 — two quick sigil rings, flat on the ground (origin, then destination). kind 0 = origin: flashes and closes inward;
 // kind 1 = destination: opens outward. Same quad system; no smoke or streak between the two points.
@@ -473,7 +473,7 @@ const arcs = pool(new THREE.PlaneGeometry(2, 2, 40, 1), 128, { aO:3, aE:3, aT:1 
     }`,
   fragmentShader:`uniform vec3 uV, uBl, uW; varying float vS, vY, vU;
     void main(){
-      float head = clamp(vU/${(OUT + GAP).toFixed(3)}, 0., 1.);                              // reaches the destination as the Mage reappears
+      float head = clamp((vU - ${OUT.toFixed(3)})/${GAP.toFixed(3)}, 0., 1.);                // leaves once the fade-out is complete, arrives as the fade-in starts
       float tail = clamp((vU - ${(2*OUT + GAP).toFixed(3)})/.5, 0., 1.);                   // then retracts from the origin
       float alive = smoothstep(head + .02, head - .06, vS)*smoothstep(tail - .02, tail + .12, vS);
       float fl = .65 + .35*sin(vU*90. + vS*20.);
@@ -557,14 +557,15 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Origem: anel pisca e fecha', 0, 1300, 0x9b5cff],
-  ['Silhueta fecha na horizontal (clip lateral)', 0, 500, 0xe6dcff],
-  ['Arco de energia origem → destino', 0, 1067, 0x9b5cff],
-  ['Arco recolhe a partir da origem', 1067, 1567, 0x4a7bff],
-  ['Invisível (4 frames)', 500, 567, 0x2a2440],
-  ['Destino: silhueta abre na horizontal', 567, 1067, 0xe6dcff],
-  ['Destino: anel abre', 567, 1867, 0x4a7bff],
+  ['Silhueta fecha na horizontal (luz roxa)', 0, 1000, 0xe6dcff],
+  ['Invisível (4 frames)', 1000, 1067, 0x2a2440],
+  ['Arco de energia origem → destino', 1000, 1067, 0x9b5cff],
+  ['Arco segura durante o fade-in', 1067, 2067, 0x9b5cff],
+  ['Destino: silhueta abre (luz roxa)', 1067, 2067, 0xe6dcff],
+  ['Destino: anel abre', 1067, 2367, 0x4a7bff],
+  ['Arco recolhe a partir da origem', 2067, 2567, 0x4a7bff],
 ];
-const TOTAL = 1900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -581,7 +582,7 @@ let START = V3(0, 0, 0), LAND = V3(1.2, 0, -DIST);
 let from = START.clone(), to = LAND.clone();
 const mix1 = (a, b, k) => a + (b - a)*k;
 function localSwing(){
-  if (time - localT < 1.6) return;
+  if (time - localT < 2.6) return;
   if (localT > -1e8){ const t = from; from = to; to = t; }   // go back and forth from wherever the Mage is
   localT = time; idle = 0;
   blink(from, to, time);
@@ -618,7 +619,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 3.2) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 4.0) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
