@@ -383,7 +383,7 @@ function pool(base, N, attrs, material){
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
 // orbit: R 0.72 m around the host at ~1.38 m, plane tilted a little (the icon's ellipse), one lap every ~3.9 s, gentle bob
-const SP_R = .72, SP_H = 1.38, SP_TILT = .22, SP_W = 1.6, SP_HS = .3, TR_LEN = 1.2, AOE_R = 4.5;
+const SP_R = .72, SP_H = 1.38, SP_TILT = .22, SP_W = 1.6, SP_HS = .15, TR_LEN = 1.2, AOE_R = 4.5;
 const ORBF = `vec3 orbP(vec3 o, float a, float k, float b){ return o + vec3(cos(a)*${F(SP_R)}*k, ${F(SP_H)} + b + sin(a)*${F(SP_R*SP_TILT)}*k, -sin(a)*${F(SP_R)}*k); }`;
 
 // ---- Spirit: aP.y = 0 body billboard (icon: small round spirit with two eyes, ring of 6 orblets), 1 = trail ribbon behind it.
@@ -405,7 +405,7 @@ const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*2, { aO:3, aT:
       float s = (position.x + 1.)*.5, a = ang - s*${F(TR_LEN)}*k;         // arc behind the spirit
       vec3 p = orbP(aO, a, k, b), T = normalize(orbP(aO, a + .02, k, b) - p), V = normalize(cameraPosition - p);
       vec3 sd = normalize(cross(T, V));
-      float w = .085*pow(1. - s, .8)*(.85 + .15*sin(s*9. - uTime*4.));
+      float w = .045*pow(1. - s, .8)*(.85 + .15*sin(s*9. - uTime*4.));
       p += sd*position.y*w;
       vQ = vec2(s, position.y); gl_Position = projectionMatrix*viewMatrix*vec4(p, 1.); }`,
   fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vQ; varying float vK, vPk, vSpin;
