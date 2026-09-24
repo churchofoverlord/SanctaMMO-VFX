@@ -148,7 +148,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Fogo (partículas)</td><td class="n">340</td><td class="n">270</td><td class="n">154</td><td class="n">68</td><td>Chamas GPU (1 draw call): disco de 8 braços (chamas atiradas ao longo dos braços a rodar), núcleo denso e explosão no impacto. Cada chama nasce quente, sobe, arrefece para vermelho e morre em fumo escuro; blending premultiplicado (o quente soma luz, o fumo escurece)</td></tr>
+          <tr><td>Bola central</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de fogo quente no centro do disco (~0,8 m)</td></tr>
+          <tr><td>Braços (partículas)</td><td class="n">96</td><td class="n">72</td><td class="n">48</td><td class="n">32</td><td>8 braços × 12/9/6/4 chamas GPU espaçadas ao longo de cada braço, a correr devagar para fora enquanto o disco roda; quentes junto à bola, mais frias e com fumo na ponta. Blending premultiplicado</td></tr>
+          <tr><td>Explosão (partículas)</td><td class="n">40</td><td class="n">32</td><td class="n">20</td><td class="n">12</td><td>Chamas radiais no impacto que sobem e acabam em fumo</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
           <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
@@ -158,7 +160,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Fogo feito de chamas</h3><p>O disco tipo shuriken já não é uma superfície pintada: é feito de centenas de chamas pequenas (partículas GPU), atiradas ao longo de 8 braços a rodar, com um núcleo denso ao centro. Cada chama tem temperatura: nasce branca-amarela, passa a laranja e vermelho e acaba em fumo escuro. É assim que se faz no Niagara (sprites com flipbook).</p></div>
+    <div><h3>Bola + braços de chamas</h3><p>Uma bola de fogo quente ao centro e 8 braços feitos de chamas pequenas (partículas GPU) espaçadas ao longo de cada braço, a correr devagar para fora enquanto o disco roda. Cada chama tem temperatura: quente junto à bola, a arrefecer para vermelho e fumo na ponta. É assim que se faz no Niagara (sprites com flipbook).</p></div>
     <div><h3>Empurrão lateral claro</h3><p>No impacto, o fogo rebenta no peito e o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
     <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
@@ -523,14 +525,14 @@ const helix = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aE:3, aT:1, aK:1 
 // aM = mode: 0 disc flame (flung out along one of the 8 swept arms, loops while the Vortex flies) · 1 core flame (dense ball
 // in the centre, loops) · 2 impact flame (radial burst from the chest, once). aP = (arm/angle, seed, seed, seed).
 const fireMat = new THREE.ShaderMaterial({
-  transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
+  transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
   uniforms:{ uTime },
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aM; attribute vec4 aP; uniform float uTime;
     varying vec2 vQ; varying float vAge, vHeat, vSeed; ${ARC} ${EOX}
     void main(){
       float L = length(aE - aO), tt = L/${V.toFixed(1)}, u = uTime - aT - ${WIND.toFixed(2)};
-      vec3 P; float size, age, heat;
+      vec3 P, Pn = vec3(0.); float size, age, heat, stretch = 0.;
       if (aM < 1.5){
         if (u < 0. || u > tt){ ${HIDE} }
         vec3 d = (aE - aO)/L, sd = normalize(cross(d, vec3(0., 1., 0.)));
@@ -538,14 +540,18 @@ const fireMat = new THREE.ShaderMaterial({
         vec3 n = normalize(vec3(0., 1., 0.) + normalize(cameraPosition - C)*.4 + sd*.07*sin(u*5.2) + d*.045*sin(u*3.7 + 1.));
         vec3 e1 = normalize(cross(n, d)), e2 = cross(e1, n);
         float grow = 1. - pow(1. - clamp(u/.15, 0., 1.), 3.), spin = u*16.;
-        float life = aM < .5 ? .42 + .2*aP.z : .3 + .15*aP.z;
-        age = fract(u/life + aP.y);                                            // loops: a steady stream of flames
-        if (aM < .5){                                                          // flung out along a swept arm, twisting with the spin
-          float r = mix(.15, 1., age)*${VR}, a = (aP.x*6.28318 + spin)/8. - 1.9*r/${VR} + (aP.w - .5)*.12;
-          P = C + (e1*cos(a) + e2*sin(a))*r*grow + n*(.03 + .18*age*age) + vec3(0., .12*age, 0.);
-          size = (.14 + .1*age)*(.8 + .4*aP.w)*grow;                             // flames widen a little as they fly out
-          heat = 1. - .55*age;                                                   // arms stay hot to the tip; only the very end smokes
-        } else {                                                               // core: dense tumbling ball of flame
+        float life = .3 + .15*aP.z;
+        if (aM < .5){                                                          // ARM flame: evenly spaced along its arm, flowing slowly outwards
+          age = fract(aP.y + u*.9);                                            // 0 = at the core, 1 = at the tip (then it re-enters at the core)
+          float r = mix(.2, 1., age)*${VR}, a = aP.x*6.28318 + spin/8. - 2.5*r/${VR} + (aP.w - .5)*.03;   // aP.x = arm/8 → arms 45° apart
+          P = C + (e1*cos(a) + e2*sin(a))*r*grow + n*(.02 + .1*age*age) + vec3(0., .06*age, 0.);
+          float r2 = r + .08, a2 = a - 2.5*.08/${VR};
+          Pn = C + (e1*cos(a2) + e2*sin(a2))*r2*grow;                          // next point along the arm: flame stretches along it, tip outwards
+          stretch = 1.;
+          size = (.24 - .11*age)*(.85 + .3*aP.w)*grow;                            // thick near the ball, thinner to the tip
+          heat = 1.05 - .6*age;                                                  // hot at the root, cooler and smokier at the tip
+        } else {                                                               // (unused: the core is the fire-ball billboard)
+          age = fract(u/life + aP.y);
           float a = aP.x*6.28318 + spin*.35, r = .18*sqrt(aP.w)*(1. + .5*age);
           P = C + (e1*cos(a) + e2*sin(a))*r + vec3(0., .25*age, 0.) + n*.05*sin(aP.w*20.);
           size = (.2 + .12*aP.w)*(1. - .35*age)*grow;
@@ -560,9 +566,16 @@ const fireMat = new THREE.ShaderMaterial({
         heat = 1.1 - age*1.1;
       }
       vec4 mv = viewMatrix*vec4(P, 1.);
-      float rot = (aP.y - .5)*.6;
-      vec2 q = position.xy*2.; q = vec2(cos(rot)*q.x - sin(rot)*q.y, sin(rot)*q.x + cos(rot)*q.y);
-      mv.xy += q*size*vec2(.8, 1.1);                                            // a little taller than wide: flame
+      vec2 q = position.xy*2.;
+      if (stretch > .5){                                                       // arm flame: long axis along the arm (screen space), tongue tip outward
+        vec4 mn = viewMatrix*vec4(Pn, 1.); vec2 ax = mn.xy - mv.xy; ax = length(ax) > 1e-4 ? normalize(ax) : vec2(0., 1.);
+        vec2 px = vec2(-ax.y, ax.x);
+        mv.xy += (ax*q.y*2.3 + px*q.x*.8)*size;
+      } else {
+        float rot = (aP.y - .5)*.6;
+        q = vec2(cos(rot)*q.x - sin(rot)*q.y, sin(rot)*q.x + cos(rot)*q.y);
+        mv.xy += q*size*vec2(.8, 1.1);                                          // a little taller than wide: flame
+      }
       vQ = position.xy*2.; vAge = age; vHeat = heat; vSeed = aP.y;
       gl_Position = projectionMatrix*mv;
     }`,
@@ -590,7 +603,7 @@ const fireMat = new THREE.ShaderMaterial({
       gl_FragColor = vec4(rgb, alpha);
     }` });
 const fire = pool(new THREE.PlaneGeometry(1, 1), 12000, { aO:3, aE:3, aT:1, aM:1, aP:4 }, fireMat);
-const FIRE_N = { 3:[240, 24, 90], 2:[200, 20, 70], 1:[110, 12, 40], 0:[48, 6, 18] };   // disc · core · impact flames per cast
+const FIRE_N = { 3:[12, 0, 40], 2:[9, 0, 32], 1:[6, 0, 20], 0:[4, 0, 12] };   // flames PER ARM (×8) · core · impact   // disc · core · impact flames per cast
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
@@ -759,12 +772,13 @@ function stab(O, yaw, tier, t0, targets){                   // Vortex: spirallin
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
   const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
+  let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);   // central fire ball
   const [nD, nC, nI] = FIRE_N[tier];                              // the whole Vortex is made of flame particles
   const put = (m, a, b, c, d) => { const j = fire.next(); fire.A.aO.setXYZ(j, H.x, H.y, H.z); fire.A.aE.setXYZ(j, E.x, E.y, E.z); fire.A.aT.setX(j, t0); fire.A.aM.setX(j, m); fire.A.aP.setXYZW(j, a, b, c, d); };
-  for (let k=0;k<nD;k++) put(0, (k % 8)/8, Math.random(), Math.random(), Math.random());
+  for (let arm=0;arm<8;arm++) for (let k=0;k<nD;k++) put(0, arm/8, (k + Math.random()*.4)/nD, Math.random(), Math.random());   // evenly spaced along each arm
   for (let k=0;k<nC;k++) put(1, Math.random(), Math.random(), Math.random(), Math.random());
   if (G) for (let k=0;k<nI;k++) put(2, Math.random(), Math.random(), Math.random(), Math.random());
-  fire.track(hitT, nD + nC); if (nI) fire.track(hitT + 1., nI);
+  fire.track(hitT, nD*8 + nC); if (nI) fire.track(hitT + 1., nI);
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
