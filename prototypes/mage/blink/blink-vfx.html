@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Dois pontos ligados</h3><p>Um anel com sigilo pisca e fecha onde o Mage estava e outro abre onde aparece. Um arco fino de energia liga os dois: desenha-se da origem até ao destino e recolhe logo a seguir.</p></div>
-    <div><h3>Corte na horizontal</h3><p>Um plano de corte apaga a silhueta de lado, na direção do Blink, com uma linha violeta vertical a acompanhar; o lado virado para o destino é o último a desaparecer. 2 frames invisível; no destino abre do lado virado para a origem.</p></div>
+    <div><h3>Corte na horizontal</h3><p>Um plano de corte apaga a silhueta de lado, na direção do Blink, com uma linha violeta vertical a acompanhar; o lado virado para o destino é o último a desaparecer. 4 frames invisível; no destino abre do lado virado para a origem.</p></div>
     <div><h3>Âncora parada</h3><p>O boneco ao lado é só referência e não se mexe; o loop vai e volta entre os dois pontos. O Blink não cancela o Cast/Channel (lógica de jogo, não VFX).</p></div>
   </section>
 </div>
@@ -415,7 +415,7 @@ const ptsScale = { value:600 };
 // ============ Blink ============
 const uV = { value:lin(0x9b5cff) }, uBl = { value:lin(0x4a7bff) }, uW = { value:lin(0xe6dcff) };
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
-const OUT = .5, GAP = 2/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
+const OUT = .5, GAP = 4/60, DIST = 5.5;                  // silhouette closes (clip plane) in 120 ms, hidden 2 frames, then opens at the destination
 
 // Layer 1 — two quick sigil rings, flat on the ground (origin, then destination). kind 0 = origin: flashes and closes inward;
 // kind 1 = destination: opens outward. Same quad system; no smoke or streak between the two points.
@@ -558,11 +558,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Origem: anel pisca e fecha', 0, 1300, 0x9b5cff],
   ['Silhueta fecha na horizontal (clip lateral)', 0, 500, 0xe6dcff],
-  ['Arco de energia origem → destino', 0, 1033, 0x9b5cff],
-  ['Arco recolhe a partir da origem', 1033, 1533, 0x4a7bff],
-  ['Invisível (2 frames)', 500, 533, 0x2a2440],
-  ['Destino: silhueta abre na horizontal', 533, 1033, 0xe6dcff],
-  ['Destino: anel abre', 533, 1833, 0x4a7bff],
+  ['Arco de energia origem → destino', 0, 1067, 0x9b5cff],
+  ['Arco recolhe a partir da origem', 1067, 1567, 0x4a7bff],
+  ['Invisível (4 frames)', 500, 567, 0x2a2440],
+  ['Destino: silhueta abre na horizontal', 567, 1067, 0xe6dcff],
+  ['Destino: anel abre', 567, 1867, 0x4a7bff],
 ];
 const TOTAL = 1900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
