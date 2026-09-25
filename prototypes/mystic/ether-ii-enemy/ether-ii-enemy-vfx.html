@@ -150,7 +150,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo em arco (sobe primeiro) a 10 m/s na GPU</td></tr>
-          <tr><td>Resolve dano</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Anel no chão que fecha + billboard que colapsa (ease-in) e dá um pop, 0,8 s, num só sistema</td></tr>
+          <tr><td>Resolve dano</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela que morre, no peito: a estrela astral incendeia-se no impacto (0,08 s), os 4 raios recolhem para o núcleo enquanto um aro fino fecha sobre ela (ease-in, 0,24 s), pop de 2 frames e 7 estilhaços de estrela que saem e apagam (0,34 s). Um só billboard, sem anel no chão</td></tr>
           <tr><td>II · constelação</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só com a condição (Debuff prévio), 0,25 s depois do impacto: a mesma pequena constelação aparece no peito, os fios partem-se ao meio e as estrelas são puxadas para dentro até colapsarem num ponto ténue (0,6 s); desenhada no shader, no mesmo sistema de quads. Hindered + Dazed = cues de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
@@ -161,7 +161,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Ether II: uma constelação</h3><p>Mesmo projétil e mesma resolução do Ether I. Se o alvo já tinha um Debuff, a mesma pequena constelação aparece no peito, os fios partem-se ao meio e as estrelas são puxadas para dentro até colapsarem num ponto ténue (0,6 s). Os estados (Hindered + Dazed) são cues de status.</p></div>
     <div><h3>Projétil astral</h3><p>Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.</p></div>
-    <div><h3>Dano: fecha e colapsa</h3><p>No inimigo, um anel fecha-se nos pés e, no peito, o anel e os raios são puxados para dentro com ease-in até um pop de 2 frames.</p></div>
+    <div><h3>Dano: uma estrela que morre</h3><p>No inimigo, a estrela do projétil incendeia-se no peito e depois colapsa sobre si mesma: os raios recolhem para o núcleo e um aro fino fecha-se, até um pop de 2 frames que solta alguns estilhaços de estrela.</p></div>
     <div><h3>Variante Enemy</h3><p>Paleta violeta. A outra variante (aliado → Heal) é um protótipo à parte.</p></div>
   </section>
 </div>
@@ -599,13 +599,22 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
         lum += exp(-dot(vP, vP)*300.)*pop*.8;
         lum *= smoothstep(.75, .68, length(vP)); hot *= smoothstep(.75, .68, length(vP));
       } else {
-        // damage: ring and rays pulled inward (ease-in), then a 2-frame pop at the centre
-        float r = length(vP), a = atan(vP.y, vP.x), k = clamp(vU/.22, 0., 1.), R = .7*(1. - k*k*k);
-        float f = step(vU, .22), pop = vU >= .22 && vU < .253 ? 1. : 0., after = vU > .22 ? exp(-(vU - .22)*14.) : 0.;
-        lum += exp(-pow(abs(r - R)/.02, 2.4))*f;
-        float N = 8., fa = floor(a/6.2832*N + .5), ac = fa/N*6.2832, d = abs(sin(a - ac))*r;
-        lum += exp(-pow(d/.012, 2.))*smoothstep(R + .2, R, r)*smoothstep(R - .25, R - .05, r)*f*.8;
-        lum += exp(-r*r*50.)*(pop*2. + after*.8); hot = exp(-r*r*200.)*(pop*2. + after) + lcore(r - R, .006)*f*.5;
+        // damage: a dying star - the astral star flares on impact, then its four rays fold back into the core while a thin
+        // rim closes on it (collapses on itself, ease-in); it ends in a 2-frame pop that throws out a few tiny star shards
+        float r = length(vP), a = atan(vP.y, vP.x);
+        float flare = 1. - pow(1. - clamp(vU/.08, 0., 1.), 3.), k = clamp((vU - .08)/.24, 0., 1.), kk = k*k*k;
+        float L = mix(.12, .62, flare)*(1. - kk), live = step(vU, .32);
+        float rays = pow(abs(cos(a*2.)), 26.)*exp(-r/max(L, .01)*2.6) + pow(abs(cos(a*2. + .785)), 50.)*exp(-r/max(L, .01)*6.)*.45;
+        float R = .42*(1. - kk), rim = exp(-pow((r - R)/.012, 2.))*smoothstep(.0, .1, k)*live;
+        float core = exp(-r*r/(.006 + .02*(1. - kk)))*(1. + 1.5*kk);
+        lum += (rays*1.1 + core*.8 + rim*.7)*live; hot += (core*.9 + rays*.35)*live;
+        float pop = vU >= .32 && vU < .353 ? 1. : 0., after = vU > .32 ? exp(-(vU - .32)*12.) : 0.;
+        lum += exp(-r*r*70.)*(pop*2. + after*.6); hot += exp(-r*r*260.)*(pop*2. + after);
+        float ts = clamp((vU - .32)/.34, 0., 1.);                                        /* star shards thrown outward */
+        if (vU > .32){ for (int i=0;i<7;i++){ float fi = float(i), sa = fi*.9 + .35 + h1(fi)*.4, sd = (.08 + .3*(.6 + .4*h1(fi + 4.)))*(1. - pow(1. - ts, 3.));
+          vec2 q = vP - sd*vec2(cos(sa), sin(sa)); float qr = length(q), qa = atan(q.y, q.x), sz = .055*(1. - ts*.7);
+          float sh = (pow(abs(cos(qa*2.)), 14.)*exp(-qr/max(sz, .002)*1.4) + exp(-qr*qr/(sz*sz*.06 + 1e-5)))*(1. - ts)*1.3;
+          lum += sh; hot += sh*.4; } }
         lum *= smoothstep(.75, .65, r); hot *= smoothstep(.75, .65, r);
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
@@ -636,7 +645,7 @@ function stab(O, yaw, tier, t0, targets, cond){                   // Ether: astr
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
-  const kinds = [0, 2];                    // Damage: closes and collapses
+  const kinds = [2];                       // Damage: a dying star collapses on itself (no ground ring)
   for (const kk of kinds){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, kk); rings.track(hitT + RL, 1); }
   if (cond){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT + .25); rings.A.aK.setX(k, 3); rings.track(hitT + .25 + RL, 1); }   // II: only if the target already had a Debuff
 }
@@ -712,9 +721,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Estrela astral em arco (8 m: ~0,8 s)', 100, 900, 0x9b5cff],
-  ['Anel fecha nos pés (ease-in)', 900, 1150, 0x9b5cff],
-  ['Dano: colapsa sobre si (ease-in)', 900, 1120, 0xe0c8ff],
-  ['Pop central (2 frames)', 1120, 1153, 0xffffff],
+  ['Impacto: a estrela incendeia-se', 900, 980, 0xe0c8ff],
+  ['Dano: raios recolhem, aro fecha (ease-in)', 980, 1220, 0x9b5cff],
+  ['Pop (2 frames) + estilhaços de estrela', 1220, 1560, 0xe0c8ff],
   ['II: constelação colapsa (se tinha Debuff)', 1150, 1750, 0xe0c8ff],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
