@@ -602,7 +602,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
            from yellow to red to smoke as they travel out (premultiplied: hot adds light, smoke darkens) - no ring, no mark */
         float r = length(vP), a = atan(vP.y, vP.x), b = vU - ${BUILD.toFixed(2)};
         float h1 = fract(sin(dot(floor(vP*9.), vec2(127.1, 311.7)))*43758.5);
-        vec2 pn = vec2(a*2.6, r*5. - max(b, 0.)*9.);
+        vec2 pn = vP*6. - vP/max(r, .05)*max(b, 0.)*5. + vec2(3.7, 1.3);   /* cartesian noise pushed outward: no pole at the centre */
         vec2 ip = floor(pn), fp = fract(pn); fp = fp*fp*(3. - 2.*fp);
         #define HH(q) fract(sin(dot(q, vec2(127.1, 311.7)))*43758.5)
         float n = mix(mix(HH(ip), HH(ip + vec2(1., 0.)), fp.x), mix(HH(ip + vec2(0., 1.)), HH(ip + vec2(1., 1.)), fp.x), fp.y);
@@ -613,11 +613,13 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
           float t = clamp(b/.6, 0., 1.), e = 1. - pow(1. - clamp(b/.15, 0., 1.), 3.);
           float rays = 0.;
           for (int i = 0; i < 14; i++){ float fi = float(i), hh = fract(sin(fi*71.3)*4375.5);
-            float ac = fi*.4488 + (hh - .5)*.35, L = (.28 + .3*hh)*e;                      /* 14 short tongues of irregular length */
-            float d = sin(a - ac)*r, along = cos(a - ac)*r;
+            float ac = fi*.4488 + (hh - .5)*.35, r0 = .12 + .08*fract(hh*7.3), L = (.28 + .3*hh)*e;   /* each tongue starts at its own radius, not all at the centre */                      /* 14 short tongues of irregular length */
+            float aw = a - ac + .9*(r - .2)*(hh - .5);   /* tongues bend a little: gaps never point at the centre */
+            float d = sin(aw)*r, along = cos(aw)*r - r0;
             float w = (.03 + .07*(1. - along/max(L, .01)))*step(0., along);
-            rays += exp(-pow((d - .04*sin(along*12. - b*20. + fi)*along)/w, 2.))*smoothstep(L, L*.3, along); }
-          dens = (min(rays, 1.)*(.55 + .6*n) + exp(-r*r*40.)*(1. - t))*(1. - t*t);
+            rays += exp(-pow((d - .04*sin(along*12. - b*20. + fi)*along)/w, 2.))*smoothstep(L, L*.3, along)*smoothstep(0., .1, along); }
+          rays *= smoothstep(.1, .26, r);                                                 /* no pinch point where the tongues would meet */
+          dens = (min(rays, 1.)*(.55 + .6*n) + exp(-r*r*14.)*(.55 + .7*n)*(1. - t*.8))*(1. - t*t);   /* a soft, noisy fire ball fills the middle */
           T = clamp((1. - r/.6)*(1. - t*.9)*(.7 + .5*n), 0., 1.);                          /* hottest at the centre, cools outward and over time */
         }
         dens *= smoothstep(.75, .55, r);
