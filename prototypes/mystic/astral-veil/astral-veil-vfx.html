@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Barreira larga em arco à volta do Mystic (~140°, R 3,2 m no chão, ~3 m de altura, 5 s de exemplo) que sobe do chão e se curva para dentro por cima dele, como uma onda; bordas finas e claras em cima e em baixo (junto ao chão), que se juntam em ponta nas duas extremidades do arco; interior de pó de estrelas a cintilar, mais denso junto ao topo. Sobe do chão (0,6 s), respira devagar e dissolve por erosão suave</td></tr>
+          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Barreira larga em arco à volta do Mystic (~140°, R 3,2 m no chão, ~3 m de altura, 5 s de exemplo) que sobe do chão e se curva para dentro por cima dele, como uma onda; bordas finas e claras em cima e em baixo (junto ao chão), unidas por cantos redondos junto ao chão nas duas extremidades do arco; interior de pó de estrelas a cintilar, mais denso junto ao topo. Sobe do chão (0,6 s), respira devagar e dissolve por erosão suave</td></tr>
           <tr><td>Projéteis intercetados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem animação por projétil: a flecha simplesmente termina na barreira, dos dois lados</td></tr>
           <tr><td>Characters</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Quem atravessa não é bloqueado e o véu não reage</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma barreira por cast num só sistema instanciado para todos os Mystics; o CPU escreve só o cast, a GPU anima pela idade; 0 partículas (o pó é desenhado no shader). Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
@@ -388,7 +388,7 @@ const veil = pool(new THREE.PlaneGeometry(1, 1, 64, 32), 256, { aO:3, aN:2, aT:1
   vertexShader:`attribute vec3 aO; attribute vec2 aN; attribute float aT; uniform float uTime; varying vec2 vUV; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${F(DUR + .6)}){ ${HIDE} }
       vU = u;
-      vec2 uv = vec2(position.x*2., mix(-.01, 1., position.y + .5)); vUV = uv;
+      vec2 uv = vec2(position.x*2.1, mix(-.01, 1., position.y + .5)); vUV = uv;
       vec3 N = vec3(aN.x, 0., aN.y), R = vec3(-aN.y, 0., aN.x);
       float th = uv.x*${F(HA)}; vec3 rad = N*cos(th) + R*sin(th);
       float r = ${F(VR)} - ${F(LEAN)}*uv.y*uv.y;                                     /* rises from the ground and curls in over the Mystic */
@@ -406,13 +406,14 @@ const veil = pool(new THREE.PlaneGeometry(1, 1, 64, 32), 256, { aO:3, aN:2, aT:1
       float tp = topOf(u)*op, e = .004;
       float sl = (topOf(u + e) - topOf(u - e))/(2.*e)*op;
       float dist = (tp - v)*SY/length(vec2(1., sl*SY/SX));                            /* metres to the top edge, constant line width */
-      float thin = pow(max(1. - u*u, 0.), .5);                                         /* the top line tapers to fine points at the ends */
-      float edge = line(dist, .006 + .018*thin)*(.3 + .7*thin);
-      float halo = line(dist, .12)*.22*step(0., dist)*thin;
+      float thin = pow(max(1. - u*u, 0.), .5);
       float db = (v - .015)*SY;                                                        /* bottom border, just above the ground */
-      edge += line(db, .006 + .018*thin)*(.3 + .7*thin)*step(0., tp);
-      halo += line(db, .12)*.22*step(0., db)*thin;
-      float inside = smoothstep(-.01, .04, dist)*smoothstep(-.01, .03, db);
+      vec2 q = max(vec2(.3) - vec2(dist, db), 0.);
+      float d = .3 - length(q);                                                        /* one outline: top + bottom joined by ROUND corners (r 0.3 m) at the ground */
+      float lw = .007 + .016*(.35 + .65*thin);
+      float edge = line(d, lw)*(.55 + .45*thin);
+      float halo = line(d, .12)*.2*step(0., d)*(.4 + .6*thin);
+      float inside = smoothstep(-.01, .04, d);
       /* stardust fill: fine twinkling points, denser towards the top edge */
       vec2 g = vec2(u*SX, v*SY)*16.; vec2 gi = floor(g), gf = fract(g) - .5; float hs = h(gi);
       vec2 o = (vec2(h(gi + 3.1), h(gi + 7.7)) - .5)*.6;
