@@ -462,7 +462,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
       vec3 P = arcAt(aO, aE, fa), T = normalize(arcAt(aO, aE, min(fa + .01, 1.)) - arcAt(aO, aE, max(fa - .01, 0.)));
       vec3 side = normalize(cross(T, P - cameraPosition));
       vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.); vU2 = uTime; vLen = head - tail;
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.06 + .46*pow(s, .7)), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.06 + .46*pow(s, .7))*(.35 + .65*smoothstep(1., .82, s)), 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF, vU2, vLen;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
@@ -478,7 +478,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
         dens += exp(-pow((y - yc)/w, 2.))*smoothstep(1. - L, 1. - L + .35, s)*(.6 + .4*fi/4.); }
       float n = vn(vec2(m*3. - t*14., y*3.)), n2 = vn(vec2(m*7. - t*22., y*6. + 3.));           /* noise stretched along the flight */
       dens *= smoothstep(.1, .65, n*.7 + n2*.3 + .45*s);
-      dens = min(dens*1.35, 1.4)*smoothstep(1., .8, abs(y));
+      dens = min(dens*1.35, 1.4)*smoothstep(.95, .6, abs(y))*smoothstep(1., .86, s);   /* no hard cut at the head: it melts into the head glow */
       float T = clamp(pow(s, 1.4)*(.55 + .6*exp(-y*y*6.))*(.8 + .4*n2), 0., 1.);             /* temperature: hottest at the head, on the axis */
       vec3 red = vec3(.5, .06, .01), org = vec3(1., .38, .05), yel = vec3(1., .82, .4);
       vec3 col = T < .45 ? mix(red*.3, red, T/.45) : (T < .8 ? mix(red, org, (T - .45)/.35) : mix(org, yel, (T - .8)/.2));
@@ -635,7 +635,7 @@ const spread = pool(new THREE.PlaneGeometry(2, 2, 16, 1), 256, { aO:3, aE:3, aT:
       vec3 P = arcP(f), T = normalize(arcP(min(f + .01, 1.)) - arcP(max(f - .01, 0.)));
       vec3 side = normalize(cross(T, P - cameraPosition));
       vS = s; vY = position.y; vU = uTime; vF = 1. - clamp((u - ${F2S(SPR)})/.15, 0., 1.);
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.06 + .26*pow(s, .7)), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .2*pow(max(sin(3.14159*s), 0.), .7)), 1.);
     }`,
   fragmentShader:`varying float vS, vY, vF, vU;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
@@ -644,8 +644,8 @@ const spread = pool(new THREE.PlaneGeometry(2, 2, 16, 1), 256, { aO:3, aE:3, aT:
     void main(){
       float s = vS, y = vY + .25*sin(s*9. - vU*20.)*(1. - s);
       float n = vn(vec2(s*8. - vU*18., y*3.));
-      float dens = exp(-y*y*3.5)*smoothstep(0., .5, s)*smoothstep(.2, .7, n + .4*s)*smoothstep(1., .8, abs(vY));
-      float T = clamp(pow(s, 1.3)*(.6 + .5*exp(-y*y*8.)), 0., 1.);
+      float dens = exp(-y*y*4.)*pow(max(sin(3.14159*s), 0.), .6)*smoothstep(.2, .7, n + .4*s)*smoothstep(.95, .6, abs(vY));   /* thin at both ends, never a hard cut */
+      float T = clamp(sin(3.14159*min(s*1.15, 1.))*(.55 + .5*exp(-y*y*8.)), 0., 1.);
       vec3 red = vec3(.5, .06, .01), org = vec3(1., .38, .05), yel = vec3(1., .82, .4);
       vec3 col = T < .5 ? mix(red*.3, red, T/.5) : (T < .85 ? mix(red, org, (T - .5)/.35) : mix(org, yel, (T - .85)/.15));
       vec3 o = col*dens*(.7 + 1.6*T)*vF;
