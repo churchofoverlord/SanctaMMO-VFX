@@ -477,7 +477,7 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 1024, { aO:3, aT:1, aP:2
       float w = (.08 + .3*pow(s, .8) + .34*exp(-s*9.))*grow;                               /* wide at the orb: the violet rim leaks out into the arm */
       vec3 W = P + side*position.y*2.*w; vD = length(W - C);                             /* distance to the orb centre: round (never polygonal) base */
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
-      vS = vec2(s, position.y*2.); vU = u + aP.y*7.; vF = 1. - smoothstep(${F(DUR)}, ${F(DUR + .5)}, u);
+      vS = vec2(s, position.y*2.); vU = u + aP.y*7.; vF = smoothstep(.3, 1.9, u)*(1. - smoothstep(${F(DUR - 1.)}, ${F(DUR + .5)}, u));   /* arms start invisible, reach full opacity mid-life, fade out slowly at the end */
     }`,
   fragmentShader:`varying vec2 vS; varying float vU, vF, vD;
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
