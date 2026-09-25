@@ -479,7 +479,7 @@ const uBu = { value:lin(0x3f8cff) }, uCy = { value:lin(0x5fe0ff) };
 const WIND = .26;                  // throw wind-up (s) — readable, not instant
 const CV = 14, CVR = 24;             // chain cruise / reel-in speed (m/s)
 const travel = L => .1 + L/CV;      // travel time: eases in from the hand (slow start), arrives fast
-const PREP = 1.3, DIS = .3, PW = PREP - WIND, GRAB = .7, RV = 8.;   // GRAB: hold while the ally dissolves, RV: reel-in speed (m/s)   // chains hold taut until the teleport frame (PREP), then dissolve
+const PREP = 1.3, DIS = .3, PW = PREP - WIND, GRAB = .35, RV = 8.;   // GRAB: hold while the ally dissolves, RV: reel-in speed (m/s)   // chains hold taut until the teleport frame (PREP), then dissolve
 
 // Layer 1 — the chain: ONE instanced link mesh; every link of every cast is an instance.
 // Link i is counted from the tip, so the chain unrolls out of the hand. Position, whip, snap, heat and dissolve are all
@@ -708,9 +708,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Correntes saem das mãos e agarram o aliado', 0, 800, 0x5fe0ff],
   ['Aliado desmaterializa-se, preso (cabeça → pés)', 800, 1475, 0xd8f6ff],
-  ['O Mystic puxa as correntes de volta', 1500, 2250, 0x3f8cff],
-  ['Correntes chegam: aliado materializa-se ao lado (pés → cabeça)', 2250, 2925, 0xd8f6ff],
-  ['Zonas azuis encolhem (origem e destino)', 800, 3450, 0x3f8cff],
+  ['O Mystic puxa as correntes de volta', 1150, 1900, 0x3f8cff],
+  ['Correntes chegam: aliado materializa-se ao lado (pés → cabeça)', 1900, 2575, 0xd8f6ff],
+  ['Zonas azuis encolhem (origem e destino)', 800, 3100, 0x3f8cff],
 ];
 const TOTAL = 3500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
