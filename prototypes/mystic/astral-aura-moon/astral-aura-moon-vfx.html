@@ -145,7 +145,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 1,15 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
+          <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 3 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
           <tr><td>Runa secundária (Moon)</td><td class="n">✓</td><td class="n">✓</td><td class="n">✓</td><td class="n">—</td><td>três crescentes pequenos logo por dentro do anel, a rodar devagar no sentido contrário, com uma estrela minúscula em cada concavidade; no mesmo material (parâmetro de modo)</td></tr>
           <tr><td>Pulso on/off</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Ligar: pico de 2 frames, o anel abre do centro em 0,3 s e um anel fino corre para fora (0,25 s). Desligar: o anel alarga 6 % e apaga em 0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todas as auras em ecrã numa só draw call; 0 partículas. Cabe em Stance / toggle (≤ 2, ≤ 10, pulso ≤ 0,3 s)</td></tr>
@@ -382,20 +382,20 @@ function pool(base, N, attrs, material){
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
-const AR = 1.15, QS = 1.6;                           // ring radius (m), quad half-size (all glow is 0 before the edge)
+const AR = 3.0, SC = 1.15/AR, QS = 1.6;             // ring radius (m); the shader works in ring units (R 1.15), quad half-size QS/SC (all glow is 0 before the edge)
 const aura = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aS:3 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uC, uP },
   vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vP; varying float vOn, vOff;
     void main(){ float on = uTime - aS.x, off = uTime - aS.y;
       if (aS.z < .5 || on < 0. || (off > .35 && aS.y >= aS.x)){ ${HIDE} }
       vOn = on; vOff = aS.y > aS.x ? off : -1.;
-      vP = position.xy*${F(QS)};
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .025, -vP.y), 1.); }`,
+      vec2 w = position.xy*${F(QS/SC)}; vP = w*${F(SC)};
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .025, -w.y), 1.); }`,
   fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vP; varying float vOn, vOff; ${EOX}
     float line(float d, float w){ return exp(-d*d/(w*w)); }
     void main(){
       float r = length(vP), a = atan(vP.y, vP.x), rot = uTime*.05;
-      float k = eox(clamp(vOn/.3, 0., 1.)), R = ${F(AR)}*mix(.35, 1., k);
+      float k = eox(clamp(vOn/.3, 0., 1.)), R = 1.15*mix(.35, 1., k);
       float fade = 1.; if (vOff >= 0.){ float q = clamp(vOff/.3, 0., 1.); fade = (1. - q)*(1. - q); R *= 1. + .06*q; }
       float pk = vOn < .033 ? 2.2 : 1. + .8*exp(-max(vOn - .033, 0.)*10.);
       float flow = .7 + .3*pow(.5 + .5*sin(a*3. - uTime*.6), 2.);          /* energy drifting slowly round the ring */
@@ -529,7 +529,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = +v); seg('quality', 'q', v => quality = +v); seg('stanceSeg', 'st', v => { stance = v; paint(); });
 
-let yaw = .5, pitch = .5, dist = 4.6, drag = null;
+let yaw = .5, pitch = .62, dist = 9.5, drag = null;
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
