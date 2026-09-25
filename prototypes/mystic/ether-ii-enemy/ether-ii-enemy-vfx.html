@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo em arco (sobe primeiro) a 10 m/s na GPU</td></tr>
           <tr><td>Resolve dano</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Anel no chão que fecha + billboard que colapsa (ease-in) e dá um pop, 0,8 s, num só sistema</td></tr>
-          <tr><td>II · micro-pulso</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só com a condição (Debuff prévio): hexágono fino com brilho nos vértices, no peito, que fecha para dentro 0,25 s depois do impacto (0,4 s); mesmo sistema de quads. Hindered + Dazed = cues de status</td></tr>
+          <tr><td>II · constelação</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só com a condição (Debuff prévio), 0,25 s depois do impacto: a mesma pequena constelação aparece no peito, os fios partem-se ao meio e as estrelas são puxadas para dentro até colapsarem num ponto ténue (0,6 s); desenhada no shader, no mesmo sistema de quads. Hindered + Dazed = cues de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
       </table>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Ether II: só um segundo pulso</h3><p>Mesmo projétil e mesma resolução do Ether I. Se o alvo já tinha um Debuff, aparece um micro-pulso hexagonal no peito logo a seguir ao impacto; os estados (Hindered + Dazed) são cues de status.</p></div>
+    <div><h3>Ether II: uma constelação</h3><p>Mesmo projétil e mesma resolução do Ether I. Se o alvo já tinha um Debuff, a mesma pequena constelação aparece no peito, os fios partem-se ao meio e as estrelas são puxadas para dentro até colapsarem num ponto ténue (0,6 s). Os estados (Hindered + Dazed) são cues de status.</p></div>
     <div><h3>Projétil astral</h3><p>Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.</p></div>
     <div><h3>Dano: fecha e colapsa</h3><p>No inimigo, um anel fecha-se nos pés e, no peito, o anel e os raios são puxados para dentro com ease-in até um pop de 2 frames.</p></div>
     <div><h3>Variante Enemy</h3><p>Paleta violeta. A outra variante (aliado → Heal) é um protótipo à parte.</p></div>
@@ -566,6 +566,9 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
+    vec2 SP(float i){ return 1.25*(i < .5 ? vec2(-.32, .02) : i < 1.5 ? vec2(-.17, .22) : i < 2.5 ? vec2(.04, .3) : i < 3.5 ? vec2(.24, .19) : vec2(.34, -.04)); }   /* a small constellation (5 stars, crown-like arc) */
+    float sdSeg(vec2 p, vec2 a, vec2 b){ vec2 pa = p - a, ba = b - a; float h = clamp(dot(pa, ba)/max(dot(ba, ba), 1e-6), 0., 1.); return length(pa - ba*h); }
+    float spark(vec2 q, float s){ float r = length(q), a = atan(q.y, q.x); return pow(abs(cos(a*2.)), 14.)*exp(-r/s*1.3) + exp(-r*r/(s*s*.06)); }
     void main(){
       float lum = 0., hot = 0., t = vU/${RL.toFixed(2)};
       if (vK < .5){
@@ -585,15 +588,16 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
         }
         lum *= f*smoothstep(1., .75, abs(x))*smoothstep(1., .85, y); hot = lum*.3;
       } else if (vK > 2.5){
-        /* Ether II: a small polygonal micro-pulse (hexagon outline + vertex glints) - only when the target already had a
-           Buff (ally: opens outward) / Debuff (enemy: closes inward) */
-        float r = length(vP), a = atan(vP.y, vP.x), t = clamp(vU/.4, 0., 1.);
-        float R = mix(.5, .18, t*t), f = pow(1. - t, 1.4)*smoothstep(0., .04, vU);
-        float sg = mod(a + .5236, 1.0472) - .5236, rh = R*.866/cos(sg);
-        lum += exp(-pow((r - rh)/.011, 2.))*f*.9;
-        for (int i=0;i<6;i++){ float va = float(i)*1.0472; vec2 q = vP - R*vec2(cos(va), sin(va)); lum += exp(-dot(q, q)*1400.)*f*.9; hot += exp(-dot(q, q)*6000.)*f; }
-        hot += lcore(r - rh, .004)*f*.5;
-        lum *= smoothstep(.75, .65, r); hot *= smoothstep(.75, .65, r);
+        /* Ether II (debuff): the same small constellation appears on the chest, its threads break and the stars are
+           pulled inward (ease-in) until they collapse into a tiny dim point. Only when the enemy already had a Debuff. */
+        float t = clamp(vU/.5, 0., 1.), k = t*t*t, f = smoothstep(0., .05, vU)*(1. - smoothstep(.85, 1., t));
+        for (int i=0;i<5;i++){ float fi = float(i); vec2 Pi = SP(fi)*(1. - .9*k);
+          if (fi < 4.){ vec2 Pj = SP(fi + 1.)*(1. - .9*k), M = (Pi + Pj)*.5, gap = (Pj - Pi)*.5*clamp(t*1.6, 0., 1.);   /* threads break from the middle */
+            float d = min(sdSeg(vP, Pi, M - gap), sdSeg(vP, M + gap, Pj)); lum += exp(-d*d/.00008)*.45*(1. - t)*f; }
+          lum += spark(vP - Pi, .045*(1. - .5*k))*f; hot += exp(-dot(vP - Pi, vP - Pi)*4000.)*f; }
+        float pop = vU > .5 && vU < .6 ? 1. - (vU - .5)/.1 : 0.;
+        lum += exp(-dot(vP, vP)*300.)*pop*.8;
+        lum *= smoothstep(.75, .68, length(vP)); hot *= smoothstep(.75, .68, length(vP));
       } else {
         // damage: ring and rays pulled inward (ease-in), then a 2-frame pop at the centre
         float r = length(vP), a = atan(vP.y, vP.x), k = clamp(vU/.22, 0., 1.), R = .7*(1. - k*k*k);
@@ -633,7 +637,7 @@ function stab(O, yaw, tier, t0, targets, cond){                   // Ether: astr
   if (!G) return;
   if (tg) tg.hitAt = hitT;
   const kinds = [0, 2];                    // Damage: closes and collapses
-    for (const kk of kinds){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, kk); rings.track(hitT + RL, 1); }
+  for (const kk of kinds){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, kk); rings.track(hitT + RL, 1); }
   if (cond){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT + .25); rings.A.aK.setX(k, 3); rings.track(hitT + .25 + RL, 1); }   // II: only if the target already had a Debuff
 }
 
@@ -711,7 +715,7 @@ const PHASES = [
   ['Anel fecha nos pés (ease-in)', 900, 1150, 0x9b5cff],
   ['Dano: colapsa sobre si (ease-in)', 900, 1120, 0xe0c8ff],
   ['Pop central (2 frames)', 1120, 1153, 0xffffff],
-  ['II: micro-pulso hexagonal (se tinha Debuff)', 1150, 1550, 0xe0c8ff],
+  ['II: constelação colapsa (se tinha Debuff)', 1150, 1750, 0xe0c8ff],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
