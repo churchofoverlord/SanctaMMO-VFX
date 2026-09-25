@@ -138,7 +138,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Cometa (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesmos princípios do Spirit of the Orbit: billboard pequeno (ícone: corpo redondo com dois olhos com cauda de cometa longa em 3 fiapos (ícone)) a orbitar o host a R 0,72 m e ~1,4 m, (fita de 16 segmentos). Tudo na GPU a partir do tempo</td></tr>
+          <tr><td>Cometa (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesmos princípios do Spirit of the Orbit: billboard pequeno (ícone: corpo redondo com dois olhos com cauda de cometa longa em 3 fiapos (ícone)) a orbitar o host a R 0,72 m e ~1,4 m, (cauda 3D: 12 bolas de chama suaves ao longo do arco + fita fina de núcleo, na mesma draw call). Tudo na GPU a partir do tempo</td></tr>
           <tr><td>Contagem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Contador da própria skill: 1 ou 2 estrelinhas-satélite à volta do Spirit (1.º e 2.º Basic); somem no proc</td></tr>
           <tr><td>Proc Moon (3.º Basic)</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>O cometa pulsa, o anel circular rebenta e solta estilhaços em losango (como no ícone) para fora (0,45 s). Os estados resultantes são cues de status</td></tr>
           <tr><td>Draw calls</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>Todos os Spirits numa draw call; os eventos +1 só enquanto vivos. 0 partículas contínuas</td></tr>
@@ -387,12 +387,12 @@ const orbJS = (o, a, t) => new THREE.Vector3(o.x + Math.cos(a)*SP_R, SP_H + .05*
 // Same principles as Spirit of the Orbit: aP.y 0 = body billboard (icon: small round spirit with two eyes inside a 4-point
 // star drawn in line with a faint fill), 1 = short trail ribbon on the orbit arc, 2..3 = count satellites (1st/2nd eligible skill).
 // aT = (placement, last proc), aS = (count, pending), aP.x = phase. One pool, one draw call for every host.
-const SPIRITS = 128, TR_LEN = 2.1;               /* comet: longer trail */
-const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:2, aP:2, aS:2, aV:1 }, addMat({
+const SPIRITS = 128, TR_LEN = 2.6;               /* comet: longer trail */
+const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*16, { aO:3, aT:2, aP:2, aS:2, aV:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uC, uP },
   vertexShader:`attribute vec3 aO; attribute vec2 aT, aP, aS; attribute float aV; uniform float uTime; varying vec2 vQ; varying float vK, vPk, vPend, vSpin; ${EOX} ${ORBF}
     void main(){ float u = uTime - aT.x; if (aV < .5 || u < 0.){ ${HIDE} }
-      float n = aP.y; if (n > 1.5 && aS.x < n - 1.5){ ${HIDE} }
+      float n = aP.y; if (n > 1.5 && n < 3.5 && aS.x < n - 1.5){ ${HIDE} }
       float k = eox(clamp(u/.3, 0., 1.)), pu = uTime - aT.y, pp = pu >= 0. && pu < .6 ? exp(-pu*6.) : 0.;
       vPk = (u < .033 ? 2.2 : 1. + .8*exp(-max(u - .033, 0.)*8.)) + 1.3*pp; vK = n; vPend = aS.y; vSpin = uTime*.35 + aP.x;
       float ang = aP.x + uTime*${F(SP_W)}, b = .05*sin(uTime*1.3 + aP.x*2.);
@@ -401,8 +401,15 @@ const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:
         vec4 mv = viewMatrix*vec4(c, 1.); mv.xy += position.xy*sz; vQ = position.xy; gl_Position = projectionMatrix*mv; return; }
       if (n < 1.5){ float s = (position.x + 1.)*.5, a = ang - s*${F(TR_LEN)}*k;
         vec3 p = orbP(aO, a, k, b), T = normalize(orbP(aO, a + .02, k, b) - p), V = normalize(cameraPosition - p);
-        vec3 sd = normalize(cross(T, V)); float w = .26*pow(1. - s, .45)*(.9 + .1*sin(s*9. - uTime*4.));   /* wide flaming tail */
+        vec3 sd = normalize(cross(T, V)); float w = .07*pow(1. - s, .6)*(.9 + .1*sin(s*9. - uTime*4.));   /* thin hot core streak joining the puffs */
         p += sd*position.y*w; vQ = vec2(s, position.y); gl_Position = projectionMatrix*viewMatrix*vec4(p, 1.); return; }
+      if (n > 3.5){                                   /* 3D tail: 12 soft flame puffs along the orbit arc - reads as a volume from any angle */
+        float s = (n - 4.)/11., jit = fract(sin(n*37.3 + aP.x)*431.7);
+        float a = ang - (.06 + s*${F(TR_LEN)})*k;
+        vec3 c = orbP(aO, a, k, b) + vec3(sin(uTime*5. + n*1.7), cos(uTime*4.3 + n*2.3), sin(uTime*3.7 + n))*.05*s;
+        float sz = mix(.2, .09, s)*k*(.85 + .3*jit);
+        vec4 mv = viewMatrix*vec4(c, 1.); float cr = uTime*.8*(jit - .5) + n; mv.xy += mat2(cos(cr), -sin(cr), sin(cr), cos(cr))*position.xy*sz;
+        vQ = position.xy; vSpin = s; gl_Position = projectionMatrix*mv; return; }
       float sa = uTime*2.2 + (n - 2.)*3.14159; vec3 c = orbP(aO, ang, k, b) + vec3(cos(sa)*.2, sin(sa)*.1, sin(sa)*.2);
       vec4 mv = viewMatrix*vec4(c, 1.); mv.xy += position.xy*.035*k; vQ = position.xy; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vQ; varying float vK, vPk, vPend, vSpin; ${STAR}
@@ -422,6 +429,11 @@ const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:
         for (int i=0;i<5;i++){ float fi = float(i), y0 = (fi - 2.)*.28*(.3 + s) + .14*sin(s*6. - uTime*7. + fi*2.1)*s;   /* flame tongues */
           lum += exp(-pow((y - y0)/(.1 + .12*s), 2.))*(.6 + .4*sin(s*14. - uTime*9. + fi*1.7))*(1. - .15*fi*s); }
         o = (uC*lum*.75 + uP*exp(-y*y*6.)*.5*pow(1. - s, 2.))*along*(1. - smoothstep(.8, 1., abs(y)));
+      } else if (vK > 3.5){                            /* flame puff: soft, uneven, hotter near the head, fading down the tail */
+        float r = length(vQ), s = vSpin, a = atan(vQ.y, vQ.x);
+        float n = .75 + .25*sin(a*3. + uTime*6. + vK*1.3)*sin(r*9. - uTime*5.);
+        float d = exp(-r*r*3.2)*n*smoothstep(1., .7, r), fade = pow(1. - s, 1.1)*.3;
+        o = (uC*d + uP*exp(-r*r*14.)*pow(1. - s, 2.)*.5)*fade;
       } else { float r = length(vQ); o = (uC*star(vQ, .3) + uP*exp(-r*r*70.))*.8*smoothstep(1., .82, r); }
       o *= vPk; o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
 
@@ -481,9 +493,9 @@ const MOON = true;
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const hosts = [], log = [];
 function addHost(p){ const i = hosts.length, h = { i, p, vis:false, placed:false, trail:true, s:[], count:0, pend:false, ph:i*2.3 };
-  for (let k=0;k<4;k++){ const j = spirit.next(); spirit.A.aO.setXYZ(j, p.x, 0, p.z); spirit.A.aP.setXY(j, h.ph, k); spirit.A.aV.setX(j, 0); h.s.push(j); }
+  for (let k=0;k<16;k++){ const j = spirit.next(); spirit.A.aO.setXYZ(j, p.x, 0, p.z); spirit.A.aP.setXY(j, h.ph, k); spirit.A.aV.setX(j, 0); h.s.push(j); }
   hosts.push(h); return h; }
-function paint(h){ h.s.forEach((j, k) => { spirit.A.aV.setX(j, h.vis && h.placed && (k === 0 || k > 1 || h.trail) ? 1 : 0); spirit.A.aS.setXY(j, h.count, h.pend ? 1 : 0); spirit.mark(j); }); }
+function paint(h){ h.s.forEach((j, k) => { spirit.A.aV.setX(j, h.vis && h.placed && (k === 0 || (k > 1 && k < 4) || h.trail) ? 1 : 0); spirit.A.aS.setXY(j, h.count, h.pend ? 1 : 0); spirit.mark(j); }); }
 function ev(P, k, t0){ const i = rings.next(); rings.A.aO.setXYZ(i, P.x, P.y, P.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, k); rings.track(t0 + .8, 1); }
 function place(h, t0, ringOn){ h.placed = true; h.count = 0; h.pend = false; h.s.forEach(j => { spirit.A.aT.setXY(j, t0, -1e5); spirit.mark(j); }); paint(h); if (ringOn) ev(V3(h.p.x, 0, h.p.z), 0, t0); log.push(t0 + .3); }
 function proc(h, t0){ h.s.forEach(j => { spirit.A.aT.setY(j, t0); spirit.mark(j); });
