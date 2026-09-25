@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 6 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
-          <tr><td>Runa secundária (Sun)</td><td class="n">✓</td><td class="n">✓</td><td class="n">✓</td><td class="n">—</td><td>12 raios curtos entre os dois círculos e uma pequena estrela de 4 pontas em cada um dos 4 nós; no mesmo material (parâmetro de modo)</td></tr>
+          <tr><td>Runa secundária (Sun)</td><td class="n">✓</td><td class="n">✓</td><td class="n">✓</td><td class="n">—</td><td>três sóis pequenos (o símbolo da Sun Stance: disco com raios em estrela de 4 pontas) logo por dentro do anel, a rodar devagar no sentido contrário; no mesmo material (parâmetro de modo)</td></tr>
           <tr><td>Pulso on/off</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Ligar: pico de 2 frames, o anel abre do centro em 0,3 s e um anel fino corre para fora (0,25 s). Desligar: o anel alarga 6 % e apaga em 0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todas as auras em ecrã numa só draw call; 0 partículas. Cabe em Stance / toggle (≤ 2, ≤ 10, pulso ≤ 0,3 s)</td></tr>
         </tbody>
@@ -156,7 +156,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Anel discreto</h3><p>Anel geométrico simples no plano do chão, na cor da aura selecionada. Ténue e estável: é um estado persistente, não reage a golpes.</p></div>
-    <div><h3>Mesma base, runa diferente</h3><p>Sun e Moon partilham o anel; muda a paleta e a runa secundária (12 raios curtos entre os dois círculos e uma pequena estrela de 4 pontas em cada um dos 4 nós). A Moon Aura é um protótipo à parte.</p></div>
+    <div><h3>Mesma base, runa diferente</h3><p>Sun e Moon partilham o anel; muda a paleta e a runa secundária (três sóis pequenos (o símbolo da Sun Stance: disco com raios em estrela de 4 pontas) logo por dentro do anel, a rodar devagar no sentido contrário). A Moon Aura é um protótipo à parte.</p></div>
     <div><h3>A cor segue a aura</h3><p>Não segue a stance: trocar a stance só muda o upkeep (sem custo quando coincidem, MP quando não). Os buffs (Regeneration + Swiftness) são cues de status.</p></div>
   </section>
 </div>
@@ -402,12 +402,13 @@ const aura = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aS:3 }, addMat({
       float lum = (line(r - R, .007)*.75 + exp(-pow((r - R)/.04, 2.))*.12)*flow + line(r - (R - .12), .004)*.35;
       float a4 = mod(a + rot, 1.5708) - .7854;
       float rune = 0.;
-      /* Sun: 12 short rays between the two circles + a small 4-point star on each node (icon) */
-        float a12 = mod(a + rot, .5236) - .2618, ry = abs(r*sin(a12));
-        float band = smoothstep(R - .13, R - .1, r)*smoothstep(R - .015, R - .045, r);
-        rune += exp(-ry*ry/.000012)*band*.55;
-        vec2 sq = vec2(r*cos(a4) - R, r*sin(a4)); float sa = atan(sq.y, sq.x), sr = length(sq);
-        rune += pow(abs(cos(sa*2.)), 14.)*exp(-sr*26.)*1.1;
+      /* Sun: three small suns (the approved Sun Stance symbol: disc + rim + 4-point star rays + soft corona) riding just inside
+           the ring, slowly counter-rotating - same placement as the Moon crescents */
+        float a3 = mod(a - uTime*.07, 2.0944) - 1.0472; vec2 sq = (vec2(r*cos(a3) - (R - .075), r*sin(a3)))/.125;
+        float sr = length(sq), sa = atan(sq.y, sq.x);
+        float disc = smoothstep(.36, .32, sr), rim = exp(-pow((sr - .34)/.03, 2.));
+        float star = pow(abs(cos(sa*2.)), 14.)*exp(-sr*2.4)*smoothstep(.2, .4, sr), corona = exp(-sr*sr*6.)*.25;
+        rune += (disc*.45 + rim*.9 + star*.9 + corona)*smoothstep(1., .8, sr);
       float d4 = length(vec2(r*cos(a4) - R, r*sin(a4))); lum += exp(-d4*d4/.0006)*.6;   /* 4 nodes on the ring */
       float hot = line(r - R, .003)*.35*flow + rune*.35;
       lum += rune*mix(1., 1.4, 1. - k);
