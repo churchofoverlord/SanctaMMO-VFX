@@ -139,9 +139,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Estrela (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>A estrela do Astral Step (4 pontas, a cintilar) a orbitar o host a R 0,72 m e ~1,4 m de altura; 3 cintilações pequenas atrás dela na órbita. Tudo na GPU a partir do tempo</td></tr>
-          <tr><td>Contagem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Contador da própria skill: 1 ou 2 estrelinhas-satélite à volta da estrela (1.ª e 2.ª skill elegível); somem no proc</td></tr>
-          <tr><td>Proc Moon (3.ª skill)</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>A estrela incendeia-se (0,4 s) e a estrela incendeia-se e solta estilhaços de estrela para fora (0,5 s); sem hostis atingidos fica em Pending, com um brilho discreto na própria estrela até à próxima skill que atinja. Os estados resultantes são cues de status</td></tr>
+          <tr><td>Spirit (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesmos princípios do Spirit of the Orbit: billboard pequeno (ícone: corpo redondo com dois olhos dentro de uma estrela de 4 pontas em linha, a rodar devagar) a orbitar o host a R 0,72 m e ~1,4 m, com rasto curto (fita de 16 segmentos). Tudo na GPU a partir do tempo</td></tr>
+          <tr><td>Contagem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Contador da própria skill: 1 ou 2 estrelinhas-satélite à volta do Spirit (1.ª e 2.ª skill elegível); somem no proc</td></tr>
+          <tr><td>Proc Moon (3.ª skill)</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>O Spirit pulsa e um anel aditivo circular rebenta à volta dele (0,4 s); sem hostis atingidos fica em Pending, com um brilho discreto no Spirit até à próxima skill que atinja. Os estados resultantes são cues de status</td></tr>
           <tr><td>Draw calls</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>Todos os Spirits numa draw call; os eventos +1 só enquanto vivos. 0 partículas contínuas</td></tr>
         </tbody>
       </table>
@@ -149,8 +149,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>As estrelas do Astral Step</h3><p>O Spirit é a mesma estrela de 4 pontas a cintilar do Astral Step, com um pequeno rasto de cintilações. Inativo quase sempre: só pulsa no proc.</p></div>
-    <div><h3>Conta até 3</h3><p>Cada skill elegível do host acende uma estrelinha-satélite; à 3.ª, a estrela incendeia-se e a estrela incendeia-se e solta estilhaços de estrela para fora (0,5 s); sem hostis atingidos fica em Pending, com um brilho discreto na própria estrela até à próxima skill que atinja.</p></div>
+    <div><h3>Irmão do Spirit of the Orbit</h3><p>Mesma base: espírito pequeno com dois olhos, a orbitar o host com um rasto curto; aqui dentro de uma estrela de 4 pontas (ícone). Inativo quase sempre: só pulsa no proc.</p></div>
+    <div><h3>Conta até 3</h3><p>Cada skill elegível do host acende uma estrelinha-satélite; à 3.ª, o Spirit pulsa e um anel aditivo circular rebenta à volta dele (0,4 s); sem hostis atingidos fica em Pending, com um brilho discreto no Spirit até à próxima skill que atinja.</p></div>
     <div><h3>Variante fixa</h3><p>A paleta Moon fica presa ao Spirit na colocação; a variante Sun é um protótipo à parte.</p></div>
   </section>
 </div>
@@ -381,33 +381,48 @@ function pool(base, N, attrs, material){
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
-const SP_R = .72, SP_H = 1.38, SP_TILT = .22, SP_W = 1.6, SP_HS = .2;
+const SP_R = .72, SP_H = 1.38, SP_TILT = .22, SP_W = 1.6, SP_HS = .15;
 const ORBF = `vec3 orbP(vec3 o, float a, float k, float b){ return o + vec3(cos(a)*${F(SP_R)}*k, ${F(SP_H)} + b + sin(a)*${F(SP_R*SP_TILT)}*k, -sin(a)*${F(SP_R)}*k); }`;
 const orbJS = (o, a, t) => new THREE.Vector3(o.x + Math.cos(a)*SP_R, SP_H + .05*Math.sin(t*1.3 + a*0) + Math.sin(a)*SP_R*SP_TILT, o.z - Math.sin(a)*SP_R);
 
-// aP.y: 0 the star · 1..3 trailing twinkles · 4..5 count satellites. aT = (placement, last proc), aS = (count, pending), aP.x = phase
-const SPIRITS = 128;
-const spirit = pool(new THREE.PlaneGeometry(2, 2), SPIRITS*6, { aO:3, aT:2, aP:2, aS:2, aV:1 }, addMat({
+// Same principles as Spirit of the Orbit: aP.y 0 = body billboard (icon: small round spirit with two eyes inside a 4-point
+// star drawn in line with a faint fill), 1 = short trail ribbon on the orbit arc, 2..3 = count satellites (1st/2nd eligible skill).
+// aT = (placement, last proc), aS = (count, pending), aP.x = phase. One pool, one draw call for every host.
+const SPIRITS = 128, TR_LEN = 1.2;
+const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:2, aP:2, aS:2, aV:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uC, uP },
-  vertexShader:`attribute vec3 aO; attribute vec2 aT, aP, aS; attribute float aV; uniform float uTime; varying vec2 vQ; varying float vK, vPk, vTw, vPend; ${EOX} ${ORBF}
+  vertexShader:`attribute vec3 aO; attribute vec2 aT, aP, aS; attribute float aV; uniform float uTime; varying vec2 vQ; varying float vK, vPk, vPend, vSpin; ${EOX} ${ORBF}
     void main(){ float u = uTime - aT.x; if (aV < .5 || u < 0.){ ${HIDE} }
-      float n = aP.y; if (n > 3.5 && aS.x < n - 3.5){ ${HIDE} }                       /* satellites only for the current count */
+      float n = aP.y; if (n > 1.5 && aS.x < n - 1.5){ ${HIDE} }
       float k = eox(clamp(u/.3, 0., 1.)), pu = uTime - aT.y, pp = pu >= 0. && pu < .6 ? exp(-pu*6.) : 0.;
-      vPk = (u < .033 ? 2.2 : 1. + .8*exp(-max(u - .033, 0.)*8.)) + 1.6*pp; vK = n; vPend = aS.y;
-      vTw = .75 + .25*sin(uTime*(5. + n) + aP.x*3. + n*2.1);
+      vPk = (u < .033 ? 2.2 : 1. + .8*exp(-max(u - .033, 0.)*8.)) + 1.3*pp; vK = n; vPend = aS.y; vSpin = uTime*.35 + aP.x;
       float ang = aP.x + uTime*${F(SP_W)}, b = .05*sin(uTime*1.3 + aP.x*2.);
-      vec3 c; float sz;
-      if (n < .5){ c = orbP(aO, ang, k, b); sz = ${F(SP_HS)}*mix(.2, 1., k)*(1. + (pu >= 0. && pu < .4 ? .35*sin(3.14159*pu/.4) : 0.)); }
-      else if (n < 3.5){ c = orbP(aO, ang - n*.2, k, b); sz = ${F(SP_HS)}*(.42 - .09*n)*k; }
-      else { float sa = uTime*2.2 + (n - 4.)*3.14159; c = orbP(aO, ang, k, b) + vec3(cos(sa)*.17, sin(sa)*.1, sin(sa)*.17); sz = .06*k; }
-      vec4 mv = viewMatrix*vec4(c, 1.); mv.xyz += normalize(-mv.xyz)*.05; mv.xy += position.xy*sz; vQ = position.xy; gl_Position = projectionMatrix*mv; }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vQ; varying float vK, vPk, vTw, vPend; ${STAR}
-    void main(){ vec2 q = vQ; float r = length(q);
-      float s = star(q, .34), hot = exp(-r*r*70.);
-      float halo = exp(-r*r*5.)*(.12 + (vK < .5 ? .35*vPend*(.75 + .25*sin(uTime*3.)) : 0.));      /* Pending: discrete glow on the star */
-      vec3 o = (uC*(s*.9 + halo) + uP*(hot*1.2 + s*.35))*vTw*vPk*(vK < .5 ? 1. : vK < 3.5 ? .7 - .15*vK : .8);
-      o *= smoothstep(1., .82, r);
-      o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
+      if (n < .5){ vec3 c = orbP(aO, ang, k, b);
+        float sz = ${F(SP_HS)}*mix(.2, 1., k)*(1. + (pu >= 0. && pu < .4 ? .22*sin(3.14159*pu/.4) : 0.));
+        vec4 mv = viewMatrix*vec4(c, 1.); mv.xy += position.xy*sz; vQ = position.xy; gl_Position = projectionMatrix*mv; return; }
+      if (n < 1.5){ float s = (position.x + 1.)*.5, a = ang - s*${F(TR_LEN)}*k;
+        vec3 p = orbP(aO, a, k, b), T = normalize(orbP(aO, a + .02, k, b) - p), V = normalize(cameraPosition - p);
+        vec3 sd = normalize(cross(T, V)); float w = .045*pow(1. - s, .8)*(.85 + .15*sin(s*9. - uTime*4.));
+        p += sd*position.y*w; vQ = vec2(s, position.y); gl_Position = projectionMatrix*viewMatrix*vec4(p, 1.); return; }
+      float sa = uTime*2.2 + (n - 2.)*3.14159; vec3 c = orbP(aO, ang, k, b) + vec3(cos(sa)*.2, sin(sa)*.1, sin(sa)*.2);
+      vec4 mv = viewMatrix*vec4(c, 1.); mv.xy += position.xy*.035*k; vQ = position.xy; gl_Position = projectionMatrix*mv; }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vQ; varying float vK, vPk, vPend, vSpin; ${STAR}
+    void main(){ vec3 o;
+      if (vK < .5){
+        vec2 q = vQ; float r = length(q), a = atan(q.y, q.x);
+        float bd = r - .24, rim = exp(-pow(bd/.028, 2.)), fill = smoothstep(.02, -.03, bd)*.3;
+        vec2 e = vec2(abs(q.x) - .09, q.y - .02)*vec2(1., .7); float eye = smoothstep(.05, .032, length(e));
+        fill *= 1. - eye*.85;                                                        /* two dark eyes, as in the icon */
+        float Rs = .3 + .6*pow(abs(cos(2.*(a - vSpin))), 10.);                        /* 4-point star around the body, slowly turning */
+        float sl = exp(-pow((r - Rs)/.02, 2.))*smoothstep(.26, .34, r), sf = smoothstep(Rs, Rs - .04, r)*smoothstep(.24, .3, r)*.12;
+        float pend = vPend*(.75 + .25*sin(uTime*3.))*exp(-r*r*5.)*.35;                 /* Moon Pending: discrete glow on the Spirit */
+        o = uC*(rim*.85 + fill + sl*.8 + sf + exp(-r*r*5.)*.1 + pend) + uP*(rim*.3 + sl*.35);
+        o *= smoothstep(1., .9, r);
+      } else if (vK < 1.5){
+        float s = vQ.x, y = vQ.y, along = pow(1. - s, 1.5)*smoothstep(.03, .2, s), streak = .7 + .3*sin(s*16. - uTime*5. + y*2.5);
+        o = (uC*exp(-y*y*5.)*.5 + uP*exp(-y*y*40.)*.3)*along*streak*(1. - smoothstep(.75, 1., abs(y)));
+      } else { float r = length(vQ); o = (uC*star(vQ, .3) + uP*exp(-r*r*70.))*.8*smoothstep(1., .82, r); }
+      o *= vPk; o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
 
 // events: aK 0 = placement ring on the ground · 1 = Sun: a small shower of stars from the Spirit down onto the host (upright quad)
 // · 2 = Moon: star shards burst out of the Spirit (billboard at the Spirit's position at proc time)
@@ -418,26 +433,15 @@ const rings = pool(new THREE.PlaneGeometry(2, 2), RINGS, { aO:3, aT:1, aK:1 }, a
     void main(){ float u = uTime - aT; if (u < 0. || u > .8){ ${HIDE} }
       vU = u; vK = aK;
       if (aK < .5){ float S = 1.2; vQ = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vQ.x, .03, -vQ.y), 1.); return; }
-      if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
-        vQ = vec2(position.x*.8, (position.y*.5 + .5)*2.); gl_Position = projectionMatrix*viewMatrix*vec4(aO + f*.25 + rt*vQ.x + vec3(0., vQ.y, 0.), 1.); return; }
       vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.1; mv.xy += position.xy*.55; vQ = position.xy*.55; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uC, uP; varying vec2 vQ; varying float vU, vK; ${EOX} ${STAR}
     void main(){ float lum = 0., hot = 0.;
       if (vK < .5){ float r = length(vQ), R = mix(.25, 1., eox(clamp(vU/.25, 0., 1.))), f = 1. - clamp(vU/.28, 0., 1.); f *= f;
         lum = exp(-pow((r - R)/.012, 2.))*f + exp(-pow((r - R)/.07, 2.))*.2*f; lum *= smoothstep(1.2, 1.08, r); }
-      else if (vK < 1.5){                                                       /* Sun: tiny stars fall from the Spirit onto the host */
-        for (int i=0;i<10;i++){ float fi = float(i), t = (vU - h1(fi)*.25)/.5; if (t < 0. || t > 1.) continue;
-          float x0 = (h1(fi + 3.) - .5)*.9, y = mix(1.55 + .2*h1(fi + 5.), .75, t*t), x = x0*(1. - .5*t);
-          vec2 d = vQ - vec2(x, y); float sz = .035 + .02*h1(fi + 9.), l = sin(3.14159*t);
-          lum += star(d, sz)*l; hot += exp(-dot(d, d)/(sz*sz*.03))*l; }
-        lum *= smoothstep(.8, .65, abs(vQ.x))*smoothstep(2., 1.8, vQ.y); }
-      else {                                                                    /* Moon: star shards thrown out of the Spirit */
-        float t = clamp(vU/.5, 0., 1.), r = length(vQ);
-        lum += exp(-r*r*120.)*(1. - t)*1.4;
-        for (int i=0;i<6;i++){ float fi = float(i), a = fi*1.047 + .4, d = .08 + .38*(1. - pow(1. - t, 3.))*(.7 + .3*h1(fi));
-          vec2 q = vQ - d*vec2(cos(a), sin(a)); float sz = .045*(1. - t*.6);
-          lum += star(q, sz)*(1. - t); hot += exp(-dot(q, q)/(sz*sz*.03))*(1. - t); }
-        lum *= smoothstep(.55, .45, r); hot *= smoothstep(.55, .45, r); }
+      else {                                                                    /* proc: circular additive burst on the Spirit */
+        float r = length(vQ), t = clamp(vU/.4, 0., 1.), R = mix(.05, .45, 1. - pow(1. - t, 3.)), f = pow(1. - t, 1.4);
+        lum = exp(-pow((r - R)/.018, 2.))*f + exp(-pow((r - R)/.07, 2.))*.25*f + exp(-r*r*120.)*(vU < .05 ? 1.5 : 0.);
+        hot = exp(-pow((r - R)/.006, 2.))*f*.6; lum *= smoothstep(.55, .47, r); hot *= smoothstep(.55, .47, r); }
       vec3 o = uC*lum*.9 + uP*(hot + lum*.3);
       o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
 
@@ -472,14 +476,13 @@ const MOON = true;
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const hosts = [], log = [];
 function addHost(p){ const i = hosts.length, h = { i, p, vis:false, placed:false, trail:true, s:[], count:0, pend:false, ph:i*2.3 };
-  for (let k=0;k<6;k++){ const j = spirit.next(); spirit.A.aO.setXYZ(j, p.x, 0, p.z); spirit.A.aP.setXY(j, h.ph, k); spirit.A.aV.setX(j, 0); h.s.push(j); }
+  for (let k=0;k<4;k++){ const j = spirit.next(); spirit.A.aO.setXYZ(j, p.x, 0, p.z); spirit.A.aP.setXY(j, h.ph, k); spirit.A.aV.setX(j, 0); h.s.push(j); }
   hosts.push(h); return h; }
-function paint(h){ h.s.forEach((j, k) => { spirit.A.aV.setX(j, h.vis && h.placed && (k === 0 || k > 3 || h.trail) ? 1 : 0); spirit.A.aS.setXY(j, h.count, h.pend ? 1 : 0); spirit.mark(j); }); }
+function paint(h){ h.s.forEach((j, k) => { spirit.A.aV.setX(j, h.vis && h.placed && (k === 0 || k > 1 || h.trail) ? 1 : 0); spirit.A.aS.setXY(j, h.count, h.pend ? 1 : 0); spirit.mark(j); }); }
 function ev(P, k, t0){ const i = rings.next(); rings.A.aO.setXYZ(i, P.x, P.y, P.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, k); rings.track(t0 + .8, 1); }
 function place(h, t0, ringOn){ h.placed = true; h.count = 0; h.pend = false; h.s.forEach(j => { spirit.A.aT.setXY(j, t0, -1e5); spirit.mark(j); }); paint(h); if (ringOn) ev(V3(h.p.x, 0, h.p.z), 0, t0); log.push(t0 + .3); }
 function proc(h, t0){ h.s.forEach(j => { spirit.A.aT.setY(j, t0); spirit.mark(j); });
-  if (!MOON) ev(V3(h.p.x, 0, h.p.z), 1, t0);
-  else ev(orbJS(h.p, h.ph + t0*SP_W, t0), 2, t0);
+  ev(orbJS(h.p, h.ph + t0*SP_W, t0), 1, t0);
   log.push(t0 + .7); }
 function skill(h, t0, hits){                           // an eligible skill of the host: counts 1, 2, then the 3rd procs
   if (!h.placed) return 'sem Spirit';
@@ -540,11 +543,11 @@ spirit.mesh.visible = true;
 
 // ============ timeline UI (relative to the last proc / placement) ============
 const PHASES = [
-  ['Colocação: a estrela condensa', 0, 300, 0xa45cff],
+  ['Colocação: o Spirit condensa', 0, 300, 0xa45cff],
   ['Colocação: anel no chão', 0, 280, 0xa45cff],
-  ['Proc: a estrela incendeia-se', 0, 400, 0xdcc2ff],
-  ['Proc Moon: estilhaços de estrela', 0, 500, 0xdcc2ff],
-  ['Estrela em órbita (persistente)', 300, 800, 0x8f8a82],
+  ['Proc: pulso no Spirit', 0, 400, 0xdcc2ff],
+  ['Proc Moon: anel circular no Spirit', 0, 400, 0xdcc2ff],
+  ['Spirit em órbita (persistente)', 300, 800, 0x8f8a82],
 ];
 const TOTAL = 800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
