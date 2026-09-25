@@ -138,9 +138,9 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Círculo no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Pequeno (R 0,85 m) à volta do corpo: dois anéis finos + traços ténues, a rodar muito devagar</td></tr>
-          <tr><td>Feixe</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Coluna vertical sobre o peito do corpo, da estrela (5,4 m) até ao corpo: corpo translúcido + núcleo estreito, largura estável, sem oscilação; só a energia corre devagar para baixo (UV panning). Desce da estrela em 0,4 s</td></tr>
-          <tr><td>Estrela + impacto</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Estrela de 4 pontas com círculo fino no topo (ícone) e um brilho estável no ponto de contacto com o corpo</td></tr>
-          <tr><td>Resolve</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só se o cast completar: o feixe recolhe de cima para baixo (0,4 s), o círculo abre um pouco e sobe uma luz suave com o aliado a levantar-se. Sem explosão. Interrompido: tudo apaga em 0,3 s</td></tr>
+          <tr><td>Chuva de estrelas</td><td class="n">14</td><td class="n">14</td><td class="n">14</td><td class="n">14</td><td>As estrelas do Astral Step (4 pontas, a cintilar) caem sem parar sobre o corpo durante todo o cast, cada uma com um pequeno brilho ao pousar; desenhadas no shader num só quad vertical (não são partículas). Param de nascer quando o cast acaba</td></tr>
+          <tr><td>Brilho no corpo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Brilho suave e estável sobre o peito do aliado caído</td></tr>
+          <tr><td>Resolve</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só se o cast completar: as estrelas deixam de cair, o círculo abre um pouco e sobe uma luz suave com o aliado a levantar-se. Sem explosão. Interrompido: tudo apaga em 0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Tudo num só sistema instanciado, para todos os Mystics; 0 partículas. Cabe em Channel (≤ 3, ≤ 30)</td></tr>
         </tbody>
       </table>
@@ -148,8 +148,8 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um feixe estável</h3><p>A silhueta é a coluna de luz que desce da estrela até ao peito do aliado caído: largura constante, sem balançar, translúcida com um núcleo fino. Lê-se como compromisso longo, não como ataque.</p></div>
-    <div><h3>Resolução limpa</h3><p>Quando o cast acaba, o feixe recolhe para o corpo, o círculo abre um pouco e sobe uma luz suave enquanto o aliado se levanta. Nada rebenta.</p></div>
+    <div><h3>Estrelas a cair</h3><p>Durante todo o cast, as estrelas do Astral Step caem devagar sobre o aliado caído e brilham ao pousar. Sem feixe vindo do céu: lê-se como um cuidado longo, não como ataque.</p></div>
+    <div><h3>Resolução limpa</h3><p>Quando o cast acaba, as estrelas deixam de cair, o círculo abre um pouco e sobe uma luz suave enquanto o aliado se levanta. Nada rebenta.</p></div>
     <div><h3>Interrompido</h3><p>Se o cast for interrompido (E), tudo apaga em 0,3 s e o corpo fica no chão. Sem invulnerabilidade implícita: nada no VFX sugere proteção ao Mystic.</p></div>
   </section>
 </div>
@@ -387,8 +387,8 @@ const rez = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aT:3, aK:1 }, addMa
       vU = u; vE = e; vOk = aT.z; vK = aK;
       vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
       if (aK < .5){ float S = 1.1; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .03, -vP.y), 1.); return; }
-      if (aK < 1.5){ vP = vec2(position.x, position.y*.5 + .5);                       /* beam: turned about Y only, stable width */
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*${F(BW)} + vec3(0., mix(.2, ${F(TOP)}, vP.y), 0.), 1.); return; }
+      if (aK < 1.5){ vP = vec2(position.x*1.2, (position.y*.5 + .5)*3.);              /* star shower over the body (metres), Y-dominant */
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + f*.15 + rt*vP.x + vec3(0., vP.y, 0.), 1.); return; }
       if (aK > 3.5){ vP = vec2(position.x, position.y*.5 + .5);                        /* resolve: rising light over the body */
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + f*.2 + rt*position.x*.7 + vec3(0., vP.y*2.4, 0.), 1.); return; }
       vec3 C = aO + vec3(0., aK < 2.5 ? ${F(TOP)} : .3, 0.); float S = aK < 2.5 ? .8 : .6;
@@ -406,16 +406,24 @@ const rez = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aT:3, aK:1 }, addMa
         hot = line(r - R, .004)*.35; lum *= fin*fout; hot *= fin*fout;
         lum *= smoothstep(1.1, .98, r); hot *= smoothstep(1.1, .98, r);
       } else if (vK < 1.5){
-        /* vertical beam: solid translucent body + narrow hot core, stable width; draws down from the star, then on the
-           resolve it retracts from the top down; interrupted: it simply fades */
-        float x = vP.x, h = vP.y, g = eox(clamp(vU/.4, 0., 1.));
-        float m = smoothstep(1. - g - .02, 1. - g + .02, h);
-        if (vE > 0.){ if (vOk > .5){ float k = eox(clamp(vE/.4, 0., 1.)); m *= smoothstep(1. - k + .02, 1. - k - .02, h); } else m *= fout; }
-        float flow = .85 + .15*sin(h*24. + uTime*2.4);                               /* slow energy running down the beam */
-        float body = exp(-x*x*5.)*.3*flow, core = exp(-x*x*160.);
-        float ends = smoothstep(1., .93, h)*smoothstep(0., .04, h);
-        lum = body*m*ends; hot = core*m*ends; cy = core*m*ends*.6;
-        lum *= smoothstep(1., .8, abs(x)); hot *= smoothstep(1., .8, abs(x));
+        /* the Astral Step stars fall onto the body, one after another, for the whole cast; each lands with a small glint.
+           New stars stop when the cast ends (the last ones still land); interrupted: everything fades */
+        float T = .95;
+        for (int i=0;i<14;i++){ float fi = float(i), tt = vU + fract(sin(fi*37.3)*431.7)*T, cyc = floor(tt/T), l = fract(tt/T);
+          float born = vU - l*T; if (born < 0.) continue;
+          if (vE > 0. && vOk > .5 && l*T < vE) continue;                                 /* no new stars after the cast */
+          float hs = fract(sin((fi + cyc*7.31)*91.7)*43758.5), hx = fract(sin((fi*3.1 + cyc*1.7)*57.3)*1375.5);
+          float x = (hx - .5)*1.9, y0 = 2.4 + .5*hs, yl = .28;
+          float k = clamp(l/.75, 0., 1.), y = mix(y0, yl, k*k);
+          float sz = .035 + .03*hs, tw = .7 + .3*sin(uTime*24. + fi*2.3);
+          vec2 q = vP - vec2(x, y); float qr = length(q), qa = atan(q.y, q.x);
+          float st = (pow(abs(cos(qa*2.)), 12.)*exp(-qr/sz*1.4) + exp(-qr*qr/(sz*sz*.08)))*tw*smoothstep(0., .12, l)*(l < .75 ? 1. : 0.);
+          float land = l >= .75 ? exp(-(l - .75)*T*9.) : 0.;                              /* glint where it lands on the body */
+          vec2 g = vP - vec2(x, yl); float gr = length(g), ga = atan(g.y, g.x);
+          st += (pow(abs(cos(ga*2.)), 16.)*exp(-gr*9.) + exp(-gr*gr*900.))*land*.9;
+          lum += st; hot += exp(-qr*qr/(sz*sz*.03))*tw*(l < .75 ? 1. : 0.) + exp(-gr*gr*2500.)*land; }
+        lum *= fout; hot *= fout;
+        lum *= smoothstep(1.2, 1., abs(vP.x))*smoothstep(3., 2.7, vP.y); hot *= smoothstep(1.2, 1., abs(vP.x));
       } else if (vK < 2.5){
         /* the star at the top (icon): 4 long rays + short diagonals + a fine circle */
         float r = length(vP), a = atan(vP.y, vP.x);
@@ -472,8 +480,8 @@ const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const casts = [];
 function cast(P, t0){
   const c = { slots:[], t0, end:t0 + CAST, ok:true, done:false, P };
-  for (const k of [0, 1, 2, 3]){ const j = rez.next(); rez.A.aO.setXYZ(j, P.x, 0, P.z); rez.A.aT.setXYZ(j, t0, t0 + CAST, 1); rez.A.aK.setX(j, k); c.slots.push(j); }
-  rez.track(t0 + CAST + 1.3, 4); casts.push(c); return c;
+  for (const k of [0, 1, 3]){ const j = rez.next(); rez.A.aO.setXYZ(j, P.x, 0, P.z); rez.A.aT.setXYZ(j, t0, t0 + CAST, 1); rez.A.aK.setX(j, k); c.slots.push(j); }
+  rez.track(t0 + CAST + 1.3, 3); casts.push(c); return c;
 }
 function interrupt(c, t){ if (!c || c.done || t >= c.end) return; c.ok = false; c.done = true; c.end = t;
   for (const j of c.slots){ rez.A.aT.setY(j, t); rez.A.aT.setZ(j, 0); rez.mark(j); } }
@@ -538,9 +546,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Círculo no chão + feixe desce da estrela', 0, 400, 0x5fe0ff],
-  ['Feixe estável (cast longo, 4 s de exemplo)', 400, 4000, 0x3f8cff],
-  ['Resolve: feixe recolhe de cima para baixo', 4000, 4400, 0xd8f6ff],
+  ['Círculo no chão + primeiras estrelas', 0, 400, 0x5fe0ff],
+  ['Estrelas caem sobre o corpo (cast longo, 4 s)', 0, 4000, 0x3f8cff],
+  ['Últimas estrelas pousam', 4000, 4700, 0xd8f6ff],
   ['Resolve: luz suave sobe, o aliado levanta-se', 4000, 5100, 0xd8f6ff],
 ];
 const TOTAL = 5300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -564,7 +572,7 @@ addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return;
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = 1.0, pitch = .12, dist = 13, drag = null;     // 3/4 side view: the whole beam (star to body) reads
+let yaw = 1.0, pitch = .25, dist = 8.5, drag = null;     // 3/4 side view: the whole beam (star to body) reads
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -617,7 +625,7 @@ function frame(now){
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(4,'0')} ms · ${speed}×${cur && !cur.ok ? ' · interrompido' : ''}` : `idle · ${speed}×`;
 
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist + .4, 1.6 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist - 1.4);
-  camera.lookAt(.4, 2.7, -1.6);
+  camera.lookAt(.4, 1.1, -1.8);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
