@@ -140,7 +140,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2000 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2200 ms</span></div>
   </div>
 
   <section class="budget">
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Olho no alvo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil: o olho ameaçador (pupila em fenda, pestanas em espinhos, luz a escorrer, a pulsar) abre-se diante do peito do inimigo e fita-o durante 0,7 s; depois dá lugar ao impacto</td></tr>
+          <tr><td>Olho no alvo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil: o olho ameaçador (pupila em fenda, pestanas em espinhos, luz a escorrer, a pulsar) abre-se diante do peito do inimigo e fita-o durante 0,875 s; depois dá lugar ao impacto</td></tr>
           <tr><td>Impacto (dano)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um olho enorme rasga-se no peito do inimigo e fica a fitá-lo (pupila em fenda), fecha-se de golpe com um estalo, e saem dele 7 espíritos a gritar (como no ícone) com uma onda de choque (1,1 s)</td></tr>
           <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Onda de choque grande (até ~2,3 m) que rebenta do alvo para fora: anel duplo irregular, 12 farpas longas e um rasto frio, a tremeluzir (0,8 s). O Fear que fica é o cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
@@ -434,10 +434,10 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
     void main(){
-      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = .7;
+      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = .875;
       if (u < 0. || u > tt){ ${HIDE} }
       vec4 mv = viewMatrix*vec4(aE + vec3(0., .05, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.4;   /* no projectile: the eye opens in front of the target */
-      float S = .5*(1. - pow(1. - clamp(u/.18, 0., 1.), 3.))*(1. + .25*smoothstep(tt - .15, tt, u));
+      float S = .5*(1. - pow(1. - clamp(u/.225, 0., 1.), 3.))*(1. + .25*smoothstep(tt - .19, tt, u));
       float c = cos(.12*sin(u*2.)), s = sin(.12*sin(u*2.)); vec2 q = mat2(c, -s, s, c)*position.xy;   // the eye stays level, only a slight rock
       mv.xy += q*S*1.25*(1. + .12*pow(max(sin(u*6.5), 0.), 10.)); vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
@@ -655,7 +655,7 @@ function stab(O, yaw, tier, t0, targets){                   // Nightmare: slow a
   if (tg){ const tx = tg.p.x - H.x, tz = tg.p.z - H.z, tn = Math.hypot(tx, tz); E = V3(tg.p.x - tx/tn*.2, 1.15, tg.p.z - tz/tn*.2); G = tg.p; }
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
-  const tt = .7, hitT = t0 + WIND + tt;   // the eye stares for 0.7 s, then the hit
+  const tt = .875, hitT = t0 + WIND + tt;   // the eye stares for 0.7 s, then the hit
   let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
   
   castLog.push(hitT + RL);
@@ -735,12 +735,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Olho aparece no alvo e fita-o', 100, 800, 0x4aa8ff],
-  ['Dano: o olho rasga-se, fita e fecha de golpe', 800, 1100, 0xc8f2ff],
-  ['Espíritos a gritar + onda de choque', 1100, 1800, 0xc8f2ff],
-  ['Fear: onda grande rebenta para fora', 850, 1650, 0x4aa8ff],
+  ['Olho aparece no alvo e fita-o', 100, 975, 0x4aa8ff],
+  ['Dano: o olho rasga-se, fita e fecha de golpe', 975, 1275, 0xc8f2ff],
+  ['Espíritos a gritar + onda de choque', 1275, 1975, 0xc8f2ff],
+  ['Fear: onda grande rebenta para fora', 1025, 1825, 0x4aa8ff],
 ];
-const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
