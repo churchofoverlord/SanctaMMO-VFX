@@ -1,0 +1,596 @@
+<title>Astral Aura Sun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ground:#0b0c0e; --panel:#131416; --line:#26272a; --ink:#e9e3d8; --muted:#8f8a82;
+  --orange:#ff7a1a; --gold:#f2b53a; --pale:#fff0d2; --debuff:#8b6fd6; --ok:#7fbf8a; --warn:#e0a24a;
+}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font:14px/1.5 "IBM Plex Sans",system-ui,sans-serif;margin:0;padding-inline:16px;padding-block:20px;box-sizing:border-box}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px}
+h1{font:700 clamp(28px,4vw,40px)/1 "Cinzel",Georgia,serif;margin:0;letter-spacing:.04em;text-wrap:balance}
+h1 span{color:var(--gold)}
+h2{font:700 15px "Cinzel",Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0}
+.eyebrow{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.canon{max-width:62ch;color:var(--muted);margin:0}
+.canon b{color:var(--ink);font-weight:500}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:16px}
+@media (max-width:900px){.main{grid-template-columns:1fr}}
+.stage{position:relative;border:1px solid var(--line);background:#07080a;aspect-ratio:16/9;max-width:100%;overflow:hidden;touch-action:none;cursor:grab}
+.stage:active{cursor:grabbing}
+canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;left:12px;bottom:10px;font:400 11px/1.4 "IBM Plex Mono",monospace;color:var(--muted);pointer-events:none;font-variant-numeric:tabular-nums}
+.key{position:absolute;right:12px;top:10px;font:500 11px "IBM Plex Mono",monospace;color:var(--muted);pointer-events:none}
+aside{display:grid;gap:12px;align-content:start}
+.cast{font:700 17px "Cinzel",Georgia,serif;letter-spacing:.08em;text-transform:uppercase;background:linear-gradient(180deg,#f7c457,#d98a1f);color:#1b0f02;border:1px solid #ffd98a;padding:13px;cursor:pointer}
+.cast:hover{filter:brightness(1.08)}
+.cast:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--pale);outline-offset:2px}
+fieldset{border:1px solid var(--line);background:var(--panel);margin:0;padding:10px 12px;display:grid;gap:8px}
+legend{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 6px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
+.seg button{font:500 12px "IBM Plex Mono",monospace;background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 0;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+label.tg{display:flex;align-items:center;gap:10px;cursor:pointer}
+label.tg input{accent-color:var(--gold);width:16px;height:16px;margin:0;flex:none}
+label.tg small{display:block;color:var(--muted);font-size:12px}
+.stats{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:12.5px}
+.stats dt{color:var(--muted)}
+.stats dd{margin:0;font:500 12.5px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+.stats dd.vfx{color:var(--gold)}
+.stats .sep{grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0}
+.timeline{border:1px solid var(--line);background:var(--panel);padding:12px 14px;display:grid;gap:6px}
+.tl-row{display:grid;grid-template-columns:190px 1fr 82px;gap:10px;align-items:center;font-size:12px}
+@media (max-width:560px){.tl-row{grid-template-columns:110px 1fr 64px}}
+.tl-row .ms{font:400 11px "IBM Plex Mono",monospace;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.track{position:relative;height:8px;background:#0c0d0f}
+.bar{position:absolute;top:0;bottom:0;opacity:.85}
+.playhead{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--pale);opacity:0}
+.tl-head{display:flex;justify-content:space-between;font:500 11px "IBM Plex Mono",monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.budget{display:grid;gap:10px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--panel)}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.notes div{border-top:1px solid var(--line);padding-top:10px}
+.notes h3{font:700 13px "Cinzel",Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4px;color:var(--gold)}
+.notes p{margin:0;color:var(--muted);font-size:13px}
+</style>
+
+<style>
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor}
+.chip i{width:9px;height:9px;background:currentColor;display:inline-block}
+.momentum{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:grid;gap:4px;justify-items:center;pointer-events:none}
+.momentum small{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:4px}
+.pips span{width:22px;height:6px;border:1px solid var(--line);background:#0c0d0f;transition:background .15s}
+</style>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">SanctaMMO · Mystic · Árvore · Toggle de aura · Paleta dourada</div>
+      <h1>Astral Aura <span>· Sun</span></h1>
+    </div>
+    <p class="canon"><b>Efeito canónico:</b> Toggle de aura independente da stance. Sun Aura: <b>Regeneration + Swiftness</b>. Aura igual à stance elimina o upkeep; diferente custa MP.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage" id="stage">
+      <div class="key">arrastar = orbitar · roda = zoom · Q / espaço = ligar / desligar</div>
+      <div class="hud" id="hud">idle</div>
+      
+    </div>
+    <aside>
+      <button class="cast" id="castBtn">Sun Aura · on/off</button>
+      <div class="chip" id="chip"><i></i><span>Sun Aura</span></div>
+      <fieldset>
+        <legend>Stance atual do Mystic</legend>
+        <div class="seg" id="stanceSeg">
+          <button data-st="Sun" aria-pressed="true">Sun</button>
+          <button data-st="Moon" aria-pressed="false">Moon</button>
+        </div>
+        <dl class="stats"><dt>Upkeep</dt><dd id="upkeep">—</dd></dl>
+        <small style="color:var(--muted);font-size:12px">A cor segue a aura, não a stance: trocar a stance só muda o upkeep.</small>
+      </fieldset>
+      <fieldset>
+        <legend>Qualidade (scalability)</legend>
+        <div class="seg" id="quality">
+          <button data-q="3" aria-pressed="false">Epic</button>
+          <button data-q="2" aria-pressed="true">Alto</button>
+          <button data-q="1" aria-pressed="false">Médio</button>
+          <button data-q="0" aria-pressed="false">Baixo</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Velocidade</legend>
+        <div class="seg" id="speed">
+          <button data-s="1" aria-pressed="true">1×</button>
+          <button data-s="0.25" aria-pressed="false">0.25×</button>
+          <button data-s="0.06" aria-pressed="false">0.06×</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Cenário</legend>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Alternar on/off<small>ligada ~3,5 s, desligada ~1,2 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>auras de outros a ligar e desligar</small></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Custo em tempo real</legend>
+        <dl class="stats">
+          <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
+          <dt>Auras ligadas</dt><dd class="vfx" id="sMark">0</dd>
+          <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
+          <dt>Toggles a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
+          <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
+          <div class="sep"></div>
+          <dt>Frame (média)</dt><dd id="sFrame">—</dd>
+          <dt>Draw calls totais</dt><dd id="sTotal">—</dd>
+        </dl>
+      </fieldset>
+    </aside>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="tl-head"><span>Timing ao ligar</span><span>0 — 600 ms</span></div>
+  </div>
+
+  <section class="budget">
+    <h2>Orçamento por nível</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
+        <tbody>
+          <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 1,15 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
+          <tr><td>Runa secundária (Sun)</td><td class="n">✓</td><td class="n">✓</td><td class="n">✓</td><td class="n">—</td><td>12 raios curtos entre os dois círculos e uma pequena estrela de 4 pontas em cada um dos 4 nós; no mesmo material (parâmetro de modo)</td></tr>
+          <tr><td>Pulso on/off</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Ligar: pico de 2 frames, o anel abre do centro em 0,3 s e um anel fino corre para fora (0,25 s). Desligar: o anel alarga 6 % e apaga em 0,3 s</td></tr>
+          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todas as auras em ecrã numa só draw call; 0 partículas. Cabe em Stance / toggle (≤ 2, ≤ 10, pulso ≤ 0,3 s)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="notes">
+    <div><h3>Anel discreto</h3><p>Anel geométrico simples no plano do chão, na cor da aura selecionada. Ténue e estável: é um estado persistente, não reage a golpes.</p></div>
+    <div><h3>Mesma base, runa diferente</h3><p>Sun e Moon partilham o anel; muda a paleta e a runa secundária (12 raios curtos entre os dois círculos e uma pequena estrela de 4 pontas em cada um dos 4 nós). A Moon Aura é um protótipo à parte.</p></div>
+    <div><h3>A cor segue a aura</h3><p>Não segue a stance: trocar a stance só muda o upkeep (sem custo quando coincidem, MP quando não). Os buffs (Regeneration + Swiftness) são cues de status.</p></div>
+  </section>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const lin = h => new THREE.Color(h).convertSRGBToLinear();
+const COL = { gold:lin(0xf2b53a), orange:lin(0xff7a1a), pale:lin(0xfff0d2), violet:lin(0x8b6fd6), violetDeep:lin(0x2a1450), light:lin(0xffa24a) };
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const easeOutExpo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const easeOutCubic = x => 1 - Math.pow(1 - clamp01(x), 3);
+const rand = (a, b) => a + Math.random() * (b - a);
+
+// ============ renderer / post ============
+const stage = $('stage');
+const PR = Math.min(devicePixelRatio, 1.5);
+const renderer = new THREE.WebGLRenderer({ antialias:false, powerPreference:'high-performance' });
+renderer.setPixelRatio(PR);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+stage.prepend(renderer.domElement);
+const hasPost = !!(THREE.EffectComposer && THREE.UnrealBloomPass && THREE.ShaderPass && THREE.RenderPass);
+if (hasPost) { renderer.outputEncoding = THREE.LinearEncoding; renderer.toneMapping = THREE.NoToneMapping; }
+else { renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.2; }
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(36, 16/9, 0.05, 120);
+
+// ============ procedural textures ============
+function hash2(x, y, p, s){ x = ((x % p) + p) % p; y = ((y % p) + p) % p; let h = (x*374761393 + y*668265263 + s*1442695041) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
+function vnoise(x, y, p, s){ const ix = Math.floor(x), iy = Math.floor(y), fx = x-ix, fy = y-iy, ux = fx*fx*(3-2*fx), uy = fy*fy*(3-2*fy);
+  const a = hash2(ix,iy,p,s), b = hash2(ix+1,iy,p,s), c = hash2(ix,iy+1,p,s), d = hash2(ix+1,iy+1,p,s);
+  return a + (b-a)*ux + (c-a)*uy + (a-b-c+d)*ux*uy; }
+function fbm(u, v, p, oct, s){ let t = 0, a = .5, n = 0; for (let o=0;o<oct;o++){ t += a*vnoise(u*p, v*p, p, s+o); n += a; a *= .5; p *= 2; } return t/n; }
+function canvas(S){ const c = document.createElement('canvas'); c.width = c.height = S; return c; }
+
+function groundTextures(){
+  const S = 512, CELLS = 11;
+  const ca = canvas(S), cb = canvas(S), xa = ca.getContext('2d'), xb = cb.getContext('2d');
+  const ia = xa.createImageData(S,S), ib = xb.createImageData(S,S);
+  for (let y=0;y<S;y++) for (let x=0;x<S;x++){
+    const u = x/S, v = y/S, gx = u*CELLS, gy = v*CELLS, ix = Math.floor(gx), iy = Math.floor(gy);
+    let d1 = 9, d2 = 9, id = 0;
+    for (let j=-1;j<=1;j++) for (let i=-1;i<=1;i++){
+      const cx = ix+i, cy = iy+j;
+      const px = cx + .05 + .9*hash2(cx,cy,CELLS,11), py = cy + .05 + .9*hash2(cx,cy,CELLS,23);
+      const d = Math.hypot(gx-px, gy-py);
+      if (d < d1){ d2 = d1; d1 = d; id = hash2(cx,cy,CELLS,37); } else if (d < d2) d2 = d;
+    }
+    const crack = clamp01((d2-d1)/0.09);
+    const n = fbm(u,v,8,5,1), n2 = fbm(u,v,32,3,5), big = fbm(u,v,3,3,9);
+    const wet = clamp01((0.44-big)/0.1);
+    let lum = (.6 + .5*id) * (.6 + .6*n) * (.85 + .3*n2);
+    lum *= (.5 + .5*Math.pow(crack,.6)) * (.55 + .6*big);
+    lum *= (1 - .4*wet);
+    const k = (y*S+x)*4;
+    ia.data[k] = 50*lum*(0.96+.08*id); ia.data[k+1] = 47*lum; ia.data[k+2] = 44*lum*(1.04-.08*id); ia.data[k+3] = 255;
+    ib.data[k] = 255*Math.pow(crack,.5)*(.7+.3*n);
+    ib.data[k+1] = 255*clamp01(.88 - .38*wet + .12*(n2-.5) + (crack<.3?.1:0));
+    ib.data[k+2] = 0; ib.data[k+3] = 255;
+  }
+  xa.putImageData(ia,0,0); xb.putImageData(ib,0,0);
+  return [ca, cb];
+}
+function metalTexture(){
+  const S = 256, c = canvas(S), x = c.getContext('2d'), im = x.createImageData(S,S);
+  for (let j=0;j<S;j++) for (let i=0;i<S;i++){
+    const u = i/S, v = j/S, n = fbm(u,v,6,5,3), fine = fbm(u,v,48,2,7);
+    const scratch = Math.pow(Math.abs(Math.sin((u*0.35+v)*170 + n*14)), 60);
+    const k = (j*S+i)*4;
+    im.data[k] = 255*clamp01(.5 + .35*(n-.5) - .25*scratch + .15*(fine-.5));
+    im.data[k+1] = 255*clamp01(.34 + .45*n + .2*fine - .15*scratch);
+    im.data[k+2] = 0; im.data[k+3] = 255;
+  }
+  x.putImageData(im,0,0); return c;
+}
+function smokeTexture(seed){
+  const S = 128, c = canvas(S), x = c.getContext('2d'), im = x.createImageData(S,S);
+  for (let j=0;j<S;j++) for (let i=0;i<S;i++){
+    const u = i/S, v = j/S, d = Math.hypot(u-.5, v-.5)*2;
+    const n = fbm(u,v,4,5,seed);
+    const fall = clamp01(1-d);
+    const a = Math.pow(fall,1.4) * clamp01(n*1.9 - .35);
+    const k = (j*S+i)*4; im.data[k]=im.data[k+1]=im.data[k+2]=255; im.data[k+3]=255*a;
+  }
+  x.putImageData(im,0,0); return new THREE.CanvasTexture(c);
+}
+function glowTexture(){
+  const S = 128, c = canvas(S), x = c.getContext('2d'), g = x.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);
+  g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.25,'rgba(255,255,255,.45)'); g.addColorStop(.6,'rgba(255,255,255,.08)'); g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0,0,S,S); return new THREE.CanvasTexture(c);
+}
+const [gA, gB] = groundTextures();
+const maxAniso = renderer.capabilities.getMaxAnisotropy();
+function tex(c, rep, srgb){ const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); t.anisotropy = maxAniso; if (srgb) t.encoding = THREE.sRGBEncoding; return t; }
+const smokeTex = [smokeTexture(101), smokeTexture(202), smokeTexture(303)];
+const glowTex = glowTexture();
+const metalC = metalTexture();
+
+// ============ sky / environment ============
+const moonDir = new THREE.Vector3(-.25, .34, -1).normalize();
+function skyMaterial(gain){
+  return new THREE.ShaderMaterial({ side:THREE.BackSide, depthWrite:false,
+    uniforms:{ uMoon:{value:moonDir}, uGain:{value:gain} },
+    vertexShader:`varying vec3 vD; void main(){ vD = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform vec3 uMoon; uniform float uGain; varying vec3 vD;
+      void main(){ vec3 d = normalize(vD); float h = d.y;
+        vec3 hor = vec3(.028,.033,.046), zen = vec3(.006,.009,.016), gnd = vec3(.018,.02,.024);
+        vec3 c = mix(hor, zen, smoothstep(0., .55, h)); c = mix(gnd, c, smoothstep(-.06, .02, h));
+        float m = max(dot(d, uMoon), 0.);
+        c += vec3(.55,.66,.85) * (pow(m, 1400.)*5. + pow(m, 60.)*.15 + pow(m, 7.)*.05);
+        gl_FragColor = vec4(c*uGain, 1.); }` });
+}
+const sky = new THREE.Mesh(new THREE.SphereGeometry(80, 48, 24), skyMaterial(1));
+sky.renderOrder = -1; scene.add(sky);
+scene.fog = new THREE.FogExp2(new THREE.Color(.026, .031, .042), .065);
+
+// ============ lights ============
+scene.add(new THREE.HemisphereLight(new THREE.Color(.22,.27,.36), new THREE.Color(.035,.028,.022), .32));
+const moon = new THREE.DirectionalLight(new THREE.Color(.62,.72,.95), 1.15);
+moon.position.copy(moonDir).multiplyScalar(20); moon.castShadow = true;
+Object.assign(moon.shadow.camera, { left:-8, right:8, top:8, bottom:-8, near:1, far:50 });
+moon.shadow.mapSize.set(1024, 1024); moon.shadow.bias = -0.0004; moon.shadow.normalBias = .03;
+scene.add(moon, moon.target);
+
+// ============ ground + ruins ============
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90),
+  new THREE.MeshStandardMaterial({ map:tex(gA,[14,14],true), bumpMap:tex(gB,[14,14]), roughnessMap:tex(gB,[14,14]), bumpScale:.03, roughness:1, metalness:0, envMapIntensity:.6 }));
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+const stoneMat = new THREE.MeshStandardMaterial({ map:tex(gA,[1,2],true), bumpMap:tex(gB,[1,2]), roughnessMap:tex(gB,[1,2]), bumpScale:.06, color:lin(0xa8a198), envMapIntensity:.5 });
+function pillar(x, z, h, broken){
+  const g = new THREE.Group();
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.34, .4, h, 14), stoneMat); shaft.position.y = h/2 + .3;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.1, .3, 1.1), stoneMat); base.position.y = .15;
+  g.add(shaft, base);
+  if (broken){ shaft.rotation.z = rand(-.06,.06); const chunk = new THREE.Mesh(new THREE.CylinderGeometry(.34,.36,.7,14), stoneMat); chunk.position.set(rand(.6,1.1), .3, rand(-.4,.4)); chunk.rotation.set(Math.PI/2, rand(0,3), .2); g.add(chunk); }
+  else { const cap = new THREE.Mesh(new THREE.BoxGeometry(1, .28, 1), stoneMat); cap.position.y = h + .44; g.add(cap); }
+  g.traverse(o => { if (o.isMesh){ o.castShadow = o.receiveShadow = true; } });
+  g.position.set(x, 0, z); g.rotation.y = rand(0, 3); scene.add(g);
+}
+[[-2.1,-8.5,4.4,0],[2.1,-8.5,4.4,0],[-6.5,-5.5,2.2,1],[6.8,-6.5,3.4,0],[-9.5,-11,5,0],[9.5,-12,2.6,1],[-4,-15,3.8,0],[4.8,-16,5.2,0],[-11,-2,1.6,1],[10.5,-1.5,3,0],[-7.5,5,2.8,1],[8,6,4,0]]
+  .forEach(([x,z,h,b]) => pillar(x,z,h,!!b));
+{ const lintel = new THREE.Mesh(new THREE.BoxGeometry(5.2, .6, .9), stoneMat); lintel.position.set(0, 5.35, -8.5); lintel.rotation.z = .03; lintel.castShadow = true; scene.add(lintel); }
+// rubble: one instanced mesh (1 draw call instead of 46)
+{ const N = 46, im = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1, 1), stoneMat, N), o = new THREE.Object3D();
+  for (let i=0;i<N;i++){
+    const r = rand(1.9, 11), a = rand(0, Math.PI*2), s = rand(.05, .32);
+    o.scale.set(s*rand(.8,1.6), s*rand(.5,.9), s*rand(.8,1.4)); o.position.set(Math.cos(a)*r, s*.35, Math.sin(a)*r);
+    o.rotation.set(rand(0,3), rand(0,3), rand(0,3)); o.updateMatrix(); im.setMatrixAt(i, o.matrix);
+  }
+  im.castShadow = im.receiveShadow = true; scene.add(im); }
+
+
+// ============ knight (faces -z, camera sits behind) ============
+const hero = new THREE.Group(); scene.add(hero);
+const body = new THREE.Group(); hero.add(body);
+const mTex = tex(metalC, [2,2]);
+const armor = new THREE.MeshStandardMaterial({ color:lin(0x6b6660), metalness:.55, roughness:1, roughnessMap:mTex, bumpMap:mTex, bumpScale:.006, envMapIntensity:1 });
+const darkArmor = armor.clone(); darkArmor.color = lin(0x3a3632);
+const leather = new THREE.MeshStandardMaterial({ color:lin(0x2b221d), roughness:.85, metalness:0, bumpMap:mTex, bumpScale:.01 });
+const capeMat = new THREE.MeshStandardMaterial({ color:lin(0x3a120e), roughness:.95, side:THREE.DoubleSide, bumpMap:mTex, bumpScale:.015 });
+function part(geo, mat, x, y, z, sx=1, sy=1, sz=1, rx=0, ry=0, rz=0){ const m = new THREE.Mesh(geo, mat); m.position.set(x,y,z); m.scale.set(sx,sy,sz); m.rotation.set(rx,ry,rz); m.castShadow = true; m.receiveShadow = true; body.add(m); return m; }
+const sph = new THREE.SphereGeometry(1, 28, 20);
+[-1,1].forEach(s => {
+  part(new THREE.CylinderGeometry(.085,.075,.46,16), darkArmor, s*.12,.62,0);          // thigh
+  part(new THREE.CylinderGeometry(.075,.065,.42,16), armor, s*.12,.24,.01);           // greave
+  part(sph, armor, s*.12,.44,-.03, .085,.09,.08);                                     // knee
+  part(new THREE.BoxGeometry(.13,.08,.26), darkArmor, s*.12,.04,-.04);                // boot
+  part(sph, armor, s*.36,1.46,.01, .17,.12,.16, 0,0,s*-.35);                          // pauldron
+  part(sph, armor, s*.4,1.39,.01, .15,.08,.14, 0,0,s*-.5);                            // pauldron lame
+  part(new THREE.CylinderGeometry(.065,.058,.36,14), darkArmor, s*.42,1.18,.02, 1,1,1, 0,0,s*.1); // upper arm
+  part(new THREE.CylinderGeometry(.06,.07,.3,14), armor, s*.45,.88,-.02, 1,1,1, .15,0,s*.06);     // vambrace
+  part(sph, darkArmor, s*.46,.7,-.05, .07,.075,.07);                                  // gauntlet
+});
+part(new THREE.CylinderGeometry(.27,.33,.32,24,1,true), leather, 0,.84,0);          // tassets / skirt
+part(new THREE.CylinderGeometry(.24,.26,.08,24), darkArmor, 0,1.0,0);               // belt
+part(sph, armor, 0,1.24,0, .28,.3,.2);                                              // cuirass
+part(sph, armor, 0,1.3,.03, .27,.24,.19);                                           // backplate
+part(new THREE.CylinderGeometry(.11,.14,.1,20), darkArmor, 0,1.55,0);               // gorget
+part(sph, armor, 0,1.72,0, .135,.155,.15);                                          // helm
+part(new THREE.BoxGeometry(.018,.07,.26), darkArmor, 0,1.86,0);                      // crest
+// sword held low in right hand (+x)
+const blade = part(new THREE.BoxGeometry(.055,1.0,.01), new THREE.MeshStandardMaterial({ color:lin(0xb9b4ad), metalness:.6, roughness:.28, roughnessMap:mTex, envMapIntensity:1.3 }), .5,.18,-.12, 1,1,1, .12,0,.05);
+part(new THREE.BoxGeometry(.24,.03,.04), darkArmor, .47,.68,-.06, 1,1,1, .12,0,.05);
+part(new THREE.CylinderGeometry(.018,.018,.16,8), leather, .465,.77,-.05, 1,1,1, .12,0,.05);
+// cape
+const capeGeo = new THREE.PlaneGeometry(.6, 1.18, 12, 20); capeGeo.translate(0, -.59, 0);
+const capeBase = capeGeo.attributes.position.array.slice();
+const cape = new THREE.Mesh(capeGeo, capeMat); cape.position.set(0, 1.47, .2); cape.castShadow = true; body.add(cape);
+let capeFlare = 0;
+
+
+// ============ GPU-driven VFX: Astral Aura ============
+// ONE instanced flat quad per Mystic under the feet (all Mystics in one draw call). The ring is persistent, faint and stable:
+// it does not react to combat. aS = (on time, off time, visible). The CPU writes only when the toggle changes.
+const uTime = { value:0 };
+const HIDE = 'gl_Position = vec4(2.,2.,2.,1.); return;';
+const EOX = 'float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }';
+const F = x => x.toFixed(3);
+const uC = { value:lin(0xffb52e) }, uP = { value:lin(0xffe3a0) };
+function pool(base, N, attrs, material){
+  const g = new THREE.InstancedBufferGeometry();
+  g.index = base.index; for (const k in base.attributes) g.setAttribute(k, base.attributes[k]);
+  g.instanceCount = N;
+  const A = {};
+  for (const [k, s] of Object.entries(attrs)){
+    const arr = new Float32Array(N*s); if (k === 'aT' || k === 'aS') arr.fill(-1e5);          // every time slot starts "long dead"
+    const a = new THREE.InstancedBufferAttribute(arr, s); a.setUsage(THREE.DynamicDrawUsage); g.setAttribute(k, a); A[k] = a;
+  }
+  const mesh = new THREE.Mesh(g, material); mesh.frustumCulled = false; scene.add(mesh);
+  return { mesh, A, N, lo:Infinity, hi:-1,
+    mark(i){ if (i < this.lo) this.lo = i; if (i > this.hi) this.hi = i; },
+    flush(){ if (this.hi < 0) return; for (const a of Object.values(A)){ a.updateRange.offset = this.lo*a.itemSize; a.updateRange.count = (this.hi-this.lo+1)*a.itemSize; a.needsUpdate = true; } this.lo = Infinity; this.hi = -1; } };
+}
+const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
+
+const AR = 1.15, QS = 1.6;                           // ring radius (m), quad half-size (all glow is 0 before the edge)
+const aura = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aS:3 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uC, uP },
+  vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vP; varying float vOn, vOff;
+    void main(){ float on = uTime - aS.x, off = uTime - aS.y;
+      if (aS.z < .5 || on < 0. || (off > .35 && aS.y >= aS.x)){ ${HIDE} }
+      vOn = on; vOff = aS.y > aS.x ? off : -1.;
+      vP = position.xy*${F(QS)};
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .025, -vP.y), 1.); }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uC, uP; varying vec2 vP; varying float vOn, vOff; ${EOX}
+    float line(float d, float w){ return exp(-d*d/(w*w)); }
+    void main(){
+      float r = length(vP), a = atan(vP.y, vP.x), rot = uTime*.05;
+      float k = eox(clamp(vOn/.3, 0., 1.)), R = ${F(AR)}*mix(.35, 1., k);
+      float fade = 1.; if (vOff >= 0.){ float q = clamp(vOff/.3, 0., 1.); fade = (1. - q)*(1. - q); R *= 1. + .06*q; }
+      float pk = vOn < .033 ? 2.2 : 1. + .8*exp(-max(vOn - .033, 0.)*10.);
+      float flow = .7 + .3*pow(.5 + .5*sin(a*3. - uTime*.6), 2.);          /* energy drifting slowly round the ring */
+      float lum = (line(r - R, .007)*.75 + exp(-pow((r - R)/.04, 2.))*.12)*flow + line(r - (R - .12), .004)*.35;
+      float a4 = mod(a + rot, 1.5708) - .7854;
+      float rune = 0.;
+      /* Sun: 12 short rays between the two circles + a small 4-point star on each node (icon) */
+        float a12 = mod(a + rot, .5236) - .2618, ry = abs(r*sin(a12));
+        float band = smoothstep(R - .13, R - .1, r)*smoothstep(R - .015, R - .045, r);
+        rune += exp(-ry*ry/.000012)*band*.55;
+        vec2 sq = vec2(r*cos(a4) - R, r*sin(a4)); float sa = atan(sq.y, sq.x), sr = length(sq);
+        rune += pow(abs(cos(sa*2.)), 14.)*exp(-sr*26.)*1.1;
+      float d4 = length(vec2(r*cos(a4) - R, r*sin(a4))); lum += exp(-d4*d4/.0006)*.6;   /* 4 nodes on the ring */
+      float hot = line(r - R, .003)*.35*flow + rune*.35;
+      lum += rune*mix(1., 1.4, 1. - k);
+      /* switch pulse: a thin ring runs out past the aura and is gone in 0.25 s */
+      float pr = mix(R*.4, R + .35, eox(clamp(vOn/.25, 0., 1.))), pf = vOn < .25 ? pow(1. - vOn/.25, 1.5) : 0.;
+      lum += line(r - pr, .012)*pf*1.2; hot += line(r - pr, .004)*pf;
+      vec3 o = (uC*lum*.55 + mix(uP, vec3(1.), .4)*hot*.45)*pk*fade;
+      o *= smoothstep(${F(QS)}, ${F(QS*.9)}, r);
+      o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
+aura.mesh.visible = true;
+
+// ---- ambience (world, not part of the skill): mist + motes, 1 draw each
+const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
+const ptsScale = { value:600 };
+{ const N = 24, g = new THREE.InstancedBufferGeometry().copy(new THREE.PlaneGeometry(1,1)); g.instanceCount = N;
+  const o = new Float32Array(N*3), s = new Float32Array(N*3);
+  for (let i=0;i<N;i++){ const r = rand(2.5,14), a = rand(0,6.28), k = rand(4,8); o.set([Math.cos(a)*r, rand(.25,.8), Math.sin(a)*r - 2], i*3); s.set([k, k*.45, Math.random()], i*3); }
+  g.setAttribute('aO', new THREE.InstancedBufferAttribute(o,3)); g.setAttribute('aS', new THREE.InstancedBufferAttribute(s,3));
+  const m = new THREE.Mesh(g, new THREE.ShaderMaterial({ transparent:true, depthWrite:false, uniforms:{ uTime, uMap:{value:smokeAtlas} },
+    vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vUv; varying float vA;
+      void main(){ vec3 p = aO + vec3(sin(uTime*.1 + aS.z*6.)*.6, 0., 0.);
+        vec4 mv = viewMatrix*vec4(p,1.); mv.xy += position.xy*aS.xy; gl_Position = projectionMatrix*mv;
+        float fr = floor(aS.z*4.); vUv = (uv + vec2(mod(fr,2.), floor(fr/2.)))*.5; vA = .08 + .07*aS.z; }`,
+    fragmentShader:`uniform sampler2D uMap; varying vec2 vUv; varying float vA; void main(){ gl_FragColor = vec4(.04,.045,.056, texture2D(uMap, vUv).a*vA); }` }));
+  m.frustumCulled = false; scene.add(m); }
+{ const N = 120, g = new THREE.BufferGeometry(), p = new Float32Array(N*3), ph = new Float32Array(N);
+  for (let i=0;i<N;i++){ p.set([rand(-7,7), rand(0,3.2), rand(-8,5)], i*3); ph[i] = rand(0,6.28); }
+  g.setAttribute('position', new THREE.BufferAttribute(p,3)); g.setAttribute('aPh', new THREE.BufferAttribute(ph,1));
+  const m = new THREE.Points(g, addMat({ uniforms:{ uTime, uScale:ptsScale },
+    vertexShader:`attribute float aPh; uniform float uTime, uScale; varying vec3 vC;
+      void main(){ vec3 p = position + vec3(sin(uTime*.3+aPh)*.3, 0., cos(uTime*.27+aPh)*.3); p.y = mod(position.y + uTime*.04, 3.2);
+        vC = vec3(.05,.055,.07)*(.6 + .4*sin(uTime*2. + aPh*3.));
+        vec4 mv = modelViewMatrix*vec4(p,1.); gl_PointSize = .02*uScale/max(-mv.z,.1); gl_Position = projectionMatrix*mv; }`,
+    fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
+  m.frustumCulled = false; scene.add(m); }
+
+// ============ spawning (CPU work only on toggle) ============
+const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
+const mystics = [], log = [];
+function addMystic(p, vis){ const i = mystics.length, m = { i, p, on:false, vis };
+  aura.A.aO.setXYZ(i, p.x, 0, p.z); aura.A.aS.setXYZ(i, -1e5, -1e5, vis ? 1 : 0); aura.mark(i); mystics.push(m); return m; }
+function setOn(m, on, t){ if (m.on === on) return; m.on = on;
+  if (on) aura.A.aS.setXY(m.i, t, -1e5); else aura.A.aS.setY(m.i, t);
+  aura.mark(m.i); log.push(t + .3); }
+function setVis(m, v){ m.vis = v; aura.A.aS.setZ(m.i, v ? 1 : 0); aura.mark(m.i); }
+
+// ============ post ============
+let composer = null, grade = null, bloom = null;
+if (hasPost){
+  const msaa = renderer.capabilities.isWebGL2 && THREE.WebGLMultisampleRenderTarget && renderer.extensions.get('EXT_color_buffer_float');
+  const Ctor = msaa ?THREE.WebGLMultisampleRenderTarget : THREE.WebGLRenderTarget;
+  const rt = new Ctor(4, 4, { type:THREE.HalfFloatType, format:THREE.RGBAFormat, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter });
+  if (rt.samples !== undefined) rt.samples = 4;
+  composer = new THREE.EffectComposer(renderer, rt);
+  composer.addPass(new THREE.RenderPass(scene, camera));
+  bloom = new THREE.UnrealBloomPass(new THREE.Vector2(512, 512), .85, .55, .95); composer.addPass(bloom);
+  grade = new THREE.ShaderPass({
+    uniforms:{ tDiffuse:{value:null}, uTime:{value:0}, uRes:{value:new THREE.Vector2(1,1)}, uC:{value:new THREE.Vector2()}, uA:{value:new THREE.Vector2()}, uB:{value:new THREE.Vector2()},
+      uI0:{value:new THREE.Vector2()}, uI1:{value:new THREE.Vector2()}, uStr:{value:0}, uW:{value:.1}, uExp:{value:1.0} },
+    vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform sampler2D tDiffuse; uniform float uTime, uStr, uW, uExp; uniform vec2 uRes, uC, uA, uB, uI0, uI1; varying vec2 vUv;
+      vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14), 0., 1.); }
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
+      void main(){
+        vec2 uv = vUv; float w = 0.;
+        if (uStr > 0.){ vec2 p = uv-uC; vec2 d = vec2(dot(uI0,p), dot(uI1,p)); float L = length(d);
+          w = exp(-pow((L-1.)/uW, 2.)); vec2 dir = normalize(uA*d.x + uB*d.y + 1e-5); uv -= dir*w*uStr; }
+        vec2 cc = uv-.5; float ca = .004*dot(cc,cc) + w*uStr*.35;
+        vec3 c = vec3(texture2D(tDiffuse, uv+cc*ca*4.).r, texture2D(tDiffuse, uv).g, texture2D(tDiffuse, uv-cc*ca*4.).b);
+        c = aces(c*uExp);
+        float l = dot(c, vec3(.2126,.7152,.0722));
+        c = mix(vec3(l), c, .92);
+        c += vec3(-.006, .0, .014)*(1.-l)*(1.-l);
+        c = pow(max(c, 0.), vec3(1./2.2));
+        float v = smoothstep(1.3, .35, length((vUv-.5)*vec2(uRes.x/uRes.y, 1.)*1.05)); c *= mix(.5, 1., v);
+        c += (hash(vUv*uRes + fract(uTime*7.)*97.) - .5)*.03;
+        gl_FragColor = vec4(c, 1.); }` });
+  composer.addPass(grade);
+}
+
+
+// ============ Mystics: hero + 40 stress-test Mystics (2 instanced draws for bodies) ============
+const hero_m = addMystic(V3(0,0,0), true);
+const GN = 40, ghosts = [];
+const ghostBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.2,.16,1.35,10).translate(0,.68,0), darkArmor, GN);
+const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).translate(0,1.52,0), darkArmor, GN);
+{ const o = new THREE.Object3D(); let i = 0;
+  while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
+    const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
+    ghosts.push({ m:addMystic(V3(x,0,z), false), next:0 }); i++; } }
+[ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
+
+// ============ timeline UI ============
+const PHASES = [
+  ['Pico aditivo (2 frames)', 0, 33, 0xffe3a0],
+  ['Anel abre do centro', 0, 300, 0xffb52e],
+  ['Pulso fino corre para fora', 0, 250, 0xffe3a0],
+  ['Anel persistente (ténue, estável)', 300, 600, 0x8f8a82],
+];
+const TOTAL = 600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+PHASES.forEach(([l,a,b,c]) => {
+  const r = document.createElement('div'); r.className = 'tl-row';
+  r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b === TOTAL ? '∞' : b}</span>`;
+  tl.appendChild(r);
+});
+const heads = [...tl.querySelectorAll('.playhead')];
+
+// ============ state / input ============
+let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, stance = 'Sun';
+const tLoop = $('tLoop'), tStress = $('tStress'), chip = $('chip'), upk = $('upkeep');
+function paint(){ chip.style.color = hero_m.on ? '#ffb52e' : 'var(--muted)'; chip.querySelector('span').textContent = hero_m.on ? 'Sun Aura · ligada' : 'Aura · OFF';
+  upk.textContent = !hero_m.on ? '—' : (stance === 'Sun' ? 'sem upkeep (stance igual)' : 'custa MP (stance diferente)'); }
+tStress.onchange = () => { const on = tStress.checked; ghostBody.visible = ghostHead.visible = on;
+  ghosts.forEach(g => { setVis(g.m, on); if (on) setOn(g.m, true, time - rand(0, 3)); g.next = time + rand(2, 6); }); };
+function toggle(){ if (time - localT < .1) return; localT = time; idle = 0; setOn(hero_m, !hero_m.on, time); paint(); }
+$('castBtn').onclick = toggle;
+addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); toggle(); } });
+function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
+seg('speed', 's', v => speed = +v); seg('quality', 'q', v => quality = +v); seg('stanceSeg', 'st', v => { stance = v; paint(); });
+
+let yaw = .5, pitch = .5, dist = 4.6, drag = null;
+stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
+stage.addEventListener('pointerup', () => drag = null);
+stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(16, Math.max(2.4, dist*(1 + e.deltaY*.001))); }, { passive:false });
+
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
+  if (composer){ composer.setPixelRatio(PR); composer.setSize(w, h); grade.uniforms.uRes.value.set(w*PR, h*PR); }
+  ptsScale.value = h*PR / (2*Math.tan(camera.fov*Math.PI/360));
+}
+new ResizeObserver(resize).observe(stage); resize();
+
+// ============ main loop ============
+const hud = $('hud'), S = { draw:$('sDraw'), mark:$('sMark'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
+renderer.info.autoReset = false;
+let last = performance.now(), acc = { n:0, frame:0, cpu:0, prev:null }, statT = 0, started = false;
+
+function frame(now){
+  const rdt = Math.min(.05, (now-last)/1000); last = now;
+  let dt = rdt*speed; if (window.__freezeAt !== undefined && time - localT >= window.__freezeAt) dt = Math.max(0, localT + window.__freezeAt - time);   // test hook
+  time += dt; uTime.value = time;
+  const c0 = performance.now();
+  if (!started){ started = true; toggle(); }
+  if (tLoop.checked){ idle += dt; if (idle > (hero_m.on ? 3.5 : 1.2)) toggle(); }
+  if (tStress.checked){
+    for (const g of ghosts) if (time >= g.next){ setOn(g.m, !g.m.on, time); g.next = time + (g.m.on ? rand(4, 8) : rand(.8, 2)); }
+  }
+  aura.flush();
+  const cpuVfx = performance.now() - c0;
+
+  body.position.y = Math.sin(time*1.8)*.006;
+  { const P = capeGeo.attributes.position.array;
+    for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
+      P[i] = bx*(1 + v*.22); P[i+1] = by;
+      P[i+2] = capeBase[i+2] - bx*bx*(1.1 - .6*v) + vv*(.1 + .045*Math.sin(time*1.7 + bx*5 + v*5)); }
+    capeGeo.attributes.position.needsUpdate = true; capeGeo.computeVertexNormals(); }
+
+  const dtc = time - localT, ms = dtc >= 0 && dtc <= TOTAL/1000 ? dtc*1000 : -1;
+  heads.forEach(h => { h.style.opacity = ms >= 0 && hero_m.on ? 1 : 0; h.style.left = (clamp01(ms/TOTAL)*100) + '%'; });
+  hud.textContent = ms >= 0 ? `${hero_m.on ? 'ligar' : 'desligar'} · t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `${hero_m.on ? 'Sun Aura ligada' : 'Aura OFF'} · ${speed}×`;
+
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, .9 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(0, .6, 0);
+  renderer.info.reset();
+  if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
+
+  acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
+  if (now - statT > 300){
+    log.splice(0, log.length, ...log.filter(t => t > time));
+    S.draw.textContent = 1;
+    S.mark.textContent = mystics.filter(m => m.on && m.vis).length;
+    S.part.textContent = 0;
+    S.casts.textContent = log.length;
+    S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
+    S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
+    S.total.textContent = renderer.info.render.calls;
+    acc.n = 0; acc.frame = 0; acc.cpu = 0; acc.prev = null; statT = now;
+  }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
