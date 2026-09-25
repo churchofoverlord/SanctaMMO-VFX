@@ -412,8 +412,11 @@ const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:
         float bd = r - .24, rim = exp(-pow(bd/.028, 2.)), fill = smoothstep(.02, -.03, bd)*.3;
         vec2 e = vec2(abs(q.x) - .09, q.y - .02)*vec2(1., .7); float eye = smoothstep(.05, .032, length(e));
         fill *= 1. - eye*.85;                                                        /* two dark eyes, as in the icon */
-        float Rs = .3 + .6*pow(abs(cos(2.*(a - vSpin))), 10.);                        /* 4-point star around the body, slowly turning */
-        float sl = exp(-pow((r - Rs)/.02, 2.))*smoothstep(.26, .34, r), sf = smoothstep(Rs, Rs - .04, r)*smoothstep(.24, .3, r)*.12;
+        /* 4 straight tapered spikes (icon): sharp tips, straight edges, bright edge + soft fill, slowly turning */
+        float cs = cos(vSpin), sn = sin(vSpin); vec2 p = abs(mat2(cs, -sn, sn, cs)*q); if (p.y > p.x) p = p.yx;
+        float w = .2*clamp(1. - (p.x - .12)/.78, 0., 1.), tip = smoothstep(.92, .86, p.x);
+        float sl = exp(-pow((p.y - w)/.016, 2.))*tip*smoothstep(.2, .28, r);
+        float sf = smoothstep(w + .012, w - .012, p.y)*tip*smoothstep(.22, .3, r)*(.25 + .35*(1. - p.x));
         float pend = vPend*(.75 + .25*sin(uTime*3.))*exp(-r*r*5.)*.35;                 /* Moon Pending: discrete glow on the Spirit */
         o = uC*(rim*.85 + fill + sl*.8 + sf + exp(-r*r*5.)*.1 + pend) + uP*(rim*.3 + sl*.35);
         o *= smoothstep(1., .9, r);
