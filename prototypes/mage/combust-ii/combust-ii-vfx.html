@@ -562,7 +562,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
 const RL = 1.0, BUILD = .3;   // build-up inside the chest before the burst
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }, addMat({
-  blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,   /* premultiplied: alpha 0 = additive */
+  blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, depthTest:false,   /* premultiplied: alpha 0 = additive; drawn over the target body */
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
@@ -575,7 +575,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }
       if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.32; mv.xy += position.xy*vec2(.26, .3); gl_Position = projectionMatrix*mv; }
-      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .8*(1. + .15*aD.x); mv.xy += position.xy*S; vP = position.xy*.8; gl_Position = projectionMatrix*mv; }
+      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.75;   /* well in front of the chest: the body never cuts the quad */ float S = .8*(1. + .15*aD.x); mv.xy += position.xy*S; vP = position.xy*.8; gl_Position = projectionMatrix*mv; }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
@@ -624,7 +624,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec3 smoke = vec3(.03, .02, .015), red = vec3(.45, .05, .01), org = vec3(.95, .33, .04), yel = vec3(1., .75, .35);
         vec3 col = T < .3 ? mix(smoke, red, T/.3) : (T < .7 ? mix(red, org, (T - .3)/.4) : mix(org, yel, (T - .7)/.3));
         vec3 c = col*dens*(.15 + 1.1*T*T);
-        float al = dens*(1. - T)*.55;
+        float al = dens*(1. - T)*(1. - T)*.18;   /* only a faint smoke veil: a strong one darkens the fog around the target and reveals its silhouette */
         if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); return;
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
