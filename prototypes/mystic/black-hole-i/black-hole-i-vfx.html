@@ -461,9 +461,9 @@ const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 1024, { aO:3, aT:1, aP:2
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime },
   vertexShader:`attribute vec3 aO; attribute float aT; attribute vec2 aP; uniform float uTime; varying vec2 vS; varying float vU, vF;
     vec3 armAt(float s, vec3 C, vec3 e1, vec3 e2, vec3 n, float spin, float grow){
-      float r = mix(.3, ${F(RAD)}, s), a = aP.x*6.28318 + spin/6. - 2.8*r/${F(RAD)};          /* from the orb out to the outer border */
+      float r = mix(.3, ${F(RAD)}, s*grow), a = aP.x*6.28318 + spin/6. - 2.8*r/${F(RAD)};          /* from the orb out to the outer border */
       vec3 G = vec3(C.x, .06, C.z);
-      return G + (e1*cos(a) + e2*sin(a))*r*grow + n*(C.y - .06)*pow(1. - s*grow, 2.2);      /* funnel: high at the orb, down to the ground at the rim */
+      return G + (e1*cos(a) + e2*sin(a))*r + n*(C.y - .06)*pow(1. - s*grow, 2.2);      /* the arm EXTENDS out of the orb (scaling a spiral would read as a backwards spin) */      /* funnel: high at the orb, down to the ground at the rim */
     }
     void main(){
       float u = uTime - aT; if (u < 0. || u > ${F(DUR + .5)}){ ${HIDE} }
