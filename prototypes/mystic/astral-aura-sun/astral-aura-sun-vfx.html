@@ -145,7 +145,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 3 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
+          <tr><td>Anel persistente</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad deitado no chão sob o Mystic (R 6 m): círculo fino + círculo interior ténue + 4 nós; energia a correr devagar. Ténue e estável, não reage a combate. No UE: malha estática com material (sem partículas)</td></tr>
           <tr><td>Runa secundária (Sun)</td><td class="n">✓</td><td class="n">✓</td><td class="n">✓</td><td class="n">—</td><td>12 raios curtos entre os dois círculos e uma pequena estrela de 4 pontas em cada um dos 4 nós; no mesmo material (parâmetro de modo)</td></tr>
           <tr><td>Pulso on/off</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Ligar: pico de 2 frames, o anel abre do centro em 0,3 s e um anel fino corre para fora (0,25 s). Desligar: o anel alarga 6 % e apaga em 0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Todas as auras em ecrã numa só draw call; 0 partículas. Cabe em Stance / toggle (≤ 2, ≤ 10, pulso ≤ 0,3 s)</td></tr>
@@ -382,7 +382,7 @@ function pool(base, N, attrs, material){
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
-const AR = 3.0, SC = 1.15/AR, QS = 1.6;             // ring radius (m); the shader works in ring units (R 1.15), quad half-size QS/SC (all glow is 0 before the edge)
+const AR = 6.0, SC = 1.15/AR, QS = 1.6;             // ring radius (m); the shader works in ring units (R 1.15), quad half-size QS/SC (all glow is 0 before the edge)
 const aura = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aS:3 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uC, uP },
   vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vP; varying float vOn, vOff;
@@ -529,11 +529,11 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = +v); seg('quality', 'q', v => quality = +v); seg('stanceSeg', 'st', v => { stance = v; paint(); });
 
-let yaw = .5, pitch = .62, dist = 9.5, drag = null;
+let yaw = .5, pitch = .7, dist = 17, drag = null;
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
-stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(16, Math.max(2.4, dist*(1 + e.deltaY*.001))); }, { passive:false });
+stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(26, Math.max(2.4, dist*(1 + e.deltaY*.001))); }, { passive:false });
 
 function resize(){
   const w = stage.clientWidth, h = stage.clientHeight;
