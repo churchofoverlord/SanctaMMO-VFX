@@ -108,7 +108,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~6,5 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>Véus de outros Mystics, com hits</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>Véus de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -136,20 +136,19 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Plano vertical oval (4,6 × 3 m de exemplo, 2,5 m à frente do Mystic): borda clara fina com fresnel forte, interior a meia opacidade com três anéis celestes, raios finos e uma estrela de 4 pontas ténue ao centro (ícone); a energia corre devagar pelos anéis. Abre a partir de uma linha vertical ao centro (0,4 s) e dissolve por erosão suave no fim</td></tr>
-          <tr><td>Ripple de interceção</td><td class="n">1 / hit</td><td class="n">1 / hit</td><td class="n">1 / hit</td><td class="n">1 / hit</td><td>No ponto exato de toque, no plano do véu: anel seco que se propaga (~0,8 m, 0,55 s) com erosão, flash curto no centro; recortado pela forma do véu. Igual dos dois lados</td></tr>
-          <tr><td>Estilhaços</td><td class="n">1 / hit</td><td class="n">1 / hit</td><td class="n">1 / hit</td><td class="n">—</td><td>O projétil parte-se em 7 lascas finas que saltam do ponto de toque (0,4 s), como no ícone. Um quad por hit, desenhado no shader</td></tr>
-          <tr><td>Characters</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Quem atravessa não é bloqueado e o véu não reage (não há colisão com characters)</td></tr>
-          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Véu, ripples e estilhaços num só sistema instanciado para todos os Mystics; o CPU escreve os hits no cast (hora e ponto de toque) e a GPU anima tudo pela idade; 0 partículas. Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
+          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Folha curva e alta (~3,2 m) à volta do Mystic (R 2,6 m, 5 s de exemplo), como um tecido: ponta alta afiada, fundo a afunilar até ao chão, recortes no lado esquerdo com 2 dobras; contorno fino e claro, interior de pó de estrelas a cintilar, mais denso junto à borda direita. Abre do fundo até à ponta (0,55 s), respira devagar e dissolve por erosão suave</td></tr>
+          <tr><td>Projéteis intercetados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem animação por projétil: a flecha simplesmente termina na folha, dos dois lados</td></tr>
+          <tr><td>Characters</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Quem atravessa não é bloqueado e o véu não reage</td></tr>
+          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma folha por cast num só sistema instanciado para todos os Mystics; o CPU escreve só o cast, a GPU anima pela idade; 0 partículas (o pó é desenhado no shader). Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Parede, não projétil</h3><p>Um plano oval parado, com a borda bem clara e o interior translúcido: lê-se como barreira sem esconder o que está atrás.</p></div>
-    <div><h3>Os dois lados</h3><p>As flechas inimigas (vermelhas) e a do aliado atrás do Mystic (verde) partem-se no véu com o mesmo ripple local.</p></div>
-    <div><h3>Só projéteis</h3><p>O inimigo que caminha atravessa o véu sem ser travado e sem ripple.</p></div>
+    <div><h3>Um véu, não um escudo</h3><p>Uma folha de pó de estrelas curvada à volta do Mystic, com o contorno fino e claro: lê-se como barreira sem esconder o que está atrás.</p></div>
+    <div><h3>Os dois lados</h3><p>As flechas inimigas (vermelhas) e a do aliado atrás do Mystic (verde) terminam na folha, sem animação por hit.</p></div>
+    <div><h3>Só projéteis</h3><p>O inimigo que caminha atravessa o véu sem ser travado e sem reação.</p></div>
   </section>
 </div>
 
@@ -351,13 +350,13 @@ let capeFlare = 0;
 
 
 // ============ GPU-driven VFX: Astral Veil ============
-// ONE instanced pool, premultiplied blending: kind 0 = the veil (whole duration) · kind 1 = intercept ripple in the veil plane
-// at the touch point · kind 2 = shard burst (billboard). The CPU writes every hit (time + point) at cast; the GPU does the rest.
+// ONE instanced pool, premultiplied blending: one curved sheet of stardust per cast (whole duration). No per-hit animation:
+// an intercepted projectile simply ends on the sheet. The CPU writes one instance per cast; the GPU does the rest.
 const uTime = { value:0 };
 const HIDE = 'gl_Position = vec4(2.,2.,2.,1.); return;';
 const EOX = 'float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }';
 const F = x => x.toFixed(3);
-const uB = { value:lin(0x3f8cff) }, uC = { value:lin(0x5fe6ff) }, uP = { value:lin(0xc8f4ff) };
+const uB = { value:lin(0x3f8cff) }, uC = { value:lin(0x6fd8ff) }, uP = { value:lin(0xd8f6ff) };
 function pool(base, N, attrs, material){
   const g = new THREE.InstancedBufferGeometry();
   g.index = base.index; for (const k in base.attributes) g.setAttribute(k, base.attributes[k]);
@@ -376,75 +375,57 @@ function pool(base, N, attrs, material){
     tick(t){ this.batches = this.batches.filter(b => b.end > t); this.count = 0; for (const b of this.batches) this.count += b.n; this.active = this.batches.length > 0; this.mesh.visible = this.active; } };
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
-const VA = 2.3, VB = 1.5, DIST = 2.5, DUR = 5.0, OPEN = .4, RIP = .55, SH = .4;   // half width / half height (m), distance in front
-const veil = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aE:3, aN:2, aT:1, aK:1 }, new THREE.ShaderMaterial({
+const VR = 2.6, HA = .7, VH = 3.2, DUR = 5.0, OPEN = .55;   // sheet radius around the Mystic (m), half arc (rad), height (m)
+/* sheet silhouette in (u, v): u = angle/HA across the arc, v = height/VH. A spine leaning up to the left, pointed at both ends,
+   the left edge cut in scallops (like the sketch); shared by the shader and the CPU hit test */
+const SIL = `
+    float spn(float v){ return .3 - 1.05*pow(max(v, 0.), 1.5); }
+    float wid(float v){ return .78*pow(max(sin(3.14159*pow(clamp(v, 0., 1.), .85)), 0.), .8); }
+    float widL(float v){ return wid(v)*(1. - .42*(1. - pow(abs(sin((v - .1)*8.168)), .5))); }`;
+const silJS = (u, v) => { if (v <= 0 || v >= 1) return false; const sp = .3 - 1.05*Math.pow(v, 1.5), w = .78*Math.pow(Math.max(Math.sin(Math.PI*Math.pow(v, .85)), 0), .8),
+  wl = w*(1 - .42*(1 - Math.pow(Math.abs(Math.sin((v - .1)*8.168)), .5))); return u > sp - wl && u < sp + w; };
+const veil = pool(new THREE.PlaneGeometry(1, 1, 40, 40), 256, { aO:3, aN:2, aT:1 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uB, uC, uP },
-  vertexShader:`attribute vec3 aO, aE; attribute vec2 aN; attribute float aT, aK; uniform float uTime;
-    varying vec2 vP, vQ; varying float vU, vK, vFr;
-    void main(){ float u = uTime - aT, life = aK < .5 ? ${F(DUR + .5)} : (aK < 1.5 ? ${F(RIP)} : ${F(SH)});
-      if (u < 0. || u > life){ ${HIDE} }
-      vU = u; vK = aK;
-      vec3 N = vec3(aN.x, 0., aN.y), R = vec3(-aN.y, 0., aN.x), Y = vec3(0., 1., 0.), W;
-      if (aK < .5){                                       /* the veil: oval plane standing on the ground */
-        vP = position.xy*vec2(${F(VA + .3)}, ${F(VB + .3)}); vQ = vP;
-        W = aO + vec3(0., ${F(VB)}, 0.) + R*vP.x + Y*vP.y;
-      } else if (aK < 1.5){                               /* ripple: in the veil plane, at the touch point */
-        vP = position.xy*.95; W = aO + R*vP.x + Y*vP.y + N*.01;
-        vec3 d = W - aE; vQ = vec2(dot(d, R), d.y);       /* veil-local coords, to clip the ripple by the veil shape */
-      } else {                                            /* shards: small billboard at the touch point */
-        vec4 mv = viewMatrix*vec4(aO, 1.); vP = position.xy*.75; vQ = vec2(0.); mv.xy += vP; vFr = 0.;
-        gl_Position = projectionMatrix*mv; return;
-      }
-      vFr = 1. - abs(dot(normalize(cameraPosition - W), N));          /* fresnel: brighter when seen at a grazing angle */
+  vertexShader:`attribute vec3 aO; attribute vec2 aN; attribute float aT; uniform float uTime; varying vec2 vUV; varying float vU;
+    void main(){ float u = uTime - aT; if (u < 0. || u > ${F(DUR + .6)}){ ${HIDE} }
+      vU = u;
+      vec2 uv = vec2(mix(-1.7, 1.2, position.x + .5), position.y + .5); vUV = uv;
+      vec3 N = vec3(aN.x, 0., aN.y), R = vec3(-aN.y, 0., aN.x);
+      float th = uv.x*${F(HA)}; vec3 rad = N*cos(th) + R*sin(th);
+      float fl = .07*sin(uv.y*4. - uTime*1.4 + uv.x*2.)*uv.y;                         /* the cloth breathes slowly */
+      vec3 W = aO + rad*(${F(VR)} + fl) + vec3(0., uv.y*${F(VH)}, 0.);
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uB, uC, uP; varying vec2 vP, vQ; varying float vU, vK, vFr; ${EOX}
+  fragmentShader:`uniform float uTime; uniform vec3 uB, uC, uP; varying vec2 vUV; varying float vU; ${EOX} ${SIL}
     float line(float d, float w){ return exp(-d*d/(w*w)); }
     float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
-    float sq(vec2 p, float A, float B){ return pow(pow(abs(p.x)/A, 2.6) + pow(abs(p.y)/B, 2.6), 1./2.6); }   /* soft oval (superellipse) "radius": 1 on the border */
-    void main(){ vec3 c = vec3(0.); float al = 0.;
-      if (vK < .5){
-        float op = eox(clamp(vU/${F(OPEN)}, 0., 1.)), A = ${F(VA)}*mix(.03, 1., op);   /* unfurls sideways from a vertical line */
-        float q = sq(vP, A, ${F(VB)}), dB = (q - 1.)*${F(VB)};
-        float inside = smoothstep(.02, -.06, dB);
-        float border = line(dB, .028)*1.3 + line(dB, .1)*.3*step(dB, 0.);                  /* clear, thin boundary */
-        float fres = mix(.5, 1., smoothstep(.55, 1., q)) + vFr*.8;                          /* strong at the rim, half inside */
-        vec2 e = vP/vec2(A, ${F(VB)}); float r = length(e), a = atan(e.y, e.x), t = uTime;
-        float rings = 0.;
-        for (int i = 0; i < 2; i++){ float R = .42 + .3*float(i);
-          rings += line(r - R, .01)*.6*pow(.5 + .5*sin(a - t*(.35 + .1*float(i)) + float(i)*2.5), 2.); }   /* 2 thin orbits, energy runs slowly */
-        vec2 g = vP*5.; vec2 gi = floor(g), gf = fract(g) - .5; float hs = h(gi);
-        float tw = step(.9, hs)*exp(-dot(gf - (vec2(h(gi + 3.), h(gi + 7.)) - .5)*.6, gf - (vec2(h(gi + 3.), h(gi + 7.)) - .5)*.6)*300.)*(.5 + .5*sin(t*2.5 + hs*60.));
-        float rays = tw*1.2;                                                                  /* tiny twinkling stars inside */
-        vec2 sp = vP; float star = exp(-abs(sp.x)*30. - abs(sp.y)*3.2) + exp(-abs(sp.y)*30. - abs(sp.x)*3.2);   /* 4-point star, long faint rays */
-        star = star*.45 + exp(-dot(sp, sp)*40.)*.35;
-        float shim = .8 + .4*vn(vP*1.6 + vec2(t*.15, -t*.1));
-        float fin = smoothstep(${F(DUR + .5)}, ${F(DUR)}, vU + .5*vn(vP*2.2 + 7.));          /* dissolve: soft erosion */
-        float lum = (border*fres + inside*(.05*fres*shim + rings*.2 + rays + star*.3))*fin;
-        c = uB*lum*1.1 + uC*(border*.8 + rings*.1 + star*.35)*inside*fin + uP*line(dB, .01)*.5*fin;
-        al = inside*.06*fin;
-        c *= smoothstep(${F(VA + .3)}, ${F(VA + .15)}, abs(vP.x))*smoothstep(${F(VB + .3)}, ${F(VB + .15)}, abs(vP.y));
-      } else if (vK < 1.5){
-        /* intercept ripple: a dry ring propagating from the touch point (alpha erosion), short flash */
-        float t = vU/${F(RIP)}, r = length(vP), R = .06 + .72*eox(t*1.3);
-        float er = smoothstep(.25, .75, vn(vec2(atan(vP.y, vP.x)*3., vU*4.)) + .6 - t);       /* ring breaks up as it travels */
-        float ring = line(r - R, .035*(1. - .6*t))*er*(1. - t);
-        float fl = exp(-r*r*60.)*(1. - smoothstep(0., .18, vU))*1.6;
-        float clip = smoothstep(1.02, .94, sq(vQ, ${F(VA)}, ${F(VB)}));
-        c = (uC*ring*1.2 + uP*(ring*.5 + fl))*clip*smoothstep(.95, .8, r);
-      } else {
-        /* shards: the projectile breaks into 7 thin splinters that jump off the touch point */
-        float t = vU/${F(SH)}, lum = 0.;
-        for (int i = 0; i < 7; i++){ float fi = float(i), an = fi*.898 + .4*h(vec2(fi, 3.));
-          vec2 d = vec2(cos(an), sin(an)), n = vec2(-d.y, d.x);
-          float hd = (.12 + .5*eox(t*1.4))*(.7 + .3*h(vec2(fi, 9.))), al2 = dot(vP, d), ac = dot(vP, n);
-          lum += line(ac, .012)*smoothstep(hd - .16, hd, al2)*step(al2, hd); }
-        c = (uC*.9 + uP*.6)*lum*(1. - t)*smoothstep(.75, .6, length(vP));
-      }
+    void main(){
+      float u = vUV.x, v = vUV.y, SX = ${F(HA*VR)}, SY = ${F(VH)}, e = .004;
+      /* edge functions in metres (value / gradient), so the lines keep a constant width wherever the edge leans */
+      float fl = (u - spn(v) + widL(v))*SX, fr = (spn(v) + wid(v) - u)*SX;
+      float gl = length(vec2(1., ((spn(v + e) - widL(v + e)) - (spn(v) - widL(v)))/e*SX/SY));
+      float gr = length(vec2(1., ((spn(v + e) + wid(v + e)) - (spn(v) + wid(v)))/e*SX/SY));
+      float dl = fl/gl, dr = fr/gr, d = min(dl, dr);
+      float inside = smoothstep(-.01, .03, d)*step(0., v)*step(v, 1.);
+      float op = eox(clamp(vU/${F(OPEN)}, 0., 1.)), rev = smoothstep(op*1.08, op*1.08 - .1, v);   /* unfurls from the bottom point up to the tip */
+      float edge = (line(dl, .018) + line(dr, .018))*step(-.08, min(fl, fr) + .08)*step(-.05, v)*step(v, 1.03);
+      float halo = (line(dl, .09) + line(dr, .09))*.25*step(0., d);
+      float f = clamp(fl/(fl + fr + 1e-4), 0., 1.), t = uTime;
+      float rib = 0.;                                                                   /* 2 fold lines from the left notches */
+      for (int i = 0; i < 2; i++){ float vk = .1 + (1. + float(i))/2.6;
+        rib += line((v - vk - .16*pow(f, 1.2))*SY, .012)*(1. - .7*f)*1.1; }
+      /* stardust fill: fine twinkling points, denser towards the right edge */
+      vec2 g = vec2(u*SX, v*SY)*16.; vec2 gi = floor(g), gf = fract(g) - .5; float hs = h(gi);
+      vec2 o = (vec2(h(gi + 3.1), h(gi + 7.7)) - .5)*.6;
+      float dens = mix(.3, .92, pow(f, 1.2))*(.6 + .8*vn(vec2(u*SX, v*SY)*1.3 + vec2(0., -t*.2)));
+      float dust = step(1. - dens, hs)*exp(-dot(gf - o, gf - o)*45.)*(.55 + .45*sin(t*3. + hs*70.));
+      float fin = smoothstep(${F(DUR + .5)}, ${F(DUR)}, vU + .5*vn(vec2(u*SX, v*SY)*2.5 + 5.));   /* dissolve: soft erosion */
+      float lum = (edge*1.2 + halo + rib*inside + dust*inside*.9)*rev*fin;
+      vec3 c = uC*lum + uP*(edge*.55 + dust*inside*.35)*rev*fin;
+      float al = inside*.05*rev*fin;
       if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); }` }));
-
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
 const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
   [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
@@ -472,16 +453,12 @@ const ptsScale = { value:600 };
   m.frustumCulled = false; scene.add(m); }
 
 
-// ============ spawning (CPU: on cast -> the veil + every intercept, with its time and touch point) ============
+// ============ spawning (CPU: on cast -> one sheet instance) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const log = [];
-function put(P, E, N, t0, k){ const j = veil.next(); veil.A.aO.setXYZ(j, P.x, P.y, P.z); veil.A.aE.setXYZ(j, E.x, E.y, E.z); veil.A.aN.setXY(j, N.x, N.z); veil.A.aT.setX(j, t0); veil.A.aK.setX(j, k); }
-function cast(P, N, t0, hits){
-  const C = P.clone().addScaledVector(N, DIST);
-  put(C, C, N, t0, 0); veil.track(t0 + DUR + .5, 1);
-  for (const hh of hits){ const E = C.clone().add(V3(0, VB, 0));
-    put(hh.p, E, N, hh.t, 1); put(hh.p, E, N, hh.t, 2); veil.track(hh.t + RIP, 2); }
-  log.push(t0 + DUR + .5);
+function cast(P, N, t0){
+  const j = veil.next(); veil.A.aO.setXYZ(j, P.x, 0, P.z); veil.A.aN.setXY(j, N.x, N.z); veil.A.aT.setX(j, t0); veil.track(t0 + DUR + .6, 1);
+  log.push(t0 + DUR + .6);
 }
 // ============ post ============
 let composer = null, grade = null, bloom = null;
@@ -519,7 +496,7 @@ if (hasPost){
 
 
 // ============ world (not the skill): 2 enemy archers in front, 1 ally archer behind, 1 enemy walking through ============
-const PL = -DIST, V = 14;                                         // veil plane z (the Mystic faces -z), arrow speed m/s
+const V = 14;                                                     // arrow speed m/s (the Mystic sits at the origin, facing -z)
 const mk = (col) => new THREE.MeshStandardMaterial({ color:lin(col), roughness:.8 });
 const units = [
   { p:V3(-1.4, 0, -11), c:0x6a3434 }, { p:V3(1.3, 0, -10.5), c:0x6a3434 },
@@ -535,15 +512,15 @@ const arrows = new THREE.InstancedMesh(new THREE.BoxGeometry(.035, .035, .75), n
 arrows.instanceMatrix.setUsage(THREE.DynamicDrawUsage); arrows.frustumCulled = false; scene.add(arrows);
 for (let i = 0; i < 8; i++) arrows.setColorAt(i, new THREE.Color(0, 0, 0));
 let flights = [];
-function planShots(t0){                                           /* straight flights; a hit is the crossing of the veil plane inside the oval */
-  flights = []; const hits = [];
+function planShots(t0){                                           /* straight flights; a flight ends where it meets the sheet (cylinder R around the Mystic, inside the silhouette) */
+  flights = [];
   for (const sh of SHOTS){ const a = units[sh.u].home.clone().add(V3(0, 1.4, 0)), d = sh.to.clone().sub(a), L = d.length(); d.divideScalar(L);
-    let end = L, tf = t0 + sh.t, tHit = null;
-    const s = (PL - a.z)/d.z;
-    if (s > 0 && s < L){ const p = a.clone().addScaledVector(d, s), q = Math.pow(Math.pow(Math.abs(p.x)/VA, 2.6) + Math.pow(Math.abs(p.y - VB)/VB, 2.6), 1/2.6);
-      const th = tf + s/V; if (q < 1 && th > t0 + OPEN*.5 && th < t0 + DUR){ end = s; tHit = th; hits.push({ p, t:th }); } }
+    let end = L; const tf = t0 + sh.t;
+    const A = d.x*d.x + d.z*d.z, B = 2*(a.x*d.x + a.z*d.z), C = a.x*a.x + a.z*a.z - VR*VR, D = B*B - 4*A*C;
+    if (D > 0) for (const s of [(-B - Math.sqrt(D))/(2*A), (-B + Math.sqrt(D))/(2*A)]){
+      if (s <= 0 || s >= L) continue; const p = a.clone().addScaledVector(d, s), th = tf + s/V;
+      if (silJS(Math.atan2(p.x, -p.z)/HA, p.y/VH) && th > t0 + OPEN*.6 && th < t0 + DUR){ end = s; break; } }
     flights.push({ a, d, tf, end, col:units[sh.u].c === 0x355a3a ? lin(0x9dff8a) : lin(0xff6a3a) }); }
-  return hits;
 }
 function placeUnits(t){
   const dt0 = t - localT;
@@ -559,7 +536,7 @@ function placeUnits(t){
 }
 
 // ============ stress: 40 other Mystics casting Serenity near them ============
-const GN = 40, ghosts = [];   // stress: 40 other Mystics raising veils, each with 2 hits
+const GN = 40, ghosts = [];   // stress: 40 other Mystics raising veils
 const ghostBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.2,.16,1.35,10).translate(0,.68,0), darkArmor, GN);
 const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).translate(0,1.52,0), darkArmor, GN);
 { const o = new THREE.Object3D(); let i = 0;
@@ -570,13 +547,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Véu abre a partir do centro', 0, 400, 0x5fe6ff],
-  ['Véu ativo (borda clara, interior translúcido)', 400, 5000, 0x3f8cff],
-  ['Flecha inimiga partida: ripple + estilhaços', 910, 1460, 0xc8f4ff],
-  ['Flecha inimiga partida', 1880, 2430, 0xc8f4ff],
-  ['Flecha do aliado (por trás) partida', 2660, 3210, 0x9dff8a],
+  ['Véu abre do fundo até à ponta', 0, 550, 0x6fd8ff],
+  ['Véu ativo (pó de estrelas, contorno claro)', 550, 5000, 0x3f8cff],
+  ['Flechas terminam na folha (sem animação)', 900, 4100, 0xd8f6ff],
   ['Inimigo atravessa (não é bloqueado)', 2800, 4700, 0x8f8a82],
-  ['Flecha inimiga partida', 4010, 4560, 0xc8f4ff],
   ['Dissolve (erosão suave)', 5000, 5500, 0x3f8cff],
 ];
 const TOTAL = 5600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -591,7 +565,7 @@ const heads = [...tl.querySelectorAll('.playhead')];
 let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0;
 const tLoop = $('tLoop'), tStress = $('tStress');
 tStress.onchange = () => { const on = tStress.checked; ghostBody.visible = ghostHead.visible = on; ghosts.forEach(g => g.next = time + rand(.2, 3)); };
-function localCast(){ if (time - localT < .4) return; localT = time; idle = 0; cast(V3(0, 0, 0), V3(0, 0, -1), time, planShots(time)); }
+function localCast(){ if (time - localT < .4) return; localT = time; idle = 0; planShots(time); cast(V3(0, 0, 0), V3(0, 0, -1), time); }
 $('castBtn').onclick = localCast;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localCast(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
@@ -624,8 +598,7 @@ function frame(now){
   if (!started){ started = true; localCast(); }
   if (tLoop.checked){ idle += dt; if (idle > 6.5) localCast(); }
   if (tStress.checked){
-    for (const g of ghosts) if (time >= g.next){ const N = V3(-Math.sin(g.yaw), 0, -Math.cos(g.yaw)), C = g.p.clone().addScaledVector(N, DIST), R = V3(-N.z, 0, N.x);
-      cast(g.p, N, time, [1.2, 2.9].map(k => ({ p:C.clone().addScaledVector(R, rand(-1.5, 1.5)).add(V3(0, rand(1, 2), 0)), t:time + k + rand(0, .6) }))); g.next = time + rand(4, 7); }
+    for (const g of ghosts) if (time >= g.next){ cast(g.p, V3(-Math.sin(g.yaw), 0, -Math.cos(g.yaw)), time); g.next = time + rand(4, 7); }
   }
   veil.tick(time); veil.flush();
   const cpuVfx = performance.now() - c0;
