@@ -136,18 +136,19 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Disco no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Ancorado ao chão (R 3,5 m de exemplo, 4 s de exemplo): borda baixa bem legível, 4 braços largos em espiral a rodar devagar para dentro (ícone) e um núcleo negro com horizonte violeta no centro, sempre visível. Blending premultiplicado: o núcleo escurece, os braços somam luz</td></tr>
-          <tr><td>Linhas de convergência</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Uma única vez, no início (query): uma seta de luz deitada no chão de cada inimigo apanhado até ao centro (0,6 s). Não se repete</td></tr>
+          <tr><td>Disco no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Ancorado ao chão (R 3,5 m de exemplo, 4 s de exemplo): borda exterior ténue, 4 braços largos em espiral a rodar devagar para dentro (ícone) e um núcleo negro com horizonte violeta no centro, sempre visível. Blending premultiplicado: o núcleo escurece, os braços somam luz</td></tr>
+          <tr><td>Orbe no ar</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Por cima do centro (~1,35 m): esfera negra com aro violeta brilhante, anel de acreção fino e inclinado a rodar e glow suave; mesma duração do disco. Os inimigos apanhados na query única escorregam devagar para o centro</td></tr>
           <tr><td>Entradas tardias</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Quem entra depois da query não recebe linha nem é puxado</td></tr>
-          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Disco e linhas no mesmo sistema instanciado, para todos os Mystics; 0 partículas. Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
+          <tr><td>Braços do Vortex</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td>A animação do Vortex (Mage) reaproveitada em violeta: 6 fitas curvas a girar devagar à volta da orbe, com a textura a correr para dentro dela (engolida); blending premultiplicado</td></tr>
+          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Disco + orbe num sistema instanciado, braços noutro, para todos os Mystics; 0 partículas. Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Ancorado e legível</h3><p>Um disco imóvel no chão com uma borda baixa clara, quatro braços largos em espiral a rodar devagar e o núcleo negro sempre visível ao centro.</p></div>
-    <div><h3>Um só pull</h3><p>No início, uma seta de luz sai de cada inimigo apanhado e converge para o centro; eles escorregam devagar para dentro. Não há pulsos repetidos.</p></div>
+    <div><h3>Ancorado e legível</h3><p>Um disco imóvel no chão com uma borda exterior ténue, quatro braços largos em espiral a rodar devagar e o núcleo negro sempre visível ao centro.</p></div>
+    <div><h3>Um só pull</h3><p>No início, os inimigos apanhados na query escorregam devagar para o centro, por baixo da orbe negra no ar. Não há pulsos repetidos.</p></div>
     <div><h3>Entradas tardias</h3><p>O inimigo que entra depois da query não é puxado nem recebe linha: a área não reage a ele.</p></div>
   </section>
 </div>
@@ -380,9 +381,12 @@ const bh = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aE:3, aT:1, aK:1 }, 
   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uV, uL, uD },
   vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK, vLen;
-    void main(){ float u = uTime - aT; if (u < 0. || u > (aK < .5 ? ${F(DUR + .5)} : ${F(LINE + .1)})){ ${HIDE} }
+    void main(){ float u = uTime - aT; if (u < 0. || u > (aK < .5 || aK > 1.5 ? ${F(DUR + .5)} : ${F(LINE + .1)})){ ${HIDE} }
       vU = u; vK = aK;
       if (aK < .5){ float S = ${F(RAD + .3)}; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .03, -vP.y), 1.); return; }
+      if (aK > 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.35 + .05*sin(uTime*1.3), 0.), 1.);   /* the orb, floating above the centre */
+        float S = 1.05*(1. - pow(1. - clamp(u/.5, 0., 1.), 3.))*(1. - smoothstep(${F(DUR)}, ${F(DUR + .5)}, u));
+        mv.xy += position.xy*S; vP = position.xy; gl_Position = projectionMatrix*mv; return; }
       vec3 d = aO - aE; float L = length(d); vec3 dir = d/L, side = vec3(-dir.z, 0., dir.x);
       float s = position.x*.5 + .5; vP = vec2(s, position.y); vLen = L;
       gl_Position = projectionMatrix*viewMatrix*vec4(aE + dir*s*L + side*position.y*.3 + vec3(0., .04, 0.), 1.); }`,
@@ -393,15 +397,26 @@ const bh = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aE:3, aT:1, aK:1 }, 
         float r = length(vP), a = atan(vP.y, vP.x), R = ${F(RAD)};
         float fin = eox(clamp(vU/.5, 0., 1.)), fout = 1. - smoothstep(${F(DUR)}, ${F(DUR + .5)}, vU);
         float Rr = R*mix(.4, 1., fin), f = fin*fout;
-        float rim = line(r - Rr, .035)*.9 + exp(-pow((r - Rr)/.25, 2.))*.15;              /* low, easy-to-read border */
+        float rim = line(r - Rr, .03)*.22 + exp(-pow((r - Rr)/.25, 2.))*.04;              /* faint outer border */
         float sw = a + 2.2*log(max(r, .05)) - vU*.35;                                     /* 4 wide spiral arms turning inward, slowly */
         float arm = pow(.5 + .5*cos(4.*sw), 5.)*smoothstep(Rr, Rr*.6, r)*smoothstep(.55, 1.1, r);
         float streak = .6 + .4*sin(sw*4. + r*6. - vU*3.);
         float hz = line(r - .62, .06)*1.2;                                                 /* violet event horizon */
         float core = smoothstep(.62, .45, r);                                              /* the black centre stays visible */
-        c = (uV*(rim + arm*.55*streak + hz*.8) + uL*(line(r - Rr, .01)*.4 + hz*.4 + arm*.12))*f;
+        c = (uV*(rim + arm*.55*streak + hz*.8) + uL*(line(r - Rr, .01)*.08 + hz*.4 + arm*.12))*f;
         al = core*.85*f + arm*.12*f;                                                       /* darkens the ground under the core */
         c *= smoothstep(R + .3, R + .1, r); al *= smoothstep(R + .3, R + .1, r);
+      } else if (vK > 1.5){
+        /* the orb in the air: a black sphere with a bright violet photon rim, a thin tilted accretion ring swirling
+           around it and a soft glow - premultiplied so the core really reads black */
+        vec2 q = vP; float r = length(q), a = atan(q.y, q.x);
+        float core = smoothstep(.36, .33, r), rimL = line(r - .36, .025)*1.4 + exp(-pow((r - .36)/.1, 2.))*.3;
+        vec2 e = vec2(q.x, q.y*3.2); float er = length(e), ea = atan(e.y, e.x);
+        float disk = line(er - .62, .06)*(.6 + .4*sin(ea*3. - uTime*4.))*(1. - core*step(0., q.y));   /* ring passes behind the top */
+        float swirl = pow(.5 + .5*cos(a*2. + r*9. - uTime*3.), 4.)*smoothstep(.95, .4, r)*smoothstep(.34, .5, r)*.35;
+        c = uV*(rimL + disk*.9 + swirl + exp(-r*r*3.)*.15) + uL*(line(r - .36, .01)*.8 + disk*.4);
+        al = core*.95; c *= 1. - core*.95;
+        c *= smoothstep(1., .9, r); al *= smoothstep(1., .9, r);
       } else {
         /* the single convergence line (query): a bright arrow travels from the enemy to the centre over 0.6 s, then fades */
         float s = vP.x, y = vP.y, t = clamp(vU/${F(LINE)}, 0., 1.), h = eox(t)*1.02;
@@ -437,15 +452,63 @@ const ptsScale = { value:600 };
     fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
   m.frustumCulled = false; scene.add(m); }
 
+
+// Layer 2 — the Mage Vortex arms (reused), in violet: 6 continuous curved ribbons swirling around the orb in the air, flowing
+// INTO it (not out of it), slow spin; premultiplied blending (hot violet adds light, the cold ends darken like dust)
+const VR = 1.5;
+const ribs = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 1024, { aO:3, aT:1, aP:2 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendEquation:THREE.AddEquation,
+  blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime },
+  vertexShader:`attribute vec3 aO; attribute float aT; attribute vec2 aP; uniform float uTime; varying vec2 vS; varying float vU, vF;
+    vec3 armAt(float s, vec3 C, vec3 e1, vec3 e2, vec3 n, float spin, float grow){
+      float r = mix(.06, 1., s)*${F(VR)}, a = aP.x*6.28318 + spin/6. - 2.5*r/${F(VR)};
+      return C + (e1*cos(a) + e2*sin(a))*r*grow + n*.08*s*s;
+    }
+    void main(){
+      float u = uTime - aT; if (u < 0. || u > ${F(DUR + .5)}){ ${HIDE} }
+      vec3 C = aO + vec3(0., 1.35 + .05*sin(uTime*1.3), 0.);
+      vec3 n = normalize(vec3(0., 1., 0.) + normalize(cameraPosition - C)*.35), d0 = normalize(cross(n, vec3(1., 0., 0.)));
+      vec3 e1 = normalize(cross(n, d0)), e2 = cross(e1, n);
+      float grow = 1. - pow(1. - clamp(u/.5, 0., 1.), 3.), spin = -u*7.;            /* slower than the Vortex, swirling inward */
+      float s = position.x + .5;
+      vec3 P = armAt(s, C, e1, e2, n, spin, grow), T = normalize(armAt(min(s + .02, 1.), C, e1, e2, n, spin, grow) - armAt(max(s - .02, 0.), C, e1, e2, n, spin, grow));
+      vec3 side = normalize(cross(n, T));
+      float w = ${F(VR)}*(.3 - .23*pow(s, .7))*(.25 + .75*smoothstep(0., .2, s))*grow;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*2.*w, 1.);
+      vS = vec2(s, position.y*2.); vU = u + aP.y*7.; vF = 1. - smoothstep(${F(DUR)}, ${F(DUR + .5)}, u);
+    }`,
+  fragmentShader:`varying vec2 vS; varying float vU, vF;
+    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
+    void main(){
+      float s = vS.x, y = vS.y, t = vU;
+      float n1 = vn(vec2(s*3.5 + t*1.4, y*2. + t*.4)), n2 = vn(vec2(s*5. + t*2., y*2.5 - t*.6));   /* texture flows INWARD */
+      float n = n1*.65 + n2*.35, yy = y + (n1 - .5)*.5;
+      float body = exp(-yy*yy*(2.2 + 1.5*step(0., yy)));
+      float lick = smoothstep(.05, .95, n + .5*(1. - abs(yy)));
+      float streak = smoothstep(.05, .95, vn(vec2(s*2. + t*1.1, yy*3.5 + n1*1.2))*.7 + vn(vec2(s*3.5 + t*1.4, yy*6.))*.3);
+      float dens = body*lick*(.55 + .45*streak)*smoothstep(1., .72, s)*smoothstep(.02, .22, s)*smoothstep(1., .82, abs(y));
+      float T = clamp((1. - .55*s)*(.4 + .6*body*mix(1., streak, .4))*(.9 + .2*n), 0., 1.);
+      /* violet ramp: dark dust -> deep violet -> violet -> pale lilac only in the hottest veins */
+      vec3 dust = vec3(.01, .006, .016), deep = vec3(.16, .03, .34), vio = vec3(.5, .2, 1.), lil = vec3(.82, .66, 1.);
+      vec3 col = T < .25 ? mix(dust, deep, T/.25) : T < .6 ? mix(deep, vio, (T - .25)/.35) : mix(vio, lil, clamp((T - .6)/.4, 0., 1.));
+      float emit = T < .25 ? .06 : 1.*T, alpha = dens*mix(.35, .08, clamp(T/.6, 0., 1.));
+      float glow = exp(-y*y*2.5)*smoothstep(1., .55, s)*smoothstep(.04, .26, s)*smoothstep(1., .85, abs(y))*(1. - .5*s);
+      vec3 g = vec3(.45, .18, 1.)*glow*.22;
+      if (dens < .003 && glow < .003){ discard; }
+      gl_FragColor = vec4((col*emit*dens + g)*vF, alpha*vF);
+    }` }));
+
 // ============ spawning (CPU: on cast -> a single query; nothing is written for late entrants) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const areas = [], log = [];
 function cast(P, t0, units){
   let j = bh.next(); bh.A.aO.setXYZ(j, P.x, 0, P.z); bh.A.aT.setX(j, t0); bh.A.aK.setX(j, 0); bh.track(t0 + DUR + .5, 1);
   const caught = [];
-  for (const u of units || []) if (Math.hypot(u.p.x - P.x, u.p.z - P.z) < RAD){      /* the one and only query */
-    const k = bh.next(); bh.A.aO.setXYZ(k, P.x, 0, P.z); bh.A.aE.setXYZ(k, u.p.x, 0, u.p.z); bh.A.aT.setX(k, t0 + .35); bh.A.aK.setX(k, 1); bh.track(t0 + .35 + LINE + .1, 1);
-    caught.push({ u, p0:u.p.clone() }); }
+  j = bh.next(); bh.A.aO.setXYZ(j, P.x, 0, P.z); bh.A.aT.setX(j, t0); bh.A.aK.setX(j, 2); bh.track(t0 + DUR + .5, 1);   /* the orb */
+  for (let a = 0; a < 6; a++){ const k = ribs.next(); ribs.A.aO.setXYZ(k, P.x, 0, P.z); ribs.A.aT.setX(k, t0); ribs.A.aP.setXY(k, a/6, Math.random()); } ribs.track(t0 + DUR + .5, 6);   /* Vortex arms */
+  for (const u of units || []) if (Math.hypot(u.p.x - P.x, u.p.z - P.z) < RAD) caught.push({ u, p0:u.p.clone() });   /* the one and only query (no arrows) */
   areas.push({ P, t0, caught }); log.push(t0 + DUR + .5);
   return caught;
 }
@@ -519,7 +582,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Disco abre no chão', 0, 500, 0x9b5cff],
-  ['Query única: linhas convergem para o centro', 350, 950, 0xe0c8ff],
+  ['Orbe negra aparece no ar, ao centro', 0, 500, 0xe0c8ff],
   ['Pull lento dos apanhados', 500, 2700, 0x9b5cff],
   ['Entrada tardia (não é puxada)', 1200, 2800, 0x8f8a82],
   ['Área ativa, braços a rodar devagar', 500, 4000, 0x3a1670],
@@ -572,7 +635,7 @@ function frame(now){
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){ cast(V3(g.p.x - Math.sin(g.yaw)*4, 0, g.p.z - Math.cos(g.yaw)*4), time, null); g.next = time + rand(2.5, 5); }
   }
-  bh.tick(time); bh.flush();
+  bh.tick(time); bh.flush(); ribs.tick(time); ribs.flush();
   const cpuVfx = performance.now() - c0;
 
   placeUnits(time);
@@ -597,7 +660,7 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     log.splice(0, log.length, ...log.filter(t => t > time));
-    S.draw.textContent = bh.active ? 1 : 0;
+    S.draw.textContent = (bh.active ? 1 : 0) + (ribs.active ? 1 : 0);
     S.mark.textContent = log.filter(t => t > time).length;
     S.part.textContent = 0;
     S.casts.textContent = bh.count;
