@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Poça de luz estelar no chão em cada ponto: brilho de nebulosa suave, halo difuso e 6 estrelas a cintilar; a da origem esmorece e recolhe, a do destino abre (1,2 s)</td></tr>
+          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Zona azul uniforme e suave no chão em cada ponto (R 0,72 m), que encolhe até desaparecer (1,2 s)</td></tr>
           <tr><td>Pó de estrelas</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Um quad vertical por ponto com 22 estrelas pequenas desenhadas no shader (não são partículas): na origem saem da borda que dissolve e sobem até sumir; no destino caem do alto e juntam-se na borda que forma o corpo; por fim uma estrela de 4 pontas suave no peito</td></tr>
           <tr><td>Clip plane na malha</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um plano de corte no material do Mystic, escondido atrás de um brilho suave (sem linha dura); sem geometria extra</td></tr>
           <tr><td>Entre os dois pontos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Nada: sem rasto, linha ou vetor a apontar para o destino (a leitura é só origem → destino)</td></tr>
@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Sobe ao céu, desce das estrelas</h3><p>Na origem, o Mystic desfaz-se em pó de estrelas que sobe e se apaga; no destino, as estrelas caem do alto e juntam-se até formar o corpo. Entre os dois pontos não há nada: nem rasto, nem linha a sugerir que o alvo é puxado.</p></div>
-    <div><h3>Luz, não mecânica</h3><p>No chão, em vez de anéis técnicos, uma poça de luz estelar suave, tipo nebulosa, com estrelas a cintilar. A silhueta desfaz-se da cabeça aos pés atrás de um brilho difuso, fica 2 frames invisível e forma-se no destino dos pés à cabeça.</p></div>
+    <div><h3>Luz, não mecânica</h3><p>No chão, só uma zona azul uniforme que encolhe até desaparecer. A silhueta desfaz-se da cabeça aos pés atrás de um brilho difuso, fica 2 frames invisível e forma-se no destino dos pés à cabeça.</p></div>
     <div><h3>Âncora parada</h3><p>O aliado/inimigo é só referência: não se mexe e não recebe nenhum impacto. Muda apenas a cor da figura de teste; o VFX é igual nos dois casos (paleta astral neutra).</p></div>
   </section>
 </div>
@@ -424,8 +424,7 @@ const uV = { value:lin(0x3f8cff) }, uBl = { value:lin(0x5fe0ff) }, uW = { value:
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); } float h1(float n){ return fract(sin(n*91.7)*43758.5); }`;
 const OUT = .675, GAP = 2/60, RL = 1.2, PRE = .375;   // dissolve 0.675 s, hidden 2 frames, re-forms in 0.675 s; stars start falling 0.375 s before
 
-// Layer 1 — a soft pool of starlight on the ground at each point: cloudy nebula glow + a soft halo edge + a few twinkling
-// glints. kind 0 = origin (dims and draws in), kind 1 = destination (opens). No hard rings, no sigils.
+// Layer 1 — a uniform soft blue zone on the ground at each point that shrinks until it is gone (origin, then destination).
 const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uV, uBl, uW },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
@@ -435,18 +434,9 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addM
   fragmentShader:`uniform float uTime; uniform vec3 uV, uBl, uW; varying vec2 vP; varying float vU, vK; ${STROKE}
     void main(){
       float r = length(vP), a = atan(vP.y, vP.x), t = vU/${RL.toFixed(2)};
-      float k = vK < .5 ? clamp(vU/.825, 0., 1.) : 1. - pow(1. - clamp(vU/.6, 0., 1.), 3.);
-      float R = vK < .5 ? mix(.7, .4, k*k) : mix(.3, .72, k);
-      float f = smoothstep(0., .08, vU)*(1. - smoothstep(.4, 1., t));
-      float cloud = (.55 + .45*(.5 + .5*sin(a*3. + r*9. - uTime*.8))*(.5 + .5*sin(a*5. - r*6. + uTime*.5 + 1.3)));
-      float neb = exp(-r*r/(R*R*.45))*cloud;
-      float halo = exp(-pow((r - R)/.07, 2.))*.45 + lcore(r - R, .012)*.25;
-      float gl = 0.;
-      for (int i=0;i<6;i++){ float fi = float(i), ga = fi*1.047 + h1(fi)*.8, gr = R*(.35 + .6*h1(fi + 3.));
-        vec2 q = vP - gr*vec2(cos(ga), sin(ga)); float qr = length(q), qa = atan(q.y, q.x);
-        float tw = pow(.5 + .5*sin(uTime*7. + fi*2.1), 2.);
-        gl += (pow(abs(cos(qa*2.)), 16.)*exp(-qr*22.) + exp(-qr*qr*3000.))*tw; }
-      vec3 o = (uV*neb*.4 + uBl*halo*.8 + uW*gl*.9)*f*smoothstep(1.1, .95, r);
+      /* one uniform soft blue zone that shrinks until it is gone */
+      float R = .72*(1. - smoothstep(0., 1., t)), disc = smoothstep(R, R - .1, r)*smoothstep(0., .06, vU);
+      vec3 o = (uV*.45 + uBl*.12)*disc;
       o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard;
       gl_FragColor = vec4(o, 1.);
     }` }));
@@ -563,10 +553,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Origem: corpo desfaz-se em pó de estrelas (cabeça → pés)', 0, 675, 0xd8f6ff],
   ['Origem: estrelas sobem e apagam-se', 0, 1575, 0x5fe0ff],
-  ['Origem: poça de luz estelar esmorece', 0, 1200, 0x3f8cff],
+  ['Origem: zona azul no chão encolhe', 0, 1200, 0x3f8cff],
   ['Destino: estrelas caem do alto', 320, 1500, 0x5fe0ff],
   ['Destino: corpo forma-se (pés → cabeça)', 708, 1383, 0xd8f6ff],
-  ['Destino: estrela no peito + poça de luz abre', 708, 1908, 0x3f8cff],
+  ['Destino: estrela no peito + zona azul encolhe', 708, 1908, 0x3f8cff],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
