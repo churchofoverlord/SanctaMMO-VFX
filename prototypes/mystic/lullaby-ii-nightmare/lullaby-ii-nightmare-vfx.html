@@ -140,7 +140,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 3300 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesma família e mesmo voo lento da Lullaby (4 m/s, a ondular), mas ameaçador: um crescente afiado (a lua do ícone) com 3 espíritos a gritar a girar à volta dele, os mesmos que rebentam no impacto; rasto largo e contorcido</td></tr>
+          <tr><td>Olho no alvo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil: o olho ameaçador (pupila em fenda, pestanas em espinhos, luz a escorrer, a pulsar) abre-se diante do peito do inimigo e fita-o durante 0,7 s; depois dá lugar ao impacto</td></tr>
           <tr><td>Impacto (dano)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um olho enorme rasga-se no peito do inimigo e fica a fitá-lo (pupila em fenda), fecha-se de golpe com um estalo, e saem dele 7 espíritos a gritar (como no ícone) com uma onda de choque (1,1 s)</td></tr>
           <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Onda de choque grande (até ~2,3 m) que rebenta do alvo para fora: anel duplo irregular, 12 farpas longas e um rasto frio, a tremeluzir (0,8 s). O Fear que fica é o cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Mesma família, mais agudo</h3><p>O mesmo projétil lento da Lullaby, agora com a forma angular do olho do ícone. Só pode ir para um inimigo que já está com Sleep.</p></div>
+    <div><h3>Começa no alvo</h3><p>Não há projétil: o olho do pesadelo abre-se diretamente diante do inimigo que já está com Sleep e fica a fitá-lo antes do resto.</p></div>
     <div><h3>O olho fecha</h3><p>No impacto, o olho abre-se no peito do inimigo e fecha-se de golpe com um estalo curto: é o dano.</p></div>
     <div><h3>Fear para fora</h3><p>O anel de Fear expande-se do alvo para fora, com farpas a apontar para fora (o contrário do anel de Sleep, que fecha). O estado é um cue de status.</p></div>
   </section>
@@ -434,30 +434,35 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
     void main(){
-      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
+      float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = .7;
       if (u < 0. || u > tt){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); float S = .5;
+      vec4 mv = viewMatrix*vec4(aE + vec3(0., .05, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.4;   /* no projectile: the eye opens in front of the target */
+      float S = .5*(1. - pow(1. - clamp(u/.18, 0., 1.), 3.))*(1. + .25*smoothstep(tt - .15, tt, u));
       float c = cos(.12*sin(u*2.)), s = sin(.12*sin(u*2.)); vec2 q = mat2(c, -s, s, c)*position.xy;   // the eye stays level, only a slight rock
-      mv.xy += q*S*1.25; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
+      mv.xy += q*S*1.25*(1. + .12*pow(max(sin(u*6.5), 0.), 10.)); vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
-    void main(){                                              /* Nightmare: a sharp crescent shard (icon moon) with 3 screaming
-                                                                 wisps (the icon's ghosts) circling it, the same spirits that burst out on the hit */
+    void main(){                                              /* Nightmare: a watching eye - slit pupil, jagged lashes, dripping light */
       vec2 p = vP; float r = length(p), a = atan(p.y, p.x);
-      float fl = .85 + .15*sin(vU*47.)*sin(vU*31.);
-      float cres = max(r - .3, -(length(p - vec2(.13, .05)) - .26));                         /* thin, sharp crescent */
-      float edge = exp(-pow(cres/.018, 2.)), fill = smoothstep(.01, -.03, cres)*.25;
-      float lum = edge*1.2 + fill + exp(-r*r*6.)*.12, hot = exp(-pow(cres/.006, 2.))*.6;
-      for (int i=0;i<3;i++){ float fi = float(i), ang = vU*2.6 + fi*2.094;
-        float d = mod(a - ang + 3.14159, 6.2832) - 3.14159, R = .52 + .05*sin(vU*7. + fi*2.);
-        float dr = r - R - .05*sin(d*6. - vU*14. + fi)*step(d, 0.);                            /* the tail writhes */
-        float tail = exp(-dr*dr/(.0015 + .004*max(-d, 0.)))*smoothstep(-1.6, 0., d)*step(d, .03)*(1. + d/1.6);
-        vec2 hq = vec2(d*R, dr); float head = exp(-dot(hq, hq)*260.);
-        float eyes = exp(-(pow(abs(hq.x) - .025, 2.) + pow(hq.y - .012, 2.))*9000.);           /* two hollow eyes */
-        float mouth = exp(-(hq.x*hq.x*2500. + pow(hq.y + .02, 2.)*1500.));                      /* gaping mouth */
-        lum += tail*.8 + head*1.3*(1. - .9*eyes)*(1. - .8*mouth); hot += head*.5*(1. - eyes)*(1. - mouth); }
-      vec3 o = (uOrange*lum + mix(uGold, vec3(1.), .6)*hot)*fl*smoothstep(1., .9, r);
+      float beat = 1. + .7*pow(max(sin(vU*6.5), 0.), 10.);                                  /* heartbeat pulse */
+      float fl = .85 + .15*sin(vU*47.)*sin(vU*31.);                                          /* nervous flicker */
+      float eyeD = max(length(p - vec2(0., -.38)) - .6, length(p - vec2(0., .38)) - .6);
+      float lid = exp(-pow(eyeD/.022, 2.)), fill = smoothstep(.02, -.04, eyeD)*.1;
+      vec2 sp = p*vec2(1., .33); float slitD = length(sp) - .07;                              /* vertical slit pupil */
+      float slit = exp(-pow(slitD/.012, 2.))*smoothstep(.02, -.04, eyeD);
+      float iris = exp(-pow((r - .17)/.035, 2.))*.5*smoothstep(.02, -.04, eyeD);
+      float lash = 0.;
+      for (int i=0;i<9;i++){ float fi = float(i), x0 = -.44 + fi*.11, y0 = .2*(1. - x0*x0/.25) + .02;
+        vec2 dir = normalize(vec2(x0*1.4, 1.)); vec2 q = p - vec2(x0, y0);
+        float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x)), L = .18 + .14*h1(fi) + .05*sin(vU*9. + fi*2.);
+        lash += exp(-across*across/(.00012 + .0006*max(0., 1. - along/L)))*step(0., along)*smoothstep(L, L*.5, along); }
+      float drip = 0.;
+      for (int i=0;i<4;i++){ float fi = float(i), x0 = -.22 + fi*.15, y0 = -.2*(1. - x0*x0/.25);
+        float L = .25 + .3*fract(vU*.6 + h1(fi + 3.)), q = p.x - x0, yy = y0 - p.y;
+        drip += exp(-q*q/.00025)*step(0., yy)*smoothstep(L, L*.3, yy); }
+      float halo = exp(-r*r*3.5)*.25;
+      vec3 o = (uOrange*(lid*1.1 + fill + iris + lash*.9 + drip*.8 + halo) + mix(uGold, vec3(1.), .6)*(slit*1.6 + lid*.35 + lash*.3))*beat*fl*smoothstep(1., .88, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
@@ -650,9 +655,9 @@ function stab(O, yaw, tier, t0, targets){                   // Nightmare: slow a
   if (tg){ const tx = tg.p.x - H.x, tz = tg.p.z - H.z, tn = Math.hypot(tx, tz); E = V3(tg.p.x - tx/tn*.2, 1.15, tg.p.z - tz/tn*.2); G = tg.p; }
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
-  const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
+  const tt = .7, hitT = t0 + WIND + tt;   // the eye stares for 0.7 s, then the hit
   let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
-  i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, t0); trails.track(hitT + .2, 1);
+  
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
@@ -730,12 +735,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Crescente com espíritos, voo lento (8 m: ~2 s)', 100, 2100, 0x4aa8ff],
-  ['Dano: o olho rasga-se, fita e fecha de golpe', 2100, 2400, 0xc8f2ff],
-  ['Espíritos a gritar + onda de choque', 2400, 3100, 0xc8f2ff],
-  ['Fear: onda grande rebenta para fora', 2150, 2950, 0x4aa8ff],
+  ['Olho aparece no alvo e fita-o', 100, 800, 0x4aa8ff],
+  ['Dano: o olho rasga-se, fita e fecha de golpe', 800, 1100, 0xc8f2ff],
+  ['Espíritos a gritar + onda de choque', 1100, 1800, 0xc8f2ff],
+  ['Fear: onda grande rebenta para fora', 850, 1650, 0x4aa8ff],
 ];
-const TOTAL = 3300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
