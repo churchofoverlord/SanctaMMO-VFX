@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela astral pequena com cauda curta, da mão do Mystic ao peito do alvo a 7 m/s; os dois ramos entrelaçados vão logo atrás dele e juntam-se na cabeça do projétil. Mesma draw call do tether</td></tr>
+          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela astral pequena com cauda curta, da mão do Mystic ao peito do alvo a acelerar (média 7 m/s: começa a ~2 m/s e chega a ~12 m/s); os dois ramos entrelaçados vão logo atrás dele e juntam-se na cabeça do projétil. Mesma draw call do tether</td></tr>
           <tr><td>Tether</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Dois ramos finos entre a mão do Mystic e o peito do alvo: um corre do Mystic para o alvo, o outro do alvo para o Mystic; juntam-se nas pontas e entrelaçam-se em hélice no meio (2,5 voltas, rodam devagar). Cada ramo é uma fita virada para a câmara com 48 segmentos, na mesma draw call. Material com UV panning: fluxo suave e regular (UV panning) do Mystic para o aliado</td></tr>
           <tr><td>Pulso do tick</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>A cada tick (1 s de exemplo) um pulso percorre o ramo que vai para o alvo em 0,35 s; ao chegar, no aliado, um brilho suave e uma pequena estrela de 4 pontas no peito. Calculado no shader a partir do tempo: o CPU não escreve nada por tick</td></tr>
           <tr><td>Fim</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Fim natural: o fio apaga a partir da origem (0,35 s). Fora de range: o fio abre ao meio com um estalo curto e as metades recolhem para as pontas (0,25 s)</td></tr>
@@ -424,12 +424,12 @@ const F2 = x => x.toFixed(3);
 const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aA, aB, aT; attribute float aK; uniform float uTime; varying vec2 vQ; varying float vL, vU, vE, vBrk, vEnd, vK, vDir;
-    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }
+    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); } float fly(float x){ x = clamp(x, 0., 1.); return x*(.3 + .7*x); }
     void main(){
       vec3 d = aB - aA; float L = length(d);
       if (aK > 2.5){                                   /* projectile: hand -> chest in (aT.y - aT.x), slight arc */
         float u = uTime - aT.x, tt = aT.y - aT.x; if (u < 0. || u > tt){ ${HIDE} }
-        float f = u/tt; vec3 P = aA + d*f + vec3(0., -.012*L*sin(3.14159*f), 0.);
+        float f = fly(u/tt); vec3 P = aA + d*f + vec3(0., -.012*L*sin(3.14159*f), 0.);
         vec4 c0 = projectionMatrix*viewMatrix*vec4(P, 1.), c1 = c0;
         vec2 sd = c1.xy/c1.w - c0.xy/c0.w; sd = length(sd) > 1e-5 ? normalize(sd) : vec2(1., 0.);
         vec4 mv = viewMatrix*vec4(P, 1.); vec2 q = position.xy;
@@ -442,7 +442,7 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
       if (abs(aK - 1.) > .5){
         float s = position.x*.5 + .5;
         vec3 ax = d/L, n1 = normalize(cross(ax, vec3(0., 1., 0.))), n2 = cross(n1, ax);
-        float g = clamp(u/(L/${F2(PV)}), 0., 1.), ph = s*6.2832*2.5 + (aK > 1.5 ? 3.14159 : 0.) + uTime*.8, R = .1*pow(sin(3.14159*s), .8)*clamp((g - s)*L/.6, 0., 1.);
+        float g = fly(u/(L/${F2(PV)})), ph = s*6.2832*2.5 + (aK > 1.5 ? 3.14159 : 0.) + uTime*.8, R = .1*pow(sin(3.14159*s), .8)*clamp((g - s)*L/.6, 0., 1.);
         vec3 P = aA + d*s + vec3(0., -.012*L*sin(3.14159*s), 0.) + vec3(0., sin(s*L*1.2 - uTime*2.)*.018*sin(3.14159*s), 0.) + (n1*cos(ph) + n2*sin(ph))*R;
         vec3 side = normalize(cross(d/L, cameraPosition - P));
         vQ = vec2(s, position.y);
@@ -451,7 +451,7 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
       gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform float uTime; uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vL, vU, vE, vBrk, vEnd, vK, vDir;
-    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }
+    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); } float fly(float x){ x = clamp(x, 0., 1.); return x*(.3 + .7*x); }
     void main(){
       float lum = 0., hot = 0.;
       if (vK > 2.5){                                     /* projectile: 4-point star head + short tail */
@@ -465,7 +465,7 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
       float arr = vL/${F2(PV)}, tt = vU - arr - ${F2(TICK)}, kq = floor(tt), ph = tt - kq, tickOk = tt >= 0. && arr + (kq + 1.)*${F2(TICK)} < vEnd ? 1. : 0.;
       if (abs(vK - 1.) > .5){
         float s = vQ.x, y = vQ.y*${F2(HW)};
-        float trav = vL/${F2(PV)}, grow = clamp(vU/trav, 0., 1.);
+        float trav = vL/${F2(PV)}, grow = fly(vU/trav);
         float sg = s; float m = smoothstep(grow, grow - .02, sg)*smoothstep(0., .015, s)*smoothstep(1., .985, s);
         float fl = .55 + .45*pow(.5 + .5*sin(s*vL*2.5 - vDir*uTime*3.), 2.);            /* soft, even flow along each strand */
         float extra = 0.;
@@ -486,13 +486,13 @@ const teth = pool(new THREE.PlaneGeometry(2, 2, 48, 1), 256, { aA:3, aB:3, aT:3,
         vec2 q = vQ; float r = length(q), ang = atan(q.y, q.x);
         float a = ph - ${F2(PULSE)};
         if (tickOk > .5 && a >= 0. && a < .6){ /* Heal tick: a soft bloom and a small 4-point sparkle on the ally's chest */
-          float k = a/.4; lum += (exp(-r*r*40.)*1.1 + pow(abs(cos(ang*2.)), 16.)*exp(-r*5.)*.9)*pow(1. - k, 1.5); hot += exp(-r*r*160.)*(1. - k); }
+          float k = clamp(a/.4, 0., 1.); lum += (exp(-r*r*40.)*1.1 + pow(abs(cos(ang*2.)), 16.)*exp(-r*5.)*.9)*pow(1. - k, 1.5); hot += exp(-r*r*160.)*(1. - k); }
         float c = vU - vL/${F2(PV)}; if (c >= 0. && c < .25){ lum += exp(-r*r*30.)*(1. - c/.25)*.8; }       /* the thread connects */
         if (vE > 0.){ lum *= 1. - clamp(vE/.2, 0., 1.); hot *= 1. - clamp(vE/.2, 0., 1.); }
         lum *= smoothstep(1., .8, r); hot *= smoothstep(1., .8, r);
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .45)*hot;
-      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+      o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
 
 // ============ spawning (CPU: on cast, on break, and the moving endpoints of the local tether) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
@@ -570,7 +570,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Projétil da mão ao alvo (7 m/s)', 0, 900, 0xfff0c8],
+  ['Projétil acelera da mão ao alvo (média 7 m/s)', 0, 900, 0xfff0c8],
   ['Ramos seguem atrás do projétil', 0, 900, 0xf2b53a],
   ['Dois ramos entrelaçados (UV panning)', 900, 5900, 0xf2b53a],
   ['Pulsos do tick (a cada 1 s)', 1900, 5250, 0xfff0c8],
