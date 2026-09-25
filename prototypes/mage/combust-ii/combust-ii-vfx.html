@@ -158,7 +158,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil, no próprio alvo (ícone): um núcleo quente acende-se no peito e incha (0,3 s), depois rebenta em 14 línguas de chama curtas que arrefecem de amarelo a vermelho e fumo ao afastarem-se (0,6 s; blending premultiplicado: o quente soma luz, o fumo escurece); sem anel nem marca. Billboard único</td></tr>
-          <tr><td>Colapso das stacks</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td>Só se o alvo já tinha Burn: no cast, uma pequena chama por stack acende-se à volta do peito do alvo (R 0,5 m, a rodar) e, no impacto, as chamas convergem para o ponto de contacto (0,12 s) e colapsam num golpe único; o impacto cresce com as stacks consumidas (+15 % por stack). Sem stacks, o hit é o do nível I</td></tr>
+          <tr><td>Colapso das stacks</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td>Só se o alvo já tinha Burn: no cast, uma pequena chama por stack acende-se à volta do peito do alvo (R 0,5 m, a rodar) e, no impacto, as chamas convergem para o ponto de contacto (0,12 s) e colapsam num golpe único; depois do mesmo núcleo do nível I, em vez da explosão ergue-se um pequeno pilar de fogo no alvo (~2,1 m, sobe em 0,22 s, segura, apaga da base para cima; fogo físico que arrefece para fumo no topo), ligeiramente maior por stack</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
       </table>
@@ -167,7 +167,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesmo Combust</h3><p>O núcleo que acende no peito e rebenta em raios é o do nível I; este nível só acrescenta o colapso das stacks.</p></div>
-    <div><h3>Convergir e colapsar</h3><p>As chamas das stacks de Burn aparecem à volta do alvo e, no impacto, são puxadas para o ponto de contacto num único golpe, maior quanto mais stacks havia.</p></div>
+    <div><h3>Convergir e colapsar</h3><p>As chamas das stacks de Burn aparecem à volta do alvo e colapsam no peito; em vez da explosão do nível I, ergue-se um pequeno pilar de fogo no alvo.</p></div>
     <div><h3>Burn = cue de status</h3><p>O novo Burn (Manifest) é o cue de status; sem marca própria no alvo. Em Weave não há Burn novo.</p></div>
   </section>
 </div>
@@ -567,6 +567,11 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
+      if (aK > 3.5){                                          /* Combust II: small fire pillar standing on the target, upright, only turned about Y */
+        vec3 fw = cameraPosition - aO; fw.y = 0.; fw = normalize(fw); vec3 rt = vec3(fw.z, 0., -fw.x);
+        float H = 2.1*(1. + .08*aD.x), W = .42*(1. + .08*aD.x);
+        vP = vec2(position.x*W, (position.y*.5 + .5)*H);
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + fw*.12 + rt*vP.x + vec3(0., vP.y, 0.), 1.); return; }
       if (aK > 2.5){                                          // Weave: a resource mote flies back to the caster on a curved path
         float k = clamp((u - aD.w)/.45, 0., 1.); if (u < aD.w || k >= 1.){ ${HIDE} }
         float e = k*k*(3. - 2.*k); vec3 A = aO + vec3(0., 1.2, 0.), B = aD.xyz;
@@ -595,6 +600,24 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         lum += (flame - edge*.7)*f*1.1; hot = edge*f*.2;
         lum *= smoothstep(1., .75, abs(x)); hot *= smoothstep(1., .75, abs(x));
       } else {
+        if (vK > 3.5){                                        /* fire pillar: rises fast, holds, dies from the base up; cools to smoke at the top */
+          float x = vP.x, y = vP.y, u = vU, H = 2.1, h = H*(1. - pow(1. - clamp(u/.22, 0., 1.), 3.));
+          vec2 pn = vec2(x*5.5, y*1.8 - u*6.); vec2 ip = floor(pn), fp = fract(pn); fp = fp*fp*(3. - 2.*fp);
+          #define H2(q) fract(sin(dot(q, vec2(127.1, 311.7)))*43758.5)
+          float n = mix(mix(H2(ip), H2(ip + vec2(1., 0.)), fp.x), mix(H2(ip + vec2(0., 1.)), H2(ip + vec2(1., 1.)), fp.x), fp.y);
+          vec2 pm = vec2(x*11., y*3.5 - u*9.); ip = floor(pm); fp = fract(pm); fp = fp*fp*(3. - 2.*fp);
+          float n2 = mix(mix(H2(ip), H2(ip + vec2(1., 0.)), fp.x), mix(H2(ip + vec2(0., 1.)), H2(ip + vec2(1., 1.)), fp.x), fp.y);
+          float yy = clamp(y/max(h, .01), 0., 1.);
+          float w = .42*(.3 + .7*pow(1. - yy, .7))*(.8 + .4*n) + .03;          /* wide at the base, licking tongues, thin at the top */
+          float xs = x + .08*sin(y*4. - u*10.)*yy;
+          float dens = smoothstep(w, w*.35, abs(xs))*pow(max(sin(3.14159*min(yy*.9 + .1, 1.)), 0.), .5)*step(y, h + .2)*smoothstep(h + .15, h - .3, y);
+          dens *= smoothstep(.15, .7, n*.6 + n2*.4 + .35*(1. - yy));
+          float die = clamp((u - .55)/.35, 0., 1.); dens *= smoothstep(die*H*1.2 - .1, die*H*1.2 + .4, y)*(1. - die*die);   /* dies from the base up */
+          float T = clamp((1. - yy*1.1)*(1. - abs(xs)/w*.8)*(.75 + .45*n2), 0., 1.);
+          vec3 smoke = vec3(.03, .02, .015), red = vec3(.45, .05, .01), org = vec3(.95, .33, .04), yel = vec3(1., .75, .35);
+          vec3 col = T < .3 ? mix(smoke, red, T/.3) : (T < .7 ? mix(red, org, (T - .3)/.4) : mix(org, yel, (T - .7)/.3));
+          vec3 c = col*dens*(.15 + 1.1*T*T); float al = dens*(1. - T)*(1. - T)*.15;
+          if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); return; }
         if (vK > 2.5){ float r = length(vP); float m = exp(-r*r*8.)*(1. - vU)*1.6;       // Weave mote
           vec3 o = uGold*m + vec3(1., .95, .8)*exp(-r*r*40.)*(1. - vU);
           if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 0.); return; }
@@ -606,10 +629,11 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec2 ip = floor(pn), fp = fract(pn); fp = fp*fp*(3. - 2.*fp);
         #define HH(q) fract(sin(dot(q, vec2(127.1, 311.7)))*43758.5)
         float n = mix(mix(HH(ip), HH(ip + vec2(1., 0.)), fp.x), mix(HH(ip + vec2(0., 1.)), HH(ip + vec2(1., 1.)), fp.x), fp.y);
-        float dens, T;
+        float dens = 0., T = 0.;
         if (b < 0.){ float k = vU/${BUILD.toFixed(2)};                                     /* build-up: a small core glows through */
           dens = exp(-r*r*(90. - 60.*k*k))*(.4 + .6*k); T = .55 + .45*k;
-        } else {
+        } else if (b < .15){ float kk = b/.15; dens = exp(-r*r*(40. - 25.*kk))*(1. - kk)*1.1; T = .95;   /* II: the core pops and hands over to the pillar */
+        } else if (b < 0.){
           float t = clamp(b/.6, 0., 1.), e = 1. - pow(1. - clamp(b/.15, 0., 1.), 3.);
           float rays = 0.;
           for (int i = 0; i < 14; i++){ float fi = float(i), hh = fract(sin(fi*71.3)*4375.5);
@@ -679,6 +703,7 @@ function stab(O, yaw, tier, t0, targets){                   // Combust: direct f
   const nS = targets ? stacks : Math.floor(rand(0, 4));
   let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT - BUILD); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, nS,0,0,0); rings.track(hitT + RL, 1);   // compact fire burst, bigger per stack
   for (let q = 0; q < nS; q++){ const j = stk.next(); stk.A.aO.setXYZ(j, G.x, 1.25, G.z); stk.A.aT.setXY(j, t0 + WIND, hitT); stk.A.aI.setXY(j, q, nS); } if (nS) stk.track(hitT + .12, nS);
+  const pk = rings.next(); rings.A.aO.setXYZ(pk, G.x, 0, G.z); rings.A.aT.setX(pk, hitT); rings.A.aK.setX(pk, 4); rings.A.aD.setXYZW(pk, nS,0,0,0); rings.track(hitT + RL, 1);   // fire pillar
 }
 
 // ============ post ============
@@ -754,9 +779,9 @@ const PHASES = [
   ['Núcleo quente acende no peito do alvo', 100, 400, 0xff3a12],
   ['Chamas das stacks acendem à volta do alvo', 100, 400, 0xff3a12],
   ['Stacks convergem e colapsam no peito', 400, 520, 0xffb347],
-  ['Rebenta em raios de chama (maior por stack)', 400, 950, 0xffb347],
+  ['Pilar de fogo no alvo (sobe, segura, apaga da base)', 400, 1300, 0xffb347],
 ];
-const TOTAL = 1100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
