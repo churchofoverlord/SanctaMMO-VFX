@@ -114,7 +114,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir Astral Pull<small>a cada ~4 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tValid" checked><span>Checks finais válidos<small>sem isto, o fio apaga-se e o aliado fica onde está</small></span></label>
+        <label class="tg"><input type="checkbox" id="tValid" checked><span>Checks finais válidos<small>sem isto, as correntes dissolvem-se e o aliado fica onde está</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>Astral Pulls de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
@@ -133,7 +133,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Astral Pull</span><span>0 — 3000 ms</span></div>
+    <div class="tl-head"><span>Timing do Astral Pull</span><span>0 — 3300 ms</span></div>
   </div>
 
   <section class="budget">
@@ -142,20 +142,20 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Fio de preparação</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Durante o delay (1 s de exemplo): feixe fino do peito do aliado ao peito do Mystic, fita de 24 segmentos virada para a câmara, com estrelinhas a correr do aliado para o Mystic. Esmaece no frame do teleporte (0,15 s)</td></tr>
+          <tr><td>Correntes (delay)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>A animação das Chains (Fighter) em azul astral: uma corrente de energia de cada mão do Mystic desenrola-se até ao aliado, trava com um anel no chão e fica tensa durante o delay (1,3 s de exemplo), com brilho místico (contorno azul-claro e estrelinhas a cintilar ao longo). Dissolve no frame do teleporte (0,3 s)</td></tr>
           <tr><td>Zonas no chão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Iguais ao Astral Step: zona azul uniforme que encolhe até desaparecer, na origem e no destino (1,2 s)</td></tr>
           <tr><td>Pó de estrelas</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Igual ao Astral Step, mas no aliado: desfaz-se da cabeça aos pés em estrelas que sobem; ao lado do Mystic as estrelas caem e o corpo forma-se dos pés à cabeça, com estrela de 4 pontas no peito</td></tr>
-          <tr><td>Checks inválidos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>O fio apaga-se no fim do delay e não há teleporte nem marcadores (cue condicional)</td></tr>
-          <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics; cabe em Rush / teleporte</td></tr>
+          <tr><td>Checks inválidos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>As correntes dissolvem-se no fim do delay e não há teleporte nem marcadores (cue condicional)</td></tr>
+          <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics (correntes 3 + teleporte 2)</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Primeiro o fio</h3><p>Durante o delay, um feixe fino liga o aliado ao Mystic, com estrelinhas a correr na direção do Mystic. No frame do teleporte esmaece; nunca parece um puxão físico.</p></div>
+    <div><h3>Correntes astrais</h3><p>Durante o delay, duas correntes de energia azul (a animação das Chains) saem das mãos do Mystic, prendem o aliado e ficam tensas, com estrelinhas a cintilar. No frame do teleporte dissolvem-se e o aliado reaparece ao lado do Mystic.</p></div>
     <div><h3>Mesma linguagem do Astral Step</h3><p>O aliado desfaz-se em pó de estrelas na origem e forma-se ao lado do Mystic, com a mesma zona azul no chão em cada ponto. Só o aliado se move; o Mystic fica parado.</p></div>
-    <div><h3>Checks finais</h3><p>Se os checks falharem no fim do delay, o fio apaga-se e nada mais acontece.</p></div>
+    <div><h3>Checks finais</h3><p>Se os checks falharem no fim do delay, as correntes dissolvem-se e nada mais acontece.</p></div>
   </section>
 </div>
 
@@ -474,37 +474,160 @@ const cuts = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMa
       vec3 o = (uBl*lum*.8 + uV*lum*.35 + uW*hot*.9)*m;
       o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
 
-// Layer 3 — preparation thread ally -> Mystic: a thin camera-facing ribbon (chest to chest) with tiny stars flowing toward
-// the Mystic; draws out from the Mystic over .25 s, holds for the delay and fades on the teleport frame. aT = (start, end).
-const PREP = 1.0;
-const beam = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 128, { aO:3, aE:3, aT:2 }, addMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uV, uBl, uW },
-  vertexShader:`attribute vec3 aO, aE; attribute vec2 aT; uniform float uTime; varying vec2 vQ; varying float vU, vF, vL;
-    void main(){ float u = uTime - aT.x, e = uTime - aT.y; if (u < 0. || e > .15){ ${HIDE} }
-      float s = position.x*.5 + .5; vec3 d = aE - aO, P = aO + d*s + vec3(0., .12*sin(3.14159*s), 0.);
-      vec3 side = normalize(cross(normalize(d), cameraPosition - P));
-      vQ = vec2(s, position.y); vU = u; vF = e > 0. ? 1. - e/.15 : 1.; vL = length(d);
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.12, 1.); }`,
-  fragmentShader:`uniform float uTime; uniform vec3 uV, uBl, uW; varying vec2 vQ; varying float vU, vF, vL; ${STROKE}
-    void main(){ float s = vQ.x, y = vQ.y*.12;
-      float g = clamp(vU/.25, 0., 1.), m = smoothstep(1. - g - .03, 1. - g, s)*smoothstep(0., .03, s)*smoothstep(1., .97, s);   /* s = 1 at the Mystic */
-      float core = exp(-y*y/(.006*.006)), glow = exp(-y*y/(.03*.03))*.25;
-      float flow = .7 + .3*sin(s*vL*4. - uTime*6.);
+// Layer 3 — the Chains animation, in astral blue with a mystic glow, links the Mystic to the ally during the delay
+const uBu = { value:lin(0x3f8cff) }, uCy = { value:lin(0x5fe0ff) };
+const WIND = .26;                  // throw wind-up (s) — readable, not instant
+const CV = 14, CVR = 24;             // chain cruise / reel-in speed (m/s)
+const travel = L => .1 + L/CV;      // travel time: eases in from the hand (slow start), arrives fast
+const PREP = 1.3, DIS = .3, PW = PREP - WIND;   // chains hold taut until the teleport frame (PREP), then dissolve
+
+// Layer 1 — the chain: ONE instanced link mesh; every link of every cast is an instance.
+// Link i is counted from the tip, so the chain unrolls out of the hand. Position, whip, snap, heat and dissolve are all
+// derived from age in the vertex shader. Additive energy links (aura, glowing contour), not metal.
+const linkGeo = new THREE.TorusGeometry(1, .13, 6, 16);
+const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1 }, addMat({
+  uniforms:{ uTime, uCy, uBu, uMoon:{ value:moonDir } },
+  vertexShader:`attribute vec3 aO, aE, aF; attribute float aT; uniform float uTime; varying vec3 vN, vV; varying float vHeat;
+    void main(){
+      float u = uTime - aT - ${WIND.toFixed(2)};
+      vec3 D = aE - aO; float L = length(D); vec3 dir = D/L;
+      float hit = aF.x, i = aF.y, SP = aF.z;
+      float tR = .1 + L/${CV.toFixed(1)}, kc = u - tR;                   // time since contact (or since reaching max range)
+      float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);          // slow out of the hand, fast on arrival
+      if (hit < .5 && kc > 0.) ext = L - ${CVR.toFixed(1)}*kc;          // miss: reel back in
+      float s = ext - i*SP;                                             // this link's distance from the hand
+      float life = hit > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
+      if (u < 0. || u > life || s < 0.){ ${HIDE} }
+      vec3 up = vec3(0., 1., 0.), a = normalize(cross(dir, up)), b = cross(a, dir);
+      float amp = 0.;
+      if (kc < 0.) amp = .06*sin(3.14159*clamp(s/max(ext, .01), 0., 1.))*sin(s*5. - u*38.);          // light whip while travelling
+      else if (hit > .5) amp = .035*exp(-kc*22.)*sin(kc*70.)*sin(3.14159*clamp(s/L, 0., 1.));      // snaps taut: one shudder, then rigid
+      float heat = .22 + .9*exp(-(ext - s)*4.)*(kc < 0. ? 1. : exp(-kc*8.));                       // leading links run hot
+      float sc = 1.;
+      if (hit > .5 && kc >= 0.){
+        heat += .5*exp(-kc*9.);                                                                   // contact flash along the chain
+        float w = L - 20.*kc; heat += 1.1*exp(-pow((s - w)/.3, 2.))*step(-.3, w);               // recoil wave: target → hand
+        float wipe = (u - ${PW.toFixed(2)})/${DIS.toFixed(2)}*(L + .6) - .3;                 // dissolve from the hand; tip last
+        sc = smoothstep(wipe - .05, wipe + .45, s);
+        heat += 1.2*exp(-pow((s - wipe - .2)/.25, 2.))*step(${PW.toFixed(2)}, u);
+      }
+      if (hit < .5 && kc >= 0.) heat *= exp(-kc*3.);
+      if (sc < .01){ ${HIDE} }
+      bool odd = mod(i, 2.) > .5;
+      vec3 ax = odd ? a : b, az = odd ? b : a;                          // links alternate 90° around the chain axis
+      float big = i < .5 ? 1.25 : 1.;                                   // the leading link is a little heavier
+      vec3 wp = (dir*position.x*.12 + ax*position.y*.07 + az*position.z*.07)*sc*big;
+      vN = normalize(dir*normal.x/.12 + ax*normal.y/.07 + az*normal.z/.07);
+      vec3 P = aO + dir*s + (a*.5 + b)*amp + wp;
+      vV = normalize(cameraPosition - P); vHeat = heat;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
+    }`,
+  fragmentShader:`uniform vec3 uCy, uBu, uMoon; varying vec3 vN, vV; varying float vHeat;
+    void main(){
+      vec3 n = normalize(vN), v = normalize(vV);
+      float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
+      vec3 col = mix(uBu, uCy, .45 + .45*rim);
+      vec3 c = col*(.05 + .7*rim)*(.5 + vHeat) + vec3(.85, .96, 1.)*rim*max(vHeat - .6, 0.)*.5;
+      gl_FragColor = vec4(c, 1.);
+    }` }));
+
+// Layer 1b — aura haze along the chain: one camera-facing soft strip per cast, same timing as the links (grow, recoil, dissolve)
+const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1, aT:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uCy, uBu },
+  vertexShader:`attribute vec3 aO, aE; attribute float aF, aT; uniform float uTime; varying float vS, vY, vX, vL, vKc, vHit, vU;
+    void main(){
+      float u = uTime - aT - ${WIND.toFixed(2)};
+      vec3 D = aE - aO; float L = length(D); vec3 dir = D/L;
+      float tR = .1 + L/${CV.toFixed(1)}, kc = u - tR;
+      float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);
+      if (aF < .5 && kc > 0.) ext = L - ${CVR.toFixed(1)}*kc;
+      float life = aF > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
+      if (u < 0. || u > life || ext <= 0.){ ${HIDE} }
+      float x = position.x*.5 + .5, s = x*ext;
+      vec3 P = aO + dir*s;
+      vec3 side = normalize(cross(dir, P - cameraPosition));
+      float W = .2;
+      vS = s; vX = x; vY = position.y; vL = L; vKc = kc; vHit = aF; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*W, 1.);
+    }`,
+  fragmentShader:`uniform vec3 uCy, uBu; varying float vS, vY, vX, vL, vKc, vHit, vU; ${STROKE}
+    void main(){
+      float band = exp(-vY*vY*5.), core = lcore(vY, .12);
+      float ends = pow(sin(3.14159*clamp(vX, 0., 1.)), .6);                 // soft at the hand and at the tip
+      float heat = .5 + .6*smoothstep(.6, 1., vX)*(vKc < 0. ? 1. : exp(-vKc*8.));
+      float m = 1.;
+      if (vHit > .5 && vKc >= 0.){
+        heat += .6*exp(-vKc*9.);
+        float w = vL - 20.*vKc; heat += 1.2*exp(-pow((vS - w)/.35, 2.))*step(-.3, w);
+        float wipe = (vU - ${PW.toFixed(2)})/${DIS.toFixed(2)}*(vL + .6) - .3;
+        m = smoothstep(wipe - .05, wipe + .5, vS);
+      }
+      if (vHit < .5 && vKc >= 0.) heat *= exp(-vKc*3.);
+      vec3 col = mix(uBu, uCy, .5);
+      float st = 0.;                                                     /* mystic glow: tiny 4-point stars twinkling along the chain */
+      for (int i=0;i<6;i++){ float fi = float(i), sp = fract(fi*.173 + .07)*vL, tw = pow(.5 + .5*sin(vU*9. + fi*2.3), 3.);
+        vec2 q = vec2(vS - sp, vY*.2); float r = length(q), a = atan(q.y, q.x);
+        st += (pow(abs(cos(a*2.)), 14.)*exp(-r*30.) + exp(-r*r*3000.))*tw*step(sp, vX*vL + .01); }
+      vec3 outc = (col*band*.3 + mix(uCy, vec3(.85, .96, 1.), .5)*core*.16 + vec3(.85, .96, 1.)*st*.8)*heat*ends*m;
+      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      gl_FragColor = vec4(outc, 1.);
+    }` }));
+
+// Layer 2 — anchoring at the hit: flat on the ground under the target, a ring snaps shut with four stakes pointing in; gone by 0.45 s.
+// The Root that remains on the target is the status cue's job, not this skill's.
+const ANCH = .45;
+const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
+  side:THREE.DoubleSide, uniforms:{ uTime, uCy, uBu },
+  vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
+    void main(){
+      float u = uTime - aT; if (u < 0. || u > ${ANCH.toFixed(2)}){ ${HIDE} }
+      float S = .9; vP = position.xy*S; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);
+    }`,
+  fragmentShader:`uniform vec3 uCy, uBu; varying vec2 vP; varying float vU; ${STROKE}
+    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }
+    void main(){
+      vec2 p = vP; float r = length(p);
+      float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms
+      float R = mix(.75, .42, k);
+      float ring = exp(-pow(abs(r - R)/.012, 2.4)), hot = lcore(r - R, .004);
       float st = 0.;
-      for (int i=0;i<5;i++){ float fi = float(i), p = fract(uTime*.6 + fi*.2);        /* tiny stars running toward the Mystic */
-        vec2 q = vec2((s - p)*vL, y); float r = length(q), a = atan(q.y, q.x);
-        st += (pow(abs(cos(a*2.)), 14.)*exp(-r*28.) + exp(-r*r*4000.))*sin(3.14159*p); }
-      vec3 o = (uBl*(core*.7*flow + glow) + uW*(core*.25 + st*.9) + uV*st*.4)*m*vF;
-      o *= 1. - smoothstep(.75, 1., abs(vQ.y));
-      o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
+      for (int j=0;j<4;j++){
+        float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));
+        float ds = seg(p, d*(R - .17), d*(R + .03));
+        st += exp(-pow(ds/.014, 2.)); hot += lcore(ds, .004);
+      }
+      float f = vU < .06 ? 1. : 1. - smoothstep(.2, ${ANCH.toFixed(2)}, vU);
+      float pk = vU >= .06 && vU < .093 ? 1.6 : 1.;                    // 2-frame peak when it locks
+      float edge = smoothstep(.9, .78, r);
+      vec3 outc = (mix(uBu, uCy, .6)*(ring*.9 + st*.8) + vec3(1., .95, .86)*hot*.6)*f*pk*edge;
+      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      gl_FragColor = vec4(outc, 1.);
+    }` }));
+
 
 // ============ spawning (CPU work only at cast time) ============
 const TIER = { 3:{}, 2:{}, 1:{}, 0:{} };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
+function chainTo(O, M, t0){                                     /* one chain from each of the Mystic's hands to the ally */
+  let th = 1e9;
+  [1, -1].forEach(side => {
+    const dx = O.x - M.x, dz = O.z - M.z, dn = Math.hypot(dx, dz) || 1, fx = dx/dn, fz = dz/dn, rx = -fz, rz = fx;
+    const H = V3(M.x + rx*.46*side + fx*.25, .72, M.z + rz*.46*side + fz*.25);
+    const E = V3(O.x - fx*.2 + rx*.07*side, 1.15 + .04*side, O.z - fz*.2 + rz*.07*side);
+    const L = E.distanceTo(H), SP = .17, n = Math.floor(L/SP) + 1, end = t0 + PREP + DIS;
+    for (let i=0;i<n;i++){ const j = links.next(); links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, 1, i, SP); links.A.aT.setX(j, t0); }
+    links.track(end, n);
+    const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, 1); haze.A.aT.setX(h, t0); haze.track(end, 1);
+    th = Math.min(th, t0 + WIND + travel(L));
+  });
+  const k = anchors.next(); anchors.A.aO.setXYZ(k, O.x, 0, O.z); anchors.A.aT.setX(k, th); anchors.track(th + ANCH, 1);
+}
+
 function pull(O, D, t0, ok, M){ M = M || V3(0, 0, 0);
-  let b = beam.next(); beam.A.aO.setXYZ(b, O.x, 1.25, O.z); beam.A.aE.setXYZ(b, M.x, 1.25, M.z); beam.A.aT.setXY(b, t0, t0 + PREP); beam.track(t0 + PREP + .15, 1);
-  if (!ok){ castLog.push(t0 + PREP + .15); return; }
+  chainTo(O, M, t0);
+  if (!ok){ castLog.push(t0 + PREP + DIS); return; }
   blink(O, D, t0 + PREP);
 }
 function blink(O, D, t0){
@@ -574,14 +697,14 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Delay: fio fino aliado → Mystic', 0, 1000, 0x5fe0ff],
-  ['Fio esmaece no teleporte', 1000, 1150, 0xd8f6ff],
-  ['Aliado desfaz-se em estrelas (cabeça → pés)', 1000, 1675, 0xd8f6ff],
-  ['Estrelas caem junto ao Mystic', 1320, 2500, 0x5fe0ff],
-  ['Aliado forma-se ao lado do Mystic (pés → cabeça)', 1708, 2383, 0xd8f6ff],
-  ['Zonas azuis encolhem (origem e destino)', 1000, 2908, 0x3f8cff],
+  ['Correntes saem das mãos e prendem o aliado', 0, 860, 0x5fe0ff],
+  ['Correntes tensas (delay)', 860, 1300, 0x3f8cff],
+  ['Correntes dissolvem-se no teleporte', 1300, 1600, 0xd8f6ff],
+  ['Aliado desfaz-se em estrelas (cabeça → pés)', 1300, 1975, 0xd8f6ff],
+  ['Aliado forma-se ao lado do Mystic (pés → cabeça)', 2008, 2683, 0xd8f6ff],
+  ['Zonas azuis encolhem (origem e destino)', 1300, 3208, 0x3f8cff],
 ];
-const TOTAL = 3000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 3300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -598,7 +721,7 @@ let START = V3(1.8, 0, -6.8), LAND = V3(.85, 0, -.9);      // ally far away -> l
 let from = START.clone(), to = LAND.clone();
 const mix1 = (a, b, k) => a + (b - a)*k;
 function localSwing(){
-  if (time - localT < 2.8) return;
+  if (time - localT < 3.2) return;
   localT = time; idle = 0; ok = $('tValid').checked;
   pull(from, to, time, ok);
 }
@@ -634,7 +757,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT, dtb = dtc - PREP;
-  if (tLoop.checked){ idle += dt; if (idle > 4.0) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 4.4) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
@@ -642,8 +765,8 @@ function frame(now){
       g.next = time + rand(1.5, 3.5);
     }
   }
-  rings.tick(time); cuts.tick(time); beam.tick(time);
-  rings.flush(); cuts.flush(); beam.flush();
+  rings.tick(time); cuts.tick(time); links.tick(time); haze.tick(time); anchors.tick(time);
+  rings.flush(); cuts.flush(); links.flush(); haze.flush(); anchors.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -658,7 +781,7 @@ function frame(now){
   else if (dtb < 2*OUT + GAP){ const k = (dtb - OUT - GAP)/OUT; ally.position.copy(to); clipPlane.constant = -.05 + (HA + .05)*(1 - (1 - k)*(1 - k)); }   // beside the Mystic: feet -> head
   else { ally.position.copy(to); clipPlane.constant = 10; }
   clipPlane.normal.set(0, -1, 0); if (localT < -1e8) ally.position.copy(from);
-  if (dtc > 3.6 || dtc < 0) ally.position.copy(from);     /* demo reset: the ally goes back to the far spot between casts */
+  if (dtc > 3.9 || dtc < 0) ally.position.copy(from);     /* demo reset: the ally goes back to the far spot between casts */
   lean = dtc >= 0 && dtc < PREP ? .04*Math.min(1, dtc/.3) : 0;   /* the Mystic holds a slight lean during the preparation */ body.rotation.x = -lean; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
@@ -679,8 +802,8 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [rings, cuts, beam].filter(p => p.active).length;
-    S.part.textContent = rings.count + cuts.count + beam.count;
+    S.draw.textContent = [rings, cuts, links, haze, anchors].filter(p => p.active).length;
+    S.part.textContent = rings.count + cuts.count + links.count + haze.count + anchors.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
     S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
