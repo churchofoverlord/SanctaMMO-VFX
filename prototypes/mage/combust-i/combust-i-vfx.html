@@ -148,9 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Orbe de fogo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard: esfera sólida com coroa de chamas a tremer + faixa curta (0,7 m); trajetória direta a 18 m/s</td></tr>
-          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Explosão compacta no peito: esfera que rebenta e línguas de fogo curtas, 0,35 s</td></tr>
-          <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto: pequeno sigilo de chama no alvo, 0,8 s</td></tr>
+          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil, no próprio alvo (ícone): um núcleo quente acende-se no peito e incha (0,3 s), depois rebenta num flash e em 16 raios de chama irregulares que saem do peito (0,55 s); sem anel nem marca. Billboard único</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
       </table>
@@ -158,9 +156,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Direto e sólido</h3><p>Uma esfera de fogo com coroa de chamas, como no ícone, em trajetória direta e com um rasto muito curto (nada de cauda longa).</p></div>
-    <div><h3>Impacto compacto</h3><p>No peito do alvo, a esfera rebenta numa explosão pequena: pico de 2 frames, línguas de fogo curtas, apaga em 0,35 s.</p></div>
-    <div><h3>Igual em Manifest e Weave</h3><p>A animação é a mesma nas duas stances. O que distingue Manifest de Weave é o VFX da própria stance, não o do Combust. Depois do impacto fica uma pequena marca de chama no alvo; o estado que dura é do cue de status.</p></div>
+    <div><h3>Sem projétil</h3><p>O fogo nasce dentro do alvo: um núcleo quente acende-se no peito e rebenta para fora em raios de chama, como no ícone.</p></div>
+    <div><h3>Curto e limpo</h3><p>Sem anel no chão nem marca no alvo; o Burn que fica é o cue de status.</p></div>
+    <div><h3>Igual em Manifest e Weave</h3><p>A animação é a mesma nas duas stances; o que as distingue é o VFX da stance.</p></div>
   </section>
 </div>
 
@@ -552,7 +550,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 //   0 ground ring (ally: opens outward, ease-out · enemy: closes inward, ease-in)
 //   1 ally: upright column of light rising in a soft ease-out (Heal) — Y-dominant, only turned about Y to the camera
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
-const RL = 1.0;
+const RL = 1.0, BUILD = .3;   // build-up inside the chest before the burst
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK;
@@ -566,7 +564,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }
       if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.32; mv.xy += position.xy*vec2(.26, .3); gl_Position = projectionMatrix*mv; }
-      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
+      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.4; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
@@ -589,14 +587,23 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         if (vK > 2.5){ float r = length(vP); float m = exp(-r*r*8.)*(1. - vU)*1.6;       // Weave mote
           vec3 o = uGold*m + vec3(1., .95, .8)*exp(-r*r*40.)*(1. - vU);
           if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); return; }
-        // compact fire burst on the target: bright sphere pops, flame tongues flare out short and die fast
-        float r = length(vP), a = atan(vP.y, vP.x), t2 = clamp(vU/.35, 0., 1.);
-        float R = .12 + .25*(1. - pow(1. - t2, 3.)), fl = .5 + .5*sin(a*9. + 2.)*sin(a*4. - 1.);
-        float body = exp(-r*r*(30. + 50.*t2))*(vU < .033 ? 2. : 1.4*(1. - t2));
-        float tongues = pow(max(0., cos(a*6.))*fl, 2.)*smoothstep(R + .18*fl, R, r)*smoothstep(.05, .15, r)*(1. - t2);
-        float rim = exp(-pow((r - R)/.03, 2.))*(1. - t2)*.8;
-        lum += body + tongues*1.2 + rim; hot = body*.7 + exp(-r*r*150.)*(1. - t2);
-        lum *= smoothstep(.75, .62, r); hot *= smoothstep(.75, .62, r);
+        /* Combust (icon): a hot core builds inside the chest, then bursts out in flame rays - no ring, no mark */
+        float r = length(vP), a = atan(vP.y, vP.x), b = vU - ${BUILD.toFixed(2)};
+        if (b < 0.){ float k = vU/${BUILD.toFixed(2)};                                  /* build-up: a small core swells and flickers */
+          float fl = .85 + .15*sin(vU*60.);
+          lum += exp(-r*r*(160. - 110.*k*k))*(.3 + 1.1*k*k)*fl; hot += exp(-r*r*(500. - 300.*k))*k*k*1.2;
+        } else {
+          float t = clamp(b/.55, 0., 1.), e = 1. - pow(1. - clamp(b/.12, 0., 1.), 3.), fade = pow(1. - t, 1.6);
+          for (int i = 0; i < 16; i++){ float fi = float(i), hh = fract(sin(fi*71.3)*4375.5);
+            float ac = fi*.3927 + (hh - .5)*.3, L = (.5 + .45*hh)*e;                      /* 16 rays of irregular length */
+            float d = sin(a - ac)*r, along = cos(a - ac)*r;
+            float w = (.02 + .11*(1. - along/max(L, .01)))*step(0., along);            /* thick at the base, sharp tip */
+            float wave = .06*sin(along*10. - b*24. + fi)*along;
+            lum += exp(-pow((d - wave)/w, 2.))*smoothstep(L, L*.4, along)*smoothstep(.02, .1, along)*fade*(.7 + .3*hh); }
+          float core = exp(-r*r*(26. + 30.*t))*(b < .033 ? 2.2 : 1.4)*pow(1. - t, 1.2);
+          lum += core + exp(-r*r*5.)*fade*.25; hot += exp(-r*r*70.)*pow(1. - t, 1.5)*1.3;
+        }
+        lum *= smoothstep(1.1, .9, r); hot *= smoothstep(1.1, .9, r);
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
       if (max(o.r, max(o.g, o.b)) < .002) discard;
@@ -620,14 +627,11 @@ function stab(O, yaw, tier, t0, targets){                   // Combust: direct f
   if (tg){ const tx = tg.p.x - H.x, tz = tg.p.z - H.z, tn = Math.hypot(tx, tz); E = V3(tg.p.x - tx/tn*.2, 1.15, tg.p.z - tz/tn*.2); G = tg.p; }
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
-  const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
-  let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
-  i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, t0); trails.track(hitT + .2, 1);
+  const hitT = t0 + WIND + BUILD;                            // no projectile: it builds up inside the target, then bursts
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
-  let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // compact fire burst
-  k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 1); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // Manifest: Burn mark after the impact
+  let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT - BUILD); rings.A.aK.setX(k, 2); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // compact fire burst
 }
 
 // ============ post ============
@@ -700,11 +704,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Orbe de fogo, trajetória direta (8 m: ~450 ms)', 100, 550, 0xff3a12],
-  ['Impacto compacto no alvo', 550, 900, 0xffb347],
-  ['Marca de Burn', 750, 1550, 0xff3a12],
+  ['Núcleo quente acende no peito do alvo', 100, 400, 0xff3a12],
+  ['Rebenta em raios de chama', 400, 950, 0xffb347],
 ];
-const TOTAL = 1600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
