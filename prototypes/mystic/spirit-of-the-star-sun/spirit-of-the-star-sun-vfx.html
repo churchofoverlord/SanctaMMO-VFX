@@ -414,7 +414,7 @@ const spirit = pool(new THREE.PlaneGeometry(2, 2, 16, 1), SPIRITS*4, { aO:3, aT:
         fill *= 1. - eye*.85;                                                        /* two dark eyes, as in the icon */
         /* 4 straight tapered spikes (icon): sharp tips, straight edges, bright edge + soft fill, slowly turning */
         float cs = cos(vSpin), sn = sin(vSpin); vec2 p = abs(mat2(cs, -sn, sn, cs)*q); if (p.y > p.x) p = p.yx;
-        float w = .2*clamp(1. - (p.x - .12)/.78, 0., 1.), tip = smoothstep(.92, .86, p.x);
+        float w = .13*clamp(1. - (p.x - .12)/.45, 0., 1.), tip = smoothstep(.59, .54, p.x);   /* spikes at 50% */
         float sl = exp(-pow((p.y - w)/.016, 2.))*tip*smoothstep(.2, .28, r);
         float sf = smoothstep(w + .012, w - .012, p.y)*tip*smoothstep(.22, .3, r)*(.25 + .35*(1. - p.x));
         float pend = vPend*(.75 + .25*sin(uTime*3.))*exp(-r*r*5.)*.35;                 /* Moon Pending: discrete glow on the Spirit */
