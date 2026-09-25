@@ -157,8 +157,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil, no próprio alvo (ícone): um núcleo quente acende-se no peito e incha (0,3 s), depois rebenta num flash e em 16 raios de chama irregulares que saem do peito (0,55 s); sem anel nem marca. Billboard único</td></tr>
-          <tr><td>Colapso das stacks</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td>Só se o alvo já tinha Burn: no cast, uma pequena chama por stack acende-se à volta do peito do alvo (R 0,5 m, a rodar) e, no impacto, as chamas convergem para o ponto de contacto (0,12 s) e colapsam num golpe único; o impacto cresce com as stacks consumidas (+30 % por stack). Sem stacks, o hit é o do nível I</td></tr>
+          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil, no próprio alvo (ícone): um núcleo quente acende-se no peito e incha (0,3 s), depois rebenta em 14 línguas de chama curtas que arrefecem de amarelo a vermelho e fumo ao afastarem-se (0,6 s; blending premultiplicado: o quente soma luz, o fumo escurece); sem anel nem marca. Billboard único</td></tr>
+          <tr><td>Colapso das stacks</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td class="n">≤ 3</td><td>Só se o alvo já tinha Burn: no cast, uma pequena chama por stack acende-se à volta do peito do alvo (R 0,5 m, a rodar) e, no impacto, as chamas convergem para o ponto de contacto (0,12 s) e colapsam num golpe único; o impacto cresce com as stacks consumidas (+15 % por stack). Sem stacks, o hit é o do nível I</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
       </table>
@@ -562,6 +562,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
 const RL = 1.0, BUILD = .3;   // build-up inside the chest before the burst
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }, addMat({
+  blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,   /* premultiplied: alpha 0 = additive */
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
@@ -574,7 +575,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }
       if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.32; mv.xy += position.xy*vec2(.26, .3); gl_Position = projectionMatrix*mv; }
-      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.4*(1. + .3*aD.x); mv.xy += position.xy*S; vP = position.xy*1.4; gl_Position = projectionMatrix*mv; }
+      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .8*(1. + .15*aD.x); mv.xy += position.xy*S; vP = position.xy*.8; gl_Position = projectionMatrix*mv; }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
@@ -596,32 +597,44 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
       } else {
         if (vK > 2.5){ float r = length(vP); float m = exp(-r*r*8.)*(1. - vU)*1.6;       // Weave mote
           vec3 o = uGold*m + vec3(1., .95, .8)*exp(-r*r*40.)*(1. - vU);
-          if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); return; }
-        /* Combust (icon): a hot core builds inside the chest, then bursts out in flame rays - no ring, no mark */
+          if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 0.); return; }
+        /* Combust (icon), physical fire: a hot core swells inside the chest, then bursts into flame tongues that cool
+           from yellow to red to smoke as they travel out (premultiplied: hot adds light, smoke darkens) - no ring, no mark */
         float r = length(vP), a = atan(vP.y, vP.x), b = vU - ${BUILD.toFixed(2)};
-        if (b < 0.){ float k = vU/${BUILD.toFixed(2)};                                  /* build-up: a small core swells and flickers */
-          float fl = .85 + .15*sin(vU*60.);
-          lum += exp(-r*r*(160. - 110.*k*k))*(.3 + 1.1*k*k)*fl; hot += exp(-r*r*(500. - 300.*k))*k*k*1.2;
+        float h1 = fract(sin(dot(floor(vP*9.), vec2(127.1, 311.7)))*43758.5);
+        vec2 pn = vec2(a*2.6, r*5. - max(b, 0.)*9.);
+        vec2 ip = floor(pn), fp = fract(pn); fp = fp*fp*(3. - 2.*fp);
+        #define HH(q) fract(sin(dot(q, vec2(127.1, 311.7)))*43758.5)
+        float n = mix(mix(HH(ip), HH(ip + vec2(1., 0.)), fp.x), mix(HH(ip + vec2(0., 1.)), HH(ip + vec2(1., 1.)), fp.x), fp.y);
+        float dens, T;
+        if (b < 0.){ float k = vU/${BUILD.toFixed(2)};                                     /* build-up: a small core glows through */
+          dens = exp(-r*r*(90. - 60.*k*k))*(.4 + .6*k); T = .55 + .45*k;
         } else {
-          float t = clamp(b/.55, 0., 1.), e = 1. - pow(1. - clamp(b/.12, 0., 1.), 3.), fade = pow(1. - t, 1.6);
-          for (int i = 0; i < 16; i++){ float fi = float(i), hh = fract(sin(fi*71.3)*4375.5);
-            float ac = fi*.3927 + (hh - .5)*.3, L = (.5 + .45*hh)*e;                      /* 16 rays of irregular length */
+          float t = clamp(b/.6, 0., 1.), e = 1. - pow(1. - clamp(b/.15, 0., 1.), 3.);
+          float rays = 0.;
+          for (int i = 0; i < 14; i++){ float fi = float(i), hh = fract(sin(fi*71.3)*4375.5);
+            float ac = fi*.4488 + (hh - .5)*.35, L = (.28 + .3*hh)*e;                      /* 14 short tongues of irregular length */
             float d = sin(a - ac)*r, along = cos(a - ac)*r;
-            float w = (.02 + .11*(1. - along/max(L, .01)))*step(0., along);            /* thick at the base, sharp tip */
-            float wave = .06*sin(along*10. - b*24. + fi)*along;
-            lum += exp(-pow((d - wave)/w, 2.))*smoothstep(L, L*.4, along)*smoothstep(.02, .1, along)*fade*(.7 + .3*hh); }
-          float core = exp(-r*r*(26. + 30.*t))*(b < .033 ? 2.2 : 1.4)*pow(1. - t, 1.2);
-          lum += core + exp(-r*r*5.)*fade*.25; hot += exp(-r*r*70.)*pow(1. - t, 1.5)*1.3;
+            float w = (.03 + .07*(1. - along/max(L, .01)))*step(0., along);
+            rays += exp(-pow((d - .04*sin(along*12. - b*20. + fi)*along)/w, 2.))*smoothstep(L, L*.3, along); }
+          dens = (min(rays, 1.)*(.55 + .6*n) + exp(-r*r*40.)*(1. - t))*(1. - t*t);
+          T = clamp((1. - r/.6)*(1. - t*.9)*(.7 + .5*n), 0., 1.);                          /* hottest at the centre, cools outward and over time */
         }
-        lum *= smoothstep(1.1, .9, r); hot *= smoothstep(1.1, .9, r);
+        dens *= smoothstep(.75, .55, r);
+        vec3 smoke = vec3(.03, .02, .015), red = vec3(.45, .05, .01), org = vec3(.95, .33, .04), yel = vec3(1., .75, .35);
+        vec3 col = T < .3 ? mix(smoke, red, T/.3) : (T < .7 ? mix(red, org, (T - .3)/.4) : mix(org, yel, (T - .7)/.3));
+        vec3 c = col*dens*(.15 + 1.1*T*T);
+        float al = dens*(1. - T)*.55;
+        if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); return;
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
       if (max(o.r, max(o.g, o.b)) < .002) discard;
-      gl_FragColor = vec4(o, 1.);
+      gl_FragColor = vec4(o, 0.);
     }` }));
 
 // Layer 4 — Combust II: one small flame per Burn stack around the target's chest; at the hit they converge into the contact point
 const stk = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:2, aI:2 }, addMat({
+  blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
   uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute vec2 aT, aI; uniform float uTime; varying vec2 vP; varying float vA, vHot;
     void main(){
@@ -636,8 +649,9 @@ const stk = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:2, aI:2 }, addMat
       vec2 q = vP; float fl = .9 + .1*sin(uTime*30. + q.y*6.);
       float d = length(vec2(q.x*(1.5 + .9*max(q.y, 0.)), q.y + .25));
       float body = smoothstep(.75*fl, .2, d), core = exp(-(q.x*q.x*30. + pow(q.y + .35, 2.)*20.));
-      vec3 o = (uOrange*body*.9 + mix(uGold, vec3(1.), .4)*core*1.1)*vA*vHot*smoothstep(1., .85, length(q));
-      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+      float m = vA*smoothstep(1., .85, length(q)); vec3 o = (vec3(.6, .1, .02)*body*.7 + vec3(1., .5, .1)*core*.8*vHot)*m;   /* small physical flame: red body, orange core, a bit of smoke */
+      float al = body*(1. - core)*.35*m;
+      if (max(o.r, max(o.g, max(o.b, al))) < .002) discard; gl_FragColor = vec4(o, al); }` }));
 
 // ============ spawning (CPU work only when an attack lands) ============
 const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true }, 0:{ sp:0, slow:false } };
