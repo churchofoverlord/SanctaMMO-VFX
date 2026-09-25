@@ -120,7 +120,7 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir Astral Step<small>vai para junto da âncora e volta, a cada ~4,2 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir Astral Step<small>vai para junto da âncora e volta, a cada ~3,2 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>Astral Steps de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Astral Step</span><span>0 — 2700 ms</span></div>
+    <div class="tl-head"><span>Timing do Astral Step</span><span>0 — 2000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Poça de luz estelar no chão em cada ponto: brilho de nebulosa suave, halo difuso e 6 estrelas a cintilar; a da origem esmorece e recolhe, a do destino abre (1,6 s)</td></tr>
+          <tr><td>Anéis (origem + destino)</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Poça de luz estelar no chão em cada ponto: brilho de nebulosa suave, halo difuso e 6 estrelas a cintilar; a da origem esmorece e recolhe, a do destino abre (1,2 s)</td></tr>
           <tr><td>Pó de estrelas</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Um quad vertical por ponto com 22 estrelas pequenas desenhadas no shader (não são partículas): na origem saem da borda que dissolve e sobem até sumir; no destino caem do alto e juntam-se na borda que forma o corpo; por fim uma estrela de 4 pontas suave no peito</td></tr>
           <tr><td>Clip plane na malha</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Um plano de corte no material do Mystic, escondido atrás de um brilho suave (sem linha dura); sem geometria extra</td></tr>
           <tr><td>Entre os dois pontos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Nada: sem rasto, linha ou vetor a apontar para o destino (a leitura é só origem → destino)</td></tr>
@@ -422,7 +422,7 @@ const ptsScale = { value:600 };
 // ============ Astral Step ============
 const uV = { value:lin(0x3f8cff) }, uBl = { value:lin(0x5fe0ff) }, uW = { value:lin(0xd8f6ff) };   // blue (main), cyan, pale
 const STROKE = `float lcore(float d, float w){ return exp(-(d*d)/(w*w)); } float h1(float n){ return fract(sin(n*91.7)*43758.5); }`;
-const OUT = .9, GAP = 2/60, RL = 1.6, PRE = .5;       // dissolve 0.9 s, hidden 2 frames, re-forms in 0.9 s; stars start falling 0.5 s before
+const OUT = .675, GAP = 2/60, RL = 1.2, PRE = .375;   // dissolve 0.675 s, hidden 2 frames, re-forms in 0.675 s; stars start falling 0.375 s before
 
 // Layer 1 — a soft pool of starlight on the ground at each point: cloudy nebula glow + a soft halo edge + a few twinkling
 // glints. kind 0 = origin (dims and draws in), kind 1 = destination (opens). No hard rings, no sigils.
@@ -435,7 +435,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addM
   fragmentShader:`uniform float uTime; uniform vec3 uV, uBl, uW; varying vec2 vP; varying float vU, vK; ${STROKE}
     void main(){
       float r = length(vP), a = atan(vP.y, vP.x), t = vU/${RL.toFixed(2)};
-      float k = vK < .5 ? clamp(vU/1.1, 0., 1.) : 1. - pow(1. - clamp(vU/.8, 0., 1.), 3.);
+      float k = vK < .5 ? clamp(vU/.825, 0., 1.) : 1. - pow(1. - clamp(vU/.6, 0., 1.), 3.);
       float R = vK < .5 ? mix(.7, .4, k*k) : mix(.3, .72, k);
       float f = smoothstep(0., .08, vU)*(1. - smoothstep(.4, 1., t));
       float cloud = (.55 + .45*(.5 + .5*sin(a*3. + r*9. - uTime*.8))*(.5 + .5*sin(a*5. - r*6. + uTime*.5 + 1.3)));
@@ -458,7 +458,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addM
 const cuts = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uV, uBl, uW },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
-    void main(){ float u = uTime - aT; if (u < 0. || u > 2.4){ ${HIDE} }
+    void main(){ float u = uTime - aT; if (u < 0. || u > 1.8){ ${HIDE} }
       vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
       vP = vec2(position.x*.9, (position.y*.5 + .5)*3.4); vU = u; vK = aK;
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*vP.x + vec3(0., vP.y, 0.), 1.); }`,
@@ -474,17 +474,17 @@ const cuts = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMa
         float fi = float(i), a1 = h1(fi), a2 = h1(fi + 5.), a3 = h1(fi + 11.), a4 = h1(fi + 17.);
         float ts = a1*${OUT.toFixed(2)}, sz = .05 + .04*a4, x0 = (a2 - .5)*.7;
         vec2 P; float life;
-        if (vK < .5){ float t = vU - ts; if (t < 0. || t > 1.2) continue;              /* leaves the edge, drifts up and away */
-          P = vec2(x0*(1. + t*1.2) + (a3 - .5)*.3*t, edgeAt(ts, 0.) + t*(.45 + .6*a3) + t*t*.5); life = sin(3.14159*pow(t/1.2, .7)); }
-        else { float t = tb - ts + .7; if (t < 0. || t > .95) continue;               /* falls from above, gathers onto the edge */
-          float k = clamp(t/.7, 0., 1.), yE = edgeAt(ts, 1.);
-          P = vec2(x0*mix(2.2, .7, k*k), mix(yE + 1.3 + a3, yE, 1. - (1. - k)*(1. - k))); life = t < .7 ? pow(k, .6) : 1. - (t - .7)/.25; }
+        if (vK < .5){ float t = vU - ts; if (t < 0. || t > .9) continue;              /* leaves the edge, drifts up and away */
+          P = vec2(x0*(1. + t*1.6) + (a3 - .5)*.4*t, edgeAt(ts, 0.) + t*(.6 + .8*a3) + t*t*.9); life = sin(3.14159*pow(t/.9, .7)); }
+        else { float t = tb - ts + .525; if (t < 0. || t > .71) continue;               /* falls from above, gathers onto the edge */
+          float k = clamp(t/.525, 0., 1.), yE = edgeAt(ts, 1.);
+          P = vec2(x0*mix(2.2, .7, k*k), mix(yE + 1.3 + a3, yE, 1. - (1. - k)*(1. - k))); life = t < .525 ? pow(k, .6) : 1. - (t - .525)/.19; }
         float tw = .6 + .4*sin(vU*26. + fi*2.3);
         float s = star(vec2(x, y) - P, sz)*tw*life;
         lum += s; hot += exp(-dot(vec2(x, y) - P, vec2(x, y) - P)/(sz*sz*.03))*tw*life;
       }
-      if (vK > .5){ float c = tb - ${OUT.toFixed(2)}; if (c >= 0. && c < .5){                     /* re-formed: one soft 4-point star on the chest */
-        vec2 q = vec2(x, y - 1.3); float qa = atan(q.y, q.x), qr = length(q), ff = pow(1. - c/.5, 1.5);
+      if (vK > .5){ float c = tb - ${OUT.toFixed(2)}; if (c >= 0. && c < .375){                     /* re-formed: one soft 4-point star on the chest */
+        vec2 q = vec2(x, y - 1.3); float qa = atan(q.y, q.x), qr = length(q), ff = pow(1. - c/.375, 1.5);
         lum += (pow(abs(cos(qa*2.)), 22.)*exp(-qr*3.5) + exp(-qr*qr*60.)*.6)*ff; hot += exp(-qr*qr*300.)*ff; } }
       float m = smoothstep(.9, .7, abs(x))*smoothstep(3.4, 3., y);
       vec3 o = (uBl*lum*.8 + uV*lum*.35 + uW*hot*.9)*m;
@@ -498,7 +498,7 @@ function blink(O, D, t0){
   let i = rings.next(); rings.A.aO.setXYZ(i, O.x, 0, O.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, 0);
   i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, t0 + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(t0 + OUT + GAP + RL, 2);
   i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0);
-  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP - PRE); cuts.A.aK.setX(i, 1); cuts.track(t0 + OUT + GAP + 1.9, 2);
+  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP - PRE); cuts.A.aK.setX(i, 1); cuts.track(t0 + OUT + GAP + 1.43, 2);
   castLog.push(t0 + OUT + GAP + RL);
 }
 
@@ -561,14 +561,14 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Origem: corpo desfaz-se em pó de estrelas (cabeça → pés)', 0, 900, 0xd8f6ff],
-  ['Origem: estrelas sobem e apagam-se', 0, 2100, 0x5fe0ff],
-  ['Origem: poça de luz estelar esmorece', 0, 1600, 0x3f8cff],
-  ['Destino: estrelas caem do alto', 430, 2000, 0x5fe0ff],
-  ['Destino: corpo forma-se (pés → cabeça)', 933, 1833, 0xd8f6ff],
-  ['Destino: estrela no peito + poça de luz abre', 933, 2533, 0x3f8cff],
+  ['Origem: corpo desfaz-se em pó de estrelas (cabeça → pés)', 0, 675, 0xd8f6ff],
+  ['Origem: estrelas sobem e apagam-se', 0, 1575, 0x5fe0ff],
+  ['Origem: poça de luz estelar esmorece', 0, 1200, 0x3f8cff],
+  ['Destino: estrelas caem do alto', 320, 1500, 0x5fe0ff],
+  ['Destino: corpo forma-se (pés → cabeça)', 708, 1383, 0xd8f6ff],
+  ['Destino: estrela no peito + poça de luz abre', 708, 1908, 0x3f8cff],
 ];
-const TOTAL = 2700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -585,7 +585,7 @@ let START = V3(0, 0, 0), LAND = V3(.6, 0, -5.5);          // beside the anchor, 
 let from = START.clone(), to = LAND.clone();
 const mix1 = (a, b, k) => a + (b - a)*k;
 function localSwing(){
-  if (time - localT < 2.6) return;
+  if (time - localT < 2.0) return;
   if (localT > -1e8){ const t = from; from = to; to = t; }   // go back and forth from wherever the Mage is
   localT = time; idle = 0;
   blink(from, to, time);
@@ -622,7 +622,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 4.2) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 3.2) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
