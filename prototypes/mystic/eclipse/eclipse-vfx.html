@@ -127,7 +127,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Eclipse</span><span>0 — 1900 ms</span></div>
+    <div class="tl-head"><span>Timing do Eclipse</span><span>0 — 2100 ms</span></div>
   </div>
 
   <section class="budget">
@@ -136,10 +136,10 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Círculo no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Círculo grande bem delimitado (R 4,5 m de exemplo), metade Sun dourada (#ffb52e) e metade Moon violeta (#a45cff), desenhado de trás para a frente nas duas metades ao mesmo tempo (0,35 s), com um anel interior fino</td></tr>
+          <tr><td>Círculo no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Círculo grande bem delimitado (R 4,5 m de exemplo), metade Sun dourada (#ffb52e) e metade Moon violeta (#a45cff), desenhado a seguir ao emblema, de trás para a frente nas duas metades ao mesmo tempo (0,35 s), com um anel interior fino</td></tr>
           <tr><td>Dois anéis opostos</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Meio anel Sun (com raios curtos em estrela, como o sol do ícone) e meio anel Moon (espessura de crescente) fecham-se da borda para o centro a acelerar, rodando em sentidos opostos (0,7 s). No mesmo quad do círculo</td></tr>
           <tr><td>Hit frame</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Quando os anéis se encontram: flash claro no centro e um único pulso metade dourado/metade violeta até à borda (0,4 s). Tudo no chão dissolve por erosão (Alpha Erosion); o terreno fica inalterado</td></tr>
-          <tr><td>Emblema do eclipse</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">—</td><td>Billboard pequeno sobre o centro (~0,8 m de disco): disco negro com coroa de raios dourados à esquerda e crescente violeta à direita (o ícone). Aparece no hit, segura 0,35 s e dissolve por erosão</td></tr>
+          <tr><td>Emblema do eclipse</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">—</td><td>Billboard pequeno sobre o centro (~0,8 m de disco): disco negro com coroa de raios dourados à esquerda e crescente violeta à direita (o ícone). É o primeiro a aparecer, sozinho (0,3 s), mantém-se durante a convergência e só dissolve por erosão depois do flash (0,35 s)</td></tr>
           <tr><td>Alvos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem marcadores: Shield e Silence são cues de status próprios (GameplayCue.Status.*); aqui só o recuo dos inimigos no hit</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Chão e emblema num só sistema instanciado para todos os Mystics; 2 instâncias por cast; 0 partículas</td></tr>
         </tbody>
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Duas paletas ao mesmo tempo</h3><p>Sun e Moon aparecem juntos (metade dourada, metade violeta), nunca só a stance atual.</p></div>
-    <div><h3>Convergir e resolver</h3><p>Os dois meios anéis fecham-se da borda para o centro e resolvem num único impacto: flash claro, pulso e o emblema do eclipse.</p></div>
+    <div><h3>Convergir e resolver</h3><p>Os dois meios anéis fecham-se da borda para o centro e resolvem num único impacto: flash claro e pulso. O emblema do eclipse aparece primeiro, sozinho, e segura até ao flash.</p></div>
     <div><h3>Só o payoff</h3><p>O Shield nos aliados e o Silence nos inimigos são cues de status; o protótipo da skill não os anima.</p></div>
   </section>
 </div>
@@ -377,7 +377,7 @@ function pool(base, N, attrs, material){
     tick(t){ this.batches = this.batches.filter(b => b.end > t); this.count = 0; for (const b of this.batches) this.count += b.n; this.active = this.batches.length > 0; this.mesh.visible = this.active; } };
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
-const RAD = 4.5, DRAW = .35, CONV0 = .3, HIT = 1.0, END = 1.75;   // circle radius; draw; rings start; hit frame; all gone
+const RAD = 4.5, EMB = .3, DRAW = .35, CONV0 = .6, HIT = 1.3, END = 2.05;   // radius; emblem alone first; circle draw; rings start; hit frame; all gone
 const ec = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aT:1, aK:1 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uS, uSL, uM, uML },
@@ -386,7 +386,7 @@ const ec = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aT:1, aK:1 }, new TH
       vU = u; vK = aK;
       if (aK < .5){ float S = ${F(RAD + .5)}; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .03, -vP.y), 1.); return; }
       vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.3, 0.), 1.);                         /* the eclipse emblem, small billboard over the centre */
-      float k = clamp((u - ${F(HIT)})/.12, 0., 1.), S = .9*(1. - pow(1. - k, 3.))*(1. + .08*exp(-(u - ${F(HIT)})*8.));
+      float k = clamp(u/${F(EMB)}, 0., 1.), S = .9*(1. - pow(1. - k, 3.))*(1. + .15*step(${F(HIT)}, u)*exp(-(u - ${F(HIT)})*8.));   /* appears FIRST, alone; holds until the flash */
       mv.xy += position.xy*S; vP = position.xy; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform float uTime; uniform vec3 uS, uSL, uM, uML; varying vec2 vP; varying float vU, vK; ${EOX}
     float line(float d, float w){ return exp(-d*d/(w*w)); }
@@ -401,7 +401,7 @@ const ec = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aT:1, aK:1 }, new TH
         float ero = vn(vP*2.2);                                                        /* alpha erosion after the hit */
         float fin = 1. - smoothstep(${F(HIT + .05)}, ${F(END - .1)}, u + .45*ero - .1);
         /* the circle: drawn from the far point to the near point on both halves at once */
-        float sweep = eox(clamp(u/${F(DRAW)}, 0., 1.))*3.2, ang = acos(clamp(vP.y/max(r, 1e-3), -1., 1.));
+        float sweep = eox(clamp((u - ${F(EMB)})/${F(DRAW)}, 0., 1.))*3.2, ang = acos(clamp(vP.y/max(r, 1e-3), -1., 1.));
         float drawn = smoothstep(sweep, sweep - .25, ang);
         float border = (line(r - R, .03) + line(r - R, .16)*.18 + line(r - R*.86, .012)*.35)*drawn;
         /* two opposite half rings converge from the border to the centre, accelerating, turning in opposite directions */
@@ -433,7 +433,7 @@ const ec = pool(new THREE.PlaneGeometry(2, 2), 256, { aO:3, aT:1, aK:1 }, new TH
         float ero = vn(q*7.), fin = 1. - smoothstep(.35, .7, u + .3*ero);
         c = (uS*(cor*1.2 + rimS) + uSL*rimS*.4 + uM*(cres*1.4 + rimM) + uML*cres*.6)*fin;
         al = core*.92*fin; c *= 1. - core*(1. - cres)*.95;
-        c += (uSL + uML)*.5*exp(-r*r*30.)*exp(-u*14.)*2.;                            /* short clear pop */
+        c += (uSL + uML)*.5*exp(-r*r*30.)*step(0., u)*exp(-u*14.)*2.;                            /* short clear pop */
         c *= smoothstep(1., .9, r); al *= smoothstep(1., .9, r);
       }
       if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); }` }));
@@ -535,14 +535,15 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Círculo desenha-se (metade Sun, metade Moon)', 0, 350, 0xffb52e],
-  ['Anéis Sun e Moon convergem para o centro', 300, 1000, 0xa45cff],
-  ['Hit frame: flash claro + pulso único', 1000, 1400, 0xfff0d2],
-  ['Emblema do eclipse (billboard)', 1000, 1750, 0xdcc2ff],
-  ['Recuo dos inimigos (Shield/Silence = cues de status)', 1000, 1600, 0x8f8a82],
-  ['Dissolve por erosão', 1050, 1750, 0xa45cff],
+  ['Emblema do eclipse aparece sozinho', 0, 300, 0xdcc2ff],
+  ['Círculo desenha-se (metade Sun, metade Moon)', 300, 650, 0xffb52e],
+  ['Anéis Sun e Moon convergem para o centro', 600, 1300, 0xa45cff],
+  ['Emblema segura até ao flash', 300, 1300, 0xdcc2ff],
+  ['Hit frame: flash claro + pulso único', 1300, 1700, 0xfff0d2],
+  ['Recuo dos inimigos (Shield/Silence = cues de status)', 1300, 1900, 0x8f8a82],
+  ['Dissolve por erosão (chão e emblema)', 1350, 2050, 0xa45cff],
 ];
-const TOTAL = 1900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
