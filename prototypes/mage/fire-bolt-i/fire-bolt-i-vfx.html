@@ -148,8 +148,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Bolt de fogo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cometa (ícone): cabeça quente quase branca (billboard) + cauda de 2,4 m numa fita virada para a câmara com 5 línguas de chama que varrem para trás e se desfazem; rampa de temperatura (vermelho → laranja → amarelo só no mais quente), ruído esticado ao longo do voo, pontas escuras; trajetória direta a 9 m/s</td></tr>
-          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Explosão compacta no peito: esfera que rebenta e línguas de fogo curtas, 0,35 s</td></tr>
+          <tr><td>Bolt de fogo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cometa (ícone): cabeça quente quase branca (billboard) + cauda de 2,4 m numa fita virada para a câmara com 5 línguas de chama que varrem para trás e se desfazem; rampa de temperatura (vermelho → laranja → amarelo só no mais quente), ruído esticado ao longo do voo, pontas escuras; trajetória direta a 12 m/s</td></tr>
+          <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só um flash suave e curto no ponto de contacto (0,25 s), sem anel nem línguas</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
       </table>
@@ -425,7 +425,7 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 
 // Layer 1 — thrown dagger: ONE instanced solid blade (steel + warm edge) flying straight to the target, and ONE instanced
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
-const V = 9;                                         // fire orb speed (m/s): direct
+const V = 12;                                         // fire orb speed (m/s): direct
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
 const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
   uniforms:{ uTime, uGold, uOrange },
@@ -609,7 +609,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         float body = exp(-r*r*(30. + 50.*t2))*(vU < .033 ? 2. : 1.4*(1. - t2));
         float tongues = pow(max(0., cos(a*6.))*fl, 2.)*smoothstep(R + .18*fl, R, r)*smoothstep(.05, .15, r)*(1. - t2);
         float rim = exp(-pow((r - R)/.03, 2.))*(1. - t2)*.8;
-        lum += body + tongues*1.2 + rim; hot = body*.7 + exp(-r*r*150.)*(1. - t2);
+        lum += body*.8; hot = body*.4;                                     /* just a soft flash: no ring, no tongues */
         lum *= smoothstep(.75, .62, r); hot *= smoothstep(.75, .62, r);
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
@@ -713,10 +713,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
-  ['Bolt de fogo em cometa, direto (8 m: ~900 ms)', 100, 1000, 0xff3a12],
-  ['Impacto compacto no alvo', 1000, 1350, 0xffb347],
+  ['Bolt de fogo em cometa, direto (8 m: ~670 ms)', 100, 770, 0xff3a12],
+  ['Flash suave no alvo', 770, 1020, 0xffb347],
 ];
-const TOTAL = 1500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
