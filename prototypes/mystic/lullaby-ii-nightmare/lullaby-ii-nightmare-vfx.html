@@ -622,14 +622,14 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
         lum += exp(-p.y*p.y*300. - p.x*p.x*3.)*(pop*3. + after); hot += exp(-r*r*150.)*(pop*3. + after);
         float tw = clamp((vU - .3)/.7, 0., 1.);
         if (vU > .3){
-          float sr = mix(.1, .95, 1. - pow(1. - tw, 2.)); float jr = sr*(1. + .12*sin(a*9. + vU*14.)); lum += exp(-pow((r - jr)/.03, 2.))*pow(1. - tw, 2.)*.35;   /* torn shock ring */
+          float sr = mix(.1, .95, 1. - pow(1. - tw, 2.)); float jr = sr*(1. + .12*sin(a*9. + vU*14.)); /* no shock ring */
           for (int i=0;i<7;i++){ float fi = float(i), ga = fi*.898 + .4 + .3*sin(vU*3. + fi), gd = mix(.1, .85, 1. - pow(1. - tw, 1.6));
             vec2 dir = vec2(cos(ga), sin(ga)), nrm = vec2(-dir.y, dir.x); vec2 q = p - dir*gd;
             float along = dot(q, dir), across = dot(q, nrm) + .05*sin(along*18. - vU*25. + fi);
             float tail = exp(-across*across/(.0012 + .004*max(-along, 0.)))*smoothstep(-.35, 0., along)*step(along, .05);
-            vec2 hq = q - dir*.01; float head = exp(-dot(hq, hq)*500.);
+            vec2 hq = q - dir*.01; float head = exp(-dot(hq, hq)*1600.);   /* smaller orbs */
             float mouth = exp(-dot(hq + dir*.012, hq + dir*.012)*9000.);                          /* the gaping mouth reads as a dark notch */
-            lum += (tail*.9 + head*1.2)*(1. - tw); hot += (head*.8 - mouth*.6)*(1. - tw); }
+            lum += head*1.2*(1. - tw); hot += head*.8*(1. - tw); }   /* only the orbs, no star-shaped tails */
         }
         lum *= smoothstep(1., .9, r); hot *= smoothstep(1., .9, r);
       }
