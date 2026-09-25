@@ -140,7 +140,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2800 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 3300 ms</span></div>
   </div>
 
   <section class="budget">
@@ -149,9 +149,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesma família e mesmo voo lento da Lullaby (4 m/s, a ondular), mas com silhueta angular: o olho do ícone (contorno em amêndoa com pontas aguçadas) com uma estrela de 4 pontas na pupila e rasto curto</td></tr>
-          <tr><td>Impacto (dano)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>O olho abre-se no peito do inimigo e fecha-se de golpe (0,25 s) com um estalo de 2 frames</td></tr>
-          <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Anel curto no chão que se expande do alvo para fora, com 8 farpas angulares a apontar para fora (0,5 s). O Fear que fica é o cue de status</td></tr>
+          <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Mesma família e mesmo voo lento da Lullaby (4 m/s, a ondular), mas maior e ameaçador: o olho do ícone com pupila em fenda vertical, pestanas em espinhos, luz a escorrer por baixo, a pulsar como um batimento e a tremer; rasto largo e contorcido</td></tr>
+          <tr><td>Impacto (dano)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um olho enorme rasga-se no peito do inimigo e fica a fitá-lo (pupila em fenda), fecha-se de golpe com um estalo, e saem dele 7 espíritos a gritar (como no ícone) com uma onda de choque (1,1 s)</td></tr>
+          <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Onda de choque grande (até ~2,3 m) que rebenta do alvo para fora: anel duplo irregular, 12 farpas longas e um rasto frio, a tremeluzir (0,8 s). O Fear que fica é o cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
         </tbody>
       </table>
@@ -436,19 +436,32 @@ const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, ad
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); float S = .32;
+      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); float S = .5;
       float c = cos(.12*sin(u*2.)), s = sin(.12*sin(u*2.)); vec2 q = mat2(c, -s, s, c)*position.xy;   // the eye stays level, only a slight rock
-      mv.xy += q*S*1.25; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
+      mv.xy += q*S*1.25*(1. + .12*pow(max(sin(u*6.5), 0.), 10.)); vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
-    void main(){                                              /* Nightmare: the icon's eye - sharp almond outline, 4-point star pupil */
+    float h1(float n){ return fract(sin(n*91.7)*43758.5); }
+    void main(){                                              /* Nightmare: a watching eye - slit pupil, jagged lashes, dripping light */
       vec2 p = vP; float r = length(p), a = atan(p.y, p.x);
-      float eyeD = max(length(p - vec2(0., -.42)) - .62, length(p - vec2(0., .42)) - .62);     /* almond (vesica) with sharp tips */
-      float lid = exp(-pow(eyeD/.025, 2.)), fill = smoothstep(.02, -.04, eyeD)*.18;
-      float iris = exp(-pow((r - .13)/.02, 2.))*.7;
-      float st = pow(abs(cos(a*2.)), 22.)*exp(-r*7.)*1.2 + exp(-r*r*140.);
-      float halo = exp(-r*r*5.)*.15;
-      vec3 o = (uOrange*(lid*.95 + fill + iris + halo) + mix(uGold, vec3(1.), .5)*(st + lid*.3))*smoothstep(1., .85, r);
+      float beat = 1. + .7*pow(max(sin(vU*6.5), 0.), 10.);                                  /* heartbeat pulse */
+      float fl = .85 + .15*sin(vU*47.)*sin(vU*31.);                                          /* nervous flicker */
+      float eyeD = max(length(p - vec2(0., -.38)) - .6, length(p - vec2(0., .38)) - .6);
+      float lid = exp(-pow(eyeD/.022, 2.)), fill = smoothstep(.02, -.04, eyeD)*.1;
+      vec2 sp = p*vec2(1., .33); float slitD = length(sp) - .07;                              /* vertical slit pupil */
+      float slit = exp(-pow(slitD/.012, 2.))*smoothstep(.02, -.04, eyeD);
+      float iris = exp(-pow((r - .17)/.035, 2.))*.5*smoothstep(.02, -.04, eyeD);
+      float lash = 0.;
+      for (int i=0;i<9;i++){ float fi = float(i), x0 = -.44 + fi*.11, y0 = .2*(1. - x0*x0/.25) + .02;
+        vec2 dir = normalize(vec2(x0*1.4, 1.)); vec2 q = p - vec2(x0, y0);
+        float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x)), L = .18 + .14*h1(fi) + .05*sin(vU*9. + fi*2.);
+        lash += exp(-across*across/(.00012 + .0006*max(0., 1. - along/L)))*step(0., along)*smoothstep(L, L*.5, along); }
+      float drip = 0.;
+      for (int i=0;i<4;i++){ float fi = float(i), x0 = -.22 + fi*.15, y0 = -.2*(1. - x0*x0/.25);
+        float L = .25 + .3*fract(vU*.6 + h1(fi + 3.)), q = p.x - x0, yy = y0 - p.y;
+        drip += exp(-q*q/.00025)*step(0., yy)*smoothstep(L, L*.3, yy); }
+      float halo = exp(-r*r*3.5)*.25;
+      vec3 o = (uOrange*(lid*1.1 + fill + iris + lash*.9 + drip*.8 + halo) + mix(uGold, vec3(1.), .6)*(slit*1.6 + lid*.35 + lash*.3))*beat*fl*smoothstep(1., .88, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
@@ -464,7 +477,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
       vec3 P = arcAt(aO, aE, fa), T = normalize(arcAt(aO, aE, min(fa + .01, 1.)) - arcAt(aO, aE, max(fa - .01, 0.)));
       vec3 side = normalize(cross(T, P - cameraPosition));
       vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.015 + .06*s), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .14*s)*(1. + .3*sin(s*14. - u*12.)), 1.);   /* wider, writhing wake */
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF;
     void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);
@@ -556,29 +569,33 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 //   0 ground ring (ally: opens outward, ease-out · enemy: closes inward, ease-in)
 //   1 ally: upright column of light rising in a soft ease-out (Heal) — Y-dominant, only turned about Y to the camera
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
-const RL = .8;
+const RL = 1.1;
 const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
-      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
+      if (aK < .5){ float S = 2.6; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }
-      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
+      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
     void main(){
       float lum = 0., hot = 0., t = vU/${RL.toFixed(2)};
       if (vK < .5){
-        /* Fear: a short ring expands OUT from the target with 8 angular barbs pointing outward */
-        float r = length(vP), a = atan(vP.y, vP.x), e = 1. - pow(1. - clamp(vU/.3, 0., 1.), 3.), R = .15 + .7*e, f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.3, .62, t));
-        lum += exp(-pow(abs(r - R)/.016, 2.4))*f; hot += lcore(r - R, .005)*f*.6;
-        float a8 = mod(a + .39, .785) - .39, ax = r*cos(a8) - R, ay = abs(r*sin(a8));
-        float barb = smoothstep(.012, .0, ay - .035*clamp(1. - ax/.1, 0., 1.))*step(0., ax)*step(ax, .1);
-        lum += barb*f*.9; hot += barb*f*.3;
-        lum *= smoothstep(.95, .85, r); hot *= smoothstep(.95, .85, r);
+        /* Fear: a big jagged shockwave bursts OUT from the target (double ring, long barbs), flickering */
+        float r = length(vP), a = atan(vP.y, vP.x), e = 1. - pow(1. - clamp(vU/.35, 0., 1.), 3.);
+        float jag = .06*sin(a*13. + vU*20.)*sin(a*7. - 3.) ;
+        float R = .3 + 2.*e + jag, R2 = .2 + 1.45*e - jag*.7;
+        float f = (vU < .05 ? 2. : 1.)*(1. - smoothstep(.35, .75, t))*(.8 + .2*sin(vU*60.));
+        lum += (exp(-pow(abs(r - R)/.03, 2.2)) + exp(-pow(abs(r - R2)/.02, 2.2))*.6)*f; hot += lcore(r - R, .008)*f*.7;
+        float a8 = mod(a + .2, .524) - .262, ax = r*cos(a8) - R, ay = abs(r*sin(a8)), bl = .35;
+        float barb = smoothstep(.02, .0, ay - .07*clamp(1. - ax/bl, 0., 1.))*step(0., ax)*step(ax, bl);
+        lum += barb*f*1.1; hot += barb*f*.35;
+        lum += smoothstep(R, R - .5, r)*smoothstep(R - 1.2, R - .5, r)*.12*f;                   /* cold wash behind the front */
+        lum *= smoothstep(2.6, 2.4, r); hot *= smoothstep(2.6, 2.4, r);
       } else if (vK < 1.5){
         // Heal: thin streaks rise from the feet in a soft ease-out and open outward a little as they go
         float x = vP.x, y = vP.y*.5 + .5, k = 1. - pow(1. - clamp(vU/.55, 0., 1.), 3.), f = 1. - smoothstep(.5, 1., t);
@@ -592,15 +609,28 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
         }
         lum *= f*smoothstep(1., .75, abs(x))*smoothstep(1., .85, y); hot = lum*.3;
       } else {
-        /* damage: the eye opens on the chest, then snaps shut (ease-in) with a 2-frame pop */
-        vec2 p = vP/.75; float r = length(p);
-        float k = clamp(vU/.22, 0., 1.), op = sin(3.14159*min(k*1.6, 1.))*(1. - k*k*k), h = .05 + .5*op;
+        /* damage: a huge eye tears open on the chest and stares (slit pupil), then snaps shut with a pop; screaming
+           wisps burst out of it (icon's ghosts) with a shock ring */
+        vec2 p = vP/1.5; float r = length(p), a = atan(p.y, p.x);
+        float k = clamp(vU/.3, 0., 1.), op = sin(3.14159*min(k*1.7, 1.))*(1. - k*k*k*k), h = .04 + .5*op;
         float eyeD = max(length(p - vec2(0., -(.62 - h))) - .62, length(p - vec2(0., .62 - h)) - .62);
-        float live = step(vU, .22);
-        lum += (exp(-pow(eyeD/.03, 2.))*1.1 + exp(-r*r*60.)*op)*live;
-        float pop = vU >= .22 && vU < .253 ? 1. : 0., after = vU > .22 ? exp(-(vU - .22)*14.) : 0.;
-        vec2 q = p; lum += exp(-q.y*q.y*400. - q.x*q.x*6.)*(pop*2. + after*.7); hot = exp(-r*r*200.)*(pop*2. + after) + exp(-pow(eyeD/.01, 2.))*live*.4;
-        lum *= smoothstep(.75, .65, r); hot *= smoothstep(.75, .65, r);
+        float live = step(vU, .3);
+        vec2 sp = p*vec2(1., .33/max(op, .05)); float slit = exp(-pow((length(sp) - .06)/.012, 2.))*smoothstep(.02, -.04, eyeD)*op;
+        lum += (exp(-pow(eyeD/.025, 2.))*1.3 + exp(-r*r*40.)*op*.5)*live; hot += (slit*2. + exp(-pow(eyeD/.008, 2.))*.5)*live;
+        float pop = vU >= .3 && vU < .333 ? 1. : 0., after = vU > .3 ? exp(-(vU - .3)*10.) : 0.;
+        lum += exp(-p.y*p.y*300. - p.x*p.x*3.)*(pop*3. + after); hot += exp(-r*r*150.)*(pop*3. + after);
+        float tw = clamp((vU - .3)/.7, 0., 1.);
+        if (vU > .3){
+          float sr = mix(.1, .95, 1. - pow(1. - tw, 2.)); float jr = sr*(1. + .12*sin(a*9. + vU*14.)); lum += exp(-pow((r - jr)/.03, 2.))*pow(1. - tw, 2.)*.35;   /* torn shock ring */
+          for (int i=0;i<7;i++){ float fi = float(i), ga = fi*.898 + .4 + .3*sin(vU*3. + fi), gd = mix(.1, .85, 1. - pow(1. - tw, 1.6));
+            vec2 dir = vec2(cos(ga), sin(ga)), nrm = vec2(-dir.y, dir.x); vec2 q = p - dir*gd;
+            float along = dot(q, dir), across = dot(q, nrm) + .05*sin(along*18. - vU*25. + fi);
+            float tail = exp(-across*across/(.0012 + .004*max(-along, 0.)))*smoothstep(-.35, 0., along)*step(along, .05);
+            vec2 hq = q - dir*.01; float head = exp(-dot(hq, hq)*500.);
+            float mouth = exp(-dot(hq + dir*.012, hq + dir*.012)*9000.);                          /* the gaping mouth reads as a dark notch */
+            lum += (tail*.9 + head*1.2)*(1. - tw); hot += (head*.8 - mouth*.6)*(1. - tw); }
+        }
+        lum *= smoothstep(1., .9, r); hot *= smoothstep(1., .9, r);
       }
       vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;
       if (max(o.r, max(o.g, o.b)) < .002) discard;
@@ -684,7 +714,7 @@ const dG = new THREE.Group(); scene.add(dG);
 function setFacing(rear){ dummy.yaw = rear ? 0 : Math.PI; dummy.fx = -Math.sin(dummy.yaw); dummy.fz = -Math.cos(dummy.yaw); }
 setFacing(false);   // facing the Scout (no rear rule for Torpor)
 function placeDummies(t){
-  const h = t - dummy.hitAt, k = h >= 0 && h < .35 ? Math.exp(-h*10)*Math.sin(h*55) : 0;
+  const h = t - dummy.hitAt, k = h >= 0 && h < 1.2 ? Math.exp(-h*3.5)*Math.sin(h*38)*2.2 + (h > .05 ? Math.exp(-h*2)*.5 : 0) : 0;   // recoils hard and trembles in fear
   const hi = t - dummy.intAt, ki = hi >= 0 && hi < .5 ? Math.exp(-hi*7)*Math.sin(hi*22) : 0;   // Interrupt: a harder stagger
   dG.position.copy(dummy.base).add(V3(0, 0, -Math.max(0, k)*.05 - ki*.06));
   dG.rotation.set(-k*.12 - ki*.18, dummy.yaw, 0);
@@ -705,10 +735,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Olho angular, voo lento (8 m: ~2 s)', 100, 2100, 0x4aa8ff],
-  ['Dano: o olho abre e fecha de golpe', 2100, 2350, 0xc8f2ff],
-  ['Fear: anel expande-se para fora', 2150, 2650, 0x4aa8ff],
+  ['Dano: o olho rasga-se, fita e fecha de golpe', 2100, 2400, 0xc8f2ff],
+  ['Espíritos a gritar + onda de choque', 2400, 3100, 0xc8f2ff],
+  ['Fear: onda grande rebenta para fora', 2150, 2950, 0x4aa8ff],
 ];
-const TOTAL = 2800, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 3300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
