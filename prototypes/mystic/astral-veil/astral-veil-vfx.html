@@ -136,18 +136,18 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Folha curva e alta (~3,2 m) à volta do Mystic (R 2,6 m, 5 s de exemplo), como um tecido: ponta alta afiada, fundo a afunilar até ao chão, recortes no lado esquerdo com 2 dobras; contorno fino e claro, interior de pó de estrelas a cintilar, mais denso junto à borda direita. Abre do fundo até à ponta (0,55 s), respira devagar e dissolve por erosão suave</td></tr>
-          <tr><td>Projéteis intercetados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem animação por projétil: a flecha simplesmente termina na folha, dos dois lados</td></tr>
+          <tr><td>Véu</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Barreira larga em arco à volta do Mystic (~140°, R 3,2 m no chão, ~3 m de altura, 5 s de exemplo) que sobe do chão e se curva para dentro por cima dele, como uma onda; a borda de cima é uma linha fina e clara que afina até ao chão nas duas pontas do arco; interior de pó de estrelas a cintilar, mais denso junto ao topo, com uma dobra suave. Sobe do chão (0,6 s), respira devagar e dissolve por erosão suave</td></tr>
+          <tr><td>Projéteis intercetados</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem animação por projétil: a flecha simplesmente termina na barreira, dos dois lados</td></tr>
           <tr><td>Characters</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Quem atravessa não é bloqueado e o véu não reage</td></tr>
-          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma folha por cast num só sistema instanciado para todos os Mystics; o CPU escreve só o cast, a GPU anima pela idade; 0 partículas (o pó é desenhado no shader). Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
+          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma barreira por cast num só sistema instanciado para todos os Mystics; o CPU escreve só o cast, a GPU anima pela idade; 0 partículas (o pó é desenhado no shader). Cabe em Área persistente (≤ 3, ≤ 30)</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Um véu, não um escudo</h3><p>Uma folha de pó de estrelas curvada à volta do Mystic, com o contorno fino e claro: lê-se como barreira sem esconder o que está atrás.</p></div>
-    <div><h3>Os dois lados</h3><p>As flechas inimigas (vermelhas) e a do aliado atrás do Mystic (verde) terminam na folha, sem animação por hit.</p></div>
+    <div><h3>Um véu, não um escudo</h3><p>Uma onda de pó de estrelas em arco à volta do Mystic, curvada por cima dele, com a borda de cima fina e clara: lê-se como barreira sem esconder o que está atrás.</p></div>
+    <div><h3>Os dois lados</h3><p>As flechas inimigas (vermelhas) e a do aliado atrás do Mystic (verde) terminam na barreira, sem animação por hit.</p></div>
     <div><h3>Só projéteis</h3><p>O inimigo que caminha atravessa o véu sem ser travado e sem reação.</p></div>
   </section>
 </div>
@@ -375,26 +375,25 @@ function pool(base, N, attrs, material){
     tick(t){ this.batches = this.batches.filter(b => b.end > t); this.count = 0; for (const b of this.batches) this.count += b.n; this.active = this.batches.length > 0; this.mesh.visible = this.active; } };
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
-const VR = 2.6, HA = .7, VH = 3.2, DUR = 5.0, OPEN = .55;   // sheet radius around the Mystic (m), half arc (rad), height (m)
-/* sheet silhouette in (u, v): u = angle/HA across the arc, v = height/VH. A spine leaning up to the left, pointed at both ends,
-   the left edge cut in scallops (like the sketch); shared by the shader and the CPU hit test */
+const VR = 3.2, HA = 1.2, VH = 3.2, LEAN = 1.4, DUR = 5.0, OPEN = .6;   // radius at the ground (m), half arc (rad ~ 140° total), height, how far the top curls in over the Mystic
+const RHIT = VR - LEAN*Math.pow(1.35/VH, 2);                                 // radius of the wall at projectile height (CPU hit test)
+/* wall silhouette in (u, v): u = angle/HA across the arc (-1..1), v = height/VH. Tallest in the middle, the top edge sweeps down
+   to the ground at both ends of the arc; shared by the shader and the CPU hit test */
 const SIL = `
-    float spn(float v){ return .3 - 1.05*pow(max(v, 0.), 1.5); }
-    float wid(float v){ return .78*pow(max(sin(3.14159*pow(clamp(v, 0., 1.), .85)), 0.), .8); }
-    float widL(float v){ return wid(v)*(1. - .42*(1. - pow(abs(sin((v - .1)*8.168)), .5))); }`;
-const silJS = (u, v) => { if (v <= 0 || v >= 1) return false; const sp = .3 - 1.05*Math.pow(v, 1.5), w = .78*Math.pow(Math.max(Math.sin(Math.PI*Math.pow(v, .85)), 0), .8),
-  wl = w*(1 - .42*(1 - Math.pow(Math.abs(Math.sin((v - .1)*8.168)), .5))); return u > sp - wl && u < sp + w; };
-const veil = pool(new THREE.PlaneGeometry(1, 1, 40, 40), 256, { aO:3, aN:2, aT:1 }, new THREE.ShaderMaterial({
+    float topOf(float u){ return pow(max(1. - u*u, 0.), .45); }`;
+const silJS = (u, v) => v > 0 && v < Math.pow(Math.max(1 - u*u, 0), .45);
+const veil = pool(new THREE.PlaneGeometry(1, 1, 64, 32), 256, { aO:3, aN:2, aT:1 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending,
   blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor, uniforms:{ uTime, uB, uC, uP },
   vertexShader:`attribute vec3 aO; attribute vec2 aN; attribute float aT; uniform float uTime; varying vec2 vUV; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${F(DUR + .6)}){ ${HIDE} }
       vU = u;
-      vec2 uv = vec2(mix(-1.7, 1.2, position.x + .5), position.y + .5); vUV = uv;
+      vec2 uv = vec2(position.x*2., position.y + .5); vUV = uv;
       vec3 N = vec3(aN.x, 0., aN.y), R = vec3(-aN.y, 0., aN.x);
       float th = uv.x*${F(HA)}; vec3 rad = N*cos(th) + R*sin(th);
-      float fl = .07*sin(uv.y*4. - uTime*1.4 + uv.x*2.)*uv.y;                         /* the cloth breathes slowly */
-      vec3 W = aO + rad*(${F(VR)} + fl) + vec3(0., uv.y*${F(VH)}, 0.);
+      float r = ${F(VR)} - ${F(LEAN)}*uv.y*uv.y;                                     /* rises from the ground and curls in over the Mystic */
+      r += .06*sin(uv.x*5. - uTime*1.2 + uv.y*3.)*uv.y;                               /* the veil breathes slowly */
+      vec3 W = aO + rad*r + vec3(0., uv.y*${F(VH)}*(1. - .12*uv.y*uv.y), 0.);
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
   fragmentShader:`uniform float uTime; uniform vec3 uB, uC, uP; varying vec2 vUV; varying float vU; ${EOX} ${SIL}
     float line(float d, float w){ return exp(-d*d/(w*w)); }
@@ -402,29 +401,27 @@ const veil = pool(new THREE.PlaneGeometry(1, 1, 40, 40), 256, { aO:3, aN:2, aT:1
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
       return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }
     void main(){
-      float u = vUV.x, v = vUV.y, SX = ${F(HA*VR)}, SY = ${F(VH)}, e = .004;
-      /* edge functions in metres (value / gradient), so the lines keep a constant width wherever the edge leans */
-      float fl = (u - spn(v) + widL(v))*SX, fr = (spn(v) + wid(v) - u)*SX;
-      float gl = length(vec2(1., ((spn(v + e) - widL(v + e)) - (spn(v) - widL(v)))/e*SX/SY));
-      float gr = length(vec2(1., ((spn(v + e) + wid(v + e)) - (spn(v) + wid(v)))/e*SX/SY));
-      float dl = fl/gl, dr = fr/gr, d = min(dl, dr);
-      float inside = smoothstep(-.01, .03, d)*step(0., v)*step(v, 1.);
-      float op = eox(clamp(vU/${F(OPEN)}, 0., 1.)), rev = smoothstep(op*1.08, op*1.08 - .1, v);   /* unfurls from the bottom point up to the tip */
-      float edge = (line(dl, .018) + line(dr, .018))*step(-.08, min(fl, fr) + .08)*step(-.05, v)*step(v, 1.03);
-      float halo = (line(dl, .09) + line(dr, .09))*.25*step(0., d);
-      float f = clamp(fl/(fl + fr + 1e-4), 0., 1.), t = uTime;
-      float rib = 0.;                                                                   /* 2 fold lines from the left notches */
-      for (int i = 0; i < 2; i++){ float vk = .1 + (1. + float(i))/2.6;
-        rib += line((v - vk - .16*pow(f, 1.2))*SY, .012)*(1. - .7*f)*1.1; }
-      /* stardust fill: fine twinkling points, denser towards the right edge */
+      float u = vUV.x, v = vUV.y, SX = ${F(HA*VR)}, SY = ${F(VH)}, t = uTime;
+      float op = eox(clamp(vU/${F(OPEN)}, 0., 1.));                                   /* the wall rises from the ground */
+      float tp = topOf(u)*op, e = .004;
+      float sl = (topOf(u + e) - topOf(u - e))/(2.*e)*op;
+      float dist = (tp - v)*SY/length(vec2(1., sl*SY/SX));                            /* metres to the top edge, constant line width */
+      float thin = pow(max(1. - u*u, 0.), .5);                                         /* the top line tapers to fine points at the ends */
+      float edge = line(dist, .006 + .018*thin)*(.3 + .7*thin);
+      float halo = line(dist, .12)*.22*step(0., dist)*thin;
+      float inside = smoothstep(-.01, .04, dist);
+      float fold = line((v - tp*.62 - .03*sin(u*4. + t*.4))*SY, .012)*.45*thin;       /* one soft fold running along the veil */
+      /* stardust fill: fine twinkling points, denser towards the top edge */
       vec2 g = vec2(u*SX, v*SY)*16.; vec2 gi = floor(g), gf = fract(g) - .5; float hs = h(gi);
       vec2 o = (vec2(h(gi + 3.1), h(gi + 7.7)) - .5)*.6;
-      float dens = mix(.3, .92, pow(f, 1.2))*(.6 + .8*vn(vec2(u*SX, v*SY)*1.3 + vec2(0., -t*.2)));
+      float k = clamp(v/max(tp, .01), 0., 1.);
+      float dens = mix(.2, .9, pow(k, 1.5))*(.6 + .8*vn(vec2(u*SX, v*SY)*1.3 + vec2(0., -t*.2)));
       float dust = step(1. - dens, hs)*exp(-dot(gf - o, gf - o)*45.)*(.55 + .45*sin(t*3. + hs*70.));
+      float ground = .35 + .65*smoothstep(0., .25, v);                                /* melts softly into the ground */
       float fin = smoothstep(${F(DUR + .5)}, ${F(DUR)}, vU + .5*vn(vec2(u*SX, v*SY)*2.5 + 5.));   /* dissolve: soft erosion */
-      float lum = (edge*1.2 + halo + rib*inside + dust*inside*.9)*rev*fin;
-      vec3 c = uC*lum + uP*(edge*.55 + dust*inside*.35)*rev*fin;
-      float al = inside*.05*rev*fin;
+      float lum = (edge*1.3 + halo + (fold + dust*.9)*inside*ground)*fin;
+      vec3 c = uC*lum + uP*(edge*.6 + dust*inside*.35)*fin;
+      float al = inside*.045*ground*fin;
       if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); }` }));
 // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
 const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
@@ -512,11 +509,11 @@ const arrows = new THREE.InstancedMesh(new THREE.BoxGeometry(.035, .035, .75), n
 arrows.instanceMatrix.setUsage(THREE.DynamicDrawUsage); arrows.frustumCulled = false; scene.add(arrows);
 for (let i = 0; i < 8; i++) arrows.setColorAt(i, new THREE.Color(0, 0, 0));
 let flights = [];
-function planShots(t0){                                           /* straight flights; a flight ends where it meets the sheet (cylinder R around the Mystic, inside the silhouette) */
+function planShots(t0){                                           /* straight flights; a flight ends where it meets the sheet (the arched wall at projectile height, inside the silhouette) */
   flights = [];
   for (const sh of SHOTS){ const a = units[sh.u].home.clone().add(V3(0, 1.4, 0)), d = sh.to.clone().sub(a), L = d.length(); d.divideScalar(L);
     let end = L; const tf = t0 + sh.t;
-    const A = d.x*d.x + d.z*d.z, B = 2*(a.x*d.x + a.z*d.z), C = a.x*a.x + a.z*a.z - VR*VR, D = B*B - 4*A*C;
+    const A = d.x*d.x + d.z*d.z, B = 2*(a.x*d.x + a.z*d.z), C = a.x*a.x + a.z*a.z - RHIT*RHIT, D = B*B - 4*A*C;
     if (D > 0) for (const s of [(-B - Math.sqrt(D))/(2*A), (-B + Math.sqrt(D))/(2*A)]){
       if (s <= 0 || s >= L) continue; const p = a.clone().addScaledVector(d, s), th = tf + s/V;
       if (silJS(Math.atan2(p.x, -p.z)/HA, p.y/VH) && th > t0 + OPEN*.6 && th < t0 + DUR){ end = s; break; } }
@@ -547,9 +544,9 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Véu abre do fundo até à ponta', 0, 550, 0x6fd8ff],
-  ['Véu ativo (pó de estrelas, contorno claro)', 550, 5000, 0x3f8cff],
-  ['Flechas terminam na folha (sem animação)', 900, 4100, 0xd8f6ff],
+  ['Véu sobe do chão em arco', 0, 600, 0x6fd8ff],
+  ['Véu ativo (pó de estrelas, borda clara)', 600, 5000, 0x3f8cff],
+  ['Flechas terminam na barreira (sem animação)', 900, 4100, 0xd8f6ff],
   ['Inimigo atravessa (não é bloqueado)', 2800, 4700, 0x8f8a82],
   ['Dissolve (erosão suave)', 5000, 5500, 0x3f8cff],
 ];
