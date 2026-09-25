@@ -133,7 +133,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do Astral Pull</span><span>0 — 3300 ms</span></div>
+    <div class="tl-head"><span>Timing do Astral Pull</span><span>0 — 3500 ms</span></div>
   </div>
 
   <section class="budget">
@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Correntes (delay)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>A animação das Chains (Fighter) em azul astral: uma corrente de energia de cada mão do Mystic desenrola-se até ao aliado, trava com um anel no chão e fica tensa durante o delay (1,3 s de exemplo), com brilho místico (contorno azul-claro e estrelinhas a cintilar ao longo). Dissolve no frame do teleporte (0,3 s)</td></tr>
+          <tr><td>Correntes (delay)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>A animação das Chains (Fighter) em azul astral com brilho místico (contorno azul-claro, estrelinhas a cintilar): as correntes saem das mãos do Mystic e agarram o aliado (anel no chão); o aliado desmaterializa-se preso a elas; o Mystic puxa as correntes de volta (8 m/s, a luz do aliado viaja na ponta) e, quando chegam às mãos, o aliado materializa-se ao lado dele</td></tr>
           <tr><td>Zonas no chão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Iguais ao Astral Step: zona azul uniforme que encolhe até desaparecer, na origem e no destino (1,2 s)</td></tr>
           <tr><td>Pó de estrelas</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Igual ao Astral Step, mas no aliado: desfaz-se da cabeça aos pés em estrelas que sobem; ao lado do Mystic as estrelas caem e o corpo forma-se dos pés à cabeça, com estrela de 4 pontas no peito</td></tr>
           <tr><td>Checks inválidos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>As correntes dissolvem-se no fim do delay e não há teleporte nem marcadores (cue condicional)</td></tr>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Correntes astrais</h3><p>Durante o delay, duas correntes de energia azul (a animação das Chains) saem das mãos do Mystic, prendem o aliado e ficam tensas, com estrelinhas a cintilar. No frame do teleporte dissolvem-se e o aliado reaparece ao lado do Mystic.</p></div>
+    <div><h3>Agarra, puxa, chega</h3><p>As correntes azuis agarram o aliado; ele desfaz-se em estrelas preso a elas; o Mystic inclina-se para trás e puxa as correntes, com a luz do aliado na ponta; quando chegam às mãos, o aliado forma-se ao lado do Mystic.</p></div>
     <div><h3>Mesma linguagem do Astral Step</h3><p>O aliado desfaz-se em pó de estrelas na origem e forma-se ao lado do Mystic, com a mesma zona azul no chão em cada ponto. Só o aliado se move; o Mystic fica parado.</p></div>
     <div><h3>Checks finais</h3><p>Se os checks falharem no fim do delay, as correntes dissolvem-se e nada mais acontece.</p></div>
   </section>
@@ -479,7 +479,7 @@ const uBu = { value:lin(0x3f8cff) }, uCy = { value:lin(0x5fe0ff) };
 const WIND = .26;                  // throw wind-up (s) — readable, not instant
 const CV = 14, CVR = 24;             // chain cruise / reel-in speed (m/s)
 const travel = L => .1 + L/CV;      // travel time: eases in from the hand (slow start), arrives fast
-const PREP = 1.3, DIS = .3, PW = PREP - WIND;   // chains hold taut until the teleport frame (PREP), then dissolve
+const PREP = 1.3, DIS = .3, PW = PREP - WIND, GRAB = .7, RV = 8.;   // GRAB: hold while the ally dissolves, RV: reel-in speed (m/s)   // chains hold taut until the teleport frame (PREP), then dissolve
 
 // Layer 1 — the chain: ONE instanced link mesh; every link of every cast is an instance.
 // Link i is counted from the tip, so the chain unrolls out of the hand. Position, whip, snap, heat and dissolve are all
@@ -495,16 +495,18 @@ const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1 }, addMat({
       float tR = .1 + L/${CV.toFixed(1)}, kc = u - tR;                   // time since contact (or since reaching max range)
       float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);          // slow out of the hand, fast on arrival
       if (hit < .5 && kc > 0.) ext = L - ${CVR.toFixed(1)}*kc;          // miss: reel back in
+      if (hit > 1.5 && kc > ${GRAB.toFixed(2)}) ext = L - ${RV.toFixed(1)}*(kc - ${GRAB.toFixed(2)});   // grabbed: pulled back to the Mystic
       float s = ext - i*SP;                                             // this link's distance from the hand
-      float life = hit > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
+      float life = hit > 1.5 ? tR + ${GRAB.toFixed(2)} + L/${RV.toFixed(1)} : hit > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
       if (u < 0. || u > life || s < 0.){ ${HIDE} }
       vec3 up = vec3(0., 1., 0.), a = normalize(cross(dir, up)), b = cross(a, dir);
       float amp = 0.;
       if (kc < 0.) amp = .06*sin(3.14159*clamp(s/max(ext, .01), 0., 1.))*sin(s*5. - u*38.);          // light whip while travelling
-      else if (hit > .5) amp = .035*exp(-kc*22.)*sin(kc*70.)*sin(3.14159*clamp(s/L, 0., 1.));      // snaps taut: one shudder, then rigid
+      else if (hit > .5) amp = .035*exp(-kc*22.)*sin(kc*70.)*sin(3.14159*clamp(s/L, 0., 1.)) + (hit > 1.5 && kc > ${GRAB.toFixed(2)} ? .04*exp(-(kc - ${GRAB.toFixed(2)})*10.)*sin(s*6. - kc*50.) : 0.);   // jerk when the Mystic pulls      // snaps taut: one shudder, then rigid
       float heat = .22 + .9*exp(-(ext - s)*4.)*(kc < 0. ? 1. : exp(-kc*8.));                       // leading links run hot
       float sc = 1.;
-      if (hit > .5 && kc >= 0.){
+      if (hit > 1.5 && kc > ${GRAB.toFixed(2)}) heat += .9*exp(-(ext - s)*3.);                    // the grabbed light rides the tip back
+      if (hit > .5 && hit < 1.5 && kc >= 0.){
         heat += .5*exp(-kc*9.);                                                                   // contact flash along the chain
         float w = L - 20.*kc; heat += 1.1*exp(-pow((s - w)/.3, 2.))*step(-.3, w);               // recoil wave: target → hand
         float wipe = (u - ${PW.toFixed(2)})/${DIS.toFixed(2)}*(L + .6) - .3;                 // dissolve from the hand; tip last
@@ -541,7 +543,8 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       float tR = .1 + L/${CV.toFixed(1)}, kc = u - tR;
       float p = clamp(u/tR, 0., 1.), ext = L*p*p*(1.6 - .6*p);
       if (aF < .5 && kc > 0.) ext = L - ${CVR.toFixed(1)}*kc;
-      float life = aF > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
+      if (aF > 1.5 && kc > ${GRAB.toFixed(2)}) ext = L - ${RV.toFixed(1)}*(kc - ${GRAB.toFixed(2)});
+      float life = aF > 1.5 ? tR + ${GRAB.toFixed(2)} + L/${RV.toFixed(1)} : aF > .5 ? ${(PW+DIS).toFixed(2)} : tR + L/${CVR.toFixed(1)};
       if (u < 0. || u > life || ext <= 0.){ ${HIDE} }
       float x = position.x*.5 + .5, s = x*ext;
       vec3 P = aO + dir*s;
@@ -556,7 +559,8 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       float ends = pow(sin(3.14159*clamp(vX, 0., 1.)), .6);                 // soft at the hand and at the tip
       float heat = .5 + .6*smoothstep(.6, 1., vX)*(vKc < 0. ? 1. : exp(-vKc*8.));
       float m = 1.;
-      if (vHit > .5 && vKc >= 0.){
+      if (vHit > 1.5 && vKc >= 0.) heat += .6*exp(-vKc*9.) + .8*smoothstep(.7, 1., vX)*step(${GRAB.toFixed(2)}, vKc);
+      if (vHit > .5 && vHit < 1.5 && vKc >= 0.){
         heat += .6*exp(-vKc*9.);
         float w = vL - 20.*vKc; heat += 1.2*exp(-pow((vS - w)/.35, 2.))*step(-.3, w);
         float wipe = (vU - ${PW.toFixed(2)})/${DIS.toFixed(2)}*(vL + .6) - .3;
@@ -610,32 +614,37 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
 const TIER = { 3:{}, 2:{}, 1:{}, 0:{} };
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
-function chainTo(O, M, t0){                                     /* one chain from each of the Mystic's hands to the ally */
-  let th = 1e9;
+function chainTo(O, M, t0, ok){                                     /* one chain from each of the Mystic's hands to the ally */
+  let th = 1e9; reelEnd = 0;
   [1, -1].forEach(side => {
     const dx = O.x - M.x, dz = O.z - M.z, dn = Math.hypot(dx, dz) || 1, fx = dx/dn, fz = dz/dn, rx = -fz, rz = fx;
     const H = V3(M.x + rx*.46*side + fx*.25, .72, M.z + rz*.46*side + fz*.25);
     const E = V3(O.x - fx*.2 + rx*.07*side, 1.15 + .04*side, O.z - fz*.2 + rz*.07*side);
-    const L = E.distanceTo(H), SP = .17, n = Math.floor(L/SP) + 1, end = t0 + PREP + DIS;
-    for (let i=0;i<n;i++){ const j = links.next(); links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, 1, i, SP); links.A.aT.setX(j, t0); }
+    const L = E.distanceTo(H), SP = .17, n = Math.floor(L/SP) + 1, hf = ok ? 2 : 1, end = ok ? t0 + WIND + travel(L) + GRAB + L/RV : t0 + PREP + DIS;
+    reelEnd = Math.max(reelEnd, end);
+    for (let i=0;i<n;i++){ const j = links.next(); links.A.aO.setXYZ(j, H.x, H.y, H.z); links.A.aE.setXYZ(j, E.x, E.y, E.z); links.A.aF.setXYZ(j, hf, i, SP); links.A.aT.setX(j, t0); }
     links.track(end, n);
-    const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, 1); haze.A.aT.setX(h, t0); haze.track(end, 1);
+    const h = haze.next(); haze.A.aO.setXYZ(h, H.x, H.y, H.z); haze.A.aE.setXYZ(h, E.x, E.y, E.z); haze.A.aF.setX(h, hf); haze.A.aT.setX(h, t0); haze.track(end, 1);
     th = Math.min(th, t0 + WIND + travel(L));
   });
   const k = anchors.next(); anchors.A.aO.setXYZ(k, O.x, 0, O.z); anchors.A.aT.setX(k, th); anchors.track(th + ANCH, 1);
+  return th;
 }
+let reelEnd = 0;
 
 function pull(O, D, t0, ok, M){ M = M || V3(0, 0, 0);
-  chainTo(O, M, t0);
-  if (!ok){ castLog.push(t0 + PREP + DIS); return; }
-  blink(O, D, t0 + PREP);
+  const th = chainTo(O, M, t0, ok);
+  if (!ok){ castLog.push(t0 + PREP + DIS); return null; }
+  const tm = reelEnd;                                        /* grab -> dissolve at the grab, materialise when the chains are back */
+  blink(O, D, th, tm - OUT - GAP);
+  return { th, tm };
 }
-function blink(O, D, t0){
+function blink(O, D, t0, tD){ if (tD === undefined) tD = t0;
   let i = rings.next(); rings.A.aO.setXYZ(i, O.x, 0, O.z); rings.A.aT.setX(i, t0); rings.A.aK.setX(i, 0);
-  i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, t0 + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(t0 + OUT + GAP + RL, 2);
+  i = rings.next(); rings.A.aO.setXYZ(i, D.x, 0, D.z); rings.A.aT.setX(i, tD + OUT + GAP); rings.A.aK.setX(i, 1); rings.track(tD + OUT + GAP + RL, 2);
   i = cuts.next(); cuts.A.aO.setXYZ(i, O.x, 0, O.z); cuts.A.aT.setX(i, t0); cuts.A.aK.setX(i, 0);
-  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, t0 + OUT + GAP - PRE); cuts.A.aK.setX(i, 1); cuts.track(t0 + OUT + GAP + 1.43, 2);
-  castLog.push(t0 + OUT + GAP + RL);
+  i = cuts.next(); cuts.A.aO.setXYZ(i, D.x, 0, D.z); cuts.A.aT.setX(i, tD + OUT + GAP - PRE); cuts.A.aK.setX(i, 1); cuts.track(tD + OUT + GAP + 1.43, 2);
+  castLog.push(tD + OUT + GAP + RL);
 }
 
 // ============ post ============
@@ -697,14 +706,13 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Correntes saem das mãos e prendem o aliado', 0, 860, 0x5fe0ff],
-  ['Correntes tensas (delay)', 860, 1300, 0x3f8cff],
-  ['Correntes dissolvem-se no teleporte', 1300, 1600, 0xd8f6ff],
-  ['Aliado desfaz-se em estrelas (cabeça → pés)', 1300, 1975, 0xd8f6ff],
-  ['Aliado forma-se ao lado do Mystic (pés → cabeça)', 2008, 2683, 0xd8f6ff],
-  ['Zonas azuis encolhem (origem e destino)', 1300, 3208, 0x3f8cff],
+  ['Correntes saem das mãos e agarram o aliado', 0, 800, 0x5fe0ff],
+  ['Aliado desmaterializa-se, preso (cabeça → pés)', 800, 1475, 0xd8f6ff],
+  ['O Mystic puxa as correntes de volta', 1500, 2250, 0x3f8cff],
+  ['Correntes chegam: aliado materializa-se ao lado (pés → cabeça)', 2250, 2925, 0xd8f6ff],
+  ['Zonas azuis encolhem (origem e destino)', 800, 3450, 0x3f8cff],
 ];
-const TOTAL = 3300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 3500, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -713,7 +721,7 @@ PHASES.forEach(([l,a,b,c]) => {
 const heads = [...tl.querySelectorAll('.playhead')];
 
 // ============ state / input ============
-let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, ok = true;
+let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, ok = true, PT = null;
 const tLoop = $('tLoop'), tStress = $('tStress');
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
@@ -721,9 +729,9 @@ let START = V3(1.8, 0, -6.8), LAND = V3(.85, 0, -.9);      // ally far away -> l
 let from = START.clone(), to = LAND.clone();
 const mix1 = (a, b, k) => a + (b - a)*k;
 function localSwing(){
-  if (time - localT < 3.2) return;
+  if (time - localT < 3.4) return;
   localT = time; idle = 0; ok = $('tValid').checked;
-  pull(from, to, time, ok);
+  PT = pull(from, to, time, ok);
 }
 $('castBtn').onclick = localSwing;
 addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwing(); } });
@@ -757,7 +765,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT, dtb = dtc - PREP;
-  if (tLoop.checked){ idle += dt; if (idle > 4.4) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 4.6) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
@@ -775,14 +783,15 @@ function frame(now){
   // three.js keeps fragments with dot(n, p) + c >= 0
   const HH = 2.0;                                           // body height swept by the cut (m)
   const HA = 1.7;                                          // ally height swept by the cut (m)
-  if (!ok || dtb < 0){ ally.position.copy(dtc >= 0 && dtc < 3 && !ok ? from : (dtc > 3 ? to : from)); clipPlane.constant = 10; }
-  else if (dtb < OUT){ const k = dtb/OUT; ally.position.copy(from); clipPlane.constant = HA - (HA + .05)*k*k; }          // origin: head -> feet
-  else if (dtb < OUT + GAP){ ally.position.copy(from); clipPlane.constant = -1; }                                        // hidden 2 frames
-  else if (dtb < 2*OUT + GAP){ const k = (dtb - OUT - GAP)/OUT; ally.position.copy(to); clipPlane.constant = -.05 + (HA + .05)*(1 - (1 - k)*(1 - k)); }   // beside the Mystic: feet -> head
+  const ta = PT ? time - PT.th : -1, tb = PT ? time - PT.tm : -1;
+  if (!PT || ta < 0){ ally.position.copy(from); clipPlane.constant = 10; }
+  else if (ta < OUT){ const k = ta/OUT; ally.position.copy(from); clipPlane.constant = HA - (HA + .05)*k*k; }      // grabbed: dissolves head -> feet
+  else if (tb < 0){ ally.position.copy(from); clipPlane.constant = -1; }                                          // carried by the chains (hidden)
+  else if (tb < OUT){ const k = tb/OUT; ally.position.copy(to); clipPlane.constant = -.05 + (HA + .05)*(1 - (1 - k)*(1 - k)); }   // chains back: forms feet -> head
   else { ally.position.copy(to); clipPlane.constant = 10; }
-  clipPlane.normal.set(0, -1, 0); if (localT < -1e8) ally.position.copy(from);
-  if (dtc > 3.9 || dtc < 0) ally.position.copy(from);     /* demo reset: the ally goes back to the far spot between casts */
-  lean = dtc >= 0 && dtc < PREP ? .04*Math.min(1, dtc/.3) : 0;   /* the Mystic holds a slight lean during the preparation */ body.rotation.x = -lean; body.position.y = Math.sin(time*1.8)*.006;
+  clipPlane.normal.set(0, -1, 0);
+  if (PT && tb > 1.2){ PT = null; }                        /* demo reset: next cast starts from the far spot */
+  lean = PT && time - PT.th > GRAB && time < PT.tm ? -.09 : (dtc >= 0 && dtc < .5 ? .04*Math.min(1, dtc/.3) : 0);   /* leans back while pulling the chains in */   /* the Mystic holds a slight lean during the preparation */ body.rotation.x = -lean; body.position.y = Math.sin(time*1.8)*.006;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
       P[i] = bx*(1 + v*.22) - tw*vv*.25; P[i+1] = by;
