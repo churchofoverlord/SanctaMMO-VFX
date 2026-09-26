@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Lança de gelo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Lança estreita de cristal (ícone): ~1 m, ponta afiada, facetas claras e escuras, aresta ciano e um fio quase branco ao centro; orientada no sentido do voo, direta a 16 m/s</td></tr>
+          <tr><td>Lança de gelo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo sólido e facetado (malha instanciada, material do Iceberg: corpo azul, facetas que apanham a luz, fresnel claro, veios, ponta fria brilhante), ~1 m, a rodar devagar sobre o eixo, com 5 lascas de cristal pequenas ao lado (ícone); direta a 16 m/s; 1 draw call</td></tr>
           <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>A lança estilhaça no alvo: flash frio curto e 7 lascas de gelo que saltam para trás e para os lados (0,35 s); sem anel nem marca (o Slow é cue de status)</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
@@ -427,31 +427,47 @@ const LEN = 1.25, GROW = .07;                       // short stab: line length (
 // thin camera-facing trail behind it. Position from age on the GPU; the CPU only writes start, end and time.
 const V = 16;                                         // fire orb speed (m/s): direct
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
-const daggers = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aE:3, aT:1 }, addMat({
-  uniforms:{ uTime, uGold, uOrange },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; ${ARC}
+// Layer 1 — the lance: a real faceted ice crystal (instanced mesh, flat facets, Iceberg ice material) flying along its axis,
+// slowly turning about it, with 5 small crystal shards riding alongside (icon). One draw call; the CPU writes start, end, time.
+const crystalGeo = (() => {                                      /* irregular 7-sided bipyramid with a shoulder: long front point, short back */
+  const N = 7, ring = (z, r, j) => { const a = []; for (let i = 0; i < N; i++){ const t = i/N*6.2832 + j, k = r*(.8 + .35*Math.abs(Math.sin(i*2.3 + 1.1))); a.push([Math.cos(t)*k, Math.sin(t)*k, z]); } return a; };
+  const r0 = ring(0, 1, 0), r1 = ring(.3, .72, .22), F = [0, 0, .78], B = [0, 0, -.3], T = [];
+  for (let i = 0; i < N; i++){ const j = (i + 1)%N;
+    T.push(B, r0[j], r0[i]); T.push(r0[i], r0[j], r1[i]); T.push(r0[j], r1[j], r1[i]); T.push(r1[i], r1[j], F); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(T.flat()), 3)); g.computeVertexNormals(); return g; })();
+const daggers = pool(crystalGeo, 1536, { aO:3, aE:3, aT:1, aK:1 }, new THREE.ShaderMaterial({
+  side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
+  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec3 vN, vV; varying float vZ, vK, vU;
+    float hh(float n){ return fract(sin(n*91.7)*43758.5); }
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec3 P = arcAt(aO, aE, u/tt); vec4 mv = viewMatrix*vec4(P, 1.);
-      vec2 dir = normalize((viewMatrix*vec4(aE - aO, 0.)).xy + 1e-5), nrm = vec2(-dir.y, dir.x);   /* oriented along the flight on screen */
-      mv.xy += dir*(position.x*.75 - .4) + nrm*position.y*.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;
+      vec3 f = (aE - aO)/L, s0 = normalize(cross(f, vec3(0., 1., 0.))), up = cross(s0, f);
+      float R = .085, Z = 1., lag = 0., sp = u*5.;
+      vec3 off = vec3(0.);
+      if (aK > .5){                                                /* companion shards: small, around and a little behind the lance */
+        float k = aK - 1., a = k*1.2566 + .4 + u*2.;
+        R = .028 + .012*hh(k); Z = .28 + .12*hh(k + 5.); lag = .12 + .45*hh(k + 9.); sp = u*(9. + 4.*hh(k)) + k;
+        off = (s0*cos(a) + up*sin(a))*(.2 + .14*hh(k + 3.)); }
+      vec3 p = position*vec3(R, R, Z);
+      float c = cos(sp), sn = sin(sp); p.xy = mat2(c, -sn, sn, c)*p.xy; vec3 n = normal; n.xy = mat2(c, -sn, sn, c)*n.xy;
+      n = normalize(vec3(n.x/R, n.y/R, n.z/Z));
+      vec3 P = mix(aO, aE, clamp(u/tt, 0., 1.)) - f*lag + off;
+      vec3 W = P + s0*p.x + up*p.y + f*p.z;
+      vN = s0*n.x + up*n.y + f*n.z; vV = normalize(cameraPosition - W); vZ = position.z; vK = aK; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;
-    void main(){                                              // astral star: 4 long points + 4 short, bright core, soft halo
-      /* crystal lance: x from tail (-1) to tip (+1), y across. Width grows to a shoulder then cuts to a sharp tip */
-      float x = vP.x, y = vP.y;
-      float w = x < .45 ? mix(.12, .8, smoothstep(-1., .45, x)) : .8*(1. - (x - .45)/.55);
-      float d = abs(y) - w;                                                       /* < 0 inside */
-      float body = smoothstep(.05, -.08, d)*smoothstep(-1., -.85, x);
-      float facet = y > 0. ? .9 : .45;                                           /* light and dark facet */
-      float band = .75 + .25*step(.5, fract((x - abs(y)*.8)*2.3));                /* angled facet bands */
-      float edge = exp(-d*d/.004)*smoothstep(-1., -.6, x);
-      float spine = exp(-y*y/.004)*smoothstep(-.9, .7, x)*smoothstep(.98, .8, x);  /* thin near-white core line */
-      float halo = exp(-(y*y*6. + max(x - .9, 0.)*8.))*.12*smoothstep(-1., .2, x);
-      vec3 o = uOrange*(body*facet*band*.55 + edge*.9 + halo) + uGold*(spine*1.1 + edge*.35 + body*facet*.12);
-      o *= smoothstep(1., .9, abs(y))*smoothstep(1., .95, x);
-      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vZ, vK, vU;
+    void main(){
+      vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
+      float l = max(dot(n, uMoon), 0.), nv = abs(dot(n, normalize(vV))), fr = pow(1. - nv, 2.2);
+      vec3 deep = vec3(.02, .07, .16), mid = vec3(.12, .36, .62), ice = vec3(.6, .9, 1.);
+      vec3 col = mix(deep, mid, .35 + .45*l + .3*nv);                          /* facets catch the light differently: reads faceted */
+      float vein = pow(.5 + .5*sin(vZ*38. + n.x*7. - n.y*5.), 16.)*.4;          /* faint inner cracks */
+      float tip = smoothstep(.3, .78, vZ);
+      col += ice*(fr*1.4 + vein) + vec3(.75, .95, 1.)*tip*.55;                 /* pale rim and a bright, cold point */
+      gl_FragColor = vec4(col, 1.);
+    }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF, vU2, vLen; ${ARC}
@@ -643,7 +659,7 @@ function stab(O, yaw, tier, t0, targets){                   // Frost Lance: crys
   else if (!targets){ const r = rand(3, 9); E = V3(O.x + fx*r, 1.15, O.z + fz*r); G = V3(E.x, 0, E.z); }
   else { E = V3(H.x + fx*RANGE, 1.1, H.z + fz*RANGE); G = null; }
   const tt = H.distanceTo(E)/V, hitT = t0 + WIND + tt;
-  let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.track(hitT, 1);
+  let i; for (let k = 0; k < (tier > 0 ? 6 : 3); k++){ i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, t0); daggers.A.aK.setX(i, k); } daggers.track(hitT, tier > 0 ? 6 : 3);   // lance + shards
   i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, t0); trails.track(hitT + .2, 1);
   castLog.push(hitT + RL);
   if (!G) return;
