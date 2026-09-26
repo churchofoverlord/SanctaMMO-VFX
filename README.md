@@ -2,6 +2,8 @@
 
 VFX das skills do SanctaMMO (Unreal Engine 5, GAS + Niagara): direção visual, regras de performance e protótipos interativos no browser.
 
+**Protótipos online:** https://churchofoverlord.github.io/SanctaMMO-VFX/ (página inicial com todas as skills). A página é gerada a partir desta tabela; ao acrescentar um protótipo, acrescentar a linha aqui e regenerar `index.html`.
+
 ## Estrutura
 
 ```
