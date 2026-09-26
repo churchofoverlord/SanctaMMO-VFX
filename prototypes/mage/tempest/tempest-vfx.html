@@ -536,67 +536,84 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
 
 // Layer I — ice spikes (same crystal mesh and ice material as the Iceberg, tapered to an icicle), short-lived
 const WALL_T = .9;
-// ---- shared ice (Iceberg, Frost Lance, Tempest): luminous, translucent crystal like the icons — pale blue body that lightens
-// towards the point, long bright facet edges, white streaks inside, cold specular and rim. Flat facets but no dark blocks.
-// Geometry is non-indexed with flat normals and a barycentric attribute (a component set to 1 hides that edge: quad diagonals).
-function iceGeo(tris){                                         /* tris: [[a, b, c, hideMask]] with hideMask = [ha, hb, hc] (1 = hide the edge opposite) */
+// ---- shared ice (Iceberg, Frost Lance, Tempest): clear, glassy ice. It REFRACTS what is behind it (the scene without the ice
+// is captured to a half-res target each frame the ice is alive — UE: SceneColor / Refraction), tinted deep blue where thick and
+// almost clear where thin; every facet reflects the sky differently (Fresnel) with sharp white glints; cloudy frost and cracks
+// inside. No outlines: facets read by the change of reflection and refraction from one to the next.
+function iceGeo(tris){                                         /* tris: [[a, b, c]]; non-indexed, flat normals */
   const P = [], B = [];
-  for (const [a, b, c, h] of tris){ P.push(...a, ...b, ...c);
-    const m = h || [0, 0, 0];
-    B.push(1, m[1], m[2],  m[0], 1, m[2],  m[0], m[1], 1); }
+  for (const [a, b, c] of tris){ P.push(...a, ...b, ...c); B.push(1, 0, 0, 0, 1, 0, 0, 0, 1); }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(P), 3)); g.setAttribute('bary', new THREE.BufferAttribute(new Float32Array(B), 3));
   g.computeVertexNormals(); return g;
 }
-/* crystal column along +Y, height 1: irregular N-gon body, a shoulder ring, and a long asymmetric point */
+/* crystal shard along +Y, height 1: irregular N-gon body that narrows, then a long asymmetric point (over half the height) */
 function iceColumnGeo(N, seed){
   const rnd = i => { const x = Math.sin(i*127.1 + seed*311.7)*43758.5453; return x - Math.floor(x); };
-  const R = [...Array(N)].map((_, i) => .78 + .4*rnd(i));
+  const R = [...Array(N)].map((_, i) => .7 + .55*rnd(i));
   const ring = (y, s, tw) => R.map((r, i) => { const a = i/N*6.2832 + tw; return [Math.cos(a)*r*s, y, Math.sin(a)*r*s]; });
-  const r0 = ring(0, 1, 0), r1 = ring(.5, .9, .09), r2 = ring(.6, .62, .17), apex = [.12, 1, -.06], T = [];
+  const r0 = ring(0, 1, 0), r1 = ring(.3, .92, .11), r2 = ring(.44, .72, .23), apex = [.1, 1, -.05], T = [];
   for (let i = 0; i < N; i++){ const j = (i + 1)%N;
-    for (const [lo, hi] of [[r0, r1], [r1, r2]]){ T.push([lo[i], lo[j], hi[i], [1, 0, 0]]); T.push([lo[j], hi[j], hi[i], [0, 1, 0]]); }
+    for (const [lo, hi] of [[r0, r1], [r1, r2]]){ T.push([lo[i], lo[j], hi[i]]); T.push([lo[j], hi[j], hi[i]]); }
     T.push([r2[i], r2[j], apex]); }
   return iceGeo(T);
 }
 /* lance / shard along +Z: flat rhombic cross-section (wide x, thin y), long front point, short back point */
 function iceLanceGeo(front, back){
-  const S = [[1, 0, 0], [.32, .5, 0], [-.55, 0, 0], [.32, -.5, 0]];         // wide, thin, slightly off-centre (reads as a blade)
+  const S = [[1, 0, 0], [.3, .78, 0], [-.6, 0, 0], [.3, -.78, 0]];
   const mid = S.map(([x, y]) => [x, y, 0]), sh = S.map(([x, y]) => [x*.8, y*.7, front*.3]);
   const F = [.12, 0, front], Bk = [-.05, 0, -back], T = [];
   for (let i = 0; i < 4; i++){ const j = (i + 1)%4;
-    T.push([Bk, mid[j], mid[i]]);
-    T.push([mid[i], mid[j], sh[i], [1, 0, 0]]); T.push([mid[j], sh[j], sh[i], [0, 1, 0]]);
-    T.push([sh[i], sh[j], F]); }
+    T.push([Bk, mid[j], mid[i]]); T.push([mid[i], mid[j], sh[i]]); T.push([mid[j], sh[j], sh[i]]); T.push([sh[i], sh[j], F]); }
   return iceGeo(T);
 }
+const ICE_U = { uBG:{ value:null }, uRes:{ value:new THREE.Vector2(1, 1) } };
+let iceRT = null;
+/* call right before the frame's final render: captures the scene behind the ice (only while some ice is visible) */
+function iceCapture(meshes){
+  const live = meshes.filter(m => m.visible); if (!live.length) return;
+  const sz = composer ? new THREE.Vector2(composer.renderTarget1.width, composer.renderTarget1.height) : renderer.getDrawingBufferSize(new THREE.Vector2());   // size of the final pass (gl_FragCoord space)
+  if (!iceRT || iceRT.width !== (sz.x >> 1)){ if (iceRT) iceRT.dispose();
+    iceRT = new THREE.WebGLRenderTarget(sz.x >> 1, sz.y >> 1, { type:THREE.HalfFloatType, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter }); }
+  ICE_U.uRes.value.copy(sz); ICE_U.uBG.value = iceRT.texture;
+  live.forEach(m => m.visible = false);
+  renderer.setRenderTarget(iceRT); renderer.render(scene, camera); renderer.setRenderTarget(null);
+  live.forEach(m => m.visible = true);
+}
 const ICE_GLSL = `
+  uniform sampler2D uBG; uniform vec2 uRes;
   float ih(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
   float ivn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
     return mix(mix(ih(i), ih(i + vec2(1., 0.)), f.x), mix(ih(i + vec2(0., 1.)), ih(i + vec2(1., 1.)), f.x), f.y); }
-  /* n: facet normal (world, facing the camera) · V: to camera · B: barycentric · h: 0 base → 1 point · q: coords on the crystal
-     (x across, y along its length) · L: key light. Returns premultiplied colour (rgb = light, a = how much it hides what is behind). */
+  float ivn3(vec3 p){ return mix(ivn(p.xy + floor(p.z)*17.13), ivn(p.xy + (floor(p.z) + 1.)*17.13), smoothstep(0., 1., fract(p.z))); }
+  /* n: facet normal (world, facing the camera) · V: to camera · B: unused · h: 0 base → 1 point · q: coords on the crystal
+     (x across, y along) · L: key light. Opaque output: the background comes in through the refraction. */
   vec4 iceShade(vec3 n, vec3 V, vec3 B, float h, vec2 q, vec3 L){
-    float nv = clamp(abs(dot(n, V)), 0., 1.), fr = pow(1. - nv, 2.2), l = max(dot(n, L), 0.);
-    float e = min(min(B.x, B.y), B.z);
-    float line = 1. - smoothstep(0., fwidth(e)*1.3 + .002, e);            /* crisp bright facet edge */
-    float glow = exp(-e/.05);                                               /* soft light spilling along the edge */
-    float s1 = ivn(vec2(q.x*7., q.y*1.1)), s2 = ivn(vec2(q.x*15. + 3.1, q.y*2.3 - 1.7));
-    float streak = pow(s1, 5.)*.8 + pow(s2, 7.)*.6;                         /* long white streaks inside, along the crystal */
-    float facet = .5 + .5*sin(dot(n, vec3(3.1, 1.7, 2.3))*5.);            /* each facet a slightly different value */
-    vec3 deep = vec3(.01, .06, .16), body = vec3(.08, .32, .62), pale = vec3(.7, .93, 1.);
-    vec3 c = mix(deep, body, clamp(.15 + .45*h + .35*l + .2*facet, 0., 1.));
-    c += pale*streak*(.12 + .2*h);
-    float a = clamp(.5 + .35*fr + .2*glow, 0., 1.);
-    vec3 o = c*a;
-    o += pale*(line*.6 + glow*.16)*(.45 + .55*h);                          /* edges brighter towards the point */
-    o += vec3(.3, .7, 1.)*fr*.3;
-    o += vec3(.9, .97, 1.)*pow(max(dot(reflect(-V, n), L), 0.), 60.)*.7;
-    o += pale*smoothstep(.85, 1., h)*.3;                                  /* cold bright point */
-    return vec4(o, a);
+    n = dot(n, V) < 0. ? -n : n;                                             /* face the camera whatever the winding */
+    vec3 j = vec3(ih(n.xy*13.1 + q.x*.01), ih(n.yz*7.3 + 1.7), ih(n.zx*5.7 + 3.1)) - .5;
+    vec3 fn = normalize(n + j*.3);                                           /* each facet tilted a little: reflections change facet to facet */
+    float nv = clamp(dot(fn, V), 0., 1.), fr = .04 + .96*pow(1. - nv, 5.);
+    vec3 vn = (viewMatrix*vec4(fn, 0.)).xyz;
+    vec2 suv = gl_FragCoord.xy/uRes, off = vn.xy*(.05 + .07*(1. - nv));      /* refraction: the scene behind, bent by the facet */
+    vec3 bg = vec3(texture2D(uBG, suv - off*1.04).r, texture2D(uBG, suv - off).g, texture2D(uBG, suv - off*.96).b);
+    float thick = clamp(.3 + .7*nv, 0., 1.)*(1. - .55*h);                    /* thick body, thin clear point */
+    vec3 absorb = mix(vec3(.7, .9, 1.), vec3(.08, .32, .8), thick);
+    vec3 p3 = vec3(q*vec2(3.5, 1.4), h*2.3);
+    float cloud = ivn3(p3*1.3)*.6 + ivn3(p3*3.1)*.4;
+    float frost = smoothstep(.55, .85, cloud);                               /* cloudy white frost inside */
+    float fid = ih(floor(n.xz*37.) + floor(n.y*29.));                        /* one random value per facet */
+    float cr = pow(1. - abs(fract(dot(q, vec2(2.3, .7))*1.7 + fid*3.) - .5)*2., 60.)*step(.72, fid);   /* a straight inner crack on some facets */
+    vec3 inner = bg*absorb*1.2 + vec3(.03, .16, .42)*thick + vec3(.6, .78, .92)*(frost*.28*thick + cr*.35);
+    inner *= .75 + .5*fid;                                                   /* facets transmit differently: they read as separate planes */
+    vec3 R = reflect(-V, fn);
+    vec3 sky = mix(vec3(.03, .07, .16), vec3(.2, .42, .78), smoothstep(-.3, .9, R.y))
+             + vec3(.45, .7, .95)*pow(max(dot(R, normalize(vec3(-.5, .6, .6))), 0.), 6.)*.35;   /* a broad bright window in the reflection */
+    float sL = max(dot(R, L), 0.), sC = max(dot(R, normalize(V + vec3(0., .6, 0.))), 0.);
+    vec3 col = mix(inner, sky, clamp(fr*.7 + .25*pow(fid, 5.), 0., .75)) + vec3(.95, .98, 1.)*(pow(sL, 220.)*5. + pow(sC, 160.)*1.6 + pow(sL, 18.)*.25);
+    col += vec3(.6, .85, 1.)*smoothstep(.9, 1., h)*.2;                      /* a cold glint at the very point */
+    return vec4(col, 1.);
   }`;
-const iceMat = o => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:true, extensions:{ derivatives:true },
-  blending:THREE.CustomBlending, blendEquation:THREE.AddEquation, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor }, o));
+const iceMat = o => new THREE.ShaderMaterial(Object.assign({}, o, { uniforms:Object.assign({}, o.uniforms, ICE_U), extensions:{ derivatives:true } }));
 const prismGeo = iceColumnGeo(6, 5.1);
 const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
@@ -1030,6 +1047,7 @@ function frame(now){
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, camZ + Math.cos(yaw)*Math.cos(pitch)*dist);
   camera.lookAt(0, 2.6, camZ);
   renderer.info.reset();
+  iceCapture([wall.mesh]);                                   // scene behind the ice, for its refraction
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
