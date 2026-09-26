@@ -143,7 +143,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Anel de grupo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad no chão centrado no Fighter: expansão linear em 350 ms até ao alcance (5 m), o limite segura e apaga. Brilho de abertura no mesmo shader</td></tr>
-          <tr><td>Pulso no aliado</td><td class="n">1–2/aliado</td><td class="n">1–2/aliado</td><td class="n">1–2/aliado</td><td class="n">1/aliado</td><td>Só membros da Party em alcance. Anel pequeno no chão + três raios a subir (Local Space), 0,5 s</td></tr>
+          <tr><td>Pulso no aliado</td><td class="n">1–2/aliado</td><td class="n">1–2/aliado</td><td class="n">1–2/aliado</td><td class="n">1/aliado</td><td>Só membros da Party em alcance. Três raios curtos a subir pelo corpo (Local Space), 0,5 s; nada no chão</td></tr>
           <tr><td>Raios no Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>O mesmo quad dos raios, maior</td></tr>
           <tr><td>II · 2.º anel + acentos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo quad do anel: segundo anel 70 ms atrás com 8 chevrons para fora na paleta da stance, só no cast. Zero custo extra</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Partilhadas por todos os Fighters. Sem aura global fora do grupo</td></tr>
@@ -155,7 +155,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>II · acentos da stance</h3><p>O mesmo anel do I, e um segundo anel logo atrás com 8 chevrons afiados virados para fora (Focus + Fierce). Só no cast; os buffs que ficam nos aliados são cues de status.</p></div>
     <div><h3>Um único pulso de grupo</h3><p>Com o Momentum cheio, o Fighter grita e um anel magenta abre-se a partir dele, linear e rápido, até ao limite da Party (5 m). O limite fica como a linha mais clara, dá um pico de 2 frames e apaga.</p></div>
-    <div><h3>Só aliados válidos</h3><p>Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: anel aos pés e três raios curtos a subir, como no ícone. O aliado fora de alcance e o inimigo não recebem nada.</p></div>
+    <div><h3>Só aliados válidos</h3><p>Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: três raios curtos a subir pelo corpo, como no ícone (sem anel aos pés: o chão fica só para o alcance do grupo). O aliado fora de alcance e o inimigo não recebem nada.</p></div>
     <div><h3>Skill ≠ status</h3><p>O Vigor que fica nos aliados é do cue de status. O consumo de Momentum é UI. Esta variante é a da Warrior Stance; a outra é um protótipo à parte.</p></div>
   </section>
 </div>
@@ -516,8 +516,7 @@ function rally(O, tier, t0, allies){
     if (!a.party || d > R) continue;
     const th = ti + d/R*EXP;
     a.pulseAt = th;
-    pulseAt(a.p, th, 0, 1);
-    if (T.rays) pulseAt(a.p, th, 1, 1);
+    pulseAt(a.p, th, 1, 1);                                   // rising streaks on the ally (no ring at the feet: ground space is for areas)
   }
   castLog.push(ti + EXP + .5);
 }

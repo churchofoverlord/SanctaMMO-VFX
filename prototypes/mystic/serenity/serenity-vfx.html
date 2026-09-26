@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Telegraph</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Quad deitado no chão (R 4 m de exemplo): círculo fino que se desenha, meio dourado (Heal) e meio violeta (Sleep) como no ícone, estrela de 4 pontas azul no centro e um anel interior que fecha para o centro durante o delay fixo. Não fica como zona</td></tr>
           <tr><td>Resolve</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Pulso único do centro à borda (0,3 s) e o círculo pisca e apaga (0,6 s)</td></tr>
           <tr><td>Heal (aliados elegíveis)</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Estrelas douradas sobem dos pés e uma luz quente incha no peito (0,9 s). Só nos aliados elegíveis dentro do círculo</td></tr>
-          <tr><td>Sleep (inimigos)</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Crescente violeta do ícone por cima da cabeça, a balançar e a descer devagar ao apagar (0,9 s); sem cue de dano. O Sleep que fica é o cue de status</td></tr>
+          <tr><td>Sleep (inimigos)</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Crescente violeta do ícone no peito (por cima da cabeça fica para o cue de status do Sleep), a balançar e a descer devagar ao apagar (0,9 s); sem cue de dano. O Sleep que fica é o cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Tudo num só sistema instanciado, para todos os Mystics; 0 partículas. Cabe em AoE instantânea (≤ 4, ≤ 50, ≤ 1,5 s depois do delay)</td></tr>
         </tbody>
       </table>
@@ -352,7 +352,7 @@ let capeFlare = 0;
 
 // ============ GPU-driven VFX: Serenity ============
 // ONE instanced pool, kinds by aK: 0 ground telegraph during the delay · 1 the single resolve pulse on the ground
-// · 2 Heal cue on an eligible ally (upright, Y-dominant) · 3 Sleep cue on an enemy (billboard above the head).
+// · 2 Heal cue on an eligible ally (upright, Y-dominant) · 3 Sleep resolve on an enemy (billboard on the chest).
 // aT = start time of that instance. Everything analytic from uTime; the CPU writes on cast and on resolve only.
 const uTime = { value:0 };
 const HIDE = 'gl_Position = vec4(2.,2.,2.,1.); return;';
@@ -390,7 +390,7 @@ const ser = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aT:1, aK:1 }, addMa
       vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
       if (aK < 2.5){ vP = vec2(position.x*.6, (position.y*.5 + .5)*2.2);            /* Heal: upright over the ally */
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + f*.25 + rt*vP.x + vec3(0., vP.y, 0.), 1.); return; }
-      vec4 mv = viewMatrix*vec4(aO + vec3(0., 2.05, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.2;   /* Sleep: above the head */
+      vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.3, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.35;   /* Sleep resolve: on the chest (over the head is the CC status cue's place) */
       mv.xy += position.xy*.38; vP = position.xy; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform float uTime; uniform vec3 uB, uG, uV, uW; varying vec2 vP; varying float vU, vK; ${EOX} ${STAR}
     float line(float d, float w){ return exp(-d*d/(w*w)); }
@@ -427,7 +427,7 @@ const ser = pool(new THREE.PlaneGeometry(2, 2), 512, { aO:3, aT:1, aK:1 }, addMa
         vec2 c = vec2(x, y - 1.25); lum += exp(-dot(c, c)*6.)*.35*sin(3.14159*min(t*1.4, 1.));
         o = (uG*lum + uW*hot*.8)*f*smoothstep(.6, .45, abs(x))*smoothstep(2.2, 2., y);
       } else {
-        /* Sleep on an enemy (violet): the icon's crescent appears above the head, rocks gently and sinks a little as it fades;
+        /* Sleep on an enemy (violet): the icon's crescent appears on the chest, rocks gently and sinks a little as it fades;
            no damage cue. The lasting Sleep state is the shared status cue. */
         float t = vU/.9, f = smoothstep(0., .12, vU)*(1. - smoothstep(.6, 1., t));
         vec2 q = vP - vec2(0., -.25*t); float rk = .25*sin(vU*5.); q = mat2(cos(rk), -sin(rk), sin(rk), cos(rk))*q;

@@ -125,7 +125,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~4,6 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mages<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo (billboard) com faixa curta, direto a 18 m/s até ao ponto no chão</td></tr>
-          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Prismas de gelo sólidos (malha instanciada, shader opaco com facetas, fresnel ciano e veios claros), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
+          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Colunas de cristal de gelo esguias (malha instanciada: corpo irregular de 6 lados, ombro e ponta longa assimétrica), material de gelo luminoso e translúcido (corpo azul-claro que clareia para a ponta, arestas longas a brilhar, veios brancos por dentro, reflexo frio), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
           <tr><td>Limite + Slow</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: linha de geada fina a marcar a colisão do muro enquanto dura + um anel que abre uma vez até ao raio da AoE (3 m)</td></tr>
           <tr><td>Estilhaçar</td><td class="n">65</td><td class="n">65</td><td class="n">45</td><td class="n">35</td><td>Só se o muro for destruído: estilhaços GPU (5 por pilar) + pulso de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mages</td></tr>
@@ -169,10 +169,10 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Item</th><th>Especificação</th></tr></thead>
         <tbody>
           <tr><td>Actor</td><td><code>BP_Iceberg</code>, spawn no servidor pela Ability, replicado. Vida do muro inteiro (um só valor). Dura 3 s</td></tr>
-          <tr><td>Malha</td><td>13 pilares de gelo (prisma hexagonal com ponta em bico), raio 0,24–0,36 m, altura 1–2,5 m (mais altos ao centro), ligeiramente inclinados para fora; pivot na base; espalhados ao longo de 3,2 m, perpendicular ao cast. Instanced Static Mesh (1 draw call), Nanite</td></tr>
+          <tr><td>Malha</td><td>13 colunas de cristal de gelo (6 lados irregulares, ombro e ponta longa assimétrica), raio 0,17–0,27 m, altura 1–2,5 m (mais altos ao centro), ligeiramente inclinados para fora; pivot na base; espalhados ao longo de 3,2 m, perpendicular ao cast. Instanced Static Mesh (1 draw call), Nanite</td></tr>
           <tr><td>Colisão</td><td>Uma caixa para o muro inteiro (~3,4 × 0,8 × 2,5 m), blocking em Pawn, Projectile e Visibility (movimento, projéteis e LOS). Entra logo no tamanho final e empurra para fora quem estiver dentro. Sem buracos entre pilares</td></tr>
           <tr><td>Navegação</td><td>NavModifier dinâmico enquanto o muro existe</td></tr>
-          <tr><td>Material</td><td>Parâmetros <code>Rise</code> (0–1, World Position Offset, 0,25 s), <code>Crack</code> (0 · 1 · 2), <code>Sink</code> (0–1). Corpo azul escuro, fresnel ciano, veios claros, pontas emissivas</td></tr>
+          <tr><td>Material</td><td>Parâmetros <code>Rise</code> (0–1, World Position Offset, 0,25 s), <code>Crack</code> (0 · 1 · 2), <code>Sink</code> (0–1). Gelo translúcido: corpo azul-claro que clareia para a ponta, arestas das facetas emissivas, veios brancos por dentro, reflexo frio, pontas emissivas</td></tr>
           <tr><td>Vida</td><td>100 % → a 66 % <code>Crack = 1</code> (fissuras), a 33 % <code>Crack = 2</code> (mais fissuras), a 0 % destrói</td></tr>
           <tr><td>Fins</td><td>Expira → afunda em 0,45 s, sem estilhaços. Destruído → cue de estilhaçar</td></tr>
           <tr><td>GameplayCues</td><td><code>Iceberg.Form</code> (subida, linha de geada, anel de Slow) · <code>Iceberg.Crack</code> (mudança de estágio) · <code>Iceberg.Shatter</code> (os pilares colapsam em 0,16 s, ~65 estilhaços GPU, pulso de geada de 2 m)</td></tr>
@@ -182,7 +182,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Bloco sólido, não explosão</h3><p>Como no ícone: um muro de prismas de gelo altos e facetados que sobe depressa do chão, mais alto ao centro. É opaco e lê-se como terreno, sem chuva de estilhaços.</p></div>
+    <div><h3>Bloco sólido, não explosão</h3><p>Como no ícone: um muro de cristais de gelo altos, esguios e translúcidos, com arestas claras, que sobe depressa do chão, mais alto ao centro. É opaco e lê-se como terreno, sem chuva de estilhaços.</p></div>
     <div><h3>Colisão legível</h3><p>Uma linha de geada fina no chão contorna a base do muro enquanto ele dura: é o limite que bloqueia movimento, LOS e projéteis.</p></div>
     <div><h3>Terreno é asset, não VFX</h3><p>No UE, os pilares são um Actor com colisão e vida (ver a tabela acima); aqui são um placeholder com a forma e o material. Usa "Dano −⅓" para ver as fissuras e "Destruir" para o estilhaçar. O anel de AoE Slow abre uma vez; o Slow nos alvos é do cue de status.</p></div>
   </section>
@@ -494,17 +494,73 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // Layer W — the ice wall: solid faceted crystal prisms (quartz-like: prism + pointed cap) instanced, ONE draw call.
 // Each prism: aO base position, aS = (radius, height, yaw, tilt), aD = (delay, tiltDir, seed, 0), aT = formation time.
 // Rises from the ground (ease-out-back, staggered from the centre outwards), holds, then sinks back. Opaque shader:
-// dark blue body, lighter towards the top, cyan fresnel rim and bright facet edges — reads as solid terrain.
+// luminous translucent ice (shared ice material): pale blue body lightening to the point, long bright facet edges, white streaks inside.
 const WALL_T = 3.0;
-const prismGeo = (() => {
-  const body = new THREE.CylinderGeometry(1, 1, .78, 6, 1, true).translate(0, .39, 0).toNonIndexed();
-  const cap = new THREE.ConeGeometry(1, .22, 6, 1, true).translate(0, .89, 0).toNonIndexed();
-  const P = new Float32Array(body.attributes.position.array.length + cap.attributes.position.array.length);
-  P.set(body.attributes.position.array, 0); P.set(cap.attributes.position.array, body.attributes.position.array.length);
-  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(P, 3)); g.computeVertexNormals(); return g; })();
-const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.ShaderMaterial({
+// ---- shared ice (Iceberg, Frost Lance, Tempest): luminous, translucent crystal like the icons — pale blue body that lightens
+// towards the point, long bright facet edges, white streaks inside, cold specular and rim. Flat facets but no dark blocks.
+// Geometry is non-indexed with flat normals and a barycentric attribute (a component set to 1 hides that edge: quad diagonals).
+function iceGeo(tris){                                         /* tris: [[a, b, c, hideMask]] with hideMask = [ha, hb, hc] (1 = hide the edge opposite) */
+  const P = [], B = [];
+  for (const [a, b, c, h] of tris){ P.push(...a, ...b, ...c);
+    const m = h || [0, 0, 0];
+    B.push(1, m[1], m[2],  m[0], 1, m[2],  m[0], m[1], 1); }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(P), 3)); g.setAttribute('bary', new THREE.BufferAttribute(new Float32Array(B), 3));
+  g.computeVertexNormals(); return g;
+}
+/* crystal column along +Y, height 1: irregular N-gon body, a shoulder ring, and a long asymmetric point */
+function iceColumnGeo(N, seed){
+  const rnd = i => { const x = Math.sin(i*127.1 + seed*311.7)*43758.5453; return x - Math.floor(x); };
+  const R = [...Array(N)].map((_, i) => .78 + .4*rnd(i));
+  const ring = (y, s, tw) => R.map((r, i) => { const a = i/N*6.2832 + tw; return [Math.cos(a)*r*s, y, Math.sin(a)*r*s]; });
+  const r0 = ring(0, 1, 0), r1 = ring(.5, .9, .09), r2 = ring(.6, .62, .17), apex = [.12, 1, -.06], T = [];
+  for (let i = 0; i < N; i++){ const j = (i + 1)%N;
+    for (const [lo, hi] of [[r0, r1], [r1, r2]]){ T.push([lo[i], lo[j], hi[i], [1, 0, 0]]); T.push([lo[j], hi[j], hi[i], [0, 1, 0]]); }
+    T.push([r2[i], r2[j], apex]); }
+  return iceGeo(T);
+}
+/* lance / shard along +Z: flat rhombic cross-section (wide x, thin y), long front point, short back point */
+function iceLanceGeo(front, back){
+  const S = [[1, 0, 0], [.32, .5, 0], [-.55, 0, 0], [.32, -.5, 0]];         // wide, thin, slightly off-centre (reads as a blade)
+  const mid = S.map(([x, y]) => [x, y, 0]), sh = S.map(([x, y]) => [x*.8, y*.7, front*.3]);
+  const F = [.12, 0, front], Bk = [-.05, 0, -back], T = [];
+  for (let i = 0; i < 4; i++){ const j = (i + 1)%4;
+    T.push([Bk, mid[j], mid[i]]);
+    T.push([mid[i], mid[j], sh[i], [1, 0, 0]]); T.push([mid[j], sh[j], sh[i], [0, 1, 0]]);
+    T.push([sh[i], sh[j], F]); }
+  return iceGeo(T);
+}
+const ICE_GLSL = `
+  float ih(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+  float ivn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+    return mix(mix(ih(i), ih(i + vec2(1., 0.)), f.x), mix(ih(i + vec2(0., 1.)), ih(i + vec2(1., 1.)), f.x), f.y); }
+  /* n: facet normal (world, facing the camera) · V: to camera · B: barycentric · h: 0 base → 1 point · q: coords on the crystal
+     (x across, y along its length) · L: key light. Returns premultiplied colour (rgb = light, a = how much it hides what is behind). */
+  vec4 iceShade(vec3 n, vec3 V, vec3 B, float h, vec2 q, vec3 L){
+    float nv = clamp(abs(dot(n, V)), 0., 1.), fr = pow(1. - nv, 2.2), l = max(dot(n, L), 0.);
+    float e = min(min(B.x, B.y), B.z);
+    float line = 1. - smoothstep(0., fwidth(e)*1.3 + .002, e);            /* crisp bright facet edge */
+    float glow = exp(-e/.05);                                               /* soft light spilling along the edge */
+    float s1 = ivn(vec2(q.x*7., q.y*1.1)), s2 = ivn(vec2(q.x*15. + 3.1, q.y*2.3 - 1.7));
+    float streak = pow(s1, 5.)*.8 + pow(s2, 7.)*.6;                         /* long white streaks inside, along the crystal */
+    float facet = .5 + .5*sin(dot(n, vec3(3.1, 1.7, 2.3))*5.);            /* each facet a slightly different value */
+    vec3 deep = vec3(.01, .06, .16), body = vec3(.08, .32, .62), pale = vec3(.7, .93, 1.);
+    vec3 c = mix(deep, body, clamp(.15 + .45*h + .35*l + .2*facet, 0., 1.));
+    c += pale*streak*(.12 + .2*h);
+    float a = clamp(.5 + .35*fr + .2*glow, 0., 1.);
+    vec3 o = c*a;
+    o += pale*(line*.6 + glow*.16)*(.45 + .55*h);                          /* edges brighter towards the point */
+    o += vec3(.3, .7, 1.)*fr*.3;
+    o += vec3(.9, .97, 1.)*pow(max(dot(reflect(-V, n), L), 0.), 60.)*.7;
+    o += pale*smoothstep(.85, 1., h)*.3;                                  /* cold bright point */
+    return vec4(o, a);
+  }`;
+const iceMat = o => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:true, extensions:{ derivatives:true },
+  blending:THREE.CustomBlending, blendEquation:THREE.AddEquation, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor }, o));
+const prismGeo = iceColumnGeo(6, 3.7);
+const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
-  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; uniform float uTime; varying vec3 vN, vV; varying float vH, vSeed, vCrack;
+  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack;
     void main(){
       float u = uTime - aT - aD.x; if (u < 0. || u > ${WALL_T.toFixed(2)} + .5){ ${HIDE} }
       float du = aX.x > 0. ? uTime - aX.x : -1.; if (du > .16){ ${HIDE} }          // destroyed: pillar collapses in 0.16 s (shards take over)
@@ -513,31 +569,28 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.Sh
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
       vec3 p = position*vec3(aS.x, aS.y*rise, aS.x);
       float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z);
-      vec3 n = normal; n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
+      vec3 n = normalize(normal/vec3(aS.x, aS.y, aS.x)); n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
       float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little
       vec3 ax = vec3(cos(td), 0., sin(td));
       p = p*ct + cross(ax, p)*st + ax*dot(ax, p)*(1. - ct); n = n*ct + cross(ax, n)*st + ax*dot(ax, n)*(1. - ct);
       p *= vec3(1. + (1. - br)*.3, br, 1. + (1. - br)*.3);
       vec3 W = aO + p - vec3(0., sink*aS.y*1.05, 0.);
-      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z; vCrack = aX.y;
+      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z; vCrack = aX.y; vB = bary; vQ = vec2((position.x - position.z)*aS.x + aD.z*9., position.y*aS.y);
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vH, vSeed, vCrack;
+  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack; ${ICE_GLSL}
     void main(){
       vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
-      float l = max(dot(n, uMoon), 0.), fr = pow(1. - abs(dot(n, normalize(vV))), 2.5);
-      vec3 deep = vec3(.01, .03, .08), mid = vec3(.05, .17, .38), ice = vec3(.45, .85, 1.);
-      vec3 col = mix(deep, mid, .2 + .5*vH + .35*l);
-      float vein = pow(.5 + .5*sin(vH*23. + vSeed*40. + n.x*9.), 14.)*.35;     // faint inner cracks
-      col += ice*(fr*1.3 + vein) + vec3(.3, .7, 1.)*smoothstep(.75, 1., vH)*.35; // cyan rim, glowing tips
-      // damage stages (whole-wall HP): 1 = at 66 %, 2 = at 33 % — bright jagged cracks, darker ice around them
+      vec4 o = iceShade(n, normalize(vV), vB, vH, vQ, uMoon);
+      o.rgb *= smoothstep(-.02, .12, vH)*.35 + .65;                             // a little darker where it meets the ground
+      // damage stages (whole-wall HP): 1 = at 66 %, 2 = at 33 % — bright jagged cracks through the crystal, frosted around them
       if (vCrack > .5){
-        float g = vH*5.5 + vSeed*17. + n.x*3.3 - n.z*2.1, g2 = vH*9. - vSeed*11. + n.z*4.;
-        float cr = pow(1. - abs(fract(g) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2) - .5)*2., 26.) : 0.);
+        float g = vH*5.5 + vSeed*17. + vQ.x*3.3, g2 = vH*9. - vSeed*11. + vQ.x*4.;
+        float cr = pow(1. - abs(fract(g + .15*ivn(vQ*6.)) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2 + .2*ivn(vQ*9.)) - .5)*2., 26.) : 0.);
         cr *= vCrack > 1.5 ? 1. : .6;
-        col = mix(col, col*.5, clamp(cr*2., 0., 1.)*.5) + vec3(.55, .9, 1.)*cr;
+        o.rgb += vec3(.8, .96, 1.)*cr*.9; o.a = min(1., o.a + cr*.3);
       }
-      gl_FragColor = vec4(col, 1.);
+      gl_FragColor = o;
     }` }));
 wall.mesh.castShadow = false;
 const WALL_N = { 3:13, 2:13, 1:9, 0:7 };
@@ -718,7 +771,7 @@ function stab(O, yaw, tier, t0, targets){                   // Iceberg: ice crys
   for (let m=0;m<nW;m++){
     const f = nW === 1 ? 0 : m/(nW - 1)*2 - 1, c = 1 - Math.abs(f), jit = rand(-.22, .22), j = wall.next();
     wall.A.aO.setXYZ(j, G.x + wx*f*HALF + dx/dn*jit, 0, G.z + wz*f*HALF + dz/dn*jit);
-    wall.A.aS.setXYZW(j, rand(.24, .36)*(.8 + .3*c), (1. + 1.5*c)*rand(.85, 1.15), rand(0, 1.05), rand(.02, .16)*(.4 + Math.abs(f)));
+    wall.A.aS.setXYZW(j, rand(.14, .23)*(.8 + .3*c), (1.1 + 1.6*c)*rand(.75, 1.25), rand(0, 6.28), rand(.04, .2)*(.4 + Math.abs(f)));   // slender crystal columns, each turned its own way
     wall.A.aD.setXYZW(j, Math.abs(f)*.12 + rand(0, .03), Math.atan2(dz, dx) + (f < 0 ? Math.PI : 0) + rand(-.5, .5), Math.random(), 0);
     wall.A.aT.setX(j, hitT); wall.A.aX.setXY(j, 0, 0); ids.push(j);
   }

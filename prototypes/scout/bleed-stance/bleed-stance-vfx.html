@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Glow nas duas mãos (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um billboard pequeno por mão, instanciado; respira devagar, pico de 2 frames e anel que fecha no punho na entrada</td></tr>
           <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo shader do marcador: pico de 2 frames + anel até 0,22 s. Zero partículas</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
-          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Fighters em ecrã partilham as mesmas 2 draw calls</td></tr>
+          <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Todos os Scouts em ecrã partilham as mesmas 2 draw calls</td></tr>
         </tbody>
       </table>
     </div>
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Nas mãos, não no chão</h3><p>A stance vive nas duas mãos: um brilho vermelho baixo com línguas suaves à volta dos punhos. Na entrada, um pico de 2 frames e um anel pequeno fecham-se em cada punho. A outra stance é um protótipo à parte (outro GameplayCue).</p></div>
     <div><h3>Pulso em Local Space</h3><p>A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.</p></div>
-    <div><h3>Estado inequívoco</h3><p>O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pelo chão.</p></div>
+    <div><h3>Estado inequívoco</h3><p>O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Scout lê-se sempre pelas mãos.</p></div>
   </section>
 </div>
 
@@ -351,7 +351,7 @@ let capeFlare = 0;
 
 
 // ============ GPU-driven VFX: Warrior / Tank stance ============
-// Layer 1: stance marker (persistent) + switch pulse — ONE instanced quad per Fighter, all Fighters in one draw.
+// Layer 1: stance marker (persistent) + switch pulse — ONE instanced quad per hand, all Scouts in one draw.
 // Layer 2: switch shards — GPU billboards, analytic motion. CPU writes only on switch.
 const uTime = { value:0 };
 const HIDE = 'gl_Position = vec4(2.,2.,2.,1.); return;';
@@ -578,7 +578,7 @@ if (hasPost){
 }
 
 
-// ============ fighters: hero + 40 stress-test Fighters (2 instanced draws for bodies) ============
+// ============ scouts: hero + 40 stress-test Scouts (2 instanced draws for bodies) ============
 const hero_f = addFighter(V3(0,0,0), 0, 1, true);
 const GN = 40, ghosts = [];
 const ghostBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.2,.16,1.35,10).translate(0,.68,0), darkArmor, GN);

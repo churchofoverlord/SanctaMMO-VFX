@@ -146,7 +146,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Linha de órbita (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Quad horizontal à cintura: linha circular fina com halo curto e energia a correr devagar; mesmo pool e draw call dos shards</td></tr>
           <tr><td>Shards na órbita</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td class="n">0–2</td><td>Um billboard por Arcane Shard guardado (0, 1 ou 2), a correr sobre a linha; posição calculada na GPU a partir do tempo</td></tr>
-          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no chão (pico de 2 frames, até 0,22 s); linha e shards abrem do centro para a órbita em 0,3 s. Sem selo persistente</td></tr>
+          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no plano da órbita, à cintura (pico de 2 frames, até 0,22 s); linha e shards abrem do centro para a órbita em 0,3 s. Sem selo persistente</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">1–2</td><td>Todos os Mages em ecrã partilham as mesmas draw calls</td></tr>
         </tbody>
@@ -156,7 +156,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Órbita + recurso</h3><p>O Weave não tem selo: uma linha circular fina à cintura marca o modo, e os Arcane Shards guardados (0, 1 ou 2) correm sobre ela devagar. Sem shards fica só a linha. Sem rastos persistentes nem cues de Burn, Slow ou Sapped.</p></div>
-    <div><h3>Pulso curto na troca</h3><p>Um anel abre no chão com um pico de 2 frames; a linha de órbita e os cristais abrem do centro para o raio final em 0,3 s.</p></div>
+    <div><h3>Pulso curto na troca</h3><p>Um anel abre à cintura, no plano da órbita, com um pico de 2 frames; a linha de órbita e os cristais abrem do centro para o raio final em 0,3 s.</p></div>
     <div><h3>Um cue por modo</h3><p>O Manifest é um protótipo à parte (outro GameplayCue). Com Elemental Weaver, os cristais passam a glifos de memória elemental (cue dessa especialização).</p></div>
   </section>
 </div>
@@ -401,7 +401,7 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
       float c = cos(aYaw), s = sin(aYaw);
       vec2 w = vec2(c*l.x + s*l.y, -s*l.x + c*l.y);
       vF = vec2(l.x, -l.y); vAge = age; vFrom = aS.x; vTo = aS.y;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .03, w.y), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x*.75, .95, w.y*.75), 1.);   // entry pulse on the waist orbit plane, not the ground
     }`,
   fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; ${EOX}
     float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }

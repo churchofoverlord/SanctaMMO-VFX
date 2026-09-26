@@ -136,9 +136,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Órbita (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Halo fino por cima da cabeça (R 0,3 m), na cor da stance; mesmo pool e draw call do marcador</td></tr>
+          <tr><td>Órbita (persistente)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Órbita fina e curta à altura dos ombros (R 0,42 m, ~1,45 m), na cor da stance (por cima da cabeça fica reservado ao CC); mesmo pool e draw call do marcador</td></tr>
           <tr><td>Marcador celeste</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Crescente concisa em linha com preenchimento ténue e estrela de 4 pontas na concavidade (como no ícone); um billboard a orbitar devagar sobre a linha (GPU a partir do tempo). Mesma órbita nas duas stances</td></tr>
-          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no chão (pico de 2 frames, até 0,22 s); órbita e marcador abrem do centro em 0,3 s</td></tr>
+          <tr><td>Pulso da entrada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Anel no plano da órbita, aos ombros (pico de 2 frames, até 0,22 s); órbita e marcador abrem do centro em 0,3 s. Nada no chão</td></tr>
           <tr><td>Fragmentos</td><td class="n">8</td><td class="n">8</td><td class="n">4</td><td class="n">0</td><td>GPU, trajetória analítica, vida ~0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">1–2</td><td>Todos os Mystics em ecrã partilham as mesmas draw calls</td></tr>
         </tbody>
@@ -147,9 +147,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Marcador celeste em órbita</h3><p>Um halo fino por cima da cabeça e um só marcador a percorrê-lo devagar: crescente concisa em linha com preenchimento ténue e estrela de 4 pontas na concavidade (como no ícone). Persistente e discreto, não reage a golpes.</p></div>
+    <div><h3>Marcador celeste em órbita</h3><p>Uma órbita fina e curta à altura dos ombros e um só marcador a percorrê-la devagar: crescente concisa em linha com preenchimento ténue e estrela de 4 pontas na concavidade (como no ícone). Persistente e discreto, não reage a golpes.</p></div>
     <div><h3>Mesma órbita, outra forma</h3><p>Sun e Moon partilham a mesma órbita e o mesmo ritmo; muda só a forma (disco / crescente) e a paleta. A Sun Stance é um protótipo à parte (outro GameplayCue).</p></div>
-    <div><h3>Pulso curto na troca</h3><p>Pico de 2 frames e um anel que abre no chão; a órbita e o marcador saem do centro em 0,3 s. As Charges são recurso, com cue próprio.</p></div>
+    <div><h3>Pulso curto na troca</h3><p>Pico de 2 frames e um anel que abre no plano da órbita; a órbita e o marcador saem do centro em 0,3 s. As Charges são recurso, com cue próprio.</p></div>
   </section>
 </div>
 
@@ -393,7 +393,7 @@ const markers = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), MARKERS, 
       float c = cos(aYaw), s = sin(aYaw);
       vec2 w = vec2(c*l.x + s*l.y, -s*l.x + c*l.y);
       vF = vec2(l.x, -l.y); vAge = age; vFrom = aS.x; vTo = aS.y;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .03, w.y), 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x*.6, 1.45, w.y*.6), 1.);   // entry pulse on the orbit plane, not the ground
     }`,
   fragmentShader:`uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; ${EOX}
     float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }
@@ -429,7 +429,7 @@ const shards = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aC:1 
 // ---- Weave orbit: a thin circular line around the Mage at waist height, and 0–2 arcane shards riding it (the resource count).
 // One instanced pool for both: aP.y < 0 = the orbit line (flat quad), aP.y = 0/1 = a shard (billboard). All Mages in one draw;
 // motion from uTime on the GPU. aP = (fighter slot phase, index), aT = entry time, aV = visible.
-const ORB_N = 1, ORBS = 256, ORB_R = .3, ORB_H = 2.02;           // halo above the head
+const ORB_N = 1, ORBS = 256, ORB_R = .42, ORB_H = 1.45;          // short orbit at shoulder height (over the head is reserved for CC)
 const orbits = pool(new THREE.PlaneGeometry(2,2), ORBS, { aO:3, aP:2, aT:1, aV:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uCW },
   vertexShader:`attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec2 vQ; varying float vU, vK; ${EOX}
@@ -437,7 +437,7 @@ const orbits = pool(new THREE.PlaneGeometry(2,2), ORBS, { aO:3, aP:2, aT:1, aV:1
       float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, ${ORB_R}, k);
       vU = u; vK = aP.y < -.5 ? 1. : 0.;
       if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane
-        float S = .4; vQ = position.xy*S;
+        float S = .52; vQ = position.xy*S;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, ${ORB_H}, -position.y*S), 1.); return; }
       float ang = aP.x + uTime*.45;                                  // one celestial marker, slow orbit
       vec3 c = aO + vec3(cos(ang)*R, ${ORB_H} + .25*(1. - k), sin(ang)*R);
@@ -454,7 +454,7 @@ const orbits = pool(new THREE.PlaneGeometry(2,2), ORBS, { aO:3, aP:2, aT:1, aV:1
         float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);
         float line = lineCore(r - R, .005)*.75 + exp(-pow((r - R)/.03, 2.))*.18;   // halo: a little brighter
         o = (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;
-        o *= smoothstep(.4, .36, r);
+        o *= smoothstep(.52, .47, r);
       } else {
         // Moon: a concise crescent (icon) drawn in line with a faint fill + a small 4-point star in its hollow
         vec2 q = vQ; float r = length(q);

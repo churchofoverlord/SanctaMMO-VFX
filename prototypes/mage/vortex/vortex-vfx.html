@@ -121,7 +121,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~5,2 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mages<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -152,7 +152,6 @@ tr:last-child td{border-bottom:0}
           <tr><td>Braços (fitas de chama)</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td>6 braços grossos na base, com glow; uma fita curva por braço que segue a espiral inteira (1 draw call): textura de chama a correr para fora, bordas rasgadas, quente junto à bola e fumo na ponta</td></tr>
           <tr><td>Chamas soltas</td><td class="n">32</td><td class="n">24</td><td class="n">16</td><td class="n">0</td><td>Algumas chamas GPU espalhadas à volta de cada braço, só para dar vida e volume</td></tr>
           <tr><td>Impacto + empurrão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Explosão compacta no peito; o alvo é empurrado 1,4 m para o lado (sentido da rotação) com um risco de fogo no chão que acompanha o deslize</td></tr>
-          <tr><td>Marca de Burn</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só depois do impacto, na posição final do alvo: pequeno sigilo de chama, 0,8 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -162,7 +161,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Bola + braços de chama</h3><p>Uma bola de fogo quente ao centro (roda com os braços) e 6 braços curvos, grossos na base e com glow,, cada um uma fita contínua de chama que segue a espiral inteira (sem segmentos retos), com a textura a correr para fora e bordas rasgadas. Algumas chamas soltas à volta dão volume. Temperatura: quente junto à bola, vermelho e fumo na ponta.</p></div>
     <div><h3>Empurrão lateral claro</h3><p>No impacto não há explosão de fogo: o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.</p></div>
-    <div><h3>Burn só depois do hit</h3><p>A marca de chama aparece no alvo já deslocado, breve. O Burn que fica é do cue de status. Paleta Fire pura, sem acentos de outro elemento.</p></div>
+    <div><h3>Burn = cue de status</h3><p>Sem marca no alvo: o Burn que fica é do cue de status partilhado. Paleta Fire pura, sem acentos de outro elemento.</p></div>
   </section>
 </div>
 
@@ -844,9 +843,8 @@ function stab(O, yaw, tier, t0, targets){                   // Vortex: spirallin
   const dx = E.x - H.x, dz = E.z - H.z, dn = Math.hypot(dx, dz), px = -dz/dn, pz = dx/dn;   // push to the side the vortex spins towards
   const G2 = V3(G.x + px*PUSH, 0, G.z + pz*PUSH);
   if (tg){ tg.pushAt = hitT; tg.push = V3(px, 0, pz); }
-  let k = rings.next();   // no fire burst on hit: push + scorch + Burn mark carry the impact
+  let k = rings.next();   // no fire burst on hit: push + scorch carry the impact (Burn = status cue)
   rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 5); rings.A.aD.setXYZW(k, px, pz, PUSH, 0); rings.track(hitT + RL, 1);   // scorch streak along the push
-  k = rings.next(); rings.A.aO.setXYZ(k, G2.x, 0, G2.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, 1); rings.A.aD.setXYZW(k, 0,0,0,0); rings.track(hitT + RL, 1);   // Burn mark on the displaced target
 }
 
 // ============ post ============
@@ -924,9 +922,8 @@ const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Disco de fogo a girar, linear (14 m: ~2,7 s)', 100, 2820, 0xff3a12],
   ['Empurrão lateral + risco no chão', 2820, 3570, 0xff7a1a],
-  ['Marca de Burn (alvo deslocado)', 3020, 3820, 0xff3a12],
 ];
-const TOTAL = 3900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 3700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;

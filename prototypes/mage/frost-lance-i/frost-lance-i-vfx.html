@@ -121,7 +121,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~1,6 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mages</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mages<small>casts de outros Mages</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Lança de gelo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo sólido e facetado (malha instanciada, material do Iceberg: corpo azul, facetas que apanham a luz, fresnel claro, veios, ponta fria brilhante), ~1 m, a rodar devagar sobre o eixo, com 5 lascas de cristal pequenas ao lado (ícone); direta a 16 m/s; 1 draw call</td></tr>
+          <tr><td>Lança de gelo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Lâmina de cristal de gelo (ícone): losango achatado e comprido (~1,1 m), ponta da frente longa e de trás curta, a rolar devagar sobre o eixo; material de gelo partilhado com o Iceberg (translúcido, azul-claro que clareia para a ponta, arestas longas a brilhar, veios brancos por dentro, reflexo frio). 5 lascas em losango ao lado (3 em Baixo); direta a 16 m/s; 1 draw call</td></tr>
           <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>A lança estilhaça no alvo: flash frio curto e 7 lascas de gelo que saltam para trás e para os lados (0,35 s); sem anel nem marca (o Slow é cue de status)</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mages (tudo num sistema de resolve)</td></tr>
         </tbody>
@@ -429,44 +429,94 @@ const V = 16;                                         // fire orb speed (m/s): d
 const ARC = `vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }`;   // direct trajectory
 // Layer 1 — the lance: a real faceted ice crystal (instanced mesh, flat facets, Iceberg ice material) flying along its axis,
 // slowly turning about it, with 5 small crystal shards riding alongside (icon). One draw call; the CPU writes start, end, time.
-const crystalGeo = (() => {                                      /* irregular 7-sided bipyramid with a shoulder: long front point, short back */
-  const N = 7, ring = (z, r, j) => { const a = []; for (let i = 0; i < N; i++){ const t = i/N*6.2832 + j, k = r*(.8 + .35*Math.abs(Math.sin(i*2.3 + 1.1))); a.push([Math.cos(t)*k, Math.sin(t)*k, z]); } return a; };
-  const r0 = ring(0, 1, 0), r1 = ring(.3, .72, .22), F = [0, 0, .78], B = [0, 0, -.3], T = [];
+// ---- shared ice (Iceberg, Frost Lance, Tempest): luminous, translucent crystal like the icons — pale blue body that lightens
+// towards the point, long bright facet edges, white streaks inside, cold specular and rim. Flat facets but no dark blocks.
+// Geometry is non-indexed with flat normals and a barycentric attribute (a component set to 1 hides that edge: quad diagonals).
+function iceGeo(tris){                                         /* tris: [[a, b, c, hideMask]] with hideMask = [ha, hb, hc] (1 = hide the edge opposite) */
+  const P = [], B = [];
+  for (const [a, b, c, h] of tris){ P.push(...a, ...b, ...c);
+    const m = h || [0, 0, 0];
+    B.push(1, m[1], m[2],  m[0], 1, m[2],  m[0], m[1], 1); }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(P), 3)); g.setAttribute('bary', new THREE.BufferAttribute(new Float32Array(B), 3));
+  g.computeVertexNormals(); return g;
+}
+/* crystal column along +Y, height 1: irregular N-gon body, a shoulder ring, and a long asymmetric point */
+function iceColumnGeo(N, seed){
+  const rnd = i => { const x = Math.sin(i*127.1 + seed*311.7)*43758.5453; return x - Math.floor(x); };
+  const R = [...Array(N)].map((_, i) => .78 + .4*rnd(i));
+  const ring = (y, s, tw) => R.map((r, i) => { const a = i/N*6.2832 + tw; return [Math.cos(a)*r*s, y, Math.sin(a)*r*s]; });
+  const r0 = ring(0, 1, 0), r1 = ring(.5, .9, .09), r2 = ring(.6, .62, .17), apex = [.12, 1, -.06], T = [];
   for (let i = 0; i < N; i++){ const j = (i + 1)%N;
-    T.push(B, r0[j], r0[i]); T.push(r0[i], r0[j], r1[i]); T.push(r0[j], r1[j], r1[i]); T.push(r1[i], r1[j], F); }
-  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(T.flat()), 3)); g.computeVertexNormals(); return g; })();
-const daggers = pool(crystalGeo, 1536, { aO:3, aE:3, aT:1, aK:1 }, new THREE.ShaderMaterial({
+    for (const [lo, hi] of [[r0, r1], [r1, r2]]){ T.push([lo[i], lo[j], hi[i], [1, 0, 0]]); T.push([lo[j], hi[j], hi[i], [0, 1, 0]]); }
+    T.push([r2[i], r2[j], apex]); }
+  return iceGeo(T);
+}
+/* lance / shard along +Z: flat rhombic cross-section (wide x, thin y), long front point, short back point */
+function iceLanceGeo(front, back){
+  const S = [[1, 0, 0], [.32, .5, 0], [-.55, 0, 0], [.32, -.5, 0]];         // wide, thin, slightly off-centre (reads as a blade)
+  const mid = S.map(([x, y]) => [x, y, 0]), sh = S.map(([x, y]) => [x*.8, y*.7, front*.3]);
+  const F = [.12, 0, front], Bk = [-.05, 0, -back], T = [];
+  for (let i = 0; i < 4; i++){ const j = (i + 1)%4;
+    T.push([Bk, mid[j], mid[i]]);
+    T.push([mid[i], mid[j], sh[i], [1, 0, 0]]); T.push([mid[j], sh[j], sh[i], [0, 1, 0]]);
+    T.push([sh[i], sh[j], F]); }
+  return iceGeo(T);
+}
+const ICE_GLSL = `
+  float ih(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+  float ivn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+    return mix(mix(ih(i), ih(i + vec2(1., 0.)), f.x), mix(ih(i + vec2(0., 1.)), ih(i + vec2(1., 1.)), f.x), f.y); }
+  /* n: facet normal (world, facing the camera) · V: to camera · B: barycentric · h: 0 base → 1 point · q: coords on the crystal
+     (x across, y along its length) · L: key light. Returns premultiplied colour (rgb = light, a = how much it hides what is behind). */
+  vec4 iceShade(vec3 n, vec3 V, vec3 B, float h, vec2 q, vec3 L){
+    float nv = clamp(abs(dot(n, V)), 0., 1.), fr = pow(1. - nv, 2.2), l = max(dot(n, L), 0.);
+    float e = min(min(B.x, B.y), B.z);
+    float line = 1. - smoothstep(0., fwidth(e)*1.3 + .002, e);            /* crisp bright facet edge */
+    float glow = exp(-e/.05);                                               /* soft light spilling along the edge */
+    float s1 = ivn(vec2(q.x*7., q.y*1.1)), s2 = ivn(vec2(q.x*15. + 3.1, q.y*2.3 - 1.7));
+    float streak = pow(s1, 5.)*.8 + pow(s2, 7.)*.6;                         /* long white streaks inside, along the crystal */
+    float facet = .5 + .5*sin(dot(n, vec3(3.1, 1.7, 2.3))*5.);            /* each facet a slightly different value */
+    vec3 deep = vec3(.01, .06, .16), body = vec3(.08, .32, .62), pale = vec3(.7, .93, 1.);
+    vec3 c = mix(deep, body, clamp(.15 + .45*h + .35*l + .2*facet, 0., 1.));
+    c += pale*streak*(.12 + .2*h);
+    float a = clamp(.5 + .35*fr + .2*glow, 0., 1.);
+    vec3 o = c*a;
+    o += pale*(line*.6 + glow*.16)*(.45 + .55*h);                          /* edges brighter towards the point */
+    o += vec3(.3, .7, 1.)*fr*.3;
+    o += vec3(.9, .97, 1.)*pow(max(dot(reflect(-V, n), L), 0.), 60.)*.7;
+    o += pale*smoothstep(.85, 1., h)*.3;                                  /* cold bright point */
+    return vec4(o, a);
+  }`;
+const iceMat = o => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:true, extensions:{ derivatives:true },
+  blending:THREE.CustomBlending, blendEquation:THREE.AddEquation, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor }, o));
+const crystalGeo = iceLanceGeo(1, .35);                           /* flat rhombic blade: long front point, short back */
+const daggers = pool(crystalGeo, 1536, { aO:3, aE:3, aT:1, aK:1 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; uniform float uTime; varying vec3 vN, vV; varying float vZ, vK, vU;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT, aK; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vZ, vK, vU;
     float hh(float n){ return fract(sin(n*91.7)*43758.5); }
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
       vec3 f = (aE - aO)/L, s0 = normalize(cross(f, vec3(0., 1., 0.))), up = cross(s0, f);
-      float R = .085, Z = 1., lag = 0., sp = u*5.;
+      float R = .14, Z = .85, lag = 0., sp = .5 + u*1.2;                 /* the blade rolls slowly: its flat face keeps catching the light */
       vec3 off = vec3(0.);
       if (aK > .5){                                                /* companion shards: small, around and a little behind the lance */
         float k = aK - 1., a = k*1.2566 + .4 + u*2.;
-        R = .028 + .012*hh(k); Z = .28 + .12*hh(k + 5.); lag = .12 + .45*hh(k + 9.); sp = u*(9. + 4.*hh(k)) + k;
+        R = .036 + .014*hh(k); Z = .3 + .14*hh(k + 5.); lag = .12 + .45*hh(k + 9.); sp = u*(9. + 4.*hh(k)) + k;
         off = (s0*cos(a) + up*sin(a))*(.2 + .14*hh(k + 3.)); }
       vec3 p = position*vec3(R, R, Z);
       float c = cos(sp), sn = sin(sp); p.xy = mat2(c, -sn, sn, c)*p.xy; vec3 n = normal; n.xy = mat2(c, -sn, sn, c)*n.xy;
       n = normalize(vec3(n.x/R, n.y/R, n.z/Z));
       vec3 P = mix(aO, aE, clamp(u/tt, 0., 1.)) - f*lag + off;
       vec3 W = P + s0*p.x + up*p.y + f*p.z;
-      vN = s0*n.x + up*n.y + f*n.z; vV = normalize(cameraPosition - W); vZ = position.z; vK = aK; vU = u;
+      vN = s0*n.x + up*n.y + f*n.z; vV = normalize(cameraPosition - W); vZ = (position.z + .35)/1.35; vK = aK; vU = u; vB = bary; vQ = vec2(position.x*1.6 + aK*3.7, position.z*Z*2.2);
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV; varying float vZ, vK, vU;
+  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vZ, vK, vU; ${ICE_GLSL}
     void main(){
       vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
-      float l = max(dot(n, uMoon), 0.), nv = abs(dot(n, normalize(vV))), fr = pow(1. - nv, 2.2);
-      vec3 deep = vec3(.02, .07, .16), mid = vec3(.12, .36, .62), ice = vec3(.6, .9, 1.);
-      vec3 col = mix(deep, mid, .35 + .45*l + .3*nv);                          /* facets catch the light differently: reads faceted */
-      float vein = pow(.5 + .5*sin(vZ*38. + n.x*7. - n.y*5.), 16.)*.4;          /* faint inner cracks */
-      float tip = smoothstep(.3, .78, vZ);
-      col += ice*(fr*1.4 + vein) + vec3(.75, .95, 1.)*tip*.55;                 /* pale rim and a bright, cold point */
-      gl_FragColor = vec4(col, 1.);
+      gl_FragColor = iceShade(n, normalize(vV), vB, vZ, vQ, uMoon);             /* shared ice: translucent, bright facet edges, cold point */
     }` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },

@@ -148,7 +148,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Linha perfurante</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad alinhado ao eixo do golpe e virado para a câmara; forma de lança no shader</td></tr>
           <tr><td>Impacto</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Estrela de impacto pequena (billboard) no alvo atravessado</td></tr>
           <tr><td>Faíscas</td><td class="n">4/alvo</td><td class="n">4/alvo</td><td class="n">2/alvo</td><td class="n">0</td><td>GPU, no sentido da estocada</td></tr>
-          <tr><td>II · marcador Weakened</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só em alvos que já tinham Slow. Um quad no chão: anel partido em quatro arcos, ciano, estático, 0,5 s</td></tr>
+          <tr><td>II · marcador Weakened</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só em alvos que já tinham Slow. Um billboard pequeno no peito (não no chão): anel partido em quatro arcos, ciano, estático, 0,5 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">2–3</td><td>Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver um payoff vivo</td></tr>
         </tbody>
       </table>
@@ -157,7 +157,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesma estocada</h3><p>A linha perfurante, o impacto e as faíscas são os do I, mas na paleta da Tank Stance (ciano). O Slow normal continua a aplicar-se (o aspeto dele é do cue de status).</p></div>
-    <div><h3>Payoff só com condição</h3><p>Só nos alvos que já estavam com Slow antes do golpe: marcador Weakened estático em ciano no chão. O 1.º golpe aplica Slow; a partir do 2.º (dentro de 3 s) aparece o payoff. "Limpar Slow" repõe.</p></div>
+    <div><h3>Payoff só com condição</h3><p>Só nos alvos que já estavam com Slow antes do golpe: anel partido estático em ciano no peito, no ponto do golpe. O 1.º golpe aplica Slow; a partir do 2.º (dentro de 3 s) aparece o payoff. "Limpar Slow" repõe.</p></div>
     <div><h3>Variante Tank</h3><p>O marcador é estático (sem escala nem rotação): pico de 2 frames, segura e apaga. O Weakened que fica no alvo é do cue de status. A outra variante é um protótipo à parte.</p></div>
   </section>
 </div>
@@ -520,7 +520,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 
 // Layer 4 — II payoff, only on targets that were already Slowed before this hit:
 //   kind 0 (Warrior): a directional flash along the thrust axis, through the target (~0.18 s)
-//   kind 1 (Tank):    a static Weakened mark on the ground under the target — a cracked ring, no motion (~0.5 s)
+//   kind 1 (Tank):    a static cracked ring on the target's chest (billboard; ground is for areas) — a cracked ring, no motion (~0.5 s)
 const uP = { value:lin(0x3fd8ff) }, uPt = { value:lin(0x9fe9ff) };
 const payoffs = pool(new THREE.PlaneGeometry(2, 2, 8, 1), 256, { aO:3, aT:1, aD:2, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uP, uPt },
@@ -535,8 +535,8 @@ const payoffs = pool(new THREE.PlaneGeometry(2, 2, 8, 1), 256, { aO:3, aT:1, aD:
         vec3 side = normalize(cross(dir, P - cameraPosition));
         gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.22, 1.);
       } else {
-        float S = .7; vP = position.xy*S;
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
+        vP = position.xy*.7; vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.35;
+        mv.xy += position.xy*.36; gl_Position = projectionMatrix*mv;
       }
     }`,
   fragmentShader:`uniform vec3 uP, uPt; varying vec2 vP; varying float vU, vK;
@@ -576,7 +576,7 @@ function thrust(O, yaw, tier, t0, targets){
     if (along < .2 || along > LEN + .3 || off > .45) continue;       // narrow line: only what it passes through
     const s = clamp01((along - .25)/LEN), hitT = t0 + WIND + (1 - Math.sqrt(1 - s))*GROW;
     tg.hitAt = hitT;
-    if (hitT < tg.slowUntil){ const q = payoffs.next(); payoffs.A.aO.setXYZ(q, tg.p.x, 0, tg.p.z); payoffs.A.aT.setX(q, hitT); payoffs.A.aD.setXY(q, fx, fz); payoffs.A.aK.setX(q, 1); payoffs.track(hitT + .5, 1); }   // II payoff: target was already Slowed
+    if (hitT < tg.slowUntil){ const q = payoffs.next(); payoffs.A.aO.setXYZ(q, tg.p.x, 1.2, tg.p.z); payoffs.A.aT.setX(q, hitT); payoffs.A.aD.setXY(q, fx, fz); payoffs.A.aK.setX(q, 1); payoffs.track(hitT + .5, 1); }   // II payoff: target was already Slowed
     tg.slowUntil = hitT + SLOW;                        // the normal Slow still applies (its look is the status cue)
     const hp = V3(tg.p.x - fx*.2, 1.12, tg.p.z - fz*.2);
     let k = hits.next(); hits.A.aO.setXYZ(k, hp.x, hp.y, hp.z); hits.A.aT.setX(k, hitT); hits.A.aK.setX(k, 0);
@@ -666,7 +666,7 @@ const PHASES = [
   ['Apaga a partir do Fighter (ponta por último)', 300, 800, 0x3fd8ff],
   ['Impacto nos alvos atravessados', 110, 310, 0xfff0d2],
   ['Faíscas (GPU)', 110, 550, 0x9fe9ff],
-  ['II · Weakened estático (só alvos com Slow)', 110, 650, 0x3fd8ff],
+  ['II · anel partido no peito (só alvos com Slow)', 110, 650, 0x3fd8ff],
 ];
 const TOTAL = 900, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {

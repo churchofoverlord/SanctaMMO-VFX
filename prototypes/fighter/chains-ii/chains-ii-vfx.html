@@ -144,7 +144,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Corrente (elos 3D)</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~34–50</td><td>Duas correntes (uma por mão), mesma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Aditivo, com o brilho no contorno dos elos (aura, não metal). Em Baixo os elos ficam mais espaçados</td></tr>
           <tr><td>Aura ao longo da corrente</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Duas faixas suaves (uma por corrente) viradas para a câmara, na mesma draw call, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
-          <tr><td>Ancoragem no chão</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. Um quad no chão: anel que fecha em 60 ms com 4 estacas para dentro, 0,45 s</td></tr>
+          <tr><td>Ancoragem nos pés</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. 4 estacas curtas que se cravam à volta dos tornozelos do alvo em 60 ms (só a base imediata, sem círculo), 0,45 s</td></tr>
           <tr><td>Faíscas no gancho</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>GPU, para trás ao longo da corrente</td></tr>
           <tr><td>II · Enrolamento</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Só no hit: 11 elos por corrente numa volta à volta do alvo; mesma malha e material. Segue o alvo no Pull (mesmo ease, na GPU) e só solta depois de ele chegar. +1 draw call</td></tr>
           <tr><td>II · Pull</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Sem instâncias novas: o recast escreve só o instante do Pull nos elos e na aura que já existem; pulso, contração e dissolução no vertex shader. Flash de Interrupt: 1 quad no sistema da ancoragem</td></tr>
@@ -573,7 +573,7 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 2 — anchoring at the hit: flat on the ground under the target, a ring snaps shut with four stakes pointing in; gone by 0.45 s.
+// Layer 2 — anchoring at the hit: four short stakes snap in around the target's ankles (no circle: the ground is for areas); gone by 0.45 s.
 // The Root that remains on the target is the status cue's job, not this skill's.
 const ANCH = .45;
 const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
@@ -586,7 +586,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, ad
         vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25;
         float S = .55; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
       } else {
-        float S = .9; vP = position.xy*S;
+        float S = .5; vP = position.xy*.9;                        // only the immediate base of the feet
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);
       }
     }`,
@@ -607,7 +607,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, ad
       }
       float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms
       float R = mix(.75, .42, k);
-      float ring = exp(-pow(abs(r - R)/.012, 2.4)), hot = lcore(r - R, .004);
+      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (Root ≠ danger area)
       float st = 0.;
       for (int j=0;j<4;j++){
         float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));

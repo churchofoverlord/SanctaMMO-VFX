@@ -1,11 +1,11 @@
-<title>Cleanse — Fighter VFX</title>
+<title>Cleanse Fighter</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 :root{
   color-scheme:dark;
   --ground:#0b0c0e; --panel:#131416; --line:#26272a; --ink:#e9e3d8; --muted:#8f8a82;
-  --orange:#ff7a1a; --gold:#f2b53a; --pale:#fff0d2; --debuff:#8b6fd6; --ok:#7fbf8a; --warn:#e0a24a;
+  --orange:#ff7a1a; --gold:#ff9a2a; --pale:#fff0d2; --debuff:#8b6fd6; --ok:#7fbf8a; --warn:#e0a24a;
 }
 html,body{height:100%}
 body{background:var(--ground);color:var(--ink);font:14px/1.5 "IBM Plex Sans",system-ui,sans-serif;margin:0;padding-inline:16px;padding-block:20px;box-sizing:border-box}
@@ -62,11 +62,27 @@ tr:last-child td{border-bottom:0}
 .notes p{margin:0;color:var(--muted);font-size:13px}
 </style>
 
+<style>
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor}
+.chip i{width:9px;height:9px;background:currentColor;display:inline-block}
+.momentum{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:grid;gap:4px;justify-items:center;pointer-events:none}
+.momentum small{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:4px}
+.pips span{width:22px;height:6px;border:1px solid var(--line);background:#0c0d0f;transition:background .15s}
+</style>
+<style>
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 13px "IBM Plex Mono",monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border:1px solid currentColor}
+.chip i{width:9px;height:9px;background:currentColor;display:inline-block}
+.momentum{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);display:grid;gap:4px;justify-items:center;pointer-events:none}
+.momentum small{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.pips{display:flex;gap:4px}
+.pips span{width:22px;height:6px;border:1px solid var(--line);background:#0c0d0f;transition:background .12s}
+</style>
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Fighter · Skill 01 · Versão otimizada</div>
-      <h1>Cleanse <span>·</span> VFX</h1>
+      <div class="eyebrow">SanctaMMO · Fighter · Granted · Paleta laranja e dourado</div>
+      <h1><span>Cleanse</span> · Fighter</h1>
     </div>
     <p class="canon"><b>Efeito canónico:</b> remove Debuffs e CC persistente do próprio Fighter e cancela Forced Displacement ativo.</p>
   </header>
@@ -77,7 +93,7 @@ tr:last-child td{border-bottom:0}
       <div class="hud" id="hud">idle</div>
     </div>
     <aside>
-      <button class="cast" id="castBtn">Lançar Cleanse</button>
+      <button class="cast" id="castBtn">Cleanse</button>
       <fieldset>
         <legend>Qualidade (scalability)</legend>
         <div class="seg" id="quality">
@@ -97,9 +113,8 @@ tr:last-child td{border-bottom:0}
       </fieldset>
       <fieldset>
         <legend>Cenário</legend>
-        <label class="tg"><input type="checkbox" id="tDebuff" checked><span>Debuffs ativos<small>3 marcas + Root nos pés</small></span></label>
-        <label class="tg"><input type="checkbox" id="tDisp"><span>Forced Displacement<small>knockback em loop</small></span></label>
-        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~3 s</small></span></label>
+        <label class="tg"><input type="checkbox" id="tHad" checked><span>Havia Debuffs / CC<small>sem isto, nada é removido: só um cue local pequeno</small></span></label>
+        <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir cast<small>a cada ~1,4 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros jogadores</small></span></label>
       </fieldset>
       <fieldset>
@@ -107,9 +122,8 @@ tr:last-child td{border-bottom:0}
         <dl class="stats">
           <dt>Draw calls do VFX</dt><dd class="vfx" id="sDraw">0</dd>
           <dt>Partículas vivas</dt><dd class="vfx" id="sPart">0</dd>
-          <dt>Casts ativos</dt><dd class="vfx" id="sCasts">0</dd>
+          <dt>Casts a decorrer</dt><dd class="vfx" id="sCasts">0</dd>
           <dt>CPU do VFX / frame</dt><dd class="vfx" id="sCpu">0 ms</dd>
-          <dt>Luz dinâmica</dt><dd class="vfx" id="sLight">não</dd>
           <div class="sep"></div>
           <dt>Frame (média)</dt><dd id="sFrame">—</dd>
           <dt>Draw calls totais</dt><dd id="sTotal">—</dd>
@@ -119,7 +133,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do cast</span><span>0 — 1700 ms</span></div>
+    <div class="tl-head"><span>Timing do cast</span><span>0 — 450 ms</span></div>
   </div>
 
   <section class="budget">
@@ -128,23 +142,22 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Anel de placas</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha única, 5+7 arcos fundidos; expansão e fade no vertex shader</td></tr>
-          <tr><td>Brilho no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad unlit aditivo; anel + brilho central no mesmo shader</td></tr>
-          <tr><td>Faíscas</td><td class="n">10 + 40</td><td class="n">40</td><td class="n">20</td><td class="n">0</td><td>GPU, trajetória analítica (sem simulação por frame)</td></tr>
-          <tr><td>Poeira</td><td class="n">10</td><td class="n">10</td><td class="n">6</td><td class="n">0</td><td>Atlas 2×2, billboards no shader, tamanho máx. ~3 m</td></tr>
-          <tr><td>Luz dinâmica</td><td>só o próprio</td><td>—</td><td>—</td><td>—</td><td>Sem sombras, vida &lt; 0,4 s</td></tr>
-          <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">2</td><td>Constantes: 1 ou 40 casts em simultâneo custam o mesmo em draw calls</td></tr>
+          <tr><td>Varrimento</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Anel partido em 4 arcos largos (o do ícone), horizontal à volta do peito e da cintura (Local Space), que abre do corpo para fora em 0,3 s: fino nas pontas, cheio a meio, e afina ao abrir. Nada no chão</td></tr>
+          <tr><td>Fragmentos negativos</td><td class="n">7</td><td class="n">7</td><td class="n">4</td><td class="n">0</td><td>Pedaços escuros e partidos de marcas constritivas que saltam do corpo, são empurrados para fora (0,31 s) e desfazem-se por erosão com uma aresta quente. Blending premultiplicado: escurecem, não somam luz</td></tr>
+          <tr><td>Flash + traço vertical</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard no peito: pico de 2 frames e o traço vertical fino do ícone, 0,22 s. Sem nada removido, é o único cue (menor)</td></tr>
+          <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um só sistema para todos os Fighters; sem luz dinâmica, sem chão, sem poeira</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
   <section class="notes">
-    <div><h3>Zero CPU por partícula</h3><p>O CPU só escreve dados no momento do cast (origem, velocidade, hora de nascimento). Posição, tamanho, cor e fade são calculados pela GPU a partir da idade — o equivalente a um emissor GPU no Niagara.</p></div>
-    <div><h3>Draw calls constantes</h3><p>Cada camada é um único sistema instanciado partilhado por todos os casts. Ativa o stress test: 40 Fighters a lançar Cleanse continuam a ser 4 draw calls de VFX.</p></div>
-    <div><h3>Significance</h3><p>No stress test, os casts dos outros escolhem o nível pela distância à câmara, com no máximo 8 casts detalhados em simultâneo. O teu cast usa sempre o nível escolhido acima.</p></div>
+    <div><h3>Do centro para fora</h3><p>Centrado no próprio Fighter: um flash curto no peito com o traço vertical do ícone e um anel partido em arcos largos que abre do corpo para fora, à altura do peito e da cintura. Muito curto (~0,35 s).</p></div>
+    <div><h3>O negativo sai</h3><p>Pedaços escuros e partidos das marcas negativas saltam do corpo e são empurrados para longe, desfazendo-se por erosão. Lê-se como remoção, não como cura: não há luz a subir nem brilho que fique.</p></div>
+    <div><h3>Só se removeu</h3><p>Se não havia nada para remover, não há varrimento nem fragmentos: só um cue local pequeno. Os estados removidos recebem o seu próprio Forced Remove no cue de status; o chão fica livre.</p></div>
   </section>
 </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
@@ -342,52 +355,15 @@ const capeBase = capeGeo.attributes.position.array.slice();
 const cape = new THREE.Mesh(capeGeo, capeMat); cape.position.set(0, 1.47, .2); cape.castShadow = true; body.add(cape);
 let capeFlare = 0;
 
-// ============ debuffs: dissolve material ============
-const NOISE_GLSL = `float h3(vec3 p){ return fract(sin(dot(p, vec3(12.9898,78.233,37.719)))*43758.5453); }
-  float vn3(vec3 p){ vec3 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
-    return mix(mix(mix(h3(i),h3(i+vec3(1,0,0)),f.x),mix(h3(i+vec3(0,1,0)),h3(i+vec3(1,1,0)),f.x),f.y),
-               mix(mix(h3(i+vec3(0,0,1)),h3(i+vec3(1,0,1)),f.x),mix(h3(i+vec3(0,1,1)),h3(i+vec3(1,1,1)),f.x),f.y),f.z); }`;
-function cuffMat(){
-  return new THREE.ShaderMaterial({
-    uniforms:{ uBase:{value:lin(0x2c2830)}, uEm:{value:COL.violet.clone().multiplyScalar(1.6)}, uEdge:{value:COL.gold.clone().multiplyScalar(7)}, uT:{value:0}, uPulse:{value:0}, uMoon:{value:moonDir} },
-    vertexShader:`varying vec3 vW, vN; void main(){ vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; vN = normalize(mat3(modelMatrix)*normal); gl_Position = projectionMatrix*viewMatrix*w; }`,
-    fragmentShader:`uniform vec3 uBase, uEm, uEdge, uMoon; uniform float uT, uPulse; varying vec3 vW, vN; ${NOISE_GLSL}
-      void main(){ vec3 n = normalize(vN);
-        float c = vn3(vW*34.)*.7 + vn3(vW*80.)*.3; if (c < uT) discard;
-        vec3 col = uBase*(.15 + .8*max(dot(n,uMoon),0.)) + uEm*(.35 + .65*uPulse)*pow(1.-abs(n.y),2.);
-        float e = smoothstep(uT+.09, uT, c) * step(.001, uT); col = mix(col, uEdge, e);
-        gl_FragColor = vec4(col, 1.); }` });
-}
-const cuffs = [-1,1].map(s => { const m = new THREE.Mesh(new THREE.TorusGeometry(.1,.026,12,28), cuffMat()); m.rotation.x = Math.PI/2; m.position.set(s*.12,.16,0); hero.add(m); return m; });
-const glyph = new THREE.Mesh(new THREE.PlaneGeometry(1.9,1.9), new THREE.ShaderMaterial({
-  transparent:true, depthWrite:false, blending:THREE.AdditiveBlending,
-  uniforms:{ uT:{value:0}, uTime:{value:0}, uV:{value:COL.violet.clone().multiplyScalar(1.4)}, uEdge:{value:COL.gold.clone().multiplyScalar(6)} },
-  vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
-  fragmentShader:`uniform float uT, uTime; uniform vec3 uV, uEdge; varying vec2 vUv; ${NOISE_GLSL}
-    void main(){ vec2 p = vUv*2.-1.; float r = length(p), a = atan(p.y,p.x);
-      float g = smoothstep(.022,0.,abs(r-.64)) + smoothstep(.012,0.,abs(r-.76))*.6 + smoothstep(.015,0.,abs(r-.46))*.35;
-      float tick = step(.82, fract(a*18./6.2831853 - uTime*.08)) * step(.66,r) * step(r,.74);
-      g += tick*.8;
-      float w = vn3(vec3(p*5., uTime*.6)); g *= .45 + .75*w;
-      g += exp(-r*r*9.)*.18*(.6+.4*w);
-      float c = vn3(vec3(p*9., 1.))*.7 + vn3(vec3(p*25., 2.))*.3;
-      float keep = step(uT, c);
-      float e = smoothstep(uT+.08, uT, c) * step(.001, uT) * smoothstep(.9,.4,r);
-      vec3 col = uV*g*keep + uEdge*e*(.35 + g);
-      gl_FragColor = vec4(col, 1.); }` }));
-glyph.rotation.x = -Math.PI/2; glyph.position.y = .025; hero.add(glyph);
 
-// ============ GPU-driven VFX ============
-// Every layer is ONE instanced draw shared by all casts. The CPU only writes
-// spawn data (origin, velocity, birth time); the GPU derives everything else from age.
+// ============ GPU-driven VFX: Warrior / Tank stance ============
+// Layer 1: stance marker (persistent) + switch pulse — ONE instanced quad per Fighter, all Fighters in one draw.
+// Layer 2: switch shards — GPU billboards, analytic motion. CPU writes only on switch.
 const uTime = { value:0 };
-const B = .09;                                   // burst offset after anticipation (s)
 const HIDE = 'gl_Position = vec4(2.,2.,2.,1.); return;';
 const EOX = 'float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }';
-const HEAT = `vec3 heat(float f, float pal){
-  if (pal > .5) return vec3(.25+.75*f, .05+.5*f*f, .5+.9*f)*(1.+3.*f);
-  vec3 c = f > .6 ? mix(vec3(1.,.38,.06), vec3(1.,.88,.56), (f-.6)/.4) : mix(vec3(.45,.06,.01), vec3(1.,.38,.06), f/.6);
-  return c*(1.2+6.*f*f); }`;
+const STANCE = [ { name:'Warrior', css:'#ff3d7f', col:lin(0xff3d7f) }, { name:'Tank', css:'#3fd8ff', col:lin(0x3fd8ff) } ];
+const uCW = { value:STANCE[0].col }, uCT = { value:STANCE[1].col };
 
 function pool(base, N, attrs, material){
   const g = new THREE.InstancedBufferGeometry();
@@ -400,175 +376,129 @@ function pool(base, N, attrs, material){
   }
   const mesh = new THREE.Mesh(g, material); mesh.frustumCulled = false; scene.add(mesh);
   return { mesh, A, N, cur:0, lo:Infinity, hi:-1, batches:[], count:0, active:false,
-    next(){ const i = this.cur; this.cur = (this.cur+1) % N; if (i < this.lo) this.lo = i; if (i > this.hi) this.hi = i; return i; },
+    next(){ const i = this.cur; this.cur = (this.cur+1) % N; this.mark(i); return i; },
+    mark(i){ if (i < this.lo) this.lo = i; if (i > this.hi) this.hi = i; },
     flush(){ if (this.hi < 0) return; for (const a of Object.values(A)){ a.updateRange.offset = this.lo*a.itemSize; a.updateRange.count = (this.hi-this.lo+1)*a.itemSize; a.needsUpdate = true; } this.lo = Infinity; this.hi = -1; },
     track(end, n){ this.batches.push({ end, n }); },
     tick(t){ this.batches = this.batches.filter(b => b.end > t); this.count = 0; for (const b of this.batches) this.count += b.n; this.active = this.batches.length > 0; this.mesh.visible = this.active; } };
 }
 const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
 
-// ---- ring: 5 inner + 7 outer bevelled arcs merged into one low-poly mesh
-function arcGeo(r0, r1, a0, a1, skew, depth, bevel, layer, rotY){
-  const s = new THREE.Shape(); s.absarc(0,0,r1,a0,a1,false); s.absarc(0,0,r0,a1-skew,a0-skew,true); s.closePath();
-  let g = new THREE.ExtrudeGeometry(s, { depth, bevelEnabled:true, bevelThickness:bevel, bevelSize:bevel, bevelSegments:1, curveSegments:10 });
-  g.translate(0,0,-depth/2); g.rotateX(-Math.PI/2); if (rotY) g.rotateY(rotY);
-  if (g.index) g = g.toNonIndexed();
-  g.userData.layer = layer; return g;
-}
-function mergeNI(list){
-  let n = 0; list.forEach(g => n += g.attributes.position.count);
-  const pos = new Float32Array(n*3), nor = new Float32Array(n*3), lay = new Float32Array(n); let o = 0;
-  list.forEach(g => { const c = g.attributes.position.count; pos.set(g.attributes.position.array, o*3); nor.set(g.attributes.normal.array, o*3); lay.fill(g.userData.layer, o, o+c); o += c; });
-  const m = new THREE.BufferGeometry();
-  m.setAttribute('position', new THREE.BufferAttribute(pos,3)); m.setAttribute('normal', new THREE.BufferAttribute(nor,3)); m.setAttribute('aLayer', new THREE.BufferAttribute(lay,1));
-  return m;
-}
-const ringParts = [];
-for (let i=0;i<5;i++){ const sp = Math.PI*2/5; ringParts.push(arcGeo(.9, 1, i*sp, (i+1)*sp-.3, .07, .045, .016, 0, 0)); }
-for (let i=0;i<7;i++){ const sp = Math.PI*2/7; ringParts.push(arcGeo(1.045, 1.075, i*sp, (i+1)*sp-.45, .05, .02, .008, 1, -.3)); }
-const ringGeo = mergeNI(ringParts);
-const RING_TRIS = ringGeo.attributes.position.count/3;
-const rings = pool(ringGeo, 96, { aO:3, aT:1 }, addMat({
-  uniforms:{ uTime, uA:{value:COL.orange}, uB:{value:COL.gold} },
-  vertexShader:`attribute float aLayer, aT; attribute vec3 aO; uniform float uTime; varying float vL, vF; varying vec3 vN; ${EOX}
-    void main(){
-      float age = uTime - aT - ${B.toFixed(3)};
-      if (age < 0. || age > .45){ ${HIDE} }
-      float e = eox(clamp(age/.19, 0., 1.)), r = .25 + e*2.6, fade = clamp((age-.19)/.24, 0., 1.);
-      float outer = step(.5, aLayer);
-      float rr = mix(r, r*1.02 + e*.1, outer), ang = mix(e*.35, -e*.5, outer), c = cos(ang), s = sin(ang);
-      vec3 p = position; p.xz = mat2(c,-s,s,c)*p.xz*rr; p.y *= 1. - fade*mix(.85, 1., outer);
-      vec3 n = normal; n.xz = mat2(c,-s,s,c)*n.xz;
-      vN = n; vL = outer; vF = fade;
-      gl_Position = projectionMatrix*viewMatrix*vec4(p + aO + vec3(0.,.07,0.), 1.);
-    }`,
-  fragmentShader:`uniform vec3 uA, uB; varying float vL, vF; varying vec3 vN;
-    void main(){ float l = .55 + .45*max(dot(normalize(vN), normalize(vec3(.3,1.,.4))), 0.);
-      gl_FragColor = vec4(mix(uA*2.6, uB*5., vL) * l * (1.-vF), 1.); }` }));
-
-// ---- ground glow: one quad per cast (anticipation glow + expanding ring light)
-const glows = pool(new THREE.PlaneGeometry(2,2).rotateX(-Math.PI/2), 96, { aO:3, aT:1, aI:1 }, addMat({
-  uniforms:{ uTime, uA:{value:COL.orange}, uB:{value:COL.gold} },
-  vertexShader:`attribute vec3 aO; attribute float aT, aI; uniform float uTime; varying vec2 vP; varying float vR, vAge, vI; ${EOX}
-    void main(){
-      float age = uTime - aT; if (age < 0. || age > .9){ ${HIDE} }
-      float r = .25 + eox(clamp((age-${B.toFixed(3)})/.19, 0., 1.))*2.6, S = max(r*1.12, 1.2);
-      vP = position.xz*S; vR = r; vAge = age; vI = aI;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, position.z*S), 1.);
-    }`,
-  fragmentShader:`uniform vec3 uA, uB; varying vec2 vP; varying float vR, vAge, vI;
-    void main(){
-      float d = length(vP), q = d/vR, b = ${B.toFixed(3)};
-      float Ie = vAge >= b ? 1.7*pow(1.-clamp((vAge-b)/.55, 0., 1.), 1.6) : 0.;
-      float Ic = vAge < b ? .7*vAge/b : 1.2*exp(-(vAge-b)*6.);
-      float edge = exp(-pow((q-.95)/.05, 2.)) * step(b, vAge);
-      float wake = smoothstep(.55,.95,q)*smoothstep(1.,.93,q)*.1*step(b, vAge);
-      vec3 col = uA*exp(-d*d*1.6)*Ic + mix(uA, uB, edge)*(edge*1.4 + wake)*Ie;
-      gl_FragColor = vec4(col*vI, 1.); }` }));
-
-// ---- sparks: velocity-stretched quads, analytic trajectory (drag + gravity)
-const uRes = { value:new THREE.Vector2(1,1) }, uW = { value:1.6 };
-const sparks = pool(new THREE.PlaneGeometry(1,1), 2048, { aO:3, aV:3, aT:2, aP:3 }, addMat({
-  uniforms:{ uTime, uRes, uW },
-  vertexShader:`attribute vec3 aO, aV, aP; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF, vPal; varying vec2 vQ;
-    vec3 sim(float t){ float k = max(aP.x, .001), e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; float g = 9.8*aP.y; p.y += g*((1.-e)/(k*k) - t/k); p.y = max(p.y, .02); return p; }
-    void main(){
-      float age = uTime - aT.x; if (age < 0. || age > aT.y){ ${HIDE} }
-      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.028,0.)),1.);
-      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);
-      float s = position.y + .5; vec4 c = mix(ct, ch, s);
-      c.xy += (nrm*position.x*uW + dir*(s-.5)*uW)*2./uRes*c.w;
-      gl_Position = c; vF = 1. - age/aT.y; vPal = aP.z; vQ = vec2(position.x*2., s);
-    }`,
-  fragmentShader:`varying float vF, vPal; varying vec2 vQ; ${HEAT}
-    void main(){ gl_FragColor = vec4(heat(vF, vPal)*(1.-vQ.x*vQ.x)*vQ.y, 1.); }` }));
-
-// ---- dust: billboards from a 2x2 smoke atlas, growth/fade/rotation in shader
-const atlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+// ---- ambience (world, not part of the skill): mist + motes, 1 draw each
+const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
   [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
-const uWarm = { value:COL.light.clone().multiplyScalar(.45) };
-const dusts = pool(new THREE.PlaneGeometry(1,1), 512, { aO:3, aV:3, aT:2, aS:4, aC:4 }, new THREE.ShaderMaterial({
-  transparent:true, depthWrite:false, uniforms:{ uTime, uMap:{value:atlas}, uWarm },
-  vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; attribute vec4 aS, aC; uniform float uTime; uniform vec3 uWarm; varying vec2 vUv; varying float vA; varying vec3 vC;
-    void main(){
-      float age = uTime - aT.x, a = age/aT.y; if (age < 0. || a > 1.){ ${HIDE} }
-      float e = exp(-2.2*age); vec3 p = aO + aV*(1.-e)/2.2; p.y += .11*age*age;
-      float sz = mix(aS.x, aS.y, 1. - pow(1.-a, 2.2)), rot = aS.z*6.283 + age*.5*(aS.z-.5), c = cos(rot), s = sin(rot);
-      vec4 mv = viewMatrix*vec4(p,1.); mv.xy += mat2(c,-s,s,c)*position.xy*sz;
-      gl_Position = projectionMatrix*mv;
-      vA = aS.w*min(1., a*7.)*pow(1.-a, 1.3);
-      float fr = floor(aS.z*4.); vUv = (uv + vec2(mod(fr,2.), floor(fr/2.)))*.5;
-      vC = mix(aC.rgb, uWarm, aC.w*(1.-smoothstep(0., .45, age)));
-    }`,
-  fragmentShader:`uniform sampler2D uMap; varying vec2 vUv; varying float vA; varying vec3 vC;
-    void main(){ gl_FragColor = vec4(vC, texture2D(uMap, vUv).a*vA); }` }));
-
-// ---- ambience (world, not part of the skill): mist + motes, both 1 draw, animated in shader
-const uFP = { value:new THREE.Vector3() }, uFL = { value:0 }, ptsScale = { value:600 };
+const ptsScale = { value:600 };
 { const N = 24, g = new THREE.InstancedBufferGeometry().copy(new THREE.PlaneGeometry(1,1)); g.instanceCount = N;
   const o = new Float32Array(N*3), s = new Float32Array(N*3);
   for (let i=0;i<N;i++){ const r = rand(2.5,14), a = rand(0,6.28), k = rand(4,8); o.set([Math.cos(a)*r, rand(.25,.8), Math.sin(a)*r - 2], i*3); s.set([k, k*.45, Math.random()], i*3); }
   g.setAttribute('aO', new THREE.InstancedBufferAttribute(o,3)); g.setAttribute('aS', new THREE.InstancedBufferAttribute(s,3));
-  const m = new THREE.Mesh(g, new THREE.ShaderMaterial({ transparent:true, depthWrite:false, uniforms:{ uTime, uMap:{value:atlas}, uFP, uFL, uWarm },
-    vertexShader:`attribute vec3 aO, aS; uniform float uTime; uniform vec3 uFP, uWarm; uniform float uFL; varying vec2 vUv; varying vec3 vC; varying float vA;
+  const m = new THREE.Mesh(g, new THREE.ShaderMaterial({ transparent:true, depthWrite:false, uniforms:{ uTime, uMap:{value:smokeAtlas} },
+    vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vUv; varying float vA;
       void main(){ vec3 p = aO + vec3(sin(uTime*.1 + aS.z*6.)*.6, 0., 0.);
         vec4 mv = viewMatrix*vec4(p,1.); mv.xy += position.xy*aS.xy; gl_Position = projectionMatrix*mv;
-        float fr = floor(aS.z*4.); vUv = (uv + vec2(mod(fr,2.), floor(fr/2.)))*.5; vA = .08 + .07*aS.z;
-        vec3 d = p - uFP; vC = mix(vec3(.04,.045,.056), uWarm, clamp(uFL*.6/(1.+dot(d,d)*.15), 0., 1.)); }`,
-    fragmentShader:`uniform sampler2D uMap; varying vec2 vUv; varying vec3 vC; varying float vA; void main(){ gl_FragColor = vec4(vC, texture2D(uMap, vUv).a*vA); }` }));
+        float fr = floor(aS.z*4.); vUv = (uv + vec2(mod(fr,2.), floor(fr/2.)))*.5; vA = .08 + .07*aS.z; }`,
+    fragmentShader:`uniform sampler2D uMap; varying vec2 vUv; varying float vA; void main(){ gl_FragColor = vec4(.04,.045,.056, texture2D(uMap, vUv).a*vA); }` }));
   m.frustumCulled = false; scene.add(m); }
 { const N = 120, g = new THREE.BufferGeometry(), p = new Float32Array(N*3), ph = new Float32Array(N);
   for (let i=0;i<N;i++){ p.set([rand(-7,7), rand(0,3.2), rand(-8,5)], i*3); ph[i] = rand(0,6.28); }
   g.setAttribute('position', new THREE.BufferAttribute(p,3)); g.setAttribute('aPh', new THREE.BufferAttribute(ph,1));
-  const m = new THREE.Points(g, addMat({ uniforms:{ uTime, uScale:ptsScale, uFP, uFL, uG:{value:COL.gold} },
-    vertexShader:`attribute float aPh; uniform float uTime, uScale, uFL; uniform vec3 uFP, uG; varying vec3 vC;
+  const m = new THREE.Points(g, addMat({ uniforms:{ uTime, uScale:ptsScale },
+    vertexShader:`attribute float aPh; uniform float uTime, uScale; varying vec3 vC;
       void main(){ vec3 p = position + vec3(sin(uTime*.3+aPh)*.3, 0., cos(uTime*.27+aPh)*.3); p.y = mod(position.y + uTime*.04, 3.2);
-        vec3 d = p - uFP; float lit = uFL*5./(1. + dot(d,d)*1.2), tw = .6 + .4*sin(uTime*2. + aPh*3.);
-        vC = vec3(.05,.055,.07)*tw + uG*lit;
+        vC = vec3(.05,.055,.07)*(.6 + .4*sin(uTime*2. + aPh*3.));
         vec4 mv = modelViewMatrix*vec4(p,1.); gl_PointSize = .02*uScale/max(-mv.z,.1); gl_Position = projectionMatrix*mv; }`,
     fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
   m.frustumCulled = false; scene.add(m); }
 
-// ---- persistent debuff marks: 3 orbs as one Points draw, orbit computed in shader (no emission)
-const uHero = { value:new THREE.Vector3() }, uOrbOn = { value:0 }, uBreak = { value:1e9 };
-const ORB_PH = [0, 2.094, 4.189];
-{ const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(9),3)); g.setAttribute('aI', new THREE.BufferAttribute(new Float32Array([0,1,2]),1));
-  const m = new THREE.Points(g, addMat({ uniforms:{ uTime, uScale:ptsScale, uHero, uOrbOn, uBreak, uV:{value:COL.violet}, uG:{value:COL.gold} },
-    vertexShader:`attribute float aI; uniform float uTime, uScale, uOrbOn, uBreak; uniform vec3 uHero, uV, uG; varying vec3 vC;
-      void main(){ float ph = aI*2.0944, a = ph + uTime*1.5;
-        vec3 p = uHero + vec3(cos(a)*.5, 1.98 + sin(uTime*2.6+ph)*.06, sin(a)*.5);
-        float bt = (uTime - uBreak - aI*.018)/.075, k = 1. - clamp(bt, 0., 1.);
-        vC = bt > 0. ? uG*6. : uV*2.6*(.8 + .2*sin(uTime*17. + aI*4.));
-        vec4 mv = modelViewMatrix*vec4(p,1.); gl_PointSize = .2*k*uOrbOn*uScale/max(-mv.z,.1); gl_Position = projectionMatrix*mv; }`,
-    fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
-  m.frustumCulled = false; scene.add(m); }
-const orbPosAt = (i, t) => new THREE.Vector3(hero.position.x + Math.cos(ORB_PH[i] + t*1.5)*.5, 1.98 + Math.sin(t*2.6 + ORB_PH[i])*.06, hero.position.z + Math.sin(ORB_PH[i] + t*1.5)*.5);
 
-// ============ spawning (the only CPU work, once per cast) ============
-const TIER = { 3:{ sp:40, pre:10, dust:10, light:true }, 2:{ sp:40, pre:0, dust:10 }, 1:{ sp:20, pre:0, dust:6 }, 0:{ sp:0, pre:0, dust:0 } };
-const DUST = new THREE.Color(.075,.066,.058);
-const castLog = [];
-function spark(O, V, t0, life, drag, grav, pal){
-  const i = sparks.next(); sparks.A.aO.setXYZ(i, O.x, O.y, O.z); sparks.A.aV.setXYZ(i, V.x, V.y, V.z); sparks.A.aT.setXY(i, t0, life); sparks.A.aP.setXYZ(i, drag, grav, pal);
-}
-function dust(O, V, t0, life, s0, s1, op, warm){
-  const i = dusts.next(); dusts.A.aO.setXYZ(i, O.x, O.y, O.z); dusts.A.aV.setXYZ(i, V.x, V.y, V.z); dusts.A.aT.setXY(i, t0, life);
-  dusts.A.aS.setXYZW(i, s0, s1, Math.random(), op); dusts.A.aC.setXYZW(i, DUST.r, DUST.g, DUST.b, warm);
-}
+
+// ============ Cleanse ============
+// One pool, ONE draw call for every cast, premultiplied blending (light adds, the broken negative fragments darken).
+// kinds: 0 = sweep at the chest · 1 = sweep at the waist (both horizontal rings broken into 4 wide arcs that open
+// from the body outward — the icon's broken ring; the ground stays free) · 2 = negative fragment: a dark broken
+// piece of a constrictive mark that snaps off the body, is pushed away and erodes · 3 = core flash on the chest
+// with the icon's thin vertical stroke (also the small local cue when nothing was removed).
+const uA = { value:lin(0xff9a2a) }, uB = { value:lin(0xffe2a8) };
+const LIFE = .42;
+const fx = pool(new THREE.PlaneGeometry(2,2), 1024, { aO:3, aT:1, aK:1, aD:4 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, side:THREE.DoubleSide,
+  blending:THREE.CustomBlending, blendEquation:THREE.AddEquation, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
+  uniforms:{ uTime, uA, uB },
+  vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vS;
+    void main(){
+      float u = uTime - aT; if (u < 0. || u > ${LIFE.toFixed(2)}){ ${HIDE} }
+      vU = u; vK = aK; vS = aD.w; vP = position.xy;
+      if (aK < 1.5){                                              // sweep: horizontal ring around the body (chest / waist)
+        float S = 1.35; vP = position.xy*S;
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, aD.z, -position.y*S), 1.); return; }
+      if (aK < 2.5){                                              // fragment: leaves the body surface, pushed outward, slight drop
+        float t = clamp((u - .03)/.31, 0., 1.), k = 1. - pow(1. - t, 3.);
+        vec3 dir = vec3(aD.x, 0., aD.y);
+        vec3 p = aO + dir*(.24 + .95*k) + vec3(0., aD.z + .18*k - .35*t*t, 0.);
+        float rot = aD.w*6.28 + k*2.4*(aD.w > .5 ? 1. : -1.), c = cos(rot), s = sin(rot);
+        vec4 mv = viewMatrix*vec4(p, 1.); mv.xy += mat2(c, -s, s, c)*position.xy*.18*(1. - .25*t); gl_Position = projectionMatrix*mv; return; }
+      vec4 mv = viewMatrix*vec4(aO + vec3(0., aD.z, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3;   // core flash + vertical stroke
+      vP = position.xy*vec2(.5, 1.); mv.xy += position.xy*vec2(.3, .6)*aD.w; gl_Position = projectionMatrix*mv;
+    }`,
+  fragmentShader:`uniform vec3 uA, uB; varying vec2 vP; varying float vU, vK, vS;
+    float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }
+    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }
+    void main(){
+      vec3 hot = mix(uB, vec3(1., .97, .92), .35), rgb = vec3(0.); float al = 0.;
+      if (vK < 1.5){
+        // centre → out: four wide calligraphic arcs (thin tips, full middle) that open with the sweep and thin out as they go
+        float dl = vK > .5 ? .04 : 0., t = clamp((vU - dl)/.3, 0., 1.);
+        float r = length(vP), a = atan(vP.y, vP.x) + .45 + vK*.8 + t*.35;
+        float R = mix(.16, 1.18 - .18*vK, 1. - pow(1. - t, 3.));
+        float sg = fract(a/6.28318*4.), s = clamp((sg - .07)/.86, 0., 1.), taper = pow(sin(3.14159*s), .6);
+        float w = (.01 + .03*taper)*(1. - .55*t);
+        float line = exp(-pow((r - R)/w, 2.))*taper, core = lcore(r - R, w*.3)*taper;
+        float wash = exp(-pow((r - R*.82)/.16, 2.))*.07*smoothstep(0., .3, t);   // a faint wake behind the front
+        float f = pow(1. - t, 1.3)*(vU - dl < .033 ? 1.5 : 1.)*step(0., vU - dl)*(1. - .35*vK);
+        rgb = (uA*(line*.95 + wash) + hot*core*.8)*f*smoothstep(1.35, 1.2, r);
+      } else if (vK < 2.5){
+        // dark broken piece of a constricting mark: bent sliver, sharp ends; erodes with a thin hot rim at the break front
+        float t = clamp((vU - .03)/.31, 0., 1.);
+        vec2 q = vP; float d = abs(length(q - vec2(0., -1.)) - 1.), m = smoothstep(.72, .5, abs(q.x));
+        float body = exp(-pow(d/.16, 2.))*m;
+        float n = vn(q*2.6 + vS*37.), thr = -.1 + 1.15*t;               // alpha erosion
+        float alive = smoothstep(thr, thr + .1, n), front = exp(-pow((n - thr)/.07, 2.))*step(.02, t);
+        float snap = vU < .066 ? 1. : 0.;                                // the break: 2 frames of hot outline
+        al = body*alive*.62*(1. - t*t);
+        rgb = (uA*front*1.3 + hot*snap*.9)*body*(1. - t) + uA*exp(-pow(d/.05, 2.))*m*alive*.18*(1. - t);
+      } else {
+        // core flash (2-frame peak) + the icon's thin vertical stroke through the chest, thin at both ends
+        float L = .22, t = clamp(vU/L, 0., 1.); if (vU > L) discard;
+        vec2 p = vP; float r = length(p*vec2(1., 2.));
+        float glow = exp(-r*r*14.)*(.55 + (vU < .033 ? 1.1 : 0.)), ys = clamp(abs(p.y), 0., 1.);
+        float stroke = exp(-pow(p.x/(.018 + .03*(1. - ys)), 2.))*pow(max(1. - ys, 0.), .7)*1.1;
+        float f = pow(1. - t, 1.6);
+        rgb = (uA*(glow*.8 + stroke*.6) + hot*(stroke*.7 + exp(-r*r*60.)*.9))*f*smoothstep(1., .85, max(abs(p.x)*2., abs(p.y)));
+      }
+      if (max(max(rgb.r, rgb.g), max(rgb.b, al)) < .002) discard;
+      gl_FragColor = vec4(rgb, al);
+    }` }));
+
+// ============ spawning (CPU work only at cast time) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
-function castAt(O, tier, local, t0){
+const castLog = [];
+const TIER = { 3:{ frag:7, waist:true }, 2:{ frag:7, waist:true }, 1:{ frag:4, waist:true }, 0:{ frag:0, waist:false } };
+function spawn(O, k, y, d0, d1, d3){ const i = fx.next(); fx.A.aO.setXYZ(i, O.x, 0, O.z); fx.A.aT.setX(i, d3); fx.A.aK.setX(i, k); fx.A.aD.setXYZW(i, d0, d1, y, arguments[6] ?? 0); return i; }
+function cleanse(O, tier, t0, removed){
   const T = TIER[tier];
-  let i = rings.next(); rings.A.aO.setXYZ(i, O.x, 0, O.z); rings.A.aT.setX(i, t0); rings.track(t0 + B + .45, 1);
-  i = glows.next(); glows.A.aO.setXYZ(i, O.x, 0, O.z); glows.A.aT.setX(i, t0); glows.A.aI.setX(i, local ? 1 : .75); glows.track(t0 + .9, 1);
-  for (let k=0;k<T.pre;k++){ const a = rand(0,6.28), r = rand(1.2,1.9), y = rand(.05,.9), Tt = rand(.075,.095), p = V3(O.x+Math.cos(a)*r, y, O.z+Math.sin(a)*r);
-    spark(p, V3((O.x-p.x)/Tt, (.12-y)/Tt, (O.z-p.z)/Tt), t0, Tt, .001, 0, 0); }
-  for (let k=0;k<T.sp;k++){ const a = rand(0,6.28), s = rand(4,9);
-    spark(V3(O.x+Math.cos(a)*.3, rand(.08,.45), O.z+Math.sin(a)*.3), V3(Math.cos(a)*s, rand(.8,5), Math.sin(a)*s), t0+B, rand(.35,.9), 2.2, 1, 0); }
-  for (let k=0;k<T.dust;k++){ const a = k/T.dust*6.28 + rand(-.1,.1), s = rand(4.5,7);
-    dust(V3(O.x+Math.cos(a)*.55, rand(.1,.35), O.z+Math.sin(a)*.55), V3(Math.cos(a)*s, rand(.3,1.1), Math.sin(a)*s), t0+B, rand(1.1,1.6), .6, rand(2.2,3.2), rand(.22,.3), local ? 1 : .5); }
-  if (T.pre + T.sp) sparks.track(t0 + B + .9, T.pre + T.sp);
-  if (T.dust) dusts.track(t0 + B + 1.6, T.dust);
-  castLog.push(t0 + 1.7);
+  if (!removed){                                                  // nothing was removed: only a small local cue, no success burst
+    spawn(O, 3, 1.25, 0, 0, t0, .45); fx.track(t0 + .22, 1); castLog.push(t0 + .25); return; }
+  spawn(O, 3, 1.25, 0, 0, t0, 1);
+  spawn(O, 0, 1.2, 0, 0, t0);
+  if (T.waist) spawn(O, 1, .78, 0, 0, t0);
+  for (let j = 0; j < T.frag; j++){
+    const a = j/T.frag*6.283 + rand(-.3, .3);
+    spawn(O, 2, rand(.55, 1.55), Math.cos(a), Math.sin(a), t0, Math.random());
+  }
+  fx.track(t0 + LIFE, 2 + (T.waist ? 1 : 0) + T.frag);
+  castLog.push(t0 + LIFE);
 }
 
 // ============ post ============
@@ -605,26 +535,26 @@ if (hasPost){
   composer.addPass(grade);
 }
 
-// ============ stress test: other Fighters (2 instanced draws) ============
+
+
+
+// ============ stress: 40 other Fighters casting ============
 const GN = 40, ghosts = [];
 const ghostBody = new THREE.InstancedMesh(new THREE.CylinderGeometry(.2,.16,1.35,10).translate(0,.68,0), darkArmor, GN);
 const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).translate(0,1.52,0), darkArmor, GN);
 { const o = new THREE.Object3D(); let i = 0;
-  while (i < GN){ const x = rand(-12,12), z = rand(-13,6); if (Math.hypot(x,z) < 3.2) continue;
-    o.position.set(x,0,z); o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix); ghosts.push({ p:V3(x,0,z), next:rand(0,3) }); i++; } }
+  while (i < GN){ const x = rand(-12,12), z = rand(-14,6); if (Math.hypot(x,z) < 3.4) continue;
+    const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
+    ghosts.push({ p:V3(x,0,z), yaw, next:rand(.3,2) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Antecipação · brilho nos pés', 0, 90, 0xf2b53a],
-  ['Anel expande (vertex shader)', 90, 280, 0xff7a1a],
-  ['Anel dissipa', 280, 540, 0xb8431a],
-  ['Brilho no chão', 0, 900, 0xf2b53a],
-  ['Faíscas (GPU)', 90, 1000, 0xfff0d2],
-  ['Poeira (atlas)', 90, 1700, 0x8f8a82],
-  ['Erosão dos debuffs', 110, 290, 0x8b6fd6],
+  ['Flash no peito + traço vertical', 0, 220, 0xff9a2a],
+  ['Anel partido abre do corpo para fora', 0, 340, 0xff9a2a],
+  ['Fragmentos negativos empurrados e desfeitos', 30, 340, 0x8f8a82],
 ];
-const TOTAL = 1700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 450, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -633,53 +563,38 @@ PHASES.forEach(([l,a,b,c]) => {
 const heads = [...tl.querySelectorAll('.playhead')];
 
 // ============ state / input ============
-let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, debuffOn = false, breakT = 1e9;
-let dispVel = 0, dispTimer = 1, dustAcc = 0, detailed = [];
-const tDebuff = $('tDebuff'), tDisp = $('tDisp'), tLoop = $('tLoop'), tStress = $('tStress');
+let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0;
+const tLoop = $('tLoop'), tStress = $('tStress');
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
-function applyDebuffs(){ debuffOn = true; breakT = 1e9; uOrbOn.value = 1; uBreak.value = 1e9; cuffs.forEach(c => { c.visible = true; c.material.uniforms.uT.value = 0; }); glyph.visible = true; glyph.material.uniforms.uT.value = 0; }
-function clearDebuffs(){ debuffOn = false; uOrbOn.value = 0; cuffs.forEach(c => c.visible = false); glyph.visible = false; }
-tDebuff.onchange = () => tDebuff.checked ? applyDebuffs() : clearDebuffs();
-tDisp.onchange = () => { dispVel = 0; dispTimer = .3; };
-tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(0, 3)); };
-function localCast(){
-  if (time - localT < B + .05) return;
-  localT = time; idle = 0; localOrigin.copy(hero.position);
-  castAt(localOrigin, quality, true, time);
-  if (debuffOn && breakT > 1e8){
-    breakT = time + .11; uBreak.value = breakT;
-    if (quality > 0) for (let i=0;i<3;i++){ const tb = breakT + i*.018, p = orbPosAt(i, tb);
-      for (let k=0;k<4;k++){ const a = rand(0,6.28), s = rand(1.5,4); spark(p, V3(Math.cos(a)*s, rand(-1,3), Math.sin(a)*s), tb, rand(.25,.5), 2.5, .5, 1); }
-      for (let k=0;k<3;k++){ const a = rand(0,6.28), s = rand(1.5,4); spark(p, V3(Math.cos(a)*s, rand(0,3), Math.sin(a)*s), tb, rand(.3,.55), 2.5, .8, 0); }
-      sparks.track(tb + .6, 7); }
-  }
+tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
+function localSwing(){
+  if (time - localT < .5) return;
+  localT = time; idle = 0;
+  cleanse(hero.position, quality, time, $('tHad').checked);
 }
-const localOrigin = new THREE.Vector3();
-$('castBtn').onclick = localCast;
-addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localCast(); } });
+$('castBtn').onclick = localSwing;
+addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code === 'Space') && e.target.tagName !== 'INPUT'){ e.preventDefault(); localSwing(); } });
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = .42, pitch = .2, dist = 5.4, drag = null;
+let yaw = .6, pitch = .35, dist = 4.6, drag = null;
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
-stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.2, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
+stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
-stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(16, Math.max(2.6, dist*(1 + e.deltaY*.001))); }, { passive:false });
+stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(16, Math.max(2.4, dist*(1 + e.deltaY*.001))); }, { passive:false });
 
 function resize(){
   const w = stage.clientWidth, h = stage.clientHeight;
   renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
   if (composer){ composer.setPixelRatio(PR); composer.setSize(w, h); grade.uniforms.uRes.value.set(w*PR, h*PR); }
-  uRes.value.set(w*PR, h*PR); uW.value = 1.6*PR;
   ptsScale.value = h*PR / (2*Math.tan(camera.fov*Math.PI/360));
 }
 new ResizeObserver(resize).observe(stage); resize();
 
 // ============ main loop ============
-const hud = $('hud'), S = { draw:$('sDraw'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), light:$('sLight'), frame:$('sFrame'), total:$('sTotal') };
+const hud = $('hud'), S = { draw:$('sDraw'), part:$('sPart'), casts:$('sCasts'), cpu:$('sCpu'), frame:$('sFrame'), total:$('sTotal') };
 renderer.info.autoReset = false;
-let last = performance.now(), acc = { n:0, frame:0, cpu:0 }, statT = 0;
-if (tDebuff.checked) applyDebuffs(); else clearDebuffs();
+let last = performance.now(), acc = { n:0, frame:0, cpu:0, prev:null }, statT = 0;
 
 function frame(now){
   const rdt = Math.min(.05, (now-last)/1000); last = now;
@@ -687,86 +602,49 @@ function frame(now){
   time += dt; uTime.value = time;
   const c0 = performance.now();
 
-  // --- local cast scheduling
   const dtc = time - localT;
-  if (dtc > 1.7){ idle += dt; if (tDebuff.checked && !debuffOn && idle > .6) applyDebuffs(); if (tLoop.checked && idle > 1.35) localCast(); }
-
-  // --- stress: other players, significance by camera distance, max 8 detailed at once
+  if (tLoop.checked){ idle += dt; if (idle > 1.4) localSwing(); }
   if (tStress.checked){
-    detailed = detailed.filter(t => t > time);
     for (const g of ghosts) if (time >= g.next){
-      const near = g.p.distanceTo(camera.position) < 9 && detailed.length < 8;
-      castAt(g.p, near ? Math.min(1, quality) : 0, false, time);
-      if (near) detailed.push(time + 1.2);
-      g.next = time + rand(2.4, 3.6);
+      const d = g.p.distanceTo(camera.position);
+      cleanse(g.p, d < 9 ? Math.min(1, quality) : 0, time, Math.random() < .85);
+      g.next = time + rand(1.2, 2.6);
     }
   }
-
-  // --- debuff dissolve (uniform only)
-  if (debuffOn && breakT < 1e8){
-    const u = clamp01((time - breakT)/.17);
-    glyph.material.uniforms.uT.value = u; cuffs.forEach(c => c.material.uniforms.uT.value = clamp01((time - breakT - .01)/.14));
-    if (time > breakT + .35) clearDebuffs();
-  }
-  if (debuffOn) cuffs.forEach(c => c.material.uniforms.uPulse.value = .5 + .5*Math.sin(time*4.2));
-  glyph.material.uniforms.uTime.value = time;
-  uHero.value.copy(hero.position);
-
-  // --- flash (local cast only): drives the light (Epic) and the ambience tint
-  const lvl = dtc < 0 || dtc > 1.2 ? 0 : dtc < B ? .22*dtc/B : Math.exp(-(dtc-B)*5.5);
-  const lightOn = !!TIER[quality].light;
-  flash.position.set(localOrigin.x, .6, localOrigin.z); flash.intensity = lightOn ? lvl*3.5 : 0;
-  uFP.value.set(localOrigin.x, .6, localOrigin.z); uFL.value = lvl;
-
-  rings.tick(time); glows.tick(time); sparks.tick(time); dusts.tick(time);
+  fx.tick(time);
+  fx.flush();
   const cpuVfx = performance.now() - c0;
 
-  // --- gameplay-side (not VFX): displacement, knight idle, cape
-  if (tDisp.checked){
-    dispTimer -= dt;
-    if (dispTimer <= 0 && dispVel === 0 && dtc > 1.7){ dispVel = 4.4; if (hero.position.x > 1.4) hero.position.x = -1.4; }
-    if (dispVel > 0){
-      if (dtc >= .1 && dtc < 1.7){ dispVel = 0; dispTimer = 1.5; }
-      else { hero.position.x += dispVel*dt; dispVel = Math.max(0, dispVel - 3.4*dt); if (dispVel === 0) dispTimer = 1.3;
-        dustAcc += dt*10; while (dustAcc > 1){ dustAcc--; dust(V3(hero.position.x - .1, .08, hero.position.z + rand(-.15,.15)), V3(-dispVel*.25, rand(.2,.5), rand(-.3,.3)), time, rand(.6,.9), .25, 1.1, .3, 0); dusts.track(time + .9, 1); } }
-    }
-  } else if (dtc > 1.7 && Math.abs(hero.position.x) > .001){ hero.position.x += -hero.position.x*Math.min(1, dt*2.5); }
-  body.position.y = Math.sin(time*1.8)*.006; body.scale.set(1,1,1);
-  if (dtc >= 0 && dtc < B){ const a = dtc/B; body.position.y -= .035*a; body.scale.set(1+.015*a, 1-.02*a, 1+.015*a); }
-  if (dtc >= B && dtc - dt < B) capeFlare = .5;
-  capeFlare *= Math.exp(-dt*3.2);
+  // gameplay-side: a short shrug — chest opens and settles as the negatives are thrown off
+  let br = 0, tw = 0;                                          // a small exhale: chest settles, head lifts slightly
+  if (dtc >= 0 && dtc < .06){ br = dtc/.06; }
+  else if (dtc >= .06 && dtc < .45){ br = 1 - easeOutCubic((dtc - .06)/.39); }
+  body.scale.set(1, 1 + .012*br, 1); body.rotation.x = -.05*br; body.position.y = Math.sin(time*1.8)*.006 + .01*br;
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
-      P[i] = bx*(1 + v*.22 + capeFlare*v*.25); P[i+1] = by + capeFlare*vv*.35;
-      P[i+2] = capeBase[i+2] - bx*bx*(1.1 - .6*v) + vv*(.1 + .045*Math.sin(time*1.7 + bx*5 + v*5)) + capeFlare*vv*.55 + dispVel*.04*vv; }
+      P[i] = bx*(1 + v*.22) - tw*vv*.25; P[i+1] = by;
+      P[i+2] = capeBase[i+2] - bx*bx*(1.1 - .6*v) + vv*(.1 + .045*Math.sin(time*1.7 + bx*5 + v*5)); }
     capeGeo.attributes.position.needsUpdate = true; capeGeo.computeVertexNormals(); }
 
-  const t1 = performance.now();
-  sparks.flush(); dusts.flush(); rings.flush(); glows.flush();
-  const cpuTotal = cpuVfx + (performance.now() - t1);
-
-  // --- UI
   const ms = dtc >= 0 && dtc <= TOTAL/1000 ? dtc*1000 : -1;
   heads.forEach(h => { h.style.opacity = ms >= 0 ? 1 : 0; h.style.left = (clamp01(ms/TOTAL)*100) + '%'; });
-  hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(4,'0')} ms · ${speed}×` : `idle · ${speed}×`;
+  hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
-  const tx = hero.position.x*.6;
-  camera.position.set(tx + Math.sin(yaw)*Math.cos(pitch)*dist, 1.05 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(tx, 1.05, -.6);
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(0, 1.3, -.2);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
-  acc.n++; acc.frame += (now - (acc.prev ?? now)); acc.prev = now; acc.cpu += cpuTotal;
+  acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [rings, glows, sparks, dusts].filter(p => p.active).length;
-    S.part.textContent = rings.count + glows.count + sparks.count + dusts.count;
+    S.draw.textContent = fx.active ? 1 : 0;
+    S.part.textContent = fx.count;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
-    S.light.textContent = lightOn ? 'sim · próprio, sem sombras' : 'não';
-    S.frame.textContent = (acc.frame/acc.n).toFixed(1) + ' ms';
+    S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—';
     S.total.textContent = renderer.info.render.calls;
-    acc.n = 0; acc.frame = 0; acc.cpu = 0; statT = now;
+    acc.n = 0; acc.frame = 0; acc.cpu = 0; acc.prev = null; statT = now;
   }
   requestAnimationFrame(frame);
 }

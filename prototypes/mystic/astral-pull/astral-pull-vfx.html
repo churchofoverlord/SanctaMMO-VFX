@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Correntes (delay)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>A animação das Chains (Fighter) em azul astral com brilho místico (contorno azul-claro, estrelinhas a cintilar): as correntes saem das mãos do Mystic e agarram o aliado (anel no chão); o aliado desmaterializa-se preso a elas; o Mystic puxa as correntes de volta (8 m/s, a luz do aliado viaja na ponta) e, quando chegam às mãos, o aliado materializa-se ao lado dele</td></tr>
+          <tr><td>Correntes (delay)</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>A animação das Chains (Fighter) em azul astral com brilho místico (contorno azul-claro, estrelinhas a cintilar): as correntes saem das mãos do Mystic e agarram o aliado (4 estacas curtas aos tornozelos, sem círculo no chão); o aliado desmaterializa-se preso a elas; o Mystic puxa as correntes de volta (8 m/s, a luz do aliado viaja na ponta) e, quando chegam às mãos, o aliado materializa-se ao lado dele</td></tr>
           <tr><td>Zonas no chão</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Iguais ao Astral Step: zona azul uniforme que encolhe até desaparecer, na origem e no destino (1,2 s)</td></tr>
           <tr><td>Pó de estrelas</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td class="n">22</td><td>Igual ao Astral Step, mas no aliado: desfaz-se da cabeça aos pés em estrelas que sobem; ao lado do Mystic as estrelas caem e o corpo forma-se dos pés à cabeça, com estrela de 4 pontas no peito</td></tr>
           <tr><td>Checks inválidos</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>As correntes dissolvem-se no fim do delay e não há teleporte nem marcadores (cue condicional)</td></tr>
@@ -577,7 +577,7 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 2 — anchoring at the hit: flat on the ground under the target, a ring snaps shut with four stakes pointing in; gone by 0.45 s.
+// Layer 2 — anchoring at the hit: four short stakes snap in around the ally's ankles (no circle: the ground is for areas); gone by 0.45 s.
 // The Root that remains on the target is the status cue's job, not this skill's.
 const ANCH = .45;
 const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
@@ -585,7 +585,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){
       float u = uTime - aT; if (u < 0. || u > ${ANCH.toFixed(2)}){ ${HIDE} }
-      float S = .9; vP = position.xy*S; vU = u;
+      float S = .5; vP = position.xy*.9; vU = u;                  // only the immediate base of the feet
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);
     }`,
   fragmentShader:`uniform vec3 uCy, uBu; varying vec2 vP; varying float vU; ${STROKE}
@@ -594,7 +594,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
       vec2 p = vP; float r = length(p);
       float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms
       float R = mix(.75, .42, k);
-      float ring = exp(-pow(abs(r - R)/.012, 2.4)), hot = lcore(r - R, .004);
+      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (ground space is for areas)
       float st = 0.;
       for (int j=0;j<4;j++){
         float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));

@@ -610,7 +610,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
     ghosts.push({ f:addFighter(V3(x,0,z), yaw, 1, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
-markers.mesh.visible = true;
+markers.mesh.visible = false;   // the stance marker is its own cue (now at the waist); not shown here
 
 // ============ timeline UI ============
 const PHASES = [

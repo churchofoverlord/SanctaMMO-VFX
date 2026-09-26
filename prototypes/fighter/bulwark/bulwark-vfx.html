@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Convergência + impacto + emblema</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um sistema de quads: espiral (ease-in) e pulso deitados no chão aos pés; cruz/escudo em linha no peito. Tudo no shader</td></tr>
+          <tr><td>Convergência + impacto + emblema</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um sistema de quads: espiral (ease-in) e pulso num plano horizontal à cintura, à volta do corpo (nada no chão); cruz/escudo em linha no peito. Tudo no shader</td></tr>
           <tr><td>Partículas</td><td class="n">8 + 10</td><td class="n">8 + 10</td><td class="n">4 + 5</td><td class="n">0</td><td>GPU: convergência + motas de cura (Rage) ou lascas de luz a abrir do peito (Bulwark)</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
@@ -151,9 +151,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral varrem o chão e convergem para os pés em ease-in. Só o final muda — dois pulsos de cura com a cruz do ícone, ou um pulso firme com o escudo.</p></div>
+    <div><h3>Mesma composição</h3><p>As duas formas começam iguais: traços caligráficos em espiral rodam à volta da cintura e convergem para o corpo em ease-in. Só o final muda — dois pulsos de cura com a cruz do ícone, ou um pulso firme com o escudo.</p></div>
     <div><h3>Skill ≠ status</h3><p>Esta página mostra só o cast. A cura e o Shield resultantes têm os seus próprios cues de status (<code>GameplayCue.Status.*</code>), partilhados por todas as fontes — a casca persistente do Shield vive lá, não aqui.</p></div>
-    <div><h3>Contexto</h3><p>O marcador nos pés é o da Warrior / Tank Stance (skill anterior) e não conta no custo desta skill. O Momentum na UI esvazia no cast.</p></div>
+    <div><h3>Contexto</h3><p>O marcador da Warrior / Tank Stance é um cue próprio e não aparece aqui. O Momentum na UI esvazia no cast.</p></div>
   </section>
 </div>
 
@@ -481,7 +481,7 @@ const STROKE = `float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*e
   float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }`;
 
 // Layer A — one quad system, two instances per cast (1 draw for all casts):
-//   aM = 0 → lies on the ground at the feet: converging spiral strokes (ease-in) + impact pulse rings
+//   aM = 0 → horizontal at the waist around the body: converging spiral strokes (ease-in) + impact pulse rings (the ground is for areas)
 //   aM = 1 → small chest billboard: line-art emblem (Rage cross / Bulwark shield)
 const cores = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aM:1 }, addMat({
   uniforms:{ uTime, uCR, uCB },
@@ -490,8 +490,8 @@ const cores = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aM:1 }
       float age = uTime - aT; if (age < 0. || age > ${(TC+.95).toFixed(2)}){ ${HIDE} }
       vAge = age; vK = aK; vM = aM;
       if (aM < .5){
-        float S = 1.9; vP = position.xy*S;
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
+        float S = 1.9, Sw = 1.15; vP = position.xy*S;                  // horizontal plane at the waist, not a ground decal
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*Sw, .95, -position.y*Sw), 1.);
       } else {
         if (age < ${TC.toFixed(2)}){ ${HIDE} }
         vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.22, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.38;
@@ -578,7 +578,7 @@ function castRB(f, tier, t0){
   for (const m of [0, 1]){ const i = cores.next(); cores.A.aO.setXYZ(i, f.p.x, 0, f.p.z); cores.A.aT.setX(i, t0); cores.A.aK.setX(i, k); cores.A.aM.setX(i, m); }
   cores.track(t0 + TC + .95, 2);
   for (let n=0;n<T.pre;n++){ const a = rand(0,6.28), r = rand(1.1,1.6);
-    mote(V3(f.p.x + Math.cos(a)*r*1.2, rand(.04,.25), f.p.z + Math.sin(a)*r*1.2), V3(f.p.x, .08, f.p.z), t0 + rand(0,.05), TC - .02, 1, k); }
+    mote(V3(f.p.x + Math.cos(a)*r*.75, rand(.75,1.15), f.p.z + Math.sin(a)*r*.75), V3(f.p.x, .95, f.p.z), t0 + rand(0,.05), TC - .02, 1, k); }
   for (let n=0;n<T.post;n++){
     if (k === 0){ const a = rand(0,6.28), r = rand(.2,.42);        // Rage: heal motes rise from the body
       mote(V3(f.p.x + Math.cos(a)*r, rand(.5,1.5), f.p.z + Math.sin(a)*r), V3(rand(-.15,.15), rand(.8,1.4), rand(-.15,.15)), t0 + TC + rand(0,.12), rand(.8,1.2), 0, 0); }
@@ -635,7 +635,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
     ghosts.push({ f:addFighter(V3(x,0,z), yaw, 1, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
-markers.mesh.visible = true;
+markers.mesh.visible = false;   // the stance marker is its own cue (now at the waist); not shown here
 
 // ============ timeline UI ============
 const PHASES = [

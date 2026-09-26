@@ -144,8 +144,8 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Raio astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Estrela desce do céu numa curva (0,9 s) com um rasto de 3 fios curvos (ícone), fita de 16 segmentos virada para a câmara; trajetória na GPU</td></tr>
-          <tr><td>Estrela no aliado</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard por cima da cabeça, preso ao aliado (Local Space); estrela de 4 pontas + anel fino que se esvazia como relógio durante o delay fixo</td></tr>
-          <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Só se o alvo ainda for válido: quando o relógio fecha, a estrela desfaz-se por cima da cabeça num pequeno chuveiro de estrelas pequeninas que cai sobre o aliado (16 estrelas desenhadas num só quad, 1 s) e um anel ténue abre nos pés quando chegam ao chão. Se não for válido, a estrela apaga-se em 0,35 s e não há Heal</td></tr>
+          <tr><td>Estrela no aliado</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard numa órbita curta à altura dos ombros (R 0,5 m, ~1,55 m), preso ao aliado (Local Space; por cima da cabeça fica reservado ao CC); estrela de 4 pontas + anel fino que se esvazia como relógio durante o delay fixo</td></tr>
+          <tr><td>Resolve Heal</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só se o alvo ainda for válido: quando o relógio fecha, a estrela desfaz-se num pequeno chuveiro de estrelas pequeninas que cai sobre o aliado (16 estrelas desenhadas num só quad, 1 s); nada no chão. Se não for válido, a estrela apaga-se em 0,35 s e não há Heal</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Estrela, rasto e Heal partilhados por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
         </tbody>
       </table>
@@ -154,7 +154,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Raio do céu, como no ícone</h3><p>A estrela chega do alto numa curva larga, com três fios de luz atrás. Sem pathfinding: chega ao aliado e fica com ele.</p></div>
-    <div><h3>Delay fixo legível</h3><p>Por cima da cabeça do aliado, a estrela acompanha-o enquanto o anel à volta se esvazia como um relógio. Quando fecha, a estrela desfaz-se num pequeno chuveiro de estrelas que cai sobre o aliado.</p></div>
+    <div><h3>Delay fixo legível</h3><p>À altura dos ombros do aliado, numa órbita curta, a estrela acompanha-o enquanto o anel à volta se esvazia como um relógio. Quando fecha, a estrela desfaz-se num pequeno chuveiro de estrelas que cai sobre o aliado.</p></div>
     <div><h3>Heal condicional</h3><p>O Heal só aparece se a vida/encarnação original ainda for válida. Senão a estrela apaga-se em silêncio. O Cosmic Ray II não muda o visual: cada charge tem a sua própria estrela.</p></div>
   </section>
 </div>
@@ -421,7 +421,7 @@ const WIND = .1, DESC = .9, DELAY = 2.0, HEAL = 1.2;   /* ray at half speed */  
 const F2 = x => x.toFixed(3);
 // path: from high in the sky, a wide curve onto the manifestation point above the ally's head (all relative to the anchor)
 const PATH = `vec3 anc(vec3 o, float at){ return at > .5 ? uAlly : o; }
-  vec3 manP(vec3 A){ return A + vec3(0., 2.25 + .05*sin(uTime*1.7), 0.); }
+  vec3 manP(vec3 A){ float th = uTime*.35; return A + vec3(cos(th), 0., sin(th))*.5 + vec3(0., 1.55 + .05*sin(uTime*1.7), 0.); }   /* short orbit at shoulder height: over the head is reserved for CC */
   vec3 rayP(vec3 A, float f){ vec3 M = manP(A), S0 = A + vec3(-1.2, 7.5, 4.2), C = M + vec3(-.4, 1.4, 2.8);
     return mix(mix(S0, C, f), mix(C, M, f), f); }
   float rayF(float x){ x = clamp(x, 0., 1.); return 1. - (1. - x)*(1. - x); }`;
@@ -539,7 +539,7 @@ function cast(anchor, attached, tier, t0, valid){
 function resolve(p){                                   // Heal only if the original life/incarnation is still valid
   if (!p.valid) return;
   const G = p.attached ? uAlly.value : p.anchor;
-  const kinds = p.tier > 0 ? [1, 0] : [1];
+  const kinds = [1];                                   // shower only: no ring at the feet (ground space is for areas)
   for (const kk of kinds){ const k = rings.next(), t = p.t + (kk ? 0 : .5); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, t); rings.A.aK.setX(k, kk); rings.A.aA.setX(k, p.attached ? 1 : 0);
     rings.track(t + (kk ? SH : RG), 1); }
   if (p.attached) dummy.hitAt = p.t + .5;
@@ -617,7 +617,6 @@ const PHASES = [
   ['Raio desce do céu em curva (metade da velocidade)', 100, 1000, 0xf5a524],
   ['Estrela no aliado (delay fixo 2 s)', 1000, 3000, 0xf5a524],
   ['Chuveiro de estrelas (se válido)', 3000, 4000, 0xffe6b0],
-  ['Anel ténue nos pés', 3500, 4200, 0xf5a524],
 ];
 const TOTAL = 4300, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {

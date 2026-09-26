@@ -144,7 +144,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Corrente (elos 3D)</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~50–76</td><td class="n">~34–50</td><td>Duas correntes (uma por mão), mesma malha de elo instanciada, 1 instância por elo; posição, chicote, estalo, calor e dissolução no vertex shader. Aditivo, com o brilho no contorno dos elos (aura, não metal). Em Baixo os elos ficam mais espaçados</td></tr>
           <tr><td>Aura ao longo da corrente</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Duas faixas suaves (uma por corrente) viradas para a câmara, na mesma draw call, com o mesmo timing dos elos (onda de calor, dissolução)</td></tr>
-          <tr><td>Ancoragem no chão</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. Um quad no chão: anel que fecha em 60 ms com 4 estacas para dentro, 0,45 s</td></tr>
+          <tr><td>Ancoragem nos pés</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no hit. 4 estacas curtas que se cravam à volta dos tornozelos do alvo em 60 ms (só a base imediata, sem círculo), 0,45 s</td></tr>
           <tr><td>Faíscas no gancho</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td class="n">0</td><td>GPU, para trás ao longo da corrente</td></tr>
           <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
@@ -154,7 +154,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Corrente de energia</h3><p>Duas correntes, uma de cada mão, que convergem no alvo. Elos finos de luz dourada, alternados a 90°, com o brilho no contorno e uma aura suave ao longo da corrente, no mesmo registo das outras skills. Depois de uma preparação de 260 ms, sai devagar da mão e acelera até ao alvo, com um chicote ligeiro; os elos da frente vão mais quentes.</p></div>
-    <div><h3>Ancoragem</h3><p>No primeiro alvo válido: hit stop de 2 frames, a corrente estica rígida com um único estremeção e uma onda de calor volta do alvo à mão. No chão, um anel fecha-se com quatro estacas (0,45 s). O Root que fica no alvo é do cue de status.</p></div>
+    <div><h3>Ancoragem</h3><p>No primeiro alvo válido: hit stop de 2 frames, a corrente estica rígida com um único estremeção e uma onda de calor volta do alvo à mão. Aos pés, quatro estacas curtas cravam-se à volta dos tornozelos (0,45 s), sem círculo no chão. O Root que fica no alvo é do cue de status.</p></div>
     <div><h3>Fim e falha</h3><p>Com hit, segura esticada 0,45 s e dissolve a partir da mão; o gancho no alvo é o último a desaparecer. Sem alvo, chega aos 6,5 m e recolhe, sem ancoragem.</p></div>
   </section>
 </div>
@@ -512,7 +512,7 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 2 — anchoring at the hit: flat on the ground under the target, a ring snaps shut with four stakes pointing in; gone by 0.45 s.
+// Layer 2 — anchoring at the hit: four short stakes snap in around the target's ankles (no circle: the ground is for areas); gone by 0.45 s.
 // The Root that remains on the target is the status cue's job, not this skill's.
 const ANCH = .45;
 const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
@@ -520,7 +520,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){
       float u = uTime - aT; if (u < 0. || u > ${ANCH.toFixed(2)}){ ${HIDE} }
-      float S = .9; vP = position.xy*S; vU = u;
+      float S = .5; vP = position.xy*.9; vU = u;                  // only the immediate base of the feet
       gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; ${STROKE}
@@ -529,7 +529,7 @@ const anchors = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
       vec2 p = vP; float r = length(p);
       float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms
       float R = mix(.75, .42, k);
-      float ring = exp(-pow(abs(r - R)/.012, 2.4)), hot = lcore(r - R, .004);
+      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (Root ≠ danger area)
       float st = 0.;
       for (int j=0;j<4;j++){
         float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));
@@ -685,7 +685,7 @@ const PHASES = [
   ['Corrente sai devagar e acelera', 260, 650, 0xf2b53a],
   ['Contacto · hit stop 2 frames', 650, 683, 0xffffff],
   ['Onda de calor: alvo → mão', 650, 860, 0xff7a1a],
-  ['Ancoragem no chão', 650, 1100, 0xfff0d2],
+  ['Ancoragem nos pés (estacas)', 650, 1100, 0xfff0d2],
   ['Segura esticada', 650, 1100, 0xf2b53a],
   ['Dissolve a partir da mão (gancho por último)', 1100, 1420, 0xff7a1a],
   ['Faíscas no gancho (GPU)', 650, 1000, 0xc9a0ff],

@@ -143,7 +143,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Pulso radial no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um quad a partir do Root: Battlecry com 3 cristas; Challenge com anel ancorado na borda e marcas curtas</td></tr>
-          <tr><td>II · Root no expiry</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td>Só no expiry natural do Taunt desta execução: 7 raízes procedurais a partir dos pés, num quad no chão, 0,75 s</td></tr>
+          <tr><td>II · Root no expiry</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td class="n">1/inimigo</td><td>Só no expiry natural do Taunt desta execução: 7 raízes procedurais curtas a agarrar os pés (só a base imediata, ≤ 0,6 m, sem círculo de perigo), 0,75 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>Partilhadas por todos os Fighters; a 2.ª só enquanto houver um proc vivo. 0 partículas</td></tr>
         </tbody>
       </table>
@@ -531,16 +531,17 @@ const pulses = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1, aK:1 }, addM
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 2 — II procs (only when the condition is true), flat on the ground under the enemy, Local Space:
-//   kind 0 (Warrior): counter-wave — two rings close in on the enemy with a reverse ease-in (slow, then snapping shut): Fear, before the new Silence
-//   kind 1 (Tank):    at the exact natural expiry of this cast's Taunt, root tendrils project out from the enemy's feet: Root
+// Layer 2 — II procs (only when the condition is true), Local Space; the ground is reserved for areas:
+//   kind 0 (Warrior): counter-wave — two rings close in on the enemy's chest (billboard) with a reverse ease-in (slow, then snapping shut): Fear, before the new Silence
+//   kind 1 (Tank):    at the exact natural expiry of this cast's Taunt, short root tendrils grip the enemy's feet (≤ 0,6 m, no danger circle): Root
 const procs = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1, aK:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uCW, uCT },
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){
       float u = uTime - aT, life = aK < .5 ? .4 : .75; if (u < 0. || u > life){ ${HIDE} }
-      float S = 1.1; vP = position.xy*S; vU = u; vK = aK;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .04, -position.y*S), 1.);
+      vP = position.xy*1.1; vU = u; vK = aK;
+      if (aK < .5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.35; mv.xy += position.xy*.42; gl_Position = projectionMatrix*mv; }   /* Fear: on the chest */
+      else { float S = .62; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .04, -position.y*S), 1.); }        /* Root: only the immediate base of the feet */
     }`,
   fragmentShader:`uniform vec3 uCW, uCT; varying vec2 vP; varying float vU, vK; ${STROKE}
     float h1(float n){ return fract(sin(n*91.7)*43758.5); }
@@ -662,7 +663,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
     const yaw = rand(0, 6.28); o.position.set(x,0,z); o.rotation.y = yaw; o.updateMatrix(); ghostBody.setMatrixAt(i, o.matrix); ghostHead.setMatrixAt(i, o.matrix);
     ghosts.push({ f:addFighter(V3(x,0,z), yaw, 1, false), next:rand(.5,4) }); i++; } }
 [ghostBody, ghostHead].forEach(m => { m.castShadow = true; m.visible = false; scene.add(m); });
-markers.mesh.visible = true;
+markers.mesh.visible = false;   // the stance marker is its own cue (now at the waist); not shown here
 
 // ============ timeline UI ============
 const PHASES = [

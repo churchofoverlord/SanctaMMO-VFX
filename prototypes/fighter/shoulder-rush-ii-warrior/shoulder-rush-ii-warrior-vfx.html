@@ -142,9 +142,9 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Rasto atrás do Fighter</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um rasto com a altura do corpo, alinhado à investida e virado para a câmara, que se funde suavemente no Fighter; apaga a partir da origem</td></tr>
-          <tr><td>Flash de colisão + anel de aterragem</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Flash aditivo único, leve e pequeno, e anel compacto no chão; só na chegada</td></tr>
+          <tr><td>Flash de colisão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Flash aditivo único, leve e pequeno, no ponto de colisão; só na chegada. Nada no chão</td></tr>
           <tr><td>Faíscas</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>GPU, curtas, a partir do ponto de colisão</td></tr>
-          <tr><td>Pulso do payoff</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>No mesmo sistema do flash: Warrior 1 pulso magenta; Tank pulso ciano + anel ciano no chão</td></tr>
+          <tr><td>Pulso do payoff</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>No mesmo sistema do flash: no ponto de colisão (billboard, nada no chão): Warrior 1 pulso magenta rápido; Tank pulso ciano + um segundo anel mais apertado e pesado</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Fighters</td></tr>
         </tbody>
       </table>
@@ -154,7 +154,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Origem → direção → destino</h3><p>O rasto é fino na origem e alarga até ao Fighter, por isso a direção lê-se num olhar. A chegada tem o maior contraste: um único flash e um hit stop de 1 frame.</p></div>
     <div><h3>Curto e compacto</h3><p>Sem silhueta residual e sem zona persistente: o rasto apaga a partir da origem em ~0,3 s e a chegada é a última coisa a desaparecer.</p></div>
-    <div><h3>Payoff por stance</h3><p>Warrior: um anel magenta rápido no chão, à chegada. Tank: anel ciano e um segundo anel mais apertado e pesado. Hit stop passa a 2 frames. Slow, Haste, Interrupt e Fortified que ficam são VFX dos cues de status.</p></div>
+    <div><h3>Payoff por stance</h3><p>Warrior: um anel magenta rápido no ponto de colisão, à chegada. Tank: anel ciano e um segundo anel mais apertado e pesado, também no corpo. Hit stop passa a 2 frames. Slow, Haste, Interrupt e Fortified que ficam são VFX dos cues de status.</p></div>
   </section>
 </div>
 
@@ -460,10 +460,10 @@ const impacts = pool(new THREE.PlaneGeometry(2,2), 192, { aO:3, aT:1, aK:1, aC:1
       float u = uTime - aT, life = aK < .5 ? .16 : (aK < 1.5 ? .3 : (aK < 2.5 ? .24 : .32));
       if (u < 0. || u > life){ ${HIDE} }
       vU = u; vK = aK; vC = aC;
-      bool bb = aK < .5;
+      bool bb = aK < .5 || aK > 1.5;                               // payoff pulses sit on the body at the collision point, not on the ground
       if (bb){
         vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.35;
-        float S = .38; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
+        float S = aK < .5 ? .38 : (aK < 2.5 ? .5 : .4); mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;
       } else {
         float S = aK < 1.5 ? .5 : (aK < 2.5 ? .95 : .75); vP = position.xy*S;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
@@ -519,7 +519,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
       gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }` }));
 
 // ============ spawning (CPU work only at rush start) ============
-const TIER = { 3:{ sp:5, ring:true }, 2:{ sp:5, ring:true }, 1:{ sp:3, ring:true }, 0:{ sp:0, ring:false } };
+const TIER = { 3:{ sp:5, ring:false }, 2:{ sp:5, ring:false }, 1:{ sp:3, ring:false }, 0:{ sp:0, ring:false } };   // no landing ring: single-target, ground space is for areas
 const stance = 0;                                            // this page = Warrior variant (separate GameplayCue in UE)
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
@@ -530,8 +530,8 @@ function rush(O, E, tier, t0){
   let k = impacts.next(); impacts.A.aO.setXYZ(k, hp.x, hp.y, hp.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 0);
   if (T.ring){ k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 1); }
   // II payoff at the collision: flat on the ground at the arrival; Warrior → one magenta ring; Tank → cyan ring + a tighter, heavier cyan ring
-  k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 2); impacts.A.aC.setX(k, stance);
-  if (stance === 1){ k = impacts.next(); impacts.A.aO.setXYZ(k, E.x, 0, E.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 3); impacts.A.aC.setX(k, 1); }
+  k = impacts.next(); impacts.A.aO.setXYZ(k, hp.x, hp.y, hp.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 2); impacts.A.aC.setX(k, stance);
+  if (stance === 1){ k = impacts.next(); impacts.A.aO.setXYZ(k, hp.x, hp.y, hp.z); impacts.A.aT.setX(k, ta); impacts.A.aK.setX(k, 3); impacts.A.aC.setX(k, 1); }
   impacts.track(ta + .32, (T.ring ? 2 : 1) + (stance === 1 ? 2 : 1));
   for (let n=0;n<T.sp;n++){
     const j = sparks.next();
@@ -606,7 +606,6 @@ const PHASES = [
   ['Hit stop (2 frames)', 280, 313, 0xff3d7f],
   ['Pulso do payoff (magenta)', 280, 600, 0xc9a0ff],
   ['Flash de colisão', 280, 440, 0xfff0d2],
-  ['Anel de aterragem', 280, 580, 0xff8fb8],
   ['Faíscas (GPU)', 280, 680, 0xff8fb8],
   ['Rasto apaga a partir da origem', 380, 780, 0xc9a0ff],
 ];

@@ -121,7 +121,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~1,6 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mystics</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>casts de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Projétil astral</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard de estrela (4 pontas) + faixa de cometa curta; voo em arco (sobe primeiro) a 10 m/s na GPU</td></tr>
-          <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>Anel no chão que abre + coluna de luz que sobe em ease-out, 0,8 s, num só sistema</td></tr>
+          <tr><td>Resolve Heal</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td>4 fiapos de luz finos e curtos que sobem da cintura aos ombros em ease-out, com pequenos brilhos, 0,8 s; nada no chão</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
       </table>
@@ -158,7 +158,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Projétil astral</h3><p>Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.</p></div>
-    <div><h3>Heal: sobe e abre</h3><p>No aliado, um anel abre-se nos pés e a luz sobe pelo corpo com ease-out suave, com pequenos brilhos a acompanhar.</p></div>
+    <div><h3>Heal: sobe e abre</h3><p>No aliado, alguns fiapos de luz finos sobem da cintura aos ombros com ease-out suave, com pequenos brilhos a acompanhar. Sem anel no chão nem coluna a tapar o corpo.</p></div>
     <div><h3>Variante Ally</h3><p>Paleta dourada. O Heal é mostrado por esta subida; a cura que fica é do cue de status.</p></div>
   </section>
 </div>
@@ -558,7 +558,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
       vU = u; vK = aK; vP = position.xy;
       if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
       else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
-        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }
+        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.42 + vec3(0., .75 + (position.y*.5 + .5)*1.15, 0.), 1.); }   /* short and thin: waist → just above the shoulders, never a column over the body */
       else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; ${STROKE}
@@ -572,7 +572,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
       } else if (vK < 1.5){
         // Heal: thin streaks rise from the feet in a soft ease-out and open outward a little as they go
         float x = vP.x, y = vP.y*.5 + .5, k = 1. - pow(1. - clamp(vU/.55, 0., 1.), 3.), f = 1. - smoothstep(.5, 1., t);
-        for (int i=0;i<6;i++){
+        for (int i=0;i<4;i++){
           float fi = float(i), ox = (h1(fi) - .5)*1.1*(.4 + .6*y), dl = h1(fi + 3.)*.12;
           float kk = 1. - pow(1. - clamp((vU - dl)/.55, 0., 1.), 3.), head = kk*1.05, tail = head - .35;
           lum += exp(-pow((x - ox)/.03, 2.))*smoothstep(tail, tail + .2, y)*smoothstep(head + .02, head - .1, y)*(.6 + .4*h1(fi + 9.));
@@ -619,7 +619,7 @@ function stab(O, yaw, tier, t0, targets){                   // Ether: astral pro
   castLog.push(hitT + RL);
   if (!G) return;
   if (tg) tg.hitAt = hitT;
-  const kinds = [0, 1];                    // Heal: opens and rises
+  const kinds = [1];                       // Heal: short streaks rise over the torso (no ground ring: ground space is for areas)
   for (const kk of kinds){ const k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, hitT); rings.A.aK.setX(k, kk); rings.track(hitT + RL, 1); }
 }
 
@@ -694,8 +694,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Estrela astral em arco (8 m: ~0,8 s)', 100, 900, 0xf2b53a],
-  ['Anel abre nos pés (ease-out)', 900, 1250, 0xf2b53a],
-  ['Heal: luz sobe suave (ease-out)', 900, 1700, 0xfff0c8],
+  ['Heal: fiapos sobem da cintura aos ombros', 900, 1700, 0xfff0c8],
 ];
 const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {

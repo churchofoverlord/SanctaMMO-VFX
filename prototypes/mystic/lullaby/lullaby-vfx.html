@@ -121,7 +121,7 @@ tr:last-child td{border-bottom:0}
       <fieldset>
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~1,6 s</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mystics</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>casts de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -150,7 +150,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Orbe</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Billboard redondo com crescente fina + rasto suave curto; voo lento (4 m/s) com ondulação, na GPU</td></tr>
           <tr><td>Absorção</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Brilho que se funde no alvo, 0,45 s, sem pop nem hit stop</td></tr>
-          <tr><td>Anel do Sleep</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só após o delay: anel no chão que fecha (ease-in), 0,3 s</td></tr>
+          <tr><td>Anel do Sleep</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só após o delay: anel pequeno no peito (billboard, não no chão) que fecha (ease-in), 0,3 s</td></tr>
           <tr><td>Draw calls</td><td class="n">1–3</td><td class="n">1–3</td><td class="n">1–3</td><td class="n">1–3</td><td>Partilhadas por todos os Mystics</td></tr>
         </tbody>
       </table>
@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Lento e redondo</h3><p>Um orbe azul suave, com uma crescente fina lá dentro (o motivo do ícone), viaja muito devagar e a ondular, como uma canção de embalar. Rasto curto e suave.</p></div>
     <div><h3>Sem hit stop</h3><p>Ao chegar, o orbe funde-se no alvo sem pop nem hit stop; o alvo ainda não reage.</p></div>
-    <div><h3>Sleep após o delay</h3><p>Passado o delay canónico (1 s), um anel curto fecha-se nos pés do alvo: é o momento em que o Sleep se aplica. O Sleep que fica é do cue de status.</p></div>
+    <div><h3>Sleep após o delay</h3><p>Passado o delay canónico (1 s), um anel curto fecha-se no peito do alvo: é o momento em que o Sleep se aplica. O Sleep que fica é do cue de status.</p></div>
   </section>
 </div>
 
@@ -550,7 +550,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
       gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }` }));
 
 // Layer 3b — resolve on the target, one quad system with kinds:
-//   0 ground ring (ally: opens outward, ease-out · enemy: closes inward, ease-in)
+//   0 chest ring (billboard; ground space is for areas) — closes inward, ease-in
 //   1 ally: upright column of light rising in a soft ease-out (Heal) — Y-dominant, only turned about Y to the camera
 //   2 enemy: chest billboard that collapses on itself — ring and rays pulled inward, then a 2-frame pop (damage)
 const RL = .8;
@@ -559,7 +559,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
-      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }
+      if (aK < .5){ vP = position.xy*.95; vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.45; gl_Position = projectionMatrix*mv; }   /* on the chest, not the ground */
       else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }
       else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }

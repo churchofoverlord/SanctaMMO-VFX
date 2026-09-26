@@ -122,7 +122,7 @@ tr:last-child td{border-bottom:0}
         <legend>Cenário</legend>
         <label class="tg"><input type="checkbox" id="tLoop" checked><span>Repetir ataque<small>a cada ~3 s</small></span></label>
         <label class="tg"><input type="checkbox" id="tSleep" checked><span>Alvo com Sleep<small>sem Sleep não há alvo válido: nada é lançado</small></span></label>
-        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Fighters<small>casts de outros Mystics</small></span></label>
+        <label class="tg"><input type="checkbox" id="tStress"><span>Stress: 40 Mystics<small>casts de outros Mystics</small></span></label>
       </fieldset>
       <fieldset>
         <legend>Custo em tempo real</legend>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Olho no alvo</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Sem projétil: o olho ameaçador (pupila em fenda, pestanas em espinhos, luz a escorrer, a pulsar) abre-se diante do peito do inimigo e fita-o durante 0,875 s; depois dá lugar ao impacto</td></tr>
           <tr><td>Impacto (dano)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um olho enorme rasga-se no peito do inimigo e fica a fitá-lo (pupila em fenda), fecha-se de golpe com um estalo, e saem dele 7 espíritos a gritar (como no ícone) com uma onda de choque (1,1 s)</td></tr>
-          <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Onda de choque (até ~0,6 m) que rebenta do alvo para fora: anel duplo irregular, 12 farpas longas e um rasto frio, a tremeluzir (0,8 s). O Fear que fica é o cue de status</td></tr>
+          <tr><td>Anel de Fear</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Onda de choque no tronco (billboard, até ~0,6 m; nada no chão) que rebenta do alvo para fora: anel duplo irregular, 12 farpas longas e um rasto frio, a tremeluzir (0,8 s). O Fear que fica é o cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td>Partilhadas por todos os Mystics; cabe em Projétil (≤ 3 + 2 impacto)</td></tr>
         </tbody>
       </table>
@@ -161,7 +161,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Começa no alvo</h3><p>Não há projétil: o olho do pesadelo abre-se diretamente diante do inimigo que já está com Sleep e fica a fitá-lo antes do resto.</p></div>
     <div><h3>O olho fecha</h3><p>No impacto, o olho abre-se no peito do inimigo e fecha-se de golpe com um estalo curto: é o dano.</p></div>
-    <div><h3>Fear para fora</h3><p>O anel de Fear expande-se do alvo para fora, com farpas a apontar para fora (o contrário do anel de Sleep, que fecha). O estado é um cue de status.</p></div>
+    <div><h3>Fear para fora</h3><p>O anel de Fear expande-se do tronco do alvo para fora, com farpas a apontar para fora (o contrário do anel de Sleep, que fecha). O estado é um cue de status.</p></div>
   </section>
 </div>
 
@@ -576,7 +576,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addM
   vertexShader:`attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
-      if (aK < .5){ float S = 2.6*.25; vP = position.xy*2.6; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }   /* Fear ring at 25% size */
+      if (aK < .5){ vP = position.xy*2.6; vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.6; gl_Position = projectionMatrix*mv; }   /* Fear pulse on the torso (billboard), not the ground */
       else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }
       else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }

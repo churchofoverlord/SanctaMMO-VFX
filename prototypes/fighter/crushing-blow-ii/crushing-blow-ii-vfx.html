@@ -149,7 +149,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Traço vertical</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Um quad vertical fino no ponto de contacto, ~0,25 s</td></tr>
           <tr><td>Fragmentos de terreno</td><td class="n">24</td><td class="n">24</td><td class="n">12</td><td class="n">0</td><td>II: 3× o I, 8 blocos pesados + lascas, vida ~1,1 s. Pedras opacas low-poly instanciadas; trajetória e rotação no vertex shader, arestas quentes que arrefecem</td></tr>
           <tr><td>II · anel do Slow</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo quad do chão: segundo anel fino que segue a onda, ~0,3 s. Zero custo extra</td></tr>
-          <tr><td>II · trava de Stun</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no proc. Um quad no chão por alvo, losango que fecha em 70 ms e desaparece aos 0,34 s</td></tr>
+          <tr><td>II · trava de Stun</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só no proc. Um billboard pequeno no peito de cada alvo (não no chão): cantos de losango que fecham em 70 ms e desaparecem aos 0,34 s</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">1–2</td><td>Partilhadas por todos os Fighters; a 4.ª só existe enquanto houver uma trava de Stun viva</td></tr>
         </tbody>
       </table>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Impacto mais pesado</h3><p>Mesma silhueta e timing do I, mas muito mais forte: 14 rachas grossas e quentes com ramificações (o I tem 9), o triplo das pedras com 8 blocos grandes lançados mais alto, clarão central maior e um tremor curto de câmara (só no jogador local).</p></div>
     <div><h3>Slow: anel secundário</h3><p>Um segundo anel fino, mais dourado, segue a onda de choque 70 ms depois e apaga aos ~0,3 s. Aparece em todos os golpes, porque o Slow aplica-se sempre.</p></div>
-    <div><h3>Stun: só com condição</h3><p>Se o alvo já estava com Slow antes do golpe, um losango rígido fecha-se no chão por baixo dele e desaparece aos 0,34 s. O Slow e o Stun que ficam no alvo são cues de status. Para ver o proc: o 1.º golpe aplica Slow e o 2.º (dentro de 3 s) faz Stun; "Limpar Slow" repõe.</p></div>
+    <div><h3>Stun: só com condição</h3><p>Se o alvo já estava com Slow antes do golpe, os cantos de um losango rígido fecham-se de golpe no peito dele e desaparecem aos 0,34 s (o chão fica para a área). O Slow e o Stun que ficam no alvo são cues de status. Para ver o proc: o 1.º golpe aplica Slow e o 2.º (dentro de 3 s) faz Stun; "Limpar Slow" repõe.</p></div>
   </section>
 </div>
 
@@ -485,16 +485,16 @@ const grounds = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
       gl_FragColor = vec4(outc, 1.);
     }` }));
 
-// Layer 4 — II · Stun proc (only when the target was already Slowed before the hit): a rigid diamond that snaps shut on the ground
-// under the target, holds briefly and is gone by 0.34 s. The Stun that remains is the status cue's job, not this skill's.
+// Layer 4 — II · Stun proc (only when the target was already Slowed before the hit): a rigid diamond that snaps shut on the target's
+// chest (billboard; the ground is reserved for the area), holds briefly and is gone by 0.34 s. The Stun that remains is the status cue's job, not this skill's.
 const LOCK = .34;
 const locks = pool(new THREE.PlaneGeometry(2,2), 64, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){
       float u = uTime - aT; if (u < 0. || u > ${LOCK.toFixed(2)}){ ${HIDE} }
-      float S = .8; vP = position.xy*S; vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);
+      vP = position.xy*.8; vU = u;
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.35; mv.xy += position.xy*.42; gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; ${STROKE}
     void main(){
@@ -512,7 +512,7 @@ const locks = pool(new THREE.PlaneGeometry(2,2), 64, { aO:3, aT:1 }, addMat({
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));
-function lockAt(x, z, t){ const i = locks.next(); locks.A.aO.setXYZ(i, x, 0, z); locks.A.aT.setX(i, t); locks.track(t + LOCK, 1); }
+function lockAt(x, z, t){ const i = locks.next(); locks.A.aO.setXYZ(i, x, 1.2, z); locks.A.aT.setX(i, t); locks.track(t + LOCK, 1); }
 
 // Layer 2 — vertical impact: one thin upright stroke at the contact point (stays upright, only slightly camera-facing)
 const bolts = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aT:1 }, addMat({
@@ -667,7 +667,7 @@ const PHASES = [
   ['II · tremor de câmara (local)', 220, 520, 0xff7a1a],
   ['Anel apaga por último', 670, 970, 0xf2b53a],
   ['II · anel do Slow (sempre)', 290, 610, 0xffd98a],
-  ['II · Stun: losango (só se já tinha Slow)', 220, 640, 0xfff0d2],
+  ['II · Stun: losango no peito (só se já tinha Slow)', 220, 640, 0xfff0d2],
 ];
 const TOTAL = 1550, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
