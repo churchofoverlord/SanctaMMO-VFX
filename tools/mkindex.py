@@ -1,5 +1,5 @@
 import re, os, json, html
-os.chdir(r'C:\Dev\SanctaMMO-VFX')
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 readme = open('README.md', encoding='utf8').read()
 rows = re.findall(r'^\| (Fighter|Mage|Mystic|Scout) · (.+?) \| .*?\| \[(prototypes/[^\]]+)\]', readme, re.M)
 icons = {c: sorted(os.listdir(f'docs/icons/{c}')) for c in ['fighter', 'mage', 'mystic', 'scout']}
