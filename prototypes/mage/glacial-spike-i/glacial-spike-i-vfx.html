@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Estilhaços de gelo</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">2</td><td>Lâminas de gelo vítreo do Frost Lance (mesma malha e material: refrata a cena atrás, azul fundo onde é grosso, facetas com reflexos e brilhos), grandes (1,2–1,9 m), duas em cada borda do cone, irrompem do chão em ease-out (0,12 s) do perto para o longe, inclinadas para fora; o centro fica aberto para ler a direção. Seguram ~0,6 s e afundam a partir da base. 1 draw call</td></tr>
+          <tr><td>Estilhaços de gelo</td><td class="n">12</td><td class="n">12</td><td class="n">12</td><td class="n">2</td><td>Aglomerados de espigões de gelo vítreo (cristal de 6 lados com ponta longa e assimétrica; material do Frost Lance: refrata a cena atrás, azul fundo onde é grosso, facetas com reflexos e brilhos): um grande (1,6–2,4 m) e dois pequenos inclinados por ponto, dois pontos em cada borda do cone, irrompem do chão em ease-out (0,12 s) do perto para o longe, inclinadas para fora; o centro fica aberto para ler a direção. Seguram ~0,6 s e afundam a partir da base. 1 draw call</td></tr>
           <tr><td>Frente de geada</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão, só dentro do cone (6 m, 60°): uma frente de geada fina varre do Mage para fora (0,35 s) e deixa um rasto ténue que apaga; as bordas do cone ficam marcadas por linhas finas enquanto dura</td></tr>
           <tr><td>Hit nos alvos</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só nos alvos dentro do cone, quando a frente os alcança: flash frio curto e lascas pequenas no peito (0,35 s); o Slow (Manifest) é cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2</td><td>Partilhadas por todos os Mages; mais um render da cena a meia resolução enquanto há gelo (refração; no UE é a refração do material)</td></tr>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um cone frontal legível</h3><p>Quatro lâminas de gelo largas rompem o chão ao longo das duas bordas do cone, do perto para o longe, inclinadas para fora; o centro fica aberto para a direção se ler. Não é chuva de estilhaços.</p></div>
+    <div><h3>Um cone frontal legível</h3><p>Quatro aglomerados de espigões de gelo rompem o chão ao longo das duas bordas do cone, do perto para o longe, inclinadas para fora; o centro fica aberto para a direção se ler. Não é chuva de estilhaços.</p></div>
     <div><h3>O chão marca a área</h3><p>É uma AoE, por isso o chão mostra-a: uma frente de geada fina varre o cone e as bordas ficam marcadas por linhas finas enquanto o gelo está de pé.</p></div>
     <div><h3>Só os alvos dentro</h3><p>Os alvos dentro do cone recebem um flash frio curto quando a frente os alcança; o que está fora não recebe nada. O Slow (Manifest) é cue de status; em Weave o recurso é o VFX da stance.</p></div>
   </section>
@@ -508,14 +508,14 @@ const iceMat = o => new THREE.ShaderMaterial(Object.assign({}, o, { uniforms:Obj
 // Layer 1 — cone spikes: the Frost Lance blade planted upright, erupting from the ground (translate up, ease-out 0.12 s),
 // leaning outward; holds, then sinks from the base. aS = (width, height, yaw, lean), aD = (delay, leanDir, seed, -), aT = cast.
 const SPIKE_T = 1.05;
-const spikeGeo = iceShardGeo();
+const spikeGeo = iceColumnGeo(6, 3.7);                          // the Iceberg's glass ice spike: irregular 6-sided body, long asymmetric point
 const spikes = pool(spikeGeo, 1024, { aO:3, aS:4, aD:4, aT:1 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
   vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH;
     void main(){
       float u = uTime - aT - aD.x; if (u < 0. || u > ${SPIKE_T.toFixed(2)}){ ${HIDE} }
       float k = clamp(u/.12, 0., 1.), rise = 1. - pow(1. - k, 3.), sink = smoothstep(.72, ${SPIKE_T.toFixed(2)}, u);
-      vec3 sc = vec3(aS.x, aS.y, aS.x*.8);
+      vec3 sc = vec3(aS.x, aS.y, aS.x);
       vec3 p = position*sc, n = normalize(normal/sc);
       float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z); n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
       float ct = cos(aS.w), st = sin(aS.w); vec3 ax = vec3(cos(aD.y), 0., sin(aD.y));   // lean about a horizontal axis
@@ -724,15 +724,19 @@ function stab(O, yaw, tier, t0, targets){                   // Glacial Spike: fr
   const fx = -Math.sin(yaw), fz = -Math.cos(yaw), t1 = t0 + WIND;
   let k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t1); rings.A.aK.setX(k, 5); rings.A.aD.setXYZW(k, fx, fz, CONE_R, 0); rings.track(t1 + RL, 1);
   const S = tier > 0 ? [[-1, 1.9, 1.6], [1, 2.0, 1.7], [-1, 3.9, 2.3], [1, 3.8, 2.4]] : [[-1, 3, 2], [1, 3, 2.1]];
-  for (const [sd, d, h] of S){                              // two blades on each cone edge, near → far, taller further out
-    const a = yaw + sd*(CONE_HALF - .05), px = O.x - Math.sin(a)*d, pz = O.z - Math.cos(a)*d, j = spikes.next();
-    const out = Math.atan2(-Math.cos(a), Math.sin(a)*1.) ;   // unused helper angle kept simple below
-    spikes.A.aO.setXYZ(j, px, 0, pz);
-    spikes.A.aS.setXYZW(j, rand(.24, .3)*(d > 3 ? 1.1 : 1), h*rand(.92, 1.08), a + Math.PI/2 + rand(-.25, .25), .38 + rand(0, .12));
-    spikes.A.aD.setXYZW(j, d/FRONT_V, a + (sd > 0 ? Math.PI : 0), Math.random(), 0);   // lean away from the cone axis (and a little forward)
-    spikes.A.aT.setX(j, t1);
+  let n = 0;
+  for (const [sd, d, h] of S){                              // a cluster per point: one big spike + two small ones splaying out
+    const a = yaw + sd*(CONE_HALF - .05), cx = O.x - Math.sin(a)*d, cz = O.z - Math.cos(a)*d;
+    const parts = tier > 0 ? [[0, 0, 1, .2], [.35, 1.2, .5, .55], [.3, -1.3, .42, .6]] : [[0, 0, 1, .2]];
+    for (const [off, ang, s, lean] of parts){
+      const oa = a + ang, px = cx - Math.sin(oa)*off, pz = cz - Math.cos(oa)*off, j = spikes.next();
+      spikes.A.aO.setXYZ(j, px, 0, pz);
+      spikes.A.aS.setXYZW(j, rand(.2, .26)*(d > 3 ? 1.1 : 1)*(s < 1 ? .7 : 1), h*s*rand(.9, 1.1), Math.random()*6.28, lean + rand(0, .12));
+      spikes.A.aD.setXYZW(j, d/FRONT_V + (s < 1 ? .03 : 0), a + (sd > 0 ? Math.PI : 0) + (s < 1 ? ang*.6 : 0), Math.random(), 0);   // lean away from the cone axis
+      spikes.A.aT.setX(j, t1); n++;
+    }
   }
-  spikes.track(t1 + 4/FRONT_V + SPIKE_T, S.length);
+  spikes.track(t1 + 4/FRONT_V + SPIKE_T, n);
   castLog.push(t1 + RL);
   for (const tg of targets || []){                          // only targets inside the cone, when the front reaches them
     const dx = tg.p.x - O.x, dz = tg.p.z - O.z, d = Math.hypot(dx, dz), c = (dx*fx + dz*fz)/Math.max(d, 1e-3);
