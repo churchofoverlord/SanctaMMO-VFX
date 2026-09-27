@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 700 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 1000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -150,7 +150,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Dart</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Seta pequena e rápida (malha instanciada, 36 m/s), apontada ao rosto; voo na GPU</td></tr>
           <tr><td>Rasto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Faixa fina e curta atrás do dart</td></tr>
-          <tr><td>Flash de Blind</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No socket da cabeça: flash branco estourado de 2 frames (com estrela curta) e fade branco suave, 0,18 s. O Blind que fica é cue de status</td></tr>
+          <tr><td>Flash de Blind</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No socket da cabeça: flash branco estourado de 4 frames (com estrela curta) e fade branco suave, 0,6 s. O Blind que fica é cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Scouts</td></tr>
         </tbody>
       </table>
@@ -159,7 +159,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Pequeno e rápido</h3><p>Um dart fino voa direto ao rosto do alvo, com um rasto curto.</p></div>
-    <div><h3>Flash no rosto</h3><p>No impacto, um flash branco estourado de 2 frames na cabeça — lê-se "cegou" — e desvanece em 0,18 s.</p></div>
+    <div><h3>Flash no rosto</h3><p>No impacto, um flash branco estourado de 4 frames na cabeça — lê-se "cegou" — e desvanece em 0,6 s.</p></div>
     <div><h3>Blind é status</h3><p>O estado que fica no alvo é o cue de status do Blind.</p></div>
   </section>
 </div>
@@ -553,7 +553,7 @@ const sparks = pool(new THREE.PlaneGeometry(1,1), 1024, { aO:3, aV:3, aT:2 }, ad
 // Layer 3b — impact rings: a small billboard on the body at the contact point (not on the ground: ground space is for areas);
 // three concentric rings (icon), the inner ones as dashed arcs, contracting inward. Brief; the Slow that stays is the status cue.
 // Layer 3b — blind flash on the head socket: a white blown-out flash, 2-frame peak, then a short soft white fade (0.18 s)
-const RL = .18;
+const RL = .6;
 const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
@@ -561,8 +561,8 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
       vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25; mv.xy += position.xy*.5; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`varying vec2 vP; varying float vU;
     void main(){
-      float r = length(vP), a = atan(vP.y, vP.x), u = vU, peak = u < .034 ? 1. : 0.;
-      float f = peak*3. + (1. - peak)*pow(max(0., 1. - (u - .034)/${(RL - .034).toFixed(3)}), 2.)*.9;
+      float r = length(vP), a = atan(vP.y, vP.x), u = vU, peak = u < .07 ? 1. : 0.;
+      float f = peak*3. + (1. - peak)*pow(max(0., 1. - (u - .07)/${(RL - .07).toFixed(3)}), 1.4)*1.1;
       float core = exp(-r*r*(peak > .5 ? 5. : 12.)), rays = pow(abs(cos(a*3.)), 24.)*exp(-r*3.5)*peak;   // brief starburst on the peak
       vec3 o = vec3(1., .98, .94)*(core + rays*.8)*f*smoothstep(1., .8, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
@@ -666,10 +666,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Lançamento (corpo)', 0, 100, 0x8f8a82],
   ['Dart em voo (8 m: ~220 ms)', 100, 320, 0xf2b53a],
-  ['Flash branco no rosto: pico 2 frames', 320, 354, 0xffffff],
-  ['Fade branco', 354, 500, 0xd9d2c6],
+  ['Flash branco no rosto: pico 4 frames', 320, 390, 0xffffff],
+  ['Fade branco', 390, 920, 0xd9d2c6],
 ];
-const TOTAL = 700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 1000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
