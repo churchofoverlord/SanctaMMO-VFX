@@ -84,7 +84,7 @@ tr:last-child td{border-bottom:0}
       <div class="eyebrow">SanctaMMO · Scout · Cone de projéteis · Hold-to-shape · Stance Poison (snapshot) · Paleta verde</div>
       <h1><span>Volley</span> II · Poison</h1>
     </div>
-    <p class="canon"><b>Efeito canónico:</b> upgrade hold-to-shape: manter estreita o cone e aumenta o alcance; mantém 1 aplicação do DoT snapshot por alvo (aqui Poison).</p>
+    <p class="canon"><b>Efeito canónico:</b> upgrade hold-to-shape: manter estreita o cone e aumenta o alcance (no fim, uma linha: um só projétil maior que atravessa os alvos); mantém 1 aplicação do DoT snapshot por alvo (aqui Poison).</p>
   </header>
 
   <div class="main">
@@ -99,7 +99,7 @@ tr:last-child td{border-bottom:0}
         <div class="seg" id="holdSeg">
           <button data-h="0.1" aria-pressed="false">Toque</button>
           <button data-h="0.6" aria-pressed="false">Meio</button>
-          <button data-h="1.3" aria-pressed="true">Máximo</button>
+          <button data-h="1.3" aria-pressed="true">Completo (linha)</button>
         </div>
       </fieldset>
       <fieldset>
@@ -140,7 +140,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2000 ms (hold máximo)</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 2100 ms (channel completo)</span></div>
   </div>
 
   <section class="budget">
@@ -149,9 +149,9 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Telegraph do cone (hold)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão só enquanto se mantém: duas bordas largas e um arco no alcance, centro aberto, na cor Poison ténue. Estreita (Scale Y: ~50° → ~15°) e alonga (9 → 14 m) progressivamente com o hold (máx. 1,2 s); no máximo pisca uma vez. Apaga em 0,15 s ao largar</td></tr>
-          <tr><td>Setas + rastos (Volley I)</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td>A mesma linguagem do Volley I na cor Poison; só saem no release, com a abertura e o alcance do telegraph nesse instante</td></tr>
-          <tr><td>Detonação Poison</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Igual ao Volley I: uma só por alvo atingido, 0,18 s</td></tr>
+          <tr><td>Telegraph do cone (channel)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão só enquanto se mantém: duas bordas largas e um arco no alcance, centro aberto, na cor Poison ténue. Fecha progressivamente (~50° → 0°) e alonga (9 → 18 m) ao longo de 1,2 s até ficar literalmente uma linha; nesse ponto pisca uma vez. Apaga em 0,15 s ao largar</td></tr>
+          <tr><td>Setas + rastos</td><td class="n">9 / 1</td><td class="n">9 / 1</td><td class="n">9 / 1</td><td class="n">5 / 1</td><td>Antes do fim do channel: as 9 setas em arco do Volley I, com a abertura e o alcance do telegraph (arcos mais baixos quanto mais fechado). Com o channel completo (linha): um só projétil, ~2,4× maior, direito, até 18 m, que atravessa todos os alvos na linha</td></tr>
+          <tr><td>Detonação Poison</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Uma só por alvo atingido, 0,18 s; o tiro único deixa uma em cada alvo que atravessa, no instante em que passa</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Scouts; 0 partículas</td></tr>
         </tbody>
       </table>
@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>A forma segue o input</h3><p>Enquanto se mantém a tecla, o cone de mira no chão fecha e estende-se ao mesmo tempo; o que se vê é exatamente o que vai sair. Nada é disparado antes do release.</p></div>
-    <div><h3>Uma resolução</h3><p>Ao largar, o telegraph apaga e as cinco setas saem com a abertura e o alcance desse instante — cone largo e curto num toque, estreito e longo no máximo.</p></div>
+    <div><h3>Até ser uma linha</h3><p>Ao largar, as setas saem com a forma desse instante — leque largo e curto num toque, cada vez mais fechado e longo. Se o channel chega ao fim, o cone é uma linha e sai um único projétil maior, que vai mais longe e atravessa todos os alvos.</p></div>
     <div><h3>Mesmo DoT</h3><p>Continua a ser uma aplicação Poison por alvo; a stance snapshot fica decidida no release.</p></div>
   </section>
 </div>
@@ -431,36 +431,39 @@ const bladeGeo = (() => { const tip = new THREE.ConeGeometry(.075, .24, 4).rotat
   const parts = [tip, shaft, fin1, fin2].map(x => x.toNonIndexed().attributes.position.array), P = new Float32Array(parts.reduce((n, p) => n + p.length, 0));
   let o = 0; for (const p of parts){ P.set(p, o); o += p.length; }
   const m = new THREE.BufferGeometry(); m.setAttribute('position', new THREE.BufferAttribute(P, 3)); m.computeVertexNormals(); return m; })();
-const daggers = pool(bladeGeo, 256, { aO:3, aE:3, aT:1 }, new THREE.ShaderMaterial({
+const daggers = pool(bladeGeo, 512, { aO:3, aE:3, aT:1, aA:2 }, new THREE.ShaderMaterial({
   uniforms:{ uTime, uGold:uDot, uMoon:{ value:moonDir } },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec3 vN, vV;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; attribute vec2 aA; uniform float uTime; varying vec3 vN, vV;
+    vec3 path(float s){ return mix(aO, aE, s) + vec3(0., 4.*aA.x*s*(1. - s), 0.); }             // arced flight (aA.x = apex height)
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt){ ${HIDE} }
-      vec3 d = (aE - aO)/L, up = vec3(0., 1., 0.), sd = normalize(cross(d, up)), vu = cross(sd, d);
-      float a = u*18.;                                       // flies point first, a slow roll about its axis
+      float s = u/tt;
+      vec3 d = normalize(aE - aO + vec3(0., 4.*aA.x*(1. - 2.*s), 0.)), up = vec3(0., 1., 0.), sd = normalize(cross(d, up)), vu = cross(sd, d);
+      float a = u*18.;                                       // flies point first along the arc, a slow roll about its axis
       vec3 b1 = sd*cos(a) + vu*sin(a), b2 = cross(d, b1);
-      vec3 P = mix(aO, aE, u/tt) + d*.05 + d*position.x + b2*position.y + b1*position.z;
+      vec3 q = position*aA.y;                                // aA.y = scale (the single piercing shot is bigger)
+      vec3 P = path(s) + d*.05 + d*q.x + b2*q.y + b1*q.z;
       vN = normalize(d*normal.x + b2*normal.y + b1*normal.z); vV = normalize(cameraPosition - P);
       gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uMoon; varying vec3 vN, vV;
     void main(){ vec3 n = normalize(vN); float l = .18 + .7*max(dot(n, uMoon), 0.), rim = pow(1. - abs(dot(n, normalize(vV))), 3.);
       gl_FragColor = vec4(mix(vec3(.62, .6, .6), uGold, .55)*l*.7 + uGold*(.25 + rim*1.4), 1.); }   // arrow in the DoT colour` }));
-const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
+const trails = pool(new THREE.PlaneGeometry(2, 2, 16, 1), 512, { aO:3, aE:3, aT:1, aA:2 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold:uDotL, uOrange:uDot },
-  vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF;
+  vertexShader:`attribute vec3 aO, aE; attribute float aT; attribute vec2 aA; uniform float uTime; varying float vS, vY, vF;
+    vec3 path(float s){ return mix(aO, aE, s) + vec3(0., 4.*aA.x*s*(1. - s), 0.); }
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
       if (u < 0. || u > tt + .2){ ${HIDE} }
-      vec3 d = (aE - aO)/L;
-      float head = min(u*${V.toFixed(1)}, L), tail = max(0., head - 1.2) + max(0., u - tt)/.2*1.7;   // after the hit, the tail catches up
-      if (head - tail < .01){ ${HIDE} }
-      float s = position.x*.5 + .5;
-      vec3 P = aO + d*mix(tail, head - .22, s);
+      float head = min(u/tt, 1.), tail = max(0., head - 1.2*aA.y/L) + max(0., u - tt)/.2*1.7*aA.y/L;   // after the hit, the tail catches up
+      if (head - tail < .002){ ${HIDE} }
+      float s = position.x*.5 + .5, p = mix(tail, head - .22*aA.y/L, s);
+      vec3 P = path(p), d = normalize(aE - aO + vec3(0., 4.*aA.x*(1. - 2.*p), 0.));
       vec3 side = normalize(cross(d, P - cameraPosition));
       vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);
-      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.03, 1.);
+      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*.03*aA.y, 1.);
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF;
     void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);
@@ -470,7 +473,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // Layer 3 — hold-to-shape telegraph on the ground (one per hold): two broad edges + the range arc, centre open, faint DoT colour.
 // Shape from the hold time on the GPU: half-angle and range morph as the key is held (UE: decal with a Scale Y / morph param).
 const HMAX = 1.2;
-const coneA = h => .44 + (.13 - .44)*h, coneR = h => 9 + 5*h;          // half-angle (rad), range (m)
+const coneA = h => .44*(1 - h), coneR = h => 9 + 9*h;               // half-angle (rad) closes to a line, range (m)
 const teles = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1, aR:1, aY:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uDot, uDotL },
   vertexShader:`attribute vec3 aO; attribute float aT, aR, aY; uniform float uTime; varying vec2 vL; varying float vH, vF, vP;
@@ -478,15 +481,15 @@ const teles = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1, aR:1, aY:1 }
       float hold = min(u, aR - aT); vH = clamp(hold/${HMAX.toFixed(1)}, 0., 1.);
       vF = (1. - smoothstep(0., .15, uTime - aR))*smoothstep(0., .08, u);
       vP = hold >= ${HMAX.toFixed(1)} ? max(0., 1. - (hold - ${HMAX.toFixed(1)})/.25) : 0.;           // one blink when fully shaped
-      vec2 q = position.xy*15.; float c = cos(aY), s = sin(aY);
+      vec2 q = position.xy*19.; float c = cos(aY), s = sin(aY);
       vL = vec2(q.x, q.y);                                                     // local: x right, y forward
       vec3 W = aO + vec3(q.x*c - q.y*s, .03, -q.x*s - q.y*c);
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
   fragmentShader:`uniform vec3 uDot, uDotL; varying vec2 vL; varying float vH, vF, vP;
     void main(){
-      float r = length(vL), a = atan(vL.x, vL.y), A = mix(.44, .13, vH), R = mix(9., 14., vH);
+      float r = length(vL), a = atan(vL.x, vL.y), A = mix(.44, 0., vH), R = mix(9., 18., vH);
       float near = smoothstep(.6, 1.6, r), inR = smoothstep(R + .05, R - .05, r), inA = smoothstep(A + .01, A - .01, abs(a));
-      float edge = exp(-pow((abs(a) - A)*r/.05, 2.))*inR*near;                 // the two borders
+      float edge = exp(-pow((abs(a) - A)*r/mix(.05, .08, vH*vH), 2.))*inR*near*(1. + .6*vH*vH);   // the two borders (one line at the end)
       float arc = exp(-pow((r - R)/.06, 2.))*inA;                              // the range line
       float fill = inA*inR*near*smoothstep(R*.35, R, r)*.07;                   // faint, open centre
       float lum = (edge*.55 + arc*.45 + fill)*(.7 + .3*vH)*(1. + 1.5*vP);
@@ -522,32 +525,38 @@ const blinks = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aS:1 }, add
 // ============ spawning (CPU work only when a Volley is released) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
-const ORDER = [2, 1, 3, 0, 4];                          // 5 arrows spread over the shaped cone, released centre-out, 1–2 frames apart
 function volley(O, yaw, tier, t0, targets, h = 0){
-  const RANGE = coneR(h), SPREAD = coneA(h)*.47;
-  const n = tier > 0 ? 5 : 3, rx = Math.cos(yaw), rz = -Math.sin(yaw), fx0 = -Math.sin(yaw), fz0 = -Math.cos(yaw);
+  // h = hold shape (Volley II; 0 for Volley I). h < 1: a fan of arrows in arcs over the cone; h = 1: one big piercing shot on a line
+  const RANGE = coneR(h), HALF = coneA(h), single = h >= 1;
+  const n = single ? 1 : (tier > 0 ? 9 : 5), rx = Math.cos(yaw), rz = -Math.sin(yaw), fx0 = -Math.sin(yaw), fz0 = -Math.cos(yaw);
   const H = V3(O.x + rx*.2 + fx0*.35, 1.3, O.z + rz*.2 + fz0*.35), got = new Set();
+  const order = [...Array(n).keys()].sort((a, b) => Math.abs(a - (n - 1)/2) - Math.abs(b - (n - 1)/2));   // centre-out
   let end = t0;
-  for (let m = 0; m < 5; m++){
-    const k = ORDER[m]; if (n === 3 && (k === 0 || k === 4)) continue;
-    const a = yaw + (k - 2)*SPREAD, fx = -Math.sin(a), fz = -Math.cos(a), d0 = t0 + m*.022;   // stagger
-    let tg = null, best = 1e9;
+  order.forEach((k, m) => {
+    const a = yaw + (n > 1 ? (k/(n - 1)*2 - 1)*HALF : 0), fx = -Math.sin(a), fz = -Math.cos(a), d0 = t0 + m*.018;   // 1–2 frames apart
+    const apex = single ? 0 : (.5 + .9*(1 - h))*(.8 + .4*Math.abs(k/(Math.max(1, n - 1))*2 - 1)), scale = single ? 2.4 : 1;
+    const hits = [];
     for (const d of targets || []){
       const dx = d.p.x - H.x, dz = d.p.z - H.z, along = dx*fx + dz*fz, off = Math.abs(dx*fz - dz*fx);
-      if (along > .3 && along < RANGE && off < .32 && along < best){ best = along; tg = d; }
+      if (along > .3 && along < RANGE && off < (single ? .45 : .32)) hits.push([along, d]);
     }
-    const E = tg ? V3(H.x + fx*(best - .2), 1.2, H.z + fz*(best - .2))
-                 : (targets ? V3(H.x + fx*RANGE, .9, H.z + fz*RANGE) : V3(H.x + fx*rand(4, RANGE), 1.15, H.z + fz*rand(4, RANGE)));
+    hits.sort((p, q) => p[0] - q[0]);
+    const stop = single ? null : hits[0];                                 // fan arrows stop on the first target; the single shot pierces
+    const E = stop ? V3(H.x + fx*(stop[0] - .2), 1.2, H.z + fz*(stop[0] - .2))
+                   : (targets ? V3(H.x + fx*RANGE, single ? 1.1 : .15, H.z + fz*RANGE) : V3(H.x + fx*rand(4, RANGE), 1.15, H.z + fz*rand(4, RANGE)));
     const tt = H.distanceTo(E)/V, hitT = d0 + WIND + tt;
-    let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, d0); daggers.track(hitT, 1);
-    i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, d0); trails.track(hitT + .2, 1);
+    let i = daggers.next(); daggers.A.aO.setXYZ(i, H.x, H.y, H.z); daggers.A.aE.setXYZ(i, E.x, E.y, E.z); daggers.A.aT.setX(i, d0); daggers.A.aA.setXY(i, apex, scale); daggers.track(hitT, 1);
+    i = trails.next(); trails.A.aO.setXYZ(i, H.x, H.y, H.z); trails.A.aE.setXYZ(i, E.x, E.y, E.z); trails.A.aT.setX(i, d0); trails.A.aA.setXY(i, apex, scale); trails.track(hitT + .2, 1);
     end = Math.max(end, hitT + .2);
-    const hit = tg || !targets && Math.random() < .5;
-    if (!hit || (tg && got.has(tg))) continue;               // a target gets the DoT once per Volley
-    if (tg){ got.add(tg); tg.hitAt = hitT; }
-    const j = blinks.next(); blinks.A.aO.setXYZ(j, E.x, E.y, E.z); blinks.A.aT.setX(j, hitT); blinks.A.aS.setX(j, Math.random()); blinks.track(hitT + BL, 1);
-    end = Math.max(end, hitT + BL);
-  }
+    const list = single ? hits : (stop ? [stop] : (!targets && Math.random() < .5 ? [[0, null]] : []));
+    for (const [along, tg] of list){
+      if (tg && got.has(tg)) continue;                                    // a target gets the DoT once per Volley
+      const at = tg ? d0 + WIND + along/V : hitT, P = tg ? V3(H.x + fx*(along - .2), 1.2, H.z + fz*(along - .2)) : E;
+      if (tg){ got.add(tg); tg.hitAt = at; }
+      const j = blinks.next(); blinks.A.aO.setXYZ(j, P.x, P.y, P.z); blinks.A.aT.setX(j, at); blinks.A.aS.setX(j, Math.random()); blinks.track(at + BL, 1);
+      end = Math.max(end, at + BL);
+    }
+  });
   castLog.push(end);
 }
 
@@ -590,7 +599,7 @@ if (hasPost){
 
 // ============ targets: 4 dummies on arrow lines inside the cone, 1 outside ============
 const dummyMat = new THREE.MeshStandardMaterial({ color:lin(0x4a3a2c), roughness:.9 });
-const dummies = [[.21, 4.6], [.02, 12.8], [-.42, 5.4], [-.06, 10.5], [.85, 4.2]].map(([a, r]) => { const x = -Math.sin(a)*r + .2, z = -Math.cos(a)*r - .35;
+const dummies = [[.21, 4.6], [0, 10.5], [-.42, 5.4], [0, 13.2], [.85, 4.2], [0, 16.2]].map(([a, r]) => { const x = -Math.sin(a)*r + .2, z = -Math.cos(a)*r - .35;
   const g = new THREE.Group(); g.position.set(x, 0, z); scene.add(g);
   [[new THREE.CylinderGeometry(.05,.06,1.1,8), .55], [new THREE.CylinderGeometry(.22,.2,.7,14), 1.25], [new THREE.SphereGeometry(.13,14,10), 1.75]]
     .forEach(([geo, y]) => { const m = new THREE.Mesh(geo, dummyMat); m.position.y = y; m.castShadow = m.receiveShadow = true; g.add(m); });
@@ -613,12 +622,12 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 
 // ============ timeline UI ============
 const PHASES = [
-  ['Hold: cone no chão estreita e alonga (máx. 1,2 s)', 0, 1200, 0x6a6a6a],
-  ['No máximo: um piscar do telegraph', 1200, 1450, 0xd9d2c6],
-  ['Release: telegraph apaga, 5 setas em leque', 1300, 1600, 0xffffff],
-  ['Voo (até 14 m) + detonação Poison 1× por alvo', 1400, 1950, 0x5fe04a],
+  ['Channel: cone no chão fecha e alonga até ser uma linha (1,2 s)', 0, 1200, 0x6a6a6a],
+  ['Linha: um piscar do telegraph', 1200, 1450, 0xd9d2c6],
+  ['Release: um projétil grande e direito', 1300, 1450, 0xffffff],
+  ['Voo até 18 m, atravessa os alvos: detonação Poison em cada um', 1400, 2050, 0x5fe04a],
 ];
-const TOTAL = 2000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 2100, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -630,7 +639,7 @@ const heads = [...tl.querySelectorAll('.playhead')];
 let speed = 1, quality = 2, time = 0, localT = -1e9, idle = 0, rearPos = true;
 const tLoop = $('tLoop'), tStress = $('tStress');
 
-let camZ = -4.2;
+let camZ = -6.5;
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
 let holdT = -1, tele = -1, holdFor = 1.3;                        // hold-to-shape (local Scout)
@@ -653,7 +662,7 @@ addEventListener('keyup', e => { if (e.key === 'q' || e.key === 'Q' || e.code ==
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('holdSeg', 'h', v => holdFor = v); seg('quality', 'q', v => quality = v);
 
-let yaw = .18, pitch = .9, dist = 14.5, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
+let yaw = .18, pitch = .85, dist = 18, drag = null;   // side view: the whole throw reads   // 3/4 side view so the thrust reads along its length
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
