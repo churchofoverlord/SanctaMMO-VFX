@@ -146,8 +146,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Trail</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha fixa em World Space, uma por dash: 5 traços finos de velocidade (da canela ao ombro), alinhados ao dash e em pé, cada um com início desfasado; afinam na origem e fundem-se no Scout, apagam a partir da origem em ~0,25 s. Sem sprites nem nuvem de partículas, sem ghosting</td></tr>
-          <tr><td>Chegada</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>No mesmo quad: duplo chevron fino (ícone) à frente do Scout à altura do tronco, só no fim do dash, 0,15 s</td></tr>
+          <tr><td>Trail</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Malha fixa em World Space, uma por dash, em pé ao longo do dash: nuvem quente procedural (fbm esticado ao longo do movimento, nunca grão) com a altura do corpo, fina na origem e cheia junto ao Scout, onde se funde; bordas irregulares, escura-laranja nas margens e dourada onde é densa; é comida a partir da origem em ~0,35 s. Sem sprites</td></tr>
           <tr><td>Charges</td><td class="n">UI</td><td class="n">UI</td><td class="n">UI</td><td class="n">UI</td><td>As charges são só UI; nenhum VFX no mundo</td></tr>
           <tr><td>Draw calls</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Partilhada por todos os Scouts; 0 partículas</td></tr>
         </tbody>
@@ -156,8 +155,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Curto, fino, direcional</h3><p>Cinco traços finos de velocidade ficam para trás, como no ícone, e desfazem-se a partir da origem. O recorte do Scout nunca fica tapado: sem nuvem, sem silhuetas residuais.</p></div>
-    <div><h3>Chevron só na chegada</h3><p>No fim do dash, um duplo chevron fino pisca à frente do Scout (0,15 s) e confirma a direção.</p></div>
+    <div><h3>Nuvem atrás do Scout</h3><p>O dash deixa uma nuvem quente e curta, esticada no sentido do movimento, que se desfaz a partir da origem. É uma única malha com ruído no shader — sem sprites nem silhuetas residuais.</p></div>
     <div><h3>Charges na UI</h3><p>As charges ficam na barra; o dash só se usa com charge disponível. O Quickstep II mantém esta trail.</p></div>
   </section>
 </div>
@@ -430,9 +428,9 @@ const trails = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aE:3, aT:1 }, ad
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU, vL;
     void main(){
-      float u = uTime - aT - ${PREP.toFixed(2)}; if (u < 0. || u > ${(RUSH + .4).toFixed(2)}){ ${HIDE} }
+      float u = uTime - aT - ${PREP.toFixed(2)}; if (u < 0. || u > ${(RUSH + .45).toFixed(2)}){ ${HIDE} }
       vec3 d = aE - aO; float L = length(d); vec3 f = d/L;
-      float x = (position.x*.5 + .5)*(L + 1.3) - .1;                      // metres along the dash (to 1.2 m past the arrival)
+      float x = (position.x*.5 + .5)*(L + .2) - .1;                       // metres along the dash
       vec3 P = aO + f*x;
       vec3 cside = normalize(cross(f, P - cameraPosition));
       vec3 side = normalize(vec3(0., 1., 0.) + .25*cside*sign(dot(cside, vec3(0., 1., 0.)) + 1e-4));   // stays upright
@@ -440,38 +438,30 @@ const trails = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aE:3, aT:1 }, ad
       vP = vec2(x, y); vU = u; vL = L;
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*(y - .9) + vec3(0., .9, 0.), 1.);
     }`,
-  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vL; ${STROKE}
+  fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vL;
+    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }
+    float fbm(vec2 p){ float s = 0., a = .55; for (int i = 0; i < 4; i++){ s += a*vn(p); p = p*2.03 + 7.1; a *= .5; } return s; }
     void main(){
-      float x = vP.x, y = vP.y, u = vU, lum = 0., hot = 0.;
-      float head = vL*(1. - pow(1. - clamp(u/${RUSH.toFixed(2)}, 0., 1.), 3.)) - .12;   // just behind the Scout (same ease)
-      float wipe = max(u - ${(RUSH*.6).toFixed(2)}, 0.)/.26;                  // wiped from the origin
-      for (int i = 0; i < 5; i++){
-        float fi = float(i), h = fract(sin(fi*47.3)*4375.5);
-        float yy = .35 + fi*.26 + (h - .5)*.08;                               // shin → shoulder
-        float x0 = h*.35*vL;                                                  // staggered starts
-        float q = (x - x0)/max(head - x0, .01);                               // 0 at the streak start, 1 at the Scout
-        float prof = pow(clamp(q, 0., 1.), 1.4);                              // thin at the origin, thickest at the Scout
-        float blend = smoothstep(1.03, .82, q);                               // melts into the body, no hard front end
-        float alive = smoothstep(wipe*1.1 - .05, wipe*1.1 + .2, q);
-        float w = .004 + .012*prof*(fi == 2. ? 1.3 : 1.);
-        float d = abs(y - yy);
-        float k = step(0., q)*prof*blend*alive;
-        lum += exp(-pow(d/(w*2.5), 2.))*k*.55; hot += lcore(d, w*.6)*k*.5;
-      }
-      // arrival: thin double chevron ahead of the Scout at torso height, only at the end of the dash
-      float ua = u - ${RUSH.toFixed(2)};
-      if (ua > -.02 && ua < .15){
-        float t = clamp(ua/.15, 0., 1.), f = pow(1. - t, 1.5)*(ua < .033 ? 1.6 : 1.);
-        for (int j = 0; j < 2; j++){
-          float cx = vL + .75 + float(j)*.2 + t*.15;                          // pushed a little forward as it fades
-          vec2 p = vec2(x - cx, y - 1.05);
-          float dv = abs(-abs(p.y)*.75 - p.x);                               // ">" : tip at p=(0,0), arms back
-          float cw = .012*(1. - abs(p.y)/.24) + .002;
-          float c = exp(-pow(dv/cw, 2.))*step(abs(p.y), .24)*smoothstep(.24, .12, abs(p.y));
-          lum += c*f*(j == 0 ? .8 : 1.1); hot += exp(-pow(dv/(cw*.35), 2.))*step(abs(p.y), .24)*f*.5;
-        }
-      }
-      vec3 o = (mix(uOrange, uGold, .5)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot)*(1. - smoothstep(${(RUSH + .25).toFixed(2)}, ${(RUSH + .4).toFixed(2)}, u));
+      float x = vP.x, y = vP.y, u = vU;
+      float head = vL*(1. - pow(1. - clamp(u/${RUSH.toFixed(2)}, 0., 1.), 3.)) - .1;   // just behind the Scout (same ease)
+      float q = x/max(head, .01);                                              // 0 at the origin, 1 at the Scout
+      float wipe = max(u - ${(RUSH*.5).toFixed(2)}, 0.)/.34;                   // eaten from the origin
+      // cloud: fbm stretched along the dash (never grain), drifting back, breaking up as it thins
+      vec2 np = vec2(x*1.3 - u*2.2, y*5.5);
+      float n = fbm(np), n2 = fbm(np*vec2(.6, 1.7) + 3.3);
+      float env = pow(clamp(q, 0., 1.), 1.2)*smoothstep(1.04, .8, q)*step(0., q);   // thin at the origin, full at the Scout, melts into the body
+      float hgt = .55 + .35*env;                                               // half-height grows toward the Scout (body-tall)
+      float yc = abs(y - 1.) / hgt;
+      float body = smoothstep(1., .25, yc + (n2 - .5)*.5);                     // soft ragged top/bottom
+      float alive = smoothstep(wipe - .1, wipe + .3, q + (n - .5)*.35);        // wiped from the origin, ragged front
+      float dens = smoothstep(.32, .85, n*(.55 + .6*body))*body*env*alive;
+      float fade = 1. - smoothstep(${(RUSH + .3).toFixed(2)}, ${(RUSH + .45).toFixed(2)}, u);
+      dens *= fade;
+      vec3 col = mix(uOrange*.55, mix(uOrange, uGold, .6), smoothstep(.2, .8, dens));   // dim warm edges → gold where dense
+      vec3 o = col*dens*.55 + vec3(1., .93, .8)*pow(dens, 3.)*.25;
+      o *= smoothstep(-.05, .15, x);
       if (max(o.r, max(o.g, o.b)) < .002) discard;
       gl_FragColor = vec4(o, 1.);
     }` }));
@@ -480,7 +470,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aE:3, aT:1 }, ad
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 function rush(O, E, tier, t0){
-  const i = trails.next(); trails.A.aO.setXYZ(i, O.x, 0, O.z); trails.A.aE.setXYZ(i, E.x, 0, E.z); trails.A.aT.setX(i, t0); trails.track(t0 + PREP + RUSH + .4, 1);
+  const i = trails.next(); trails.A.aO.setXYZ(i, O.x, 0, O.z); trails.A.aE.setXYZ(i, E.x, 0, E.z); trails.A.aT.setX(i, t0); trails.track(t0 + PREP + RUSH + .45, 1);
   castLog.push(t0 + .7);
   return t0 + PREP + RUSH;
 }
@@ -537,9 +527,8 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Preparação (corpo)', 0, 40, 0x8f8a82],
-  ['Dash · traços crescem atrás do Scout', 40, 200, 0xffffff],
-  ['Chevron duplo à frente (chegada)', 200, 350, 0xfff0d2],
-  ['Traços apagam a partir da origem', 140, 600, 0xff7a1a],
+  ['Dash · nuvem cresce atrás do Scout', 40, 200, 0xffffff],
+  ['Nuvem é comida a partir da origem', 120, 650, 0xff7a1a],
 ];
 const TOTAL = 700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {

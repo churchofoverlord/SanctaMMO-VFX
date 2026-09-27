@@ -34,7 +34,18 @@ total = sum(len(v) for v in done.values()); miss = sum(len(v) for v in MISSING.v
 
 def card(name, path, icon):
     return f'''<a class="card" href="{html.escape(path)}" data-q="{html.escape(name.lower())}"><img src="{html.escape(icon)}" alt="" loading="lazy" width="56" height="56"><span>{html.escape(name)}</span></a>'''
-sections = []
+# most recent prototypes (last commit touching the file; uncommitted = now), shown on top
+import subprocess, time
+def mtime(path):
+    r = subprocess.run(['git', 'log', '-1', '--format=%ct', '--', path], capture_output=True, text=True)
+    changed = subprocess.run(['git', 'status', '--porcelain', '--', path], capture_output=True, text=True).stdout.strip()
+    return time.time() if changed or not r.stdout.strip() else int(r.stdout.strip())
+allp = [(mtime(p), c, n, p, i) for c in CLS for n, p, i in done[c]]
+recent = sorted(allp, key=lambda x: -x[0])[:8]
+sections = [f'''<section id="recentes" style="--acc:var(--gold)">
+    <header class="sh"><h2>Recentes</h2><span class="count">últimos {len(recent)} protótipos</span></header>
+    <div class="grid">{''.join(card(f"{c} · {n}", p, i) for _, c, n, p, i in recent)}</div>
+  </section>''']
 for c in CLS:
     items = ''.join(card(n, p, i) for n, p, i in done[c])
     ms = MISSING.get(c, [])
@@ -97,7 +108,7 @@ footer{{color:var(--muted);font-size:12px;border-top:1px solid var(--line);paddi
     <div class="stats"><b>{total}</b> protótipos · <b>{miss}</b> por fazer</div>
   </div>
   <nav class="bar" aria-label="Classes">
-    <a href="#fighter">Fighter</a><a href="#mage">Mage</a><a href="#mystic">Mystic</a><a href="#scout">Scout</a>
+    <a href="#recentes">Recentes</a><a href="#fighter">Fighter</a><a href="#mage">Mage</a><a href="#mystic">Mystic</a><a href="#scout">Scout</a>
     <input id="q" type="search" placeholder="Procurar skill…" aria-label="Procurar skill">
   </nav>
   {"".join(sections)}

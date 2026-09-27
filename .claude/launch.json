@@ -5,11 +5,8 @@
       "name": "sancta-vfx",
       "runtimeExecutable": "python",
       "runtimeArgs": [
-        "-m",
-        "http.server",
-        "8766",
-        "--directory",
-        "C:/Dev/SanctaMMO-VFX"
+        "C:/Dev/SanctaMMO-VFX/tools/serve.py",
+        "8766"
       ],
       "port": 8766
     }
