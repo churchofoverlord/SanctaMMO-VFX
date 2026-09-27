@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Terra revolvida</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m: terra escura revolvida por dentro, orla irregular de terra mais clara e uma linha de luz amarela com halo suave no limite, fissuras. Abre primeiro (0,25 s)</td></tr>
-          <tr><td>Raízes no chão</td><td class="n">26</td><td class="n">26</td><td class="n">26</td><td class="n">12</td><td>Durante os primeiros 3/4 do campo: raízes meio enterradas com casca rastejam uma após outra desde a orla (0,8 s cada) e vão-se acumulando no chão, as primeiras até às bases das vinhas</td></tr>
+          <tr><td>Raízes no chão</td><td class="n">26</td><td class="n">26</td><td class="n">26</td><td class="n">12</td><td>Durante os primeiros 3/4 do campo: raízes meio enterradas com casca finas e com caminhos irregulares, rastejam uma após outra desde a orla (0,65 s cada), ramificam-se em 2–3 ramos mais finos e vão-se acumulando no chão, as primeiras até às bases das vinhas</td></tr>
           <tr><td>Vinhas grossas</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Só no último 1/4 do campo, onde as primeiras raízes chegaram: troncos de casca nodosa com musgo, material PBR iluminado, com um glow amarelo ligeiro no contorno (como as raízes), saem de dentro do chão em 0,2 s e enrolam-se em S; espinhos secos e folhas verde-escuras que abrem quando a vinha está fora. Deformação toda no vertex shader (WPO)</td></tr>
           <tr><td>Torrões de terra</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">0</td><td>Pedaços de terra atirados onde cada vinha rompe o chão, balística na GPU, ~1 s</td></tr>
           <tr><td>Draw calls</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td>Partilhadas por todos os Scouts; 0 partículas de sprite. O Slow nos inimigos é cue de status</td></tr>
@@ -417,7 +417,7 @@ const ptsScale = { value:600 };
 // vertex shader), disturbed soil on the ground, dirt clods thrown when the thick vines break out. No glow.
 const GROW = .07;
 const WIND = .15, FR = 3, DUR = 3.2, EMERGE = .2, RETRACT = .45;   // cast, field radius (m), duration shown, emerge / retract (s)
-const CIRC = .2, CREEP = .45, VD = DUR*.75;                      // 1) soil ring, 2) roots keep creeping in over the ground, 3) thick vines break out in the last quarter
+const CIRC = .2, CREEP = .65, VD = DUR*.75;                      // 1) soil ring, 2) roots keep creeping in over the ground, 3) thick vines break out in the last quarter
 const LIFE = DUR + RETRACT;
 
 // one GLSL body for all parts; uMode: 0 = thick vine, 1 = ground root, 2 = thorn, 3 = leaf, 4 = dirt clod
@@ -430,7 +430,8 @@ const VCOMMON = `
     return vec3(cos(a)*r, h, sin(a)*r) + vec3(cos(P.x), 0., sin(P.x))*(.35*s*s);
   }
   vec3 root(float s){ vec3 S0 = vec3(aS.x, 0., aS.z), d = aB - S0, n = normalize(vec3(-d.z, 0., d.x));
-    return mix(S0, aB, s) + n*(aC.x*sin(3.14159*s) + .1*sin(s*9. + aC.x*7.)*sin(3.14159*s)); }
+    float e = sin(3.14159*s), L = length(d);                                   // irregular, wandering path (a few octaves)
+    return mix(S0, aB, s) + n*e*(aC.x + L*(.07*sin(s*7. + aC.x*9.) + .045*sin(s*17. + aC.x*23.) + .025*sin(s*37. + aC.x*5.))); }
   float emerge(float u){ return 1. - pow(1. - clamp(u/${EMERGE.toFixed(2)}, 0., 1.), 3.); }
   float sinkT(float u, float end){ return clamp((uTime - aS.y)/${RETRACT.toFixed(2)}, 0., 1.); }   // aS.y = absolute end of the field
   vec3 gP, gN; float gAlive;`;
@@ -506,7 +507,7 @@ const leafGeo = (() => { const g = new THREE.BufferGeometry(), P = [], I = [], N
   g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); g.setIndex(I); g.computeVertexNormals(); return g; })();
 const VA = { aO:3, aB:3, aS:3, aT:1, aP:4, aC:2 };
 const vines  = pool(new THREE.CylinderGeometry(1, 1, 1, 12, 48, false), 256, VA, natMat(0));
-const roots  = pool(new THREE.CylinderGeometry(1, 1, 1, 7, 40, true), 512, VA, natMat(1));
+const roots  = pool(new THREE.CylinderGeometry(1, 1, 1, 6, 64, true), 1024, VA, natMat(1));
 const thorns = pool(new THREE.ConeGeometry(.035, .16, 5).translate(0, .08, 0), 4096, VA, natMat(2));
 const leaves = pool(leafGeo, 2048, VA, natMat(3, THREE.DoubleSide));
 const clods  = pool(new THREE.IcosahedronGeometry(1, 0), 1024, VA, natMat(4));
@@ -544,6 +545,10 @@ const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 const RANGE = 12;
 const NV = { 3:5, 2:5, 1:4, 0:3 }, NTH = 9, NLF = 7, NCL = 7;
+function rootAt(S, B, bend, s){                                   // same path as the root() shader, on the CPU (branch fork points)
+  const dx = B[0] - S[0], dz = B[2] - S[2], L = Math.hypot(dx, dz) || 1, nx = -dz/L, nz = dx/L, e = Math.sin(Math.PI*s);
+  const o = e*(bend + L*(.07*Math.sin(s*7 + bend*9) + .045*Math.sin(s*17 + bend*23) + .025*Math.sin(s*37 + bend*5)));
+  return [S[0] + dx*s + nx*o, 0, S[2] + dz*s + nz*o]; }
 function put(p, G, t, B, S, P, C){ const i = p.next(); p.A.aO.setXYZ(i, G.x, 0, G.z); p.A.aB.setXYZ(i, ...B); p.A.aS.setXYZ(i, ...S); p.A.aT.setX(i, t); p.A.aP.setXYZW(i, ...P); p.A.aC.setXY(i, ...C); }
 function stab(O, yaw, tier, t0, targets){                   // Vine Field: soil ring → roots creep → thick vines break out
   const fx = -Math.sin(yaw), fz = -Math.cos(yaw);
@@ -559,7 +564,16 @@ function stab(O, yaw, tier, t0, targets){                   // Vine Field: soil 
     const ts = t1 + CIRC + Math.pow(k/NR, 1.3)*(VD - CIRC - .5)*rand(.9, 1.05);
     const ca = rand(0, 6.28), bs = bases[k % n], loose = k >= n*2 && Math.random() < .5;
     const B = loose ? [Math.cos(ca + rand(.6, 1.6))*FR*rand(.1, .6), 0, Math.sin(ca + rand(.6, 1.6))*FR*rand(.1, .6)] : [bs[0], 0, bs[2]];
-    put(roots, G, ts, B, [Math.cos(ca)*FR*.95, END, Math.sin(ca)*FR*.95], [0, 0, 0, 0], [rand(-.7, .7), rand(.03, .06)*(k < n*2 ? 1.2 : 1)]); nr++;
+    const S = [Math.cos(ca)*FR*.95, END, Math.sin(ca)*FR*.95], bend = rand(-.7, .7), w = rand(.016, .03)*(k < n*2 ? 1.25 : 1);
+    put(roots, G, ts, B, S, [0, 0, 0, 0], [bend, w]); nr++;
+    // branches: 2–3 thinner roots forking off this one along its path, each starting when the parent's tip passes there
+    const nb = tier > 0 ? 2 + (Math.random() < .5 ? 1 : 0) : 1;
+    for (let q = 0; q < nb; q++){
+      const s0 = rand(.2, .75), P0 = rootAt(S, B, bend, s0), dx = B[0] - S[0], dz = B[2] - S[2], L = Math.hypot(dx, dz) || 1;
+      const side = (Math.random() < .5 ? -1 : 1), ang = Math.atan2(dz, dx) + side*rand(.5, 1.1), len = rand(.5, 1.3);
+      const E = [P0[0] + Math.cos(ang)*len, 0, P0[2] + Math.sin(ang)*len];
+      put(roots, G, ts + s0*CREEP*.9, E, [P0[0], END, P0[2]], [0, 0, 0, 0], [rand(-.3, .3), w*rand(.45, .65)]); nr++;
+    }
   }
   // 3) thick vines break out only in the last quarter
   for (let v = 0; v < n; v++){
