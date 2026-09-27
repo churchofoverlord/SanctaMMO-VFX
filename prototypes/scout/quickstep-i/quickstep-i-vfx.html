@@ -421,9 +421,8 @@ const PREP = .04, RUSH = .16;                       // tiny crouch, dash duratio
 const ease = x => 1 - Math.pow(1 - clamp01(x), 3);  // fast start, settles into the arrival
 const DASH = 4;                                     // dash distance (m)
 
-// ONE fixed World Space quad per dash, upright along the dash (turned to the camera only around the dash axis), from the origin
-// to a little past the arrival. It draws 5 thin speed streaks (shin → shoulder) with staggered starts, thin at the origin,
-// merging into the Scout, wiped from the origin; and a thin double chevron ahead of the Scout at the arrival (icon).
+// ONE fixed World Space quad per dash, upright along the dash (turned to the camera only around the dash axis): a warm procedural
+// cloud (fbm stretched along the motion), thin at the origin, body-tall at the Scout where it melts in, eaten from the origin.
 const trails = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU, vL;
