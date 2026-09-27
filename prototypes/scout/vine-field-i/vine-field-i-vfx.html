@@ -154,7 +154,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Natureza física</h3><p>Nada etéreo: terra revolvida, raízes e troncos com casca, espinhos e folhas, iluminados pela cena como objetos reais; só uma borda de luz amarela no limite e um glow ligeiro no contorno das vinhas e raízes.</p></div>
     <div><h3>Três tempos</h3><p>Primeiro a terra abre-se num círculo; depois as raízes vão-se acumulando pelo chão durante quase todo o campo; só no último quarto as vinhas grossas rompem o solo em 0,2 s, atirando torrões de terra.</p></div>
-    <div><h3>Slow é status</h3><p>O campo não reage aos inimigos; o Slow de cada um é o cue de status dele. No fim, tudo afunda de volta na terra.</p></div>
+    <div><h3>Slow é status</h3><p>O campo não reage aos inimigos; o Slow de cada um é o cue de status dele. No fim, as vinhas desaparecem da ponta para baixo.</p></div>
   </section>
 </div>
 
@@ -447,7 +447,8 @@ const VBODY = `
     vec3 C = vine(s, aP, sway), T = normalize(vine(min(s + .01, 1.), aP, sway) - vine(max(s - .01, 0.), aP, sway));
     vec3 B = normalize(cross(T, vec3(.3, 0., 1.))), Nn = cross(B, T);
     float rad = mix(.075, .012, pow(s, .8));
-    vec3 drop = vec3(0., -(1. - g + k)*(aP.y*1.05 + .2), 0.);                 // below the ground until it breaks out
+    vec3 drop = vec3(0., -(1. - g)*(aP.y*1.05 + .2), 0.);                     // below the ground until it breaks out
+    vHead = 1. - k;                                                           // despawn: dissolves from the tip down to the ground
     if (uMode < .5){ float ang = atan(position.z, position.x); vec3 rn = B*cos(ang) + Nn*sin(ang);
       float knot = 1. + .1*sin(s*31. + aP.w*5.);                                // same bark as the ground roots               // knotty, uneven bark
       gP = aO + aB + C + rn*rad*knot + drop; gN = rn; vS = s; vBark = ang; }
