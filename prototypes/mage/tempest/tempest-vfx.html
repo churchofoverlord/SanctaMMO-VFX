@@ -152,7 +152,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Círculo da tempestade</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão (R 6 m, ~6,5 s): anel exterior meio azul-ciano meio dourado, anel interior e 6 divisões radiais, rotação lenta, luz baixa e estável</td></tr>
           <tr><td>Telegraphs</td><td class="n">12</td><td class="n">12</td><td class="n">8</td><td class="n">6</td><td>0,6 s antes de cada impacto, um círculo pequeno (R 1 m) na cor do tipo enche-se até ao centro; azul = Ice, dourado = Lightning</td></tr>
           <tr><td>Impacto Lightning</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Raio do céu até ao chão (receita Coil) com ramificações, flash, faíscas e anel curto; burst extra só se o alvo já estava Sapped</td></tr>
-          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de espinhos de gelo afiados (cristal e material de gelo do Iceberg, afunilado até à ponta, ponta para baixo) que caem da nuvem em 0,3 s, cravam-se no chão e afundam + anel de geada</td></tr>
+          <tr><td>Impacto Ice</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Cacho de espinhos de gelo afiados (a lâmina de cristal e o material do Frost Lance, ponta para baixo) que caem da nuvem em 0,3 s, cravam-se no chão e afundam + anel de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">5–6</td><td class="n">5–6</td><td class="n">5</td><td class="n">4</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -567,6 +567,12 @@ function iceLanceGeo(front, back){
     T.push([Bk, mid[j], mid[i]]); T.push([mid[i], mid[j], sh[i]]); T.push([mid[j], sh[j], sh[i]]); T.push([sh[i], sh[j], F]); }
   return iceGeo(T);
 }
+/* the Frost Lance blade stood upright along +Y (height 1, short back point buried at the base): for walls and falling spikes */
+function iceShardGeo(){
+  const g = iceLanceGeo(1, .12), P = g.attributes.position.array;
+  for (let i = 0; i < P.length; i += 3){ const x = P[i], y = P[i + 1], z = P[i + 2]; P[i] = x; P[i + 1] = (z + .12)/1.12; P[i + 2] = y; }
+  g.computeVertexNormals(); return g;
+}
 const ICE_U = { uBG:{ value:null }, uRes:{ value:new THREE.Vector2(1, 1) } };
 let iceRT = null;
 /* call right before the frame's final render: captures the scene behind the ice (only while some ice is visible) */
@@ -614,7 +620,7 @@ const ICE_GLSL = `
     return vec4(col, 1.);
   }`;
 const iceMat = o => new THREE.ShaderMaterial(Object.assign({}, o, { uniforms:Object.assign({}, o.uniforms, ICE_U), extensions:{ derivatives:true } }));
-const prismGeo = iceColumnGeo(6, 5.1);
+const prismGeo = iceShardGeo();                                  // the Frost Lance blade, falling point down
 const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
   vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack;
@@ -624,7 +630,7 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
       float br = du > 0. ? 1. - du/.16 : 1.;
       float k = clamp(u/.3, 0., 1.), rise = 1., fall = 1. - k*k;                 // Tempest: icicle falls from the cloud (ease-in)
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
-      vec3 p = position*vec3(aS.x, aS.y, aS.x); p.xz *= pow(max(0., 1. - position.y*.97), .8); p.y = aS.y - p.y;   // tapered to a sharp point, flipped: point down (spike, not a cylinder)
+      vec3 p = position*vec3(aS.x, aS.y, aS.x); p.y = aS.y - p.y;   // Frost Lance blade flipped: point down
       float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z);
       vec3 n = normalize(normal/vec3(aS.x, -aS.y, aS.x)); n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
       float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little

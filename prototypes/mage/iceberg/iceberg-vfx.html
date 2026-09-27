@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo (billboard) com faixa curta, direto a 18 m/s até ao ponto no chão</td></tr>
-          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Colunas de cristal de gelo esguias (malha instanciada: corpo irregular de 6 lados, ombro e ponta longa assimétrica), material de gelo partilhado (gelo vítreo que refrata o que está atrás (cena capturada atrás do gelo, como o SceneColor/Refraction no UE), azul fundo onde é grosso e quase transparente nas pontas, cada faceta com reflexo diferente e brilhos brancos, geada e fissuras por dentro), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
+          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Lâminas de cristal de gelo (a lâmina em losango do Frost Lance, espetada no chão ao longo do muro; grandes ao centro, pequenas inclinadas para fora), material de gelo partilhado (gelo vítreo que refrata o que está atrás (cena capturada atrás do gelo, como o SceneColor/Refraction no UE), azul fundo onde é grosso e quase transparente nas pontas, cada faceta com reflexo diferente e brilhos brancos, geada e fissuras por dentro), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
           <tr><td>Limite + Slow</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: linha de geada fina a marcar a colisão do muro enquanto dura + um anel que abre uma vez até ao raio da AoE (3 m)</td></tr>
           <tr><td>Estilhaçar</td><td class="n">65</td><td class="n">65</td><td class="n">45</td><td class="n">35</td><td>Só se o muro for destruído: estilhaços GPU (5 por pilar) + pulso de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mages</td></tr>
@@ -169,7 +169,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Item</th><th>Especificação</th></tr></thead>
         <tbody>
           <tr><td>Actor</td><td><code>BP_Iceberg</code>, spawn no servidor pela Ability, replicado. Vida do muro inteiro (um só valor). Dura 3 s</td></tr>
-          <tr><td>Malha</td><td>13 colunas de cristal de gelo (6 lados irregulares, ombro e ponta longa assimétrica), raio 0,17–0,27 m, altura 1–2,5 m (mais altos ao centro), ligeiramente inclinados para fora; pivot na base; espalhados ao longo de 3,2 m, perpendicular ao cast. Instanced Static Mesh (1 draw call), Nanite</td></tr>
+          <tr><td>Malha</td><td>17 lâminas de cristal de gelo (losango achatado do Frost Lance, ponta longa), raio 0,17–0,27 m, altura 1–2,5 m (mais altos ao centro), ligeiramente inclinados para fora; pivot na base; espalhados ao longo de 3,2 m, perpendicular ao cast. Instanced Static Mesh (1 draw call), Nanite</td></tr>
           <tr><td>Colisão</td><td>Uma caixa para o muro inteiro (~3,4 × 0,8 × 2,5 m), blocking em Pawn, Projectile e Visibility (movimento, projéteis e LOS). Entra logo no tamanho final e empurra para fora quem estiver dentro. Sem buracos entre pilares</td></tr>
           <tr><td>Navegação</td><td>NavModifier dinâmico enquanto o muro existe</td></tr>
           <tr><td>Material</td><td>Parâmetros <code>Rise</code> (0–1, World Position Offset, 0,25 s), <code>Crack</code> (0 · 1 · 2), <code>Sink</code> (0–1). Gelo: gelo vítreo que refrata o que está atrás (cena capturada atrás do gelo, como o SceneColor/Refraction no UE), azul fundo onde é grosso e quase transparente nas pontas, cada faceta com reflexo diferente e brilhos brancos, geada e fissuras por dentro</td></tr>
@@ -527,6 +527,12 @@ function iceLanceGeo(front, back){
     T.push([Bk, mid[j], mid[i]]); T.push([mid[i], mid[j], sh[i]]); T.push([mid[j], sh[j], sh[i]]); T.push([sh[i], sh[j], F]); }
   return iceGeo(T);
 }
+/* the Frost Lance blade stood upright along +Y (height 1, short back point buried at the base): for walls and falling spikes */
+function iceShardGeo(){
+  const g = iceLanceGeo(1, .12), P = g.attributes.position.array;
+  for (let i = 0; i < P.length; i += 3){ const x = P[i], y = P[i + 1], z = P[i + 2]; P[i] = x; P[i + 1] = (z + .12)/1.12; P[i + 2] = y; }
+  g.computeVertexNormals(); return g;
+}
 const ICE_U = { uBG:{ value:null }, uRes:{ value:new THREE.Vector2(1, 1) } };
 let iceRT = null;
 /* call right before the frame's final render: captures the scene behind the ice (only while some ice is visible) */
@@ -574,7 +580,7 @@ const ICE_GLSL = `
     return vec4(col, 1.);
   }`;
 const iceMat = o => new THREE.ShaderMaterial(Object.assign({}, o, { uniforms:Object.assign({}, o.uniforms, ICE_U), extensions:{ derivatives:true } }));
-const prismGeo = iceColumnGeo(6, 3.7);
+const prismGeo = iceShardGeo();                                  // the Frost Lance blade, planted upright
 const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
   vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack;
@@ -610,7 +616,7 @@ const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
       gl_FragColor = o;
     }` }));
 wall.mesh.castShadow = false;
-const WALL_N = { 3:30, 2:30, 1:18, 0:10 };                // main crystals + smaller leaning shards
+const WALL_N = { 3:17, 2:17, 1:12, 0:8 };                 // big blades + smaller leaning shards
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
@@ -786,11 +792,11 @@ function stab(O, yaw, tier, t0, targets){                   // Iceberg: ice crys
   const dx = E.x - H.x, dz = E.z - H.z, dn = Math.hypot(dx, dz), wx = -dz/dn, wz = dx/dn, HALF = 1.6;   // wall runs across the cast direction
   const nW = WALL_N[tier], ids = [];
   for (let m=0;m<nW;m++){
-    const big = m%3 !== 2, f = big ? rand(-1, 1)*.95 : rand(-1.1, 1.1), c = 1 - Math.abs(f), jit = rand(-.3, .3), j = wall.next();
+    const big = m%3 !== 2, f = big ? (m/(nW - 1)*2 - 1)*.95 + rand(-.08, .08) : rand(-1.1, 1.1), c = 1 - Math.abs(f), jit = big ? rand(-.15, .15) : rand(-.35, .35), j = wall.next();
     wall.A.aO.setXYZ(j, G.x + wx*f*HALF + dx/dn*jit, 0, G.z + wz*f*HALF + dz/dn*jit);
-    const hgt = big ? (1.0 + 1.7*c)*rand(.7, 1.25) : rand(.45, 1.1), lean = big ? rand(.05, .3) : rand(.35, .75);   // small shards splay out low
-    wall.A.aS.setXYZW(j, (big ? rand(.13, .24) : rand(.07, .13))*(.8 + .3*c), hgt, rand(0, 6.28), lean);
-    wall.A.aD.setXYZW(j, Math.abs(f)*.12 + rand(0, .04), Math.atan2(jit*dx/dn + f*wx, jit*dz/dn + f*wz) + rand(-.6, .6), Math.random(), Math.random());
+    const hgt = big ? (1.1 + 1.8*c*c)*rand(.8, 1.15) : rand(.5, 1.1), lean = big ? rand(.03, .2) : rand(.35, .65);   // tall in the middle; small shards splay out low
+    wall.A.aS.setXYZW(j, (big ? rand(.2, .3) : rand(.09, .15))*(.85 + .3*c), hgt, Math.atan2(wz, wx) + rand(-.6, .6) + (Math.random() < .5 ? Math.PI : 0), lean);   // blades roughly along the wall line
+    wall.A.aD.setXYZW(j, Math.abs(f)*.12 + rand(0, .04), Math.atan2(jit*dx/dn + f*wx, jit*dz/dn + f*wz) + rand(-.6, .6), Math.random(), .75 + .25*Math.random());
     wall.A.aT.setX(j, hitT); wall.A.aX.setXY(j, 0, 0); ids.push(j);
   }
   wall.track(hitT + WALL_T + .6, nW);

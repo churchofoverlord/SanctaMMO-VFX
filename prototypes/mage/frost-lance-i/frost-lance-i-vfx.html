@@ -460,6 +460,12 @@ function iceLanceGeo(front, back){
     T.push([Bk, mid[j], mid[i]]); T.push([mid[i], mid[j], sh[i]]); T.push([mid[j], sh[j], sh[i]]); T.push([sh[i], sh[j], F]); }
   return iceGeo(T);
 }
+/* the Frost Lance blade stood upright along +Y (height 1, short back point buried at the base): for walls and falling spikes */
+function iceShardGeo(){
+  const g = iceLanceGeo(1, .12), P = g.attributes.position.array;
+  for (let i = 0; i < P.length; i += 3){ const x = P[i], y = P[i + 1], z = P[i + 2]; P[i] = x; P[i + 1] = (z + .12)/1.12; P[i + 2] = y; }
+  g.computeVertexNormals(); return g;
+}
 const ICE_U = { uBG:{ value:null }, uRes:{ value:new THREE.Vector2(1, 1) } };
 let iceRT = null;
 /* call right before the frame's final render: captures the scene behind the ice (only while some ice is visible) */
