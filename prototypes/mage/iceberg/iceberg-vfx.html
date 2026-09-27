@@ -153,8 +153,8 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Projétil</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Cristal de gelo (billboard) com faixa curta, direto a 18 m/s até ao ponto no chão</td></tr>
-          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Lâminas de cristal de gelo (a lâmina em losango do Frost Lance, espetada no chão ao longo do muro; grandes ao centro, pequenas inclinadas para fora), material de gelo partilhado (gelo vítreo que refrata o que está atrás (cena capturada atrás do gelo, como o SceneColor/Refraction no UE), azul fundo onde é grosso e quase transparente nas pontas, cada faceta com reflexo diferente e brilhos brancos, geada e fissuras por dentro), 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
-          <tr><td>Limite + Slow</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: linha de geada fina a marcar a colisão do muro enquanto dura + um anel que abre uma vez até ao raio da AoE (3 m)</td></tr>
+          <tr><td>Muro de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">9</td><td class="n">7</td><td>Muro de gelo estilizado (referência aprovada): 4–6 blocos grossos lado a lado, topo plano com cantos arredondados, azul saturado que clareia para cima, topos azul-claro com bisel brilhante, facetas verticais largas, pequenas fissuras escuras e pontos a cintilar; entulho de gelo redondo na base (0–18 pedaços). Uma malha de caixa subdividida arredondada no vertex shader, 1 draw call; sobem do chão em 0,25 s do centro para as pontas, seguram 3 s e afundam</td></tr>
+          <tr><td>Limite + Slow</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão: fissuras de gelo a brilhar que se espalham à volta da base do muro enquanto dura (marcam a colisão) + um anel que abre uma vez até ao raio da AoE (3 m)</td></tr>
           <tr><td>Estilhaçar</td><td class="n">65</td><td class="n">65</td><td class="n">45</td><td class="n">35</td><td>Só se o muro for destruído: estilhaços GPU (5 por pilar) + pulso de geada</td></tr>
           <tr><td>Draw calls</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td class="n">3–4</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
@@ -182,7 +182,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Bloco sólido, não explosão</h3><p>Como no ícone: um muro de cristais de gelo altos, afiados e vítreos, em ângulos diferentes, que sobe depressa do chão, mais alto ao centro. É opaco e lê-se como terreno, sem chuva de estilhaços.</p></div>
+    <div><h3>Bloco sólido, não explosão</h3><p>Um muro de blocos de gelo grossos, de topo plano e cantos arredondados, com entulho de gelo na base e o chão gelado a rachar à volta; sobe depressa do chão. É opaco e lê-se como terreno, sem chuva de estilhaços.</p></div>
     <div><h3>Colisão legível</h3><p>Uma linha de geada fina no chão contorna a base do muro enquanto ele dura: é o limite que bloqueia movimento, LOS e projéteis.</p></div>
     <div><h3>Terreno é asset, não VFX</h3><p>No UE, os pilares são um Actor com colisão e vida (ver a tabela acima); aqui são um placeholder com a forma e o material. Usa "Dano −⅓" para ver as fissuras e "Destruir" para o estilhaçar. O anel de AoE Slow abre uma vez; o Slow nos alvos é do cue de status.</p></div>
   </section>
@@ -496,127 +496,71 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
 // Rises from the ground (ease-out-back, staggered from the centre outwards), holds, then sinks back. Opaque shader:
 // luminous translucent ice (shared ice material): pale blue body lightening to the point, long bright facet edges, white streaks inside.
 const WALL_T = 3.0;
-// ---- shared ice (Iceberg, Frost Lance, Tempest): clear, glassy ice. It REFRACTS what is behind it (the scene without the ice
-// is captured to a half-res target each frame the ice is alive — UE: SceneColor / Refraction), tinted deep blue where thick and
-// almost clear where thin; every facet reflects the sky differently (Fresnel) with sharp white glints; cloudy frost and cracks
-// inside. No outlines: facets read by the change of reflection and refraction from one to the next.
-function iceGeo(tris){                                         /* tris: [[a, b, c]]; non-indexed, flat normals */
-  const P = [], B = [];
-  for (const [a, b, c] of tris){ P.push(...a, ...b, ...c); B.push(1, 0, 0, 0, 1, 0, 0, 0, 1); }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(P), 3)); g.setAttribute('bary', new THREE.BufferAttribute(new Float32Array(B), 3));
-  g.computeVertexNormals(); return g;
-}
-/* crystal shard along +Y, height 1: irregular N-gon body that narrows, then a long asymmetric point (over half the height) */
-function iceColumnGeo(N, seed){
-  const rnd = i => { const x = Math.sin(i*127.1 + seed*311.7)*43758.5453; return x - Math.floor(x); };
-  const R = [...Array(N)].map((_, i) => .7 + .55*rnd(i));
-  const ring = (y, s, tw) => R.map((r, i) => { const a = i/N*6.2832 + tw; return [Math.cos(a)*r*s, y, Math.sin(a)*r*s]; });
-  const r0 = ring(0, 1, 0), r1 = ring(.3, .92, .11), r2 = ring(.44, .72, .23), apex = [.1, 1, -.05], T = [];
-  for (let i = 0; i < N; i++){ const j = (i + 1)%N;
-    for (const [lo, hi] of [[r0, r1], [r1, r2]]){ T.push([lo[i], lo[j], hi[i]]); T.push([lo[j], hi[j], hi[i]]); }
-    T.push([r2[i], r2[j], apex]); }
-  return iceGeo(T);
-}
-/* lance / shard along +Z: flat rhombic cross-section (wide x, thin y), long front point, short back point */
-function iceLanceGeo(front, back){
-  const S = [[1, 0, 0], [.3, .78, 0], [-.6, 0, 0], [.3, -.78, 0]];
-  const mid = S.map(([x, y]) => [x, y, 0]), sh = S.map(([x, y]) => [x*.8, y*.7, front*.3]);
-  const F = [.12, 0, front], Bk = [-.05, 0, -back], T = [];
-  for (let i = 0; i < 4; i++){ const j = (i + 1)%4;
-    T.push([Bk, mid[j], mid[i]]); T.push([mid[i], mid[j], sh[i]]); T.push([mid[j], sh[j], sh[i]]); T.push([sh[i], sh[j], F]); }
-  return iceGeo(T);
-}
-/* the Frost Lance blade stood upright along +Y (height 1, short back point buried at the base): for walls and falling spikes */
-function iceShardGeo(){
-  const g = iceLanceGeo(1, .12), P = g.attributes.position.array;
-  for (let i = 0; i < P.length; i += 3){ const x = P[i], y = P[i + 1], z = P[i + 2]; P[i] = x; P[i + 1] = (z + .12)/1.12; P[i + 2] = y; }
-  g.computeVertexNormals(); return g;
-}
-const ICE_U = { uBG:{ value:null }, uRes:{ value:new THREE.Vector2(1, 1) } };
-let iceRT = null;
-/* call right before the frame's final render: captures the scene behind the ice (only while some ice is visible) */
-function iceCapture(meshes){
-  const live = meshes.filter(m => m.visible); if (!live.length) return;
-  const sz = composer ? new THREE.Vector2(composer.renderTarget1.width, composer.renderTarget1.height) : renderer.getDrawingBufferSize(new THREE.Vector2());   // size of the final pass (gl_FragCoord space)
-  if (!iceRT || iceRT.width !== (sz.x >> 1)){ if (iceRT) iceRT.dispose();
-    iceRT = new THREE.WebGLRenderTarget(sz.x >> 1, sz.y >> 1, { type:THREE.HalfFloatType, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter }); }
-  ICE_U.uRes.value.copy(sz); ICE_U.uBG.value = iceRT.texture;
-  live.forEach(m => m.visible = false);
-  renderer.setRenderTarget(iceRT); renderer.render(scene, camera); renderer.setRenderTarget(null);
-  live.forEach(m => m.visible = true);
-}
-const ICE_GLSL = `
-  uniform sampler2D uBG; uniform vec2 uRes;
-  float ih(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
-  float ivn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
-    return mix(mix(ih(i), ih(i + vec2(1., 0.)), f.x), mix(ih(i + vec2(0., 1.)), ih(i + vec2(1., 1.)), f.x), f.y); }
-  float ivn3(vec3 p){ return mix(ivn(p.xy + floor(p.z)*17.13), ivn(p.xy + (floor(p.z) + 1.)*17.13), smoothstep(0., 1., fract(p.z))); }
-  /* n: facet normal (world, facing the camera) · V: to camera · B: unused · h: 0 base → 1 point · q: coords on the crystal
-     (x across, y along) · L: key light. Opaque output: the background comes in through the refraction. */
-  vec4 iceShade(vec3 n, vec3 V, vec3 B, float h, vec2 q, vec3 L){
-    n = dot(n, V) < 0. ? -n : n;                                             /* face the camera whatever the winding */
-    vec3 j = vec3(ih(n.xy*13.1 + q.x*.01), ih(n.yz*7.3 + 1.7), ih(n.zx*5.7 + 3.1)) - .5;
-    vec3 fn = normalize(n + j*.3);                                           /* each facet tilted a little: reflections change facet to facet */
-    float nv = clamp(dot(fn, V), 0., 1.), fr = .04 + .96*pow(1. - nv, 5.);
-    vec3 vn = (viewMatrix*vec4(fn, 0.)).xyz;
-    vec2 suv = gl_FragCoord.xy/uRes, off = vn.xy*(.05 + .07*(1. - nv));      /* refraction: the scene behind, bent by the facet */
-    vec3 bg = vec3(texture2D(uBG, suv - off*1.04).r, texture2D(uBG, suv - off).g, texture2D(uBG, suv - off*.96).b);
-    float thick = clamp(.3 + .7*nv, 0., 1.)*(1. - .55*h);                    /* thick body, thin clear point */
-    vec3 absorb = mix(vec3(.7, .9, 1.), vec3(.08, .32, .8), thick);
-    vec3 p3 = vec3(q*vec2(3.5, 1.4), h*2.3);
-    float cloud = ivn3(p3*1.3)*.6 + ivn3(p3*3.1)*.4;
-    float frost = smoothstep(.55, .85, cloud);                               /* cloudy white frost inside */
-    float fid = ih(floor(n.xz*37.) + floor(n.y*29.));                        /* one random value per facet */
-    float cr = pow(1. - abs(fract(dot(q, vec2(2.3, .7))*1.7 + fid*3.) - .5)*2., 60.)*step(.72, fid);   /* a straight inner crack on some facets */
-    vec3 inner = bg*absorb*1.2 + vec3(.03, .16, .42)*thick + vec3(.6, .78, .92)*(frost*.28*thick + cr*.35);
-    inner *= .75 + .5*fid;                                                   /* facets transmit differently: they read as separate planes */
-    vec3 R = reflect(-V, fn);
-    vec3 sky = mix(vec3(.03, .07, .16), vec3(.2, .42, .78), smoothstep(-.3, .9, R.y))
-             + vec3(.45, .7, .95)*pow(max(dot(R, normalize(vec3(-.5, .6, .6))), 0.), 6.)*.35;   /* a broad bright window in the reflection */
-    float sL = max(dot(R, L), 0.), sC = max(dot(R, normalize(V + vec3(0., .6, 0.))), 0.);
-    vec3 col = mix(inner, sky, clamp(fr*.7 + .25*pow(fid, 5.), 0., .75)) + vec3(.95, .98, 1.)*(pow(sL, 220.)*5. + pow(sC, 160.)*1.6 + pow(sL, 18.)*.25);
-    col += vec3(.6, .85, 1.)*smoothstep(.9, 1., h)*.2;                      /* a cold glint at the very point */
-    return vec4(col, 1.);
-  }`;
-const iceMat = o => new THREE.ShaderMaterial(Object.assign({}, o, { uniforms:Object.assign({}, o.uniforms, ICE_U), extensions:{ derivatives:true } }));
-const prismGeo = iceShardGeo();                                  // the Frost Lance blade, planted upright
-const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, iceMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uMoon:{ value:moonDir } },
-  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; attribute vec3 bary; uniform float uTime; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack;
+// Stylised ice wall (reference: chunky ice wall): thick blocks with flat tops and rounded edges standing side by side, saturated
+// blue that lightens to pale cyan on the tops, vertical chipped facets, a bright bevel along the top edge, twinkling specks; round
+// ice rubble at the base. One pool, ONE draw call: a subdivided unit box rounded in the vertex shader (aD.w = rounding: blocks low,
+// rubble ~1 → pebble). aS = (width, height, yaw, lean), aD = (delay, leanDir, seed, rounding), aX = (destroyed at, crack stage).
+const prismGeo = (() => {
+  const g = new THREE.BoxGeometry(1, 1, 1, 6, 10, 6), P = g.attributes.position.array;
+  const rm = u => { const t = Math.min(1, Math.abs(u)*2); return Math.sign(u)*.5*(1 - Math.pow(1 - t, 2.2)); };   // more vertices near the edges
+  for (let i = 0; i < P.length; i++) P[i] = rm(P[i]);
+  return g; })();
+const wall = pool(prismGeo, 1024, { aO:3, aS:4, aD:4, aT:1, aX:2 }, new THREE.ShaderMaterial({
+  uniforms:{ uTime, uMoon:{ value:moonDir } },
+  vertexShader:`attribute vec3 aO; attribute vec4 aS, aD; attribute float aT; attribute vec2 aX; uniform float uTime; varying vec3 vN, vV, vW, vL; varying float vSeed, vCrack, vTopY, vRnd;
     void main(){
       float u = uTime - aT - aD.x; if (u < 0. || u > ${WALL_T.toFixed(2)} + .5){ ${HIDE} }
-      float du = aX.x > 0. ? uTime - aX.x : -1.; if (du > .16){ ${HIDE} }          // destroyed: pillar collapses in 0.16 s (shards take over)
+      float du = aX.x > 0. ? uTime - aX.x : -1.; if (du > .16){ ${HIDE} }          // destroyed: block collapses in 0.16 s (shards take over)
       float br = du > 0. ? 1. - du/.16 : 1.;
-      float k = clamp(u/.25, 0., 1.), c1 = 1.9, rise = 1. + (c1 + 1.)*pow(k - 1., 3.) + c1*pow(k - 1., 2.);   // ease-out-back
+      float k = clamp(u/.25, 0., 1.), c1 = 1.9, rise = max(.02, 1. + (c1 + 1.)*pow(k - 1., 3.) + c1*pow(k - 1., 2.));   // ease-out-back
       float sink = smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .45, u);
-      vec3 p = position*vec3(aS.x, aS.y*rise, aS.x*mix(.4, 1., aD.w));      // each shard flattened its own amount (blade-like)
-      float cy = cos(aS.z), sy = sin(aS.z); p = vec3(cy*p.x - sy*p.z, p.y, sy*p.x + cy*p.z);
-      vec3 n = normalize(normal/vec3(aS.x, aS.y, aS.x*mix(.4, 1., aD.w))); n = vec3(cy*n.x - sy*n.z, n.y, sy*n.x + cy*n.z);
-      float ct = cos(aS.w), st = sin(aS.w), td = aD.y;                        // lean outward a little
-      vec3 ax = vec3(cos(td), 0., sin(td));
+      vec3 hs = vec3(aS.x, aS.y*rise*br, aS.x*mix(.85, 1., aD.w))*.5;
+      float r = min(min(hs.x, hs.z), hs.y)*aD.w;
+      vec3 q = position*2.*hs, c = clamp(q, -hs + r, hs - r), d = q - c; float L = length(d);
+      vec3 nn = L > 1e-5 ? d/L : vec3(0., 1., 0.);
+      q = c + nn*r;
+      float top = smoothstep(.3, .9, nn.y);                                     // chipped, slightly uneven top
+      q.y += top*(fract(sin(dot(floor(q.xz*6.), vec2(12.9, 78.2)) + aD.z*40.)*4375.5) - .5)*.05*hs.x*2.;
+      vL = q/(2.*hs); vTopY = hs.y*2.;
+      q.y += hs.y - (aD.w > .6 ? hs.y*.6 : 0.);                                  // blocks stand on the ground; rubble half buried
+      float cy = cos(aS.z), sy = sin(aS.z); vec3 p = vec3(cy*q.x - sy*q.z, q.y, sy*q.x + cy*q.z); vec3 n = vec3(cy*nn.x - sy*nn.z, nn.y, sy*nn.x + cy*nn.z);
+      float ct = cos(aS.w), st = sin(aS.w), td = aD.y; vec3 ax = vec3(cos(td), 0., sin(td));   // a slight lean
       p = p*ct + cross(ax, p)*st + ax*dot(ax, p)*(1. - ct); n = n*ct + cross(ax, n)*st + ax*dot(ax, n)*(1. - ct);
-      p *= vec3(1. + (1. - br)*.3, br, 1. + (1. - br)*.3);
-      vec3 W = aO + p - vec3(0., sink*aS.y*1.05, 0.);
-      vN = n; vV = normalize(cameraPosition - W); vH = position.y; vSeed = aD.z; vCrack = aX.y; vB = bary; vQ = vec2((position.x - position.z)*aS.x + aD.z*9., position.y*aS.y);
+      vec3 W = aO + p - vec3(0., sink*(hs.y*2.)*1.05, 0.);
+      vN = n; vV = normalize(cameraPosition - W); vW = W; vSeed = aD.z; vCrack = aX.y; vRnd = aD.w;
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
-  fragmentShader:`uniform vec3 uMoon; varying vec3 vN, vV, vB; varying vec2 vQ; varying float vH, vSeed, vCrack; ${ICE_GLSL}
+  fragmentShader:`uniform vec3 uMoon; uniform float uTime; varying vec3 vN, vV, vW, vL; varying float vSeed, vCrack, vTopY, vRnd;
+    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }
+    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);
+      return mix(mix(h2(i), h2(i + vec2(1., 0.)), f.x), mix(h2(i + vec2(0., 1.)), h2(i + vec2(1., 1.)), f.x), f.y); }
     void main(){
-      vec3 n = normalize(vN); if (!gl_FrontFacing) n = -n;
-      vec4 o = iceShade(n, normalize(vV), vB, vH, vQ, uMoon);
-      o.rgb *= smoothstep(-.02, .12, vH)*.35 + .65;                             // a little darker where it meets the ground
-      // damage stages (whole-wall HP): 1 = at 66 %, 2 = at 33 % — bright jagged cracks through the crystal, frosted around them
-      if (vCrack > .5){
-        float g = vH*5.5 + vSeed*17. + vQ.x*3.3, g2 = vH*9. - vSeed*11. + vQ.x*4.;
-        float cr = pow(1. - abs(fract(g + .15*ivn(vQ*6.)) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2 + .2*ivn(vQ*9.)) - .5)*2., 26.) : 0.);
-        cr *= vCrack > 1.5 ? 1. : .6;
-        o.rgb += vec3(.8, .96, 1.)*cr*.9; o.a = min(1., o.a + cr*.3);
+      vec3 n = normalize(vN), V = normalize(vV);
+      float h = clamp(vL.y + .5, 0., 1.), nv = clamp(dot(n, V), 0., 1.), l = max(dot(n, uMoon), 0.);
+      float topF = smoothstep(.55, .92, n.y), bevel = smoothstep(.12, .45, n.y)*(1. - smoothstep(.62, .9, n.y));
+      float side = dot(vL.xz, vec2(.7, -.7))*4. + vL.x*3.;                       // vertical chipped facets on the sides
+      float band = vn(vec2(side*.75 + vSeed*13., vL.y*.25));
+      vec3 deep = vec3(.02, .15, .66), mid = vec3(.09, .44, 1.), pale = vec3(.38, .76, 1.);
+      vec3 col = mix(deep, mid, smoothstep(0., 1., h*.85 + .1));
+      col *= .74 + .42*smoothstep(.42, .58, band);                                // a few wide facets: lighter and darker planes
+      col = mix(col, pale, topF*(vRnd > .6 ? .35 : 1.));                          // tops catch the light (rubble stays bluer)
+      col += vec3(.45, .82, 1.)*bevel*.6;                                          // bright bevel along the top edge
+      col += vec3(.2, .5, 1.)*pow(1. - nv, 3.)*.55;                              // cool rim
+      col *= .78 + .32*l;
+      float line = pow(1. - abs(vn(vec2(side*1.4 + vSeed*7., vL.y*2.4)) - .5)*2., 40.)*(1. - topF);
+      col = mix(col, deep*.55, line*.6);                                           // a few thin dark chips
+      vec2 cl = vW.xz*14. + vW.y*9.; float tw = step(.985, h2(floor(cl) + floor(uTime*1.5)*.13 + vSeed))*smoothstep(.22, .04, length(fract(cl) - .5));
+      col += vec3(.8, .95, 1.)*tw*.9;                                              // twinkling specks
+      if (vCrack > .5){                                                            // damage stages: bright jagged cracks
+        float g = h*5.5 + vSeed*17. + side*1.3, g2 = h*9. - vSeed*11. + side*2.;
+        float cr = pow(1. - abs(fract(g + .15*vn(vL.xy*9.)) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2 + .2*vn(vL.zy*11.)) - .5)*2., 26.) : 0.);
+        col = mix(col, vec3(.85, .97, 1.), clamp(cr*(vCrack > 1.5 ? 1. : .6), 0., 1.));
       }
-      gl_FragColor = o;
+      col *= smoothstep(-.05, .1, h)*.25 + .75;                                  // a little darker at the foot
+      gl_FragColor = vec4(col, 1.);
     }` }));
 wall.mesh.castShadow = false;
-const WALL_N = { 3:17, 2:17, 1:12, 0:8 };                 // big blades + smaller leaning shards
+const WALL_N = { 3:[6, 18], 2:[6, 14], 1:[5, 8], 0:[4, 0] };   // [blocks, rubble chunks]
 
 // Layer 2 — on-target cues: kind 0 = impact star (billboard), kind 1 = brief Slow ring on the ground (Local Space)
 const hits = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1 }, addMat({
@@ -709,14 +653,14 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
   vertexShader:`attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vR, vW;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
       vU = u; vK = aK; vP = position.xy;
-      if (aK > 2.5){                                          // Weave: a resource mote flies back to the caster on a curved path
+      if (aK > 2.5 && aK < 5.5){                             // Weave: a resource mote flies back to the caster on a curved path
         float k = clamp((u - aD.w)/.45, 0., 1.); if (u < aD.w || k >= 1.){ ${HIDE} }
         float e = k*k*(3. - 2.*k); vec3 A = aO + vec3(0., 1.2, 0.), B = aD.xyz;
         vec3 side = normalize(cross(B - A, vec3(0., 1., 0.)))*sin(aD.w*37.)*.8;
         vec3 P = mix(A, B, e) + (side + vec3(0., .9, 0.))*sin(3.14159*e);
         vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }
       if (aK > 5.5){                                          // frost boundary: flat quad aligned with the wall
-        vec3 dir = vec3(aD.x, 0., aD.y), nrm = vec3(-dir.z, 0., dir.x); vec2 hs = vec2(aD.z + .4, .7);
+        vec3 dir = vec3(aD.x, 0., aD.y), nrm = vec3(-dir.z, 0., dir.x); vec2 hs = vec2(aD.z + 1.1, 1.3);
         vP = position.xy*hs; vR = aD.z; vW = aD.w;
         gl_Position = projectionMatrix*viewMatrix*vec4(aO + dir*vP.x + nrm*vP.y + vec3(0., .025, 0.), 1.); return; }
       vR = aD.x;
@@ -732,8 +676,15 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
         // frost boundary around the wall footprint: soft rounded-rectangle line, appears with the wall, fades when it sinks
         vec2 q = abs(vP) - vec2(vR + .1, .32); float sd = length(max(q, 0.)) + min(max(q.x, q.y), 0.) - .12;
         float f = smoothstep(0., .2, vU)*(1. - smoothstep(${WALL_T.toFixed(2)}, ${WALL_T.toFixed(2)} + .4, vU))*(vW > 0. ? 1. - smoothstep(vW, vW + .2, vU) : 1.);
-        lum += (exp(-pow(sd/.018, 2.))*.8 + exp(-pow(sd/.09, 2.))*.12)*f; hot += lcore(sd, .006)*f*.4;
-        lum *= smoothstep(.7, .55, abs(vP.y)/1.)*1.;
+        /* frozen ground: glowing cracks (cell edges) around the footprint, spreading out as the wall rises */
+        vec2 g = vP*2.3, gi = floor(g), gf = fract(g); float d1 = 9., d2 = 9.;
+        for (int yy = -1; yy <= 1; yy++) for (int xx = -1; xx <= 1; xx++){ vec2 o = vec2(float(xx), float(yy));
+          vec2 pt = o + vec2(h1(dot(gi + o, vec2(7.1, 3.3))), h1(dot(gi + o, vec2(2.7, 9.1)))) - gf; float dd = dot(pt, pt);
+          if (dd < d1){ d2 = d1; d1 = dd; } else if (dd < d2) d2 = dd; }
+        float edge = sqrt(d2) - sqrt(d1), reach = .2 + .8*smoothstep(0., .35, vU);
+        float crk = exp(-pow(edge/.06, 2.))*smoothstep(reach, reach*.3, sd);
+        lum += crk*f*.9 + exp(-pow(sd/.05, 2.))*f*.25 + smoothstep(.1, -.2, sd)*f*.12; hot += crk*f*.3;
+        lum *= smoothstep(1.3, 1.05, abs(vP.y));
       } else if (vK < .5){
         // AoE Slow pulse: one thin frost ring opens to the radius (ease-out), holds a moment and fades
         float r = length(vP), R = vR*(.2 + .8*(1. - pow(1. - clamp(vU/.35, 0., 1.), 3.))), f = (vU < .033 ? 1.6 : 1.)*(1. - smoothstep(.45, .8, vU));
@@ -790,13 +741,19 @@ function stab(O, yaw, tier, t0, targets){                   // Iceberg: ice crys
   castLog.push(hitT + WALL_T + .5);
   if (!G) return;
   const dx = E.x - H.x, dz = E.z - H.z, dn = Math.hypot(dx, dz), wx = -dz/dn, wz = dx/dn, HALF = 1.6;   // wall runs across the cast direction
-  const nW = WALL_N[tier], ids = [];
-  for (let m=0;m<nW;m++){
-    const big = m%3 !== 2, f = big ? (m/(nW - 1)*2 - 1)*.95 + rand(-.08, .08) : rand(-1.1, 1.1), c = 1 - Math.abs(f), jit = big ? rand(-.15, .15) : rand(-.35, .35), j = wall.next();
-    wall.A.aO.setXYZ(j, G.x + wx*f*HALF + dx/dn*jit, 0, G.z + wz*f*HALF + dz/dn*jit);
-    const hgt = big ? (1.1 + 1.8*c*c)*rand(.8, 1.15) : rand(.5, 1.1), lean = big ? rand(.03, .2) : rand(.35, .65);   // tall in the middle; small shards splay out low
-    wall.A.aS.setXYZW(j, (big ? rand(.2, .3) : rand(.09, .15))*(.85 + .3*c), hgt, Math.atan2(wz, wx) + rand(-.6, .6) + (Math.random() < .5 ? Math.PI : 0), lean);   // blades roughly along the wall line
-    wall.A.aD.setXYZW(j, Math.abs(f)*.12 + rand(0, .04), Math.atan2(jit*dx/dn + f*wx, jit*dz/dn + f*wz) + rand(-.6, .6), Math.random(), .75 + .25*Math.random());
+  const [nB, nR] = WALL_N[tier], nW = nB + nR, ids = [], wyaw = Math.atan2(wz, wx), nx = dx/dn, nz = dz/dn;
+  for (let m=0;m<nB;m++){                                   // blocks side by side, overlapping a little, uneven heights
+    const f = (m + .5)/nB*2 - 1, j = wall.next(), w = 2*HALF/nB*rand(1.05, 1.25), off = rand(-.08, .08);
+    wall.A.aO.setXYZ(j, G.x + wx*f*HALF + nx*off, 0, G.z + wz*f*HALF + nz*off);
+    wall.A.aS.setXYZW(j, w, rand(1.55, 2.35), wyaw + rand(-.12, .12), rand(0, .05));
+    wall.A.aD.setXYZW(j, Math.abs(f)*.1 + rand(0, .03), Math.random()*6.28, Math.random(), rand(.2, .3));
+    wall.A.aT.setX(j, hitT); wall.A.aX.setXY(j, 0, 0); ids.push(j);
+  }
+  for (let m=0;m<nR;m++){                                   // round ice rubble along the base, both faces
+    const f = rand(-1.1, 1.1), sd = (m%2 ? 1 : -1)*rand(.3, .55), j = wall.next(), s = rand(.24, .44);
+    wall.A.aO.setXYZ(j, G.x + wx*f*HALF + nx*sd, 0, G.z + wz*f*HALF + nz*sd);
+    wall.A.aS.setXYZW(j, s, s*rand(.7, 1.), Math.random()*6.28, rand(0, .3));
+    wall.A.aD.setXYZW(j, .05 + Math.abs(f)*.1 + rand(0, .05), Math.random()*6.28, Math.random(), rand(.85, 1.));
     wall.A.aT.setX(j, hitT); wall.A.aX.setXY(j, 0, 0); ids.push(j);
   }
   wall.track(hitT + WALL_T + .6, nW);
@@ -993,7 +950,6 @@ function frame(now){
   camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, camZ + Math.cos(yaw)*Math.cos(pitch)*dist);
   camera.lookAt(0, 1.0, camZ);
   renderer.info.reset();
-  iceCapture([wall.mesh]);                                   // scene behind the ice, for its refraction
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
