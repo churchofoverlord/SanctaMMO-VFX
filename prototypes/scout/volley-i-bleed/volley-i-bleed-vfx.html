@@ -141,8 +141,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Setas</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td>A seta sólida do Scout, instanciada: 5 em leque num cone de ~50°, a sair escalonadas 1–2 frames umas das outras (spread animado), 30 m/s; voo na GPU. Sem partículas de preparação no Scout</td></tr>
-          <tr><td>Rastos</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td>Faixa fina e curta atrás de cada seta, neutra com o acento Bleed (stance snapshot) na cauda</td></tr>
+          <tr><td>Setas</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td>A seta sólida do Scout na cor Bleed, instanciada: 5 em leque num cone de ~50°, a sair escalonadas 1–2 frames umas das outras (spread animado), 30 m/s; voo na GPU. Sem partículas de preparação no Scout</td></tr>
+          <tr><td>Rastos</td><td class="n">5</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td>Faixa fina e curta atrás de cada seta, na cor Bleed (stance snapshot)</td></tr>
           <tr><td>Detonação Bleed</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só nos alvos atingidos e só uma vez por alvo (o DoT aplica-se uma vez): corte vermelho curto e seco + gotas a cair, 0,18 s, no ponto de contacto. Setas que falham seguem até ao alcance e apagam. O DoT que fica é cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Scouts; 0 partículas</td></tr>
         </tbody>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
   <section class="notes">
     <div><h3>Leque de setas</h3><p>Cinco setas saem em leque, cada uma um frame depois da anterior — o cone lê-se pela forma das próprias setas, sem decalque no chão.</p></div>
     <div><h3>Uma aplicação por alvo</h3><p>Cada alvo atingido pisca uma vez na cor da stance snapshot (Bleed), mesmo que leve mais do que uma seta. Quem fica fora do cone não recebe nada.</p></div>
-    <div><h3>Stance snapshot</h3><p>A geometria é a mesma em Poison e Bleed; só muda o acento dos rastos e a detonação. No UE são dois GameplayCues/Niagara Systems, escolhidos na ativação.</p></div>
+    <div><h3>Stance snapshot</h3><p>A geometria é a mesma em Poison e Bleed; só muda a cor das setas, dos rastos e a detonação. No UE são dois GameplayCues/Niagara Systems, escolhidos na ativação.</p></div>
   </section>
 </div>
 
@@ -424,7 +424,7 @@ const bladeGeo = (() => { const tip = new THREE.ConeGeometry(.075, .24, 4).rotat
   let o = 0; for (const p of parts){ P.set(p, o); o += p.length; }
   const m = new THREE.BufferGeometry(); m.setAttribute('position', new THREE.BufferAttribute(P, 3)); m.computeVertexNormals(); return m; })();
 const daggers = pool(bladeGeo, 256, { aO:3, aE:3, aT:1 }, new THREE.ShaderMaterial({
-  uniforms:{ uTime, uGold:uNeutral, uMoon:{ value:moonDir } },
+  uniforms:{ uTime, uGold:uDot, uMoon:{ value:moonDir } },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec3 vN, vV;
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
@@ -438,9 +438,9 @@ const daggers = pool(bladeGeo, 256, { aO:3, aE:3, aT:1 }, new THREE.ShaderMateri
     }`,
   fragmentShader:`uniform vec3 uGold, uMoon; varying vec3 vN, vV;
     void main(){ vec3 n = normalize(vN); float l = .18 + .7*max(dot(n, uMoon), 0.), rim = pow(1. - abs(dot(n, normalize(vV))), 3.);
-      gl_FragColor = vec4(vec3(.62, .6, .6)*l*.7 + uGold*(.06 + rim*.8), 1.); }` }));
+      gl_FragColor = vec4(mix(vec3(.62, .6, .6), uGold, .55)*l*.7 + uGold*(.25 + rim*1.4), 1.); }   // arrow in the DoT colour` }));
 const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:1 }, addMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uGold:uNeutral, uOrange:uDot },
+  side:THREE.DoubleSide, uniforms:{ uTime, uGold:uDotL, uOrange:uDot },
   vertexShader:`attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF;
     void main(){
       float u = uTime - aT - ${WIND.toFixed(2)}, L = length(aE - aO), tt = L/${V.toFixed(1)};
@@ -456,7 +456,7 @@ const trails = pool(new THREE.PlaneGeometry(2, 2, 12, 1), 256, { aO:3, aE:3, aT:
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF;
     void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);
-      vec3 o = (mix(uOrange, uGold, .45 + .45*vS)*a*.5 + vec3(1., .97, .92)*c*.3)*vF;   // DoT accent at the tail, neutral near the arrow
+      vec3 o = (mix(uOrange, uGold, .3*vS)*a*.6 + mix(uOrange, uGold, .6)*c*.4)*vF;   // trail in the DoT colour
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 
 // Layer 2 — DoT detonation: a quick blink in the stance colour at the contact point, once per target (aS = per-cast seed)
