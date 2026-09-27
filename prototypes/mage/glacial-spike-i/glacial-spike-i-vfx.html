@@ -141,8 +141,8 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Espigão de gelo</td><td class="n">7</td><td class="n">7</td><td class="n">4</td><td class="n">1</td><td>Um espigão de gelo vítreo grande (~3 m; cristal de 6 lados com ponta longa e assimétrica, material do Frost Lance: refrata a cena atrás, azul fundo onde é grosso, reflexos e brilhos por faceta) no meio do cone, a ~3,2 m, com espigões mais pequenos à volta a abrir para fora; rompe do chão em ease-out (0,12 s) quando a frente de geada lá chega, segura ~0,6 s e afunda. 1 draw call</td></tr>
-          <tr><td>Frente de geada</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão, só dentro do cone (6 m, 60°): uma frente de geada fina varre do Mage para fora (0,35 s) e deixa um rasto ténue que apaga; as bordas do cone ficam marcadas por linhas finas enquanto dura</td></tr>
+          <tr><td>Espigões de gelo</td><td class="n">13</td><td class="n">13</td><td class="n">8</td><td class="n">3</td><td>Leque largo de espigões de gelo vítreo (cristal de 6 lados com ponta longa e assimétrica; material do Frost Lance: refrata a cena atrás, azul fundo onde é grosso, reflexos e brilhos por faceta): as bases nascem perto do Mage (0,9–2,2 m) e cada espigão inclina-se em diagonal (40–55°) na sua direção radial, para os alvos; maiores ao centro (~3,6 m), mais pequenos nas bordas. Rompem em ease-out (0,12 s), seguram ~0,6 s e afundam. 1 draw call</td></tr>
+          <tr><td>Frente de geada</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque no chão, só dentro do cone (6 m, 80°): uma frente de geada fina varre do Mage para fora (0,35 s) e deixa um rasto ténue que apaga; as bordas do cone ficam marcadas por linhas finas enquanto dura</td></tr>
           <tr><td>Hit nos alvos</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só nos alvos dentro do cone, quando a frente os alcança: flash frio curto e lascas pequenas no peito (0,35 s); o Slow (Manifest) é cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2–3</td><td class="n">2</td><td>Partilhadas por todos os Mages; mais um render da cena a meia resolução enquanto há gelo (refração; no UE é a refração do material)</td></tr>
         </tbody>
@@ -151,7 +151,7 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Um espigão no centro</h3><p>A frente de geada varre o cone e, no meio dele, rompe do chão um único espigão de gelo grande, com outros mais pequenos à volta a abrir para fora. Uma forma dominante, não chuva de estilhaços.</p></div>
+    <div><h3>Leque de espigões</h3><p>Os espigões rompem do chão junto ao Mage e inclinam-se em diagonal para os alvos, cada um na sua direção, como no ícone: um leque largo, maior ao centro. A frente de geada no chão marca o cone.</p></div>
     <div><h3>O chão marca a área</h3><p>É uma AoE, por isso o chão mostra-a: uma frente de geada fina varre o cone e as bordas ficam marcadas por linhas finas enquanto o gelo está de pé.</p></div>
     <div><h3>Só os alvos dentro</h3><p>Os alvos dentro do cone recebem um flash frio curto quando a frente os alcança; o que está fora não recebe nada. O Slow (Manifest) é cue de status; em Weave o recurso é o VFX da stance.</p></div>
   </section>
@@ -667,8 +667,8 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 256, { aO:3, aT:1, aK:1, aD:4 }
     void main(){
       float lum = 0., hot = 0., t = vU/${RL.toFixed(2)};
       if (vK > 4.5){
-        // frost front inside the cone (6 m, 60°): a thin bright front sweeps out, a faint rime stays behind, cone edges as thin lines
-        float Rm = 6., hf = .5236, r = length(vP), a = atan(vP.x, vP.y);
+        // frost front inside the cone (6 m, 80°): a thin bright front sweeps out, a faint rime stays behind, cone edges as thin lines
+        float Rm = 6., hf = .698, r = length(vP), a = atan(vP.x, vP.y);
         float inside = smoothstep(hf + .03, hf - .03, abs(a))*smoothstep(Rm + .15, Rm - .1, r)*step(0., vP.y);
         float F = mix(.4, Rm, 1. - pow(1. - clamp(vU/.35, 0., 1.), 2.)), fade = 1. - smoothstep(.75, 1., vU);
         float front = exp(-pow((r - F)/.1, 2.))*(1. - smoothstep(.3, .45, vU)*.7);
@@ -719,23 +719,24 @@ const TIER = { 3:{ sp:4, slow:true }, 2:{ sp:4, slow:true }, 1:{ sp:2, slow:true
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 let rearCount = 0; const RANGE = 12;
-const CONE_R = 6, CONE_HALF = .5236, FRONT_V = CONE_R/.35;
+const CONE_R = 6, CONE_HALF = .698, FRONT_V = CONE_R/.35;
 function stab(O, yaw, tier, t0, targets){                   // Glacial Spike: frost front sweeps the cone; blades erupt along its edges
   const fx = -Math.sin(yaw), fz = -Math.cos(yaw), t1 = t0 + WIND;
   let k = rings.next(); rings.A.aO.setXYZ(k, O.x, 0, O.z); rings.A.aT.setX(k, t1); rings.A.aK.setX(k, 5); rings.A.aD.setXYZW(k, fx, fz, CONE_R, 0); rings.track(t1 + RL, 1);
-  // one big spike in the middle of the cone, smaller ones around it splaying outward
-  const d0 = 3.2, cx = O.x + fx*d0, cz = O.z + fz*d0, nS = tier > 0 ? 6 : (tier === 0 ? 0 : 3);
-  const parts = [[0, 0, 3.0, .32, .08]];
-  for (let m = 0; m < nS; m++){ const ang = m/nS*6.283 + rand(-.3, .3); parts.push([rand(.45, .8), ang, rand(.9, 1.6), rand(.14, .2), rand(.45, .75)]); }
-  let n = 0;
-  for (const [off, ang, h, w, lean] of parts){
-    const px = cx + Math.cos(ang)*off, pz = cz + Math.sin(ang)*off, j = spikes.next();
-    spikes.A.aO.setXYZ(j, px, 0, pz);
-    spikes.A.aS.setXYZW(j, w, h*rand(.92, 1.08), Math.random()*6.28, lean);
-    spikes.A.aD.setXYZW(j, d0/FRONT_V + (off > 0 ? .03 + off*.04 : 0), ang + Math.PI/2, Math.random(), 0);   // small ones lean away from the big one
+  // a wide fan of spikes: bases close to the caster, each leaning diagonally forward along its own radial direction
+  // (towards the targets); the biggest in the middle, smaller towards the cone edges
+  const N = tier > 1 ? 13 : (tier === 1 ? 8 : 3); let n = 0;
+  for (let m = 0; m < N; m++){
+    const s = N === 1 ? 0 : m/(N - 1)*2 - 1, c = 1 - Math.abs(s);                   // -1 … 1 across the fan
+    const ang = yaw + s*(CONE_HALF - .06) + rand(-.05, .05), rx = -Math.sin(ang), rz = -Math.cos(ang);
+    const d = rand(.9, 1.5) + (1 - c)*.7 + (m%2)*rand(.2, .5);
+    const j = spikes.next();
+    spikes.A.aO.setXYZ(j, O.x + rx*d, 0, O.z + rz*d);
+    spikes.A.aS.setXYZW(j, (.16 + .16*c)*rand(.85, 1.15), (1.4 + 2.2*c*c)*rand(.85, 1.1), Math.random()*6.28, rand(.72, .95));   // 40–55° diagonal
+    spikes.A.aD.setXYZW(j, d/FRONT_V + (1 - c)*.05, Math.atan2(-rx, rz), Math.random(), 0);   // lean towards the radial direction
     spikes.A.aT.setX(j, t1); n++;
   }
-  spikes.track(t1 + 3.6/FRONT_V + SPIKE_T, n);
+  spikes.track(t1 + 3/FRONT_V + SPIKE_T, n);
   castLog.push(t1 + RL);
   for (const tg of targets || []){                          // only targets inside the cone, when the front reaches them
     const dx = tg.p.x - O.x, dz = tg.p.z - O.z, d = Math.hypot(dx, dz), c = (dx*fx + dz*fz)/Math.max(d, 1e-3);
@@ -812,7 +813,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Gesto (corpo)', 0, 100, 0x8f8a82],
   ['Frente de geada varre o cone (6 m)', 100, 450, 0x3fa8ff],
-  ['Espigão grande rompe no centro do cone', 290, 500, 0xd8f4ff],
+  ['Leque de espigões rompe junto ao Mage, em diagonal', 130, 350, 0xd8f4ff],
   ['Seguram e afundam', 500, 1150, 0x3fa8ff],
 ];
 const TOTAL = 1200, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
