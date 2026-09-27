@@ -98,7 +98,7 @@ tr:last-child td{border-bottom:0}
     </div>
     <aside>
       <button class="cast" id="castBtn">Evasion</button>
-      <label class="tg"><input type="checkbox" id="tMove" checked><span>Scout em movimento<small>desvia-se de lado a lado durante o buff</small></span></label>
+      <label class="tg"><input type="checkbox" id="tMove" checked><span>Scout em movimento<small>desvia-se de lado a lado durante o buff (passos rápidos para os lados)</small></span></label>
       <fieldset>
         <legend>Qualidade (scalability)</legend>
         <div class="seg" id="quality">
@@ -437,7 +437,7 @@ const ghosts2 = pool(ghostGeo, 512, { aO:3, aV:3, aT:1, aY:1 }, addMat({
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec3 vN, vV; varying float vU;
     void main(){ float rim = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.2);
       float f = (1. - vU)*(1. - vU);
-      vec3 o = mix(uOrange, uGold, .5)*(rim*.55 + .04)*f;
+      vec3 o = mix(uOrange, uGold, .5)*(rim*.4 + .02)*f;
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 ghosts2.mesh.renderOrder = 2;
 // activation: a thin deflection ring at the waist, opening and fading (0.3 s)
@@ -586,9 +586,10 @@ function frame(now){
   // gameplay-side: the Fighter rushes (same ease as the trail head), shoulder leads; dummy recoils on contact
   let lean = 0;
   { const on = time < buffEnd && $('tMove').checked, k = time - localT;    // demo: side-to-side dodging while buffed
-    const x = on ? 1.1*Math.sin(k*4.2)*Math.min(1, k/.3) : prevX*.9;
+    const st = Math.floor(k/.6), ph = (k - st*.6)/.14, from = st === 0 ? 0 : (st % 2 ? 1.3 : -1.3), to = st % 2 ? -1.3 : 1.3;
+    const x = on ? from + (to - from)*easeOutCubic(Math.min(1, ph)) : prevX*.85;   // quick sidesteps with pauses (dodges)
     const vx = (x - prevX)/Math.max(dt, 1e-4); prevX = x; hero.position.set(x, 0, 0); lean = -vx*.03;
-    if (time < buffEnd && Math.abs(vx) > .8 && time - lastGhost >= .1 && quality > 0){ lastGhost = time; afterimage(hero.position, 0, vx, 0, time); } }
+    if (time < buffEnd && Math.abs(vx) > .8 && time - lastGhost >= .05 && quality > 0){ lastGhost = time; afterimage(hero.position, 0, vx, 0, time); } }
   if (!hitStop){ body.rotation.x = 0; body.rotation.z = lean; body.position.y = Math.sin(time*1.8)*.006 - lean*.1; }
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
