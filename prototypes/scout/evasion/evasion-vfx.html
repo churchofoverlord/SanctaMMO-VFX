@@ -98,7 +98,7 @@ tr:last-child td{border-bottom:0}
     </div>
     <aside>
       <button class="cast" id="castBtn">Evasion</button>
-      <label class="tg"><input type="checkbox" id="tMove" checked><span>Scout em movimento<small>desvia-se de lado a lado durante o buff (passos rápidos para os lados)</small></span></label>
+      <label class="tg"><input type="checkbox" id="tMove" checked><span>Inimigo a atacar<small>o Scout fica parado; cada golpe é evitado com uma afterimage para o lado</small></span></label>
       <fieldset>
         <legend>Qualidade (scalability)</legend>
         <div class="seg" id="quality">
@@ -147,7 +147,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Pulso de ativação</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No cast: um anel fino de desvio à cintura abre e apaga (0,3 s), com duas afterimages a sair para os lados</td></tr>
-          <tr><td>Afterimages</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Só enquanto o Scout se move com o buff: silhuetas secas e curtas do próprio Scout (uma a cada 0,1 s), deslocadas para trás do movimento, contorno laranja-dourado e interior quase vazio; apagam em 0,25 s. Não é transparência do Scout (não parece invisibilidade). UE: Offset Shader na malha</td></tr>
+          <tr><td>Afterimages</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Em cada golpe evitado durante o buff: uma silhueta seca e curta do próprio Scout sai para o lado (alternando esquerda/direita) enquanto ele fica no sítio, contorno laranja-dourado e interior quase vazio; apagam em 0,25 s. Não é transparência do Scout (não parece invisibilidade). UE: Offset Shader na malha</td></tr>
           <tr><td>Draw calls</td><td class="n">2</td><td class="n">2</td><td class="n">2</td><td class="n">1</td><td>Silhueta fundida numa malha, instanciada; partilhada por todos os Scouts. O buff é cue de status</td></tr>
         </tbody>
       </table>
@@ -156,7 +156,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Desvio, não invisibilidade</h3><p>O Scout fica sempre sólido e visível. O buff lê-se por afterimages secas que ficam para trás quando ele se mexe.</p></div>
-    <div><h3>Só em movimento</h3><p>Parado, não há efeito nenhum. A mexer-se, cada passo deixa uma silhueta curta que apaga logo — desliga "Scout em movimento" para ver.</p></div>
+    <div><h3>Um golpe, uma afterimage</h3><p>O Scout fica parado; cada ataque que falha deixa uma silhueta curta a escorregar para o lado, como se o golpe tivesse passado por uma imagem dele. Entre golpes, nada.</p></div>
     <div><h3>Pulso curto</h3><p>A ativação é um anel fino à cintura e duas afterimages para os lados; o resto é cue de status.</p></div>
   </section>
 </div>
@@ -517,7 +517,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Ativação: anel à cintura + 2 afterimages', 0, 300, 0xfff0d2],
-  ['Buff: afterimages secas só enquanto se move (1 a cada 0,1 s)', 300, 3000, 0xf2b53a],
+  ['Buff: cada golpe evitado → afterimage para o lado', 300, 3000, 0xf2b53a],
   ['Fim do buff', 3000, 3100, 0x8f8a82],
 ];
 const TOTAL = 3400, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -533,10 +533,14 @@ let speed = 1, quality = 2, time = 0, localT = -1e9, arriveT = -1e9, idle = 0;
 const tLoop = $('tLoop'), tStress = $('tStress');
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
-let buffEnd = -1, lastGhost = -1, prevX = 0;
+let buffEnd = -1, nextHit = 0, hitSide = 1, atkT = -1e9;
+const attacker = new THREE.Group(); scene.add(attacker);
+{ const m = new THREE.MeshStandardMaterial({ color:lin(0x4a3a2c), roughness:.9 });
+  [[new THREE.CylinderGeometry(.2,.16,1.35,12).translate(0,.68,0)], [new THREE.SphereGeometry(.14,14,10).translate(0,1.52,0)], [new THREE.BoxGeometry(.05,.05,.8).translate(.28,1.1,.4)]]
+    .forEach(([g]) => { const o = new THREE.Mesh(g, m); o.castShadow = true; attacker.add(o); }); attacker.position.set(0, 0, -1.9); }
 function localRush(){
   if (time - localT < .4) return;
-  localT = time; idle = 0; buffEnd = time + BUFF;
+  localT = time; idle = 0; buffEnd = time + BUFF; nextHit = time + .35;
   evade(hero.position, 0, time);
 }
 $('castBtn').onclick = localRush;
@@ -544,7 +548,7 @@ addEventListener('keydown', e => { if ((e.key === 'q' || e.key === 'Q' || e.code
 function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(+b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
 seg('speed', 's', v => speed = v); seg('quality', 'q', v => quality = v);
 
-let yaw = .35, pitch = .25, dist = 6, drag = null;   // side-on so origin → direction → arrival read at a glance
+let yaw = 1.2, pitch = .3, dist = 5.5, drag = null;   // side-on so origin → direction → arrival read at a glance
 stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
 stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.03, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
 stage.addEventListener('pointerup', () => drag = null);
@@ -585,11 +589,15 @@ function frame(now){
 
   // gameplay-side: the Fighter rushes (same ease as the trail head), shoulder leads; dummy recoils on contact
   let lean = 0;
-  { const on = time < buffEnd && $('tMove').checked, k = time - localT;    // demo: side-to-side dodging while buffed
-    const st = Math.floor(k/.6), ph = (k - st*.6)/.14, from = st === 0 ? 0 : (st % 2 ? 1.3 : -1.3), to = st % 2 ? -1.3 : 1.3;
-    const x = on ? from + (to - from)*easeOutCubic(Math.min(1, ph)) : prevX*.85;   // quick sidesteps with pauses (dodges)
-    const vx = (x - prevX)/Math.max(dt, 1e-4); prevX = x; hero.position.set(x, 0, 0); lean = -vx*.03;
-    if (time < buffEnd && Math.abs(vx) > .8 && time - lastGhost >= .05 && quality > 0){ lastGhost = time; afterimage(hero.position, 0, vx, 0, time); } }
+  { const on = time < buffEnd && $('tMove').checked;              // demo: the Scout stands still; an enemy strikes, each hit is evaded
+    if (on && time >= nextHit){ nextHit = time + .55; hitSide = -hitSide; atkT = time;
+      const side = V3(hitSide, 0, 0);                                // an afterimage slips out to one side at the moment of the hit
+      afterimage(V3(hitSide*.28, 0, 0), 0, hitSide, 0, time + .12); }
+    const k = time - atkT, ka = k >= 0 && k < .3 ? Math.sin(Math.PI*k/.3) : 0;
+    attacker.position.set(0, 0, -1.9 + ka*.55); attacker.rotation.x = -ka*.35;   // the enemy lunges in and pulls back
+    hero.position.set(0, 0, 0); const kd = k - .12;
+    lean = kd >= 0 && kd < .2 ? -hitSide*.12*Math.sin(Math.PI*kd/.2) : 0;    // tiny sway away from the blow; the body stays in place
+  }
   if (!hitStop){ body.rotation.x = 0; body.rotation.z = lean; body.position.y = Math.sin(time*1.8)*.006 - lean*.1; }
   { const P = capeGeo.attributes.position.array;
     for (let i=0;i<P.length;i+=3){ const bx = capeBase[i], by = capeBase[i+1], v = Math.max(0, -by/1.18), vv = Math.pow(v,1.3);
@@ -601,8 +609,8 @@ function frame(now){
   heads.forEach(h => { h.style.opacity = ms >= 0 ? 1 : 0; h.style.left = (clamp01(ms/TOTAL)*100) + '%'; });
   hud.textContent = ms >= 0 ? `t = ${String(Math.floor(ms)).padStart(3,'0')} ms · ${speed}×` : `idle · ${speed}×`;
 
-  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
-  camera.lookAt(0, 1., 0);
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.1 + Math.sin(pitch)*dist, -.8 + Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(0, 1., -.8);
   renderer.info.reset();
   if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
 
