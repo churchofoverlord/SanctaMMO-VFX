@@ -26,7 +26,7 @@ for c, name, path in rows:
     done[c].append((name, path, icon_for(CLS[c][0], folder)))
 # missing skills (from the guide), per class
 d = json.load(open('docs/skills.json', encoding='utf8'))
-MISSING = {'Mage': ['Mana Barrier II / Overcharge', 'Arcane Weaving I', 'Arcane Weaving II', 'Elemental Weaver I', 'Elemental Weaver II', 'Mana Storm'],
+MISSING = {'Mage': ['Arcane Weaving I', 'Arcane Weaving II', 'Elemental Weaver I', 'Elemental Weaver II', 'Mana Storm'],
            'Scout': ['Exploit Weakness I', 'Exploit Weakness II', 'Exploit Weakness III', 'Quickstep I', 'Quickstep II', 'Volley I', 'Volley II', 'Smoke Bomb I', 'Smoke Bomb II', 'Vine Field I', 'Vine Field II', 'Backstab II', 'Rapid Attack', 'Blinding Dart', 'Long Jump', 'Evasion', 'Sand Shot', 'Sickness']}
 ic_by_name = {x['nome']: x['icones'][0] for x in d}
 ACC = {'Fighter': '#ff3d7f', 'Mage': '#8b6fd6', 'Mystic': '#ffb52e', 'Scout': '#7fbf8a'}
