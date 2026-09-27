@@ -81,7 +81,7 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Scout · Ground point · Área persistente · Slow → Root · Profundidade II · Paleta natural (casca, musgo, terra)</div>
+      <div class="eyebrow">SanctaMMO · Scout · Ground point · Área persistente · Slow → Root · Profundidade II · Paleta natural esverdeada (casca, musgo)</div>
       <h1><span>Vine Field</span> II</h1>
     </div>
     <p class="canon"><b>Efeito canónico:</b> upgrade: num único check atrasado, os inimigos ainda dentro e com Slow verdadeiro recebem Root.</p>
@@ -142,7 +142,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Vine Field I</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td>Borda amarela, raízes a acumular no chão, vinhas grandes no fim: iguais ao I</td></tr>
+          <tr><td>Vine Field I</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td>A mesma animação do I (borda, raízes a acumular, vinhas grandes no fim), com a paleta um pouco mais verde: casca esverdeada e luz amarelo-esverdeada na borda e nos contornos</td></tr>
           <tr><td>II · Entangle (Root)</td><td class="n">3/alvo</td><td class="n">3/alvo</td><td class="n">3/alvo</td><td class="n">3/alvo</td><td>Num único check atrasado (enquanto as vinhas grandes estão de pé) e só nos inimigos ainda dentro e com Slow verdadeiro: 3 vinhas de casca mais verde e fresca, com glow amarelo-esverdeado, enrolam-se pelas pernas do alvo e fecham num snap (0,12 s, de largo para apertado), com um solavanco no alvo; ficam até ao fim e desaparecem de cima para baixo. O Root que fica é cue de status</td></tr>
           <tr><td>Draw calls</td><td class="n">7</td><td class="n">7</td><td class="n">7</td><td class="n">4</td><td>Partilhadas por todos os Scouts; 0 sprites</td></tr>
         </tbody>
@@ -503,7 +503,7 @@ function natMat(mode, side){
       .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\n  if (vS > vHead) discard;')
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
         if (vBark > -5. && vBark < 40.){ float rim = pow(1. - abs(dot(normal, normalize(vViewPosition))), 3.);
-          totalEmissiveRadiance += (vKind > 4.5 ? vec3(.85, 1., .3)*1.3 : vec3(1., .72, .25))*(.05 + rim*.55); }`)
+          totalEmissiveRadiance += (vKind > 4.5 ? vec3(.8, 1., .35)*1.3 : vec3(.72, .95, .3))*(.05 + rim*.55); }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         if (vBark < -15.) diffuseColor.rgb = vec3(.07, .055, .04);                                   // soil clod
         else if (vBark < -5.) diffuseColor.rgb = mix(vec3(.09, .14, .04), vec3(.2, .27, .09), smoothstep(.0, 1., vS));   // leaf: dark green
@@ -511,7 +511,8 @@ function natMat(mode, side){
         else { float ridge = smoothstep(.2, .8, .5 + .5*sin(vBark*5. + sin(vS*28.)*1.3));             // bark ridges along the stem
           vec3 bark = mix(vec3(.09, .065, .04), vec3(.24, .18, .11), ridge);
           bark = mix(bark, vec3(.12, .15, .06), smoothstep(.55, .95, sin(vS*9. + vBark*1.7)*.5 + .5)*.5);   // patches of moss
-          if (vKind > 4.5) bark = mix(bark, vec3(.16, .2, .06), .55);                         // II entangle: fresher, greener bark
+          bark = mix(bark, vec3(.1, .13, .045), .35);                                           // II: whole field a bit greener
+          if (vKind > 4.5) bark = mix(bark, vec3(.16, .2, .06), .45);                         // entangle: fresher still
           diffuseColor.rgb = bark; }`);
   };
   return m;
@@ -552,7 +553,7 @@ const fields = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1 }, new THRE
       col *= 1. - crack*.7;
       float edge = exp(-pow((r - Rr)/.025, 2.))*.45, halo = exp(-pow((r - Rr)/.12, 2.))*.12;   // yellow light on the border
       col += vec3(1., .72, .25)*(edge + halo);
-      col = vec3(1., .72, .25)*(edge + halo);                                   // no soil: only the yellow border
+      col = vec3(.72, .95, .3)*(edge + halo);                                   // no soil: only the yellow border
       float alpha = clamp(edge + halo, 0., 1.)*fade;
       if (alpha < .01) discard; gl_FragColor = vec4(col, alpha); }` }));
 fields.mesh.renderOrder = 1;
