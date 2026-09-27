@@ -427,8 +427,10 @@ const VCOMMON = `
   vec3 vine(float s, vec4 P, float sway){
     float h = P.y*s, a = P.x + P.z*(s*3.8 - 1.2*s*s) + sway*s*s;
     float r = .38*sin(3.14159*s*1.2)*(1. - .4*s) + .08;
+    float tt = uTime*1.7 + P.w*11.;                                            // writhing: a wave travels up the vine
     vec3 w = vec3(.09*sin(s*7. + P.w*9.) + .05*sin(s*17. + P.w*23.) + .025*sin(s*37. + P.w*5.), 0.,
-                  .09*cos(s*6. + P.w*13.) + .05*sin(s*19. + P.w*7.) + .025*cos(s*41. + P.w*3.))*s;   // irregular, root-like wander
+                  .09*cos(s*6. + P.w*13.) + .05*sin(s*19. + P.w*7.) + .025*cos(s*41. + P.w*3.))*s
+           + vec3(sin(s*4. - tt), 0., cos(s*3.5 - tt*.9))*.16*s*s;
     return vec3(cos(a)*r, h, sin(a)*r) + vec3(cos(P.x), 0., sin(P.x))*(.35*s*s) + w;
   }
   vec3 root(float s){ vec3 S0 = vec3(aS.x, 0., aS.z), d = aB - S0, n = normalize(vec3(-d.z, 0., d.x));
@@ -442,7 +444,7 @@ const VBODY = `
   vHead = 2.; vBark = 0.; vKind = uMode; vS = 0.;
   if (uMode < 2.5 && uMode != 1.){                                        // thick vine body / thorn: rises out of the ground, sinks back
     float g = emerge(u), k = sinkT(u, 0.);
-    float sway = sin(uTime*.6 + aP.w*6.)*.08;
+    float sway = sin(uTime*1.3 + aP.w*6.)*.35;
     float s = uMode < .5 ? position.y + .5 : aP.w;
     vec3 C = vine(s, aP, sway), T = normalize(vine(min(s + .01, 1.), aP, sway) - vine(max(s - .01, 0.), aP, sway));
     vec3 B = normalize(cross(T, vec3(.3, 0., 1.))), Nn = cross(B, T);
@@ -583,7 +585,7 @@ function stab(O, yaw, tier, t0, targets){                   // Vine Field: soil 
   for (let v = 0; v < n; v++){
     const B = [bases[v][0], 0, bases[v][2]];
     const P = [rand(0, 6.28), rand(1.5, 2.3), rand(.8, 1.4)*(Math.random() < .5 ? -1 : 1), Math.random()];
-    const tv = t1 + VD + v*.06;
+    const tv = t1 + VD + v*.015;
     put(vines, G, tv, B, Z, P, [0, 0]);
     if (tier > 0){
       for (let k = 0; k < NTH; k++){ put(thorns, G, tv, B, Z, [P[0], P[1], P[2], (k + .5)/NTH*.9 + .02 + Math.random()*.001], [0, 0]); nt++; }
