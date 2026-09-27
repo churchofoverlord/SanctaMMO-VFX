@@ -150,7 +150,7 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Trail (Quickstep I)</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>A mesma nuvem do Quickstep I; o dash não muda</td></tr>
-          <tr><td>II · Charge reposta</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só quando uma Takedown qualificada repõe 1 charge: flash seco no centro do corpo do Scout (o glow redondo do Exploit Weakness III, mais curto e mais duro), pico de 2 frames, 0,3 s. Sem partículas a flutuar</td></tr>
+          <tr><td>II · Charge reposta</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Só quando uma Takedown qualificada repõe 1 charge: flash seco em cada pé do Scout (glow redondo pequeno, ~0,35 m; distinto do reset do Exploit Weakness III, que é no peito), pico de 2 frames, 0,3 s. Sem partículas a flutuar</td></tr>
           <tr><td>Charges</td><td class="n">UI</td><td class="n">UI</td><td class="n">UI</td><td class="n">UI</td><td>3 charges (mais uma que o I); a charge reposta pisca na barra. Nenhum VFX permanente no mundo</td></tr>
           <tr><td>Draw calls</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td class="n">1–2</td><td>O flash só existe no evento; partilhadas por todos os Scouts; 0 partículas</td></tr>
         </tbody>
@@ -160,7 +160,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesma trail</h3><p>O dash é o do Quickstep I, com a mesma nuvem. O II não acrescenta nada ao movimento.</p></div>
-    <div><h3>Takedown = charge de volta</h3><p>Quando uma Takedown qualificada repõe uma charge, o Scout dá um flash seco no centro do corpo e a charge reposta pisca na barra. Nada fica a flutuar.</p></div>
+    <div><h3>Takedown = charge de volta</h3><p>Quando uma Takedown qualificada repõe uma charge, o Scout dá um flash seco em cada pé — o passo fica pronto outra vez — e a charge reposta pisca na barra. Nada fica a flutuar.</p></div>
     <div><h3>Mais charges</h3><p>A capacidade sobe para 3; as charges ficam só na UI.</p></div>
   </section>
 </div>
@@ -428,14 +428,14 @@ const DASH = 4;                                     // dash distance (m)
 
 // ONE fixed World Space quad per dash, upright along the dash (turned to the camera only around the dash axis): a warm procedural
 // cloud (fbm stretched along the motion), thin at the origin, body-tall at the Scout where it melts in, eaten from the origin.
-// II — charge refund (only when a qualified Takedown gives back 1 charge): a dry, short flash over the centre of the Scout's
-// body (the same round glow as Exploit Weakness III, shorter and sharper): 2-frame peak, gone in 0.3 s. No floating particles.
+// II — charge refund (only when a qualified Takedown gives back 1 charge): a dry, short flash on each of the Scout's feet
+// (round glow, small; unlike Exploit Weakness III's reset, which is on the chest): 2-frame peak, gone in 0.3 s. No floating particles.
 const RP = .3;
 const resets = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RP.toFixed(2)}){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25; mv.xy += position.xy*.3;                         // round
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.18; mv.xy += position.xy*.17;                         // round
       vQ = position.xy; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vU;
     void main(){
@@ -449,7 +449,11 @@ const resets = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1 }, addMat({
       vec3 o = (mix(uOrange, uGold, .5)*lum + mix(uGold, vec3(1., .96, .88), .5)*hot)*smoothstep(1., .85, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 resets.mesh.renderOrder = 4;
-function resetPulse(t){ const i = resets.next(); resets.A.aO.setXYZ(i, hero.position.x, 1.2, hero.position.z); resets.A.aT.setX(i, t); resets.track(t + RP, 1); }
+const FOOT = new THREE.Vector3();
+function resetPulse(t){                                          // one dry flash on each foot (the Quickstep's own place: the step)
+  for (const sx of [-.12, .12]){ FOOT.set(sx, .1, -.03).applyAxisAngle(new THREE.Vector3(0, 1, 0), hero.rotation.y).add(hero.position);
+    const i = resets.next(); resets.A.aO.setXYZ(i, FOOT.x, FOOT.y, FOOT.z); resets.A.aT.setX(i, t); }
+  resets.track(t + RP, 2); }
 
 const trails = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aE:3, aT:1 }, addMat({
   side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange },
@@ -556,7 +560,7 @@ const PHASES = [
   ['Preparação (corpo)', 0, 40, 0x8f8a82],
   ['Dash · nuvem cresce atrás do Scout', 40, 200, 0xffffff],
   ['Nuvem é comida a partir da origem', 100, 400, 0xff7a1a],
-  ['II · Takedown: flash seco no Scout + charge pisca (evento à parte)', 0, 300, 0xfff0d2],
+  ['II · Takedown: flash seco nos pés + charge pisca (evento à parte)', 0, 300, 0xfff0d2],
 ];
 const TOTAL = 700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
