@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Terra revolvida</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m: terra escura revolvida por dentro, orla irregular de terra mais clara e uma linha de luz amarela com halo suave no limite, fissuras. Abre primeiro (0,25 s)</td></tr>
+          <tr><td>Borda da área</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m: só a linha de luz amarela ténue com halo suave no limite; o chão por dentro fica como está. Abre primeiro (0,25 s)</td></tr>
           <tr><td>Raízes no chão</td><td class="n">26</td><td class="n">26</td><td class="n">26</td><td class="n">12</td><td>Durante os primeiros 3/4 do campo: raízes meio enterradas com casca finas e com caminhos irregulares, rastejam uma após outra desde a orla (0,65 s cada), ramificam-se em 2–3 ramos mais finos e vão-se acumulando no chão, as primeiras até às bases das vinhas</td></tr>
           <tr><td>Vinhas grossas</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Só no último 1/4 do campo, onde as primeiras raízes chegaram: troncos de casca nodosa com musgo, material PBR iluminado, com um glow amarelo ligeiro no contorno (como as raízes), saem de dentro do chão em 0,2 s e enrolam-se em S; espinhos secos e folhas verde-escuras que abrem quando a vinha está fora. Deformação toda no vertex shader (WPO)</td></tr>
           <tr><td>Torrões de terra</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">0</td><td>Pedaços de terra atirados onde cada vinha rompe o chão, balística na GPU, ~1 s</td></tr>
@@ -536,7 +536,8 @@ const fields = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1 }, new THRE
       col *= 1. - crack*.7;
       float edge = exp(-pow((r - Rr)/.025, 2.))*.45, halo = exp(-pow((r - Rr)/.12, 2.))*.12;   // yellow light on the border
       col += vec3(1., .72, .25)*(edge + halo);
-      float alpha = clamp(inside*(.8 + .15*n2) + rim*.9 + edge + halo, 0., 1.)*fade;
+      col = vec3(1., .72, .25)*(edge + halo);                                   // no soil: only the yellow border
+      float alpha = clamp(edge + halo, 0., 1.)*fade;
       if (alpha < .01) discard; gl_FragColor = vec4(col, alpha); }` }));
 fields.mesh.renderOrder = 1;
 
@@ -663,7 +664,7 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Cast (corpo)', 0, 150, 0x8f8a82],
-  ['1) Terra abre-se em círculo, borda de luz amarela', 150, 350, 0x6a5238],
+  ['1) Borda de luz amarela abre em círculo', 150, 350, 0x6a5238],
   ['2) Raízes acumulam-se rápido pelo chão', 350, 2550, 0x5a4a30],
   ['3) Último 1/4: vinhas grossas rompem o solo + torrões', 2550, 3350, 0x3c4a22],
   ['Vinhas recolhem, campo apaga', 3350, 3800, 0x8a6a4a],
