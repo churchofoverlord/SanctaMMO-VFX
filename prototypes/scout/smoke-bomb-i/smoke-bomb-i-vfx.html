@@ -143,7 +143,7 @@ tr:last-child td{border-bottom:0}
         <tbody>
           <tr><td>Bomba</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Objeto sólido curto (esfera de ferro com rastilho aceso), lançado em arco até ao ground point (8 m: ~0,7 s), a rodar; voo na GPU. Sem rasto comprido</td></tr>
           <tr><td>Impacto</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Flash laranja curto no chão (0,2 s) + anel que abre até ao limite da área</td></tr>
-          <tr><td>Esfera de fumo</td><td class="n">2 camadas</td><td class="n">2 camadas</td><td class="n">1</td><td class="n">1</td><td>Cúpula de fumo sólida, semi-opaca e de baixo contraste (R 3 m), com raio irregular por ruído e rolos a mexer devagar; Fresnel acentuado: a borda da cortina acende em laranja quente e lê-se sempre. Duas camadas na mesma draw call (atributo). Incha em 0,35 s, fica estável (6 s de exemplo), dissipa em 0,6 s. Não reage a golpes</td></tr>
+          <tr><td>Esfera de fumo</td><td class="n">2 camadas</td><td class="n">2 camadas</td><td class="n">1</td><td class="n">1</td><td>Cúpula de fumo sólida, semi-opaca e de baixo contraste (R 3 m), com raio irregular por ruído e rolos a mexer devagar; sem glow: a borda lê-se pelo contorno irregular dos rolos e pelo anel de limite no chão. Duas camadas na mesma draw call (atributo). Incha em 0,35 s, fica estável (6 s de exemplo), dissipa em 0,6 s. Não reage a golpes</td></tr>
           <tr><td>Limite no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Anel fino e ténue no raio da área (é área persistente: o chão é permitido), estável enquanto dura</td></tr>
           <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Scouts; 0 partículas. Blind e Slow nos alvos são cues de status</td></tr>
         </tbody>
@@ -153,7 +153,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Objeto, depois área</h3><p>Uma bomba pequena e sólida voa em arco até ao ponto; no impacto, um flash e um anel abrem a área, e o fumo incha até ao limite.</p></div>
-    <div><h3>Cortina legível</h3><p>O fumo é escuro e de baixo contraste por dentro, mas a borda acende sempre em laranja (Fresnel): em combate vê-se onde a nuvem acaba, sem esconder o que está à volta.</p></div>
+    <div><h3>Cortina legível</h3><p>O fumo é escuro, sem glow e de baixo contraste; o limite lê-se pelo contorno irregular dos rolos e pelo anel ténue no chão.</p></div>
     <div><h3>Estados à parte</h3><p>Blind e Slow são cues de status nos alvos. O volume fica estável e não pulsa com golpes.</p></div>
   </section>
 </div>
@@ -493,7 +493,7 @@ const smokes = pool(new THREE.SphereGeometry(1, 40, 18, 0, Math.PI*2, 0, Math.PI
       float roll = vn3(vD*5. + vec3(0., -t, t*.7))*.6 + vn3(vD*11. + vec3(t, t*.4, 0.))*.4;   // soft rolling billows (never grain)
       float a = (mix(.62, .4, vL) + .25*roll)*fin*smoothstep(-.02, .12, vH + .1);
       vec3 smoke = mix(vec3(.035, .033, .032), vec3(.1, .092, .085), roll*roll);     // dark grey, low contrast
-      vec3 rim = mix(uOrange, uGold, .3)*pow(fr, 4.)*smoothstep(.25, .75, roll)*1.3*(1. - vL*.6);   // accented Fresnel border, broken by the billows
+      vec3 rim = vec3(0.);                                                           // no glow on the smoke
       vec3 col = smoke*a + rim*fin;
       gl_FragColor = vec4(col, a); }` }));
 
