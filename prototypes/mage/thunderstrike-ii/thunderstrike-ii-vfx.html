@@ -158,8 +158,8 @@ tr:last-child td{border-bottom:0}
           <tr><td>Coluna de raio</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Instantânea, sem projétil nem descida: um raio fractal (receita Coil: zigue-zague de 3 oitavas que volta a disparar, núcleo que incha e aperta, franja a crepitar) do céu (~10 m) até ao alvo num único frame, com ramificações curtas; pisca e volta a disparar ~0,32 s</td></tr>
           <tr><td>Flash seco</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No contacto: flash curto e forte no peito do alvo (pico de 2 frames), faíscas</td></tr>
           <tr><td>Descarga no chão</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>Raios curtos (0,5–1 m) a espalhar pelo chão onde o raio bate, 0,25 s; sem anel nem marca (alvo único)</td></tr>
-          <tr><td>II · splash</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1/alvo</td><td>Só se o alvo já tinha Sapped: arcos curtos laterais saem da base da coluna até cada inimigo a ≤ 2 m (flash no contacto) e um anel fino abre uma vez até ao limite da área no chão (o limite é o traço mais claro), 0,4 s</td></tr>
-          <tr><td>II · burst</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1</td><td>Só se o alvo já estava Stunned: 0,12 s depois o raio volta a cair e o núcleo rebenta num segundo flash central, maior (dano extra)</td></tr>
+          <tr><td>II · splash</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1/alvo</td><td>Só se o alvo já tinha Sapped, como no Coil: três anéis de raio desenham-se à volta do alvo (0,4 · 1 · 1,55 m) e crepitam ~0,6 s, com raios curtos ambiente a sair deles em todas as direções; arcos até cada inimigo a ≤ 2 m (flash no contacto) e um anel fino abre até ao limite da área no chão</td></tr>
+          <tr><td>II · burst</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1</td><td>Só se o alvo já estava Stunned: 0,12 s depois caem mais 5 raios do céu (3 em Médio) de pontos à volta, a convergir no alvo em 0,12 s, cada um com ramificações; segunda descarga pelo chão, mais larga, e o núcleo rebenta num flash central maior (dano extra)</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
       </table>
@@ -168,8 +168,8 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesmo strike</h3><p>O raio instantâneo do céu, o flash seco e a descarga no chão são os do nível I; este nível só acrescenta dois payoffs condicionais.</p></div>
-    <div><h3>Sapped → splash</h3><p>Se o alvo já tinha Sapped, arcos curtos saem da base do raio para os lados até aos inimigos próximos e um anel fino marca a área: um único pulso.</p></div>
-    <div><h3>Stunned → burst</h3><p>Se o alvo já estava Stunned, o raio cai uma segunda vez e rebenta num flash central maior. Os dois podem acontecer no mesmo cast. Os estados são cues de status.</p></div>
+    <div><h3>Sapped → splash</h3><p>Se o alvo já tinha Sapped, anéis de raio envolvem o alvo como no Coil e crepitam para fora, com arcos até aos inimigos próximos; um anel fino marca a área.</p></div>
+    <div><h3>Stunned → burst</h3><p>Se o alvo já estava Stunned, cai uma chuva curta de raios do céu a convergir nele e o núcleo rebenta num flash central maior. Os dois podem acontecer no mesmo cast. Os estados são cues de status.</p></div>
   </section>
 </div>
 
@@ -497,10 +497,10 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
         return aO + vec3(cos(a)*R, aP.x + .09*jag(s, st*1.7 + 3., 20.) + .06*sin(a*2. + aP.z*9.), sin(a)*R);
       }
       vec3 A = aO, B = aE;
-      if (aK > 2.5){                                   // ambient strike: a new outward direction every 0.16 s, from a coil point
+      if (aK > 2.5){                                   // ambient strike: a new outward direction every 0.16 s, from a coil point (aE.y = coil radius)
         float idx = floor(u/.32 + aP.z), h = h1(idx*1.37 + aP.z*91.), h2 = h1(idx*2.11 + aP.z*37.), h3 = h1(idx*3.7 + aP.z*13.);
         float a = h*6.28318; vec3 r = vec3(cos(a), 0., sin(a));
-        A = aO + r*.75 + vec3(0., mix(.4, 1.8, h2), 0.);
+        A = aO + r*max(aE.y, .5) + vec3(0., mix(.4, 1.6, h2), 0.);
         B = A + normalize(r + vec3(0., (h3 - .5)*1.3, 0.))*(.7 + .8*h3);   // shorter strikes
       }
       if (aK < 1.5 || (aK > 2.5 && aK < 3.5)) return boltAt(s, st, A, B);
@@ -510,7 +510,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       return boltAt(s, st + 17., S, E2);
     }
     void main(){
-      float u = uTime - aT, life = aK < .5 ? aE.x : (aK > 2.5 ? 3. : (aK < 1.5 ? .32 : .24));             // ground rings: life in aE.x
+      float u = uTime - aT, life = aK < .5 || aK > 2.5 ? aE.x : (aK < 1.5 ? .32 : .24);   // rings and ambient strikes: life in aE.x             // ground rings: life in aE.x
       if (u < 0. || u > life){ ${HIDE} }
       float st = (aK > 2.5 ?  floor((uTime - aT)/.32 + aP.z)*3.3 + floor(uTime*26.)*.0 : floor(uTime*(aK < .5 ? 20. : 14.))) + aP.z*50., s = position.x + .5;   // bolts re-strike faster
       float draw = aK < .5 ? clamp(u/.12, 0., 1.) : 1.;
@@ -519,7 +519,7 @@ const arcs = pool(new THREE.PlaneGeometry(1, 1, 72, 1), 1024, { aO:3, aE:3, aT:1
       vec3 side = normalize(cross(T, P - cameraPosition));
       float w = aK < .5 ? .045 : (aK < 1.5 ? (length(aE - aO) > 4. ? .14 : .06) : aK > 2.5 && aK < 3.5 ? .028 : .018)*(.3 + .7*sin(3.14159*s));   // bolts taper at both ends
       vS = s; vY = position.y*2.; vSt = st; vFl = aK < .5 ? .7 + .3*h1(st*3.1) : step(.22, h1(st*3.1))*(.7 + .6*h1(st*1.7));;   // bolts strobe on/off like real strikes
-      vF = (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.1, .3, u))*(1. - smoothstep(life*.55, life, u)) : aK > 2.5 ? smoothstep(0., .04, fract(u/.32 + aP.z))*(1. - smoothstep(.22, .34, fract(u/.32 + aP.z)))*.45*(1. - smoothstep(2.6, 3., u))*1.3 : (1. - smoothstep(life*.55, life, u))*1.3);
+      vF = (u < .033 ? 1.8 : 1.)*(aK < .5 ? mix(1., .75, smoothstep(.1, .3, u))*(1. - smoothstep(life*.55, life, u)) : aK > 2.5 ? smoothstep(0., .04, fract(u/.32 + aP.z))*(1. - smoothstep(.22, .34, fract(u/.32 + aP.z)))*.55*(1. - smoothstep(life*.75, life, u))*1.3 : (1. - smoothstep(life*.55, life, u))*1.3);
       gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*w*3.2, 1.);   // wider strip: room for the soft glow
     }`,
   fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vF, vFl, vSt;
@@ -694,7 +694,11 @@ function stab(O, yaw, tier, t0, targets){                   // Thunderstrike: an
   for (let m = 0; m < (tier ? 6 : 0); m++){ const s = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(s, G.x, rand(.2, 1.4), G.z); sparks.A.aV.setXYZ(s, Math.cos(a)*rand(1.5, 3.5), rand(.5, 3), Math.sin(a)*rand(1.5, 3.5)); sparks.A.aT.setXY(s, th, rand(.15, .3)); ns++; }
   if (tg) tg.hitAt = th;
   const SPL = 2;
-  if (tg && tg.sapped){                                     // II · splash: short lateral arcs from the base of the column + the area limit
+  if (tg && tg.sapped){                                     // II · splash (like the Coil): lightning rings around the target, strikes crackling out, arcs to the enemies around
+    const CL = .65, rings3 = tier > 0 ? [[.4, .75, 1], [1.0, .9, -1], [1.55, .65, 1]] : [[.9, .85, 1]];
+    for (const [hh, rr, dd] of rings3){ put(0, G, V3(CL, 0, 0), [hh, rr, Math.random(), dd], th + .03); na++; }
+    const nA = { 3:6, 2:5, 1:3, 0:0 }[tier];
+    for (let m = 0; m < nA; m++){ const s3 = Math.random(); put(3, G, V3(CL, .8, 0), [0, 0, s3, 0], th + .03); put(4, G, V3(CL, .8, 0), [rand(.3, .7), rand(0, 6.28), s3, rand(.4, .8)], th + .03); na += 2; }
     let k = rings.next(); rings.A.aO.setXYZ(k, G.x, 0, G.z); rings.A.aT.setX(k, th + .03); rings.A.aK.setX(k, 0); rings.A.aD.setXYZW(k, SPL, 0, 0, 0); rings.track(th + RL, 1);
     for (const d of targets){ if (d === tg) continue; const dl = Math.hypot(d.p.x - G.x, d.p.z - G.z); if (dl > SPL) continue;
       const ux = (d.p.x - G.x)/dl, uz = (d.p.z - G.z)/dl, A = V3(G.x + ux*.15, .35, G.z + uz*.15), E2 = V3(d.p.x - ux*.15, 1.1, d.p.z - uz*.15), s2 = Math.random();
@@ -704,14 +708,21 @@ function stab(O, yaw, tier, t0, targets){                   // Thunderstrike: an
       d.hitAt = th + .04; }
   }
   if (tg && tg.stunned){                                    // II · burst: the bolt comes down a second time and the core detonates in a bigger central flash
-    const t2 = th + .12, S2 = V3(G.x + rand(-.5, .5), 10, G.z + rand(-.5, .5));
-    put(1, S2, V3(G.x, .05, G.z), [0, 0, Math.random(), 0], t2); na++;
+    const t2 = th + .12, nB = tier > 1 ? 5 : (tier === 1 ? 3 : 2);
+    for (let m = 0; m < nB; m++){                            // several bolts from the sky around the target, converging on it
+      const a = m/nB*6.283 + rand(-.4, .4), rr = m ? rand(1.5, 3.2) : rand(0, .6), tb = t2 + m*.03, s2 = Math.random();
+      const S2 = V3(G.x + Math.cos(a)*rr, rand(8.5, 10.5), G.z + Math.sin(a)*rr), E2 = V3(G.x, m ? rand(.9, 1.5) : .05, G.z);
+      put(1, S2, E2, [0, 0, s2, 0], tb); na++;
+      if (tier > 0){ put(2, S2, E2, [rand(.3, .75), rand(0, 6.28), s2, rand(1., 2.2)], tb); na++; }
+    }
+    for (let m = 0; m < (tier ? 6 : 0); m++){ const a = m/6*6.283 + rand(-.3, .3), l = rand(.7, 1.4);   // a second, wider discharge over the ground
+      put(1, V3(G.x, .08, G.z), V3(G.x + Math.cos(a)*l, .03, G.z + Math.sin(a)*l), [0, 0, Math.random(), 0], t2 + .02); na++; }
     for (let m = 0; m < 2; m++){ const q = hits.next(); hits.A.aO.setXYZ(q, C.x, C.y + (m ? .25 : 0), C.z); hits.A.aT.setX(q, t2 + m*.03); hits.A.aK.setX(q, 0); }
     hits.track(t2 + .35, 2);
     for (let m = 0; m < (tier ? 8 : 0); m++){ const s = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(s, G.x, rand(.6, 1.6), G.z); sparks.A.aV.setXYZ(s, Math.cos(a)*rand(2, 4.5), rand(.5, 3.5), Math.sin(a)*rand(2, 4.5)); sparks.A.aT.setXY(s, t2, rand(.18, .34)); ns++; }
     tg.hitAt = t2;
   }
-  arcs.track(th + .6, na); if (ns) sparks.track(th + .55, ns);
+  arcs.track(th + .8, na); if (ns) sparks.track(th + .55, ns);
   castLog.push(th + .6);
 }
 
