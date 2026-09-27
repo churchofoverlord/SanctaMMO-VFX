@@ -141,10 +141,11 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Círculo de terreno</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m bem delimitado: anel dourado claro no limite (o do ícone) e terra escurecida por dentro, com fissuras discretas; abre em 0,2 s com um pulso curto e fica estável</td></tr>
-          <tr><td>Vinhas</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Vinhas geométricas grossas, instanciadas: cada uma um tubo que emerge do chão em 0,2 s (deformação no vertex shader, tipo WPO) e se enrola em S, a afinar até à ponta; casca escura com rim laranja-dourado. Balançam muito devagar. Sem folhas nem ruído fino</td></tr>
+          <tr><td>Círculo de terreno</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m bem delimitado: anel dourado claro no limite (o do ícone) e terra escurecida por dentro, com fissuras discretas; abre primeiro (0,25 s) com um pulso curto e fica estável</td></tr>
+          <tr><td>Vinhas no chão</td><td class="n">10</td><td class="n">10</td><td class="n">8</td><td class="n">6</td><td>Depois do círculo: 2 gavinhas planas por vinha rastejam pelo chão desde o anel até à base dela (0,45 s), com a ponta a acender enquanto crescem; ficam deitadas enquanto o campo dura</td></tr>
+          <tr><td>Vinhas</td><td class="n">5</td><td class="n">5</td><td class="n">4</td><td class="n">3</td><td>Vinhas geométricas grossas, instanciadas: por fim, onde as gavinhas chegam, cada uma um tubo que emerge do chão em 0,2 s (deformação no vertex shader, tipo WPO) e se enrola em S, a afinar até à ponta; casca escura com rim laranja-dourado. Balançam muito devagar. Sem folhas nem ruído fino</td></tr>
           <tr><td>Espinhos</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">0</td><td>Cones curtos instanciados ao longo de cada vinha (mesma curva no shader), a sair com ela</td></tr>
-          <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Scouts; 0 partículas. O Slow nos inimigos é cue de status</td></tr>
+          <tr><td>Draw calls</td><td class="n">4</td><td class="n">4</td><td class="n">4</td><td class="n">3</td><td>Partilhadas por todos os Scouts; 0 partículas. O Slow nos inimigos é cue de status</td></tr>
         </tbody>
       </table>
     </div>
@@ -152,7 +153,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Terreno delimitado</h3><p>O campo lê-se como um círculo de terra com o anel dourado do ícone no limite; dentro, poucas vinhas grossas — sem folhagem, sem ruído.</p></div>
-    <div><h3>Emergem rápido</h3><p>As vinhas saem do chão em 0,2 s e enrolam-se em S, com espinhos. Depois ficam, com um balanço muito lento; no fim recolhem para dentro da terra.</p></div>
+    <div><h3>Três tempos</h3><p>Primeiro o círculo; depois gavinhas rastejam pelo chão desde o anel; onde chegam, as vinhas grossas saem do chão em 0,2 s e enrolam-se em S, com espinhos. Depois ficam, com um balanço muito lento; no fim recolhem para dentro da terra.</p></div>
     <div><h3>Slow é status</h3><p>O campo não pisca com os inimigos; o Slow que cada um recebe é o cue de status dele.</p></div>
   </section>
 </div>
@@ -415,6 +416,7 @@ const ptsScale = { value:600 };
 const uGold = { value:lin(0xffcf7a) }, uOrange = { value:lin(0xff8a2a) };
 const GROW = .07;
 const WIND = .15, FR = 3, DUR = 6, EMERGE = .2, RETRACT = .45;   // cast, field radius (m), duration shown, emerge / retract (s)
+const CIRC = .25, CREEP = .45, VD = CIRC + CREEP, VDUR = DUR - VD;   // 1) circle opens, 2) ground vines creep, 3) thick vines emerge
 
 // shared GLSL: the vine's centre line (S-curl rising out of the ground) — aP = (yaw, height, curl, seed), aB = base offset
 const CURVE = `
@@ -424,11 +426,11 @@ const CURVE = `
     return vec3(cos(a)*r, h + .02, sin(a)*r) + vec3(cos(P.x), 0., sin(P.x))*(.35*s*s);
   }
   float grow(float u){ float e = 1. - pow(1. - clamp(u/${EMERGE.toFixed(2)}, 0., 1.), 3.);
-    float r = clamp((u - ${DUR.toFixed(1)})/${RETRACT.toFixed(2)}, 0., 1.); return e*(1. - r*r); }`;
+    float r = clamp((u - ${VDUR.toFixed(2)})/${RETRACT.toFixed(2)}, 0., 1.); return e*(1. - r*r); }`;
 const VIN = (thorn) => `attribute vec3 aO, aB; attribute float aT; attribute vec4 aP; uniform float uTime; varying vec3 vN, vV; varying float vS, vK;
   ${CURVE}
   void main(){
-    float u = uTime - aT; if (u < 0. || u > ${(DUR + RETRACT).toFixed(2)}){ ${HIDE} }
+    float u = uTime - aT; if (u < 0. || u > ${(VDUR + RETRACT).toFixed(2)}){ ${HIDE} }
     float g = grow(u); if (g < .002){ ${HIDE} }
     float sway = sin(uTime*.6 + aP.w*6.)*.12;
     ${thorn ? `float s = aP.w;` : `float s = position.y + .5;`}
@@ -471,7 +473,7 @@ const fields = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1 }, new THRE
     float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f); return mix(mix(h(i), h(i + vec2(1,0)), f.x), mix(h(i + vec2(0,1)), h(i + vec2(1,1)), f.x), f.y); }
     void main(){
       float r = length(vP), u = vU, R = ${FR.toFixed(1)};
-      float open = 1. - pow(1. - clamp(u/${EMERGE.toFixed(2)}, 0., 1.), 3.), fade = 1. - smoothstep(${DUR.toFixed(1)}, ${LIFE.toFixed(2)}, u);
+      float open = 1. - pow(1. - clamp(u/${CIRC.toFixed(2)}, 0., 1.), 3.), fade = 1. - smoothstep(${DUR.toFixed(1)}, ${LIFE.toFixed(2)}, u);
       float Rr = R*open;
       float inside = smoothstep(Rr, Rr - .25, r);
       float cr = abs(vn(vP*1.6) - .5); float crack = smoothstep(.04, .0, cr)*inside*.6;
@@ -482,6 +484,28 @@ const fields = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1 }, new THRE
       col = mix(vec3(.01, .008, .005), col, clamp(ring + crack, 0., 1.));
       if (alpha < .01) discard; gl_FragColor = vec4(col, alpha); }` }));
 fields.mesh.renderOrder = 1;
+// 2) ground vines: flat, fairly thin tendrils creeping over the earth from the ring toward each thick vine's base (2 per vine),
+// revealed tip-first over CREEP s; they stay flat on the ground while the field lasts (aE = base offset, aC = (bend, width))
+const creeps = pool(new THREE.PlaneGeometry(1, 1, 48, 1), 256, { aO:3, aS:3, aE:3, aT:1, aC:2 }, new THREE.ShaderMaterial({
+  side:THREE.DoubleSide, transparent:true, depthWrite:false, uniforms:{ uTime, uGold, uOrange },
+  vertexShader:`attribute vec3 aO, aS, aE; attribute float aT; attribute vec2 aC; uniform float uTime; varying float vS, vY, vH, vF;
+    vec3 path(float s){ vec3 a = aS, b = aE, d = b - a, n = normalize(vec3(-d.z, 0., d.x));
+      return mix(a, b, s) + n*(aC.x*sin(3.14159*s) + .12*sin(s*11. + aC.x*7.)*sin(3.14159*s)); }
+    void main(){ float u = uTime - aT; if (u < 0. || u > ${(DUR - CIRC + RETRACT).toFixed(2)}){ ${HIDE} }
+      float s = position.x + .5;
+      vec3 P = path(s), T = normalize(path(min(s + .01, 1.)) - path(max(s - .01, 0.))), N = vec3(-T.z, 0., T.x);
+      float w = aC.y*(.55 + .45*s);                                         // thickens toward the base where the big vine comes out
+      vS = s; vY = position.y*2.; vH = 1. - pow(1. - clamp(u/${CREEP.toFixed(2)}, 0., 1.), 2.);
+      vF = 1. - smoothstep(${(DUR - CIRC).toFixed(2)}, ${(DUR - CIRC + RETRACT).toFixed(2)}, u);
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + P + N*position.y*w + vec3(0., .035, 0.), 1.); }`,
+  fragmentShader:`uniform vec3 uGold, uOrange; varying float vS, vY, vH, vF;
+    void main(){ float grown = smoothstep(vH + .02, vH - .04, vS);         // creeps from the ring (s = 0) to the base (s = 1)
+      float body = smoothstep(1., .55, abs(vY)), edge = exp(-pow((abs(vY) - .7)/.2, 2.));
+      float tip = smoothstep(.0, .08, vH - vS);                              // bright creeping tip while growing
+      vec3 col = vec3(.05, .035, .022)*body + mix(uOrange, uGold, .4)*(edge*.35 + (1. - tip)*.9*step(vH, .999))*body;
+      float a = body*grown*vF;
+      if (a < .01) discard; gl_FragColor = vec4(col, a); }` }));
+creeps.mesh.renderOrder = 2;
 
 // ============ spawning (CPU work only when the field is cast) ============
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
@@ -497,12 +521,15 @@ function stab(O, yaw, tier, t0, targets){                   // Vine Field: terra
     const a = v/n*6.2832 + rand(-.35, .35), rr = FR*rand(.25, .72), bx = Math.cos(a)*rr, bz = Math.sin(a)*rr;
     const P = [rand(0, 6.28), rand(1.5, 2.3), rand(.8, 1.4)*(Math.random() < .5 ? -1 : 1), Math.random()];
     const dt = rand(0, .05);                                          // tiny stagger between vines
-    let j = vines.next(); vines.A.aO.setXYZ(j, G.x, 0, G.z); vines.A.aB.setXYZ(j, bx, 0, bz); vines.A.aT.setX(j, t1 + dt); vines.A.aP.setXYZW(j, ...P);
+    for (let c = 0; c < 2; c++){ const ca = a + (c ? .9 : -.9) + rand(-.3, .3), k2 = creeps.next();      // 2 ground tendrils toward this base
+      creeps.A.aO.setXYZ(k2, G.x, 0, G.z); creeps.A.aS.setXYZ(k2, Math.cos(ca)*FR*.97, 0, Math.sin(ca)*FR*.97); creeps.A.aE.setXYZ(k2, bx, 0, bz);
+      creeps.A.aT.setX(k2, t1 + CIRC + rand(0, .06)); creeps.A.aC.setXY(k2, rand(-.6, .6), rand(.06, .09)); }
+    let j = vines.next(); vines.A.aO.setXYZ(j, G.x, 0, G.z); vines.A.aB.setXYZ(j, bx, 0, bz); vines.A.aT.setX(j, t1 + VD + dt); vines.A.aP.setXYZW(j, ...P);
     if (tier > 0) for (let k = 0; k < NTH; k++){ const q = thorns.next();
-      thorns.A.aO.setXYZ(q, G.x, 0, G.z); thorns.A.aB.setXYZ(q, bx, 0, bz); thorns.A.aT.setX(q, t1 + dt);
+      thorns.A.aO.setXYZ(q, G.x, 0, G.z); thorns.A.aB.setXYZ(q, bx, 0, bz); thorns.A.aT.setX(q, t1 + VD + dt);
       thorns.A.aP.setXYZW(q, P[0], P[1], P[2], (k + .5)/NTH*.9 + .02 + Math.random()*.001); }
   }
-  vines.track(t1 + LIFE, n); if (tier > 0) thorns.track(t1 + LIFE, n*NTH);
+  creeps.track(t1 + LIFE, n*2); vines.track(t1 + LIFE, n); if (tier > 0) thorns.track(t1 + LIFE, n*NTH);
   castLog.push(t1 + LIFE);
 }
 
@@ -576,9 +603,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Cast (corpo)', 0, 150, 0x8f8a82],
-  ['Círculo abre + pulso no anel', 150, 500, 0xffcf7a],
-  ['Vinhas emergem (0,2 s)', 150, 400, 0xff8a2a],
-  ['Campo estável (6 s de exemplo)', 400, 6150, 0x3a2a18],
+  ['1) Círculo abre + pulso no anel', 150, 400, 0xffcf7a],
+  ['2) Vinhas rastejam pelo chão até às bases', 400, 850, 0xc86a1a],
+  ['3) Vinhas grossas saem do chão (0,2 s)', 850, 1050, 0xff8a2a],
+  ['Campo estável (6 s de exemplo)', 1050, 6150, 0x3a2a18],
   ['Vinhas recolhem, campo apaga', 6150, 6600, 0x8a6a4a],
 ];
 const TOTAL = 6700, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
@@ -643,8 +671,8 @@ function frame(now){
       g.next = time + rand(5, 9);
     }
   }
-  vines.tick(time); thorns.tick(time); fields.tick(time);
-  vines.flush(); thorns.flush(); fields.flush();
+  vines.tick(time); thorns.tick(time); fields.tick(time); creeps.tick(time);
+  vines.flush(); thorns.flush(); fields.flush(); creeps.flush();
   const cpuVfx = performance.now() - c0;
 
   // gameplay-side: dummy hit reactions, knight twist (wind-up → snap → recover)
@@ -673,7 +701,7 @@ function frame(now){
   acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now; acc.cpu += cpuVfx;
   if (now - statT > 300){
     castLog.splice(0, castLog.length, ...castLog.filter(t => t > time));
-    S.draw.textContent = [vines, thorns, fields].filter(p => p.active).length;
+    S.draw.textContent = [vines, thorns, fields, creeps].filter(p => p.active).length;
     S.part.textContent = 0;
     S.casts.textContent = castLog.length;
     S.cpu.textContent = (acc.cpu/acc.n).toFixed(3) + ' ms';
