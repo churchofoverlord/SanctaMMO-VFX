@@ -158,7 +158,7 @@ tr:last-child td{border-bottom:0}
           <tr><td>Coluna de raio</td><td class="n">1 + 2</td><td class="n">1 + 2</td><td class="n">1 + 1</td><td class="n">1</td><td>Instantânea, sem projétil nem descida: um raio fractal (receita Coil: zigue-zague de 3 oitavas que volta a disparar, núcleo que incha e aperta, franja a crepitar) do céu (~10 m) até ao alvo num único frame, com ramificações curtas; pisca e volta a disparar ~0,32 s</td></tr>
           <tr><td>Flash seco</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No contacto: flash curto e forte no peito do alvo (pico de 2 frames), faíscas</td></tr>
           <tr><td>Descarga no chão</td><td class="n">5</td><td class="n">5</td><td class="n">3</td><td class="n">0</td><td>Raios curtos (0,5–1 m) a espalhar pelo chão onde o raio bate, 0,25 s; sem anel nem marca (alvo único)</td></tr>
-          <tr><td>II · splash</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1/alvo</td><td>Só se o alvo já tinha Sapped, como no Coil: três anéis de raio desenham-se à volta do alvo (0,4 · 1 · 1,55 m) e crepitam ~0,6 s, com raios curtos ambiente a sair deles em todas as direções; arcos até cada inimigo a ≤ 2 m (flash no contacto); nada no chão</td></tr>
+          <tr><td>II · splash</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1 + 1/alvo</td><td class="n">1/alvo</td><td>Só se o alvo já tinha Sapped, como no Coil: raios curtos ambiente crepitam do corpo do alvo para fora em todas as direções (~0,6 s), arcos até cada inimigo a ≤ 2 m (flash no contacto) e um anel fino abre até ao limite da área no chão (o traço mais claro)</td></tr>
           <tr><td>II · burst</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1 + 1</td><td class="n">1</td><td>Só se o alvo já estava Stunned: 0,12 s depois caem mais 5 raios do céu (3 em Médio) de pontos à volta, a convergir no alvo em 0,12 s, cada um com ramificações; segunda descarga pelo chão, mais larga, e o núcleo rebenta num flash central maior (dano extra)</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Mages</td></tr>
         </tbody>
@@ -168,7 +168,7 @@ tr:last-child td{border-bottom:0}
 
   <section class="notes">
     <div><h3>Mesmo strike</h3><p>O raio instantâneo do céu, o flash seco e a descarga no chão são os do nível I; este nível só acrescenta dois payoffs condicionais.</p></div>
-    <div><h3>Sapped → splash</h3><p>Se o alvo já tinha Sapped, anéis de raio envolvem o alvo como no Coil e crepitam para fora, com arcos até aos inimigos próximos.</p></div>
+    <div><h3>Sapped → splash</h3><p>Se o alvo já tinha Sapped, raios curtos crepitam do alvo para fora como no Coil, com arcos até aos inimigos próximos; um anel fino marca a área no chão.</p></div>
     <div><h3>Stunned → burst</h3><p>Se o alvo já estava Stunned, cai uma chuva curta de raios do céu a convergir nele e o núcleo rebenta num flash central maior. Os dois podem acontecer no mesmo cast. Os estados são cues de status.</p></div>
   </section>
 </div>
@@ -694,11 +694,11 @@ function stab(O, yaw, tier, t0, targets){                   // Thunderstrike: an
   for (let m = 0; m < (tier ? 6 : 0); m++){ const s = sparks.next(), a = rand(0, 6.28); sparks.A.aO.setXYZ(s, G.x, rand(.2, 1.4), G.z); sparks.A.aV.setXYZ(s, Math.cos(a)*rand(1.5, 3.5), rand(.5, 3), Math.sin(a)*rand(1.5, 3.5)); sparks.A.aT.setXY(s, th, rand(.15, .3)); ns++; }
   if (tg) tg.hitAt = th;
   const SPL = 2;
-  if (tg && tg.sapped){                                     // II · splash (like the Coil): lightning rings around the target, strikes crackling out, arcs to the enemies around
-    const CL = .65, rings3 = tier > 0 ? [[.4, .75, 1], [1.0, .9, -1], [1.55, .65, 1]] : [[.9, .85, 1]];
-    for (const [hh, rr, dd] of rings3){ put(0, G, V3(CL, 0, 0), [hh, rr, Math.random(), dd], th + .03); na++; }
+  if (tg && tg.sapped){                                     // II · splash (like the Coil): strikes crackling out from the target's body, arcs to the enemies around, area limit on the ground
+    const CL = .65;
+    let k0 = rings.next(); rings.A.aO.setXYZ(k0, G.x, 0, G.z); rings.A.aT.setX(k0, th + .03); rings.A.aK.setX(k0, 0); rings.A.aD.setXYZW(k0, SPL, 0, 0, 0); rings.track(th + RL, 1);   // area limit on the ground
     const nA = { 3:6, 2:5, 1:3, 0:0 }[tier];
-    for (let m = 0; m < nA; m++){ const s3 = Math.random(); put(3, G, V3(CL, .8, 0), [0, 0, s3, 0], th + .03); put(4, G, V3(CL, .8, 0), [rand(.3, .7), rand(0, 6.28), s3, rand(.4, .8)], th + .03); na += 2; }
+    for (let m = 0; m < nA; m++){ const s3 = Math.random(); put(3, G, V3(CL, .45, 0), [0, 0, s3, 0], th + .03); put(4, G, V3(CL, .45, 0), [rand(.3, .7), rand(0, 6.28), s3, rand(.4, .8)], th + .03); na += 2; }
     for (const d of targets){ if (d === tg) continue; const dl = Math.hypot(d.p.x - G.x, d.p.z - G.z); if (dl > SPL) continue;
       const ux = (d.p.x - G.x)/dl, uz = (d.p.z - G.z)/dl, A = V3(G.x + ux*.15, .35, G.z + uz*.15), E2 = V3(d.p.x - ux*.15, 1.1, d.p.z - uz*.15), s2 = Math.random();
       put(1, A, E2, [0, 0, s2, 0], th + .04); na++;
