@@ -27,7 +27,7 @@ for c, name, path in rows:
 # missing skills (from the guide), per class
 d = json.load(open('docs/skills.json', encoding='utf8'))
 MISSING = {'Mage': [],
-           'Scout': ['Exploit Weakness II', 'Exploit Weakness III', 'Quickstep I', 'Quickstep II', 'Volley I', 'Volley II', 'Smoke Bomb I', 'Smoke Bomb II', 'Vine Field I', 'Vine Field II', 'Backstab II', 'Rapid Attack', 'Blinding Dart', 'Long Jump', 'Evasion', 'Sand Shot', 'Sickness']}
+           'Scout': ['Exploit Weakness III', 'Quickstep I', 'Quickstep II', 'Volley I', 'Volley II', 'Smoke Bomb I', 'Smoke Bomb II', 'Vine Field I', 'Vine Field II', 'Backstab II', 'Rapid Attack', 'Blinding Dart', 'Long Jump', 'Evasion', 'Sand Shot', 'Sickness']}
 ic_by_name = {x['nome']: x['icones'][0] for x in d}
 ACC = {'Fighter': '#ff3d7f', 'Mage': '#8b6fd6', 'Mystic': '#ffb52e', 'Scout': '#7fbf8a'}
 total = sum(len(v) for v in done.values()); miss = sum(len(v) for v in MISSING.values())
