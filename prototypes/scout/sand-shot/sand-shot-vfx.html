@@ -132,7 +132,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 600 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 850 ms</span></div>
   </div>
 
   <section class="budget">
@@ -141,7 +141,7 @@ tr:last-child td{border-bottom:0}
       <table>
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
-          <tr><td>Cone no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um leque muito raso e rápido, rente ao solo (4 m, ~70°): uma frente de areia laranja-dourada varre do Scout para fora em 0,12 s, com o bordo da frente mais claro e riscas de areia no sentido do movimento; apaga a partir da origem em 0,25 s. Sem fumo nem volume</td></tr>
+          <tr><td>Cone no chão</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma nuvem de areia baixa empurrada para a frente sobre o cone (4 m, ~70°): uma folha subdividida que se levanta onde a poeira é densa, com rolos de fbm a avançar com o empurrão e a abrandar, poeira iluminada (blend normal); dissolve a partir da origem. Uma só draw call</td></tr>
           <tr><td>Grãos de areia</td><td class="n">14</td><td class="n">14</td><td class="n">8</td><td class="n">0</td><td>Poucos grãos pequenos atirados rente ao chão com a frente, balística na GPU, 0,35 s</td></tr>
           <tr><td>Flash seco nos alvos</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td class="n">1/alvo</td><td>Só nos inimigos dentro do cone, quando a frente lhes chega: flash seco e curto (2 frames + 0,12 s) no corpo e um solavanco = Interrupt. Quem está fora não recebe nada</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">2</td><td>Partilhadas por todos os Scouts</td></tr>
@@ -151,9 +151,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>Rente ao chão</h3><p>O Scout atira areia num leque raso: uma frente rápida que varre o chão e desaparece logo, com poucos grãos. Nada fica no ar.</p></div>
+    <div><h3>Rente ao chão</h3><p>O Scout atira areia num leque raso: uma nuvem baixa de poeira é empurrada para a frente, rola e abranda, e dissolve-se logo, com poucos grãos à frente.</p></div>
     <div><h3>Flash seco = Interrupt</h3><p>Cada inimigo apanhado pisca uma vez, seco, no instante em que a areia lhe chega, e estremece. Fora do cone, nada.</p></div>
-    <div><h3>Sem persistência</h3><p>Sem fumo, sem nuvem, sem marca no chão depois.</p></div>
+    <div><h3>Sem persistência</h3><p>A nuvem é curta e baixa; não fica fumo nem marca no chão depois.</p></div>
   </section>
 </div>
 
@@ -414,28 +414,43 @@ const ptsScale = { value:600 };
 // ============ Sand Shot ============
 const uGold = { value:lin(0xf2b53a) }, uOrange = { value:lin(0xff7a1a) }, uSand = { value:lin(0xc89a5a) };
 const GROW = .07;
-const WIND = .08, CR = 4, CA = .6, SW = .12, CL = .4;                   // wind-up, cone radius (m), half-angle (rad), sweep (s), life
-// Layer 1 — the ground cone: a shallow sweep hugging the ground (decal), sand front + streaks along the motion, wiped from the origin
-const cones = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1, aY:1 }, addMat({
-  side:THREE.DoubleSide, uniforms:{ uTime, uGold, uOrange, uSand },
-  vertexShader:`attribute vec3 aO; attribute float aT, aY; uniform float uTime; varying vec2 vL; varying float vU;
+const WIND = .08, CR = 4, CA = .6, SW = .12, CL = .7;                   // wind-up, cone radius (m), half-angle (rad), sweep (s), life
+// Layer 1 — a pushed dust cloud: a low, heaving sheet over the cone (subdivided plane lifted in the vertex shader by the cloud
+// density), billowing fbm advected outward with the push, soft lit dust (normal blend, premultiplied), dissolving from the origin
+const CLOUD = `
+  float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
+  float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f); return mix(mix(h(i), h(i + vec2(1,0)), f.x), mix(h(i + vec2(0,1)), h(i + vec2(1,1)), f.x), f.y); }
+  float fbm(vec2 p){ float s = 0., a = .55; for (int i = 0; i < 4; i++){ s += a*vn(p); p = p*2.07 + 3.1; a *= .5; } return s; }
+  float dust(vec2 L, float u){
+    float r = length(L), a = atan(L.x, L.y);
+    float push = ${CR.toFixed(1)}*(1. - pow(1. - clamp(u/${(SW*2.2).toFixed(2)}, 0., 1.), 2.2));        // the cloud front is shoved outward, slowing
+    float wipe = max(u - ${(SW*.8).toFixed(2)}, 0.)/.32*${CR.toFixed(1)};
+    vec2 q = vec2(a*3.2, r*.9 - u*5.5);                                      // billows travel outward with the push
+    float n = fbm(q*1.6) + .45*fbm(q*3.7 + 7.);
+    float inA = smoothstep(${CA.toFixed(2)} + .12, ${CA.toFixed(2)} - .12, abs(a) + (n - .7)*.18);
+    float body = smoothstep(push + .3, push - .9, r + (n - .7)*.9)*smoothstep(wipe - .4, wipe + .8, r + (n - .7)*.6)*smoothstep(.2, .8, r);
+    return clamp((n - .5)*1.6, 0., 1.)*body*inA*(1. - smoothstep(${(CL - .15).toFixed(2)}, ${CL.toFixed(2)}, u));
+  }`;
+const cones = pool(new THREE.PlaneGeometry(2, 2, 72, 72), 128, { aO:3, aT:1, aY:1 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
+  uniforms:{ uTime, uGold, uOrange, uSand, uMoon:{ value:moonDir } },
+  vertexShader:`attribute vec3 aO; attribute float aT, aY; uniform float uTime; varying vec2 vL; varying float vU, vD; varying vec3 vW; ${CLOUD}
     void main(){ float u = uTime - aT - ${WIND.toFixed(2)}; if (u < 0. || u > ${CL.toFixed(2)}){ ${HIDE} }
-      vec2 q = position.xy*${(CR + .3).toFixed(1)}; float c = cos(aY), s = sin(aY); vL = q; vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(q.x*c - q.y*s, .03, -q.x*s - q.y*c), 1.); }`,
-  fragmentShader:`uniform vec3 uGold, uOrange, uSand; varying vec2 vL; varying float vU;
-    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
-    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f); return mix(mix(h(i), h(i + vec2(1,0)), f.x), mix(h(i + vec2(0,1)), h(i + vec2(1,1)), f.x), f.y); }
+      vec2 q = position.xy*${(CR + .6).toFixed(1)}; float c = cos(aY), s = sin(aY);
+      float d = dust(q, u); vL = q; vU = u; vD = d;
+      vec3 W = aO + vec3(q.x*c - q.y*s, .03 + d*.32, -q.x*s - q.y*c);                // the sheet heaves up where the dust is thick
+      vW = W; gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }`,
+  fragmentShader:`uniform vec3 uGold, uOrange, uSand, uMoon; varying vec2 vL; varying float vU, vD; varying vec3 vW; ${CLOUD}
     void main(){
-      float r = length(vL), a = atan(vL.x, vL.y), u = vU;
-      float front = ${CR.toFixed(1)}*(1. - pow(1. - clamp(u/${SW.toFixed(2)}, 0., 1.), 3.));
-      float wipe = max(u - ${(SW*.6).toFixed(2)}, 0.)/.25*${CR.toFixed(1)};
-      float inA = smoothstep(${CA.toFixed(2)} + .05, ${CA.toFixed(2)} - .05, abs(a))*smoothstep(.3, .7, r);
-      float streak = vn(vec2(a*14., r*1.5 - u*12.));                        // sand streaks stretched along the motion
-      float body = smoothstep(front + .05, front - .5, r)*smoothstep(wipe - .3, wipe + .5, r);
-      float edge = exp(-pow((r - front)/.12, 2.))*step(u, ${(SW + .06).toFixed(2)});
-      float fade = 1. - smoothstep(${(CL - .12).toFixed(2)}, ${CL.toFixed(2)}, u);
-      vec3 o = (uSand*body*(.25 + .5*streak)*.55 + mix(uOrange, uGold, .6)*edge*(.6 + .6*streak))*inA*fade;
-      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+      float d = dust(vL, vU);
+      vec3 n = normalize(cross(dFdx(vW), dFdy(vW))); n = n.y < 0. ? -n : n;
+      float lit = .45 + .55*max(dot(n, uMoon), 0.);
+      float a = clamp(pow(d, 1.4)*1.1, 0., .6);
+      vec3 col = mix(uSand*.35, mix(uSand, uGold, .35)*.9, lit)*(.6 + .6*d);           // warm lit dust, darker in the folds
+      col += mix(uOrange, uGold, .6)*pow(d, 3.)*.25;                                   // a little warmth where it is densest
+      if (a < .01) discard; gl_FragColor = vec4(col*a, a); }`,
+  extensions:{ derivatives:true } }));
+
 // Layer 2 — a few sand grains thrown low with the front (velocity-stretched quads, ballistic on the GPU)
 const grains = pool(new THREE.PlaneGeometry(1, 1), 2048, { aO:3, aV:3, aT:2 }, addMat({
   uniforms:{ uTime, uGold, uSand },
@@ -544,11 +559,11 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 // ============ timeline UI ============
 const PHASES = [
   ['Preparação (corpo)', 0, 80, 0x8f8a82],
-  ['Frente de areia varre o chão (4 m)', 80, 200, 0xc89a5a],
+  ['Nuvem de areia empurrada para a frente (4 m)', 80, 350, 0xc89a5a],
   ['Flash seco em cada alvo atingido (Interrupt)', 100, 350, 0xfff0d2],
-  ['Areia apaga a partir da origem', 150, 480, 0xf2b53a],
+  ['Nuvem dissolve a partir da origem', 200, 780, 0xf2b53a],
 ];
-const TOTAL = 600, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 850, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
