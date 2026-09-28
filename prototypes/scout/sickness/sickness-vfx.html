@@ -81,7 +81,7 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">SanctaMMO · Scout · Granted · Poison + Bleed no máximo · Burst ST + AoE · Paleta verde e vermelho</div>
+      <div class="eyebrow">SanctaMMO · Scout · Granted · Poison + Bleed no máximo · Burst ST + AoE · Paleta veneno e sangue</div>
       <h1><span>Sickness</span></h1>
     </div>
     <p class="canon"><b>Efeito canónico:</b> com Poison e Bleed ambos no máximo, substitui o Pop: consome os dois, faz burst ST e AoE com Wounded + Slow + Weakened + Dulled.</p>
@@ -139,7 +139,7 @@ tr:last-child td{border-bottom:0}
   </div>
 
   <div class="timeline" id="timeline">
-    <div class="tl-head"><span>Timing do ataque</span><span>0 — 950 ms</span></div>
+    <div class="tl-head"><span>Timing do ataque</span><span>0 — 5000 ms</span></div>
   </div>
 
   <section class="budget">
@@ -149,8 +149,8 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Stacks</td><td class="n">10</td><td class="n">10</td><td class="n">10</td><td class="n">10</td><td>Os 5 stacks de Poison (verde) e os 5 de Bleed (vermelho) à volta do alvo convergem ao mesmo tempo para o peito (reverse ease-in, 0,12 s)</td></tr>
-          <tr><td>Burst ST</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No peito: um rebentamento compacto em duas cores lado a lado — gotas verdes e salpicos vermelhos misturados por máscara, sem arco-íris; 0,35 s</td></tr>
-          <tr><td>Anel AoE</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Um só anel amplo, baixo e curto no chão (R 3,5 m, 0,55 s): a poça de Poison e a rutura de Bleed fundidas por uma blend mask de ruído, poucas faces, sem camadas de explosão extra. Os estados aplicados são cues de status</td></tr>
+          <tr><td>Burst ST</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>No peito: um salpico viscoso a rebentar do alvo — veneno verde-escuro e sangue espesso lado a lado (blend mask), jorros com cabeças pesadas e gotas que caem; blend normal, sem glow; 0,45 s</td></tr>
+          <tr><td>Poça AoE</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Uma só poça no chão que se espalha em 0,35 s até R 3,5 m e fica: veneno e sangue fundidos por uma máscara de ruído, contorno irregular, orla húmida mais escura, brilho molhado ténue; absorve-se no fim (4,5 s de exemplo). Sem glow nem camadas extra. Os estados aplicados são cues de status</td></tr>
           <tr><td>Draw calls</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td class="n">3</td><td>Partilhadas por todos os Scouts</td></tr>
         </tbody>
       </table>
@@ -158,9 +158,9 @@ tr:last-child td{border-bottom:0}
   </section>
 
   <section class="notes">
-    <div><h3>As duas cargas juntas</h3><p>Os stacks verdes e vermelhos convergem ao mesmo tempo para o alvo: é o sinal de que os dois estados estão a ser consumidos.</p></div>
-    <div><h3>Um burst, um anel</h3><p>O alvo rebenta em verde e vermelho lado a lado, e um anel largo e rasteiro espalha a mistura pelo chão até 3,5 m, apanhando quem está perto.</p></div>
-    <div><h3>Mistura controlada</h3><p>As duas cores nunca se misturam num terceiro tom: uma máscara de ruído decide onde é verde e onde é vermelho.</p></div>
+    <div><h3>Líquidos, não magia</h3><p>O alvo rebenta em veneno e sangue — um salpico físico, pesado, sem brilho. Os stacks das duas cargas convergem antes, como gotas.</p></div>
+    <div><h3>A poça fica</h3><p>O que sobra espalha-se pelo chão numa poça de veneno e sangue até 3,5 m e fica lá enquanto a área dura: quem está em cima recebe os estados.</p></div>
+    <div><h3>Mistura controlada</h3><p>As duas cores nunca se misturam num terceiro tom: uma máscara de ruído decide onde é veneno e onde é sangue.</p></div>
   </section>
 </div>
 
@@ -556,46 +556,59 @@ const uPoi = { value:lin(0x5fe04a) }, uPoiL = { value:lin(0xc8ffb0) }, uBle = { 
 const MIXM = `float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }
   float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f); return mix(mix(h(i), h(i + vec2(1,0)), f.x), mix(h(i + vec2(0,1)), h(i + vec2(1,1)), f.x), f.y); }
   float mask(vec2 p){ return smoothstep(.42, .58, vn(p*2.3) *.65 + vn(p*5.1 + 3.)*.35); }   // blend mask: 0 = Poison, 1 = Bleed`;
-// Layer 1 — ST burst at the chest: compact two-tone rupture (billboard); the mask decides green or red per region
-const RL = .35;
-const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, addMat({
-  uniforms:{ uTime, uPoi, uPoiL, uBle, uBleL },
+// Physical, assassin read: liquids, not magic. Dark sickly poison and thick blood; normal (alpha) blending, no glow.
+const PO = lin(0x2f5a1c), PL2 = lin(0x6f9a3a), BO = lin(0x5a0a0e), BL2 = lin(0x9a1a1e);
+uPoi.value = PO; uPoiL.value = PL2; uBle.value = BO; uBleL.value = BL2;
+// Layer 1 — ST burst: a viscous splatter bursting out of the target (metaball streams + heavy heads + droplets sagging),
+// poison and blood side by side by the blend mask
+const RL = .45;
+const rings = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, new THREE.ShaderMaterial({
+  transparent:true, depthWrite:false, uniforms:{ uTime, uPoi, uPoiL, uBle, uBleL },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${RL.toFixed(2)}){ ${HIDE} }
-      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.55; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv; }`,
+      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.75; vP = position.xy*1.5; vU = u; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uPoi, uPoiL, uBle, uBleL; varying vec2 vP; varying float vU; ${MIXM}
-    void main(){ float t = vU/${RL.toFixed(2)}, g = 1. - pow(1. - clamp(vU/.12, 0., 1.), 3.), r = length(vP), a = atan(vP.y, vP.x);
-      float f = (vU < .033 ? 1.8 : 1.)*(1. - smoothstep(.45, 1., t));
-      float spokes = pow(abs(sin(a*4.5 + 1.3)), 6.)*smoothstep(.95*g, .3*g, r);                 // short splash spokes
-      float core = exp(-r*r*(18. - 10.*g));
-      float drops = 0.; for (int i = 0; i < 8; i++){ float fi = float(i), hh = fract(sin(fi*61.3)*437.5), ac = fi*.785 + hh;
-        drops += exp(-pow(length(vP - vec2(cos(ac), sin(ac))*(.4 + .4*hh)*g - vec2(0., -.2*t*t))/.06, 2.)); }
-      float m = mask(vP*1.6 + 2.);
-      float lum = (core*.9 + spokes*.6 + drops*.8)*f;
-      vec3 c = mix(uPoi, uBle, m), cl = mix(uPoiL, uBleL, m);
-      vec3 o = (c*lum + cl*core*core*f*.6)*smoothstep(1., .85, r);
-      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
-// Layer 2 — AoE: ONE wide, low, short ring on the ground; the Poison pool and the Bleed rupture merged by the blend mask
-const AR = 3.5, AL = .55;
+    void main(){
+      float t = vU/${RL.toFixed(2)}, g = 1. - pow(1. - clamp(vU/.16, 0., 1.), 3.), f = 1. - smoothstep(.6, 1., t);
+      vec2 p = vP; float r = length(p);
+      float F = exp(-dot(p, p)*22.)*1.3*(1. - .6*smoothstep(.1, .7, t));
+      for (int i = 0; i < 10; i++){ float fi = float(i), hh = fract(sin(fi*53.7)*4375.5);
+        float ac = fi*.628 + hh*.4; vec2 dir = vec2(cos(ac), sin(ac));
+        float L = (.3 + .45*hh)*g; vec2 sag = vec2(0., -.5*t*t*(.6 + hh)), head = dir*L + sag, mid = dir*L*.5 + sag*.3;
+        float k1 = clamp(dot(p, mid)/dot(mid, mid), 0., 1.), d1 = length(p - mid*k1);
+        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/dot(bb, bb), 0., 1.), d2 = length(pb - bb*k2);
+        float thin = 1. - .55*smoothstep(.25, .9, t);
+        F += exp(-pow(d1/(mix(.07, .04, k1)*thin), 2.))*.9 + exp(-pow(d2/(mix(.04, .028, k2)*thin), 2.))*.9;
+        float rb = (.05 + .035*hh)*(1. - .3*t); F += exp(-pow(length(p - head)/rb, 2.))*1.3;
+        F += exp(-pow(length(p - dir*L*1.3 - sag*1.7)/(rb*.6), 2.))*step(.45, hh)*smoothstep(.15, .35, t)*1.2; }
+      float body = smoothstep(.5, .8, F), thick = smoothstep(.9, 2.2, F), gloss = smoothstep(1.7, 2.6, F);
+      float m = mask(p*1.4 + 2.);
+      vec3 col = mix(uPoi, uBle, m)*(.7 + .5*thick) + vec3(.6, .6, .55)*gloss*.25;               // wet highlight only where thickest
+      float a = body*f*smoothstep(1.5, 1.3, r);
+      if (a < .01) discard; gl_FragColor = vec4(col, a); }` }));
+// Layer 2 — AoE: the ground pool that STAYS: poison and blood spreading out in one blotchy puddle (R 3.5 m), merged by the
+// blend mask; a darker wet rim at the spreading edge; stays while the area lasts, then soaks away. Normal blend, no glow.
+const AR = 3.5, AL = 4.5;
 const aoes = pool(new THREE.PlaneGeometry(2,2), 128, { aO:3, aT:1 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, side:THREE.DoubleSide, uniforms:{ uTime, uPoi, uPoiL, uBle, uBleL },
   vertexShader:`attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;
     void main(){ float u = uTime - aT; if (u < 0. || u > ${AL.toFixed(2)}){ ${HIDE} }
-      float S = ${(AR + .4).toFixed(1)}; vP = position.xy*S; vU = u;
-      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }`,
-  fragmentShader:`uniform vec3 uPoi, uPoiL, uBle, uBleL; varying vec2 vP; varying float vU; ${MIXM}
-    void main(){ float t = vU/${AL.toFixed(2)}, r = length(vP), a = atan(vP.y, vP.x);
-      float R = ${AR.toFixed(1)}*(1. - pow(1. - clamp(t/.45, 0., 1.), 3.));
-      float band = exp(-pow((r - R)/(.18 + .25*t), 2.));                                          // the travelling ring
-      float trail = smoothstep(R, R - 1.4, r)*smoothstep(0., .5, r)*(1. - t)*.35;                    // a low wash behind it
-      float m = mask(vec2(a*1.8, r*.8));
-      float streak = mix(vn(vec2(a*9., r*.6 - t*3.)), 1., 1. - m);                                   // Bleed side: radial rupture streaks
-      float pool = mix(1., .6 + .4*vn(vP*1.7), 1. - m);                                              // Poison side: blotchy pool
-      float fade = pow(1. - t, 1.3), lum = (band*1.1 + trail)*streak*pool*fade;
-      vec3 col = mix(uPoi, uBle, m)*lum + mix(uPoiL, uBleL, m)*band*band*fade*.35;
-      float alpha = clamp(lum*1.2, 0., 1.)*smoothstep(${(AR + .4).toFixed(1)}, ${(AR + .2).toFixed(1)}, r);
+      float S = ${(AR + .5).toFixed(1)}; vP = position.xy*S; vU = u;
+      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .025, -position.y*S), 1.); }`,
+  fragmentShader:`uniform float uTime; uniform vec3 uPoi, uPoiL, uBle, uBleL; varying vec2 vP; varying float vU; ${MIXM}
+    void main(){ float u = vU, r = length(vP), a = atan(vP.y, vP.x);
+      float spread = 1. - pow(1. - clamp(u/.35, 0., 1.), 3.);
+      float edge = ${AR.toFixed(1)}*spread*(.8 + .2*vn(vec2(a*2.4, 1.3)) + .08*sin(a*7. + 1.));      // blobby puddle outline
+      float inside = smoothstep(edge, edge - .15, r + (vn(vP*2.) - .5)*.35);
+      float rim = exp(-pow((r - edge + .12)/.1, 2.))*inside;
+      float m = mask(vP*1.1 + 5.);
+      float bub = vn(vP*3. + vec2(0., u*.3));
+      vec3 col = mix(uPoi, uBle, m)*(.22 + .25*bub)*(1. - rim*.5);
+      col += vec3(.5, .5, .45)*pow(vn(vP*1.3 + 9.), 6.)*.18*inside;                                  // faint wet sheen
+      float fade = 1. - smoothstep(${(AL - .8).toFixed(2)}, ${AL.toFixed(2)}, u);
+      float alpha = clamp(inside*(.72 + .15*bub) + rim*.2, 0., .9)*fade;
       if (alpha < .01) discard; gl_FragColor = vec4(col, alpha); }` }));
-aoes.mesh.renderOrder = 1;
+aoes.mesh.renderOrder = 1; rings.mesh.renderOrder = 2;
 
 // Layer S — both stack sets converge at once (reverse ease-in, 0.12 s). aC = 0 Poison, 1 Bleed
 const CONV = .12;
@@ -608,7 +621,7 @@ const stacks = pool(new THREE.PlaneGeometry(2,2), 1024, { aO:3, aE:3, aT:1, aC:1
       vP = position.xy; vC = aC; gl_Position = projectionMatrix*mv; }`,
   fragmentShader:`uniform vec3 uPoi, uPoiL, uBle, uBleL; varying vec2 vP; varying float vC;
     void main(){ float r = length(vP); vec3 c = mix(uPoi, uBle, vC), cl = mix(uPoiL, uBleL, vC);
-      vec3 o = (c*exp(-r*r*5.) + mix(cl, vec3(1.), .5)*exp(-r*r*30.))*1.1*smoothstep(1., .8, r);
+      vec3 o = (c*exp(-r*r*5.)*1.6 + cl*exp(-r*r*30.)*.9)*smoothstep(1., .8, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 function stacksTo(tgP, E, t){ for (let q = 0; q < 10; q++){ const a = q*.6283 + t*3., j = stacks.next();
   stacks.A.aO.setXYZ(j, tgP.x + Math.cos(a)*.45, .75 + .6*((q*7) % 10)/10, tgP.z + Math.sin(a)*.45); stacks.A.aE.setXYZ(j, E.x, E.y, E.z); stacks.A.aT.setX(j, t); stacks.A.aC.setX(j, q % 2); }
@@ -709,10 +722,10 @@ const ghostHead = new THREE.InstancedMesh(new THREE.SphereGeometry(.14,12,8).tra
 const PHASES = [
   ['Cast (corpo)', 0, 100, 0x8f8a82],
   ['10 stacks (5 verdes + 5 vermelhos) convergem ao peito', 130, 250, 0xd9d2c6],
-  ['Burst ST em duas cores', 250, 600, 0x5fe04a],
-  ['Anel AoE único (R 3,5 m): poça + rutura por blend mask', 300, 850, 0xff2e3a],
+  ['Burst ST: salpico de veneno + sangue', 250, 700, 0x2f5a1c],
+  ['Poça espalha-se até R 3,5 m e fica', 300, 4850, 0x5a0a0e],
 ];
-const TOTAL = 950, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
+const TOTAL = 5000, tl = $('timeline'), hexs = c => '#' + c.toString(16).padStart(6,'0');
 PHASES.forEach(([l,a,b,c]) => {
   const r = document.createElement('div'); r.className = 'tl-row';
   r.innerHTML = `<span>${l}</span><div class="track"><div class="bar" style="left:${a/TOTAL*100}%;width:${(b-a)/TOTAL*100}%;background:${hexs(c)}"></div><div class="playhead"></div></div><span class="ms">${a}–${b}</span>`;
@@ -732,7 +745,7 @@ distBtns.forEach(b => b.onclick = () => { const d = +b.dataset.d; dummy.base.set
 if (matchMedia('(prefers-reduced-motion: reduce)').matches) tLoop.checked = false;
 tStress.onchange = () => { ghostBody.visible = ghostHead.visible = tStress.checked; ghosts.forEach(g => g.next = time + rand(.2, 2)); };
 function localSwing(){
-  if (time - localT < .7) return;
+  if (time - localT < 1.) return;
   localT = time; idle = 0;
   stab(hero.position, 0, quality, time, dummies);
 }
@@ -768,7 +781,7 @@ function frame(now){
   const c0 = performance.now();
 
   const dtc = time - localT;
-  if (tLoop.checked){ idle += dt; if (idle > 1.6) localSwing(); }
+  if (tLoop.checked){ idle += dt; if (idle > 5.2) localSwing(); }
   if (tStress.checked){
     for (const g of ghosts) if (time >= g.next){
       const d = g.p.distanceTo(camera.position);
