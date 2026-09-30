@@ -161,3 +161,10 @@ e ir a `http://localhost:8766/prototypes/fighter/cleanse/cleanse-vfx.html`.
 | Scout · Hemorrhage | 5 stacks de Bleed convergem ao peito e rebentam num splash de sangue viscoso, 0,7 s (single target) | [prototypes/scout/hemorrhage/hemorrhage-vfx.html](prototypes/scout/hemorrhage/hemorrhage-vfx.html) |
 | Scout · Basic Attack — Poison | Só o cue de hit, independente da arma: splash verde pequeno no ponto de contacto, 0,2 s (demo com arco e adaga) | [prototypes/scout/basic-attack-poison/basic-attack-poison-vfx.html](prototypes/scout/basic-attack-poison/basic-attack-poison-vfx.html) |
 | Scout · Basic Attack — Bleed | Só o cue de hit, independente da arma: corte curto vermelho + gotas, 0,2 s (demo com arco e adaga) | [prototypes/scout/basic-attack-bleed/basic-attack-bleed-vfx.html](prototypes/scout/basic-attack-bleed/basic-attack-bleed-vfx.html) |
+## VFX refinados — snapshot para integração
+
+As versões refinadas estão nas respetivas pastas de `prototypes/`, com as versões anteriores em `archive/`. O envio de 30 de setembro de 2026 reúne os 12 refinamentos iniciais e os 27 ajustes do pass completo.
+
+O [pacote aprovado para integração posterior](integration/vfx-2026-09-30/LEIA-ME.txt) guarda o snapshot completo dos 125 protótipos revistos, os recursos, as comparações e as referências de implementação. Pode ser copiado para a outra máquina a partir de `integration/vfx-2026-09-30/`. A galeria do pacote está em `integration/vfx-2026-09-30/index.html`.
+
+Os protótipos HTML são referências visuais para a integração em Niagara/UE5. O Unreal Engine e o Editor são transferidos em separado.

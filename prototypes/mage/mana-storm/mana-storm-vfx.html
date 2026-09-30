@@ -434,25 +434,25 @@ const fields = pool(new THREE.PlaneGeometry(2, 2), 64, { aO:3, aT:1, aP:1 }, add
       float drawn = smoothstep(draw + .01, draw - .02, ang01);                         // the circle draws itself around once
       float fade = smoothstep(0., .1, u)*(1. - smoothstep(${MS_T.toFixed(1)}, ${MS_T.toFixed(1)} + .45, u));
       float pl = vPl >= 0. && vPl < .45 ? pow(1. - vPl/.45, 1.5) : 0.;                 // admission pulse
-      float outer = exp(-pow((r - R)/.03, 2.))*drawn + exp(-pow((r - R)/.2, 2.))*.08;
-      float inner = exp(-pow((r - R*.86)/.018, 2.))*.55*drawn + exp(-pow((r - R*.72)/.014, 2.))*.35*drawn;
+      float outer = exp(-pow((r - R)/.02, 2.))*drawn + exp(-pow((r - R)/.2, 2.))*.025;
+      float inner = exp(-pow((r - R*.86)/.018, 2.))*.28*drawn + exp(-pow((r - R*.72)/.014, 2.))*.15*drawn;
       // rune band between the two inner rings: small glyphs turning slowly
       float rot = u*.06, ar = a + rot, N = 36., cell = floor(ar/6.2832*N), fa = (fract(ar/6.2832*N) - .5)*6.2832/N;
       vec2 q = vec2(fa*R*.79, r - R*.79)/.13;                                          // glyph space
       float hh = h1(cell + 7.), g = seg(q, vec2(0., -.6), vec2(0., .6));
       g = min(g, seg(q, vec2(0., .6 - .7*hh), vec2(hh > .5 ? .45 : -.45, .2 - .5*hh)));
       if (fract(hh*7.3) > .5) g = min(g, seg(q, vec2(-.3, -.6), vec2(.3, -.6)));
-      float runes = exp(-pow(g/.09, 2.))*step(abs(r - R*.79), .09)*drawn*.6;
+      float runes = exp(-pow(g/.09, 2.))*step(abs(r - R*.79), .09)*drawn*.3;
       // 4 broad sigils inside (cardinal), slowly turning the other way: a circle with an inscribed diamond and a stroke
       float sig = 0.;
       for (int i = 0; i < 4; i++){ float an = float(i)*1.5708 - u*.04 + .785; vec2 c = vec2(cos(an), sin(an))*R*.5;
         vec2 p = (vP - c)/.55; float rr = length(p);
         float s = exp(-pow((rr - .9)/.05, 2.)) + exp(-pow((abs(p.x) + abs(p.y) - .75)/.05, 2.))*.8 + exp(-pow(seg(p, vec2(0., -.6), vec2(0., .6))/.05, 2.))*.6;
         sig += s*smoothstep(1.2, 1., rr); }
-      sig *= drawn*.35;
+      sig *= drawn*.12;
       float centre = smoothstep(R*.35, R*.3, r);                                        // the centre stays open
-      float lum = (outer*1.1 + inner + runes + sig*(1. - centre))*(1. + 1.4*pl);
-      vec3 o = (uA*lum + uC2*inner*.3 + uB*(exp(-pow((r - R)/.012, 2.))*drawn*.6 + runes*.3)*(1. + pl))*fade;
+      float lum = (outer*1.1 + inner + runes + sig*(1. - centre))*(1. + pl);
+      vec3 o = (uA*lum + uC2*inner*.3 + uB*(exp(-pow((r - R)/.012, 2.))*drawn*.45 + runes*.15)*(1. + pl))*fade;
       o *= smoothstep(R + .35, R + .2, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 // ---- very subtle low wall of wisps on the perimeter (vertical volume), fades where the shell turns edge-on

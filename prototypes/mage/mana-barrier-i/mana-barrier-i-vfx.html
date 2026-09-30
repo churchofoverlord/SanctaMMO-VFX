@@ -438,13 +438,14 @@ const shell = pool(new THREE.SphereGeometry(1, 64, 40), 192, { aO:3, aT:1, aK:1,
       gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.);
     }`,
   fragmentShader:`uniform vec3 uA, uB, uC2; varying vec3 vL, vN, vV; varying float vU, vK, vCH, vFill;
-    float ln(float x, float w){ float d = .5 - abs(fract(x) - .5); return 1. - smoothstep(w, w + fwidth(x)*1.5, d); }
+    float ln(float x, float w){ float d = .5 - abs(fract(x) - .5); return 1. - smoothstep(w, w + fwidth(x)*.7, d); }
     void main(){
       vec3 l = normalize(vL); float lat = asin(clamp(l.y, -1., 1.)), lon = atan(l.z, l.x);
       float h = l.y*.5 + .5, nv = abs(dot(normalize(vN), normalize(vV)));
-      float a1 = lon/6.2832*8. + lat*1.35 + vK*.5, a2 = lon/6.2832*8. - lat*1.35 + vK*.5;   // diagonal lattice (rhombus web)
-      float web = max(ln(a1, .02), ln(a2, .02)) + ln(lat/3.1416*4. + .5, .014)*.7;        // + latitude rings
-      float nodes = ln(a1, .055)*ln(a2, .055);                                               // glow where the lines cross
+      float a1 = lon/6.2832*8. + lat*1.35 + vK*.08, a2 = lon/6.2832*8. - lat*1.35 + vK*.08;   // diagonal lattice (rhombus web)
+      float web = max(ln(a1, .007), ln(a2, .007)) + ln(lat/3.1416*4. + .5, .005)*.32;        // + latitude rings
+      float selected = .3 + .7*pow(.5 + .5*sin(lon*3. + lat*2. - vU*.65), 3.);
+      float nodes = ln(a1, .019)*ln(a2, .019)*selected;                                               // glow where the lines cross
       float u = vU, CH = vCH, p = clamp(u/CH, 0., 1.);
       float lvl = p*mix(.35, 1.05, vFill);                                               // MP converted so far: fills from the bottom up
       float shown = smoothstep(lvl + .02, lvl - .06, h), front = exp(-pow((h - lvl)/.03, 2.))*step(u, CH);
@@ -453,11 +454,11 @@ const shell = pool(new THREE.SphereGeometry(1, 64, 40), 192, { aO:3, aT:1, aK:1,
       float seal = rel > 0. ? exp(-pow((h - rel/.18)/.08, 2.))*step(rel, .25) : 0.;     // release: one bright band closes the shell upward
       float pk = rel >= 0. && rel < .033 ? 1.8 : 1.;
       float fade = rel > 0. ? 1. - smoothstep(.15, .55, rel) : smoothstep(0., .12, u);
-      float edge = .35 + .65*smoothstep(.05, .45, nv);                                  // edge-on: fainter, no hard outline
-      float face = gl_FrontFacing ? 1. : .45;
-      float fillGlow = pow(1. - nv, 2.)*.08 + .02;                                       // a faint arcane film
-      vec3 o = (uA*(web*.75 + fillGlow)*shown + uB*(nodes*.55 + front*.8 + seal*1.2)*max(shown, seal) + uC2*web*.2*shown)*fade*pk*edge*face*(vK > .5 ? .6 : 1.);
-      if (max(o.r, max(o.g, o.b)) < .002) discard;
+      float edge = .15 + .85*smoothstep(.08, .5, nv);                                  // edge-on: fainter, no hard outline
+      float face = gl_FrontFacing ? 1. : .16;
+      float fillGlow = pow(1. - nv, 2.)*.015 + .003;                                       // a faint arcane film
+      vec3 o = (uA*(web*.42 + fillGlow)*shown + uB*(nodes*.62 + front*.36 + seal*.9)*max(shown, seal) + uC2*web*.10*shown)*fade*pk*edge*face*(vK > .5 ? .20 : 1.);
+
       gl_FragColor = vec4(o, 1.);
     }` }));
 

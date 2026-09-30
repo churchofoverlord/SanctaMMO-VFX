@@ -442,12 +442,19 @@ const trails = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aE:3, aT:1 }, addM
       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
-      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
-      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
+      float band = 0.;
+      // Fios independentes: o vazio entre eles mantém a silhueta do corpo legível.
+      for (int i=0;i<4;i++){
+        float fi = float(i), centre = (fi - 1.5)*.18*prof + sin(vS*8. - vU*6. + fi*2.1)*.035*prof;
+        float width = (.025 + .06*prof)*(.8 + .2*sin(vS*5. + fi*1.7));
+        float breakup = .35 + .65*smoothstep(.15, .75, .5 + .5*sin(vS*15. - vU*8. + fi)*sin(vS*7. + fi*2.3));
+        band += exp(-pow(abs(vY - centre)/width, 1.6))*breakup;
+      }
+      float core = band*.12;
       float k = alive*fade*pow(prof, .75)*blend;
       vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.46, .45, .48), .25);   // a little desaturated
-      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      vec3 outc = (col*band*(.10 + .09*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.065*prof)*k;
+      outc *= 1. - smoothstep(.72, .83, abs(vY));
       gl_FragColor = vec4(outc, 1.);
     }` }));
 

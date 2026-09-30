@@ -441,14 +441,14 @@ const lines = pool(new THREE.PlaneGeometry(2,2), 96, { aO:3, aYaw:1, aT:1 }, add
       float fade = 1. - smoothstep(.52, .7, vU);
       float thin = 1. - .4*smoothstep(.15, .6, vU)*(1. - .5*front);
       float ends = pow(prof, .75);
-      float w = (.003 + .06*pow(prof, 1.3) + .07*front)*thin;
+      float w = (.003 + .027*pow(prof, 1.3) + .028*front)*thin;
       float d = abs(vY);
       float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
       float head = exp(-pow((s - grow)/.03, 2.)) * (1. - step(1., grow));
       float k = alive*fade*ends*(vU > ${GROW.toFixed(2)} && vU < ${(GROW+.033).toFixed(3)} ? 1.25 : 1.);
       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
-      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+      vec3 outc = (col*band*(.44 + .24*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.28*prof + head*band*.4))*k;
+      outc *= 1. - smoothstep(.22, .255, abs(vY));
       gl_FragColor = vec4(outc, 1.);
     }` }));
 

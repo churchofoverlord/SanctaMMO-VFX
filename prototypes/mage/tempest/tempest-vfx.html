@@ -762,7 +762,7 @@ const rings = pool(new THREE.PlaneGeometry(2,2), 512, { aO:3, aT:1, aK:1, aD:4 }
         } else if (vK < 9.5){                          // telegraph: ring + fill growing to the centre over the lead time, then gone at impact
           float lead = vD.y, k = clamp(vU/lead, 0., 1.), f = step(vU, lead + .03);
           vec3 c = vD.x < .5 ? uIceC : uOrange;
-          float ring = exp(-pow((r - vR)/.025, 2.)), fill = smoothstep(vR*(1. - k) + .03, vR*(1. - k), vR - r)*.0 + smoothstep(vR*k + .04, vR*k - .04, r)*.22;
+          float ring = exp(-pow((r - vR)/.025, 2.)), fill = smoothstep(vR*(1. - k) + .03, vR*(1. - k), vR - r)*.0 + smoothstep(vR*k + .04, vR*k - .04, r)*.075;
           o = c*(ring*.7 + fill)*f*(.6 + .4*k);
           o *= smoothstep(vR + .3, vR + .15, r);
         } else {                                       // frost ring on an ice impact

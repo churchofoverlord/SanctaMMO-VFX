@@ -1,0 +1,10 @@
+{
+  "reviewed": 125,
+  "changed": 27,
+  "unchanged": 98,
+  "source_matches_delivery": true,
+  "archives_match_before": true,
+  "javascript_syntax": "125/125",
+  "visual_checks": "antes/depois; variantes; High e Low; cenas de 40 personagens",
+  "niagara_gpu_measurement": "por realizar"
+}

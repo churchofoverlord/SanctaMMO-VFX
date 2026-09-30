@@ -445,14 +445,14 @@ const breaths = pool(new THREE.CylinderGeometry(1, 1, 1, 64, 24, true), 192, { a
         float pitch = 1.3 + .9*fract(fi*.618);                      // every wisp winds at its own rate
         float c = fi*TAU/5. + vK*.63 + y*pitch + u*.9 + (vn(vec2(y*1.6 - u*2., fi*3.)) - .5)*1.1;
         float da = mod(vTh - c + 3.14159, TAU) - 3.14159;
-        float w = (.045 + .09*yn)*(.8 + .4*fract(fi*.37));
-        float brk = smoothstep(.25, .7, vn(vec2(y*2.2 - u*4. + fi*5.7, fi)));
+        float w = (.033 + .06*yn)*(.8 + .4*fract(fi*.37));
+        float brk = smoothstep(.4, .75, vn(vec2(y*2.2 - u*4. + fi*5.7, fi)));
         d += exp(-pow(abs(da*vR)/w, 1.4))*brk*(.55 + .45*fract(fi*.37));
       }
       float mask = smoothstep(rise + .02, rise - .15, y)*smoothstep(clear - .05, clear + .25, y);
       float fade = (1. - smoothstep(.95, ${LIFE.toFixed(2)}, u))*smoothstep(0., .08, y)*(1. - smoothstep(.75, .97, yn));
       float face = smoothstep(.06, .45, vFace);                   // no bright vertical outline at the silhouette
-      float k = d*mask*fade*face*(1. - .5*yn)*mix(.15, .11, vK);
+      float k = d*mask*fade*face*(1. - .5*yn)*mix(.13, .095, vK);
       vec3 outc = mix(uGold, vec3(1., .97, .92), .55)*k;           // pale warm air, not flame
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);

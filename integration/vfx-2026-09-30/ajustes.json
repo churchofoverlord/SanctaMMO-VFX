@@ -1,0 +1,218 @@
+[
+  {
+    "index": 12,
+    "path": "prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+    "title": "Piercing Strike I",
+    "reason": "Estocada mais fina e afilada; núcleo menos branco, halo termina dentro do plano.",
+    "before_sha256": "a67688e495d814236129366b099e69597a44036749af8433f2885b1ec246bc13",
+    "after_sha256": "7219aa278bec29ec6b0f999d0f396b76811a4ba5521cbc533d6f520abf74d207"
+  },
+  {
+    "index": 13,
+    "path": "prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
+    "title": "Piercing Strike II Tank",
+    "reason": "Estocada mais fina e afilada; núcleo menos branco, halo termina dentro do plano.",
+    "before_sha256": "063739c638d9b9f974fcaf76c10a42f7cc4c68007cc3c85cd5bff709389b71f6",
+    "after_sha256": "3920c49c835eadb5ac715482f3deaecf7c6a4b5693b77b2e9717374fea3bc516"
+  },
+  {
+    "index": 14,
+    "path": "prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
+    "title": "Piercing Strike II Warrior",
+    "reason": "Estocada mais fina e afilada; núcleo menos branco, halo termina dentro do plano.",
+    "before_sha256": "df115dc759a6e648ae18ef6d68acd17724088199164a7335f45f8270f69f882e",
+    "after_sha256": "615946efb805a50def717401eb39437b23a565e47666232e31a4882e36a4fd00"
+  },
+  {
+    "index": 25,
+    "path": "prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+    "title": "Shoulder Rush I",
+    "reason": "Rasto vertical em quatro fios com largura e dissolução próprias; impacto continua dominante.",
+    "before_sha256": "7d31403937885d0c96d528ba8524d617dfaa8fd95165417b736425897d8184e0",
+    "after_sha256": "1ef7d633f246295fa1894a9c3a9db592187469af94323a3074197449ddba1fad"
+  },
+  {
+    "index": 26,
+    "path": "prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+    "title": "Shoulder Rush II Tank",
+    "reason": "Rasto vertical em quatro fios com largura e dissolução próprias; impacto continua dominante.",
+    "before_sha256": "4d4e930522c59e98744303ec75a66d72070ec6c19e94fca8dda5f872c553fc74",
+    "after_sha256": "e5c91c2742cceec7f6d5c9ca155cc3cb4f7acd0ae157672d86f2f3454bdf363b"
+  },
+  {
+    "index": 27,
+    "path": "prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+    "title": "Shoulder Rush II Warrior",
+    "reason": "Rasto vertical em quatro fios com largura e dissolução próprias; impacto continua dominante.",
+    "before_sha256": "2ae17a3e684c84fcca80026a41b84c94880f29f72b5707fe886a45a59122390b",
+    "after_sha256": "4613e72a4f7d52d30f019b3519e06a0c342bcc4060b151358c06285ebdb517fe"
+  },
+  {
+    "index": 5,
+    "path": "prototypes/fighter/chains/chains-vfx.html",
+    "title": "Chains I",
+    "reason": "Menos névoa e emissão sobre os elos; a corrente conserva a extensão, contacto e retração.",
+    "before_sha256": "1e1f3845146afeed7fc0d0fcf94045e7445706fd429396d9247ee2e4143928e3",
+    "after_sha256": "6ed3fe3091dde798e3656fac98a3f5d10b66a1ca3fac27aaeb23bc85c8993d6e"
+  },
+  {
+    "index": 6,
+    "path": "prototypes/fighter/chains-ii/chains-ii-vfx.html",
+    "title": "Chains II Pull",
+    "reason": "Menos névoa e emissão sobre os elos; a corrente conserva a extensão, contacto e retração.",
+    "before_sha256": "5527a85815ae90e5a6867eeec1e30f788da8db49ba19e587dd5376577a5f70de",
+    "after_sha256": "f813acc676299a279eafcf4df8530069b600ea13ef96b79c62e5524e8175ac79"
+  },
+  {
+    "index": 15,
+    "path": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+    "title": "Pressure / Provoke",
+    "reason": "Três fios de névoa separados e mais estreitos; fluxo e resolução mantidos.",
+    "before_sha256": "2e8da8a8d14adab73397e9b83fcea310d8652b134c10a46a82202462834c6149",
+    "after_sha256": "d5ed992f7c2db13bea52027f5de719eaf7e6d47823f154d2bdc826a6a6bf1c44"
+  },
+  {
+    "index": 21,
+    "path": "prototypes/fighter/second-wind/second-wind-vfx.html",
+    "title": "Second Wind",
+    "reason": "Brisa de recuperação mais fina, com interrupções de densidade e espaço entre fios.",
+    "before_sha256": "1f87c8d92f86c8a6858649f9ab75acb67c062983003d2018a483507ad88ec508",
+    "after_sha256": "49d71e94f76b7c478c9a828c667a6ff5717b533d6dd402e0fc5ec2c701486c23"
+  },
+  {
+    "index": 10,
+    "path": "prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
+    "title": "Defiant Presence",
+    "reason": "Limite de proteção continua claro; casca mais transparente e formação/dissolução suaves.",
+    "before_sha256": "701f558b45ad980295b873b8bb24fb41633e246fb84c0d51ddc79eb8e2000471",
+    "after_sha256": "6f7fac9c68378eb64a867696234d0c2c091bcc203c6a593b0310803ac974d7f0"
+  },
+  {
+    "index": 47,
+    "path": "prototypes/mage/iceberg/iceberg-vfx.html",
+    "title": "Iceberg",
+    "reason": "Gelo mais natural: reflexo e fraturas menos luminosos, preservando os blocos e a borda de Slow.",
+    "before_sha256": "889e64605ca300ac76a661fedebb1db73443c04d70c0b6ceb39784143b32e08e",
+    "after_sha256": "27c0e1008c7825b4ddd6a8d5656ec74455d82926e2fb0a984dab26f4c7bde7cf"
+  },
+  {
+    "index": 51,
+    "path": "prototypes/mage/mana-storm/mana-storm-vfx.html",
+    "title": "Mana Storm",
+    "reason": "Hierarquia da área: perímetro dominante, anéis interiores, runas e sigilos mais discretos.",
+    "before_sha256": "e933a096d781797c86bae65c33c382b75274298afa617bdb4f1a76b15704289f",
+    "after_sha256": "a676e5d2aa782e3758d428ccc14c4d227eaaa4d664451aef1f7e3a6806766fe8"
+  },
+  {
+    "index": 65,
+    "path": "prototypes/mystic/astral-veil/astral-veil-vfx.html",
+    "title": "Astral Veil",
+    "reason": "Véu com poeira estelar mais esparsa, preenchimento leve e contorno menos branco.",
+    "before_sha256": "2e092ce0c1f3f45eac5a597977a8cafad402a2d3052a61234affbff5f58f8e94",
+    "after_sha256": "1dae8d56b1fd505891ae9be079b72ffea746101a6eb573ec7557a74374e1b33d"
+  },
+  {
+    "index": 68,
+    "path": "prototypes/mystic/bright-star/bright-star-vfx.html",
+    "title": "Bright Star",
+    "reason": "Pulso Sun mais leve; aliados visíveis através da expansão, sem alterar alcance ou aplicação.",
+    "before_sha256": "3db8a5c1d221620b0bb5efd38b04ced4b26fd72f015874794fc6c43f4c3d42b6",
+    "after_sha256": "bbaac120fe5ed7e4cb69ca6e10647647557e8e8d014ffaf085a4c1b0ff13bfa6"
+  },
+  {
+    "index": 76,
+    "path": "prototypes/mystic/eclipse/eclipse-vfx.html",
+    "title": "Eclipse",
+    "reason": "Eclipse com menos bandas e brilho acumulado; símbolo preto Sun/Moon e convergência mantidos.",
+    "before_sha256": "6048ae22cc8946797d13fb5cda86ef7a0be21f6df38f0f5e579afdc85f470fc8",
+    "after_sha256": "5c0cf51368bb28cedc662d144c9625ee7edec95e89b3fc8bfd1bc6fe3c19c005"
+  },
+  {
+    "index": 85,
+    "path": "prototypes/mystic/resurrect/resurrect-vfx.html",
+    "title": "Resurrect",
+    "reason": "Resolução da ressurreição em fios verticais; corpo mais visível ao levantar.",
+    "before_sha256": "2277a0a140ac610b9f83b219b572884fb26c727d0b03b140630297e642e20a87",
+    "after_sha256": "5ae4972838c1f4397dcaeeb72d8695b90cf2b32505cbbd55cf50abd7adff2b91"
+  },
+  {
+    "index": 87,
+    "path": "prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html",
+    "title": "Spirit of the Comet Moon",
+    "reason": "Cometa mantém a cabeça do ícone; cauda mais estreita, irregular e menos branca.",
+    "before_sha256": "756d9249bcad48bd3b5b840a6d64694f05c83fe4a54f11493b69f07472ca7bc3",
+    "after_sha256": "28f408c8df13d16a17c35570887110ef9824cc07cf8e1f1a3fa57c78b6b59e6f"
+  },
+  {
+    "index": 88,
+    "path": "prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html",
+    "title": "Spirit of the Comet Sun",
+    "reason": "Cometa mantém a cabeça do ícone; cauda mais estreita, irregular e menos branca.",
+    "before_sha256": "f725c8c01aeea453ed7cad22bb123bc90a2146c1d98ed8d80eeb6ef6bc1490ad",
+    "after_sha256": "71532e35e2e9c7470a4a9629c4646c1b61abef8cb66b406db2f2f74adf75e599"
+  },
+  {
+    "index": 107,
+    "path": "prototypes/scout/poison-sac/poison-sac-vfx.html",
+    "title": "Poison Sac",
+    "reason": "Contorno de veneno contínuo sem costura angular, com borda suave.",
+    "before_sha256": "03dad368185a9f57055923f58400bfeba4a48b477ab73e3faa23dbb7bb5bedec",
+    "after_sha256": "9dd1c72777b8748706b627370b7df7f44abb388c8cb73c25415f22c663e88888"
+  },
+  {
+    "index": 113,
+    "path": "prototypes/scout/sickness/sickness-vfx.html",
+    "title": "Sickness",
+    "reason": "Contorno de veneno contínuo sem costura angular, com borda suave. Divisões protegidas na formação das gotas.",
+    "before_sha256": "e40164c0c8666f2871a2cf8fe900eadb7a7094013da8a4e45318ffebf2b829f7",
+    "after_sha256": "0f2003584c5521fd610e831088c91975049ca2df8d0e1633a1963c0186cf763b"
+  },
+  {
+    "index": 105,
+    "path": "prototypes/scout/hemorrhage/hemorrhage-vfx.html",
+    "title": "Hemorrhage",
+    "reason": "Gotas de sangue estáveis no primeiro instante: divisões protegidas quando o trajeto ainda tem comprimento zero.",
+    "before_sha256": "1028e928356ccc942af6a27ea4a11f3caf4a6359126e36c38dbebdc841fe8165",
+    "after_sha256": "819f5446d5946563ecf9bbb8e579c30d3ec83118f84e818b30031b91d7230b8d"
+  },
+  {
+    "index": 112,
+    "path": "prototypes/scout/sand-shot/sand-shot-vfx.html",
+    "title": "Sand Shot",
+    "reason": "Poeira menos dourada e opaca, com densidade mais recortada e bordas suaves; cone mecânico mantido.",
+    "before_sha256": "75ecd9b149f1c45c35701de15e48a47be9b03cd16c0888a116242b1da375577a",
+    "after_sha256": "69850fec603ef6dcf99331fd838f79be696c04a0b46a66311f0b5b8cd783fabd"
+  },
+  {
+    "index": 29,
+    "path": "prototypes/fighter/war-leap/war-leap-vfx.html",
+    "title": "War Leap",
+    "reason": "Salto com rasto mais fino; impacto lança pedra cinzenta com pequenas fissuras quentes que arrefecem depressa.",
+    "before_sha256": "0102b9f30aafb8fcc2c56be382c575da65c383736625fbba6e9f63f9cc9c1095",
+    "after_sha256": "c231d713b5a6df6380f70e566c5708a1f5a725233cce64d72e4cd57881a66a06"
+  },
+  {
+    "index": 56,
+    "path": "prototypes/mage/tempest/tempest-vfx.html",
+    "title": "Tempest",
+    "reason": "Telegráfos Ice/Lightning com preenchimento mais leve; contorno, raio e avanço até ao impacto mantidos.",
+    "before_sha256": "1d8e5fc449a947847704fc8c1daad526e126b6f4d4da44734f97cae8a8cca804",
+    "after_sha256": "55f8d116cb6bcfa53e402836b6b323d6229f2ca73873916aca83b4e5f55c1fb2"
+  },
+  {
+    "index": 63,
+    "path": "prototypes/mystic/astral-pull/astral-pull-vfx.html",
+    "title": "Astral Pull",
+    "reason": "Zona de teleporte com gradiente radial suave; chegada e formação do corpo têm prioridade visual. Correntes menos luminosas, com elos visíveis.",
+    "before_sha256": "03dd9dd909a6f2e24ea6db8b95a9829b8f10705351ae170dda4b7249ed7bb954",
+    "after_sha256": "ceb5d23b7987afac1144be24f561d3f2ad08d0b3c3d0e00da63f8d4c11b7a704"
+  },
+  {
+    "index": 64,
+    "path": "prototypes/mystic/astral-step/astral-step-vfx.html",
+    "title": "Astral Step",
+    "reason": "Zona de teleporte com gradiente radial suave; chegada e formação do corpo têm prioridade visual.",
+    "before_sha256": "8d37111853d2e4c7f0e44e706a5e5e6e5a9bfd4f455c9bd1b61dad64e437a02a",
+    "after_sha256": "d9efce2801b0dcbddd8069362ee2a9a44428790bed3739bc636b97c5e51e9964"
+  }
+]

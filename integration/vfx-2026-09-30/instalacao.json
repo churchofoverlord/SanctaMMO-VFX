@@ -1,0 +1,137 @@
+[
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike\\piercing-strike-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike\\archive\\piercing-strike-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "7219aa278bec29ec6b0f999d0f396b76811a4ba5521cbc533d6f520abf74d207"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike-ii-tank\\piercing-strike-ii-tank-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike-ii-tank\\archive\\piercing-strike-ii-tank-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "3920c49c835eadb5ac715482f3deaecf7c6a4b5693b77b2e9717374fea3bc516"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike-ii-warrior\\piercing-strike-ii-warrior-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\piercing-strike-ii-warrior\\archive\\piercing-strike-ii-warrior-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "615946efb805a50def717401eb39437b23a565e47666232e31a4882e36a4fd00"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush\\shoulder-rush-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush\\archive\\shoulder-rush-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "1ef7d633f246295fa1894a9c3a9db592187469af94323a3074197449ddba1fad"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush-ii-tank\\shoulder-rush-ii-tank-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush-ii-tank\\archive\\shoulder-rush-ii-tank-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "e5c91c2742cceec7f6d5c9ca155cc3cb4f7acd0ae157672d86f2f3454bdf363b"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush-ii-warrior\\shoulder-rush-ii-warrior-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\shoulder-rush-ii-warrior\\archive\\shoulder-rush-ii-warrior-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "4613e72a4f7d52d30f019b3519e06a0c342bcc4060b151358c06285ebdb517fe"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\chains\\chains-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\chains\\archive\\chains-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "6ed3fe3091dde798e3656fac98a3f5d10b66a1ca3fac27aaeb23bc85c8993d6e"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\chains-ii\\chains-ii-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\chains-ii\\archive\\chains-ii-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "f813acc676299a279eafcf4df8530069b600ea13ef96b79c62e5524e8175ac79"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\pressure-provoke\\pressure-provoke-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\pressure-provoke\\archive\\pressure-provoke-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "d5ed992f7c2db13bea52027f5de719eaf7e6d47823f154d2bdc826a6a6bf1c44"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\second-wind\\second-wind-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\second-wind\\archive\\second-wind-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "49d71e94f76b7c478c9a828c667a6ff5717b533d6dd402e0fc5ec2c701486c23"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\defiant-presence\\defiant-presence-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\defiant-presence\\archive\\defiant-presence-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "6f7fac9c68378eb64a867696234d0c2c091bcc203c6a593b0310803ac974d7f0"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\iceberg\\iceberg-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\iceberg\\archive\\iceberg-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "27c0e1008c7825b4ddd6a8d5656ec74455d82926e2fb0a984dab26f4c7bde7cf"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\mana-storm\\mana-storm-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\mana-storm\\archive\\mana-storm-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "a676e5d2aa782e3758d428ccc14c4d227eaaa4d664451aef1f7e3a6806766fe8"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-veil\\astral-veil-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-veil\\archive\\astral-veil-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "1dae8d56b1fd505891ae9be079b72ffea746101a6eb573ec7557a74374e1b33d"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\bright-star\\bright-star-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\bright-star\\archive\\bright-star-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "bbaac120fe5ed7e4cb69ca6e10647647557e8e8d014ffaf085a4c1b0ff13bfa6"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\eclipse\\eclipse-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\eclipse\\archive\\eclipse-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "5c0cf51368bb28cedc662d144c9625ee7edec95e89b3fc8bfd1bc6fe3c19c005"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\resurrect\\resurrect-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\resurrect\\archive\\resurrect-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "5ae4972838c1f4397dcaeeb72d8695b90cf2b32505cbbd55cf50abd7adff2b91"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\spirit-of-the-comet-moon\\spirit-of-the-comet-moon-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\spirit-of-the-comet-moon\\archive\\spirit-of-the-comet-moon-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "28f408c8df13d16a17c35570887110ef9824cc07cf8e1f1a3fa57c78b6b59e6f"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\spirit-of-the-comet-sun\\spirit-of-the-comet-sun-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\spirit-of-the-comet-sun\\archive\\spirit-of-the-comet-sun-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "71532e35e2e9c7470a4a9629c4646c1b61abef8cb66b406db2f2f74adf75e599"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\poison-sac\\poison-sac-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\poison-sac\\archive\\poison-sac-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "9dd1c72777b8748706b627370b7df7f44abb388c8cb73c25415f22c663e88888"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\sickness\\sickness-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\sickness\\archive\\sickness-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "0f2003584c5521fd610e831088c91975049ca2df8d0e1633a1963c0186cf763b"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\hemorrhage\\hemorrhage-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\hemorrhage\\archive\\hemorrhage-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "819f5446d5946563ecf9bbb8e579c30d3ec83118f84e818b30031b91d7230b8d"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\sand-shot\\sand-shot-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\scout\\sand-shot\\archive\\sand-shot-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "69850fec603ef6dcf99331fd838f79be696c04a0b46a66311f0b5b8cd783fabd"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\war-leap\\war-leap-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\fighter\\war-leap\\archive\\war-leap-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "c231d713b5a6df6380f70e566c5708a1f5a725233cce64d72e4cd57881a66a06"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\tempest\\tempest-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mage\\tempest\\archive\\tempest-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "55f8d116cb6bcfa53e402836b6b323d6229f2ca73873916aca83b4e5f55c1fb2"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-pull\\astral-pull-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-pull\\archive\\astral-pull-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "ceb5d23b7987afac1144be24f561d3f2ad08d0b3c3d0e00da63f8d4c11b7a704"
+  },
+  {
+    "path": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-step\\astral-step-vfx.html",
+    "backup": "C:\\Dev\\SanctaMMO-VFX\\prototypes\\mystic\\astral-step\\archive\\astral-step-vfx-antes-pass-completo-2026-09-30.html",
+    "sha256": "d9efce2801b0dcbddd8069362ee2a9a44428790bed3739bc636b97c5e51e9964"
+  }
+]

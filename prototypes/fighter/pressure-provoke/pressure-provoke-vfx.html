@@ -520,8 +520,8 @@ const tethers = pool(new THREE.PlaneGeometry(2,2,24,1), 96, { aA:3, aB:3, aT:1, 
       float dens = 0.;
       for (int i=0;i<3;i++){
         float fi = float(i);
-        float yy = vY + (fbm(vec2(x*1.1 - dir*u*6. + fi*5.3, fi*2.7)) - .5)*.16;
-        float w = (.012 + .03*prof)*(.7 + .6*fbm(vec2(x*2. - dir*u*8. + fi*3.1, fi + 1.)));
+        float yy = vY - (fi - 1.)*.042*prof + (fbm(vec2(x*1.1 - dir*u*6. + fi*5.3, fi*2.7)) - .5)*.08;
+        float w = (.009 + .016*prof)*(.7 + .6*fbm(vec2(x*2. - dir*u*8. + fi*3.1, fi + 1.)));
         float brk = smoothstep(.3, .75, fbm(vec2(x*2.4 - dir*u*12. + fi*7.7, fi*4.3 + 2.)));
         dens += exp(-pow(abs(yy)/w, 1.6))*brk*(.5 + .5*n2);
       }

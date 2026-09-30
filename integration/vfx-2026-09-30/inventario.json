@@ -1,0 +1,1630 @@
+[
+  {
+    "index": 0,
+    "path": "prototypes/fighter/battlecry-challenge-i-tank/battlecry-challenge-i-tank-vfx.html",
+    "title": "Challenge I",
+    "canon": "Efeito canónico:  Tank: AoE local com Taunt.",
+    "notes": [
+      "Mesmo pulso: Esta página é só o Challenge (Tank Stance); a outra forma usa o mesmo pulso num protótipo à parte. Battlecry é rápido e agressivo (três cristas, a do meio mais forte); Challenge assenta e fica ancorado na borda da área até ao fim.",
+      "Skill ≠ status: A skill mostra só o pulso. O Silence e o Taunt aplicados aos inimigos são VFX dos cues de status partilhados ( GameplayCue.Status.* ) — os bonecos atingidos apenas reagem ao pulso."
+    ],
+    "time": 0.4,
+    "before_sha256": "49e677fc1ae9600accd939bb3e906ca8381f595edcbe25fc4724cd3f5c7a00cf"
+  },
+  {
+    "index": 1,
+    "path": "prototypes/fighter/battlecry-challenge-i-warrior/battlecry-challenge-i-warrior-vfx.html",
+    "title": "Battlecry I",
+    "canon": "Efeito canónico:  Warrior: AoE local com dano físico e Silence.",
+    "notes": [
+      "Mesmo pulso: Esta página é só o Battlecry (Warrior Stance); a outra forma usa o mesmo pulso num protótipo à parte. Battlecry é rápido e agressivo (três cristas, a do meio mais forte); Challenge assenta e fica ancorado na borda da área até ao fim.",
+      "Skill ≠ status: A skill mostra só o pulso. O Silence e o Taunt aplicados aos inimigos são VFX dos cues de status partilhados ( GameplayCue.Status.* ) — os bonecos atingidos apenas reagem ao pulso."
+    ],
+    "time": 0.4,
+    "before_sha256": "94b7f6631cbc36bf39ac7e1fb48b44b69c278339da020eb4d602efa0f0a256b1"
+  },
+  {
+    "index": 2,
+    "path": "prototypes/fighter/battlecry-challenge-ii-tank/battlecry-challenge-ii-tank-vfx.html",
+    "title": "Challenge II",
+    "canon": "Efeito canónico:  Upgrade: o Taunt desta execução, se expirar naturalmente, aplica Root.",
+    "notes": [
+      "Base igual ao I: O mesmo pulso radial do Challenge I, na paleta ciano da Tank Stance. O II só acrescenta um cue condicional.",
+      "Root no expiry: Quando o Taunt desta execução expira naturalmente (2,5 s), raízes finas projetam-se dos pés do inimigo, com um anel de aperto. Um recast antes disso renova o Taunt e não enraíza.",
+      "Skill ≠ status: O Taunt e o Root que ficam nos inimigos são cues de status; aqui só se mostra o momento em que o Root é aplicado. A outra variante é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "5500930a3c2130ca1c3000cbf53f59cbdc6d16158bbc64239b5fcdf7459d4523"
+  },
+  {
+    "index": 3,
+    "path": "prototypes/fighter/battlecry-challenge-ii-warrior/battlecry-challenge-ii-warrior-vfx.html",
+    "title": "Battlecry II",
+    "canon": "Efeito canónico:  Upgrade: inimigos já Silenced recebem Fear antes do novo Silence.",
+    "notes": [
+      "Base igual ao I: O mesmo pulso radial do Battlecry I, na paleta magenta da Warrior Stance. O II só acrescenta um cue condicional.",
+      "Fear antes do Silence: Nos inimigos que já estavam com Silence, dois anéis fecham-se no peito deles com reverse ease-in (devagar e depois de golpe) e fecham com uma faísca: é o Fear. Depois aplica-se o novo Silence. O 1.º cast só silencia; a partir do 2.º (dentro de 3 s) aparece a contra-onda.",
+      "Skill ≠ status: O Silence e o Fear que ficam nos inimigos são cues de status. A outra variante é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "0ab924569c2b3c4c95d6f25d4f4d0fe83413128493d5fa570ec8c31ed4375a78"
+  },
+  {
+    "index": 4,
+    "path": "prototypes/fighter/bulwark/bulwark-vfx.html",
+    "title": "Bulwark",
+    "canon": "Efeito canónico:  consome todo o Momentum. Tank → Bulwark: Shield próprio.",
+    "notes": [
+      "Mesma composição: As duas formas começam iguais: traços caligráficos em espiral rodam à volta da cintura e convergem para o corpo em ease-in. Só o final muda — dois pulsos de cura com a cruz do ícone, ou um pulso firme com o escudo.",
+      "Skill ≠ status: Esta página mostra só o cast. A cura e o Shield resultantes têm os seus próprios cues de status ( GameplayCue.Status.* ), partilhados por todas as fontes — a casca persistente do Shield vive lá, não aqui.",
+      "Contexto: O marcador da Warrior / Tank Stance é um cue próprio e não aparece aqui. O Momentum na UI esvazia no cast."
+    ],
+    "time": 0.4,
+    "before_sha256": "51f0824eaa4d07ecf4ea04edd09ce0059673058cdcc6861eeb800d3b2b57e1d0"
+  },
+  {
+    "index": 5,
+    "path": "prototypes/fighter/chains/chains-vfx.html",
+    "title": "Chains I",
+    "canon": "Efeito canónico:  skillshot linear estreito; o primeiro alvo válido fica Rooted. O Root habilita Chain Pull quando a profundidade II está aprendida.",
+    "notes": [
+      "Corrente de energia: Duas correntes, uma de cada mão, que convergem no alvo. Elos finos de luz dourada, alternados a 90°, com o brilho no contorno e uma aura suave ao longo da corrente, no mesmo registo das outras skills. Depois de uma preparação de 260 ms, sai devagar da mão e acelera até ao alvo, com um chicote ligeiro; os elos da frente vão mais quentes.",
+      "Ancoragem: No primeiro alvo válido: hit stop de 2 frames, a corrente estica rígida com um único estremeção e uma onda de calor volta do alvo à mão. Aos pés, quatro estacas curtas cravam-se à volta dos tornozelos (0,45 s), sem círculo no chão. O Root que fica no alvo é do cue de status.",
+      "Fim e falha: Com hit, segura esticada 0,45 s e dissolve a partir da mão; o gancho no alvo é o último a desaparecer. Sem alvo, chega aos 6,5 m e recolhe, sem ancoragem."
+    ],
+    "time": 0.4,
+    "before_sha256": "1e1f3845146afeed7fc0d0fcf94045e7445706fd429396d9247ee2e4143928e3"
+  },
+  {
+    "index": 6,
+    "path": "prototypes/fighter/chains-ii/chains-ii-vfx.html",
+    "title": "Chains II Pull",
+    "canon": "Efeito canónico:  recast disponível enquanto o alvo continua Rooted pelas tuas Chains: Interrupt e pull até melee range.",
+    "notes": [
+      "Mesmo slot, recast: Primeiro as Chains, como no I; no hit, cada corrente dá uma volta à volta do alvo (a da mão direita mais acima, a da esquerda mais abaixo). Enquanto o alvo está preso (Rooted), a corrente fica ligada e o botão passa a \"Pull\". Sem recast, dissolve como no I.",
+      "Interrupt primeiro: No recast, um pulso aditivo forte corre pela corrente do alvo até à mão (120 ms) e no gancho rebenta um flash pequeno com seis estilhaços: é o Interrupt.",
+      "Puxão violento: A corrente contrai-se com ease-in (lenta no início, brutal no fim) e enrola-se para a mão; o alvo vem com ela, ainda enrolado, até melee range e o Fighter dá um esticão para trás. A corrente dissolve a partir da mão; o enrolamento só solta depois de o alvo chegar."
+    ],
+    "time": 0.4,
+    "before_sha256": "5527a85815ae90e5a6867eeec1e30f788da8db49ba19e587dd5376577a5f70de"
+  },
+  {
+    "index": 7,
+    "path": "prototypes/fighter/cleanse/cleanse-vfx.html",
+    "title": "Cleanse Fighter",
+    "canon": "Efeito canónico:  remove Debuffs e CC persistente do próprio Fighter e cancela Forced Displacement ativo.",
+    "notes": [
+      "Do centro para fora: Centrado no próprio Fighter: um flash curto no peito com o traço vertical do ícone e um anel partido em arcos largos que abre do corpo para fora, à altura do peito e da cintura. Muito curto (~0,35 s).",
+      "O negativo sai: Pedaços escuros e partidos das marcas negativas saltam do corpo e são empurrados para longe, desfazendo-se por erosão. Lê-se como remoção, não como cura: não há luz a subir nem brilho que fique.",
+      "Só se removeu: Se não havia nada para remover, não há varrimento nem fragmentos: só um cue local pequeno. Os estados removidos recebem o seu próprio Forced Remove no cue de status; o chão fica livre."
+    ],
+    "time": 0.4,
+    "before_sha256": "44f111c9b275cc0ca99ba4d3456880e9d72c7751616f0e067f49ec86a749ec60"
+  },
+  {
+    "index": 8,
+    "path": "prototypes/fighter/crushing-blow/crushing-blow-vfx.html",
+    "title": "Crushing Blow I",
+    "canon": "Efeito canónico:  ground-bash local em pequena AoE, com dano físico.",
+    "notes": [
+      "Telegraph curto: O anel da AoE desenha-se à volta durante a preparação (220 ms), fino e discreto; no impacto dá um pico de 2 frames e é a última coisa a desaparecer.",
+      "Centro → fora: As rachas acendem do centro para o anel e apagam a partir do centro; uma única onda fina marca o alcance. Os alvos dentro do anel reagem quando a onda passa.",
+      "Mínimo no centro: Um traço vertical fino e poucos fragmentos opacos. O squash & stretch invertido está na personagem, não no VFX."
+    ],
+    "time": 0.4,
+    "before_sha256": "2c7cbb4047fccee99b99dbfa4573c76da21ae4e40aa778e866606afdb84efa5d"
+  },
+  {
+    "index": 9,
+    "path": "prototypes/fighter/crushing-blow-ii/crushing-blow-ii-vfx.html",
+    "title": "Crushing Blow II",
+    "canon": "Efeito canónico:  Upgrade: passa a aplicar Slow; se o alvo já estava Slowed antes do hit, aplica Stun e depois o novo Slow.",
+    "notes": [
+      "Impacto mais pesado: Mesma silhueta e timing do I, mas muito mais forte: 14 rachas grossas e quentes com ramificações (o I tem 9), o triplo das pedras com 8 blocos grandes lançados mais alto, clarão central maior e um tremor curto de câmara (só no jogador local).",
+      "Slow: anel secundário: Um segundo anel fino, mais dourado, segue a onda de choque 70 ms depois e apaga aos ~0,3 s. Aparece em todos os golpes, porque o Slow aplica-se sempre.",
+      "Stun: só com condição: Se o alvo já estava com Slow antes do golpe, os cantos de um losango rígido fecham-se de golpe no peito dele e desaparecem aos 0,34 s (o chão fica para a área). O Slow e o Stun que ficam no alvo são cues de status. Para ver o proc: o 1.º golpe aplica Slow e o 2.º (dentro de 3 s) faz Stun; \"Limpar Slow\" repõe."
+    ],
+    "time": 0.4,
+    "before_sha256": "9dc5b81caae27a2a81dcd2387e11381ed39f56a8f426841eb546bc92b3684715"
+  },
+  {
+    "index": 10,
+    "path": "prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
+    "title": "Defiant Presence",
+    "canon": "Efeito canónico:  estado defensivo temporário: novas fontes de dano/efeitos hostis acima da distância-limite não te afetam.",
+    "notes": [
+      "A cúpula é o limite: Uma cúpula baixa centrada no Fighter com o raio da distância-limite (6 m) e 3 m de altura; a linha no chão é a fronteira exata. Sobe do chão em 200 ms com um pico de 2 frames e dissolve no fim.",
+      "Plasma, não vidro: Superfície lisa e ténue, com veios finos de energia ciano a fluir devagar e o contorno um pouco mais claro. Sem faces nem triângulos, luz baixa.",
+      "Só fontes distantes: Os disparos de fora terminam na cúpula, sem reação nela (não é um escudo que absorve golpes). O atirador dentro da cúpula (3,6 m) acerta no Fighter: a proteção é só contra origem distante."
+    ],
+    "time": 0.4,
+    "before_sha256": "701f558b45ad980295b873b8bb24fb41633e246fb84c0d51ddc79eb8e2000471"
+  },
+  {
+    "index": 11,
+    "path": "prototypes/fighter/momentum-mastery/momentum-mastery-vfx.html",
+    "title": "Momentum Mastery",
+    "canon": "Efeito canónico:  passivo: Rage/Bulwark restaura Stamina por cada Momentum consumido.",
+    "notes": [
+      "Só no consumo: Sem aura nem VFX permanente. Quando Rage ou Bulwark consomem Momentum, o Fighter recebe um pulso breve de Stamina e mais nada.",
+      "Um tique por Momentum: Cada Momentum consumido dá uma crescente dupla aos lados do corpo, a subir da cintura ao peito, 60 ms depois da anterior: 1 Momentum lê-se diferente de 5.",
+      "Igual nas duas formas: O efeito é o mesmo (restaurar Stamina), por isso o VFX é o mesmo em Rage e Bulwark, em verde de Stamina. A forma já se lê pelo VFX do próprio Rage/Bulwark."
+    ],
+    "time": 0.4,
+    "before_sha256": "49d5b74e04d80ab57f059b3ad1acebb208871fa7166fbc7cb24b05460d61694b"
+  },
+  {
+    "index": 12,
+    "path": "prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+    "title": "Piercing Strike I",
+    "canon": "Efeito canónico:  ataque linear curto que atravessa alvos, causa dano físico e aplica Slow.",
+    "notes": [
+      "Uma linha, lida de frente: A estocada desenha-se para a frente em 80 ms, segura e apaga a partir do Fighter; a ponta é a última a desaparecer. Fina na origem, mais grossa perto da frente, ponta afiada.",
+      "Atravessa: Cada alvo é atingido quando a ponta passa por ele: impacto pequeno e poucas faíscas para a frente.",
+      "Skill ≠ status: O Slow aplicado aos alvos é VFX do cue de status partilhado ( GameplayCue.Status.Slow ), não desta skill."
+    ],
+    "time": 0.4,
+    "before_sha256": "a67688e495d814236129366b099e69597a44036749af8433f2885b1ec246bc13"
+  },
+  {
+    "index": 13,
+    "path": "prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
+    "title": "Piercing Strike II Tank",
+    "canon": "Efeito canónico:  Upgrade: Tank, alvos com Slow recebem Weakened. O Slow normal mantém-se.",
+    "notes": [
+      "Mesma estocada: A linha perfurante, o impacto e as faíscas são os do I, mas na paleta da Tank Stance (ciano). O Slow normal continua a aplicar-se (o aspeto dele é do cue de status).",
+      "Payoff só com condição: Só nos alvos que já estavam com Slow antes do golpe: anel partido estático em ciano no peito, no ponto do golpe. O 1.º golpe aplica Slow; a partir do 2.º (dentro de 3 s) aparece o payoff. \"Limpar Slow\" repõe.",
+      "Variante Tank: O marcador é estático (sem escala nem rotação): pico de 2 frames, segura e apaga. O Weakened que fica no alvo é do cue de status. A outra variante é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "063739c638d9b9f974fcaf76c10a42f7cc4c68007cc3c85cd5bff709389b71f6"
+  },
+  {
+    "index": 14,
+    "path": "prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
+    "title": "Piercing Strike II Warrior",
+    "canon": "Efeito canónico:  Upgrade: Warrior, alvos com Slow recebem dano físico adicional. O Slow normal mantém-se.",
+    "notes": [
+      "Mesma estocada: A linha perfurante, o impacto e as faíscas são os do I, mas na paleta da Warrior Stance (magenta). O Slow normal continua a aplicar-se (o aspeto dele é do cue de status).",
+      "Payoff só com condição: Só nos alvos que já estavam com Slow antes do golpe: flash direcional magenta ao longo da estocada. O 1.º golpe aplica Slow; a partir do 2.º (dentro de 3 s) aparece o payoff. \"Limpar Slow\" repõe.",
+      "Variante Warrior: O flash segue o eixo da estocada e passa pelo alvo, fino nas pontas: lê-se como dano a mais, não como um estado. A outra variante é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "df115dc759a6e648ae18ef6d68acd17724088199164a7335f45f8270f69f882e"
+  },
+  {
+    "index": 15,
+    "path": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+    "title": "Pressure / Provoke",
+    "canon": "Efeito canónico:  Warrior: dano físico + Hindered num alvo. Tank: dano físico + Taunt a média distância.",
+    "notes": [
+      "Um fio, dois extremos: O fio de fumo nasce ao mesmo tempo na arma e no alvo e encontra-se a meio; ténue, rápido e com curva mínima. Apaga do lado do Fighter, e o lado do alvo desaparece por último.",
+      "Mesmo percurso, pulso diferente: Pressure: o fumo corre para o alvo com três golfadas rápidas. Provoke: o fumo corre do alvo de volta para o Tank em onda contínua — ameaça constante. Espessura e percurso iguais.",
+      "Skill ≠ status: O Hindered e o Taunt no alvo são VFX dos cues de status; aqui o alvo só reage (empurrado ou puxado)."
+    ],
+    "time": 0.4,
+    "before_sha256": "2e8da8a8d14adab73397e9b83fcea310d8652b134c10a46a82202462834c6149"
+  },
+  {
+    "index": 16,
+    "path": "prototypes/fighter/rage/rage-vfx.html",
+    "title": "Rage",
+    "canon": "Efeito canónico:  consome todo o Momentum. Warrior → Rage: Heal próprio.",
+    "notes": [
+      "Mesma composição: As duas formas começam iguais: traços caligráficos em espiral rodam à volta da cintura e convergem para o corpo em ease-in. Só o final muda — dois pulsos de cura com a cruz do ícone, ou um pulso firme com o escudo.",
+      "Skill ≠ status: Esta página mostra só o cast. A cura e o Shield resultantes têm os seus próprios cues de status ( GameplayCue.Status.* ), partilhados por todas as fontes — a casca persistente do Shield vive lá, não aqui.",
+      "Contexto: O marcador da Warrior / Tank Stance é um cue próprio e não aparece aqui. O Momentum na UI esvazia no cast."
+    ],
+    "time": 0.4,
+    "before_sha256": "78c5fe57dfe0721877f7abda37df4fbc340ecd1e3c1abc44e3027627055c875e"
+  },
+  {
+    "index": 17,
+    "path": "prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html",
+    "title": "Rally I Tank",
+    "canon": "Efeito canónico:  requer Momentum máximo, consome-o e concede Vigor ao Fighter e aos membros da Party em alcance.",
+    "notes": [
+      "Um único pulso de grupo: Com o Momentum cheio, o Fighter grita e um anel ciano abre-se a partir dele, linear e rápido, até ao limite da Party (5 m). O limite fica como a linha mais clara, dá um pico de 2 frames e apaga.",
+      "Só aliados válidos: Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: três raios curtos a subir pelo corpo, como no ícone (sem anel aos pés: o chão fica só para o alcance do grupo). O aliado fora de alcance e o inimigo não recebem nada.",
+      "Skill ≠ status: O Vigor que fica nos aliados é do cue de status. O consumo de Momentum é UI. Esta variante é a da Tank Stance; a outra é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "a427ec84c210003cab112efc74174d25c5010d3cd35f9837bf7a334b0efa0bc6"
+  },
+  {
+    "index": 18,
+    "path": "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+    "title": "Rally I Warrior",
+    "canon": "Efeito canónico:  requer Momentum máximo, consome-o e concede Vigor ao Fighter e aos membros da Party em alcance.",
+    "notes": [
+      "Um único pulso de grupo: Com o Momentum cheio, o Fighter grita e um anel magenta abre-se a partir dele, linear e rápido, até ao limite da Party (5 m). O limite fica como a linha mais clara, dá um pico de 2 frames e apaga.",
+      "Só aliados válidos: Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: três raios curtos a subir pelo corpo, como no ícone (sem anel aos pés: o chão fica só para o alcance do grupo). O aliado fora de alcance e o inimigo não recebem nada.",
+      "Skill ≠ status: O Vigor que fica nos aliados é do cue de status. O consumo de Momentum é UI. Esta variante é a da Warrior Stance; a outra é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "ca95d48d9c9736ea36a294181637c4c5b49c1d177cfe69e2c45a675a9a4b6790"
+  },
+  {
+    "index": 19,
+    "path": "prototypes/fighter/rally-ii-tank/rally-ii-tank-vfx.html",
+    "title": "Rally II Tank",
+    "canon": "Efeito canónico:  Upgrade contextual: Tank acrescenta Fortified + Warded. O Vigor do I mantém-se.",
+    "notes": [
+      "II · acentos da stance: O mesmo anel do I, e um segundo anel logo atrás com 8 losangos assentes no anel (Fortified + Warded). Só no cast; os buffs que ficam nos aliados são cues de status.",
+      "Um único pulso de grupo: Com o Momentum cheio, o Fighter grita e um anel ciano abre-se a partir dele, linear e rápido, até ao limite da Party (5 m). O limite fica como a linha mais clara, dá um pico de 2 frames e apaga.",
+      "Só aliados válidos: Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: três raios curtos a subir pelo corpo, como no ícone (sem anel aos pés: o chão fica só para o alcance do grupo). O aliado fora de alcance e o inimigo não recebem nada.",
+      "Skill ≠ status: O Vigor que fica nos aliados é do cue de status. O consumo de Momentum é UI. Esta variante é a da Tank Stance; a outra é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "0896e0c170fd3cc0c5dd740fe3a21416872ae8f52821733efc4d2b251675f473"
+  },
+  {
+    "index": 20,
+    "path": "prototypes/fighter/rally-ii-warrior/rally-ii-warrior-vfx.html",
+    "title": "Rally II Warrior",
+    "canon": "Efeito canónico:  Upgrade contextual: Warrior acrescenta Focus + Fierce. O Vigor do I mantém-se.",
+    "notes": [
+      "II · acentos da stance: O mesmo anel do I, e um segundo anel logo atrás com 8 chevrons afiados virados para fora (Focus + Fierce). Só no cast; os buffs que ficam nos aliados são cues de status.",
+      "Um único pulso de grupo: Com o Momentum cheio, o Fighter grita e um anel magenta abre-se a partir dele, linear e rápido, até ao limite da Party (5 m). O limite fica como a linha mais clara, dá um pico de 2 frames e apaga.",
+      "Só aliados válidos: Cada membro da Party em alcance recebe um pulso pequeno quando o anel lhe passa: três raios curtos a subir pelo corpo, como no ícone (sem anel aos pés: o chão fica só para o alcance do grupo). O aliado fora de alcance e o inimigo não recebem nada.",
+      "Skill ≠ status: O Vigor que fica nos aliados é do cue de status. O consumo de Momentum é UI. Esta variante é a da Warrior Stance; a outra é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "05468cbafddc1753a45dd90f5459c4f2be6c58b13e88679fcc2034bdb28b4511"
+  },
+  {
+    "index": 21,
+    "path": "prototypes/fighter/second-wind/second-wind-vfx.html",
+    "title": "Second Wind",
+    "canon": "Efeito canónico:  Heal próprio baseado numa percentagem do dano que realmente reduziu HP numa janela recente; limitado por Missing HP.",
+    "notes": [
+      "Uma brisa: Dez fiapos suaves nascem nos pés e enrolam-se à volta do corpo a duas profundidades e com inclinações diferentes, até acima da cabeça — o fôlego a regressar. Ténue e curta (~1,3 s).",
+      "Sobe e dissipa: A brisa cresce para cima e depois dissipa-se a partir dos pés; o topo é o último a desaparecer. Sem anéis, sem brilhos, sem rodopios.",
+      "Skill ≠ status: A cura em si (números, barra de vida) é UI; qualquer regeneração contínua pertence ao cue de status. Aqui só o momento do cast."
+    ],
+    "time": 0.4,
+    "before_sha256": "1f87c8d92f86c8a6858649f9ab75acb67c062983003d2018a483507ad88ec508"
+  },
+  {
+    "index": 22,
+    "path": "prototypes/fighter/severing-strike/severing-strike-vfx.html",
+    "title": "Severing Strike I",
+    "canon": "Efeito canónico:  cleave corpo-a-corpo largo. Acertos repetidos no mesmo alvo avançam a sequência Severing.",
+    "notes": [
+      "Um único arco: Arco de nível I: raio 1,25 m, abertura ~140°. O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.",
+      "Feedback só no acerto: Faíscas e marca de sequência aparecem apenas nos alvos atingidos; nada é desenhado no corpo do alvo. A marca é pequena e breve — o estado Severing continua a ser do gameplay/UI.",
+      "Família Severing: II e III reutilizam este mesmo arco sem alterações; só acrescentam o payoff no alvo (ferida, marcas empilhadas)."
+    ],
+    "time": 0.4,
+    "before_sha256": "81920c9d18623c37d033dd064665898651167b1ec05ec607f3ba724cea8c74ab"
+  },
+  {
+    "index": 23,
+    "path": "prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html",
+    "title": "Severing Strike II",
+    "canon": "Efeito canónico:  Upgrade: capacidade passa a 2; o segundo Severing no mesmo alvo aplica Wounded.",
+    "notes": [
+      "Um único arco: O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.",
+      "Só o payoff novo: Arco de nível II: raio 1,6 m, ~170°. A profundidade II só muda a marca de sequência: ao 2.º acerto no mesmo alvo, a linha ganha uma segunda linha cruzada.",
+      "Skill ≠ status: A ferida que fica no alvo (Wounded) é VFX do cue de status partilhado. A marca de sequência desaparece em ~0,6 s; não há aura nem marcador persistente."
+    ],
+    "time": 0.4,
+    "before_sha256": "2cb0e83247749f82c821225f1103198e40db93a8e2567ca0ca793312cc7b82ee"
+  },
+  {
+    "index": 24,
+    "path": "prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+    "title": "Severing Strike III",
+    "canon": "Efeito canónico:  Upgrade: capacidade passa a 3; o terceiro hit no mesmo alvo aplica Wounded + Brittle + Sapped.",
+    "notes": [
+      "Um único arco: O corte desenha-se no sentido do golpe em 90 ms, segura no tamanho máximo e apaga-se a partir do ponto de origem até à ponta; o traço é fino nas pontas e largo no meio.",
+      "Só o payoff novo: Arco de nível III: maior (raio 2,05 m, ~190°), mesma forma e timing. A profundidade III fecha a marca de sequência: ao 3.º acerto no mesmo alvo, um círculo desenha-se à volta das linhas cruzadas.",
+      "Skill ≠ status: Wounded, Brittle e Sapped que ficam no alvo são VFX dos cues de status partilhados. A marca de sequência desaparece em ~0,6 s; não há aura nem marcador persistente."
+    ],
+    "time": 0.4,
+    "before_sha256": "e4af29bb40b6e46eb2486cff76905788dc32568ea32cfc7ceaee35b8f8c68015"
+  },
+  {
+    "index": 25,
+    "path": "prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+    "title": "Shoulder Rush I",
+    "canon": "Efeito canónico:  rush curto até ao alvo e dano físico na chegada.",
+    "notes": [
+      "Origem → direção → destino: O rasto é fino na origem e alarga até ao Fighter, por isso a direção lê-se num olhar. A chegada tem o maior contraste: um único flash e um hit stop de 1 frame.",
+      "Curto e compacto: Sem silhueta residual e sem zona persistente: o rasto apaga a partir da origem em ~0,3 s e a chegada é a última coisa a desaparecer.",
+      "Shoulder Rush II: Mantém este rasto e esta chegada; só acrescenta o pulso magenta (Warrior) ou ciano (Tank) do resultado na colisão."
+    ],
+    "time": 0.4,
+    "before_sha256": "7d31403937885d0c96d528ba8524d617dfaa8fd95165417b736425897d8184e0"
+  },
+  {
+    "index": 26,
+    "path": "prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+    "title": "Shoulder Rush II Tank",
+    "canon": "Efeito canónico:  Upgrade contextual: Tank Interrupta na chegada e ganha Fortified.",
+    "notes": [
+      "Origem → direção → destino: O rasto é fino na origem e alarga até ao Fighter, por isso a direção lê-se num olhar. A chegada tem o maior contraste: um único flash e um hit stop de 1 frame.",
+      "Curto e compacto: Sem silhueta residual e sem zona persistente: o rasto apaga a partir da origem em ~0,3 s e a chegada é a última coisa a desaparecer.",
+      "Payoff por stance: Warrior: um anel magenta rápido no ponto de colisão, à chegada. Tank: anel ciano e um segundo anel mais apertado e pesado, também no corpo. Hit stop passa a 2 frames. Slow, Haste, Interrupt e Fortified que ficam são VFX dos cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "4d4e930522c59e98744303ec75a66d72070ec6c19e94fca8dda5f872c553fc74"
+  },
+  {
+    "index": 27,
+    "path": "prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+    "title": "Shoulder Rush II Warrior",
+    "canon": "Efeito canónico:  Upgrade contextual: Warrior aplica Slow na chegada e ganha Haste.",
+    "notes": [
+      "Origem → direção → destino: O rasto é fino na origem e alarga até ao Fighter, por isso a direção lê-se num olhar. A chegada tem o maior contraste: um único flash e um hit stop de 1 frame.",
+      "Curto e compacto: Sem silhueta residual e sem zona persistente: o rasto apaga a partir da origem em ~0,3 s e a chegada é a última coisa a desaparecer.",
+      "Payoff por stance: Warrior: um anel magenta rápido no ponto de colisão, à chegada. Tank: anel ciano e um segundo anel mais apertado e pesado, também no corpo. Hit stop passa a 2 frames. Slow, Haste, Interrupt e Fortified que ficam são VFX dos cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "2ae17a3e684c84fcca80026a41b84c94880f29f72b5707fe886a45a59122390b"
+  },
+  {
+    "index": 28,
+    "path": "prototypes/fighter/tank-stance/tank-stance-vfx.html",
+    "title": "Tank Stance",
+    "canon": "Efeito canónico:  entra na stance Tank (ciano). Permite usar Skills durante Guard. A troca limpa Momentum.",
+    "notes": [
+      "Uma malha, um cue por stance: As lâminas curvas do ícone viram traços caligráficos com pontas finas e energia a correr devagar. Esta página é só a Tank Stance (ciano, emblema de escudo); a Warrior Stance usa a mesma malha num protótipo à parte, e no UE é outro GameplayCue.",
+      "Pulso em Local Space: A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.",
+      "Estado inequívoco: O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pela cintura. O chão fica livre para áreas e telegraphs."
+    ],
+    "time": 1.5,
+    "before_sha256": "7e5aef464e7c5614a933362ef19ee975b8daf30714af5f847402f9b603b6d567"
+  },
+  {
+    "index": 29,
+    "path": "prototypes/fighter/war-leap/war-leap-vfx.html",
+    "title": "War Leap",
+    "canon": "Efeito canónico:  channel e leap para um ponto no chão; uma aterragem válida causa dano físico em AoE e Slow.",
+    "notes": [
+      "Destino fixo: Durante o channel (450 ms) desenha-se no chão um anel fino com uma cruz no ponto exato de aterragem. Fica estático: sem partículas a circular e sem antecipar o impacto.",
+      "Arco limpo: Um único rasto caligráfico segue a mesma curva do Fighter, fino na descolagem e junto ao corpo, cheio a meio do arco. Depois de aterrar, apaga a partir da descolagem.",
+      "Uma só resolução: Na aterragem: squash pesado no corpo, pico de 2 frames, rachas, uma onda até ao anel e poucas pedras. O Slow nos alvos é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "0102b9f30aafb8fcc2c56be382c575da65c383736625fbba6e9f63f9cc9c1095"
+  },
+  {
+    "index": 30,
+    "path": "prototypes/fighter/warrior-stance/warrior-stance-vfx.html",
+    "title": "Warrior Stance",
+    "canon": "Efeito canónico:  entra na stance Warrior (magenta). Permite usar Skills durante Dodge. A troca limpa Momentum.",
+    "notes": [
+      "Uma malha, um cue por stance: As lâminas curvas do ícone viram traços caligráficos com pontas finas e energia a correr devagar. Esta página é só a Warrior Stance (magenta, emblema de lâmina); a Tank Stance usa a mesma malha num protótipo à parte, e no UE é outro GameplayCue.",
+      "Pulso em Local Space: A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.",
+      "Estado inequívoco: O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Fighter lê-se sempre pela cintura. O chão fica livre para áreas e telegraphs."
+    ],
+    "time": 1.5,
+    "before_sha256": "b61a4e98eaabee6d0a448493e173c9828260c1808dab5ba6310a8840b02bc95d"
+  },
+  {
+    "index": 31,
+    "path": "prototypes/mage/arcane-burst/arcane-burst-vfx.html",
+    "title": "Arcane Burst",
+    "canon": "Efeito canónico:  projétil que consome os Arcane Shards guardados; o dano e o raio crescem com o número de shards. Um projétil, não um por shard.",
+    "notes": [
+      "Carga legível: Os Arcane Shards que estavam na órbita do Weave convergem para a mão antes do disparo: mostram quantos vão ser consumidos. Com 0 shards, a esfera sai pequena e sem carga.",
+      "Uma esfera, maior com shards: Uma única esfera violeta opaca com rasto curto. Não vai em linha reta como uma seta: faz um drift ligeiro para o lado e volta a assentar no alvo. O tamanho da esfera e o raio do impacto crescem com o número de shards.",
+      "Hit stop + círculo: No alvo, a esfera segura 0,06 s (hit stop), rebenta num pop curto e abre um anel no chão com o raio da AoE. Sem chuva de detritos."
+    ],
+    "time": 0.4,
+    "before_sha256": "2a6639b05a289683f3d55682b0e42521d32b7cb248d10075a1fad4ed25fa5e28"
+  },
+  {
+    "index": 32,
+    "path": "prototypes/mage/arcane-weaving-i/arcane-weaving-i-vfx.html",
+    "title": "Arcane Weaving I",
+    "canon": "Efeito canónico:  especialização Weave: mantém Arcane Shards, aumenta o máximo e passa a gerar mais shards por evento elegível.",
+    "notes": [
+      "Passivo, sem aura: Não há VFX novo permanente: a órbita e os shards são os do Weave. A especialização lê-se pelo máximo maior (3 cristais, como no ícone) e pelo ganho de 2 shards por evento.",
+      "Feedback só no ganho: Cada shard novo acende-se com um flash curto e um anel de faíscas pequeno no sítio onde entra na órbita, e assenta logo. No máximo, o evento não mostra nada.",
+      "Consumo: No protótipo, com a órbita cheia os shards esvaziam passado um pouco (simula o Arcane Burst, que tem o seu próprio VFX)."
+    ],
+    "time": 0.4,
+    "before_sha256": "2c406e7d97d0665ded68525f1cfb1904d2776e5042126d45126f58fd94872bf8"
+  },
+  {
+    "index": 33,
+    "path": "prototypes/mage/arcane-weaving-ii/arcane-weaving-ii-vfx.html",
+    "title": "Arcane Weaving II",
+    "canon": "Efeito canónico:  upgrade: com Arcane Shards no máximo, um evento Weave elegível reduz o cooldown restante de  Arcane Burst .",
+    "notes": [
+      "Só com a órbita cheia: Com os três shards, um evento Weave elegível já não pode ganhar shards: em vez disso, um pulso de luz corre à volta da órbita e acende cada shard ao passar.",
+      "O cooldown encurta: Ao mesmo tempo, o slot do Arcane Burst pisca e o cooldown restante encurta: é aí que o jogador lê o ganho. Nada fica no mundo.",
+      "Sem cheia, igual ao I: Com menos de 3 shards, o evento dá shards como no Arcane Weaving I, sem pulso nem redução."
+    ],
+    "time": 0.4,
+    "before_sha256": "bf0e580c1e84de06f1477149ec4f331c69719f28e6d64761b611ae277d5ca01d"
+  },
+  {
+    "index": 34,
+    "path": "prototypes/mage/blink/blink-vfx.html",
+    "title": "Blink",
+    "canon": "Efeito canónico:  teleport curto em direção livre; pode ser usado durante Cast/Channel sem os cancelar.",
+    "notes": [
+      "Dois pontos ligados: Um anel com sigilo pisca e fecha onde o Mage estava e outro abre onde aparece. Um arco fino de energia liga os dois: desenha-se da origem até ao destino e recolhe logo a seguir.",
+      "Linha que vira beam: Na origem, uma linha roxa horizontal sobe dos pés à cabeça e o Mage desaparece atrás dela; na cabeça, a linha funde-se no beam de energia que vai até à cabeça no destino, onde volta a ser linha e desce até aos pés, revelando o Mage.",
+      "Âncora parada: O boneco ao lado é só referência e não se mexe; o loop vai e volta entre os dois pontos. O Blink não cancela o Cast/Channel (lógica de jogo, não VFX)."
+    ],
+    "time": 0.4,
+    "before_sha256": "2d658e7cef86b7f5714071505b35ebbf68a7ec8ea9e427a13eb03b20538dfbc5"
+  },
+  {
+    "index": 35,
+    "path": "prototypes/mage/cleansemage/cleanse-vfx.html",
+    "title": "Cleanse Mage",
+    "canon": "Efeito canónico:  remove Debuffs e CC persistente do Mage e cancela Forced Displacement.",
+    "notes": [
+      "Do centro para fora: Centrado no próprio Mage: um flash curto no peito com o traço vertical do ícone e um anel partido em arcos largos que abre do corpo para fora, à altura do peito e da cintura. Muito curto (~0,35 s).",
+      "O negativo sai: Pedaços escuros e partidos das marcas negativas saltam do corpo e são empurrados para longe, desfazendo-se por erosão. Lê-se como remoção, não como cura: não há luz a subir nem brilho que fique.",
+      "Só se removeu: Se não havia nada para remover, não há varrimento nem fragmentos: só um cue local pequeno. Os estados removidos recebem o seu próprio Forced Remove no cue de status; o chão fica livre."
+    ],
+    "time": 0.4,
+    "before_sha256": "2afc57ee820f985493c0cb9c3af5addde961c2c3710fd9f9c264e7ade818b5f2"
+  },
+  {
+    "index": 36,
+    "path": "prototypes/mage/coil/coil-vfx.html",
+    "title": "Coil",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Lightning + Lightning): dá Shield ao Mage e causa AoE Lightning; alvos já Sapped são Rooted antes da nova aplicação de Sapped.",
+    "notes": [
+      "Anéis à volta do Mage: Como no ícone: quatro anéis de corrente elétrica a envolver o corpo. O Shield tem um cue de status próprio, partilhado por todos os shields. A AoE resolve num único anel no chão, com o limite mais claro que os ornamentos.",
+      "Root só se era verdade: O cue de Root aparece apenas nos alvos que já tinham Sapped (usa o seletor). Surge antes da nova aplicação de Sapped; os estados que ficam (Shield, Root, Sapped) são cues de status.",
+      "Descargas curtas: Um raio por alvo atingido, rápido e irregular, sem cruzar a cena. Faíscas pequenas no contacto."
+    ],
+    "time": 0.4,
+    "before_sha256": "d82e578831aa21f0570aa2a8f5514ce5d64e85b82ecbd5cdfbef507774a2fb57"
+  },
+  {
+    "index": 37,
+    "path": "prototypes/mage/combust-i/combust-i-vfx.html",
+    "title": "Combust I",
+    "canon": "Efeito canónico:  spell Fire ST mais forte. Manifest aplica Burn; Weave gera recurso em vez da assinatura.",
+    "notes": [
+      "Sem projétil: O fogo nasce dentro do alvo: um núcleo quente acende-se no peito e rebenta para fora em raios de chama, como no ícone.",
+      "Curto e limpo: Sem anel no chão nem marca no alvo; o Burn que fica é o cue de status.",
+      "Igual em Manifest e Weave: A animação é a mesma nas duas stances; o que as distingue é o VFX da stance."
+    ],
+    "time": 0.4,
+    "before_sha256": "f8ff55956440f1cbb0071214811975eb57c31cdfeee40538f33410640fdbcff7"
+  },
+  {
+    "index": 38,
+    "path": "prototypes/mage/combust-ii/combust-ii-vfx.html",
+    "title": "Combust II",
+    "canon": "Efeito canónico:  upgrade do Combust I: lê o  Burn  já no alvo, ganha dano por stack e  consome essas stacks ; em Manifest aplica depois um novo Burn, em Weave não.",
+    "notes": [
+      "Mesmo Combust: O núcleo que acende no peito e rebenta em raios é o do nível I; este nível só acrescenta o colapso das stacks.",
+      "Convergir e colapsar: As chamas das stacks de Burn aparecem à volta do alvo e colapsam no peito; em vez da explosão do nível I, rebenta à volta do alvo uma coroa de chamas baixa que se abre para fora — sem coluna a tapar o corpo.",
+      "Burn = cue de status: O novo Burn (Manifest) é o cue de status; sem marca própria no alvo. Em Weave não há Burn novo."
+    ],
+    "time": 0.4,
+    "before_sha256": "9514a360137fadf3276c8fb4d4e1987fe71c095d66cb059e525e191883df4eec"
+  },
+  {
+    "index": 39,
+    "path": "prototypes/mage/elemental-weaver-i/elemental-weaver-i-vfx.html",
+    "title": "Elemental Weaver I",
+    "canon": "Efeito canónico:  especialização Weave: substitui os Shards por  Element Memory  e desbloqueia os pares puros Fire+Fire, Ice+Ice e Lightning+Lightning.",
+    "notes": [
+      "Memória, não projéteis: Dois cristais pequenos na órbita à cintura guardam os dois últimos elementos, cada um na sua cor. Parados na órbita, lêem-se como recurso, não como feitiços a sair.",
+      "Só pares puros: Fire+Fire, Ice+Ice e Lightning+Lightning desbloqueiam a Synthesis no slot do Arcane Burst; um par misto não mostra nada neste nível.",
+      "Feedback só no evento: O flash acontece só quando um elemento entra na memória e quando um par fica disponível; o resto do tempo a órbita fica calma. As Syntheses têm os seus próprios VFX."
+    ],
+    "time": 1.5,
+    "before_sha256": "aeef6696082e56d7baa3568ece9352e59181d48257d5288850f0e3b2f63629da"
+  },
+  {
+    "index": 40,
+    "path": "prototypes/mage/elemental-weaver-ii/elemental-weaver-ii-vfx.html",
+    "title": "Elemental Weaver II",
+    "canon": "Efeito canónico:  upgrade: acrescenta os pares mistos Fire+Ice, Fire+Lightning e Ice+Lightning, mantendo os pares puros.",
+    "notes": [
+      "Memória, não projéteis: Dois cristais pequenos na órbita à cintura guardam os dois últimos elementos, cada um na sua cor. Parados na órbita, lêem-se como recurso, não como feitiços a sair.",
+      "Pares mistos: Além dos pares puros, os mistos (Fire+Ice, Fire+Lightning, Ice+Lightning) também desbloqueiam a sua Synthesis; só aí aparecem duas cores no pulso e no slot.",
+      "Feedback só no evento: O flash acontece só quando um elemento entra na memória e quando um par fica disponível; o resto do tempo a órbita fica calma. As Syntheses têm os seus próprios VFX."
+    ],
+    "time": 1.5,
+    "before_sha256": "699d877b9f1cebb84627a00816ae0d4040ec4555bffc4c330e42a784c7aa2b63"
+  },
+  {
+    "index": 41,
+    "path": "prototypes/mage/fire-bolt-i/fire-bolt-i-vfx.html",
+    "title": "Fire Bolt I",
+    "canon": "Efeito canónico:  projétil Fire ST.  Manifest : aplica Burn depois do dano.  Weave : não aplica Burn e gera o evento de recurso.",
+    "notes": [
+      "Um cometa: O bolt lê-se pela cauda: línguas de chama longas a varrer para trás da cabeça quente, como no ícone. Mais rápido e mais longo que o orbe do Combust.",
+      "Igual em Manifest e Weave: O bolt e o impacto são os mesmos nas duas stances; o que as distingue é o VFX da stance. Sem marca no alvo no hit: o Burn (Manifest) é só o cue de status.",
+      "Burn = cue de status: O Burn no alvo é um GameplayCue.Status próprio; o bolt só mostra o voo e o impacto."
+    ],
+    "time": 0.4,
+    "before_sha256": "252e5baa7638f67d3cf185cc4174f7d9713c86401633a5c69da2d1b7b37e30e7"
+  },
+  {
+    "index": 42,
+    "path": "prototypes/mage/fire-bolt-ii/fire-bolt-ii-vfx.html",
+    "title": "Fire Bolt II",
+    "canon": "Efeito canónico:  upgrade do Fire Bolt I: em  Manifest , se o alvo  já tinha Burn , espalha 1 Burn aos alvos próximos antes do novo Burn do alvo principal. Em  Weave  não há spread.",
+    "notes": [
+      "Mesmo Fire Bolt: O cometa de fogo e o flash suave no alvo são os do nível I; este nível só acrescenta o spread.",
+      "Só quando é verdade: As línguas de chama só saltam em Manifest e quando o alvo principal já tinha Burn. Em Weave, ou sem Burn prévio, o hit é igual ao do nível I.",
+      "Curto e rápido: Cada salto dura 0,3 s e acaba num flash suave no vizinho; o Burn que fica nos alvos é o cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "1dbb6497458253571a1e4b06a30987e94add0179b36607a45b926c9a6f4e7cdc"
+  },
+  {
+    "index": 43,
+    "path": "prototypes/mage/frost-lance-i/frost-lance-i-vfx.html",
+    "title": "Frost Lance I",
+    "canon": "Efeito canónico:  spell Ice ST.  Manifest : Slow depois do dano.  Weave : gera o evento de recurso em vez do Slow.",
+    "notes": [
+      "Uma lança: Um cristal estreito e afiado, orientado no sentido do voo, como no ícone; atrás dele fica um rasto fino de geada com pequenas lascas a cintilar.",
+      "Estilhaça no alvo: No hit a lança parte-se em lascas que saltam para trás, com um flash frio curto. Sem anel no chão nem marca no alvo.",
+      "Igual em Manifest e Weave: O Slow (Manifest) é o cue de status; em Weave, o recurso é o VFX da stance. A lança é a mesma nas duas."
+    ],
+    "time": 0.4,
+    "before_sha256": "439b28f12fc14d3d49880efc75158e09522a517f4e4f49f612631418bf5ef73d"
+  },
+  {
+    "index": 44,
+    "path": "prototypes/mage/frost-lance-ii/frost-lance-ii-vfx.html",
+    "title": "Frost Lance II",
+    "canon": "Efeito canónico:  upgrade: alvos já com  Slow  também recebem  Hindered  +  Dazed ; em Manifest volta a aplicar o Slow normal (Weave não aplica Slow).",
+    "notes": [
+      "Mesma lança: A lança de gelo, as lascas e o estilhaçar no alvo são os do nível I; este nível só acrescenta o estalo de controlo.",
+      "Só se já tinha Slow: Se o alvo já estava com Slow, 0,1 s depois do impacto três lascas angulares fecham-se de golpe no peito dele numa estrela rígida e estalam: é o Hindered + Dazed. Sem Slow prévio, o hit é igual ao do nível I.",
+      "Estados à parte: Slow (Manifest), Hindered e Dazed são cues de status; o estalo é curto e não bloqueia a animação do alvo como um Stun. Em Weave não há Slow novo."
+    ],
+    "time": 0.4,
+    "before_sha256": "e733fd6f5d59acdb36212c4eff6b0954096257488611bfc4c3ae181c20c3f67b"
+  },
+  {
+    "index": 45,
+    "path": "prototypes/mage/glacial-spike-i/glacial-spike-i-vfx.html",
+    "title": "Glacial Spike I",
+    "canon": "Efeito canónico:  cone Ice AoE.  Manifest  aplica Slow;  Weave  gera no máximo um evento de recurso por execução.",
+    "notes": [
+      "Leque de espigões: Os espigões rompem do chão junto ao Mage e inclinam-se em diagonal para os alvos, cada um na sua direção, como no ícone: um leque largo, maior ao centro. A frente de geada no chão marca o cone.",
+      "O chão marca a área: É uma AoE, por isso o chão mostra-a: uma frente de geada fina varre o cone e as bordas ficam marcadas por linhas finas enquanto o gelo está de pé.",
+      "Só os alvos dentro: Os alvos dentro do cone recebem um flash frio curto quando a frente os alcança; o que está fora não recebe nada. O Slow (Manifest) é cue de status; em Weave o recurso é o VFX da stance."
+    ],
+    "time": 0.4,
+    "before_sha256": "929b46dbfe57f39bff65fa6054cd0dea17c8b0ba2743474952cd56a01ddcbfa8"
+  },
+  {
+    "index": 46,
+    "path": "prototypes/mage/glacial-spike-ii/glacial-spike-ii-vfx.html",
+    "title": "Glacial Spike II",
+    "canon": "Efeito canónico:  upgrade: alvos já com  Slow  ficam  Stunned ; em Manifest aplica depois o Slow normal.",
+    "notes": [
+      "Mesmo cone: O leque de espigões em diagonal, a frente de geada e o flash nos alvos são os do nível I; este nível só acrescenta o bloqueio de Stun.",
+      "Só se já tinha Slow: Nos alvos que já estavam com Slow, espigões pequenos fecham-se à volta dos tornozelos e uma estrela de gelo rígida encaixa no peito: um bloqueio curto (0,35 s). Sem Slow prévio, o hit é igual ao do nível I.",
+      "Estados à parte: O Stun e o Slow que ficam são cues de status; o bloqueio é só o momento da aplicação, não um estado “Frozen”."
+    ],
+    "time": 0.4,
+    "before_sha256": "562b68c000eb1f250d81c471a761299c99a5af4ca00e6d2e3c55153a0f8525e5"
+  },
+  {
+    "index": 47,
+    "path": "prototypes/mage/iceberg/iceberg-vfx.html",
+    "title": "Iceberg",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Ice + Ice): cria terreno temporário destrutível que bloqueia movimento, LOS e projéteis, com AoE Slow.",
+    "notes": [
+      "Bloco sólido, não explosão: Um muro de blocos de gelo grossos, de topo plano e cantos arredondados, com entulho de gelo na base e o chão gelado a rachar à volta; sobe depressa do chão. É opaco e lê-se como terreno, sem chuva de estilhaços.",
+      "Colisão legível: Uma linha de geada fina no chão contorna a base do muro enquanto ele dura: é o limite que bloqueia movimento, LOS e projéteis.",
+      "Terreno é asset, não VFX: No UE, os pilares são um Actor com colisão e vida (ver a tabela acima); aqui são um placeholder com a forma e o material. Usa \"Dano −⅓\" para ver as fissuras e \"Destruir\" para o estilhaçar. O anel de AoE Slow abre uma vez; o Slow nos alvos é do cue de status."
+    ],
+    "time": 1.5,
+    "before_sha256": "889e64605ca300ac76a661fedebb1db73443c04d70c0b6ceb39784143b32e08e"
+  },
+  {
+    "index": 48,
+    "path": "prototypes/mage/laser/laser-vfx.html",
+    "title": "Laser",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Fire + Lightning): feixe direcional steerable com dano em ticks autoritativos discretos.",
+    "notes": [
+      "Direção e secção dominam: Um feixe limpo, de largura estável, da mão até ao alcance. Fogo por dentro com raios dourados enrolados à volta, como no ícone. Não é projétil nem explosão.",
+      "Steerable: O feixe segue a mira do Mage (no protótipo varre devagar de um lado para o outro, ou fica fixo). Não se prende a um alvo: quando o alvo sai do feixe, o impacto passa para o fim do alcance.",
+      "Ticks visíveis: A cada tick de dano (0,5 s) o feixe pulsa um instante e aparece um pequeno impacto no ponto atingido. O resto do tempo fica contínuo."
+    ],
+    "time": 0.4,
+    "before_sha256": "978f2a7168c9270bd31abc2f7d38114199f80cd3e8cb78634c02818e815cbbfe"
+  },
+  {
+    "index": 49,
+    "path": "prototypes/mage/mana-barrier-i/mana-barrier-i-vfx.html",
+    "title": "Mana Barrier I",
+    "canon": "Efeito canónico:  channel que converte uma quantidade escolhida de MP num único Shield final.",
+    "notes": [
+      "Cresce com o channel: Enquanto o Mage canaliza, uma casca translúcida com a rede arcana do ícone cresce à volta dele e enche-se de baixo para cima: quanto mais MP, mais completa fica e mais longo é o channel.",
+      "Fecha uma vez: No release, a casca aperta e uma faixa de luz percorre-a de baixo para cima: fecha-se uma única vez. Depois apaga — o Shield que fica é o cue de status, partilhado por todos os shields.",
+      "Não é uma esfera opaca: Só linhas e nós com um véu muito ténue, em duas camadas; nas bordas de perfil as linhas enfraquecem. A silhueta do Mage lê-se sempre por dentro."
+    ],
+    "time": 1.5,
+    "before_sha256": "1864810068dcdd83ce7e272738c91235881ea81ef209b502bdcb4394c17c3103"
+  },
+  {
+    "index": 50,
+    "path": "prototypes/mage/mana-barrier-ii-overcharge/mana-barrier-ii-overcharge-vfx.html",
+    "title": "Mana Barrier II Overcharge",
+    "canon": "Efeito canónico:  reativação enquanto existe Shield: consome todo o Shield atual e ganha  Empower  conforme o valor consumido.",
+    "notes": [
+      "Recast no mesmo slot: Enquanto o Shield do Mana Barrier existe, o botão passa a Overcharge. A casca que fica visível aqui é só contexto (no jogo é o cue de status do Shield).",
+      "Colapsa para dentro: No Overcharge a barreira implode depressa para o peito do Mage, e um anel de runas arcanas contrai-se e funde-se no peito: um pulso de poder curto.",
+      "Conforme o que consumiu: Quanto mais Shield consumido, mais forte e maior o pulso. O Empower que fica é cue de status; sem Shield, o botão volta a ser o Mana Barrier."
+    ],
+    "time": 1.5,
+    "before_sha256": "80055f48e4f71adfb2103523a546bc3851120f97470326f468c98993862f4c48"
+  },
+  {
+    "index": 51,
+    "path": "prototypes/mage/mana-storm/mana-storm-vfx.html",
+    "title": "Mana Storm",
+    "canon": "Efeito canónico:  área circular estacionária: self/Party recebem Clarity; Skills iniciadas dentro têm +damage e +MP cost; Basic Attacks não são afetados.",
+    "notes": [
+      "Perímetro claro, centro aberto: Um círculo arcano no chão com o limite como traço mais claro, uma banda de runas e quatro sigilos largos a rodar devagar; o centro fica livre. Um volume vertical muito ténue marca o perímetro.",
+      "Pulso só na admission: A área não pulsa em loop: acende uma vez quando alguém da Party inicia uma Skill lá dentro, com uma espiral de luz a subir à volta dessa pessoa. Basic Attacks não disparam nada.",
+      "Estados à parte: O Clarity e o bónus às Skills são cues/estados próprios; a área só marca o espaço e o momento da admission."
+    ],
+    "time": 1.5,
+    "before_sha256": "e933a096d781797c86bae65c33c382b75274298afa617bdb4f1a76b15704289f"
+  },
+  {
+    "index": 52,
+    "path": "prototypes/mage/manifest/manifest-vfx.html",
+    "title": "Manifest",
+    "canon": "Efeito canónico:  o Mage passa a executar no modo Manifest: os feitiços aplicam as assinaturas elementais (Fire = Burn, Ice = Slow, Lightning = Sapped).",
+    "notes": [
+      "Só a trança: O Manifest não tem nada no chão nem nada em órbita: só um círculo à cintura feito de três fios de luz, vermelho, azul e amarelo, torcidos uns nos outros.",
+      "Trança de plasma: Os três fios torcem-se juntos à volta do núcleo do círculo (7 voltas, afastamento curto) e a torção corre devagar. O círculo inteiro ondula devagar em altura (não fica num plano fixo). Cada fio é um corpo suave tipo plasma/nuvem: a densidade corre ao longo do fio com ruído e as bordas ondulam. Brilho baixo, sem núcleo branco forte. O corpo tapa a parte de trás.",
+      "Assinaturas ficam nos feitiços: Burn, Slow e Sapped aparecem só nos alvos atingidos (cues de status). O Weave é um protótipo à parte (outro GameplayCue)."
+    ],
+    "time": 1.5,
+    "before_sha256": "87b441f4e681c3f2dfc84dfa2934d02029f7e108ce8df9954ab5549811fbbf20"
+  },
+  {
+    "index": 53,
+    "path": "prototypes/mage/mist/mist-vfx.html",
+    "title": "Mist",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Fire + Ice): área estacionária de concealment / target denial. Não causa dano.",
+    "notes": [
+      "Névoa baixa, limite claro: Um volume baixo de vapor que esconde quem está dentro, com o perímetro marcado por um anel fino no chão, meio laranja, meio azul-ciano, como no ícone. O limite é mais claro do que os ornamentos.",
+      "Sem sugerir dano: Nada de chamas nem estilhaços agressivos: só vapor a derivar devagar. Não pulsa, porque a área não faz dano.",
+      "Estável enquanto dura: A área forma-se em 0,6 s, fica estável ~6 s e dissolve. Não reage a golpes. A concealment nos alvos é do cue de status."
+    ],
+    "time": 1.5,
+    "before_sha256": "734ec73698ea4df374dc4b1258810293e6327b3abafa7707459a24cd9ae8e04f"
+  },
+  {
+    "index": 54,
+    "path": "prototypes/mage/static-bolt-i/static-bolt-i-vfx.html",
+    "title": "Static Bolt I",
+    "canon": "Efeito canónico:  projétil Lightning cujo impacto resolve uma AoE circular.  Manifest  aplica Sapped;  Weave  gera recurso.",
+    "notes": [
+      "Bolt compacto: Uma orbe elétrica pequena e dourada, direta, com faixa curta: o motivo do ícone a viajar, sem rasto longo.",
+      "Círculo elétrico: No impacto, um anel de raio desenha-se no chão à volta do ponto (o círculo do ícone), com descargas curtas até ao limite: lê-se a área de 2,5 m num relance.",
+      "Só dentro da área: Cada alvo dentro da AoE recebe um raio curto do centro; o que está fora não recebe nada. O Sapped (Manifest) é cue de status; em Weave o recurso é o VFX da stance."
+    ],
+    "time": 0.4,
+    "before_sha256": "884b5631bbea4bdca24651d94df05324b3b249ba33b96d333f256d0c18a735d5"
+  },
+  {
+    "index": 55,
+    "path": "prototypes/mage/static-bolt-ii/static-bolt-ii-vfx.html",
+    "title": "Static Bolt II",
+    "canon": "Efeito canónico:  upgrade: um inimigo já  Sapped  atingido pode encadear Lightning ao alvo elegível mais próximo; cada novo alvo só prolonga a cadeia se já tinha Sapped.",
+    "notes": [
+      "Mesmo Static Bolt: O bolt, o círculo elétrico e as descargas na área são os do nível I; este nível só acrescenta a cadeia.",
+      "Arcos limpos entre poucos alvos: Se o alvo atingido já tinha Sapped, um raio salta dele para o inimigo mais próximo; no protótipo, esse segundo inimigo também tinha Sapped e o raio salta outra vez, para um terceiro que não tinha — e a cadeia termina aí.",
+      "O Sapped novo não conta: O Sapped aplicado por este cast não prolonga a cadeia: só o que já existia antes. Os estados são cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "07da8ba6dd42dd5bef74f8ac3576ab22ab3e5db9e1b7534f906aa0e16eb4e954"
+  },
+  {
+    "index": 56,
+    "path": "prototypes/mage/tempest/tempest-vfx.html",
+    "title": "Tempest",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Ice + Lightning): grande área persistente com impactos Ice/Lightning telegrafados; Ice usa Slow/Stun e Lightning Sapped/burst condicional.",
+    "notes": [
+      "Área com divisões claras: Um círculo de tempestade no chão com anel exterior, anel interior e 6 divisões, meio azul-ciano meio dourado, a rodar devagar. Luz baixa e estável: não pulsa com os impactos.",
+      "Telegraphs separados: Cada impacto é anunciado 0,6 s antes por um círculo pequeno na cor do tipo. Ice: estalactites de gelo caem da nuvem e cravam-se no chão (Slow/Stun). Lightning: raio da nuvem até ao chão (Sapped). Poucos elementos por impacto.",
+      "Burst só se era verdade: O burst extra do Lightning aparece só em alvos que já tinham Sapped (seletor). Slow, Stun e Sapped que ficam nos alvos são cues de status."
+    ],
+    "time": 1.5,
+    "before_sha256": "1d8e5fc449a947847704fc8c1daad526e126b6f4d4da44734f97cae8a8cca804"
+  },
+  {
+    "index": 57,
+    "path": "prototypes/mage/thunderstrike-i/thunderstrike-i-vfx.html",
+    "title": "Thunderstrike I",
+    "canon": "Efeito canónico:  strike Lightning instantâneo, alvo único.  Manifest  aplica Sapped;  Weave  gera recurso.",
+    "notes": [
+      "Instantâneo: Sem projétil: o raio cai do céu sobre o alvo num único frame, como no ícone, e pisca umas vezes enquanto se desfaz.",
+      "Flash seco: Um flash curto e forte no ponto de contacto e uma descarga rápida a espalhar pelo chão. Nada fica: sem anel nem marca no alvo.",
+      "Skill ≠ status: O Sapped (Manifest) é cue de status; em Weave o recurso é o VFX da stance."
+    ],
+    "time": 0.4,
+    "before_sha256": "146d07fe89303c5fa6e9511f70f56aee94f168b8f9077faec1b120615a91a77a"
+  },
+  {
+    "index": 58,
+    "path": "prototypes/mage/thunderstrike-ii/thunderstrike-ii-vfx.html",
+    "title": "Thunderstrike II",
+    "canon": "Efeito canónico:  upgrade: alvo já  Sapped  → splash AoE; já  Stunned  → burst ST adicional; ambos podem ocorrer. Manifest aplica depois o Sapped; Weave não.",
+    "notes": [
+      "Mesmo strike: O raio instantâneo do céu, o flash seco e a descarga no chão são os do nível I; este nível só acrescenta dois payoffs condicionais.",
+      "Sapped → splash: Se o alvo já tinha Sapped, raios curtos crepitam do alvo para fora como no Coil, com arcos até aos inimigos próximos; um anel fino marca a área no chão.",
+      "Stunned → burst: Se o alvo já estava Stunned, cai uma chuva curta de raios do céu a convergir nele e o núcleo rebenta num flash central maior. Os dois podem acontecer no mesmo cast. Os estados são cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "e547e75c4b71bffa583c35dbd1f3b569ac6e330a82928c36b607c8b1ca6f8ebb"
+  },
+  {
+    "index": 59,
+    "path": "prototypes/mage/vortex/vortex-vfx.html",
+    "title": "Vortex",
+    "canon": "Efeito canónico:  Synthesis do Elemental Weaver (Fire + Fire): grande projétil linear; dano + Burn + Forced Displacement lateral.",
+    "notes": [
+      "Bola + braços de chama: Uma bola de fogo quente ao centro (roda com os braços) e 6 braços curvos, grossos na base e com glow,, cada um uma fita contínua de chama que segue a espiral inteira (sem segmentos retos), com a textura a correr para fora e bordas rasgadas. Algumas chamas soltas à volta dão volume. Temperatura: quente junto à bola, vermelho e fumo na ponta.",
+      "Empurrão lateral claro: No impacto não há explosão de fogo: o alvo desliza 1,4 m para o lado da rotação (ease-out, 0,35 s), com um risco de fogo no chão a acompanhar. No protótipo, o alvo volta ao sítio depois, só para repetir.",
+      "Burn = cue de status: Sem marca no alvo: o Burn que fica é do cue de status partilhado. Paleta Fire pura, sem acentos de outro elemento."
+    ],
+    "time": 1.5,
+    "before_sha256": "cff13e95d200e155ad97c974431fb72299062f8535315b59cfaf8690dd1d92e0"
+  },
+  {
+    "index": 60,
+    "path": "prototypes/mage/weave/weave-vfx.html",
+    "title": "Weave",
+    "canon": "Efeito canónico:  o Mage passa a executar no modo Weave: as assinaturas elementais são substituídas por geração de recurso (Arcane Shards).",
+    "notes": [
+      "Órbita + recurso: O Weave não tem selo: uma linha circular fina à cintura marca o modo, e os Arcane Shards guardados (0, 1 ou 2) correm sobre ela devagar. Sem shards fica só a linha. Sem rastos persistentes nem cues de Burn, Slow ou Sapped.",
+      "Pulso curto na troca: Um anel abre à cintura, no plano da órbita, com um pico de 2 frames; a linha de órbita e os cristais abrem do centro para o raio final em 0,3 s.",
+      "Um cue por modo: O Manifest é um protótipo à parte (outro GameplayCue). Com Elemental Weaver, os cristais passam a glifos de memória elemental (cue dessa especialização)."
+    ],
+    "time": 1.5,
+    "before_sha256": "f8e8338b120b86fd552d3e3844f074cbddc65528c2522ffd278798a09fdc2f9f"
+  },
+  {
+    "index": 61,
+    "path": "prototypes/mystic/astral-aura-moon/astral-aura-moon-vfx.html",
+    "title": "Astral Aura Moon",
+    "canon": "Efeito canónico:  Toggle de aura independente da stance. Moon Aura:  Clarity + Might + Empower . Aura igual à stance elimina o upkeep; diferente custa MP.",
+    "notes": [
+      "Anel discreto: Anel geométrico simples no plano do chão, na cor da aura selecionada. Ténue e estável: é um estado persistente, não reage a golpes.",
+      "Mesma base, runa diferente: Sun e Moon partilham o anel; muda a paleta e a runa secundária (três crescentes pequenos logo por dentro do anel, a rodar devagar no sentido contrário, com uma estrela minúscula em cada concavidade). A Sun Aura é um protótipo à parte.",
+      "A cor segue a aura: Não segue a stance: trocar a stance só muda o upkeep (sem custo quando coincidem, MP quando não). Os buffs (Clarity + Might + Empower) são cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "fdf7a261fc852793bacd937d9ccfee3cff27f46c2067db03bc6dd9f03db231ef"
+  },
+  {
+    "index": 62,
+    "path": "prototypes/mystic/astral-aura-sun/astral-aura-sun-vfx.html",
+    "title": "Astral Aura Sun",
+    "canon": "Efeito canónico:  Toggle de aura independente da stance. Sun Aura:  Regeneration + Swiftness . Aura igual à stance elimina o upkeep; diferente custa MP.",
+    "notes": [
+      "Anel discreto: Anel geométrico simples no plano do chão, na cor da aura selecionada. Ténue e estável: é um estado persistente, não reage a golpes.",
+      "Mesma base, runa diferente: Sun e Moon partilham o anel; muda a paleta e a runa secundária (três sóis pequenos (o símbolo da Sun Stance: disco com raios em estrela de 4 pontas) logo por dentro do anel, a rodar devagar no sentido contrário). A Moon Aura é um protótipo à parte.",
+      "A cor segue a aura: Não segue a stance: trocar a stance só muda o upkeep (sem custo quando coincidem, MP quando não). Os buffs (Regeneration + Swiftness) são cues de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "6f572a13ae64863b2037b122c69c1002cd1b496f75493c8c48e983f4515c5c85"
+  },
+  {
+    "index": 63,
+    "path": "prototypes/mystic/astral-pull/astral-pull-vfx.html",
+    "title": "Astral Pull",
+    "canon": "Efeito canónico:  após um delay, teleporta um membro atual da Party/Raid para junto do Mystic, se os checks finais forem válidos. Só o aliado se move.",
+    "notes": [
+      "Agarra, puxa, chega: As correntes azuis agarram o aliado; ele desfaz-se em estrelas preso a elas; o Mystic inclina-se para trás e puxa as correntes, com a luz do aliado na ponta; quando chegam às mãos, o aliado forma-se ao lado do Mystic.",
+      "Mesma linguagem do Astral Step: O aliado desfaz-se em pó de estrelas na origem e forma-se ao lado do Mystic, com a mesma zona azul no chão em cada ponto. Só o aliado se move; o Mystic fica parado.",
+      "Checks finais: Se os checks falharem no fim do delay, as correntes dissolvem-se e nada mais acontece."
+    ],
+    "time": 0.4,
+    "before_sha256": "03dd9dd909a6f2e24ea6db8b95a9829b8f10705351ae170dda4b7249ed7bb954"
+  },
+  {
+    "index": 64,
+    "path": "prototypes/mystic/astral-step/astral-step-vfx.html",
+    "title": "Astral Step",
+    "canon": "Efeito canónico:  teleport do Mystic para junto de um aliado/inimigo usado apenas como âncora; só o Mystic se move.",
+    "notes": [
+      "Sobe ao céu, desce das estrelas: Na origem, o Mystic desfaz-se em pó de estrelas que sobe e se apaga; no destino, as estrelas caem do alto e juntam-se até formar o corpo. Entre os dois pontos não há nada: nem rasto, nem linha a sugerir que o alvo é puxado.",
+      "Luz, não mecânica: No chão, só uma zona azul uniforme que encolhe até desaparecer. A silhueta desfaz-se da cabeça aos pés atrás de um brilho difuso, fica 2 frames invisível e forma-se no destino dos pés à cabeça.",
+      "Âncora parada: O aliado/inimigo é só referência: não se mexe e não recebe nenhum impacto. Muda apenas a cor da figura de teste; o VFX é igual nos dois casos (paleta astral neutra)."
+    ],
+    "time": 0.4,
+    "before_sha256": "8d37111853d2e4c7f0e44e706a5e5e6e5a9bfd4f455c9bd1b61dad64e437a02a"
+  },
+  {
+    "index": 65,
+    "path": "prototypes/mystic/astral-veil/astral-veil-vfx.html",
+    "title": "Astral Veil",
+    "canon": "Efeito canónico:  barreira temporária que  interceta gameplay Projectiles dos dois lados ; não bloqueia characters, LOS, beams, cones nem ground AoE; sem HP.",
+    "notes": [
+      "Um véu, não um escudo: Uma onda de pó de estrelas em arco à volta do Mystic, curvada por cima dele, com a borda de cima fina e clara: lê-se como barreira sem esconder o que está atrás.",
+      "Os dois lados: As flechas inimigas (vermelhas) e a do aliado atrás do Mystic (verde) terminam na barreira, sem animação por hit.",
+      "Só projéteis: O inimigo que caminha atravessa o véu sem ser travado e sem reação."
+    ],
+    "time": 1.5,
+    "before_sha256": "2e092ce0c1f3f45eac5a597977a8cafad402a2d3052a61234affbff5f58f8e94"
+  },
+  {
+    "index": 66,
+    "path": "prototypes/mystic/black-hole-i/black-hole-i-vfx.html",
+    "title": "Black Hole I",
+    "canon": "Efeito canónico:  área no chão: no início faz  uma única query  e tenta um pull lento para o centro; quem entra depois não é puxado.",
+    "notes": [
+      "Ancorado e legível: Um disco imóvel no chão com uma borda exterior ténue, quatro braços largos em espiral a rodar devagar e o núcleo negro sempre visível ao centro.",
+      "Um só pull: No início, os inimigos apanhados na query escorregam devagar para o centro, por baixo da orbe negra no ar. Não há pulsos repetidos.",
+      "Entradas tardias: O inimigo que entra depois da query não é puxado nem recebe linha: a área não reage a ele."
+    ],
+    "time": 1.5,
+    "before_sha256": "14995eb7ecd146b58a5b560c4c3927b91a2c4a607c5ed6da826b1ff525164975"
+  },
+  {
+    "index": 67,
+    "path": "prototypes/mystic/black-hole-ii/black-hole-ii-vfx.html",
+    "title": "Black Hole II",
+    "canon": "Efeito canónico:  upgrade do Black Hole I: no  expiry  faz uma  nova query independente  e causa  dano mágico + Silence  aos inimigos ainda dentro.",
+    "notes": [
+      "Mesmo Black Hole: O disco, a orbe e os braços do Black Hole I ficam iguais; este nível só acrescenta o fim.",
+      "Um único pulso: No expiry, a orbe implode num só pulso circular até à borda: dano + Silence aos inimigos que estão dentro nesse momento.",
+      "Nova query: O inimigo que entrou tarde não foi puxado, mas está dentro no fim: é apanhado pelo pulso. Quem está fora não."
+    ],
+    "time": 1.5,
+    "before_sha256": "8b5f7dc49484c412ebfc3aaa5538d3e4570ff83e4f5afb963caf9093cb0f4ef9"
+  },
+  {
+    "index": 68,
+    "path": "prototypes/mystic/bright-star/bright-star-vfx.html",
+    "title": "Bright Star",
+    "canon": "Efeito canónico:  consome Sun máximo e dá Shield em AoE aos aliados.",
+    "notes": [
+      "Fecha a partir do caster: Um pulso hemisférico liso e translúcido abre em ease-out a partir do Mystic. Não esconde o terreno.",
+      "Só nos aliados válidos: Quando a frente do pulso chega a cada aliado dentro da área, aparece-lhe uma estrela pequena no peito. Inimigos e aliados fora do alcance não recebem nada.",
+      "Skill ≠ status: O Shield que fica nos aliados é o cue de status partilhado por todos os shields. Referência Sun: dourado, estrela de 4 pontas."
+    ],
+    "time": 0.4,
+    "before_sha256": "3db8a5c1d221620b0bb5efd38b04ced4b26fd72f015874794fc6c43f4c3d42b6"
+  },
+  {
+    "index": 69,
+    "path": "prototypes/mystic/cleansemystic/cleanse-vfx.html",
+    "title": "Cleanse Mystic",
+    "canon": "Efeito canónico:  remove Debuffs e CC persistente do próprio Mystic ou aliado elegível e cancela Forced Displacement.",
+    "notes": [
+      "Do centro para fora: Centrado no recetor (o próprio Mystic ou o aliado elegível): um flash curto no peito com o traço vertical do ícone e um anel partido em arcos largos que abre do corpo para fora, à altura do peito e da cintura. Muito curto (~0,35 s).",
+      "O negativo sai: Pedaços escuros e partidos das marcas negativas saltam do corpo e são empurrados para longe, desfazendo-se por erosão. Lê-se como remoção, não como cura: não há luz a subir nem brilho que fique.",
+      "Só se removeu: Se não havia nada para remover, não há varrimento nem fragmentos: só um cue local pequeno. Os estados removidos recebem o seu próprio Forced Remove no cue de status; o chão fica livre."
+    ],
+    "time": 0.4,
+    "before_sha256": "e710016098e8fffb2cd3a27a072cddc959a33d298ebfda03f32f89328af05b0d"
+  },
+  {
+    "index": 70,
+    "path": "prototypes/mystic/connection-i-ally/connection-i-ally-vfx.html",
+    "title": "Connection I Ally",
+    "canon": "Efeito canónico:  tether dual; no aliado aplica  Bliss + Heal periódico . Termina se o alvo sair do range máximo.",
+    "notes": [
+      "Fluxo entre os dois: Um projétil sai da mão do Mystic e os dois ramos seguem atrás dele até ao alvo. Depois, um ramo corre do Mystic para o alvo e o outro do alvo para o Mystic; juntam-se nas pontas e entrelaçam-se no meio, como as fitas cruzadas do ícone. O movimento dentro de cada ramo é UV panning no seu sentido, sem partículas.",
+      "Ramo Ally: Mesmo percurso e espessura nos dois ramos; muda o acento: fluxo suave e regular (UV panning) do Mystic para o aliado. O Bliss no alvo é um cue de status, não é animado aqui.",
+      "Pulsos só na resolução: O fio fica calmo entre ticks. Em cada tick, um pulso percorre a ligação e resolve no alvo: no aliado, um brilho suave e uma pequena estrela de 4 pontas no peito."
+    ],
+    "time": 1.5,
+    "before_sha256": "e3f5312765a65c843080158186da99b1a35475ed301966e84d923b165f0244fb"
+  },
+  {
+    "index": 71,
+    "path": "prototypes/mystic/connection-i-enemy/connection-i-enemy-vfx.html",
+    "title": "Connection I Enemy",
+    "canon": "Efeito canónico:  tether dual; no inimigo aplica  Curse + dano mágico periódico . Termina se o alvo sair do range máximo.",
+    "notes": [
+      "Fluxo entre os dois: Um projétil sai da mão do Mystic e os dois ramos seguem atrás dele até ao alvo. Depois, um ramo corre do Mystic para o alvo e o outro do alvo para o Mystic; juntam-se nas pontas e entrelaçam-se no meio, como as fitas cruzadas do ícone. O movimento dentro de cada ramo é UV panning no seu sentido, sem partículas.",
+      "Ramo Enemy: Mesmo percurso e espessura nos dois ramos; muda o acento: fio mais tenso, com espinhos curtos a correr para o inimigo (ícone) e um tremor fino. O Curse no alvo é um cue de status, não é animado aqui.",
+      "Pulsos só na resolução: O fio fica calmo entre ticks. Em cada tick, um pulso percorre a ligação e resolve no alvo: no inimigo, um anel e raios puxados para dentro e um estalo curto."
+    ],
+    "time": 1.5,
+    "before_sha256": "91b53750e209e6d08ec697863518f69b7c7b52e9f047095ad48dfbf98b155481"
+  },
+  {
+    "index": 72,
+    "path": "prototypes/mystic/connection-ii-ally/connection-ii-ally-vfx.html",
+    "title": "Connection II Ally",
+    "canon": "Efeito canónico:  upgrade da Connection I: no aliado junta  Swiftness ; em  expiry natural  faz o  Heal principal  e espalha  Bliss/Swiftness  aos aliados perto.",
+    "notes": [
+      "Mesmo tether: Reutiliza o fio, os pulsos do tick e o fim da Connection I Ally; só se acrescenta o cue novo deste nível.",
+      "Só no fim natural: Quando o fio expira sozinho, um pulso percorre a ligação e resolve no recetor; depois um anel curto espalha-se aos alvos válidos perto. Se o alvo sai do range, o fio parte-se sem pulso.",
+      "Estados à parte: Swiftness e Bliss nos alvos são cues de status próprios; aqui não são animados."
+    ],
+    "time": 1.5,
+    "before_sha256": "58622cab33134d0609f4a7e9f047ea7f80d87e2fde8ec56ed076876a5cd2d893"
+  },
+  {
+    "index": 73,
+    "path": "prototypes/mystic/connection-ii-enemy/connection-ii-enemy-vfx.html",
+    "title": "Connection II Enemy",
+    "canon": "Efeito canónico:  upgrade da Connection I: no inimigo junta  Slow ; em  expiry natural  faz o  Root principal  e espalha  Curse/Slow  aos inimigos perto.",
+    "notes": [
+      "Mesmo tether: Reutiliza o fio, os pulsos do tick e o fim da Connection I Enemy; só se acrescenta o cue novo deste nível.",
+      "Só no fim natural: Quando o fio expira sozinho, um pulso percorre a ligação e resolve no recetor; depois um anel curto espalha-se aos alvos válidos perto. Se o alvo sai do range, o fio parte-se sem pulso.",
+      "Estados à parte: Slow, Root e Curse nos alvos são cues de status próprios; aqui não são animados."
+    ],
+    "time": 1.5,
+    "before_sha256": "798c231d1482758d9f5c41822fcadc807b054adfdeae8e40c2813b389abb557e"
+  },
+  {
+    "index": 74,
+    "path": "prototypes/mystic/cosmic-ray-i/cosmic-ray-i-vfx.html",
+    "title": "Cosmic Ray I",
+    "canon": "Efeito canónico:  manifestação astral no aliado; após um delay fixo resolve  Heal , se a vida/encarnação original ainda for válida.",
+    "notes": [
+      "Raio do céu, como no ícone: A estrela chega do alto numa curva larga, com três fios de luz atrás. Sem pathfinding: chega ao aliado e fica com ele.",
+      "Delay fixo legível: À altura dos ombros do aliado, numa órbita curta, a estrela acompanha-o enquanto o anel à volta se esvazia como um relógio. Quando fecha, a estrela desfaz-se num pequeno chuveiro de estrelas que cai sobre o aliado.",
+      "Heal condicional: O Heal só aparece se a vida/encarnação original ainda for válida. Senão a estrela apaga-se em silêncio. O Cosmic Ray II não muda o visual: cada charge tem a sua própria estrela."
+    ],
+    "time": 0.4,
+    "before_sha256": "6b2f177eaae0930084e26edaed5add1f5a9144d8f269a920f34b5dfe2da6b5f5"
+  },
+  {
+    "index": 75,
+    "path": "prototypes/mystic/cosmic-ray-ii/cosmic-ray-ii-vfx.html",
+    "title": "Cosmic Ray II",
+    "canon": "Efeito canónico:  upgrade do Cosmic Ray I: aumenta as  Max Charges ; cada charge mantém um  delayed heal independente . As charges ficam no HUD.",
+    "notes": [
+      "Mesmo Cosmic Ray: O raio, a estrela com o anel-relógio e o chuveiro de Heal são os do nível I; este nível não muda o visual base.",
+      "Uma estrela por charge: Cada cast gasta uma charge e cria uma manifestação independente; várias coexistem por cima do aliado, cada uma com o seu relógio, e resolvem separadamente.",
+      "Charges no HUD: A contagem fica na interface, não no mundo: não há aura contínua à volta do Mystic."
+    ],
+    "time": 0.4,
+    "before_sha256": "a7816456bafd8886200d8dc427cbf6a72fdc93a0686993e9d07188fd8f4d97ea"
+  },
+  {
+    "index": 76,
+    "path": "prototypes/mystic/eclipse/eclipse-vfx.html",
+    "title": "Eclipse",
+    "canon": "Efeito canónico:  com os pools  Sun e Moon no máximo , consome ambos num payoff no chão:  Shield  aos aliados +  dano mágico e Silence  aos inimigos.",
+    "notes": [
+      "Duas paletas ao mesmo tempo: Sun e Moon aparecem juntos (metade dourada, metade violeta), nunca só a stance atual.",
+      "Convergir e resolver: Os dois meios anéis fecham-se da borda para o centro e resolvem num único impacto: flash claro e pulso. O emblema do eclipse entra com o círculo, num pop-in lento, e segura até ao flash.",
+      "Só o payoff: O Shield nos aliados e o Silence nos inimigos são cues de status; o protótipo da skill não os anima."
+    ],
+    "time": 0.4,
+    "before_sha256": "6048ae22cc8946797d13fb5cda86ef7a0be21f6df38f0f5e579afdc85f470fc8"
+  },
+  {
+    "index": 77,
+    "path": "prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html",
+    "title": "Ether I Ally",
+    "canon": "Efeito canónico:  projétil ST dual: aliado → Heal.",
+    "notes": [
+      "Projétil astral: Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.",
+      "Heal: sobe e abre: No aliado, alguns fiapos de luz finos sobem da cintura aos ombros com ease-out suave, com pequenos brilhos a acompanhar. Sem anel no chão nem coluna a tapar o corpo.",
+      "Variante Ally: Paleta dourada. O Heal é mostrado por esta subida; a cura que fica é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "014bfe109f11a147a2f3da8873e79f5df19bf85164741ee0e19fd81fb9c54a50"
+  },
+  {
+    "index": 78,
+    "path": "prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html",
+    "title": "Ether I Enemy",
+    "canon": "Efeito canónico:  projétil ST dual: inimigo → dano mágico.",
+    "notes": [
+      "Projétil astral: Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.",
+      "Dano: uma estrela que morre: No inimigo, a estrela do projétil incendeia-se no peito e depois colapsa sobre si mesma: os raios recolhem para o núcleo e um aro fino fecha-se, até um pop de 2 frames que solta alguns estilhaços de estrela.",
+      "Variante Enemy: Paleta violeta. A outra variante (aliado → Heal) é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "7cdeb0ae4d24ffbe4abd3dc7f062ef9c9892079f905e4b358e845a652450caba"
+  },
+  {
+    "index": 79,
+    "path": "prototypes/mystic/ether-ii-ally/ether-ii-ally-vfx.html",
+    "title": "Ether II Ally",
+    "canon": "Efeito canónico:  projétil ST dual: aliado → Heal.  II:  se o alvo já tinha um Buff, recebe também Haste + Acumen.",
+    "notes": [
+      "Ether II: constelação: Mesmo projétil e mesma resolução do Ether I. Se o alvo já tinha um Buff, uma pequena constelação desenha-se no peito: 5 estrelas acendem uma a uma, ligadas por fios de luz ténues, e depois sobe e apaga-se (0,6 s). Os estados (Haste + Acumen) são cues de status.",
+      "Projétil astral: Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.",
+      "Heal: sobe e abre: No aliado, alguns fiapos de luz finos sobem da cintura aos ombros com ease-out suave, com pequenos brilhos a acompanhar. Sem anel no chão nem coluna a tapar o corpo.",
+      "Variante Ally: Paleta dourada. O Heal é mostrado por esta subida; a cura que fica é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "e8fa83aadda4dc0d6a0f65470535eb0e3d77999a3d63394aaa675c547299b17d"
+  },
+  {
+    "index": 80,
+    "path": "prototypes/mystic/ether-ii-enemy/ether-ii-enemy-vfx.html",
+    "title": "Ether II Enemy",
+    "canon": "Efeito canónico:  projétil ST dual: inimigo → dano mágico.  II:  se o alvo já tinha um Debuff, recebe também Hindered + Dazed.",
+    "notes": [
+      "Ether II: pulso 2×: Mesmo projétil e mesma resolução do Ether I. Se o alvo já tinha um Debuff, a estrela que morre do Ether I volta a pulsar mais 2 vezes no peito (mesmo colapso, a cada 0,45 s). Os estados (Hindered + Dazed) são cues de status.",
+      "Projétil astral: Uma estrela de quatro pontas, a rodar devagar, com uma cauda de cometa curta, como no ícone. O mesmo projétil serve aliado e inimigo; a diferença está só na resolução e na cor.",
+      "Dano: uma estrela que morre: No inimigo, a estrela do projétil incendeia-se no peito e depois colapsa sobre si mesma: os raios recolhem para o núcleo e um aro fino fecha-se, até um pop de 2 frames que solta alguns estilhaços de estrela.",
+      "Variante Enemy: Paleta violeta. A outra variante (aliado → Heal) é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "acf5126a8204a3ec699d55970552a8076dc6ae7a40de06805e91d7c4c6a16305"
+  },
+  {
+    "index": 81,
+    "path": "prototypes/mystic/full-moon/full-moon-vfx.html",
+    "title": "Full Moon",
+    "canon": "Efeito canónico:  consome Moon máximo e lança uma AoE no chão com dano mágico + Silence.",
+    "notes": [
+      "Círculo estrito: O decalque marca a área exata: anel exterior que se desenha, anel interior e as 4 crescentes do ícone. É o traço mais claro.",
+      "Explosão fechada no perímetro: A lua cheia aparece parada no céu por cima do círculo e rebenta; a explosão é um volume que sobe das linhas do próprio perímetro, sem projéteis em flecha nem nada a escapar para fora.",
+      "Skill ≠ status: O Silence que fica nos alvos é o cue de status. Referência Moon: violeta, crescente com estrela."
+    ],
+    "time": 0.4,
+    "before_sha256": "3c4d0247a8ce9b45f282804c29aee98b103e3c0ebe7a15b5ed2cf1b9172bc7d5"
+  },
+  {
+    "index": 82,
+    "path": "prototypes/mystic/lullaby/lullaby-vfx.html",
+    "title": "Lullaby I",
+    "canon": "Efeito canónico:  projétil hostil; após delay aplica Sleep.",
+    "notes": [
+      "Lento e redondo: Um orbe azul suave, com uma crescente fina lá dentro (o motivo do ícone), viaja muito devagar e a ondular, como uma canção de embalar. Rasto curto e suave.",
+      "Sem hit stop: Ao chegar, o orbe funde-se no alvo sem pop nem hit stop; o alvo ainda não reage.",
+      "Sleep após o delay: Passado o delay canónico (1 s), um anel curto fecha-se no peito do alvo: é o momento em que o Sleep se aplica. O Sleep que fica é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "b19a1d8358a1a199b3e881fbcc276ae1b657dadeed6f818148bd00b166514dd7"
+  },
+  {
+    "index": 83,
+    "path": "prototypes/mystic/lullaby-ii-nightmare/lullaby-ii-nightmare-vfx.html",
+    "title": "Lullaby II Nightmare",
+    "canon": "Efeito canónico:  follow-up temporário depois da Lullaby: atinge um inimigo  com Sleep , causa dano mágico e aplica  Fear .",
+    "notes": [
+      "Começa no alvo: Não há projétil: o olho do pesadelo abre-se diretamente diante do inimigo que já está com Sleep e fica a fitá-lo antes do resto.",
+      "O olho fecha: No impacto, o olho abre-se no peito do inimigo e fecha-se de golpe com um estalo curto: é o dano.",
+      "Fear para fora: O anel de Fear expande-se do tronco do alvo para fora, com farpas a apontar para fora (o contrário do anel de Sleep, que fecha). O estado é um cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "b688d8326ccaede033f254c06a4fe457675f481498c78af21552ac571485f025"
+  },
+  {
+    "index": 84,
+    "path": "prototypes/mystic/moon-stance/moon-stance-vfx.html",
+    "title": "Moon Stance",
+    "canon": "Efeito canónico:  Seleciona a stance para ChargeGrantEvents: resultados hostis podem gerar Moon Charges.",
+    "notes": [
+      "Marcador celeste em órbita: Uma órbita fina e curta à altura dos ombros e um só marcador a percorrê-la devagar: crescente concisa em linha com preenchimento ténue e estrela de 4 pontas na concavidade (como no ícone). Persistente e discreto, não reage a golpes.",
+      "Mesma órbita, outra forma: Sun e Moon partilham a mesma órbita e o mesmo ritmo; muda só a forma (disco / crescente) e a paleta. A Sun Stance é um protótipo à parte (outro GameplayCue).",
+      "Pulso curto na troca: Pico de 2 frames e um anel que abre no plano da órbita; a órbita e o marcador saem do centro em 0,3 s. As Charges são recurso, com cue próprio."
+    ],
+    "time": 1.5,
+    "before_sha256": "c1011b93e58101080d81d8f512c30534a34aaffaeeed8b2de42abb23c862d94d"
+  },
+  {
+    "index": 85,
+    "path": "prototypes/mystic/resurrect/resurrect-vfx.html",
+    "title": "Resurrect",
+    "canon": "Efeito canónico:  ressurreição de alto compromisso e curto alcance;  cast longo , sem invulnerabilidade implícita.",
+    "notes": [
+      "Estrelas a cair: Durante todo o cast, as estrelas do Astral Step caem devagar sobre o aliado caído e brilham ao pousar. Sem feixe vindo do céu: lê-se como um cuidado longo, não como ataque.",
+      "Resolução limpa: Quando o cast acaba, as estrelas deixam de cair, o círculo abre um pouco e sobe uma luz suave enquanto o aliado se levanta. Nada rebenta.",
+      "Interrompido: Se o cast for interrompido (E), tudo apaga em 0,3 s e o corpo fica no chão. Sem invulnerabilidade implícita: nada no VFX sugere proteção ao Mystic."
+    ],
+    "time": 1.5,
+    "before_sha256": "2277a0a140ac610b9f83b219b572884fb26c727d0b03b140630297e642e20a87"
+  },
+  {
+    "index": 86,
+    "path": "prototypes/mystic/serenity/serenity-vfx.html",
+    "title": "Serenity",
+    "canon": "Efeito canónico:  ponto no chão com uma  única resolução atrasada : Heal nos aliados elegíveis e Sleep nos inimigos. Não é zona persistente.",
+    "notes": [
+      "Telegraph, não zona: Durante o delay, o círculo no chão mostra onde vai resolver: meio dourado, meio violeta, com a estrela azul ao centro, e um anel interior que fecha para o centro. Depois da resolução desaparece.",
+      "Um só pulso, dois cues: A resolução é um pulso único do centro à borda. Logo a seguir, os aliados elegíveis recebem o Heal dourado e os inimigos o crescente violeta do Sleep.",
+      "Só quem está dentro: O inimigo fora do círculo e o aliado não elegível não recebem nada. Sem aura global e sem cue de dano nos inimigos."
+    ],
+    "time": 1.5,
+    "before_sha256": "8c3f2227fc3fd0d436b3802644a3ea5d01ebf7bc8ba7d4c8dd0578a03123deff"
+  },
+  {
+    "index": 87,
+    "path": "prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html",
+    "title": "Spirit of the Comet Moon",
+    "canon": "Efeito canónico:  Spirit fixo no host. Variante Moon (fixa no cast): cada  3.º Basic  aplica  Wounded  a todos os hostis atingidos.",
+    "notes": [
+      "Irmão do Spirit of the Orbit: Mesma base: espírito pequeno com dois olhos, a orbitar o host com um rasto curto; aqui como cometa, com a cauda em 3 fiapos (ícone). Inativo quase sempre: só pulsa no proc.",
+      "Conta até 3: Cada Basic do host acende uma estrelinha-satélite; ao 3.º, o cometa pulsa, o anel circular rebenta e solta estilhaços em losango (como no ícone) para fora (0,45 s).",
+      "Variante fixa: A paleta Moon fica presa ao Spirit na colocação; a variante Sun é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "756d9249bcad48bd3b5b840a6d64694f05c83fe4a54f11493b69f07472ca7bc3"
+  },
+  {
+    "index": 88,
+    "path": "prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html",
+    "title": "Spirit of the Comet Sun",
+    "canon": "Efeito canónico:  Spirit fixo no host. Variante Sun (fixa no cast): cada  3.º Basic  do host concede  Omnivamp .",
+    "notes": [
+      "Irmão do Spirit of the Orbit: Mesma base: espírito pequeno com dois olhos, a orbitar o host com um rasto curto; aqui como cometa, com a cauda em 3 fiapos (ícone). Inativo quase sempre: só pulsa no proc.",
+      "Conta até 3: Cada Basic do host acende uma estrelinha-satélite; ao 3.º, o cometa pulsa e um anel aditivo circular rebenta à volta dele (0,4 s).",
+      "Variante fixa: A paleta Sun fica presa ao Spirit na colocação; a variante Moon é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "f725c8c01aeea453ed7cad22bb123bc90a2146c1d98ed8d80eeb6ef6bc1490ad"
+  },
+  {
+    "index": 89,
+    "path": "prototypes/mystic/spirit-of-the-orbit-moon/spirit-of-the-orbit-moon-vfx.html",
+    "title": "Spirit of the Orbit Moon",
+    "canon": "Efeito canónico:  Coloca o Spirit num host do Player Group. Variante Moon (fixa no cast):  AoE Slow periódico  à volta do host.",
+    "notes": [
+      "Espírito pequeno em órbita: Mesmo modelo do ícone nas duas variantes: corpo redondo com dois olhos, anel de 6 orbes e um rasto curto. Persistente e discreto; não reage a golpes, só pulsa no proc.",
+      "Variante fixa no cast: A paleta Moon fica presa ao Spirit no momento da colocação e não muda com trocas de stance posteriores. A variante Sun é um protótipo à parte (outro GameplayCue).",
+      "Proc curto, estado à parte: No proc, o Spirit pulsa e um anel fino abre no chão até ao raio da AoE (0,5 s). O estado resultante é um cue de status partilhado, não é animado aqui."
+    ],
+    "time": 1.5,
+    "before_sha256": "61e0dfbea654292ae592ceb3fec5dfcded31fadd5e430014255925f4cbf8ea55"
+  },
+  {
+    "index": 90,
+    "path": "prototypes/mystic/spirit-of-the-orbit-sun/spirit-of-the-orbit-sun-vfx.html",
+    "title": "Spirit of the Orbit Sun",
+    "canon": "Efeito canónico:  Coloca o Spirit num host do Player Group. Variante Sun (fixa no cast):  Shield periódico condicional  no host.",
+    "notes": [
+      "Espírito pequeno em órbita: Mesmo modelo do ícone nas duas variantes: corpo redondo com dois olhos, anel de 6 orbes e um rasto curto. Persistente e discreto; não reage a golpes, só pulsa no proc.",
+      "Variante fixa no cast: A paleta Sun fica presa ao Spirit no momento da colocação e não muda com trocas de stance posteriores. A variante Moon é um protótipo à parte (outro GameplayCue).",
+      "Proc curto, estado à parte: No proc, o Spirit pulsa e o anel converge no host à altura da órbita (0,38 s). O estado resultante é um cue de status partilhado, não é animado aqui."
+    ],
+    "time": 1.5,
+    "before_sha256": "f5daeafaf99aa2107bce8dc89a15fdc3f06f08a3399de5e37dfeeca95b0ad662"
+  },
+  {
+    "index": 91,
+    "path": "prototypes/mystic/spirit-of-the-star-moon/spirit-of-the-star-moon-vfx.html",
+    "title": "Spirit of the Star Moon",
+    "canon": "Efeito canónico:  Spirit fixo no host. Variante Moon (fixa no cast): cada  3.ª skill elegível  aplica  Withering  aos hostis atingidos, ou arma um  Pending  para a próxima.",
+    "notes": [
+      "Irmão do Spirit of the Orbit: Mesma base: espírito pequeno com dois olhos, a orbitar o host com um rasto curto; aqui dentro de uma estrela de 4 pontas (ícone). Inativo quase sempre: só pulsa no proc.",
+      "Conta até 3: Cada skill elegível do host acende uma estrelinha-satélite; à 3.ª, o Spirit pulsa e um anel aditivo circular rebenta à volta dele (0,4 s); sem hostis atingidos fica em Pending, com um brilho discreto no Spirit até à próxima skill que atinja.",
+      "Variante fixa: A paleta Moon fica presa ao Spirit na colocação; a variante Sun é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "eb4ae20a8f8d536fc6b28e57e5677ab07bc828a7af3a24684b5a6fce3062020e"
+  },
+  {
+    "index": 92,
+    "path": "prototypes/mystic/spirit-of-the-star-sun/spirit-of-the-star-sun-vfx.html",
+    "title": "Spirit of the Star Sun",
+    "canon": "Efeito canónico:  Spirit fixo no host. Variante Sun (fixa no cast): cada  3.ª skill elegível  do host dá  MPRegen / Clarity  ao host.",
+    "notes": [
+      "Irmão do Spirit of the Orbit: Mesma base: espírito pequeno com dois olhos, a orbitar o host com um rasto curto; aqui dentro de uma estrela de 4 pontas (ícone). Inativo quase sempre: só pulsa no proc.",
+      "Conta até 3: Cada skill elegível do host acende uma estrelinha-satélite; à 3.ª, o Spirit pulsa e um anel aditivo circular rebenta à volta dele (0,4 s).",
+      "Variante fixa: A paleta Sun fica presa ao Spirit na colocação; a variante Moon é um protótipo à parte."
+    ],
+    "time": 0.4,
+    "before_sha256": "64ca607d2061f191ff102e968538a6be2e2a4e25c07dd712e3b0ed966291994d"
+  },
+  {
+    "index": 93,
+    "path": "prototypes/mystic/sun-stance/sun-stance-vfx.html",
+    "title": "Sun Stance",
+    "canon": "Efeito canónico:  Seleciona a stance para ChargeGrantEvents: resultados benéficos podem gerar Sun Charges.",
+    "notes": [
+      "Marcador celeste em órbita: Uma órbita fina e curta à altura dos ombros e um só marcador a percorrê-la devagar: disco solar pequeno e estável com raios em estrela de 4 pontas (como no ícone), sem partículas ao vento. Persistente e discreto, não reage a golpes.",
+      "Mesma órbita, outra forma: Sun e Moon partilham a mesma órbita e o mesmo ritmo; muda só a forma (disco / crescente) e a paleta. A Moon Stance é um protótipo à parte (outro GameplayCue).",
+      "Pulso curto na troca: Pico de 2 frames e um anel que abre no plano da órbita; a órbita e o marcador saem do centro em 0,3 s. As Charges são recurso, com cue próprio."
+    ],
+    "time": 1.5,
+    "before_sha256": "8a6c27b0823de1bbacaa48bc59954dfbc6631df6beb16abc534af200f0ba8d2e"
+  },
+  {
+    "index": 94,
+    "path": "prototypes/scout/backstab/backstab-vfx.html",
+    "title": "Backstab I",
+    "canon": "Efeito canónico:  ataque ST; se o Scout estiver no rear arc no hit autoritativo, também Interrupta.",
+    "notes": [
+      "Adaga atirada: Uma adaga sólida sai da mão e voa em linha reta até ao alvo, com um rasto fino dourado atrás. Funciona igual perto ou à distância (teste a 8 m).",
+      "De frente: nada mais: Acertar de frente é só a adaga a chegar e o alvo a reagir; sem flash nem faíscas.",
+      "Pelas costas: flash pequeno: No rear arc, um flash curto e assimétrico nas costas do alvo, com 3 faíscas: é o sinal do Interrupt. A placa no peito do boneco mostra para onde está virado."
+    ],
+    "time": 0.4,
+    "before_sha256": "10a4c3f1b881032b49e350faf7281d7d96ba96f5d4fbd2816b566f3713b0d15c"
+  },
+  {
+    "index": 95,
+    "path": "prototypes/scout/backstab-ii/backstab-ii-vfx.html",
+    "title": "Backstab II",
+    "canon": "Efeito canónico:  upgrade: o acerto pelas costas passa a Stun em vez de Interrupt e aplica exatamente 1 Poison + 1 Bleed; de frente fica sem esses extras.",
+    "notes": [
+      "Mesmo ataque: A adaga, o rasto e o flash traseiro são os do Backstab I.",
+      "Pelas costas: O acerto pelas costas passa a Stun: um snap curto sobre a cabeça e o alvo encolhe. Ao mesmo tempo, uma gota verde e um corte vermelho marcam o Poison e o Bleed aplicados — um de cada.",
+      "De frente, nada extra: Muda a posição do Scout para \"frente\": o ataque acerta sem Stun nem marcas."
+    ],
+    "time": 0.4,
+    "before_sha256": "6617bed1cda2d61e6cb85aa131a22734a8cda6cd2e243e9f3589899e522a6cc6"
+  },
+  {
+    "index": 96,
+    "path": "prototypes/scout/basic-attack-bleed/basic-attack-bleed-vfx.html",
+    "title": "Basic Attack — Bleed",
+    "canon": "Efeito canónico:  com Bleed Stance, cada Basic Attack aplica Bleed (stance capturada na admissão do ataque).",
+    "notes": [
+      "Independente da arma: Trajetória, cadência, alcance e golpe vêm da arma. Este cue é só o hit do Bleed: dispara no evento de hit da arma, no ponto de contacto, e é igual com arco ou adaga (usa o seletor). O golpe base aparece neutro só para dar contexto.",
+      "Hit pequeno e rápido: No contacto, um corte curto vermelho + gotas que some em 0,2 s. Tem de ser discreto porque se repete a cada ataque básico.",
+      "Skill ≠ status: As stacks de Bleed que ficam no alvo são do cue de status. A variante Poison é um protótipo à parte (outro GameplayCue)."
+    ],
+    "time": 0.4,
+    "before_sha256": "f950858ca13cd5ad8088f49cbfb68354b46ae69a29c451a488dd7b11ba344439"
+  },
+  {
+    "index": 97,
+    "path": "prototypes/scout/basic-attack-poison/basic-attack-poison-vfx.html",
+    "title": "Basic Attack — Poison",
+    "canon": "Efeito canónico:  com Poison Stance, cada Basic Attack aplica Poison (stance capturada na admissão do ataque).",
+    "notes": [
+      "Independente da arma: Trajetória, cadência, alcance e golpe vêm da arma. Este cue é só o hit do Poison: dispara no evento de hit da arma, no ponto de contacto, e é igual com arco ou adaga (usa o seletor). O golpe base aparece neutro só para dar contexto.",
+      "Hit pequeno e rápido: No contacto, um splash verde pequeno com gotas que some em 0,2 s. Tem de ser discreto porque se repete a cada ataque básico.",
+      "Skill ≠ status: As stacks de Poison que ficam no alvo são do cue de status. A variante Bleed é um protótipo à parte (outro GameplayCue)."
+    ],
+    "time": 0.4,
+    "before_sha256": "c12724a4a3bb5ed2ae774e345dda91869e65886a384545acd554d60b17c9ea3d"
+  },
+  {
+    "index": 98,
+    "path": "prototypes/scout/bleed-stance/bleed-stance-vfx.html",
+    "title": "Bleed Stance",
+    "canon": "Efeito canónico:  seleciona Bleed como o DoT que futuros Basic Attacks e Volley aplicam. A stance é snapshot por execução.",
+    "notes": [
+      "Nas mãos, não no chão: A stance vive nas duas mãos: um brilho vermelho baixo com línguas suaves à volta dos punhos. Na entrada, um pico de 2 frames e um anel pequeno fecham-se em cada punho. A outra stance é um protótipo à parte (outro GameplayCue).",
+      "Pulso em Local Space: A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.",
+      "Estado inequívoco: O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Scout lê-se sempre pelas mãos."
+    ],
+    "time": 1.5,
+    "before_sha256": "dd284afb8f7a281602a044fa0bccce5b2b16573e4c422b3530362f9106e12c44"
+  },
+  {
+    "index": 99,
+    "path": "prototypes/scout/blinding-dart/blinding-dart-vfx.html",
+    "title": "Blinding Dart",
+    "canon": "Efeito canónico:  projétil ST que aplica Blind.",
+    "notes": [
+      "Pequeno e rápido: Um dart fino voa direto ao rosto do alvo, com um rasto curto.",
+      "Flash no rosto: No impacto, um flash branco estourado de 4 frames na cabeça — lê-se \"cegou\" — e desvanece em 0,6 s.",
+      "Blind é status: O estado que fica no alvo é o cue de status do Blind."
+    ],
+    "time": 0.4,
+    "before_sha256": "a0eadacbde2aaa4acbf450df84b0c3ab8056157e5899dffaac94030e7a41b330"
+  },
+  {
+    "index": 100,
+    "path": "prototypes/scout/cleansescout/cleanse-vfx.html",
+    "title": "Cleanse Scout",
+    "canon": "Efeito canónico:  remove Debuffs e CC persistente do Scout e cancela Forced Displacement ativo.",
+    "notes": [
+      "Do centro para fora: Centrado no próprio Scout: um flash curto no peito com o traço vertical do ícone e um anel partido em arcos largos que abre do corpo para fora, à altura do peito e da cintura. Muito curto (~0,35 s).",
+      "O negativo sai: Pedaços escuros e partidos das marcas negativas saltam do corpo e são empurrados para longe, desfazendo-se por erosão. Lê-se como remoção, não como cura: não há luz a subir nem brilho que fique.",
+      "Só se removeu: Se não havia nada para remover, não há varrimento nem fragmentos: só um cue local pequeno. Os estados removidos recebem o seu próprio Forced Remove no cue de status; o chão fica livre."
+    ],
+    "time": 0.4,
+    "before_sha256": "d80db3c82424f7ca11fd802105210377ac58435fb8b59c8ecaddbfcfe64cba09"
+  },
+  {
+    "index": 101,
+    "path": "prototypes/scout/evasion/evasion-vfx.html",
+    "title": "Evasion",
+    "canon": "Efeito canónico:  buff temporário de Evasion elevada; AoE continua a ser counter posicional.",
+    "notes": [
+      "Desvio, não invisibilidade: O Scout fica sempre sólido e visível. O buff lê-se por afterimages secas que ficam para trás quando ele se mexe.",
+      "Um golpe, uma afterimage: O Scout fica parado; cada ataque que falha deixa uma silhueta curta a escorregar para o lado, como se o golpe tivesse passado por uma imagem dele. Entre golpes, nada.",
+      "Pulso curto: A ativação é um anel fino à cintura e duas afterimages para os lados; o resto é cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "4ba3a2df0fa052dc8a6f475ad21efa5270fb2f11c329a159e6fa0754083c481d"
+  },
+  {
+    "index": 102,
+    "path": "prototypes/scout/exploit-weakness-i/exploit-weakness-i-vfx.html",
+    "title": "Exploit Weakness I",
+    "canon": "Efeito canónico:  dano físico ST que aumenta com o número de tipos distintos de Negative State ativos no alvo.",
+    "notes": [
+      "Assassino, não mira: Sem círculos nem marcas de HUD: a sombra fecha-se sobre o alvo e o ponto fraco acende como um brilho de lâmina. No pop, um corte seco atravessa o ponto.",
+      "Fissuras = estados: Do ponto fraco saem fissuras irregulares, como a do ícone — uma por cada tipo de Negative State ativo, até 5. Quantas mais, mais partido está o alvo; no pop piscam com o corte.",
+      "Nada fica: Não aplica estados nem deixa marca. II e III reutilizam esta silhueta e só acrescentam o seu cue."
+    ],
+    "time": 0.4,
+    "before_sha256": "b989a6ea3d64bfbff8b2aff56463fa5beff08cbeb0860c946aedab060e364c08"
+  },
+  {
+    "index": 103,
+    "path": "prototypes/scout/exploit-weakness-ii/exploit-weakness-ii-vfx.html",
+    "title": "Exploit Weakness II",
+    "canon": "Efeito canónico:  upgrade: mantém o scaling por Negative States e acrescenta bónus de dano baseado no HP% atual do alvo — menor HP, maior bónus.",
+    "notes": [
+      "Mesmo windup: A sombra e as fissuras são as do Exploit Weakness I e continuam a contar os tipos de Negative State.",
+      "Corte em X: No pop, dois cortes diagonais descem dos cantos de cima, cruzam-se a meio do corpo e acabam nos cantos opostos de baixo; o alvo abre-se em quatro por um instante e volta a fechar.",
+      "HP baixo, corte mais fundo: Quanto menos HP, mais largos e quentes os cortes e mais os pedaços se afastam: o bónus de dano do II lê-se na força do cleave. Sem hit stop."
+    ],
+    "time": 0.4,
+    "before_sha256": "d278065c89e54b9a2eca1b86ff28d4ebd017ddb43dfc2bd18ee5b7f327f57df8"
+  },
+  {
+    "index": 104,
+    "path": "prototypes/scout/exploit-weakness-iii/exploit-weakness-iii-vfx.html",
+    "title": "Exploit Weakness III",
+    "canon": "Efeito canónico:  upgrade: uma Takedown qualificada faz reset ao cooldown da família Exploit Weakness.",
+    "notes": [
+      "Passivo, só no evento: Não há aura nem VFX permanente. O III só aparece quando uma Takedown qualificada faz reset ao cooldown da família.",
+      "No centro do Scout: Um glow quente e suave sobre o centro do corpo do Scout — não depende da arma, que pode mudar. Dura 0,5 s e desaparece logo após a leitura.",
+      "No slot: O cooldown do Exploit Weakness volta a zero com um flash e um anel curtos. Sem Takedown (desliga a opção), o cooldown corre normalmente e nada acontece."
+    ],
+    "time": 0.4,
+    "before_sha256": "ddefb0936170b501d2e9ae4be2bd2dc6bfebd7e82e2e976521a69d84a766edd6"
+  },
+  {
+    "index": 105,
+    "path": "prototypes/scout/hemorrhage/hemorrhage-vfx.html",
+    "title": "Hemorrhage",
+    "canon": "Efeito canónico:  com Bleed máximo, consome-o para burst ST + Wounded.",
+    "notes": [
+      "Mesma composição: Como no Poison Sac, as stacks convergem para o alvo com reverse ease-in; aqui fecham-se no peito. Só com Bleed máximo; consome as stacks.",
+      "Rutura single-target: Um rebentamento focado no peito com aspeto líquido: jorros grossos de sangue saem do centro, abrandam como algo viscoso, esticam-se e descaem com a gravidade, e algumas gotas soltam-se. Pico de 2 frames, dura 0,7 s. Sem área.",
+      "Skill ≠ status: O Wounded que fica no alvo é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "1028e928356ccc942af6a27ea4a11f3caf4a6359126e36c38dbebdc841fe8165"
+  },
+  {
+    "index": 106,
+    "path": "prototypes/scout/long-jump/long-jump-vfx.html",
+    "title": "Long Jump",
+    "canon": "Efeito canónico:  o hold aumenta a distância disponível; ao soltar, fixa o landing point e executa o Leap.",
+    "notes": [
+      "Apontar com o hold: Enquanto se mantém, o arco e o ponto de chegada estendem-se para a frente; o que se vê é exatamente onde o Scout vai cair. Nada é antecipado.",
+      "Salto limpo: Ao largar, o arco apaga e o Scout salta ao longo dele com uma faixa fina atrás — sem partículas.",
+      "Aterragem discreta: Um anel sólido único no chão com o squash do corpo, e acabou."
+    ],
+    "time": 0.4,
+    "before_sha256": "543a49ef69d27563581992ab0a0ad7a8f0cdda1d6ff9b19d94d28da90d5e13c6"
+  },
+  {
+    "index": 107,
+    "path": "prototypes/scout/poison-sac/poison-sac-vfx.html",
+    "title": "Poison Sac",
+    "canon": "Efeito canónico:  com Poison máximo, consome-o e cria área de dano + Slow.",
+    "notes": [
+      "Saco atirado: Como no ícone, o Scout atira um saco de veneno em arco, a rodar. Só está disponível com Poison máximo; consome as stacks.",
+      "Stacks convergem: As marcas de Poison saem do inimigo e fecham-se de golpe (reverse ease-in) no ponto de impacto, mesmo antes de o saco rebentar.",
+      "Poça baixa: No impacto, um splash e um anel; fica uma poça escura e baixa com borda irregular durante a área. O Slow e o dano que ficam são do cue de status / da área."
+    ],
+    "time": 0.4,
+    "before_sha256": "03dad368185a9f57055923f58400bfeba4a48b477ab73e3faa23dbb7bb5bedec"
+  },
+  {
+    "index": 108,
+    "path": "prototypes/scout/poison-stance/poison-stance-vfx.html",
+    "title": "Poison Stance",
+    "canon": "Efeito canónico:  seleciona Poison como o DoT que futuros Basic Attacks e Volley aplicam. A stance é snapshot por execução.",
+    "notes": [
+      "Nas mãos, não no chão: A stance vive nas duas mãos: um brilho verde baixo com línguas suaves à volta dos punhos. Na entrada, um pico de 2 frames e um anel pequeno fecham-se em cada punho. A outra stance é um protótipo à parte (outro GameplayCue).",
+      "Pulso em Local Space: A entrada resolve num pico aditivo de 2 frames e num anel curto preso à personagem. Sem geometria duplicada nem efeitos fora da mecânica.",
+      "Estado inequívoco: O marcador é persistente e barato (0 partículas), por isso fica visível mesmo em Baixo: a stance de cada Scout lê-se sempre pelas mãos."
+    ],
+    "time": 1.5,
+    "before_sha256": "99d7359c2a5787365aebae904fee9bb98b6b5da611156827967fa5b98a4c7013"
+  },
+  {
+    "index": 109,
+    "path": "prototypes/scout/quickstep-i/quickstep-i-vfx.html",
+    "title": "Quickstep I",
+    "canon": "Efeito canónico:  dash curto na direção de movimento; usa charges.",
+    "notes": [
+      "Nuvem atrás do Scout: O dash deixa uma nuvem quente e curta, esticada no sentido do movimento, que se desfaz a partir da origem. É uma única malha com ruído no shader — sem sprites nem silhuetas residuais.",
+      "Charges na UI: As charges ficam na barra; o dash só se usa com charge disponível. O Quickstep II mantém esta trail."
+    ],
+    "time": 0.4,
+    "before_sha256": "7fd697bb864fe253c653127895a372a831381def40818649dd18f868bf32020a"
+  },
+  {
+    "index": 110,
+    "path": "prototypes/scout/quickstep-ii/quickstep-ii-vfx.html",
+    "title": "Quickstep II",
+    "canon": "Efeito canónico:  upgrade: aumenta a capacidade de charges e uma Takedown qualificada repõe 1 charge até ao máximo.",
+    "notes": [
+      "Mesma trail: O dash é o do Quickstep I, com a mesma nuvem. O II não acrescenta nada ao movimento.",
+      "Takedown = charge de volta: Quando uma Takedown qualificada repõe uma charge, o Scout dá um flash seco em cada pé — o passo fica pronto outra vez — e a charge reposta pisca na barra. Nada fica a flutuar.",
+      "Mais charges: A capacidade sobe para 3; as charges ficam só na UI."
+    ],
+    "time": 0.4,
+    "before_sha256": "4938d71ba570d7d3e3e64f919fb542e1656034f76fbfda262ed91c23c67d649e"
+  },
+  {
+    "index": 111,
+    "path": "prototypes/scout/rapid-attack/rapid-attack-vfx.html",
+    "title": "Rapid Attack",
+    "canon": "Efeito canónico:  buff que aumenta o Attack Speed durante um número fixo de Basic Attacks ou até expirar.",
+    "notes": [
+      "Nas mãos, em ritmo: Ao ativar, os dois punhos disparam os traços de velocidade do ícone. Depois, cada ataque rápido dá um pulso curto só na mão que golpeia: o ritmo dos pulsos mostra a velocidade.",
+      "Sem aura: Nada fica à volta do Scout; entre ataques não há efeito. Quando os 6 ataques acabam, os pulsos param.",
+      "Buff é status: O estado do buff é cue de status; esta skill só mostra a ativação e o ritmo nos golpes."
+    ],
+    "time": 0.4,
+    "before_sha256": "5245e9e5bfb8195a872665c664770b921e1b73f31bf835210b8c0cfe8d2ce9d5"
+  },
+  {
+    "index": 112,
+    "path": "prototypes/scout/sand-shot/sand-shot-vfx.html",
+    "title": "Sand Shot",
+    "canon": "Efeito canónico:  cone melee que causa dano físico e Interrupta cada inimigo válido atingido.",
+    "notes": [
+      "Rente ao chão: O Scout atira areia num leque raso: uma nuvem baixa de poeira é empurrada para a frente, rola e abranda, e dissolve-se logo, com poucos grãos à frente.",
+      "Flash seco = Interrupt: Cada inimigo apanhado pisca uma vez, seco, no instante em que a areia lhe chega, e estremece. Fora do cone, nada.",
+      "Sem persistência: A nuvem é curta e baixa; não fica fumo nem marca no chão depois."
+    ],
+    "time": 0.4,
+    "before_sha256": "75ecd9b149f1c45c35701de15e48a47be9b03cd16c0888a116242b1da375577a"
+  },
+  {
+    "index": 113,
+    "path": "prototypes/scout/sickness/sickness-vfx.html",
+    "title": "Sickness",
+    "canon": "Efeito canónico:  com Poison e Bleed ambos no máximo, substitui o Pop: consome os dois, faz burst ST e AoE com Wounded + Slow + Weakened + Dulled.",
+    "notes": [
+      "Os dois Pops juntos: O Sickness é o Hemorrhage e o Poison Sac ao mesmo tempo: o sangue rebenta no peito e o veneno cai numa poça no chão.",
+      "A poça fica: A poça tóxica é maior (a AoE, 3,5 m) e fica enquanto a área dura; quem está em cima recebe os estados.",
+      "Mesmos shaders: No UE reaproveita os dois Niagara Systems existentes, disparados juntos, com a poça escalada ao raio da AoE."
+    ],
+    "time": 0.4,
+    "before_sha256": "e40164c0c8666f2871a2cf8fe900eadb7a7094013da8a4e45318ffebf2b829f7"
+  },
+  {
+    "index": 114,
+    "path": "prototypes/scout/smoke-bomb-i/smoke-bomb-i-vfx.html",
+    "title": "Smoke Bomb I",
+    "canon": "Efeito canónico:  projétil para ground point; o impacto causa dano inicial e cria uma área persistente que aplica Blind + Slow na criação/entrada e pode re-tentar depois.",
+    "notes": [
+      "Objeto, depois área: Uma bomba pequena e sólida voa em arco até ao ponto; no impacto, um flash e um anel abrem a área, e o fumo incha até ao limite.",
+      "Cortina legível: O fumo é escuro, sem glow e de baixo contraste; o limite lê-se pelo contorno irregular dos rolos e pelo anel ténue no chão.",
+      "Estados à parte: Blind e Slow são cues de status nos alvos. O volume fica estável e não pulsa com golpes."
+    ],
+    "time": 1.5,
+    "before_sha256": "3f51c08fa39260e7367e18703e7aadcac255cbad49e2c05428296b66301ff057"
+  },
+  {
+    "index": 115,
+    "path": "prototypes/scout/smoke-bomb-ii/smoke-bomb-ii-vfx.html",
+    "title": "Smoke Bomb II",
+    "canon": "Efeito canónico:  upgrade: mantém o Smoke Bomb; dentro do próprio fumo, só o Scout ganha Mist concealment.",
+    "notes": [
+      "Mesmo fumo: O volume é o do Smoke Bomb I, com a mesma opacidade. O II não muda a área.",
+      "Mist só no Scout: Quando o Scout entra no seu próprio fumo, ganha um contorno fantasma muito ténue — lê-se como \"escondido\", sem aura nem partículas. Ao sair, desaparece.",
+      "Concealment é estado: O efeito de jogo (Mist concealment) é do sistema de estados; o contorno só existe enquanto ele está ativo."
+    ],
+    "time": 1.5,
+    "before_sha256": "67b6d445299410d84fc879edc10f365e9b09c52138cc4066bc2b52515bebabc0"
+  },
+  {
+    "index": 116,
+    "path": "prototypes/scout/torpor/torpor-vfx.html",
+    "title": "Torpor",
+    "canon": "Efeito canónico:  aplica Slow a um alvo.",
+    "notes": [
+      "Projétil sólido e rápido: Uma seta com ponta larga e plana, haste e penas, de ponta para a frente, a 30 m/s, com um rasto curto. Lê-se como um objeto, não como magia.",
+      "Anéis no impacto: No hit, os três anéis concêntricos do ícone aparecem no ponto de contacto, pequenos e no corpo; os de dentro partidos em arcos. Fecham para dentro (leitura de lentidão) e apagam em 0,4 s. O chão fica livre: é reservado a áreas.",
+      "Skill ≠ status: Os anéis são o cue curto do hit. O Slow que fica no alvo é do cue de status."
+    ],
+    "time": 0.4,
+    "before_sha256": "d735f577dd80f10eeb8b733507422d85125897bf59ad2541dff3383b1f740319"
+  },
+  {
+    "index": 117,
+    "path": "prototypes/scout/vine-field-i/vine-field-i-vfx.html",
+    "title": "Vine Field I",
+    "canon": "Efeito canónico:  área persistente no chão que aplica Slow aos inimigos.",
+    "notes": [
+      "Natureza física: Nada etéreo: terra revolvida, raízes e troncos com casca, espinhos e folhas, iluminados pela cena como objetos reais; só uma borda de luz amarela no limite e um glow ligeiro no contorno das vinhas e raízes.",
+      "Três tempos: Primeiro a terra abre-se num círculo; depois as raízes vão-se acumulando pelo chão durante quase todo o campo; só no último quarto as vinhas grossas rompem o solo em 0,2 s, atirando torrões de terra.",
+      "Slow é status: O campo não reage aos inimigos; o Slow de cada um é o cue de status dele. No fim, as vinhas desaparecem da ponta para baixo."
+    ],
+    "time": 1.5,
+    "before_sha256": "616ad7ec5f933eabb48f57937c9ff7d76894cc5a5b523cb63f8bfa6715dcd069"
+  },
+  {
+    "index": 118,
+    "path": "prototypes/scout/vine-field-ii/vine-field-ii-vfx.html",
+    "title": "Vine Field II",
+    "canon": "Efeito canónico:  upgrade: num único check atrasado, os inimigos ainda dentro e com Slow verdadeiro recebem Root.",
+    "notes": [
+      "Mesmo campo: Tudo o que o Vine Field I faz, igual.",
+      "Um só check: Enquanto as vinhas grandes estão de pé, há um único momento de resolução: quem ainda está dentro e realmente com Slow é agarrado — três vinhas enrolam-se-lhe pelas pernas e fecham num snap.",
+      "Só alvos válidos: O alvo fora do campo e o que não tem Slow (desliga a opção) não recebem nada."
+    ],
+    "time": 1.5,
+    "before_sha256": "343b50c39cc54db9304f6ea2854088c48026a51b8dcf06de48fd5e1cb11520e5"
+  },
+  {
+    "index": 119,
+    "path": "prototypes/scout/volley-i-bleed/volley-i-bleed-vfx.html",
+    "title": "Volley I · Bleed",
+    "canon": "Efeito canónico:  cone frontal largo; cada alvo recebe no máximo uma aplicação do DoT definido pela stance snapshot dessa Volley (aqui Bleed).",
+    "notes": [
+      "Leque de setas: Nove setas saem em leque, em arco, do centro para fora, cada uma um frame depois da anterior — o cone lê-se pela forma das próprias setas, sem decalque no chão.",
+      "Uma aplicação por alvo: Cada alvo atingido pisca uma vez na cor da stance snapshot (Bleed), mesmo que leve mais do que uma seta. Quem fica fora do cone não recebe nada.",
+      "Stance snapshot: A geometria é a mesma em Poison e Bleed; só muda a cor das setas, dos rastos e a detonação. No UE são dois GameplayCues/Niagara Systems, escolhidos na ativação."
+    ],
+    "time": 0.4,
+    "before_sha256": "6aa5a633536b6b7eed9a9d646eb0383052722d60f56823880e53800b57a1d390"
+  },
+  {
+    "index": 120,
+    "path": "prototypes/scout/volley-i-poison/volley-i-poison-vfx.html",
+    "title": "Volley I · Poison",
+    "canon": "Efeito canónico:  cone frontal largo; cada alvo recebe no máximo uma aplicação do DoT definido pela stance snapshot dessa Volley (aqui Poison).",
+    "notes": [
+      "Leque de setas: Nove setas saem em leque, em arco, do centro para fora, cada uma um frame depois da anterior — o cone lê-se pela forma das próprias setas, sem decalque no chão.",
+      "Uma aplicação por alvo: Cada alvo atingido pisca uma vez na cor da stance snapshot (Poison), mesmo que leve mais do que uma seta. Quem fica fora do cone não recebe nada.",
+      "Stance snapshot: A geometria é a mesma em Poison e Bleed; só muda a cor das setas, dos rastos e a detonação. No UE são dois GameplayCues/Niagara Systems, escolhidos na ativação."
+    ],
+    "time": 0.4,
+    "before_sha256": "a209c29e8fb6524f87c2b2d74f5c31da30eb48a104b935f082c6699213e6a5d7"
+  },
+  {
+    "index": 121,
+    "path": "prototypes/scout/volley-ii-bleed/volley-ii-bleed-vfx.html",
+    "title": "Volley II · Bleed",
+    "canon": "Efeito canónico:  upgrade hold-to-shape: manter estreita o cone e aumenta o alcance (no fim, uma linha: um só projétil maior que atravessa os alvos); mantém 1 aplicação do DoT snapshot por alvo (aqui Bleed).",
+    "notes": [
+      "A forma segue o input: Enquanto se mantém a tecla, o cone de mira no chão fecha e estende-se ao mesmo tempo; o que se vê é exatamente o que vai sair. Nada é disparado antes do release.",
+      "Até ser uma linha: Ao largar, as setas saem com a forma desse instante — leque largo e curto num toque, cada vez mais fechado e longo. Se o channel chega ao fim, o cone é uma linha e sai um único projétil maior, que vai mais longe e atravessa todos os alvos.",
+      "Mesmo DoT: Continua a ser uma aplicação Bleed por alvo; a stance snapshot fica decidida no release."
+    ],
+    "time": 1.5,
+    "before_sha256": "92b2270cb5434d696b608ee38428c80fad8dac1480a528624a7e4cd8a7203ecc"
+  },
+  {
+    "index": 122,
+    "path": "prototypes/scout/volley-ii-poison/volley-ii-poison-vfx.html",
+    "title": "Volley II · Poison",
+    "canon": "Efeito canónico:  upgrade hold-to-shape: manter estreita o cone e aumenta o alcance (no fim, uma linha: um só projétil maior que atravessa os alvos); mantém 1 aplicação do DoT snapshot por alvo (aqui Poison).",
+    "notes": [
+      "A forma segue o input: Enquanto se mantém a tecla, o cone de mira no chão fecha e estende-se ao mesmo tempo; o que se vê é exatamente o que vai sair. Nada é disparado antes do release.",
+      "Até ser uma linha: Ao largar, as setas saem com a forma desse instante — leque largo e curto num toque, cada vez mais fechado e longo. Se o channel chega ao fim, o cone é uma linha e sai um único projétil maior, que vai mais longe e atravessa todos os alvos.",
+      "Mesmo DoT: Continua a ser uma aplicação Poison por alvo; a stance snapshot fica decidida no release."
+    ],
+    "time": 1.5,
+    "before_sha256": "8dbfa8aa678da1ceae1f46421625def602925493ad6e1ac612ea5f7631a4af2c"
+  },
+  {
+    "index": 123,
+    "path": "prototypes/status/control/control-lab-vfx.html",
+    "title": "Controlo — Laboratório",
+    "canon": "Camadas no mundo, à maneira de Lineage 2 / LoL / ArcheAge:  cada CC ocupa a sua camada à volta do corpo e tem a sua cor, por isso qualquer combinação encaixa (a bolha do Sleep por dentro, as estrelas do Stun por fora). A nameplate (simulada) repete-os como ícones; a duração é da UI.",
+    "notes": [
+      "Convenção dos MMO: Stun = estrelas em órbita, Sleep = bolha na cabeça, Root = pés presos: é o que os jogadores já reconhecem (L2, ArcheAge, LoL). Silence e Taunt ganham camadas próprias na mesma linguagem.",
+      "Encaixam todas: Alturas e raios diferentes: Sleep em cima da cabeça com o Silence como aba, estrelas do Stun em órbita à volta da cabeça, Taunt na têmpora do lado da fonte, Fear por cima de tudo, Root nas pernas e Forced Displacement no corpo. \"Todos os CC\" mostra o pior caso.",
+      "Sem duração no VFX: Cada camada entra em 0,15 s, fica estável e sai em 0,3 s quando o CC acaba. A duração e o tipo exato ficam na nameplate. Cleanse parte tudo para fora; Morte corta em 0,12 s.",
+      "Custo: 3 draw calls para todas as camadas de todas as personagens (camadas de luz + vinhas + folhas do Root). O CPU só escreve em aplicar / acabar / remover (e a ligação ao corpo de quem está a ser deslocado)."
+    ],
+    "time": 0.4,
+    "before_sha256": "1ea564a32fb398cde5d72a8ff5910db45a1662c9eb5761a0bec0834bff42a6fc"
+  },
+  {
+    "index": 124,
+    "path": "prototypes/status/nameplates/nameplates-vfx.html",
+    "title": "Nameplates — Estados",
+    "canon": "Sem VFX persistente para Buff, Debuff, DoT e HoT:  o estado lê-se em ícones na nameplate de qualquer personagem, sem precisar de lhe dar target. Regras do Canon de UI: linhas positiva e negativa separadas, categoria pela cor da borda (Buff verde, HoT amarelo claro, DoT vermelho, Debuff roxo, CC laranja), stacks no canto, duração em depleção radial, Shield como camada branca sobre o HP. O CC continua também com as camadas no mundo.",
+    "notes": [
+      "Ordem na nameplate: De cima para baixo: CC (maior, borda laranja, mesma forma e cor da camada no mundo), linha negativa (DoT + Debuff), linha positiva (HoT + Buff), nome, HP com Shield branco por cima. Em cada linha: permanentes primeiro, depois por duração restante decrescente (Canon de UI).",
+      "Mesmo glifo, sinal oposto: Buff e Debuff do mesmo atributo usam o mesmo glifo (Might e Weakened = espada; Swiftness e Slow = bota; Grace e Wounded = cruz). A linha e a borda dizem se é bom ou mau; o hover dá o nome.",
+      "Contra o clutter: O filtro por defeito sugerido é \"Só os meus + CC\" em combate de grupo: vês o Slow e o Wounded que aplicaste em qualquer inimigo, sem ver tudo de toda a gente. Limite por linha com \"+N\".",
+      "No UE: Widget de nameplate (UMG/Slate) com um atlas de ícones; os estados vêm do GAS já replicado. Sem Niagara para estes estados: custo de VFX zero."
+    ],
+    "time": 0.4,
+    "before_sha256": "9baa1b95cc3d47113754d7d82fa9d6d508a42ab460a7c3029c253318e007dd19"
+  }
+]

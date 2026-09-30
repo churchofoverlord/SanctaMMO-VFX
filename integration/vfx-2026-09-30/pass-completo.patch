@@ -1,0 +1,668 @@
+--- a/prototypes/fighter/piercing-strike/piercing-strike-vfx.html
++++ b/prototypes/fighter/piercing-strike/piercing-strike-vfx.html
+@@ -441,14 +441,14 @@
+       float fade = 1. - smoothstep(.52, .7, vU);
+       float thin = 1. - .4*smoothstep(.15, .6, vU)*(1. - .5*front);
+       float ends = pow(prof, .75);
+-      float w = (.003 + .06*pow(prof, 1.3) + .07*front)*thin;
++      float w = (.003 + .027*pow(prof, 1.3) + .028*front)*thin;
+       float d = abs(vY);
+       float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
+       float head = exp(-pow((s - grow)/.03, 2.)) * (1. - step(1., grow));
+       float k = alive*fade*ends*(vU > ${GROW.toFixed(2)} && vU < ${(GROW+.033).toFixed(3)} ? 1.25 : 1.);
+       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
+-      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.44 + .24*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.28*prof + head*band*.4))*k;
++      outc *= 1. - smoothstep(.22, .255, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html
++++ b/prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html
+@@ -446,14 +446,14 @@
+       float fade = 1. - smoothstep(.52, .7, vU);
+       float thin = 1. - .4*smoothstep(.15, .6, vU)*(1. - .5*front);
+       float ends = pow(prof, .75);
+-      float w = (.003 + .06*pow(prof, 1.3) + .07*front)*thin;
++      float w = (.003 + .027*pow(prof, 1.3) + .028*front)*thin;
+       float d = abs(vY);
+       float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
+       float head = exp(-pow((s - grow)/.03, 2.)) * (1. - step(1., grow));
+       float k = alive*fade*ends*(vU > ${GROW.toFixed(2)} && vU < ${(GROW+.033).toFixed(3)} ? 1.25 : 1.);
+       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
+-      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.44 + .24*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.28*prof + head*band*.4))*k;
++      outc *= 1. - smoothstep(.22, .255, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html
++++ b/prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html
+@@ -446,14 +446,14 @@
+       float fade = 1. - smoothstep(.52, .7, vU);
+       float thin = 1. - .4*smoothstep(.15, .6, vU)*(1. - .5*front);
+       float ends = pow(prof, .75);
+-      float w = (.003 + .06*pow(prof, 1.3) + .07*front)*thin;
++      float w = (.003 + .027*pow(prof, 1.3) + .028*front)*thin;
+       float d = abs(vY);
+       float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.35);
+       float head = exp(-pow((s - grow)/.03, 2.)) * (1. - step(1., grow));
+       float k = alive*fade*ends*(vU > ${GROW.toFixed(2)} && vU < ${(GROW+.033).toFixed(3)} ? 1.25 : 1.);
+       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
+-      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.44 + .24*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.28*prof + head*band*.4))*k;
++      outc *= 1. - smoothstep(.22, .255, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html
++++ b/prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html
+@@ -441,12 +441,19 @@
+       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
+       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
+       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
+-      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
+-      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
++      float band = 0.;
++      // Fios independentes: o vazio entre eles mantém a silhueta do corpo legível.
++      for (int i=0;i<4;i++){
++        float fi = float(i), centre = (fi - 1.5)*.18*prof + sin(vS*8. - vU*6. + fi*2.1)*.035*prof;
++        float width = (.025 + .06*prof)*(.8 + .2*sin(vS*5. + fi*1.7));
++        float breakup = .35 + .65*smoothstep(.15, .75, .5 + .5*sin(vS*15. - vU*8. + fi)*sin(vS*7. + fi*2.3));
++        band += exp(-pow(abs(vY - centre)/width, 1.6))*breakup;
++      }
++      float core = band*.12;
+       float k = alive*fade*pow(prof, .75)*blend;
+       vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.5, .42, .32), .25);   // a little desaturated
+-      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.10 + .09*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.065*prof)*k;
++      outc *= 1. - smoothstep(.72, .83, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html
++++ b/prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html
+@@ -442,12 +442,19 @@
+       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
+       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
+       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
+-      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
+-      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
++      float band = 0.;
++      // Fios independentes: o vazio entre eles mantém a silhueta do corpo legível.
++      for (int i=0;i<4;i++){
++        float fi = float(i), centre = (fi - 1.5)*.18*prof + sin(vS*8. - vU*6. + fi*2.1)*.035*prof;
++        float width = (.025 + .06*prof)*(.8 + .2*sin(vS*5. + fi*1.7));
++        float breakup = .35 + .65*smoothstep(.15, .75, .5 + .5*sin(vS*15. - vU*8. + fi)*sin(vS*7. + fi*2.3));
++        band += exp(-pow(abs(vY - centre)/width, 1.6))*breakup;
++      }
++      float core = band*.12;
+       float k = alive*fade*pow(prof, .75)*blend;
+       vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.46, .45, .48), .25);   // a little desaturated
+-      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.10 + .09*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.065*prof)*k;
++      outc *= 1. - smoothstep(.72, .83, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html
++++ b/prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html
+@@ -442,12 +442,19 @@
+       float wipe = max(vU - ${(RUSH+.1).toFixed(2)}, 0.)/.32;
+       float alive = smoothstep(wipe - .08 - .35*arr, wipe + .2 - .35*arr, q);
+       float fade = 1. - smoothstep(${(RUSH+.32).toFixed(2)}, ${(RUSH+.5).toFixed(2)}, vU);
+-      float w = .02 + .62*prof, d = abs(vY + .04*prof);                  // slightly weighted to the shoulders
+-      float band = exp(-pow(d/w, 3.)), core = lcore(d, w*.22);
++      float band = 0.;
++      // Fios independentes: o vazio entre eles mantém a silhueta do corpo legível.
++      for (int i=0;i<4;i++){
++        float fi = float(i), centre = (fi - 1.5)*.18*prof + sin(vS*8. - vU*6. + fi*2.1)*.035*prof;
++        float width = (.025 + .06*prof)*(.8 + .2*sin(vS*5. + fi*1.7));
++        float breakup = .35 + .65*smoothstep(.15, .75, .5 + .5*sin(vS*15. - vU*8. + fi)*sin(vS*7. + fi*2.3));
++        band += exp(-pow(abs(vY - centre)/width, 1.6))*breakup;
++      }
++      float core = band*.12;
+       float k = alive*fade*pow(prof, .75)*blend;
+       vec3 col = mix(mix(uOrange, uGold, .3 + .7*prof), vec3(.46, .45, .48), .25);   // a little desaturated
+-      vec3 outc = (col*band*(.12 + .17*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.12*prof)*k;
+-      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
++      vec3 outc = (col*band*(.10 + .09*prof) + mix(uGold, vec3(1., .96, .88), .5)*core*.065*prof)*k;
++      outc *= 1. - smoothstep(.72, .83, abs(vY));
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+ 
+--- a/prototypes/fighter/chains/chains-vfx.html
++++ b/prototypes/fighter/chains/chains-vfx.html
+@@ -470,7 +470,7 @@
+       vec3 n = normalize(vN), v = normalize(vV);
+       float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
+       vec3 col = mix(uOrange, uGold, .45 + .45*rim);
+-      vec3 c = col*(.04 + .6*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.45;
++      vec3 c = col*(.025 + .36*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.2;
+       gl_FragColor = vec4(c, 1.);
+     }` }));
+ 
+@@ -507,7 +507,7 @@
+       }
+       if (vHit < .5 && vKc >= 0.) heat *= exp(-vKc*3.);
+       vec3 col = mix(uOrange, uGold, .5);
+-      vec3 outc = (col*band*.2 + mix(uGold, vec3(1., .96, .88), .5)*core*.12)*heat*ends*m;
++      vec3 outc = (col*band*.07 + mix(uGold, vec3(1., .96, .88), .5)*core*.04)*heat*ends*m;
+       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+--- a/prototypes/fighter/chains-ii/chains-ii-vfx.html
++++ b/prototypes/fighter/chains-ii/chains-ii-vfx.html
+@@ -488,7 +488,7 @@
+       vec3 n = normalize(vN), v = normalize(vV);
+       float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
+       vec3 col = mix(uOrange, uGold, .45 + .45*rim);
+-      vec3 c = col*(.04 + .6*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.45;
++      vec3 c = col*(.025 + .36*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.2;
+       gl_FragColor = vec4(c, 1.);
+     }` }));
+ 
+@@ -568,7 +568,7 @@
+       }
+       if (vHit < .5 && vKc >= 0.) heat *= exp(-vKc*3.);
+       vec3 col = mix(uOrange, uGold, .5);
+-      vec3 outc = (col*band*.2 + mix(uGold, vec3(1., .96, .88), .5)*core*.12)*heat*ends*m;
++      vec3 outc = (col*band*.07 + mix(uGold, vec3(1., .96, .88), .5)*core*.04)*heat*ends*m;
+       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+--- a/prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html
++++ b/prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html
+@@ -520,8 +520,8 @@
+       float dens = 0.;
+       for (int i=0;i<3;i++){
+         float fi = float(i);
+-        float yy = vY + (fbm(vec2(x*1.1 - dir*u*6. + fi*5.3, fi*2.7)) - .5)*.16;
+-        float w = (.012 + .03*prof)*(.7 + .6*fbm(vec2(x*2. - dir*u*8. + fi*3.1, fi + 1.)));
++        float yy = vY - (fi - 1.)*.042*prof + (fbm(vec2(x*1.1 - dir*u*6. + fi*5.3, fi*2.7)) - .5)*.08;
++        float w = (.009 + .016*prof)*(.7 + .6*fbm(vec2(x*2. - dir*u*8. + fi*3.1, fi + 1.)));
+         float brk = smoothstep(.3, .75, fbm(vec2(x*2.4 - dir*u*12. + fi*7.7, fi*4.3 + 2.)));
+         dens += exp(-pow(abs(yy)/w, 1.6))*brk*(.5 + .5*n2);
+       }
+--- a/prototypes/fighter/second-wind/second-wind-vfx.html
++++ b/prototypes/fighter/second-wind/second-wind-vfx.html
+@@ -445,14 +445,14 @@
+         float pitch = 1.3 + .9*fract(fi*.618);                      // every wisp winds at its own rate
+         float c = fi*TAU/5. + vK*.63 + y*pitch + u*.9 + (vn(vec2(y*1.6 - u*2., fi*3.)) - .5)*1.1;
+         float da = mod(vTh - c + 3.14159, TAU) - 3.14159;
+-        float w = (.045 + .09*yn)*(.8 + .4*fract(fi*.37));
+-        float brk = smoothstep(.25, .7, vn(vec2(y*2.2 - u*4. + fi*5.7, fi)));
++        float w = (.033 + .06*yn)*(.8 + .4*fract(fi*.37));
++        float brk = smoothstep(.4, .75, vn(vec2(y*2.2 - u*4. + fi*5.7, fi)));
+         d += exp(-pow(abs(da*vR)/w, 1.4))*brk*(.55 + .45*fract(fi*.37));
+       }
+       float mask = smoothstep(rise + .02, rise - .15, y)*smoothstep(clear - .05, clear + .25, y);
+       float fade = (1. - smoothstep(.95, ${LIFE.toFixed(2)}, u))*smoothstep(0., .08, y)*(1. - smoothstep(.75, .97, yn));
+       float face = smoothstep(.06, .45, vFace);                   // no bright vertical outline at the silhouette
+-      float k = d*mask*fade*face*(1. - .5*yn)*mix(.15, .11, vK);
++      float k = d*mask*fade*face*(1. - .5*yn)*mix(.13, .095, vK);
+       vec3 outc = mix(uGold, vec3(1., .97, .92), .55)*k;           // pale warm air, not flame
+       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+       gl_FragColor = vec4(outc, 1.);
+--- a/prototypes/fighter/defiant-presence/defiant-presence-vfx.html
++++ b/prototypes/fighter/defiant-presence/defiant-presence-vfx.html
+@@ -440,19 +440,19 @@
+     ${NOISE}
+     void main(){
+       float grow = clamp(vU/${RISE.toFixed(2)}, 0., 1.);
+-      if (vL.y > grow + .02) discard;                                               // rises from the ground
++      float formed = 1. - smoothstep(grow - .025, grow + .025, vL.y);                                               // rises from the ground
+       float rise = exp(-pow((vL.y - grow)/.05, 2.))*(1. - step(1., grow));
+       vec3 q = vL*3.2;
+       float n = vn(q + vec3(0., uTime*.35, uTime*.12))*.65 + vn(q*2.3 - vec3(uTime*.2, 0., 0.))*.35;
+       float vein = pow(1. - abs(2.*n - 1.), 7.);                                    // ridged noise: thin flowing plasma veins
+       float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.2);
+       float foot = exp(-vL.y*vL.y/.0012);                                           // the limit itself, on the ground
+-      float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0.;
+-      if (endK > 0.){ float nd = vn(vL*6.); if (nd < endK*1.1) discard; burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
++      float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0., dissolve = 1.;
++      if (endK > 0.){ float nd = vn(vL*6.); dissolve = 1. - smoothstep(nd - .045, nd + .045, endK*1.1); burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
+       float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.4 : 1.;
+-      vec3 c = uB*(.004 + .02*fres) + uC*(fres*.11 + vein*(.015 + .11*fres) + foot*.4)   // low intensity: reads as a boundary, not a light source
+-             + uW*(vein*fres*.05 + rise*.45 + burn*.4);
+-      c *= pk;
++      vec3 c = uB*(.004 + .02*fres) + uC*(fres*.075 + vein*(.009 + .065*fres) + foot*.32)   // low intensity: reads as a boundary, not a light source
++             + uW*(vein*fres*.025 + rise*.25 + burn*.18);
++      c *= pk*formed*dissolve;
+       if (max(c.r, max(c.g, c.b)) < .002) discard;
+       gl_FragColor = vec4(c, 1.);
+     }` }));
+--- a/prototypes/mage/iceberg/iceberg-vfx.html
++++ b/prototypes/mage/iceberg/iceberg-vfx.html
+@@ -544,12 +544,12 @@
+       vec3 col = mix(deep, mid, smoothstep(0., 1., h*.8 + .15));
+       col *= .88 + .2*smoothstep(.4, .6, band);                                  // a few wide facets, subtle
+       col = mix(col, pale, topF*.7*(vRnd > .6 ? .5 : 1.));
+-      col += vec3(.2, .4, .6)*pow(1. - nv, 3.)*.35;                             // soft cool rim
++      col += vec3(.2, .4, .6)*pow(1. - nv, 3.)*.18;                             // soft cool rim
+       col *= .7 + .4*l;
+       if (vCrack > .5){                                                            // damage stages: bright jagged cracks
+         float g = h*5.5 + vSeed*17. + side*1.3, g2 = h*9. - vSeed*11. + side*2.;
+         float cr = pow(1. - abs(fract(g + .15*vn(vL.xy*9.)) - .5)*2., 30.) + (vCrack > 1.5 ? pow(1. - abs(fract(g2 + .2*vn(vL.zy*11.)) - .5)*2., 26.) : 0.);
+-        col = mix(col, vec3(.85, .97, 1.), clamp(cr*(vCrack > 1.5 ? 1. : .6), 0., 1.));
++        col = mix(col, vec3(.5, .66, .8), clamp(cr*(vCrack > 1.5 ? .5 : .28), 0., 1.));
+       }
+       col *= smoothstep(-.05, .1, h)*.25 + .75;                                  // a little darker at the foot
+       gl_FragColor = vec4(col, 1.);
+@@ -677,8 +677,8 @@
+           vec2 pt = o + vec2(h1(dot(gi + o, vec2(7.1, 3.3))), h1(dot(gi + o, vec2(2.7, 9.1)))) - gf; float dd = dot(pt, pt);
+           if (dd < d1){ d2 = d1; d1 = dd; } else if (dd < d2) d2 = dd; }
+         float edge = sqrt(d2) - sqrt(d1), reach = .2 + .8*smoothstep(0., .35, vU);
+-        float crk = exp(-pow(edge/.06, 2.))*smoothstep(reach, reach*.3, sd);
+-        lum += crk*f*.35 + exp(-pow(sd/.05, 2.))*f*.12; hot += crk*f*.08;        // subtle frozen cracks
++        float crk = exp(-pow(edge/.035, 2.))*smoothstep(reach, reach*.3, sd);
++        lum += crk*f*.20 + exp(-pow(sd/.05, 2.))*f*.08; hot += crk*f*.035;        // subtle frozen cracks
+         lum *= smoothstep(1.3, 1.05, abs(vP.y));
+       } else if (vK < .5){
+         // AoE Slow pulse: one thin frost ring opens to the radius (ease-out), holds a moment and fades
+--- a/prototypes/mage/mana-storm/mana-storm-vfx.html
++++ b/prototypes/mage/mana-storm/mana-storm-vfx.html
+@@ -434,25 +434,25 @@
+       float drawn = smoothstep(draw + .01, draw - .02, ang01);                         // the circle draws itself around once
+       float fade = smoothstep(0., .1, u)*(1. - smoothstep(${MS_T.toFixed(1)}, ${MS_T.toFixed(1)} + .45, u));
+       float pl = vPl >= 0. && vPl < .45 ? pow(1. - vPl/.45, 1.5) : 0.;                 // admission pulse
+-      float outer = exp(-pow((r - R)/.03, 2.))*drawn + exp(-pow((r - R)/.2, 2.))*.08;
+-      float inner = exp(-pow((r - R*.86)/.018, 2.))*.55*drawn + exp(-pow((r - R*.72)/.014, 2.))*.35*drawn;
++      float outer = exp(-pow((r - R)/.02, 2.))*drawn + exp(-pow((r - R)/.2, 2.))*.025;
++      float inner = exp(-pow((r - R*.86)/.018, 2.))*.28*drawn + exp(-pow((r - R*.72)/.014, 2.))*.15*drawn;
+       // rune band between the two inner rings: small glyphs turning slowly
+       float rot = u*.06, ar = a + rot, N = 36., cell = floor(ar/6.2832*N), fa = (fract(ar/6.2832*N) - .5)*6.2832/N;
+       vec2 q = vec2(fa*R*.79, r - R*.79)/.13;                                          // glyph space
+       float hh = h1(cell + 7.), g = seg(q, vec2(0., -.6), vec2(0., .6));
+       g = min(g, seg(q, vec2(0., .6 - .7*hh), vec2(hh > .5 ? .45 : -.45, .2 - .5*hh)));
+       if (fract(hh*7.3) > .5) g = min(g, seg(q, vec2(-.3, -.6), vec2(.3, -.6)));
+-      float runes = exp(-pow(g/.09, 2.))*step(abs(r - R*.79), .09)*drawn*.6;
++      float runes = exp(-pow(g/.09, 2.))*step(abs(r - R*.79), .09)*drawn*.3;
+       // 4 broad sigils inside (cardinal), slowly turning the other way: a circle with an inscribed diamond and a stroke
+       float sig = 0.;
+       for (int i = 0; i < 4; i++){ float an = float(i)*1.5708 - u*.04 + .785; vec2 c = vec2(cos(an), sin(an))*R*.5;
+         vec2 p = (vP - c)/.55; float rr = length(p);
+         float s = exp(-pow((rr - .9)/.05, 2.)) + exp(-pow((abs(p.x) + abs(p.y) - .75)/.05, 2.))*.8 + exp(-pow(seg(p, vec2(0., -.6), vec2(0., .6))/.05, 2.))*.6;
+         sig += s*smoothstep(1.2, 1., rr); }
+-      sig *= drawn*.35;
++      sig *= drawn*.12;
+       float centre = smoothstep(R*.35, R*.3, r);                                        // the centre stays open
+-      float lum = (outer*1.1 + inner + runes + sig*(1. - centre))*(1. + 1.4*pl);
+-      vec3 o = (uA*lum + uC2*inner*.3 + uB*(exp(-pow((r - R)/.012, 2.))*drawn*.6 + runes*.3)*(1. + pl))*fade;
++      float lum = (outer*1.1 + inner + runes + sig*(1. - centre))*(1. + pl);
++      vec3 o = (uA*lum + uC2*inner*.3 + uB*(exp(-pow((r - R)/.012, 2.))*drawn*.45 + runes*.15)*(1. + pl))*fade;
+       o *= smoothstep(R + .35, R + .2, r);
+       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
+ // ---- very subtle low wall of wisps on the perimeter (vertical volume), fades where the shell turns edge-on
+--- a/prototypes/mystic/astral-veil/astral-veil-vfx.html
++++ b/prototypes/mystic/astral-veil/astral-veil-vfx.html
+@@ -412,19 +412,19 @@
+       float d = .3 - length(q);                                                        /* one outline: top + bottom joined by ROUND corners (r 0.3 m) at the ground */
+       float lw = .007 + .016*(.35 + .65*thin);
+       float edge = line(d, lw)*(.55 + .45*thin);
+-      float halo = line(d, .12)*.2*step(0., d)*(.4 + .6*thin);
++      float halo = line(d, .12)*.09*step(0., d)*(.4 + .6*thin);
+       float inside = smoothstep(-.01, .04, d);
+       /* stardust fill: fine twinkling points, denser towards the top edge */
+       vec2 g = vec2(u*SX, v*SY)*16.; vec2 gi = floor(g), gf = fract(g) - .5; float hs = h(gi);
+       vec2 o = (vec2(h(gi + 3.1), h(gi + 7.7)) - .5)*.6;
+       float k = clamp(v/max(tp, .01), 0., 1.);
+-      float dens = mix(.2, .9, pow(k, 1.5))*(.6 + .8*vn(vec2(u*SX, v*SY)*1.3 + vec2(0., -t*.2)));
++      float dens = mix(.1, .42, pow(k, 1.5))*(.6 + .8*vn(vec2(u*SX, v*SY)*1.3 + vec2(0., -t*.2)));
+       float dust = step(1. - dens, hs)*exp(-dot(gf - o, gf - o)*45.)*(.55 + .45*sin(t*3. + hs*70.));
+       float ground = .6 + .4*smoothstep(0., .25, v);
+       float fin = smoothstep(${F(DUR + .5)}, ${F(DUR)}, vU + .5*vn(vec2(u*SX, v*SY)*2.5 + 5.));   /* dissolve: soft erosion */
+-      float lum = (edge*1.3 + halo + dust*.9*inside*ground)*fin;
+-      vec3 c = uC*lum + uP*(edge*.6 + dust*inside*.35)*fin;
+-      float al = inside*.045*ground*fin;
++      float lum = (edge*.9 + halo + dust*.55*inside*ground)*fin;
++      vec3 c = uC*lum + uP*(edge*.32 + dust*inside*.18)*fin;
++      float al = inside*.025*ground*fin;
+       if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); }` }));
+ // ---- ambience (world, not part of the skill): mist + motes, 1 draw each
+ const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+--- a/prototypes/mystic/bright-star/bright-star-vfx.html
++++ b/prototypes/mystic/bright-star/bright-star-vfx.html
+@@ -482,7 +482,7 @@
+       float facet = (.35 + .65*fract(sin(dot(floor(n*9.), vec3(12.9, 78.2, 37.7)))*43758.5))*0.;
+       float f = (vU < .033 ? 1.3 : 1.)*(1. - smoothstep(.45, ${DOME_T}, vU));
+       float base = smoothstep(0., .06, vL.y);                                      // soft where it meets the ground
+-      vec3 o = (uC*(fr*.22 + facet) + uCl*pow(fr, 6.)*.18)*f*base;   // smooth, soft   // translucent: the terrain stays visible
++      vec3 o = (uC*(fr*.14 + facet) + uCl*pow(fr, 6.)*.09)*f*base;   // smooth, soft   // translucent: the terrain stays visible
+       gl_FragColor = vec4(o, 1.);
+     }` }));
+ // Layer G — ground: the icon's 8-point star inside a thin ring, opening with the dome, then fading.
+--- a/prototypes/mystic/eclipse/eclipse-vfx.html
++++ b/prototypes/mystic/eclipse/eclipse-vfx.html
+@@ -404,7 +404,7 @@
+         /* the circle: drawn from the far point to the near point on both halves at once */
+         float sweep = eox(clamp(u/${F(DRAW)}, 0., 1.))*3.2, ang = acos(clamp(vP.y/max(r, 1e-3), -1., 1.));
+         float drawn = smoothstep(sweep, sweep - .25, ang);
+-        float border = (line(r - R, .03) + line(r - R, .16)*.18 + line(r - R*.86, .012)*.35)*drawn;
++        float border = (line(r - R, .03) + line(r - R, .16)*.07 + line(r - R*.86, .012)*.18)*drawn;
+         /* two opposite half rings converge from the border to the centre, accelerating, turning in opposite directions */
+         float t = clamp((u - ${F(CONV0)})/${F(HIT - CONV0)}, 0., 1.), e = t*t, Rc = mix(R*.97, .12, e);
+         float live = step(${F(CONV0)}, u)*step(u, ${F(HIT)});
+@@ -417,10 +417,10 @@
+         vec3 rc = (uS*sunR*1.3 + uSL*line(r - Rc, .01)*inS*.6 + uM*moonR*1.3 + uML*line(r - Rc - moonW*.5, .008)*inM*.5)*live*(1. + e*1.5);
+         /* hit frame: clear central flash + a single pulse half gold / half violet out to the border */
+         float k = clamp((u - ${F(HIT)})/.4, 0., 1.), after = step(${F(HIT)}, u);
+-        float flash = exp(-r*r/.5)*exp(-(u - ${F(HIT)})*9.)*after*3.;
++        float flash = exp(-r*r/.5)*exp(-max(u - ${F(HIT)}, 0.)*9.)*after*1.2;
+         float Rp = .2 + (R - .2)*eox(k);
+-        float pulse = (line(r - Rp, .07 + .1*(1. - k)) + line(r - Rp, .3)*.25)*(1. - k)*after*smoothstep(R + .2, R - .2, r);
+-        c = col*(border*1.1 + pulse*1.4)*fin + lig*(border*.25 + pulse*.5)*fin + rc + mix(vec3(1.), .5*(uSL + uML), .5)*flash;
++        float pulse = (line(r - Rp, .07 + .1*(1. - k)) + line(r - Rp, .3)*.10)*(1. - k)*after*smoothstep(R + .2, R - .2, r);
++        c = col*(border*1.1 + pulse*.95)*fin + lig*(border*.25 + pulse*.28)*fin + rc + mix(vec3(1.), .5*(uSL + uML), .5)*flash;
+         c *= smoothstep(R + .5, R + .3, r);
+       } else {
+         /* the eclipse emblem: black disc, gold corona of rays on the left, violet crescent rim on the right (the icon) */
+@@ -428,13 +428,13 @@
+         float left = smoothstep(.05, -.05, q.x);
+         float core = smoothstep(.43, .40, r);
+         float cor = pow(.5 + .5*cos(a*14. + sin(r*18.)*.8), 3.)*smoothstep(.42, .5, r)*smoothstep(.85, .5, r)*left;   /* wavy sun rays */
+-        float rimS = line(r - .43, .02)*left*1.4 + line(r - .43, .1)*left*.3;
++        float rimS = line(r - .43, .02)*left*1.05 + line(r - .43, .1)*left*.12;
+         /* Moon: a true crescent (Moon Stance style) - line outline + faint fill; thickest on the right, tips meeting the sun at the top and bottom */
+         float dO = r - .43, dI = length(q + vec2(.12, 0.)) - .4466;
+         float cres = smoothstep(.006, -.006, dO)*smoothstep(-.006, .006, dI);
+         float cEdge = line(dO, .012)*smoothstep(-.01, .01, dI) + line(dI, .012)*smoothstep(.01, -.01, dO);
+         float ero = vn(q*7.), fin = 1. - smoothstep(.35, .7, u + .3*ero);
+-        c = (uS*(cor*1.2 + rimS) + uSL*rimS*.4 + uM*(cres*.45 + cEdge*1.4) + uML*cEdge*.6)*fin;
++        c = (uS*(cor*1.2 + rimS) + uSL*rimS*.4 + uM*(cres*.22 + cEdge*1.05) + uML*cEdge*.35)*fin;
+         al = core*.92*fin; c *= 1. - core*(1. - cres)*.95;
+         c += (uSL + uML)*.5*exp(-r*r*30.)*step(0., u)*exp(-u*14.)*2.;                            /* short clear pop */
+         c *= smoothstep(1., .9, r); al *= smoothstep(1., .9, r);
+--- a/prototypes/mystic/resurrect/resurrect-vfx.html
++++ b/prototypes/mystic/resurrect/resurrect-vfx.html
+@@ -439,7 +439,11 @@
+       } else {
+         /* resolve (only if the cast completes): a soft column of light rises gently with the body as it stands - no burst */
+         float x = vP.x, h = vP.y, t = vU/1.1, top = eox(clamp(vU/.9, 0., 1.)), f = 1. - smoothstep(.45, 1., t);
+-        float col = exp(-x*x*4.)*smoothstep(top + .02, top - .25, h)*smoothstep(0., .08, h)*.35;
++        float col = 0.;
++        for (int j=0;j<3;j++){ float fj = float(j), cx = (fj - 1.)*.32 + sin(h*8. - vU*3. + fj*2.)*.045;
++          float brk = .4 + .6*smoothstep(.2, .8, .5 + .5*sin(h*18. - vU*5. + fj*3.));
++          col += exp(-pow((x - cx)/.095, 2.))*brk*.14; }
++        col *= smoothstep(top + .02, top - .25, h)*smoothstep(0., .08, h);
+         for (int i=0;i<5;i++){ float fi = float(i), sx = (fract(sin(fi*91.7)*437.5) - .5)*1.2, sh = top*(.55 + .08*fi);
+           vec2 q = vec2(x - sx, (h - sh)*3.4); float qr = length(q), qa = atan(q.y, q.x);
+           lum += (pow(abs(cos(qa*2.)), 14.)*exp(-qr*18.) + exp(-qr*qr*900.))*.6; }
+--- a/prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html
++++ b/prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html
+@@ -407,7 +407,7 @@
+         float s = (n - 4.)/11., jit = fract(sin(n*37.3 + aP.x)*431.7);
+         float a = ang - (.06 + s*${F(TR_LEN)})*k;
+         vec3 c = orbP(aO, a, k, b) + vec3(sin(uTime*5. + n*1.7), cos(uTime*4.3 + n*2.3), sin(uTime*3.7 + n))*.05*s;
+-        float sz = mix(.2, .09, s)*k*(.85 + .3*jit);
++        float sz = mix(.145, .065, s)*k*(.85 + .3*jit);
+         vec4 mv = viewMatrix*vec4(c, 1.); float cr = uTime*.8*(jit - .5) + n; mv.xy += mat2(cos(cr), -sin(cr), sin(cr), cos(cr))*position.xy*sz;
+         vQ = position.xy; vSpin = s; gl_Position = projectionMatrix*mv; return; }
+       float sa = uTime*2.2 + (n - 2.)*3.14159; vec3 c = orbP(aO, ang, k, b) + vec3(cos(sa)*.2, sin(sa)*.1, sin(sa)*.2);
+@@ -419,7 +419,7 @@
+         float bd = r - .3, rim = exp(-pow(bd/.035, 2.)), fill = smoothstep(.02, -.03, bd)*.06;   /* dark head, bright rim (icon) */
+         vec2 e = vec2(abs(q.x) - .095, q.y + .01)*vec2(1.6, .75); float eye = smoothstep(.052, .036, length(e));   /* two bright oval eyes */
+ 
+-        float sl = eye*1.6, sf = exp(-pow(max(r - .3, 0.)/.12, 2.))*smoothstep(.26, .32, r)*.45;   /* eyes + corona outside the rim */
++        float sl = eye*.9, sf = exp(-pow(max(r - .3, 0.)/.12, 2.))*smoothstep(.26, .32, r)*.20;   /* eyes + corona outside the rim */
+         float pend = vPend*(.75 + .25*sin(uTime*3.))*exp(-r*r*5.)*.35;                 /* Moon Pending: discrete glow on the Spirit */
+         o = uC*(rim*1.1 + fill + sf + pend) + uP*(rim*.5 + sl);
+         o *= smoothstep(1., .9, r);
+@@ -428,12 +428,12 @@
+         float s = vQ.x, y = vQ.y, along = pow(1. - s, 1.2)*smoothstep(.04, .12, s), lum = 0.;
+         for (int i=0;i<5;i++){ float fi = float(i), y0 = (fi - 2.)*.28*(.3 + s) + .14*sin(s*6. - uTime*7. + fi*2.1)*s;   /* flame tongues */
+           lum += exp(-pow((y - y0)/(.1 + .12*s), 2.))*(.6 + .4*sin(s*14. - uTime*9. + fi*1.7))*(1. - .15*fi*s); }
+-        o = (uC*lum*.75 + uP*exp(-y*y*6.)*.5*pow(1. - s, 2.))*along*(1. - smoothstep(.8, 1., abs(y)));
++        o = (uC*lum*.45 + uP*exp(-y*y*6.)*.22*pow(1. - s, 2.))*along*(1. - smoothstep(.8, 1., abs(y)));
+       } else if (vK > 3.5){                            /* flame puff: soft, uneven, hotter near the head, fading down the tail */
+         float r = length(vQ), s = vSpin, a = atan(vQ.y, vQ.x);
+         float n = .75 + .25*sin(a*3. + uTime*6. + vK*1.3)*sin(r*9. - uTime*5.);
+-        float d = exp(-r*r*3.2)*n*smoothstep(1., .7, r), fade = pow(1. - s, 1.1)*.3;
+-        o = (uC*d + uP*exp(-r*r*14.)*pow(1. - s, 2.)*.5)*fade;
++        float d = exp(-r*r*3.2)*n*smoothstep(1., .7, r), fade = pow(1. - s, 1.1)*.19;
++        o = (uC*d + uP*exp(-r*r*14.)*pow(1. - s, 2.)*.22)*fade;
+       } else { float r = length(vQ); o = (uC*star(vQ, .3) + uP*exp(-r*r*70.))*.8*smoothstep(1., .82, r); }
+       o *= vPk; o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
+ 
+--- a/prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html
++++ b/prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html
+@@ -407,7 +407,7 @@
+         float s = (n - 4.)/11., jit = fract(sin(n*37.3 + aP.x)*431.7);
+         float a = ang - (.06 + s*${F(TR_LEN)})*k;
+         vec3 c = orbP(aO, a, k, b) + vec3(sin(uTime*5. + n*1.7), cos(uTime*4.3 + n*2.3), sin(uTime*3.7 + n))*.05*s;
+-        float sz = mix(.2, .09, s)*k*(.85 + .3*jit);
++        float sz = mix(.145, .065, s)*k*(.85 + .3*jit);
+         vec4 mv = viewMatrix*vec4(c, 1.); float cr = uTime*.8*(jit - .5) + n; mv.xy += mat2(cos(cr), -sin(cr), sin(cr), cos(cr))*position.xy*sz;
+         vQ = position.xy; vSpin = s; gl_Position = projectionMatrix*mv; return; }
+       float sa = uTime*2.2 + (n - 2.)*3.14159; vec3 c = orbP(aO, ang, k, b) + vec3(cos(sa)*.2, sin(sa)*.1, sin(sa)*.2);
+@@ -419,7 +419,7 @@
+         float bd = r - .3, rim = exp(-pow(bd/.035, 2.)), fill = smoothstep(.02, -.03, bd)*.06;   /* dark head, bright rim (icon) */
+         vec2 e = vec2(abs(q.x) - .095, q.y + .01)*vec2(1.6, .75); float eye = smoothstep(.052, .036, length(e));   /* two bright oval eyes */
+ 
+-        float sl = eye*1.6, sf = exp(-pow(max(r - .3, 0.)/.12, 2.))*smoothstep(.26, .32, r)*.45;   /* eyes + corona outside the rim */
++        float sl = eye*.9, sf = exp(-pow(max(r - .3, 0.)/.12, 2.))*smoothstep(.26, .32, r)*.20;   /* eyes + corona outside the rim */
+         float pend = vPend*(.75 + .25*sin(uTime*3.))*exp(-r*r*5.)*.35;                 /* Moon Pending: discrete glow on the Spirit */
+         o = uC*(rim*1.1 + fill + sf + pend) + uP*(rim*.5 + sl);
+         o *= smoothstep(1., .9, r);
+@@ -428,12 +428,12 @@
+         float s = vQ.x, y = vQ.y, along = pow(1. - s, 1.2)*smoothstep(.04, .12, s), lum = 0.;
+         for (int i=0;i<5;i++){ float fi = float(i), y0 = (fi - 2.)*.28*(.3 + s) + .14*sin(s*6. - uTime*7. + fi*2.1)*s;   /* flame tongues */
+           lum += exp(-pow((y - y0)/(.1 + .12*s), 2.))*(.6 + .4*sin(s*14. - uTime*9. + fi*1.7))*(1. - .15*fi*s); }
+-        o = (uC*lum*.75 + uP*exp(-y*y*6.)*.5*pow(1. - s, 2.))*along*(1. - smoothstep(.8, 1., abs(y)));
++        o = (uC*lum*.45 + uP*exp(-y*y*6.)*.22*pow(1. - s, 2.))*along*(1. - smoothstep(.8, 1., abs(y)));
+       } else if (vK > 3.5){                            /* flame puff: soft, uneven, hotter near the head, fading down the tail */
+         float r = length(vQ), s = vSpin, a = atan(vQ.y, vQ.x);
+         float n = .75 + .25*sin(a*3. + uTime*6. + vK*1.3)*sin(r*9. - uTime*5.);
+-        float d = exp(-r*r*3.2)*n*smoothstep(1., .7, r), fade = pow(1. - s, 1.1)*.3;
+-        o = (uC*d + uP*exp(-r*r*14.)*pow(1. - s, 2.)*.5)*fade;
++        float d = exp(-r*r*3.2)*n*smoothstep(1., .7, r), fade = pow(1. - s, 1.1)*.19;
++        o = (uC*d + uP*exp(-r*r*14.)*pow(1. - s, 2.)*.22)*fade;
+       } else { float r = length(vQ); o = (uC*star(vQ, .3) + uP*exp(-r*r*70.))*.8*smoothstep(1., .82, r); }
+       o *= vPk; o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }` }));
+ 
+--- a/prototypes/scout/poison-sac/poison-sac-vfx.html
++++ b/prototypes/scout/poison-sac/poison-sac-vfx.html
+@@ -564,7 +564,7 @@
+     void main(){
+       float r = length(vP), a = atan(vP.y, vP.x), R = ${POOLR.toFixed(2)};
+       float grow = 1. - pow(1. - clamp(vU/.18, 0., 1.), 3.), fade = 1. - smoothstep(${(RL - .5).toFixed(2)}, ${RL.toFixed(2)}, vU);
+-      float edge = R*grow*(.88 + .12*vn(vec2(a*2.5, 3.)) + .05*sin(a*7.));             // blobby, low pool
++      float edge = R*grow*(.88 + .12*vn(vec2(cos(a), sin(a))*2.5 + vec2(3.)) + .05*sin(a*7.));             // blobby, low pool
+       float inside = smoothstep(edge, edge - .12, r);
+       float bub = vn(vP*3. + vec2(0., vU*.6));
+       vec3 base = mix(vec3(.004, .012, .002), uOrange*.05, bub*bub);                      // dark liquid, only faint toxic sheen
+@@ -572,7 +572,7 @@
+       float ring = exp(-pow((r - R*grow*1.08)/.04, 2.))*(1. - clamp(vU/.35, 0., 1.))*1.4;  // one expanding rim on impact
+       vec3 col = base*inside + uOrange*(rim*.6 + ring*.7) + uGold*exp(-r*r*4.)*(vU < .033 ? 1.4 : 0.);
+       float alpha = max(inside*.6, clamp(rim + ring, 0., 1.))*fade*smoothstep(${(POOLR + .4).toFixed(2)}, ${(POOLR + .2).toFixed(2)}, r);
+-      if (alpha < .01) discard; gl_FragColor = vec4(col, alpha);
++      gl_FragColor = vec4(col, alpha);
+     }` }));
+ 
+ // Layer S — DoT stacks: 5 small marks orbiting the target converge in 1 frame-ish (reverse ease-in, 0.12 s) to the impact point.
+--- a/prototypes/scout/sickness/sickness-vfx.html
++++ b/prototypes/scout/sickness/sickness-vfx.html
+@@ -579,8 +579,8 @@
+         float L = (.32 + .45*h)*g; vec2 sag = vec2(0., -.45*t*t*(.6 + h));
+         vec2 mid = dir*L*.5 + sag*.3, head = dir*L + sag;
+         float thin = 1. - .55*smoothstep(.25, .9, t);                                   // streams stretch thin
+-        vec2 pa = p; float k1 = clamp(dot(pa, mid)/dot(mid, mid), 0., 1.), d1 = length(pa - mid*k1);
+-        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/dot(bb, bb), 0., 1.), d2 = length(pb - bb*k2);
++        vec2 pa = p; float k1 = clamp(dot(pa, mid)/max(dot(mid, mid), 1e-6), 0., 1.), d1 = length(pa - mid*k1);
++        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/max(dot(bb, bb), 1e-6), 0., 1.), d2 = length(pb - bb*k2);
+         float rad1 = mix(.075, .045, k1)*thin, rad2 = mix(.045, .03, k2)*thin;
+         F += exp(-pow(d1/rad1, 2.))*.9 + exp(-pow(d2/rad2, 2.))*.9;
+         float rb = (.05 + .035*h)*(1. - .3*t);
+@@ -607,7 +607,7 @@
+     void main(){
+       float r = length(vP), a = atan(vP.y, vP.x), R = ${POOLR.toFixed(2)};
+       float grow = 1. - pow(1. - clamp(vU/.18, 0., 1.), 3.), fade = 1. - smoothstep(${(PLL - .8).toFixed(2)}, ${PLL.toFixed(2)}, vU);
+-      float edge = R*grow*(.88 + .12*vn(vec2(a*2.5, 3.)) + .05*sin(a*7.));             // blobby, low pool
++      float edge = R*grow*(.88 + .12*vn(vec2(cos(a), sin(a))*2.5 + vec2(3.)) + .05*sin(a*7.));             // blobby, low pool
+       float inside = smoothstep(edge, edge - .12, r);
+       float bub = vn(vP*3. + vec2(0., vU*.6));
+       vec3 base = mix(vec3(.004, .012, .002), uOrange*.05, bub*bub);                      // dark liquid, only faint toxic sheen
+@@ -615,7 +615,7 @@
+       float ring = exp(-pow((r - R*grow*1.08)/.04, 2.))*(1. - clamp(vU/.35, 0., 1.))*1.4;  // one expanding rim on impact
+       vec3 col = base*inside + uOrange*(rim*.6 + ring*.7) + uGold*exp(-r*r*4.)*(vU < .033 ? 1.4 : 0.);
+       float alpha = max(inside*.6, clamp(rim + ring, 0., 1.))*fade*smoothstep(${(POOLR + .4).toFixed(2)}, ${(POOLR + .2).toFixed(2)}, r);
+-      if (alpha < .01) discard; gl_FragColor = vec4(col, alpha);
++      gl_FragColor = vec4(col, alpha);
+     }` }));
+ 
+ 
+--- a/prototypes/scout/hemorrhage/hemorrhage-vfx.html
++++ b/prototypes/scout/hemorrhage/hemorrhage-vfx.html
+@@ -572,8 +572,8 @@
+         float L = (.32 + .45*h)*g; vec2 sag = vec2(0., -.45*t*t*(.6 + h));
+         vec2 mid = dir*L*.5 + sag*.3, head = dir*L + sag;
+         float thin = 1. - .55*smoothstep(.25, .9, t);                                   // streams stretch thin
+-        vec2 pa = p; float k1 = clamp(dot(pa, mid)/dot(mid, mid), 0., 1.), d1 = length(pa - mid*k1);
+-        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/dot(bb, bb), 0., 1.), d2 = length(pb - bb*k2);
++        vec2 pa = p; float k1 = clamp(dot(pa, mid)/max(dot(mid, mid), 1e-6), 0., 1.), d1 = length(pa - mid*k1);
++        vec2 pb = p - mid, bb = head - mid; float k2 = clamp(dot(pb, bb)/max(dot(bb, bb), 1e-6), 0., 1.), d2 = length(pb - bb*k2);
+         float rad1 = mix(.075, .045, k1)*thin, rad2 = mix(.045, .03, k2)*thin;
+         F += exp(-pow(d1/rad1, 2.))*.9 + exp(-pow(d2/rad2, 2.))*.9;
+         float rb = (.05 + .035*h)*(1. - .3*t);
+--- a/prototypes/scout/sand-shot/sand-shot-vfx.html
++++ b/prototypes/scout/sand-shot/sand-shot-vfx.html
+@@ -429,7 +429,7 @@
+     float n = fbm(q*1.6) + .45*fbm(q*3.7 + 7.);
+     float inA = smoothstep(${CA.toFixed(2)} + .12, ${CA.toFixed(2)} - .12, abs(a) + (n - .7)*.18);
+     float body = smoothstep(push + .3, push - .9, r + (n - .7)*.9)*smoothstep(wipe - .4, wipe + .8, r + (n - .7)*.6)*smoothstep(.2, .8, r);
+-    return clamp((n - .5)*1.6, 0., 1.)*body*inA*(1. - smoothstep(${(CL - .15).toFixed(2)}, ${CL.toFixed(2)}, u));
++    return clamp((n - .57)*1.6, 0., 1.)*body*inA*(1. - smoothstep(${(CL - .15).toFixed(2)}, ${CL.toFixed(2)}, u));
+   }`;
+ const cones = pool(new THREE.PlaneGeometry(2, 2, 72, 72), 128, { aO:3, aT:1, aY:1 }, new THREE.ShaderMaterial({
+   transparent:true, depthWrite:false, side:THREE.DoubleSide, blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
+@@ -445,10 +445,10 @@
+       float d = dust(vL, vU);
+       vec3 n = normalize(cross(dFdx(vW), dFdy(vW))); n = n.y < 0. ? -n : n;
+       float lit = .45 + .55*max(dot(n, uMoon), 0.);
+-      float a = clamp(pow(d, 1.4)*1.1, 0., .6);
+-      vec3 col = mix(uSand*.35, mix(uSand, uGold, .35)*.9, lit)*(.6 + .6*d);           // warm lit dust, darker in the folds
+-      col += mix(uOrange, uGold, .6)*pow(d, 3.)*.25;                                   // a little warmth where it is densest
+-      if (a < .01) discard; gl_FragColor = vec4(col*a, a); }`,
++      float a = clamp(pow(d, 1.4)*.9, 0., .5);
++      vec3 col = mix(uSand*.35, mix(uSand, uGold, .12)*.8, lit)*(.6 + .6*d);           // warm lit dust, darker in the folds
++      col += mix(uOrange, uGold, .6)*pow(d, 3.)*.08;                                   // a little warmth where it is densest
++      gl_FragColor = vec4(col*a, a); }`,
+   extensions:{ derivatives:true } }));
+ 
+ // Layer 2 — a few sand grains thrown low with the front (velocity-stretched quads, ballistic on the GPU)
+--- a/prototypes/fighter/war-leap/war-leap-vfx.html
++++ b/prototypes/fighter/war-leap/war-leap-vfx.html
+@@ -439,12 +439,12 @@
+       float wipe = max(vU - ${(LEAP + .2).toFixed(2)}, 0.)/.6;                    // holds after landing, then fades from the take-off point
+       float alive = smoothstep(head + .01, head - .1, s)*smoothstep(wipe - .05, wipe + .25, s);
+       float prof = sin(3.14159*clamp(s/max(head, .05), 0., 1.));                // thin at take-off and at the body, fullest mid-arc
+-      float w = (.008 + .12*pow(prof, 1.2));                                       // wide stroke, fullest mid-arc
++      float w = (.006 + .052*pow(prof, 1.2));                                       // wide stroke, fullest mid-arc
+       float d = abs(vY);
+-      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.3), aura = exp(-pow(d/(w*2.6), 2.))*.18*smoothstep(.5, .32, d);   // soft aura, zero before the strip edge
++      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.3), aura = exp(-pow(d/(w*2.6), 2.))*.08*smoothstep(.5, .32, d);   // soft aura, zero before the strip edge
+       float fade = 1. - smoothstep(${(LEAP + .7).toFixed(2)}, ${(LEAP + 1.).toFixed(2)}, vU);
+       vec3 col = mix(uOrange, uGold, .35 + .65*prof);
+-      vec3 outc = (col*(band*(.55 + .45*prof) + aura) + mix(uGold, vec3(1., .96, .88), .6)*core*.55*prof)*alive*fade*pow(prof, .7);
++      vec3 outc = (col*(band*(.4 + .25*prof) + aura) + mix(uGold, vec3(1., .96, .88), .6)*core*.28*prof)*alive*fade*pow(prof, .7);
+       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+@@ -492,7 +492,7 @@
+           cr = max(cr, exp(-pow(d/w, 2.))*on);
+         }
+         float lit = smoothstep(front + .05, front - .2, r) * smoothstep(wipe - .1, wipe + .4, r);
+-        lum += cr*lit*.9; hot += cr*lit*.35;
++        lum += cr*lit*.55; hot += cr*lit*.12*exp(-u*7.);
+         // shock ring: one thin pulse from the centre to the rim
+         float rr = eox(clamp(u/.2, 0., 1.))*R, fs = 1. - clamp(u/.24, 0., 1.);
+         lum += exp(-pow(abs(r - rr)/.02, 2.4))*fs*fs*.8;
+@@ -533,7 +533,7 @@
+ const debrisGeo = new THREE.DodecahedronGeometry(1, 0).toNonIndexed(); debrisGeo.computeVertexNormals();
+ const debris = pool(debrisGeo, 512, { aO:3, aV:3, aT:2, aR:4 }, new THREE.ShaderMaterial({
+   uniforms:{ uTime, uOrange, uMoon:{ value:moonDir } },
+-  vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; attribute vec4 aR; uniform float uTime; varying vec3 vN; varying float vHeat;
++  vertexShader:`attribute vec3 aO, aV; attribute vec2 aT; attribute vec4 aR; uniform float uTime; varying vec3 vN, vRock; varying float vHeat;
+     mat3 rot(vec3 ax, float a){ ax = normalize(ax); float s = sin(a), c = cos(a), oc = 1. - c;
+       return mat3(oc*ax.x*ax.x + c, oc*ax.x*ax.y + ax.z*s, oc*ax.z*ax.x - ax.y*s,
+                   oc*ax.x*ax.y - ax.z*s, oc*ax.y*ax.y + c, oc*ax.y*ax.z + ax.x*s,
+@@ -544,12 +544,16 @@
+       vec3 p = aO + aV*age + vec3(0., -4.9*age*age, 0.); p.y = max(p.y, sz*.6);
+       float spin = age*8.*(p.y > sz*.61 ? 1. : .2);
+       mat3 R = rot(aR.xyz, spin);
+-      vN = R*normal; vHeat = exp(-age*5.);
++      vN = R*normalize(normal/vec3(1., .7, .85)); vRock = position + aR.xyz*2.; vHeat = exp(-age*10.);
+       gl_Position = projectionMatrix*viewMatrix*vec4(p + R*(position*sz*vec3(1., .7, .85)), 1.);
+     }`,
+-  fragmentShader:`uniform vec3 uOrange, uMoon; varying vec3 vN; varying float vHeat;
++  fragmentShader:`uniform vec3 uOrange, uMoon; varying vec3 vN, vRock; varying float vHeat;
+     void main(){ vec3 n = normalize(vN); float l = .12 + .6*max(dot(n, uMoon), 0.) + .15*max(n.y, 0.);
+-      gl_FragColor = vec4(vec3(.09,.08,.07)*l + uOrange*vHeat*(.6 + .6*(1. - abs(n.y))), 1.); }` }));
++      float grain = fract(sin(dot(floor(vRock*19.), vec3(127.1, 311.7, 74.7)))*43758.5);
++      float cut = abs(sin(dot(vRock, vec3(2.1, 3.7, 1.3))*3. + sin(vRock.y*8.)*.3));
++      float seam = exp(-pow(cut/.035, 2.));
++      vec3 stone = vec3(.11, .115, .12)*l*(.75 + .4*grain);
++      gl_FragColor = vec4(stone + uOrange*seam*vHeat*.5, 1.); }` }));
+ 
+ // ============ spawning (CPU work only at cast time) ============
+ const TIER = { 3:{ deb:8, bolt:true }, 2:{ deb:8, bolt:true }, 1:{ deb:4, bolt:true }, 0:{ deb:0, bolt:false } };
+--- a/prototypes/mage/tempest/tempest-vfx.html
++++ b/prototypes/mage/tempest/tempest-vfx.html
+@@ -762,7 +762,7 @@
+         } else if (vK < 9.5){                          // telegraph: ring + fill growing to the centre over the lead time, then gone at impact
+           float lead = vD.y, k = clamp(vU/lead, 0., 1.), f = step(vU, lead + .03);
+           vec3 c = vD.x < .5 ? uIceC : uOrange;
+-          float ring = exp(-pow((r - vR)/.025, 2.)), fill = smoothstep(vR*(1. - k) + .03, vR*(1. - k), vR - r)*.0 + smoothstep(vR*k + .04, vR*k - .04, r)*.22;
++          float ring = exp(-pow((r - vR)/.025, 2.)), fill = smoothstep(vR*(1. - k) + .03, vR*(1. - k), vR - r)*.0 + smoothstep(vR*k + .04, vR*k - .04, r)*.075;
+           o = c*(ring*.7 + fill)*f*(.6 + .4*k);
+           o *= smoothstep(vR + .3, vR + .15, r);
+         } else {                                       // frost ring on an ice impact
+--- a/prototypes/mystic/astral-pull/astral-pull-vfx.html
++++ b/prototypes/mystic/astral-pull/astral-pull-vfx.html
+@@ -429,8 +429,8 @@
+     void main(){
+       float r = length(vP), a = atan(vP.y, vP.x), t = vU/${RL.toFixed(2)};
+       /* one uniform soft blue zone that shrinks until it is gone */
+-      float R = .72*(1. - smoothstep(0., 1., t)), disc = smoothstep(R, R - .1, r)*smoothstep(0., .06, vU);
+-      vec3 o = (uV*.45 + uBl*.12)*disc;
++      float R = .72*(1. - smoothstep(0., 1., t)), disc = exp(-pow(r/max(R*.56, .025), 2.))*smoothstep(R, max(R - .14, 0.), r)*smoothstep(0., .06, vU);
++      vec3 o = (uV*.24 + uBl*.065)*disc;
+       o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard;
+       gl_FragColor = vec4(o, 1.);
+     }` }));
+@@ -529,7 +529,7 @@
+       vec3 n = normalize(vN), v = normalize(vV);
+       float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
+       vec3 col = mix(uBu, uCy, .45 + .45*rim);
+-      vec3 c = col*(.05 + .7*rim)*(.5 + vHeat) + vec3(.85, .96, 1.)*rim*max(vHeat - .6, 0.)*.5;
++      vec3 c = col*(.03 + .42*rim)*(.5 + vHeat) + vec3(.85, .96, 1.)*rim*max(vHeat - .6, 0.)*.25;
+       gl_FragColor = vec4(c, 1.);
+     }` }));
+ 
+@@ -572,7 +572,7 @@
+       for (int i=0;i<6;i++){ float fi = float(i), sp = fract(fi*.173 + .07)*vL, tw = pow(.5 + .5*sin(vU*9. + fi*2.3), 3.);
+         vec2 q = vec2(vS - sp, vY*.2); float r = length(q), a = atan(q.y, q.x);
+         st += (pow(abs(cos(a*2.)), 14.)*exp(-r*30.) + exp(-r*r*3000.))*tw*step(sp, vX*vL + .01); }
+-      vec3 outc = (col*band*.3 + mix(uCy, vec3(.85, .96, 1.), .5)*core*.16 + vec3(.85, .96, 1.)*st*.8)*heat*ends*m;
++      vec3 outc = (col*band*.1 + mix(uCy, vec3(.85, .96, 1.), .5)*core*.06 + vec3(.85, .96, 1.)*st*.45)*heat*ends*m;
+       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
+       gl_FragColor = vec4(outc, 1.);
+     }` }));
+--- a/prototypes/mystic/astral-step/astral-step-vfx.html
++++ b/prototypes/mystic/astral-step/astral-step-vfx.html
+@@ -435,8 +435,8 @@
+     void main(){
+       float r = length(vP), a = atan(vP.y, vP.x), t = vU/${RL.toFixed(2)};
+       /* one uniform soft blue zone that shrinks until it is gone */
+-      float R = .72*(1. - smoothstep(0., 1., t)), disc = smoothstep(R, R - .1, r)*smoothstep(0., .06, vU);
+-      vec3 o = (uV*.45 + uBl*.12)*disc;
++      float R = .72*(1. - smoothstep(0., 1., t)), disc = exp(-pow(r/max(R*.56, .025), 2.))*smoothstep(R, max(R - .14, 0.), r)*smoothstep(0., .06, vU);
++      vec3 o = (uV*.24 + uBl*.065)*disc;
+       o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard;
+       gl_FragColor = vec4(o, 1.);
+     }` }));

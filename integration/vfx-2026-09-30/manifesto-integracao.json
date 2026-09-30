@@ -1,0 +1,2558 @@
+{
+  "date": "2026-09-30",
+  "status": "Revisão visual aprovada pelo utilizador; guardado para integração posterior",
+  "prototypes": 125,
+  "adjusted_this_pass": 27,
+  "files": [
+    {
+      "path": "ajustes.json",
+      "bytes": 11421,
+      "sha256": "954ca6457882c513d90e936c49fc3558b7dc6e44936c8cfba583c74e3cb05c91"
+    },
+    {
+      "path": "comparacoes/astral-veil.jpg",
+      "bytes": 66607,
+      "sha256": "7f2e71e9571d36cebadcd0735cfc890320a7a7f5994276ced290a8cf789eacc2"
+    },
+    {
+      "path": "comparacoes/mana-storm.jpg",
+      "bytes": 68454,
+      "sha256": "867649bb50131298c92599a9989e5007b2e4b9a8c54e497867723e6244153225"
+    },
+    {
+      "path": "comparacoes/resurrect.jpg",
+      "bytes": 50958,
+      "sha256": "c053b129feb40e9ff80a83dedd8eb449e79ab558e1b6346424561e5ffb95cd43"
+    },
+    {
+      "path": "comparacoes/shoulder-rush.jpg",
+      "bytes": 47226,
+      "sha256": "521d02b597eadb6c0fa10e0e2c5c918318c8e4bf0a2330fdf5c75e8cdf5a3626"
+    },
+    {
+      "path": "comparacoes/spirit-comet.jpg",
+      "bytes": 41110,
+      "sha256": "3d5306937ba8bcfa13d98366de756c97a7765b30b0cb726ab3362e7880480408"
+    },
+    {
+      "path": "comparacoes/war-leap.jpg",
+      "bytes": 53619,
+      "sha256": "00618cce5e9829442647442fd06dba010945df1251bd6806879b1fc69cf1fa96"
+    },
+    {
+      "path": "docs/icons/fighter/battlecry-challenge-i-1.jpg",
+      "bytes": 36701,
+      "sha256": "140d44cd0f6231add7e723ad8d970e6ebb1163a0381997084b41e4cd68047625"
+    },
+    {
+      "path": "docs/icons/fighter/battlecry-challenge-i-2.jpg",
+      "bytes": 39179,
+      "sha256": "e7c6b19f24b1b2064e55ab5c89949ed8589ecdc040aa638bb532d934ed7dfc64"
+    },
+    {
+      "path": "docs/icons/fighter/battlecry-challenge-ii-1.jpg",
+      "bytes": 36701,
+      "sha256": "140d44cd0f6231add7e723ad8d970e6ebb1163a0381997084b41e4cd68047625"
+    },
+    {
+      "path": "docs/icons/fighter/battlecry-challenge-ii-2.jpg",
+      "bytes": 39179,
+      "sha256": "e7c6b19f24b1b2064e55ab5c89949ed8589ecdc040aa638bb532d934ed7dfc64"
+    },
+    {
+      "path": "docs/icons/fighter/chains-i.jpg",
+      "bytes": 37201,
+      "sha256": "3b2f2d360600bed5c49b169a2695398be48726029c3590c3349d405e19cca755"
+    },
+    {
+      "path": "docs/icons/fighter/chains-ii-chain-pull.jpg",
+      "bytes": 35339,
+      "sha256": "0797d0cc4edbc725fe9badca8735f7b461aed9dc2b82158689ab5b23ec8d3cd9"
+    },
+    {
+      "path": "docs/icons/fighter/cleanse.jpg",
+      "bytes": 39183,
+      "sha256": "060f4724e971b19d0b987e164c7c2c9ec6c4ca1a6e95c675c9bd9ddd1d8fbb31"
+    },
+    {
+      "path": "docs/icons/fighter/crushing-blow-i.jpg",
+      "bytes": 40455,
+      "sha256": "1e183a6e0de1f70517a208a8e73b3cae2a00ab5b6c6b8351000d192b9db9bbe8"
+    },
+    {
+      "path": "docs/icons/fighter/crushing-blow-ii.jpg",
+      "bytes": 40455,
+      "sha256": "1e183a6e0de1f70517a208a8e73b3cae2a00ab5b6c6b8351000d192b9db9bbe8"
+    },
+    {
+      "path": "docs/icons/fighter/defiant-presence.jpg",
+      "bytes": 41346,
+      "sha256": "21be925fcd41176e1fe1b81c72824d94a66a0acfb573e5cd60b853c054f50813"
+    },
+    {
+      "path": "docs/icons/fighter/momentum-mastery-1.jpg",
+      "bytes": 38205,
+      "sha256": "e1f1cb89938f8bea1f61afc970e651908572e4a40d15f42688bbc658d4a2cd3b"
+    },
+    {
+      "path": "docs/icons/fighter/momentum-mastery-2.jpg",
+      "bytes": 41948,
+      "sha256": "0148a65c9bf090904efdb60cf36b6a31fea09d2ac7353c8e680c9c5ee5f4ade5"
+    },
+    {
+      "path": "docs/icons/fighter/piercing-strike-i.jpg",
+      "bytes": 32531,
+      "sha256": "68f05732dbadb50e18d80f3c71463e80ee85b2df4b8767f696e34a8e8fa3be7a"
+    },
+    {
+      "path": "docs/icons/fighter/piercing-strike-ii.jpg",
+      "bytes": 32531,
+      "sha256": "68f05732dbadb50e18d80f3c71463e80ee85b2df4b8767f696e34a8e8fa3be7a"
+    },
+    {
+      "path": "docs/icons/fighter/pressure-provoke-1.jpg",
+      "bytes": 32175,
+      "sha256": "3bfdcf825abb63ccfc4f41dc618790132b481f9bf38f35336a57a40554c35632"
+    },
+    {
+      "path": "docs/icons/fighter/pressure-provoke-2.jpg",
+      "bytes": 40898,
+      "sha256": "08e500fe76b394a025bc9d3660228200f327d825bdeaecdf62172635fa4682ad"
+    },
+    {
+      "path": "docs/icons/fighter/rage-bulwark-1.jpg",
+      "bytes": 38205,
+      "sha256": "e1f1cb89938f8bea1f61afc970e651908572e4a40d15f42688bbc658d4a2cd3b"
+    },
+    {
+      "path": "docs/icons/fighter/rage-bulwark-2.jpg",
+      "bytes": 41948,
+      "sha256": "0148a65c9bf090904efdb60cf36b6a31fea09d2ac7353c8e680c9c5ee5f4ade5"
+    },
+    {
+      "path": "docs/icons/fighter/rally-i-1.jpg",
+      "bytes": 34629,
+      "sha256": "ffaafb0422ef09490b4601d42dfa2b57232e93fb86eb2475a1a503c9682b695a"
+    },
+    {
+      "path": "docs/icons/fighter/rally-i-2.jpg",
+      "bytes": 38874,
+      "sha256": "7e7d2c759474d31164ded738c5d22e17c8c1357085adda9e4326599b64124a9a"
+    },
+    {
+      "path": "docs/icons/fighter/rally-ii-1.jpg",
+      "bytes": 34629,
+      "sha256": "ffaafb0422ef09490b4601d42dfa2b57232e93fb86eb2475a1a503c9682b695a"
+    },
+    {
+      "path": "docs/icons/fighter/rally-ii-2.jpg",
+      "bytes": 38874,
+      "sha256": "7e7d2c759474d31164ded738c5d22e17c8c1357085adda9e4326599b64124a9a"
+    },
+    {
+      "path": "docs/icons/fighter/second-wind.jpg",
+      "bytes": 41238,
+      "sha256": "752e55b0437430e6bbde355e525641e5ff3b2881565f034034208e069aa843ac"
+    },
+    {
+      "path": "docs/icons/fighter/severing-strike-i.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "docs/icons/fighter/severing-strike-ii.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "docs/icons/fighter/severing-strike-iii.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "docs/icons/fighter/shoulder-rush-i.jpg",
+      "bytes": 43535,
+      "sha256": "5ff40cf8611a1a38eb90edc1c89068ff75dc60c190c7062b64f7b35cdc8cb3f1"
+    },
+    {
+      "path": "docs/icons/fighter/shoulder-rush-ii-1.jpg",
+      "bytes": 41167,
+      "sha256": "427aa08f0bb1a7a6019b522e47b1c20ea355c9807021d08358e6c02e47b1453e"
+    },
+    {
+      "path": "docs/icons/fighter/shoulder-rush-ii-2.jpg",
+      "bytes": 43414,
+      "sha256": "558b911a2c4bcc18f7c77fa61007219a84cf9be4260de6bfa51ea2e42d43cbfa"
+    },
+    {
+      "path": "docs/icons/fighter/war-leap.jpg",
+      "bytes": 39985,
+      "sha256": "31843b71252fafd1a2770c932558a95f070b410ade83bf66404a25226cbd4460"
+    },
+    {
+      "path": "docs/icons/fighter/warrior-stance-tank-stance-1.jpg",
+      "bytes": 32449,
+      "sha256": "6247617adbdd22e96993e1aef15ff8cba4397d16124548ed4463250f568135d4"
+    },
+    {
+      "path": "docs/icons/fighter/warrior-stance-tank-stance-2.jpg",
+      "bytes": 37098,
+      "sha256": "543e760fe8ee14f3db944f27012be6c9a3c786643d45c1a54ed65b33dea652b5"
+    },
+    {
+      "path": "docs/icons/mage/arcane-burst.jpg",
+      "bytes": 39258,
+      "sha256": "0c09c18b5077eca13f7595dd083ba585acc812d507410917d9a24fbb01330635"
+    },
+    {
+      "path": "docs/icons/mage/arcane-weaving-i.jpg",
+      "bytes": 41857,
+      "sha256": "b7b5fbd9157d353f9c51b82d115047ce0e59057027b8dd49964d3a81005994cf"
+    },
+    {
+      "path": "docs/icons/mage/arcane-weaving-ii.jpg",
+      "bytes": 41857,
+      "sha256": "b7b5fbd9157d353f9c51b82d115047ce0e59057027b8dd49964d3a81005994cf"
+    },
+    {
+      "path": "docs/icons/mage/blink.jpg",
+      "bytes": 40694,
+      "sha256": "8d3716850b28261fdcbfba166651f41d35a5cd1f5faf4c3cb991052375739d2f"
+    },
+    {
+      "path": "docs/icons/mage/cleanse.jpg",
+      "bytes": 43781,
+      "sha256": "4c0f64b01cdbaf28b886d851845caf8acd17534c16f438e6fe0df3a57fd200b7"
+    },
+    {
+      "path": "docs/icons/mage/coil-lightning-lightning.jpg",
+      "bytes": 41742,
+      "sha256": "c0a9f9f4e92755e8f659763bba590d5c1f802b0ee285bb456222c3fe57289359"
+    },
+    {
+      "path": "docs/icons/mage/combust-i.jpg",
+      "bytes": 45891,
+      "sha256": "60681fa72847fd687a0d12bdbc8bd2b652fe74c91cb64fe7aeb34e2f217b2954"
+    },
+    {
+      "path": "docs/icons/mage/combust-ii.jpg",
+      "bytes": 45891,
+      "sha256": "60681fa72847fd687a0d12bdbc8bd2b652fe74c91cb64fe7aeb34e2f217b2954"
+    },
+    {
+      "path": "docs/icons/mage/elemental-weaver-i.jpg",
+      "bytes": 46044,
+      "sha256": "15754962bfbb715198bfdeaf312612558eaaa1c50f01a9053ec057f6f86e5c71"
+    },
+    {
+      "path": "docs/icons/mage/elemental-weaver-ii.jpg",
+      "bytes": 46044,
+      "sha256": "15754962bfbb715198bfdeaf312612558eaaa1c50f01a9053ec057f6f86e5c71"
+    },
+    {
+      "path": "docs/icons/mage/fire-bolt-i.jpg",
+      "bytes": 34484,
+      "sha256": "dd2d252e50f051e7e9d80858a7dd248633bd7cea8251ac227844b3beabb33331"
+    },
+    {
+      "path": "docs/icons/mage/fire-bolt-ii.jpg",
+      "bytes": 34484,
+      "sha256": "dd2d252e50f051e7e9d80858a7dd248633bd7cea8251ac227844b3beabb33331"
+    },
+    {
+      "path": "docs/icons/mage/frost-lance-i.jpg",
+      "bytes": 44627,
+      "sha256": "c23d86f62638ebf5ac5cc866ceddb057b66a3e1afbc27766f300d098bd6a44fe"
+    },
+    {
+      "path": "docs/icons/mage/frost-lance-ii.jpg",
+      "bytes": 44627,
+      "sha256": "c23d86f62638ebf5ac5cc866ceddb057b66a3e1afbc27766f300d098bd6a44fe"
+    },
+    {
+      "path": "docs/icons/mage/glacial-spike-i.jpg",
+      "bytes": 48157,
+      "sha256": "b524fd8bc21417592e2d163f0557287f7c5e135e81ab4ca0cc30e6600137c65b"
+    },
+    {
+      "path": "docs/icons/mage/glacial-spike-ii.jpg",
+      "bytes": 48157,
+      "sha256": "b524fd8bc21417592e2d163f0557287f7c5e135e81ab4ca0cc30e6600137c65b"
+    },
+    {
+      "path": "docs/icons/mage/iceberg-ice-ice.jpg",
+      "bytes": 47622,
+      "sha256": "76a9b23641c8d6107c71df09ed6d798bcebbfa91311ac15348e13159f9fa26bf"
+    },
+    {
+      "path": "docs/icons/mage/laser-fire-lightning.jpg",
+      "bytes": 43800,
+      "sha256": "d91dd09f22505e2aac7fdc702ec2c27ac4889d63289ee8addc06eda280cda2a2"
+    },
+    {
+      "path": "docs/icons/mage/mana-barrier-i.jpg",
+      "bytes": 45197,
+      "sha256": "1ff455832ece946c12675dc478e530e7108345543741e91ae6144a2219ad56b0"
+    },
+    {
+      "path": "docs/icons/mage/mana-barrier-ii-overcharge.jpg",
+      "bytes": 48164,
+      "sha256": "d86b2713b8fd852ebd73b9e186168a288674e7864e670c5a96ca2d1749f1a4ea"
+    },
+    {
+      "path": "docs/icons/mage/mana-storm.jpg",
+      "bytes": 44396,
+      "sha256": "f48c8ec08d98c754822843d5fc4d17863912fdbb06978039bf0fc75813a6666e"
+    },
+    {
+      "path": "docs/icons/mage/manifest-weave-1.jpg",
+      "bytes": 46963,
+      "sha256": "4373c26e835fe05d01d61ff09e829ce553229a5d66c3be3d79fbae48de03b3a1"
+    },
+    {
+      "path": "docs/icons/mage/manifest-weave-2.jpg",
+      "bytes": 41325,
+      "sha256": "ace39fa95c9a20aea34e3fd743f9e7babc76176644ef4b360fffd3d5419e4933"
+    },
+    {
+      "path": "docs/icons/mage/mist-fire-ice.jpg",
+      "bytes": 47691,
+      "sha256": "07147254529bce4b797647dfc1385ffe2f789fca20f90d5bbc220645cfc3e94b"
+    },
+    {
+      "path": "docs/icons/mage/static-bolt-i.jpg",
+      "bytes": 40235,
+      "sha256": "685b1494f81754bba11245ed7156370b3bd8596eda4b79b600ab0136c5508e88"
+    },
+    {
+      "path": "docs/icons/mage/static-bolt-ii.jpg",
+      "bytes": 40235,
+      "sha256": "685b1494f81754bba11245ed7156370b3bd8596eda4b79b600ab0136c5508e88"
+    },
+    {
+      "path": "docs/icons/mage/tempest-ice-lightning.jpg",
+      "bytes": 53609,
+      "sha256": "320360c8977347f0051ded88496a903dc0db97a8b076eb8a53800bfa5c00da86"
+    },
+    {
+      "path": "docs/icons/mage/thunderstrike-i.jpg",
+      "bytes": 43029,
+      "sha256": "5c91e17cdf577982cb15025c9357d274684ac5ae3e2309d70815c1dbaf28e065"
+    },
+    {
+      "path": "docs/icons/mage/thunderstrike-ii.jpg",
+      "bytes": 43029,
+      "sha256": "5c91e17cdf577982cb15025c9357d274684ac5ae3e2309d70815c1dbaf28e065"
+    },
+    {
+      "path": "docs/icons/mage/vortex-fire-fire.jpg",
+      "bytes": 43541,
+      "sha256": "179112a36f81f0c71e9fcc0862f60882c64ee2b3daa8e85553c1514be43a0213"
+    },
+    {
+      "path": "docs/icons/mystic/astral-aura-sun-moon-aura-1.jpg",
+      "bytes": 47743,
+      "sha256": "eb18ad445965fff2641daf8cf07ec335affbcf16d44702d5c66e59d5e0987eec"
+    },
+    {
+      "path": "docs/icons/mystic/astral-aura-sun-moon-aura-2.jpg",
+      "bytes": 40903,
+      "sha256": "94c20c3a27dfd89fcc74c61580ffe9841805e7e45561532095359a5ed20f20ff"
+    },
+    {
+      "path": "docs/icons/mystic/astral-pull.jpg",
+      "bytes": 39340,
+      "sha256": "e35ea785ad8b596a44cef3f40970c46f4fae58b2be634dcac6a27b95f251d3be"
+    },
+    {
+      "path": "docs/icons/mystic/astral-step.jpg",
+      "bytes": 34612,
+      "sha256": "89b9f872118c7e80b680498672b89b21e62d90d282ec3a63e5aad39dbbf966c2"
+    },
+    {
+      "path": "docs/icons/mystic/astral-veil.jpg",
+      "bytes": 48577,
+      "sha256": "c49c7eee8b3e1521afb92d917f917eca2dab22aa788e507404260eee1a12bdea"
+    },
+    {
+      "path": "docs/icons/mystic/black-hole-i.jpg",
+      "bytes": 44883,
+      "sha256": "fb30b6d0c8ad7d4a214019a61d3f0a7a7f9131128268fc0a8bb4a16e339c5a2b"
+    },
+    {
+      "path": "docs/icons/mystic/black-hole-ii.jpg",
+      "bytes": 44883,
+      "sha256": "fb30b6d0c8ad7d4a214019a61d3f0a7a7f9131128268fc0a8bb4a16e339c5a2b"
+    },
+    {
+      "path": "docs/icons/mystic/bright-star-full-moon-1.jpg",
+      "bytes": 43331,
+      "sha256": "b576a719cd3d578022c265591807ca9578581cf5a0ea078fe057a08c8733cb52"
+    },
+    {
+      "path": "docs/icons/mystic/bright-star-full-moon-2.jpg",
+      "bytes": 41949,
+      "sha256": "7ca6a9629e914cf066ac424fb8d05cffbaa3e76f4454db040948b19128020a14"
+    },
+    {
+      "path": "docs/icons/mystic/cleanse.jpg",
+      "bytes": 39826,
+      "sha256": "301375200dd1830acbd33bf23310005fa583021ad08c6a8b5647a278e9586065"
+    },
+    {
+      "path": "docs/icons/mystic/connection-i-1.jpg",
+      "bytes": 46630,
+      "sha256": "430053c21c4d5078ea83a0f87957c40fad4b86c1a909a2cbe47b6c02af02ca82"
+    },
+    {
+      "path": "docs/icons/mystic/connection-i-2.jpg",
+      "bytes": 44488,
+      "sha256": "5b3c253948a4f91125de42cb80983fb4fc706b088bb5101f829068719f121b8f"
+    },
+    {
+      "path": "docs/icons/mystic/connection-ii-ritual-1.jpg",
+      "bytes": 46630,
+      "sha256": "430053c21c4d5078ea83a0f87957c40fad4b86c1a909a2cbe47b6c02af02ca82"
+    },
+    {
+      "path": "docs/icons/mystic/connection-ii-ritual-2.jpg",
+      "bytes": 44488,
+      "sha256": "5b3c253948a4f91125de42cb80983fb4fc706b088bb5101f829068719f121b8f"
+    },
+    {
+      "path": "docs/icons/mystic/cosmic-ray-i.jpg",
+      "bytes": 45957,
+      "sha256": "cb23cdad44c91a6806f282e0a13b191d3b9b31567e7925eb9653424ee535dc4e"
+    },
+    {
+      "path": "docs/icons/mystic/cosmic-ray-ii.jpg",
+      "bytes": 45957,
+      "sha256": "cb23cdad44c91a6806f282e0a13b191d3b9b31567e7925eb9653424ee535dc4e"
+    },
+    {
+      "path": "docs/icons/mystic/eclipse.jpg",
+      "bytes": 40313,
+      "sha256": "d572b6e38ef3b821621bf8f04fafe2aafc85489588a63ce35f4e00544a1e1b1b"
+    },
+    {
+      "path": "docs/icons/mystic/ether-i-1.jpg",
+      "bytes": 46077,
+      "sha256": "646172119dac7e7ec188ac9f4179aba12a78b7c12a01e38a81074c68cfb3b0f8"
+    },
+    {
+      "path": "docs/icons/mystic/ether-i-2.jpg",
+      "bytes": 43916,
+      "sha256": "5b2f178423b1e909f28b6f1cce8ca89ceeb1215dc599240febb852e6ffd5633a"
+    },
+    {
+      "path": "docs/icons/mystic/ether-ii-1.jpg",
+      "bytes": 46077,
+      "sha256": "646172119dac7e7ec188ac9f4179aba12a78b7c12a01e38a81074c68cfb3b0f8"
+    },
+    {
+      "path": "docs/icons/mystic/ether-ii-2.jpg",
+      "bytes": 43916,
+      "sha256": "5b2f178423b1e909f28b6f1cce8ca89ceeb1215dc599240febb852e6ffd5633a"
+    },
+    {
+      "path": "docs/icons/mystic/lullaby-i.jpg",
+      "bytes": 44921,
+      "sha256": "5955fdc81ab73d745875fbaa89926e20e60193e3c13f9cf8c19421aa4a61e32e"
+    },
+    {
+      "path": "docs/icons/mystic/lullaby-ii-nightmare-1.jpg",
+      "bytes": 44921,
+      "sha256": "5955fdc81ab73d745875fbaa89926e20e60193e3c13f9cf8c19421aa4a61e32e"
+    },
+    {
+      "path": "docs/icons/mystic/lullaby-ii-nightmare-2.jpg",
+      "bytes": 45740,
+      "sha256": "76d907023c84d8a050bba65fdac2019ac6bf7ff6fbe78f39f56915b3836b7abc"
+    },
+    {
+      "path": "docs/icons/mystic/resurrect.jpg",
+      "bytes": 41421,
+      "sha256": "59b33463b778d228731a0001eb261cb46b60757a2fc3f66e1c9441a1a3b88da1"
+    },
+    {
+      "path": "docs/icons/mystic/serenity.jpg",
+      "bytes": 36107,
+      "sha256": "8788b718e378ea7f88d5020b48ed8c419df5c3b87d55ea19816374ba44317395"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-comet-1.jpg",
+      "bytes": 39218,
+      "sha256": "159783f078a6616a0a0c5c519aa424445c0e27c7bdc0fe988604c0634a17da25"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-comet-2.jpg",
+      "bytes": 35053,
+      "sha256": "96a61aced9d53a8367ae39961fd8b293434493f4689cd08891532c8af19e327e"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-orbit-1.jpg",
+      "bytes": 32942,
+      "sha256": "7e71fb30ee072dfd0d4fa0a85bde3298db4235d6e3bf9fef0547f82cc42e8c1d"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-orbit-2.jpg",
+      "bytes": 32848,
+      "sha256": "cacce2c4e72e3904617b6b8aac5b5eddee9fc9368631a6d4536dd7e69c21a987"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-star-1.jpg",
+      "bytes": 38391,
+      "sha256": "60c629f5bbba947ef23a4925064e5a3b7b154f1d5d4568e6a996e960b2b93050"
+    },
+    {
+      "path": "docs/icons/mystic/spirit-of-the-star-2.jpg",
+      "bytes": 38715,
+      "sha256": "c8a1827e205da92e977b85413aa0afe726b087409008fd790a9ff8cc7cc99d6e"
+    },
+    {
+      "path": "docs/icons/mystic/sun-moon-stance-1.jpg",
+      "bytes": 44890,
+      "sha256": "066dd78cbf0cbf276ad7661cc0075113a4638c62c0c222e814321e8428797917"
+    },
+    {
+      "path": "docs/icons/mystic/sun-moon-stance-2.jpg",
+      "bytes": 38897,
+      "sha256": "2cb72644e84b2e7ff9ad361b4fea95f484bca3518a222b4190f6901978cbb70e"
+    },
+    {
+      "path": "docs/icons/scout/backstab-i.jpg",
+      "bytes": 34713,
+      "sha256": "0e87ac049eb73dd17416987c5ebbb71503359d31f50b1e1a535f2cee597f3c27"
+    },
+    {
+      "path": "docs/icons/scout/backstab-ii.jpg",
+      "bytes": 34713,
+      "sha256": "0e87ac049eb73dd17416987c5ebbb71503359d31f50b1e1a535f2cee597f3c27"
+    },
+    {
+      "path": "docs/icons/scout/blinding-dart.jpg",
+      "bytes": 33114,
+      "sha256": "88da35ef4d69f2754a94e5e9d9326ced2f4232abc9a2f5fc56be1f3d67380f7a"
+    },
+    {
+      "path": "docs/icons/scout/cleanse.jpg",
+      "bytes": 38979,
+      "sha256": "6ed6f4bc44a1c96efdad38f89dc1190d8c12532b9aa286a29a5b885484cdf72f"
+    },
+    {
+      "path": "docs/icons/scout/evasion.jpg",
+      "bytes": 44759,
+      "sha256": "6595b98e71c3a8c4bbea575e5cd5f147d8df983c79f82b43ed77e035104a9641"
+    },
+    {
+      "path": "docs/icons/scout/exploit-weakness-i.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "docs/icons/scout/exploit-weakness-ii.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "docs/icons/scout/exploit-weakness-iii.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "docs/icons/scout/long-jump.jpg",
+      "bytes": 43568,
+      "sha256": "179d99b2c957b17da5cc6d306e0d4df84525a7400192e202ad3c7e47178e512f"
+    },
+    {
+      "path": "docs/icons/scout/poison-bleed-stance-1.jpg",
+      "bytes": 31337,
+      "sha256": "970fddf6dd0696cdeff2cdc93f1e9b4d4be2c806165815d927feb895430a78be"
+    },
+    {
+      "path": "docs/icons/scout/poison-bleed-stance-2.jpg",
+      "bytes": 28060,
+      "sha256": "4166dcf45f1fcd28ddf4623cf9de94b5b3b3b3f18ab7461d39caf1817f330be7"
+    },
+    {
+      "path": "docs/icons/scout/poison-sac-hemorrhage-1.jpg",
+      "bytes": 36631,
+      "sha256": "289578253f7aa8c18d78d287c2ed0dd281df9cb6383a832eeda8c68e7fca2cf1"
+    },
+    {
+      "path": "docs/icons/scout/poison-sac-hemorrhage-2.jpg",
+      "bytes": 33226,
+      "sha256": "9e4af9d54a2db6d8ad4001aebab32cbc0716558de94fe31f22ff6828a7d58405"
+    },
+    {
+      "path": "docs/icons/scout/quickstep-i.jpg",
+      "bytes": 40739,
+      "sha256": "d307f7d940a96c65ef4a57684603e592938efeea5acdc9b5f808f3790f6698ca"
+    },
+    {
+      "path": "docs/icons/scout/quickstep-ii.jpg",
+      "bytes": 40739,
+      "sha256": "d307f7d940a96c65ef4a57684603e592938efeea5acdc9b5f808f3790f6698ca"
+    },
+    {
+      "path": "docs/icons/scout/rapid-attack.jpg",
+      "bytes": 35835,
+      "sha256": "05b633c1ffe76be272cfc04eddaedf580484712988733b35006b714b11faa334"
+    },
+    {
+      "path": "docs/icons/scout/sand-shot.jpg",
+      "bytes": 32789,
+      "sha256": "706f1862612b9e395c57edfe56562805502f791a6bcc64d0cafc7e773920eba8"
+    },
+    {
+      "path": "docs/icons/scout/sickness.jpg",
+      "bytes": 37108,
+      "sha256": "b35abfb706caf8da09515bea8e21d31f447452852693d593180f9faa03f93ad8"
+    },
+    {
+      "path": "docs/icons/scout/smoke-bomb-i.jpg",
+      "bytes": 43609,
+      "sha256": "4b6db71791ae3dd6be6ca5d9725c53436287d6718e541ad86e46743e6b3e5357"
+    },
+    {
+      "path": "docs/icons/scout/smoke-bomb-ii.jpg",
+      "bytes": 43609,
+      "sha256": "4b6db71791ae3dd6be6ca5d9725c53436287d6718e541ad86e46743e6b3e5357"
+    },
+    {
+      "path": "docs/icons/scout/torpor.jpg",
+      "bytes": 38545,
+      "sha256": "3f03d99b0fe9f173a8f2e8536650f60264a004e71b28d95180183853b0c2349e"
+    },
+    {
+      "path": "docs/icons/scout/vine-field-i.jpg",
+      "bytes": 41677,
+      "sha256": "d3194ab2f66feb2a8ec82eaefe07a82b1ebe25e521ea75622996e90bc4e2e182"
+    },
+    {
+      "path": "docs/icons/scout/vine-field-ii.jpg",
+      "bytes": 41677,
+      "sha256": "d3194ab2f66feb2a8ec82eaefe07a82b1ebe25e521ea75622996e90bc4e2e182"
+    },
+    {
+      "path": "docs/icons/scout/volley-i.jpg",
+      "bytes": 34068,
+      "sha256": "71e8ec1ea7364436b8c6eb987d974f2d9e7f2dbbe5271ae911e29bafb31f8e52"
+    },
+    {
+      "path": "docs/icons/scout/volley-ii.jpg",
+      "bytes": 34068,
+      "sha256": "71e8ec1ea7364436b8c6eb987d974f2d9e7f2dbbe5271ae911e29bafb31f8e52"
+    },
+    {
+      "path": "index.html",
+      "bytes": 67226,
+      "sha256": "b12200d424674fc4af96bf8d71b545c7f73b701f18d080973079b922ea616e24"
+    },
+    {
+      "path": "instalacao.json",
+      "bytes": 8964,
+      "sha256": "5df08be69e984392097a7cab9f9792e541b867e99ae6417c6241153ff6128660"
+    },
+    {
+      "path": "inventario.json",
+      "bytes": 123216,
+      "sha256": "b012fb640044b2731cb64a6fc049b8d1ba1f40d59ab912270097668aff1a5696"
+    },
+    {
+      "path": "LEIA-ME.txt",
+      "bytes": 1681,
+      "sha256": "d8562060283c42fb00a1cc09e159991822e6ee0cdd41ab7a92eab870c74beccd"
+    },
+    {
+      "path": "originais/docs/icons/fighter/battlecry-challenge-i-1.jpg",
+      "bytes": 36701,
+      "sha256": "140d44cd0f6231add7e723ad8d970e6ebb1163a0381997084b41e4cd68047625"
+    },
+    {
+      "path": "originais/docs/icons/fighter/battlecry-challenge-i-2.jpg",
+      "bytes": 39179,
+      "sha256": "e7c6b19f24b1b2064e55ab5c89949ed8589ecdc040aa638bb532d934ed7dfc64"
+    },
+    {
+      "path": "originais/docs/icons/fighter/battlecry-challenge-ii-1.jpg",
+      "bytes": 36701,
+      "sha256": "140d44cd0f6231add7e723ad8d970e6ebb1163a0381997084b41e4cd68047625"
+    },
+    {
+      "path": "originais/docs/icons/fighter/battlecry-challenge-ii-2.jpg",
+      "bytes": 39179,
+      "sha256": "e7c6b19f24b1b2064e55ab5c89949ed8589ecdc040aa638bb532d934ed7dfc64"
+    },
+    {
+      "path": "originais/docs/icons/fighter/chains-i.jpg",
+      "bytes": 37201,
+      "sha256": "3b2f2d360600bed5c49b169a2695398be48726029c3590c3349d405e19cca755"
+    },
+    {
+      "path": "originais/docs/icons/fighter/chains-ii-chain-pull.jpg",
+      "bytes": 35339,
+      "sha256": "0797d0cc4edbc725fe9badca8735f7b461aed9dc2b82158689ab5b23ec8d3cd9"
+    },
+    {
+      "path": "originais/docs/icons/fighter/cleanse.jpg",
+      "bytes": 39183,
+      "sha256": "060f4724e971b19d0b987e164c7c2c9ec6c4ca1a6e95c675c9bd9ddd1d8fbb31"
+    },
+    {
+      "path": "originais/docs/icons/fighter/crushing-blow-i.jpg",
+      "bytes": 40455,
+      "sha256": "1e183a6e0de1f70517a208a8e73b3cae2a00ab5b6c6b8351000d192b9db9bbe8"
+    },
+    {
+      "path": "originais/docs/icons/fighter/crushing-blow-ii.jpg",
+      "bytes": 40455,
+      "sha256": "1e183a6e0de1f70517a208a8e73b3cae2a00ab5b6c6b8351000d192b9db9bbe8"
+    },
+    {
+      "path": "originais/docs/icons/fighter/defiant-presence.jpg",
+      "bytes": 41346,
+      "sha256": "21be925fcd41176e1fe1b81c72824d94a66a0acfb573e5cd60b853c054f50813"
+    },
+    {
+      "path": "originais/docs/icons/fighter/momentum-mastery-1.jpg",
+      "bytes": 38205,
+      "sha256": "e1f1cb89938f8bea1f61afc970e651908572e4a40d15f42688bbc658d4a2cd3b"
+    },
+    {
+      "path": "originais/docs/icons/fighter/momentum-mastery-2.jpg",
+      "bytes": 41948,
+      "sha256": "0148a65c9bf090904efdb60cf36b6a31fea09d2ac7353c8e680c9c5ee5f4ade5"
+    },
+    {
+      "path": "originais/docs/icons/fighter/piercing-strike-i.jpg",
+      "bytes": 32531,
+      "sha256": "68f05732dbadb50e18d80f3c71463e80ee85b2df4b8767f696e34a8e8fa3be7a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/piercing-strike-ii.jpg",
+      "bytes": 32531,
+      "sha256": "68f05732dbadb50e18d80f3c71463e80ee85b2df4b8767f696e34a8e8fa3be7a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/pressure-provoke-1.jpg",
+      "bytes": 32175,
+      "sha256": "3bfdcf825abb63ccfc4f41dc618790132b481f9bf38f35336a57a40554c35632"
+    },
+    {
+      "path": "originais/docs/icons/fighter/pressure-provoke-2.jpg",
+      "bytes": 40898,
+      "sha256": "08e500fe76b394a025bc9d3660228200f327d825bdeaecdf62172635fa4682ad"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rage-bulwark-1.jpg",
+      "bytes": 38205,
+      "sha256": "e1f1cb89938f8bea1f61afc970e651908572e4a40d15f42688bbc658d4a2cd3b"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rage-bulwark-2.jpg",
+      "bytes": 41948,
+      "sha256": "0148a65c9bf090904efdb60cf36b6a31fea09d2ac7353c8e680c9c5ee5f4ade5"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rally-i-1.jpg",
+      "bytes": 34629,
+      "sha256": "ffaafb0422ef09490b4601d42dfa2b57232e93fb86eb2475a1a503c9682b695a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rally-i-2.jpg",
+      "bytes": 38874,
+      "sha256": "7e7d2c759474d31164ded738c5d22e17c8c1357085adda9e4326599b64124a9a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rally-ii-1.jpg",
+      "bytes": 34629,
+      "sha256": "ffaafb0422ef09490b4601d42dfa2b57232e93fb86eb2475a1a503c9682b695a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/rally-ii-2.jpg",
+      "bytes": 38874,
+      "sha256": "7e7d2c759474d31164ded738c5d22e17c8c1357085adda9e4326599b64124a9a"
+    },
+    {
+      "path": "originais/docs/icons/fighter/second-wind.jpg",
+      "bytes": 41238,
+      "sha256": "752e55b0437430e6bbde355e525641e5ff3b2881565f034034208e069aa843ac"
+    },
+    {
+      "path": "originais/docs/icons/fighter/severing-strike-i.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "originais/docs/icons/fighter/severing-strike-ii.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "originais/docs/icons/fighter/severing-strike-iii.jpg",
+      "bytes": 39753,
+      "sha256": "65977d166223367c609fed7c18b44337e2e6cf11d30069e96eb16a686b7185dd"
+    },
+    {
+      "path": "originais/docs/icons/fighter/shoulder-rush-i.jpg",
+      "bytes": 43535,
+      "sha256": "5ff40cf8611a1a38eb90edc1c89068ff75dc60c190c7062b64f7b35cdc8cb3f1"
+    },
+    {
+      "path": "originais/docs/icons/fighter/shoulder-rush-ii-1.jpg",
+      "bytes": 41167,
+      "sha256": "427aa08f0bb1a7a6019b522e47b1c20ea355c9807021d08358e6c02e47b1453e"
+    },
+    {
+      "path": "originais/docs/icons/fighter/shoulder-rush-ii-2.jpg",
+      "bytes": 43414,
+      "sha256": "558b911a2c4bcc18f7c77fa61007219a84cf9be4260de6bfa51ea2e42d43cbfa"
+    },
+    {
+      "path": "originais/docs/icons/fighter/war-leap.jpg",
+      "bytes": 39985,
+      "sha256": "31843b71252fafd1a2770c932558a95f070b410ade83bf66404a25226cbd4460"
+    },
+    {
+      "path": "originais/docs/icons/fighter/warrior-stance-tank-stance-1.jpg",
+      "bytes": 32449,
+      "sha256": "6247617adbdd22e96993e1aef15ff8cba4397d16124548ed4463250f568135d4"
+    },
+    {
+      "path": "originais/docs/icons/fighter/warrior-stance-tank-stance-2.jpg",
+      "bytes": 37098,
+      "sha256": "543e760fe8ee14f3db944f27012be6c9a3c786643d45c1a54ed65b33dea652b5"
+    },
+    {
+      "path": "originais/docs/icons/mage/arcane-burst.jpg",
+      "bytes": 39258,
+      "sha256": "0c09c18b5077eca13f7595dd083ba585acc812d507410917d9a24fbb01330635"
+    },
+    {
+      "path": "originais/docs/icons/mage/arcane-weaving-i.jpg",
+      "bytes": 41857,
+      "sha256": "b7b5fbd9157d353f9c51b82d115047ce0e59057027b8dd49964d3a81005994cf"
+    },
+    {
+      "path": "originais/docs/icons/mage/arcane-weaving-ii.jpg",
+      "bytes": 41857,
+      "sha256": "b7b5fbd9157d353f9c51b82d115047ce0e59057027b8dd49964d3a81005994cf"
+    },
+    {
+      "path": "originais/docs/icons/mage/blink.jpg",
+      "bytes": 40694,
+      "sha256": "8d3716850b28261fdcbfba166651f41d35a5cd1f5faf4c3cb991052375739d2f"
+    },
+    {
+      "path": "originais/docs/icons/mage/cleanse.jpg",
+      "bytes": 43781,
+      "sha256": "4c0f64b01cdbaf28b886d851845caf8acd17534c16f438e6fe0df3a57fd200b7"
+    },
+    {
+      "path": "originais/docs/icons/mage/coil-lightning-lightning.jpg",
+      "bytes": 41742,
+      "sha256": "c0a9f9f4e92755e8f659763bba590d5c1f802b0ee285bb456222c3fe57289359"
+    },
+    {
+      "path": "originais/docs/icons/mage/combust-i.jpg",
+      "bytes": 45891,
+      "sha256": "60681fa72847fd687a0d12bdbc8bd2b652fe74c91cb64fe7aeb34e2f217b2954"
+    },
+    {
+      "path": "originais/docs/icons/mage/combust-ii.jpg",
+      "bytes": 45891,
+      "sha256": "60681fa72847fd687a0d12bdbc8bd2b652fe74c91cb64fe7aeb34e2f217b2954"
+    },
+    {
+      "path": "originais/docs/icons/mage/elemental-weaver-i.jpg",
+      "bytes": 46044,
+      "sha256": "15754962bfbb715198bfdeaf312612558eaaa1c50f01a9053ec057f6f86e5c71"
+    },
+    {
+      "path": "originais/docs/icons/mage/elemental-weaver-ii.jpg",
+      "bytes": 46044,
+      "sha256": "15754962bfbb715198bfdeaf312612558eaaa1c50f01a9053ec057f6f86e5c71"
+    },
+    {
+      "path": "originais/docs/icons/mage/fire-bolt-i.jpg",
+      "bytes": 34484,
+      "sha256": "dd2d252e50f051e7e9d80858a7dd248633bd7cea8251ac227844b3beabb33331"
+    },
+    {
+      "path": "originais/docs/icons/mage/fire-bolt-ii.jpg",
+      "bytes": 34484,
+      "sha256": "dd2d252e50f051e7e9d80858a7dd248633bd7cea8251ac227844b3beabb33331"
+    },
+    {
+      "path": "originais/docs/icons/mage/frost-lance-i.jpg",
+      "bytes": 44627,
+      "sha256": "c23d86f62638ebf5ac5cc866ceddb057b66a3e1afbc27766f300d098bd6a44fe"
+    },
+    {
+      "path": "originais/docs/icons/mage/frost-lance-ii.jpg",
+      "bytes": 44627,
+      "sha256": "c23d86f62638ebf5ac5cc866ceddb057b66a3e1afbc27766f300d098bd6a44fe"
+    },
+    {
+      "path": "originais/docs/icons/mage/glacial-spike-i.jpg",
+      "bytes": 48157,
+      "sha256": "b524fd8bc21417592e2d163f0557287f7c5e135e81ab4ca0cc30e6600137c65b"
+    },
+    {
+      "path": "originais/docs/icons/mage/glacial-spike-ii.jpg",
+      "bytes": 48157,
+      "sha256": "b524fd8bc21417592e2d163f0557287f7c5e135e81ab4ca0cc30e6600137c65b"
+    },
+    {
+      "path": "originais/docs/icons/mage/iceberg-ice-ice.jpg",
+      "bytes": 47622,
+      "sha256": "76a9b23641c8d6107c71df09ed6d798bcebbfa91311ac15348e13159f9fa26bf"
+    },
+    {
+      "path": "originais/docs/icons/mage/laser-fire-lightning.jpg",
+      "bytes": 43800,
+      "sha256": "d91dd09f22505e2aac7fdc702ec2c27ac4889d63289ee8addc06eda280cda2a2"
+    },
+    {
+      "path": "originais/docs/icons/mage/mana-barrier-i.jpg",
+      "bytes": 45197,
+      "sha256": "1ff455832ece946c12675dc478e530e7108345543741e91ae6144a2219ad56b0"
+    },
+    {
+      "path": "originais/docs/icons/mage/mana-barrier-ii-overcharge.jpg",
+      "bytes": 48164,
+      "sha256": "d86b2713b8fd852ebd73b9e186168a288674e7864e670c5a96ca2d1749f1a4ea"
+    },
+    {
+      "path": "originais/docs/icons/mage/mana-storm.jpg",
+      "bytes": 44396,
+      "sha256": "f48c8ec08d98c754822843d5fc4d17863912fdbb06978039bf0fc75813a6666e"
+    },
+    {
+      "path": "originais/docs/icons/mage/manifest-weave-1.jpg",
+      "bytes": 46963,
+      "sha256": "4373c26e835fe05d01d61ff09e829ce553229a5d66c3be3d79fbae48de03b3a1"
+    },
+    {
+      "path": "originais/docs/icons/mage/manifest-weave-2.jpg",
+      "bytes": 41325,
+      "sha256": "ace39fa95c9a20aea34e3fd743f9e7babc76176644ef4b360fffd3d5419e4933"
+    },
+    {
+      "path": "originais/docs/icons/mage/mist-fire-ice.jpg",
+      "bytes": 47691,
+      "sha256": "07147254529bce4b797647dfc1385ffe2f789fca20f90d5bbc220645cfc3e94b"
+    },
+    {
+      "path": "originais/docs/icons/mage/static-bolt-i.jpg",
+      "bytes": 40235,
+      "sha256": "685b1494f81754bba11245ed7156370b3bd8596eda4b79b600ab0136c5508e88"
+    },
+    {
+      "path": "originais/docs/icons/mage/static-bolt-ii.jpg",
+      "bytes": 40235,
+      "sha256": "685b1494f81754bba11245ed7156370b3bd8596eda4b79b600ab0136c5508e88"
+    },
+    {
+      "path": "originais/docs/icons/mage/tempest-ice-lightning.jpg",
+      "bytes": 53609,
+      "sha256": "320360c8977347f0051ded88496a903dc0db97a8b076eb8a53800bfa5c00da86"
+    },
+    {
+      "path": "originais/docs/icons/mage/thunderstrike-i.jpg",
+      "bytes": 43029,
+      "sha256": "5c91e17cdf577982cb15025c9357d274684ac5ae3e2309d70815c1dbaf28e065"
+    },
+    {
+      "path": "originais/docs/icons/mage/thunderstrike-ii.jpg",
+      "bytes": 43029,
+      "sha256": "5c91e17cdf577982cb15025c9357d274684ac5ae3e2309d70815c1dbaf28e065"
+    },
+    {
+      "path": "originais/docs/icons/mage/vortex-fire-fire.jpg",
+      "bytes": 43541,
+      "sha256": "179112a36f81f0c71e9fcc0862f60882c64ee2b3daa8e85553c1514be43a0213"
+    },
+    {
+      "path": "originais/docs/icons/mystic/astral-aura-sun-moon-aura-1.jpg",
+      "bytes": 47743,
+      "sha256": "eb18ad445965fff2641daf8cf07ec335affbcf16d44702d5c66e59d5e0987eec"
+    },
+    {
+      "path": "originais/docs/icons/mystic/astral-aura-sun-moon-aura-2.jpg",
+      "bytes": 40903,
+      "sha256": "94c20c3a27dfd89fcc74c61580ffe9841805e7e45561532095359a5ed20f20ff"
+    },
+    {
+      "path": "originais/docs/icons/mystic/astral-pull.jpg",
+      "bytes": 39340,
+      "sha256": "e35ea785ad8b596a44cef3f40970c46f4fae58b2be634dcac6a27b95f251d3be"
+    },
+    {
+      "path": "originais/docs/icons/mystic/astral-step.jpg",
+      "bytes": 34612,
+      "sha256": "89b9f872118c7e80b680498672b89b21e62d90d282ec3a63e5aad39dbbf966c2"
+    },
+    {
+      "path": "originais/docs/icons/mystic/astral-veil.jpg",
+      "bytes": 48577,
+      "sha256": "c49c7eee8b3e1521afb92d917f917eca2dab22aa788e507404260eee1a12bdea"
+    },
+    {
+      "path": "originais/docs/icons/mystic/black-hole-i.jpg",
+      "bytes": 44883,
+      "sha256": "fb30b6d0c8ad7d4a214019a61d3f0a7a7f9131128268fc0a8bb4a16e339c5a2b"
+    },
+    {
+      "path": "originais/docs/icons/mystic/black-hole-ii.jpg",
+      "bytes": 44883,
+      "sha256": "fb30b6d0c8ad7d4a214019a61d3f0a7a7f9131128268fc0a8bb4a16e339c5a2b"
+    },
+    {
+      "path": "originais/docs/icons/mystic/bright-star-full-moon-1.jpg",
+      "bytes": 43331,
+      "sha256": "b576a719cd3d578022c265591807ca9578581cf5a0ea078fe057a08c8733cb52"
+    },
+    {
+      "path": "originais/docs/icons/mystic/bright-star-full-moon-2.jpg",
+      "bytes": 41949,
+      "sha256": "7ca6a9629e914cf066ac424fb8d05cffbaa3e76f4454db040948b19128020a14"
+    },
+    {
+      "path": "originais/docs/icons/mystic/cleanse.jpg",
+      "bytes": 39826,
+      "sha256": "301375200dd1830acbd33bf23310005fa583021ad08c6a8b5647a278e9586065"
+    },
+    {
+      "path": "originais/docs/icons/mystic/connection-i-1.jpg",
+      "bytes": 46630,
+      "sha256": "430053c21c4d5078ea83a0f87957c40fad4b86c1a909a2cbe47b6c02af02ca82"
+    },
+    {
+      "path": "originais/docs/icons/mystic/connection-i-2.jpg",
+      "bytes": 44488,
+      "sha256": "5b3c253948a4f91125de42cb80983fb4fc706b088bb5101f829068719f121b8f"
+    },
+    {
+      "path": "originais/docs/icons/mystic/connection-ii-ritual-1.jpg",
+      "bytes": 46630,
+      "sha256": "430053c21c4d5078ea83a0f87957c40fad4b86c1a909a2cbe47b6c02af02ca82"
+    },
+    {
+      "path": "originais/docs/icons/mystic/connection-ii-ritual-2.jpg",
+      "bytes": 44488,
+      "sha256": "5b3c253948a4f91125de42cb80983fb4fc706b088bb5101f829068719f121b8f"
+    },
+    {
+      "path": "originais/docs/icons/mystic/cosmic-ray-i.jpg",
+      "bytes": 45957,
+      "sha256": "cb23cdad44c91a6806f282e0a13b191d3b9b31567e7925eb9653424ee535dc4e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/cosmic-ray-ii.jpg",
+      "bytes": 45957,
+      "sha256": "cb23cdad44c91a6806f282e0a13b191d3b9b31567e7925eb9653424ee535dc4e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/eclipse.jpg",
+      "bytes": 40313,
+      "sha256": "d572b6e38ef3b821621bf8f04fafe2aafc85489588a63ce35f4e00544a1e1b1b"
+    },
+    {
+      "path": "originais/docs/icons/mystic/ether-i-1.jpg",
+      "bytes": 46077,
+      "sha256": "646172119dac7e7ec188ac9f4179aba12a78b7c12a01e38a81074c68cfb3b0f8"
+    },
+    {
+      "path": "originais/docs/icons/mystic/ether-i-2.jpg",
+      "bytes": 43916,
+      "sha256": "5b2f178423b1e909f28b6f1cce8ca89ceeb1215dc599240febb852e6ffd5633a"
+    },
+    {
+      "path": "originais/docs/icons/mystic/ether-ii-1.jpg",
+      "bytes": 46077,
+      "sha256": "646172119dac7e7ec188ac9f4179aba12a78b7c12a01e38a81074c68cfb3b0f8"
+    },
+    {
+      "path": "originais/docs/icons/mystic/ether-ii-2.jpg",
+      "bytes": 43916,
+      "sha256": "5b2f178423b1e909f28b6f1cce8ca89ceeb1215dc599240febb852e6ffd5633a"
+    },
+    {
+      "path": "originais/docs/icons/mystic/lullaby-i.jpg",
+      "bytes": 44921,
+      "sha256": "5955fdc81ab73d745875fbaa89926e20e60193e3c13f9cf8c19421aa4a61e32e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/lullaby-ii-nightmare-1.jpg",
+      "bytes": 44921,
+      "sha256": "5955fdc81ab73d745875fbaa89926e20e60193e3c13f9cf8c19421aa4a61e32e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/lullaby-ii-nightmare-2.jpg",
+      "bytes": 45740,
+      "sha256": "76d907023c84d8a050bba65fdac2019ac6bf7ff6fbe78f39f56915b3836b7abc"
+    },
+    {
+      "path": "originais/docs/icons/mystic/resurrect.jpg",
+      "bytes": 41421,
+      "sha256": "59b33463b778d228731a0001eb261cb46b60757a2fc3f66e1c9441a1a3b88da1"
+    },
+    {
+      "path": "originais/docs/icons/mystic/serenity.jpg",
+      "bytes": 36107,
+      "sha256": "8788b718e378ea7f88d5020b48ed8c419df5c3b87d55ea19816374ba44317395"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-comet-1.jpg",
+      "bytes": 39218,
+      "sha256": "159783f078a6616a0a0c5c519aa424445c0e27c7bdc0fe988604c0634a17da25"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-comet-2.jpg",
+      "bytes": 35053,
+      "sha256": "96a61aced9d53a8367ae39961fd8b293434493f4689cd08891532c8af19e327e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-orbit-1.jpg",
+      "bytes": 32942,
+      "sha256": "7e71fb30ee072dfd0d4fa0a85bde3298db4235d6e3bf9fef0547f82cc42e8c1d"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-orbit-2.jpg",
+      "bytes": 32848,
+      "sha256": "cacce2c4e72e3904617b6b8aac5b5eddee9fc9368631a6d4536dd7e69c21a987"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-star-1.jpg",
+      "bytes": 38391,
+      "sha256": "60c629f5bbba947ef23a4925064e5a3b7b154f1d5d4568e6a996e960b2b93050"
+    },
+    {
+      "path": "originais/docs/icons/mystic/spirit-of-the-star-2.jpg",
+      "bytes": 38715,
+      "sha256": "c8a1827e205da92e977b85413aa0afe726b087409008fd790a9ff8cc7cc99d6e"
+    },
+    {
+      "path": "originais/docs/icons/mystic/sun-moon-stance-1.jpg",
+      "bytes": 44890,
+      "sha256": "066dd78cbf0cbf276ad7661cc0075113a4638c62c0c222e814321e8428797917"
+    },
+    {
+      "path": "originais/docs/icons/mystic/sun-moon-stance-2.jpg",
+      "bytes": 38897,
+      "sha256": "2cb72644e84b2e7ff9ad361b4fea95f484bca3518a222b4190f6901978cbb70e"
+    },
+    {
+      "path": "originais/docs/icons/scout/backstab-i.jpg",
+      "bytes": 34713,
+      "sha256": "0e87ac049eb73dd17416987c5ebbb71503359d31f50b1e1a535f2cee597f3c27"
+    },
+    {
+      "path": "originais/docs/icons/scout/backstab-ii.jpg",
+      "bytes": 34713,
+      "sha256": "0e87ac049eb73dd17416987c5ebbb71503359d31f50b1e1a535f2cee597f3c27"
+    },
+    {
+      "path": "originais/docs/icons/scout/blinding-dart.jpg",
+      "bytes": 33114,
+      "sha256": "88da35ef4d69f2754a94e5e9d9326ced2f4232abc9a2f5fc56be1f3d67380f7a"
+    },
+    {
+      "path": "originais/docs/icons/scout/cleanse.jpg",
+      "bytes": 38979,
+      "sha256": "6ed6f4bc44a1c96efdad38f89dc1190d8c12532b9aa286a29a5b885484cdf72f"
+    },
+    {
+      "path": "originais/docs/icons/scout/evasion.jpg",
+      "bytes": 44759,
+      "sha256": "6595b98e71c3a8c4bbea575e5cd5f147d8df983c79f82b43ed77e035104a9641"
+    },
+    {
+      "path": "originais/docs/icons/scout/exploit-weakness-i.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "originais/docs/icons/scout/exploit-weakness-ii.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "originais/docs/icons/scout/exploit-weakness-iii.jpg",
+      "bytes": 43380,
+      "sha256": "656e03f81c0eb2703d4081eaa37f5aa892fe9d651510ca312c4100c9fbcd588f"
+    },
+    {
+      "path": "originais/docs/icons/scout/long-jump.jpg",
+      "bytes": 43568,
+      "sha256": "179d99b2c957b17da5cc6d306e0d4df84525a7400192e202ad3c7e47178e512f"
+    },
+    {
+      "path": "originais/docs/icons/scout/poison-bleed-stance-1.jpg",
+      "bytes": 31337,
+      "sha256": "970fddf6dd0696cdeff2cdc93f1e9b4d4be2c806165815d927feb895430a78be"
+    },
+    {
+      "path": "originais/docs/icons/scout/poison-bleed-stance-2.jpg",
+      "bytes": 28060,
+      "sha256": "4166dcf45f1fcd28ddf4623cf9de94b5b3b3b3f18ab7461d39caf1817f330be7"
+    },
+    {
+      "path": "originais/docs/icons/scout/poison-sac-hemorrhage-1.jpg",
+      "bytes": 36631,
+      "sha256": "289578253f7aa8c18d78d287c2ed0dd281df9cb6383a832eeda8c68e7fca2cf1"
+    },
+    {
+      "path": "originais/docs/icons/scout/poison-sac-hemorrhage-2.jpg",
+      "bytes": 33226,
+      "sha256": "9e4af9d54a2db6d8ad4001aebab32cbc0716558de94fe31f22ff6828a7d58405"
+    },
+    {
+      "path": "originais/docs/icons/scout/quickstep-i.jpg",
+      "bytes": 40739,
+      "sha256": "d307f7d940a96c65ef4a57684603e592938efeea5acdc9b5f808f3790f6698ca"
+    },
+    {
+      "path": "originais/docs/icons/scout/quickstep-ii.jpg",
+      "bytes": 40739,
+      "sha256": "d307f7d940a96c65ef4a57684603e592938efeea5acdc9b5f808f3790f6698ca"
+    },
+    {
+      "path": "originais/docs/icons/scout/rapid-attack.jpg",
+      "bytes": 35835,
+      "sha256": "05b633c1ffe76be272cfc04eddaedf580484712988733b35006b714b11faa334"
+    },
+    {
+      "path": "originais/docs/icons/scout/sand-shot.jpg",
+      "bytes": 32789,
+      "sha256": "706f1862612b9e395c57edfe56562805502f791a6bcc64d0cafc7e773920eba8"
+    },
+    {
+      "path": "originais/docs/icons/scout/sickness.jpg",
+      "bytes": 37108,
+      "sha256": "b35abfb706caf8da09515bea8e21d31f447452852693d593180f9faa03f93ad8"
+    },
+    {
+      "path": "originais/docs/icons/scout/smoke-bomb-i.jpg",
+      "bytes": 43609,
+      "sha256": "4b6db71791ae3dd6be6ca5d9725c53436287d6718e541ad86e46743e6b3e5357"
+    },
+    {
+      "path": "originais/docs/icons/scout/smoke-bomb-ii.jpg",
+      "bytes": 43609,
+      "sha256": "4b6db71791ae3dd6be6ca5d9725c53436287d6718e541ad86e46743e6b3e5357"
+    },
+    {
+      "path": "originais/docs/icons/scout/torpor.jpg",
+      "bytes": 38545,
+      "sha256": "3f03d99b0fe9f173a8f2e8536650f60264a004e71b28d95180183853b0c2349e"
+    },
+    {
+      "path": "originais/docs/icons/scout/vine-field-i.jpg",
+      "bytes": 41677,
+      "sha256": "d3194ab2f66feb2a8ec82eaefe07a82b1ebe25e521ea75622996e90bc4e2e182"
+    },
+    {
+      "path": "originais/docs/icons/scout/vine-field-ii.jpg",
+      "bytes": 41677,
+      "sha256": "d3194ab2f66feb2a8ec82eaefe07a82b1ebe25e521ea75622996e90bc4e2e182"
+    },
+    {
+      "path": "originais/docs/icons/scout/volley-i.jpg",
+      "bytes": 34068,
+      "sha256": "71e8ec1ea7364436b8c6eb987d974f2d9e7f2dbbe5271ae911e29bafb31f8e52"
+    },
+    {
+      "path": "originais/docs/icons/scout/volley-ii.jpg",
+      "bytes": 34068,
+      "sha256": "71e8ec1ea7364436b8c6eb987d974f2d9e7f2dbbe5271ae911e29bafb31f8e52"
+    },
+    {
+      "path": "originais/prototypes/fighter/battlecry-challenge-i-tank/battlecry-challenge-i-tank-vfx.html",
+      "bytes": 48356,
+      "sha256": "49e677fc1ae9600accd939bb3e906ca8381f595edcbe25fc4724cd3f5c7a00cf"
+    },
+    {
+      "path": "originais/prototypes/fighter/battlecry-challenge-i-warrior/battlecry-challenge-i-warrior-vfx.html",
+      "bytes": 48330,
+      "sha256": "94b7f6631cbc36bf39ac7e1fb48b44b69c278339da020eb4d602efa0f0a256b1"
+    },
+    {
+      "path": "originais/prototypes/fighter/battlecry-challenge-ii-tank/battlecry-challenge-ii-tank-vfx.html",
+      "bytes": 53557,
+      "sha256": "5500930a3c2130ca1c3000cbf53f59cbdc6d16158bbc64239b5fcdf7459d4523"
+    },
+    {
+      "path": "originais/prototypes/fighter/battlecry-challenge-ii-warrior/battlecry-challenge-ii-warrior-vfx.html",
+      "bytes": 53712,
+      "sha256": "0ab924569c2b3c4c95d6f25d4f4d0fe83413128493d5fa570ec8c31ed4375a78"
+    },
+    {
+      "path": "originais/prototypes/fighter/bulwark/bulwark-vfx.html",
+      "bytes": 50267,
+      "sha256": "51f0824eaa4d07ecf4ea04edd09ce0059673058cdcc6861eeb800d3b2b57e1d0"
+    },
+    {
+      "path": "originais/prototypes/fighter/chains/chains-vfx.html",
+      "bytes": 55685,
+      "sha256": "1e1f3845146afeed7fc0d0fcf94045e7445706fd429396d9247ee2e4143928e3"
+    },
+    {
+      "path": "originais/prototypes/fighter/chains-ii/chains-ii-vfx.html",
+      "bytes": 65460,
+      "sha256": "5527a85815ae90e5a6867eeec1e30f788da8db49ba19e587dd5376577a5f70de"
+    },
+    {
+      "path": "originais/prototypes/fighter/cleanse/cleanse-vfx.html",
+      "bytes": 45666,
+      "sha256": "44f111c9b275cc0ca99ba4d3456880e9d72c7751616f0e067f49ec86a749ec60"
+    },
+    {
+      "path": "originais/prototypes/fighter/crushing-blow/crushing-blow-vfx.html",
+      "bytes": 48990,
+      "sha256": "2c7cbb4047fccee99b99dbfa4573c76da21ae4e40aa778e866606afdb84efa5d"
+    },
+    {
+      "path": "originais/prototypes/fighter/crushing-blow-ii/crushing-blow-ii-vfx.html",
+      "bytes": 55146,
+      "sha256": "9dc5b81caae27a2a81dcd2387e11381ed39f56a8f426841eb546bc92b3684715"
+    },
+    {
+      "path": "originais/prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
+      "bytes": 48461,
+      "sha256": "701f558b45ad980295b873b8bb24fb41633e246fb84c0d51ddc79eb8e2000471"
+    },
+    {
+      "path": "originais/prototypes/fighter/momentum-mastery/momentum-mastery-vfx.html",
+      "bytes": 43473,
+      "sha256": "49d5b74e04d80ab57f059b3ad1acebb208871fa7166fbc7cb24b05460d61694b"
+    },
+    {
+      "path": "originais/prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+      "bytes": 48261,
+      "sha256": "a67688e495d814236129366b099e69597a44036749af8433f2885b1ec246bc13"
+    },
+    {
+      "path": "originais/prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
+      "bytes": 52855,
+      "sha256": "063739c638d9b9f974fcaf76c10a42f7cc4c68007cc3c85cd5bff709389b71f6"
+    },
+    {
+      "path": "originais/prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
+      "bytes": 52778,
+      "sha256": "df115dc759a6e648ae18ef6d68acd17724088199164a7335f45f8270f69f882e"
+    },
+    {
+      "path": "originais/prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+      "bytes": 52162,
+      "sha256": "2e8da8a8d14adab73397e9b83fcea310d8652b134c10a46a82202462834c6149"
+    },
+    {
+      "path": "originais/prototypes/fighter/rage/rage-vfx.html",
+      "bytes": 50273,
+      "sha256": "78c5fe57dfe0721877f7abda37df4fbc340ecd1e3c1abc44e3027627055c875e"
+    },
+    {
+      "path": "originais/prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html",
+      "bytes": 47924,
+      "sha256": "a427ec84c210003cab112efc74174d25c5010d3cd35f9837bf7a334b0efa0bc6"
+    },
+    {
+      "path": "originais/prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+      "bytes": 47940,
+      "sha256": "ca95d48d9c9736ea36a294181637c4c5b49c1d177cfe69e2c45a675a9a4b6790"
+    },
+    {
+      "path": "originais/prototypes/fighter/rally-ii-tank/rally-ii-tank-vfx.html",
+      "bytes": 49326,
+      "sha256": "0896e0c170fd3cc0c5dd740fe3a21416872ae8f52821733efc4d2b251675f473"
+    },
+    {
+      "path": "originais/prototypes/fighter/rally-ii-warrior/rally-ii-warrior-vfx.html",
+      "bytes": 49377,
+      "sha256": "05468cbafddc1753a45dd90f5459c4f2be6c58b13e88679fcc2034bdb28b4511"
+    },
+    {
+      "path": "originais/prototypes/fighter/second-wind/second-wind-vfx.html",
+      "bytes": 41887,
+      "sha256": "1f87c8d92f86c8a6858649f9ab75acb67c062983003d2018a483507ad88ec508"
+    },
+    {
+      "path": "originais/prototypes/fighter/severing-strike/severing-strike-vfx.html",
+      "bytes": 49694,
+      "sha256": "81920c9d18623c37d033dd064665898651167b1ec05ec607f3ba724cea8c74ab"
+    },
+    {
+      "path": "originais/prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html",
+      "bytes": 50813,
+      "sha256": "2cb0e83247749f82c821225f1103198e40db93a8e2567ca0ca793312cc7b82ee"
+    },
+    {
+      "path": "originais/prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+      "bytes": 50211,
+      "sha256": "e4af29bb40b6e46eb2486cff76905788dc32568ea32cfc7ceaee35b8f8c68015"
+    },
+    {
+      "path": "originais/prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+      "bytes": 47855,
+      "sha256": "7d31403937885d0c96d528ba8524d617dfaa8fd95165417b736425897d8184e0"
+    },
+    {
+      "path": "originais/prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+      "bytes": 50177,
+      "sha256": "4d4e930522c59e98744303ec75a66d72070ec6c19e94fca8dda5f872c553fc74"
+    },
+    {
+      "path": "originais/prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+      "bytes": 50191,
+      "sha256": "2ae17a3e684c84fcca80026a41b84c94880f29f72b5707fe886a45a59122390b"
+    },
+    {
+      "path": "originais/prototypes/fighter/tank-stance/tank-stance-vfx.html",
+      "bytes": 47297,
+      "sha256": "7e5aef464e7c5614a933362ef19ee975b8daf30714af5f847402f9b603b6d567"
+    },
+    {
+      "path": "originais/prototypes/fighter/war-leap/war-leap-vfx.html",
+      "bytes": 51997,
+      "sha256": "0102b9f30aafb8fcc2c56be382c575da65c383736625fbba6e9f63f9cc9c1095"
+    },
+    {
+      "path": "originais/prototypes/fighter/warrior-stance/warrior-stance-vfx.html",
+      "bytes": 47322,
+      "sha256": "b61a4e98eaabee6d0a448493e173c9828260c1808dab5ba6310a8840b02bc95d"
+    },
+    {
+      "path": "originais/prototypes/mage/arcane-burst/arcane-burst-vfx.html",
+      "bytes": 59653,
+      "sha256": "2a6639b05a289683f3d55682b0e42521d32b7cb248d10075a1fad4ed25fa5e28"
+    },
+    {
+      "path": "originais/prototypes/mage/arcane-weaving-i/arcane-weaving-i-vfx.html",
+      "bytes": 48261,
+      "sha256": "2c406e7d97d0665ded68525f1cfb1904d2776e5042126d45126f58fd94872bf8"
+    },
+    {
+      "path": "originais/prototypes/mage/arcane-weaving-ii/arcane-weaving-ii-vfx.html",
+      "bytes": 51110,
+      "sha256": "bf0e580c1e84de06f1477149ec4f331c69719f28e6d64761b611ae277d5ca01d"
+    },
+    {
+      "path": "originais/prototypes/mage/blink/blink-vfx.html",
+      "bytes": 47686,
+      "sha256": "2d658e7cef86b7f5714071505b35ebbf68a7ec8ea9e427a13eb03b20538dfbc5"
+    },
+    {
+      "path": "originais/prototypes/mage/cleansemage/cleanse-vfx.html",
+      "bytes": 45624,
+      "sha256": "2afc57ee820f985493c0cb9c3af5addde961c2c3710fd9f9c264e7ade818b5f2"
+    },
+    {
+      "path": "originais/prototypes/mage/coil/coil-vfx.html",
+      "bytes": 64500,
+      "sha256": "d82e578831aa21f0570aa2a8f5514ce5d64e85b82ecbd5cdfbef507774a2fb57"
+    },
+    {
+      "path": "originais/prototypes/mage/combust-i/combust-i-vfx.html",
+      "bytes": 57869,
+      "sha256": "f8ff55956440f1cbb0071214811975eb57c31cdfeee40538f33410640fdbcff7"
+    },
+    {
+      "path": "originais/prototypes/mage/combust-ii/combust-ii-vfx.html",
+      "bytes": 66057,
+      "sha256": "9514a360137fadf3276c8fb4d4e1987fe71c095d66cb059e525e191883df4eec"
+    },
+    {
+      "path": "originais/prototypes/mage/elemental-weaver-i/elemental-weaver-i-vfx.html",
+      "bytes": 51147,
+      "sha256": "aeef6696082e56d7baa3568ece9352e59181d48257d5288850f0e3b2f63629da"
+    },
+    {
+      "path": "originais/prototypes/mage/elemental-weaver-ii/elemental-weaver-ii-vfx.html",
+      "bytes": 51256,
+      "sha256": "699d877b9f1cebb84627a00816ae0d4040ec4555bffc4c330e42a784c7aa2b63"
+    },
+    {
+      "path": "originais/prototypes/mage/fire-bolt-i/fire-bolt-i-vfx.html",
+      "bytes": 57492,
+      "sha256": "252e5baa7638f67d3cf185cc4174f7d9713c86401633a5c69da2d1b7b37e30e7"
+    },
+    {
+      "path": "originais/prototypes/mage/fire-bolt-ii/fire-bolt-ii-vfx.html",
+      "bytes": 62238,
+      "sha256": "1dbb6497458253571a1e4b06a30987e94add0179b36607a45b926c9a6f4e7cdc"
+    },
+    {
+      "path": "originais/prototypes/mage/frost-lance-i/frost-lance-i-vfx.html",
+      "bytes": 66746,
+      "sha256": "439b28f12fc14d3d49880efc75158e09522a517f4e4f49f612631418bf5ef73d"
+    },
+    {
+      "path": "originais/prototypes/mage/frost-lance-ii/frost-lance-ii-vfx.html",
+      "bytes": 67814,
+      "sha256": "e733fd6f5d59acdb36212c4eff6b0954096257488611bfc4c3ae181c20c3f67b"
+    },
+    {
+      "path": "originais/prototypes/mage/glacial-spike-i/glacial-spike-i-vfx.html",
+      "bytes": 67490,
+      "sha256": "929b46dbfe57f39bff65fa6054cd0dea17c8b0ba2743474952cd56a01ddcbfa8"
+    },
+    {
+      "path": "originais/prototypes/mage/glacial-spike-ii/glacial-spike-ii-vfx.html",
+      "bytes": 70087,
+      "sha256": "562b68c000eb1f250d81c471a761299c99a5af4ca00e6d2e3c55153a0f8525e5"
+    },
+    {
+      "path": "originais/prototypes/mage/iceberg/iceberg-vfx.html",
+      "bytes": 71118,
+      "sha256": "889e64605ca300ac76a661fedebb1db73443c04d70c0b6ceb39784143b32e08e"
+    },
+    {
+      "path": "originais/prototypes/mage/laser/laser-vfx.html",
+      "bytes": 66026,
+      "sha256": "978f2a7168c9270bd31abc2f7d38114199f80cd3e8cb78634c02818e815cbbfe"
+    },
+    {
+      "path": "originais/prototypes/mage/mana-barrier-i/mana-barrier-i-vfx.html",
+      "bytes": 43731,
+      "sha256": "1864810068dcdd83ce7e272738c91235881ea81ef209b502bdcb4394c17c3103"
+    },
+    {
+      "path": "originais/prototypes/mage/mana-barrier-ii-overcharge/mana-barrier-ii-overcharge-vfx.html",
+      "bytes": 48424,
+      "sha256": "80055f48e4f71adfb2103523a546bc3851120f97470326f468c98993862f4c48"
+    },
+    {
+      "path": "originais/prototypes/mage/mana-storm/mana-storm-vfx.html",
+      "bytes": 48308,
+      "sha256": "e933a096d781797c86bae65c33c382b75274298afa617bdb4f1a76b15704289f"
+    },
+    {
+      "path": "originais/prototypes/mage/manifest/manifest-vfx.html",
+      "bytes": 48964,
+      "sha256": "87b441f4e681c3f2dfc84dfa2934d02029f7e108ce8df9954ab5549811fbbf20"
+    },
+    {
+      "path": "originais/prototypes/mage/mist/mist-vfx.html",
+      "bytes": 62526,
+      "sha256": "734ec73698ea4df374dc4b1258810293e6327b3abafa7707459a24cd9ae8e04f"
+    },
+    {
+      "path": "originais/prototypes/mage/static-bolt-i/static-bolt-i-vfx.html",
+      "bytes": 63455,
+      "sha256": "884b5631bbea4bdca24651d94df05324b3b249ba33b96d333f256d0c18a735d5"
+    },
+    {
+      "path": "originais/prototypes/mage/static-bolt-ii/static-bolt-ii-vfx.html",
+      "bytes": 66708,
+      "sha256": "07da8ba6dd42dd5bef74f8ac3576ab22ab3e5db9e1b7534f906aa0e16eb4e954"
+    },
+    {
+      "path": "originais/prototypes/mage/tempest/tempest-vfx.html",
+      "bytes": 81025,
+      "sha256": "1d8e5fc449a947847704fc8c1daad526e126b6f4d4da44734f97cae8a8cca804"
+    },
+    {
+      "path": "originais/prototypes/mage/thunderstrike-i/thunderstrike-i-vfx.html",
+      "bytes": 62423,
+      "sha256": "146d07fe89303c5fa6e9511f70f56aee94f168b8f9077faec1b120615a91a77a"
+    },
+    {
+      "path": "originais/prototypes/mage/thunderstrike-ii/thunderstrike-ii-vfx.html",
+      "bytes": 67315,
+      "sha256": "e547e75c4b71bffa583c35dbd1f3b569ac6e330a82928c36b607c8b1ca6f8ebb"
+    },
+    {
+      "path": "originais/prototypes/mage/vortex/vortex-vfx.html",
+      "bytes": 75470,
+      "sha256": "cff13e95d200e155ad97c974431fb72299062f8535315b59cfaf8690dd1d92e0"
+    },
+    {
+      "path": "originais/prototypes/mage/weave/weave-vfx.html",
+      "bytes": 47056,
+      "sha256": "f8e8338b120b86fd552d3e3844f074cbddc65528c2522ffd278798a09fdc2f9f"
+    },
+    {
+      "path": "originais/prototypes/mystic/astral-aura-moon/astral-aura-moon-vfx.html",
+      "bytes": 41556,
+      "sha256": "fdf7a261fc852793bacd937d9ccfee3cff27f46c2067db03bc6dd9f03db231ef"
+    },
+    {
+      "path": "originais/prototypes/mystic/astral-aura-sun/astral-aura-sun-vfx.html",
+      "bytes": 41691,
+      "sha256": "6f572a13ae64863b2037b122c69c1002cd1b496f75493c8c48e983f4515c5c85"
+    },
+    {
+      "path": "originais/prototypes/mystic/astral-pull/astral-pull-vfx.html",
+      "bytes": 59090,
+      "sha256": "03dd9dd909a6f2e24ea6db8b95a9829b8f10705351ae170dda4b7249ed7bb954"
+    },
+    {
+      "path": "originais/prototypes/mystic/astral-step/astral-step-vfx.html",
+      "bytes": 47477,
+      "sha256": "8d37111853d2e4c7f0e44e706a5e5e6e5a9bfd4f455c9bd1b61dad64e437a02a"
+    },
+    {
+      "path": "originais/prototypes/mystic/astral-veil/astral-veil-vfx.html",
+      "bytes": 45321,
+      "sha256": "2e092ce0c1f3f45eac5a597977a8cafad402a2d3052a61234affbff5f58f8e94"
+    },
+    {
+      "path": "originais/prototypes/mystic/black-hole-i/black-hole-i-vfx.html",
+      "bytes": 49222,
+      "sha256": "14995eb7ecd146b58a5b560c4c3927b91a2c4a607c5ed6da826b1ff525164975"
+    },
+    {
+      "path": "originais/prototypes/mystic/black-hole-ii/black-hole-ii-vfx.html",
+      "bytes": 51122,
+      "sha256": "8b5f7dc49484c412ebfc3aaa5538d3e4570ff83e4f5afb963caf9093cb0f4ef9"
+    },
+    {
+      "path": "originais/prototypes/mystic/bright-star/bright-star-vfx.html",
+      "bytes": 60285,
+      "sha256": "3db8a5c1d221620b0bb5efd38b04ced4b26fd72f015874794fc6c43f4c3d42b6"
+    },
+    {
+      "path": "originais/prototypes/mystic/cleansemystic/cleanse-vfx.html",
+      "bytes": 45959,
+      "sha256": "e710016098e8fffb2cd3a27a072cddc959a33d298ebfda03f32f89328af05b0d"
+    },
+    {
+      "path": "originais/prototypes/mystic/connection-i-ally/connection-i-ally-vfx.html",
+      "bytes": 49420,
+      "sha256": "e3f5312765a65c843080158186da99b1a35475ed301966e84d923b165f0244fb"
+    },
+    {
+      "path": "originais/prototypes/mystic/connection-i-enemy/connection-i-enemy-vfx.html",
+      "bytes": 49967,
+      "sha256": "91b53750e209e6d08ec697863518f69b7c7b52e9f047095ad48dfbf98b155481"
+    },
+    {
+      "path": "originais/prototypes/mystic/connection-ii-ally/connection-ii-ally-vfx.html",
+      "bytes": 52410,
+      "sha256": "58622cab33134d0609f4a7e9f047ea7f80d87e2fde8ec56ed076876a5cd2d893"
+    },
+    {
+      "path": "originais/prototypes/mystic/connection-ii-enemy/connection-ii-enemy-vfx.html",
+      "bytes": 53491,
+      "sha256": "798c231d1482758d9f5c41822fcadc807b054adfdeae8e40c2813b389abb557e"
+    },
+    {
+      "path": "originais/prototypes/mystic/cosmic-ray-i/cosmic-ray-i-vfx.html",
+      "bytes": 50216,
+      "sha256": "6b2f177eaae0930084e26edaed5add1f5a9144d8f269a920f34b5dfe2da6b5f5"
+    },
+    {
+      "path": "originais/prototypes/mystic/cosmic-ray-ii/cosmic-ray-ii-vfx.html",
+      "bytes": 52365,
+      "sha256": "a7816456bafd8886200d8dc427cbf6a72fdc93a0686993e9d07188fd8f4d97ea"
+    },
+    {
+      "path": "originais/prototypes/mystic/eclipse/eclipse-vfx.html",
+      "bytes": 45653,
+      "sha256": "6048ae22cc8946797d13fb5cda86ef7a0be21f6df38f0f5e579afdc85f470fc8"
+    },
+    {
+      "path": "originais/prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html",
+      "bytes": 55348,
+      "sha256": "014bfe109f11a147a2f3da8873e79f5df19bf85164741ee0e19fd81fb9c54a50"
+    },
+    {
+      "path": "originais/prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html",
+      "bytes": 56509,
+      "sha256": "7cdeb0ae4d24ffbe4abd3dc7f062ef9c9892079f905e4b358e845a652450caba"
+    },
+    {
+      "path": "originais/prototypes/mystic/ether-ii-ally/ether-ii-ally-vfx.html",
+      "bytes": 58206,
+      "sha256": "e8fa83aadda4dc0d6a0f65470535eb0e3d77999a3d63394aaa675c547299b17d"
+    },
+    {
+      "path": "originais/prototypes/mystic/ether-ii-enemy/ether-ii-enemy-vfx.html",
+      "bytes": 58324,
+      "sha256": "acf5126a8204a3ec699d55970552a8076dc6ae7a40de06805e91d7c4c6a16305"
+    },
+    {
+      "path": "originais/prototypes/mystic/full-moon/full-moon-vfx.html",
+      "bytes": 61336,
+      "sha256": "3c4d0247a8ce9b45f282804c29aee98b103e3c0ebe7a15b5ed2cf1b9172bc7d5"
+    },
+    {
+      "path": "originais/prototypes/mystic/lullaby/lullaby-vfx.html",
+      "bytes": 55536,
+      "sha256": "b19a1d8358a1a199b3e881fbcc276ae1b657dadeed6f818148bd00b166514dd7"
+    },
+    {
+      "path": "originais/prototypes/mystic/lullaby-ii-nightmare/lullaby-ii-nightmare-vfx.html",
+      "bytes": 60195,
+      "sha256": "b688d8326ccaede033f254c06a4fe457675f481498c78af21552ac571485f025"
+    },
+    {
+      "path": "originais/prototypes/mystic/moon-stance/moon-stance-vfx.html",
+      "bytes": 46963,
+      "sha256": "c1011b93e58101080d81d8f512c30534a34aaffaeeed8b2de42abb23c862d94d"
+    },
+    {
+      "path": "originais/prototypes/mystic/resurrect/resurrect-vfx.html",
+      "bytes": 46553,
+      "sha256": "2277a0a140ac610b9f83b219b572884fb26c727d0b03b140630297e642e20a87"
+    },
+    {
+      "path": "originais/prototypes/mystic/serenity/serenity-vfx.html",
+      "bytes": 45134,
+      "sha256": "8c3f2227fc3fd0d436b3802644a3ea5d01ebf7bc8ba7d4c8dd0578a03123deff"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html",
+      "bytes": 48091,
+      "sha256": "756d9249bcad48bd3b5b840a6d64694f05c83fe4a54f11493b69f07472ca7bc3"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html",
+      "bytes": 47992,
+      "sha256": "f725c8c01aeea453ed7cad22bb123bc90a2146c1d98ed8d80eeb6ef6bc1490ad"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-orbit-moon/spirit-of-the-orbit-moon-vfx.html",
+      "bytes": 45240,
+      "sha256": "61e0dfbea654292ae592ceb3fec5dfcded31fadd5e430014255925f4cbf8ea55"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-orbit-sun/spirit-of-the-orbit-sun-vfx.html",
+      "bytes": 45391,
+      "sha256": "f5daeafaf99aa2107bce8dc89a15fdc3f06f08a3399de5e37dfeeca95b0ad662"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-star-moon/spirit-of-the-star-moon-vfx.html",
+      "bytes": 47100,
+      "sha256": "eb4ae20a8f8d536fc6b28e57e5677ab07bc828a7af3a24684b5a6fce3062020e"
+    },
+    {
+      "path": "originais/prototypes/mystic/spirit-of-the-star-sun/spirit-of-the-star-sun-vfx.html",
+      "bytes": 46659,
+      "sha256": "64ca607d2061f191ff102e968538a6be2e2a4e25c07dd712e3b0ed966291994d"
+    },
+    {
+      "path": "originais/prototypes/mystic/sun-stance/sun-stance-vfx.html",
+      "bytes": 46863,
+      "sha256": "8a6c27b0823de1bbacaa48bc59954dfbc6631df6beb16abc534af200f0ba8d2e"
+    },
+    {
+      "path": "originais/prototypes/scout/backstab/backstab-vfx.html",
+      "bytes": 52196,
+      "sha256": "10a4c3f1b881032b49e350faf7281d7d96ba96f5d4fbd2816b566f3713b0d15c"
+    },
+    {
+      "path": "originais/prototypes/scout/backstab-ii/backstab-ii-vfx.html",
+      "bytes": 55066,
+      "sha256": "6617bed1cda2d61e6cb85aa131a22734a8cda6cd2e243e9f3589899e522a6cc6"
+    },
+    {
+      "path": "originais/prototypes/scout/basic-attack-bleed/basic-attack-bleed-vfx.html",
+      "bytes": 53826,
+      "sha256": "f950858ca13cd5ad8088f49cbfb68354b46ae69a29c451a488dd7b11ba344439"
+    },
+    {
+      "path": "originais/prototypes/scout/basic-attack-poison/basic-attack-poison-vfx.html",
+      "bytes": 53449,
+      "sha256": "c12724a4a3bb5ed2ae774e345dda91869e65886a384545acd554d60b17c9ea3d"
+    },
+    {
+      "path": "originais/prototypes/scout/bleed-stance/bleed-stance-vfx.html",
+      "bytes": 47700,
+      "sha256": "dd284afb8f7a281602a044fa0bccce5b2b16573e4c422b3530362f9106e12c44"
+    },
+    {
+      "path": "originais/prototypes/scout/blinding-dart/blinding-dart-vfx.html",
+      "bytes": 53224,
+      "sha256": "a0eadacbde2aaa4acbf450df84b0c3ab8056157e5899dffaac94030e7a41b330"
+    },
+    {
+      "path": "originais/prototypes/scout/cleansescout/cleanse-vfx.html",
+      "bytes": 45631,
+      "sha256": "d80db3c82424f7ca11fd802105210377ac58435fb8b59c8ecaddbfcfe64cba09"
+    },
+    {
+      "path": "originais/prototypes/scout/evasion/evasion-vfx.html",
+      "bytes": 44631,
+      "sha256": "4ba3a2df0fa052dc8a6f475ad21efa5270fb2f11c329a159e6fa0754083c481d"
+    },
+    {
+      "path": "originais/prototypes/scout/exploit-weakness-i/exploit-weakness-i-vfx.html",
+      "bytes": 50423,
+      "sha256": "b989a6ea3d64bfbff8b2aff56463fa5beff08cbeb0860c946aedab060e364c08"
+    },
+    {
+      "path": "originais/prototypes/scout/exploit-weakness-ii/exploit-weakness-ii-vfx.html",
+      "bytes": 57140,
+      "sha256": "d278065c89e54b9a2eca1b86ff28d4ebd017ddb43dfc2bd18ee5b7f327f57df8"
+    },
+    {
+      "path": "originais/prototypes/scout/exploit-weakness-iii/exploit-weakness-iii-vfx.html",
+      "bytes": 61169,
+      "sha256": "ddefb0936170b501d2e9ae4be2bd2dc6bfebd7e82e2e976521a69d84a766edd6"
+    },
+    {
+      "path": "originais/prototypes/scout/hemorrhage/hemorrhage-vfx.html",
+      "bytes": 56283,
+      "sha256": "1028e928356ccc942af6a27ea4a11f3caf4a6359126e36c38dbebdc841fe8165"
+    },
+    {
+      "path": "originais/prototypes/scout/long-jump/long-jump-vfx.html",
+      "bytes": 47151,
+      "sha256": "543a49ef69d27563581992ab0a0ad7a8f0cdda1d6ff9b19d94d28da90d5e13c6"
+    },
+    {
+      "path": "originais/prototypes/scout/poison-sac/poison-sac-vfx.html",
+      "bytes": 55603,
+      "sha256": "03dad368185a9f57055923f58400bfeba4a48b477ab73e3faa23dbb7bb5bedec"
+    },
+    {
+      "path": "originais/prototypes/scout/poison-stance/poison-stance-vfx.html",
+      "bytes": 47701,
+      "sha256": "99d7359c2a5787365aebae904fee9bb98b6b5da611156827967fa5b98a4c7013"
+    },
+    {
+      "path": "originais/prototypes/scout/quickstep-i/quickstep-i-vfx.html",
+      "bytes": 44090,
+      "sha256": "7fd697bb864fe253c653127895a372a831381def40818649dd18f868bf32020a"
+    },
+    {
+      "path": "originais/prototypes/scout/quickstep-ii/quickstep-ii-vfx.html",
+      "bytes": 47616,
+      "sha256": "4938d71ba570d7d3e3e64f919fb542e1656034f76fbfda262ed91c23c67d649e"
+    },
+    {
+      "path": "originais/prototypes/scout/rapid-attack/rapid-attack-vfx.html",
+      "bytes": 44777,
+      "sha256": "5245e9e5bfb8195a872665c664770b921e1b73f31bf835210b8c0cfe8d2ce9d5"
+    },
+    {
+      "path": "originais/prototypes/scout/sand-shot/sand-shot-vfx.html",
+      "bytes": 46448,
+      "sha256": "75ecd9b149f1c45c35701de15e48a47be9b03cd16c0888a116242b1da375577a"
+    },
+    {
+      "path": "originais/prototypes/scout/sickness/sickness-vfx.html",
+      "bytes": 60557,
+      "sha256": "e40164c0c8666f2871a2cf8fe900eadb7a7094013da8a4e45318ffebf2b829f7"
+    },
+    {
+      "path": "originais/prototypes/scout/smoke-bomb-i/smoke-bomb-i-vfx.html",
+      "bytes": 51613,
+      "sha256": "3f51c08fa39260e7367e18703e7aadcac255cbad49e2c05428296b66301ff057"
+    },
+    {
+      "path": "originais/prototypes/scout/smoke-bomb-ii/smoke-bomb-ii-vfx.html",
+      "bytes": 53384,
+      "sha256": "67b6d445299410d84fc879edc10f365e9b09c52138cc4066bc2b52515bebabc0"
+    },
+    {
+      "path": "originais/prototypes/scout/torpor/torpor-vfx.html",
+      "bytes": 53741,
+      "sha256": "d735f577dd80f10eeb8b733507422d85125897bf59ad2541dff3383b1f740319"
+    },
+    {
+      "path": "originais/prototypes/scout/vine-field-i/vine-field-i-vfx.html",
+      "bytes": 57165,
+      "sha256": "616ad7ec5f933eabb48f57937c9ff7d76894cc5a5b523cb63f8bfa6715dcd069"
+    },
+    {
+      "path": "originais/prototypes/scout/vine-field-ii/vine-field-ii-vfx.html",
+      "bytes": 58316,
+      "sha256": "343b50c39cc54db9304f6ea2854088c48026a51b8dcf06de48fd5e1cb11520e5"
+    },
+    {
+      "path": "originais/prototypes/scout/volley-i-bleed/volley-i-bleed-vfx.html",
+      "bytes": 49558,
+      "sha256": "6aa5a633536b6b7eed9a9d646eb0383052722d60f56823880e53800b57a1d390"
+    },
+    {
+      "path": "originais/prototypes/scout/volley-i-poison/volley-i-poison-vfx.html",
+      "bytes": 49489,
+      "sha256": "a209c29e8fb6524f87c2b2d74f5c31da30eb48a104b935f082c6699213e6a5d7"
+    },
+    {
+      "path": "originais/prototypes/scout/volley-ii-bleed/volley-ii-bleed-vfx.html",
+      "bytes": 53306,
+      "sha256": "92b2270cb5434d696b608ee38428c80fad8dac1480a528624a7e4cd8a7203ecc"
+    },
+    {
+      "path": "originais/prototypes/scout/volley-ii-poison/volley-ii-poison-vfx.html",
+      "bytes": 53222,
+      "sha256": "8dbfa8aa678da1ceae1f46421625def602925493ad6e1ac612ea5f7631a4af2c"
+    },
+    {
+      "path": "originais/prototypes/status/control/control-lab-vfx.html",
+      "bytes": 64370,
+      "sha256": "1ea564a32fb398cde5d72a8ff5910db45a1662c9eb5761a0bec0834bff42a6fc"
+    },
+    {
+      "path": "originais/prototypes/status/nameplates/nameplates-vfx.html",
+      "bytes": 46902,
+      "sha256": "9baa1b95cc3d47113754d7d82fa9d6d508a42ab460a7c3029c253318e007dd19"
+    },
+    {
+      "path": "pass-completo.patch",
+      "bytes": 48735,
+      "sha256": "21702f75b67c4e1f5435cc47bb13313ee2f87abdce2e22024480c6b4ef4012f8"
+    },
+    {
+      "path": "prototypes/fighter/battlecry-challenge-i-tank/battlecry-challenge-i-tank-vfx.html",
+      "bytes": 48356,
+      "sha256": "49e677fc1ae9600accd939bb3e906ca8381f595edcbe25fc4724cd3f5c7a00cf"
+    },
+    {
+      "path": "prototypes/fighter/battlecry-challenge-i-warrior/battlecry-challenge-i-warrior-vfx.html",
+      "bytes": 48330,
+      "sha256": "94b7f6631cbc36bf39ac7e1fb48b44b69c278339da020eb4d602efa0f0a256b1"
+    },
+    {
+      "path": "prototypes/fighter/battlecry-challenge-ii-tank/battlecry-challenge-ii-tank-vfx.html",
+      "bytes": 53557,
+      "sha256": "5500930a3c2130ca1c3000cbf53f59cbdc6d16158bbc64239b5fcdf7459d4523"
+    },
+    {
+      "path": "prototypes/fighter/battlecry-challenge-ii-warrior/battlecry-challenge-ii-warrior-vfx.html",
+      "bytes": 53712,
+      "sha256": "0ab924569c2b3c4c95d6f25d4f4d0fe83413128493d5fa570ec8c31ed4375a78"
+    },
+    {
+      "path": "prototypes/fighter/bulwark/bulwark-vfx.html",
+      "bytes": 50267,
+      "sha256": "51f0824eaa4d07ecf4ea04edd09ce0059673058cdcc6861eeb800d3b2b57e1d0"
+    },
+    {
+      "path": "prototypes/fighter/chains/chains-vfx.html",
+      "bytes": 55687,
+      "sha256": "6ed3fe3091dde798e3656fac98a3f5d10b66a1ca3fac27aaeb23bc85c8993d6e"
+    },
+    {
+      "path": "prototypes/fighter/chains-ii/chains-ii-vfx.html",
+      "bytes": 65462,
+      "sha256": "f813acc676299a279eafcf4df8530069b600ea13ef96b79c62e5524e8175ac79"
+    },
+    {
+      "path": "prototypes/fighter/cleanse/cleanse-vfx.html",
+      "bytes": 45666,
+      "sha256": "44f111c9b275cc0ca99ba4d3456880e9d72c7751616f0e067f49ec86a749ec60"
+    },
+    {
+      "path": "prototypes/fighter/crushing-blow/crushing-blow-vfx.html",
+      "bytes": 48990,
+      "sha256": "2c7cbb4047fccee99b99dbfa4573c76da21ae4e40aa778e866606afdb84efa5d"
+    },
+    {
+      "path": "prototypes/fighter/crushing-blow-ii/crushing-blow-ii-vfx.html",
+      "bytes": 55146,
+      "sha256": "9dc5b81caae27a2a81dcd2387e11381ed39f56a8f426841eb546bc92b3684715"
+    },
+    {
+      "path": "prototypes/fighter/defiant-presence/defiant-presence-vfx.html",
+      "bytes": 48561,
+      "sha256": "6f7fac9c68378eb64a867696234d0c2c091bcc203c6a593b0310803ac974d7f0"
+    },
+    {
+      "path": "prototypes/fighter/momentum-mastery/momentum-mastery-vfx.html",
+      "bytes": 43473,
+      "sha256": "49d5b74e04d80ab57f059b3ad1acebb208871fa7166fbc7cb24b05460d61694b"
+    },
+    {
+      "path": "prototypes/fighter/piercing-strike/piercing-strike-vfx.html",
+      "bytes": 48255,
+      "sha256": "7219aa278bec29ec6b0f999d0f396b76811a4ba5521cbc533d6f520abf74d207"
+    },
+    {
+      "path": "prototypes/fighter/piercing-strike-ii-tank/piercing-strike-ii-tank-vfx.html",
+      "bytes": 52849,
+      "sha256": "3920c49c835eadb5ac715482f3deaecf7c6a4b5693b77b2e9717374fea3bc516"
+    },
+    {
+      "path": "prototypes/fighter/piercing-strike-ii-warrior/piercing-strike-ii-warrior-vfx.html",
+      "bytes": 52772,
+      "sha256": "615946efb805a50def717401eb39437b23a565e47666232e31a4882e36a4fd00"
+    },
+    {
+      "path": "prototypes/fighter/pressure-provoke/pressure-provoke-vfx.html",
+      "bytes": 52185,
+      "sha256": "d5ed992f7c2db13bea52027f5de719eaf7e6d47823f154d2bdc826a6a6bf1c44"
+    },
+    {
+      "path": "prototypes/fighter/rage/rage-vfx.html",
+      "bytes": 50273,
+      "sha256": "78c5fe57dfe0721877f7abda37df4fbc340ecd1e3c1abc44e3027627055c875e"
+    },
+    {
+      "path": "prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html",
+      "bytes": 47924,
+      "sha256": "a427ec84c210003cab112efc74174d25c5010d3cd35f9837bf7a334b0efa0bc6"
+    },
+    {
+      "path": "prototypes/fighter/rally-i-warrior/rally-i-warrior-vfx.html",
+      "bytes": 47940,
+      "sha256": "ca95d48d9c9736ea36a294181637c4c5b49c1d177cfe69e2c45a675a9a4b6790"
+    },
+    {
+      "path": "prototypes/fighter/rally-ii-tank/rally-ii-tank-vfx.html",
+      "bytes": 49326,
+      "sha256": "0896e0c170fd3cc0c5dd740fe3a21416872ae8f52821733efc4d2b251675f473"
+    },
+    {
+      "path": "prototypes/fighter/rally-ii-warrior/rally-ii-warrior-vfx.html",
+      "bytes": 49377,
+      "sha256": "05468cbafddc1753a45dd90f5459c4f2be6c58b13e88679fcc2034bdb28b4511"
+    },
+    {
+      "path": "prototypes/fighter/second-wind/second-wind-vfx.html",
+      "bytes": 41888,
+      "sha256": "49d71e94f76b7c478c9a828c667a6ff5717b533d6dd402e0fc5ec2c701486c23"
+    },
+    {
+      "path": "prototypes/fighter/severing-strike/severing-strike-vfx.html",
+      "bytes": 49694,
+      "sha256": "81920c9d18623c37d033dd064665898651167b1ec05ec607f3ba724cea8c74ab"
+    },
+    {
+      "path": "prototypes/fighter/severing-strike-ii/severing-strike-ii-vfx.html",
+      "bytes": 50813,
+      "sha256": "2cb0e83247749f82c821225f1103198e40db93a8e2567ca0ca793312cc7b82ee"
+    },
+    {
+      "path": "prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+      "bytes": 50211,
+      "sha256": "e4af29bb40b6e46eb2486cff76905788dc32568ea32cfc7ceaee35b8f8c68015"
+    },
+    {
+      "path": "prototypes/fighter/shoulder-rush/shoulder-rush-vfx.html",
+      "bytes": 48198,
+      "sha256": "1ef7d633f246295fa1894a9c3a9db592187469af94323a3074197449ddba1fad"
+    },
+    {
+      "path": "prototypes/fighter/shoulder-rush-ii-tank/shoulder-rush-ii-tank-vfx.html",
+      "bytes": 50520,
+      "sha256": "e5c91c2742cceec7f6d5c9ca155cc3cb4f7acd0ae157672d86f2f3454bdf363b"
+    },
+    {
+      "path": "prototypes/fighter/shoulder-rush-ii-warrior/shoulder-rush-ii-warrior-vfx.html",
+      "bytes": 50534,
+      "sha256": "4613e72a4f7d52d30f019b3519e06a0c342bcc4060b151358c06285ebdb517fe"
+    },
+    {
+      "path": "prototypes/fighter/tank-stance/tank-stance-vfx.html",
+      "bytes": 47297,
+      "sha256": "7e5aef464e7c5614a933362ef19ee975b8daf30714af5f847402f9b603b6d567"
+    },
+    {
+      "path": "prototypes/fighter/war-leap/war-leap-vfx.html",
+      "bytes": 52329,
+      "sha256": "c231d713b5a6df6380f70e566c5708a1f5a725233cce64d72e4cd57881a66a06"
+    },
+    {
+      "path": "prototypes/fighter/warrior-stance/warrior-stance-vfx.html",
+      "bytes": 47322,
+      "sha256": "b61a4e98eaabee6d0a448493e173c9828260c1808dab5ba6310a8840b02bc95d"
+    },
+    {
+      "path": "prototypes/mage/arcane-burst/arcane-burst-vfx.html",
+      "bytes": 59653,
+      "sha256": "2a6639b05a289683f3d55682b0e42521d32b7cb248d10075a1fad4ed25fa5e28"
+    },
+    {
+      "path": "prototypes/mage/arcane-weaving-i/arcane-weaving-i-vfx.html",
+      "bytes": 48261,
+      "sha256": "2c406e7d97d0665ded68525f1cfb1904d2776e5042126d45126f58fd94872bf8"
+    },
+    {
+      "path": "prototypes/mage/arcane-weaving-ii/arcane-weaving-ii-vfx.html",
+      "bytes": 51110,
+      "sha256": "bf0e580c1e84de06f1477149ec4f331c69719f28e6d64761b611ae277d5ca01d"
+    },
+    {
+      "path": "prototypes/mage/blink/blink-vfx.html",
+      "bytes": 47686,
+      "sha256": "2d658e7cef86b7f5714071505b35ebbf68a7ec8ea9e427a13eb03b20538dfbc5"
+    },
+    {
+      "path": "prototypes/mage/cleansemage/cleanse-vfx.html",
+      "bytes": 45624,
+      "sha256": "2afc57ee820f985493c0cb9c3af5addde961c2c3710fd9f9c264e7ade818b5f2"
+    },
+    {
+      "path": "prototypes/mage/coil/coil-vfx.html",
+      "bytes": 64500,
+      "sha256": "d82e578831aa21f0570aa2a8f5514ce5d64e85b82ecbd5cdfbef507774a2fb57"
+    },
+    {
+      "path": "prototypes/mage/combust-i/combust-i-vfx.html",
+      "bytes": 57869,
+      "sha256": "f8ff55956440f1cbb0071214811975eb57c31cdfeee40538f33410640fdbcff7"
+    },
+    {
+      "path": "prototypes/mage/combust-ii/combust-ii-vfx.html",
+      "bytes": 66057,
+      "sha256": "9514a360137fadf3276c8fb4d4e1987fe71c095d66cb059e525e191883df4eec"
+    },
+    {
+      "path": "prototypes/mage/elemental-weaver-i/elemental-weaver-i-vfx.html",
+      "bytes": 51147,
+      "sha256": "aeef6696082e56d7baa3568ece9352e59181d48257d5288850f0e3b2f63629da"
+    },
+    {
+      "path": "prototypes/mage/elemental-weaver-ii/elemental-weaver-ii-vfx.html",
+      "bytes": 51256,
+      "sha256": "699d877b9f1cebb84627a00816ae0d4040ec4555bffc4c330e42a784c7aa2b63"
+    },
+    {
+      "path": "prototypes/mage/fire-bolt-i/fire-bolt-i-vfx.html",
+      "bytes": 57492,
+      "sha256": "252e5baa7638f67d3cf185cc4174f7d9713c86401633a5c69da2d1b7b37e30e7"
+    },
+    {
+      "path": "prototypes/mage/fire-bolt-ii/fire-bolt-ii-vfx.html",
+      "bytes": 62238,
+      "sha256": "1dbb6497458253571a1e4b06a30987e94add0179b36607a45b926c9a6f4e7cdc"
+    },
+    {
+      "path": "prototypes/mage/frost-lance-i/frost-lance-i-vfx.html",
+      "bytes": 66746,
+      "sha256": "439b28f12fc14d3d49880efc75158e09522a517f4e4f49f612631418bf5ef73d"
+    },
+    {
+      "path": "prototypes/mage/frost-lance-ii/frost-lance-ii-vfx.html",
+      "bytes": 67814,
+      "sha256": "e733fd6f5d59acdb36212c4eff6b0954096257488611bfc4c3ae181c20c3f67b"
+    },
+    {
+      "path": "prototypes/mage/glacial-spike-i/glacial-spike-i-vfx.html",
+      "bytes": 67490,
+      "sha256": "929b46dbfe57f39bff65fa6054cd0dea17c8b0ba2743474952cd56a01ddcbfa8"
+    },
+    {
+      "path": "prototypes/mage/glacial-spike-ii/glacial-spike-ii-vfx.html",
+      "bytes": 70087,
+      "sha256": "562b68c000eb1f250d81c471a761299c99a5af4ca00e6d2e3c55153a0f8525e5"
+    },
+    {
+      "path": "prototypes/mage/iceberg/iceberg-vfx.html",
+      "bytes": 71120,
+      "sha256": "27c0e1008c7825b4ddd6a8d5656ec74455d82926e2fb0a984dab26f4c7bde7cf"
+    },
+    {
+      "path": "prototypes/mage/laser/laser-vfx.html",
+      "bytes": 66026,
+      "sha256": "978f2a7168c9270bd31abc2f7d38114199f80cd3e8cb78634c02818e815cbbfe"
+    },
+    {
+      "path": "prototypes/mage/mana-barrier-i/mana-barrier-i-vfx.html",
+      "bytes": 43731,
+      "sha256": "1864810068dcdd83ce7e272738c91235881ea81ef209b502bdcb4394c17c3103"
+    },
+    {
+      "path": "prototypes/mage/mana-barrier-ii-overcharge/mana-barrier-ii-overcharge-vfx.html",
+      "bytes": 48424,
+      "sha256": "80055f48e4f71adfb2103523a546bc3851120f97470326f468c98993862f4c48"
+    },
+    {
+      "path": "prototypes/mage/mana-storm/mana-storm-vfx.html",
+      "bytes": 48307,
+      "sha256": "a676e5d2aa782e3758d428ccc14c4d227eaaa4d664451aef1f7e3a6806766fe8"
+    },
+    {
+      "path": "prototypes/mage/manifest/manifest-vfx.html",
+      "bytes": 48964,
+      "sha256": "87b441f4e681c3f2dfc84dfa2934d02029f7e108ce8df9954ab5549811fbbf20"
+    },
+    {
+      "path": "prototypes/mage/mist/mist-vfx.html",
+      "bytes": 62526,
+      "sha256": "734ec73698ea4df374dc4b1258810293e6327b3abafa7707459a24cd9ae8e04f"
+    },
+    {
+      "path": "prototypes/mage/static-bolt-i/static-bolt-i-vfx.html",
+      "bytes": 63455,
+      "sha256": "884b5631bbea4bdca24651d94df05324b3b249ba33b96d333f256d0c18a735d5"
+    },
+    {
+      "path": "prototypes/mage/static-bolt-ii/static-bolt-ii-vfx.html",
+      "bytes": 66708,
+      "sha256": "07da8ba6dd42dd5bef74f8ac3576ab22ab3e5db9e1b7534f906aa0e16eb4e954"
+    },
+    {
+      "path": "prototypes/mage/tempest/tempest-vfx.html",
+      "bytes": 81026,
+      "sha256": "55f8d116cb6bcfa53e402836b6b323d6229f2ca73873916aca83b4e5f55c1fb2"
+    },
+    {
+      "path": "prototypes/mage/thunderstrike-i/thunderstrike-i-vfx.html",
+      "bytes": 62423,
+      "sha256": "146d07fe89303c5fa6e9511f70f56aee94f168b8f9077faec1b120615a91a77a"
+    },
+    {
+      "path": "prototypes/mage/thunderstrike-ii/thunderstrike-ii-vfx.html",
+      "bytes": 67315,
+      "sha256": "e547e75c4b71bffa583c35dbd1f3b569ac6e330a82928c36b607c8b1ca6f8ebb"
+    },
+    {
+      "path": "prototypes/mage/vortex/vortex-vfx.html",
+      "bytes": 75470,
+      "sha256": "cff13e95d200e155ad97c974431fb72299062f8535315b59cfaf8690dd1d92e0"
+    },
+    {
+      "path": "prototypes/mage/weave/weave-vfx.html",
+      "bytes": 47056,
+      "sha256": "f8e8338b120b86fd552d3e3844f074cbddc65528c2522ffd278798a09fdc2f9f"
+    },
+    {
+      "path": "prototypes/mystic/astral-aura-moon/astral-aura-moon-vfx.html",
+      "bytes": 41556,
+      "sha256": "fdf7a261fc852793bacd937d9ccfee3cff27f46c2067db03bc6dd9f03db231ef"
+    },
+    {
+      "path": "prototypes/mystic/astral-aura-sun/astral-aura-sun-vfx.html",
+      "bytes": 41691,
+      "sha256": "6f572a13ae64863b2037b122c69c1002cd1b496f75493c8c48e983f4515c5c85"
+    },
+    {
+      "path": "prototypes/mystic/astral-pull/astral-pull-vfx.html",
+      "bytes": 59138,
+      "sha256": "ceb5d23b7987afac1144be24f561d3f2ad08d0b3c3d0e00da63f8d4c11b7a704"
+    },
+    {
+      "path": "prototypes/mystic/astral-step/astral-step-vfx.html",
+      "bytes": 47522,
+      "sha256": "d9efce2801b0dcbddd8069362ee2a9a44428790bed3739bc636b97c5e51e9964"
+    },
+    {
+      "path": "prototypes/mystic/astral-veil/astral-veil-vfx.html",
+      "bytes": 45324,
+      "sha256": "1dae8d56b1fd505891ae9be079b72ffea746101a6eb573ec7557a74374e1b33d"
+    },
+    {
+      "path": "prototypes/mystic/black-hole-i/black-hole-i-vfx.html",
+      "bytes": 49222,
+      "sha256": "14995eb7ecd146b58a5b560c4c3927b91a2c4a607c5ed6da826b1ff525164975"
+    },
+    {
+      "path": "prototypes/mystic/black-hole-ii/black-hole-ii-vfx.html",
+      "bytes": 51122,
+      "sha256": "8b5f7dc49484c412ebfc3aaa5538d3e4570ff83e4f5afb963caf9093cb0f4ef9"
+    },
+    {
+      "path": "prototypes/mystic/bright-star/bright-star-vfx.html",
+      "bytes": 60285,
+      "sha256": "bbaac120fe5ed7e4cb69ca6e10647647557e8e8d014ffaf085a4c1b0ff13bfa6"
+    },
+    {
+      "path": "prototypes/mystic/cleansemystic/cleanse-vfx.html",
+      "bytes": 45959,
+      "sha256": "e710016098e8fffb2cd3a27a072cddc959a33d298ebfda03f32f89328af05b0d"
+    },
+    {
+      "path": "prototypes/mystic/connection-i-ally/connection-i-ally-vfx.html",
+      "bytes": 49420,
+      "sha256": "e3f5312765a65c843080158186da99b1a35475ed301966e84d923b165f0244fb"
+    },
+    {
+      "path": "prototypes/mystic/connection-i-enemy/connection-i-enemy-vfx.html",
+      "bytes": 49967,
+      "sha256": "91b53750e209e6d08ec697863518f69b7c7b52e9f047095ad48dfbf98b155481"
+    },
+    {
+      "path": "prototypes/mystic/connection-ii-ally/connection-ii-ally-vfx.html",
+      "bytes": 52410,
+      "sha256": "58622cab33134d0609f4a7e9f047ea7f80d87e2fde8ec56ed076876a5cd2d893"
+    },
+    {
+      "path": "prototypes/mystic/connection-ii-enemy/connection-ii-enemy-vfx.html",
+      "bytes": 53491,
+      "sha256": "798c231d1482758d9f5c41822fcadc807b054adfdeae8e40c2813b389abb557e"
+    },
+    {
+      "path": "prototypes/mystic/cosmic-ray-i/cosmic-ray-i-vfx.html",
+      "bytes": 50216,
+      "sha256": "6b2f177eaae0930084e26edaed5add1f5a9144d8f269a920f34b5dfe2da6b5f5"
+    },
+    {
+      "path": "prototypes/mystic/cosmic-ray-ii/cosmic-ray-ii-vfx.html",
+      "bytes": 52365,
+      "sha256": "a7816456bafd8886200d8dc427cbf6a72fdc93a0686993e9d07188fd8f4d97ea"
+    },
+    {
+      "path": "prototypes/mystic/eclipse/eclipse-vfx.html",
+      "bytes": 45666,
+      "sha256": "5c0cf51368bb28cedc662d144c9625ee7edec95e89b3fc8bfd1bc6fe3c19c005"
+    },
+    {
+      "path": "prototypes/mystic/ether-i-ally/ether-i-ally-vfx.html",
+      "bytes": 55348,
+      "sha256": "014bfe109f11a147a2f3da8873e79f5df19bf85164741ee0e19fd81fb9c54a50"
+    },
+    {
+      "path": "prototypes/mystic/ether-i-enemy/ether-i-enemy-vfx.html",
+      "bytes": 56509,
+      "sha256": "7cdeb0ae4d24ffbe4abd3dc7f062ef9c9892079f905e4b358e845a652450caba"
+    },
+    {
+      "path": "prototypes/mystic/ether-ii-ally/ether-ii-ally-vfx.html",
+      "bytes": 58206,
+      "sha256": "e8fa83aadda4dc0d6a0f65470535eb0e3d77999a3d63394aaa675c547299b17d"
+    },
+    {
+      "path": "prototypes/mystic/ether-ii-enemy/ether-ii-enemy-vfx.html",
+      "bytes": 58324,
+      "sha256": "acf5126a8204a3ec699d55970552a8076dc6ae7a40de06805e91d7c4c6a16305"
+    },
+    {
+      "path": "prototypes/mystic/full-moon/full-moon-vfx.html",
+      "bytes": 61336,
+      "sha256": "3c4d0247a8ce9b45f282804c29aee98b103e3c0ebe7a15b5ed2cf1b9172bc7d5"
+    },
+    {
+      "path": "prototypes/mystic/lullaby/lullaby-vfx.html",
+      "bytes": 55536,
+      "sha256": "b19a1d8358a1a199b3e881fbcc276ae1b657dadeed6f818148bd00b166514dd7"
+    },
+    {
+      "path": "prototypes/mystic/lullaby-ii-nightmare/lullaby-ii-nightmare-vfx.html",
+      "bytes": 60195,
+      "sha256": "b688d8326ccaede033f254c06a4fe457675f481498c78af21552ac571485f025"
+    },
+    {
+      "path": "prototypes/mystic/moon-stance/moon-stance-vfx.html",
+      "bytes": 46963,
+      "sha256": "c1011b93e58101080d81d8f512c30534a34aaffaeeed8b2de42abb23c862d94d"
+    },
+    {
+      "path": "prototypes/mystic/resurrect/resurrect-vfx.html",
+      "bytes": 46803,
+      "sha256": "5ae4972838c1f4397dcaeeb72d8695b90cf2b32505cbbd55cf50abd7adff2b91"
+    },
+    {
+      "path": "prototypes/mystic/serenity/serenity-vfx.html",
+      "bytes": 45134,
+      "sha256": "8c3f2227fc3fd0d436b3802644a3ea5d01ebf7bc8ba7d4c8dd0578a03123deff"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-comet-moon/spirit-of-the-comet-moon-vfx.html",
+      "bytes": 48096,
+      "sha256": "28f408c8df13d16a17c35570887110ef9824cc07cf8e1f1a3fa57c78b6b59e6f"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-comet-sun/spirit-of-the-comet-sun-vfx.html",
+      "bytes": 47997,
+      "sha256": "71532e35e2e9c7470a4a9629c4646c1b61abef8cb66b406db2f2f74adf75e599"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-orbit-moon/spirit-of-the-orbit-moon-vfx.html",
+      "bytes": 45240,
+      "sha256": "61e0dfbea654292ae592ceb3fec5dfcded31fadd5e430014255925f4cbf8ea55"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-orbit-sun/spirit-of-the-orbit-sun-vfx.html",
+      "bytes": 45391,
+      "sha256": "f5daeafaf99aa2107bce8dc89a15fdc3f06f08a3399de5e37dfeeca95b0ad662"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-star-moon/spirit-of-the-star-moon-vfx.html",
+      "bytes": 47100,
+      "sha256": "eb4ae20a8f8d536fc6b28e57e5677ab07bc828a7af3a24684b5a6fce3062020e"
+    },
+    {
+      "path": "prototypes/mystic/spirit-of-the-star-sun/spirit-of-the-star-sun-vfx.html",
+      "bytes": 46659,
+      "sha256": "64ca607d2061f191ff102e968538a6be2e2a4e25c07dd712e3b0ed966291994d"
+    },
+    {
+      "path": "prototypes/mystic/sun-stance/sun-stance-vfx.html",
+      "bytes": 46863,
+      "sha256": "8a6c27b0823de1bbacaa48bc59954dfbc6631df6beb16abc534af200f0ba8d2e"
+    },
+    {
+      "path": "prototypes/scout/backstab/backstab-vfx.html",
+      "bytes": 52196,
+      "sha256": "10a4c3f1b881032b49e350faf7281d7d96ba96f5d4fbd2816b566f3713b0d15c"
+    },
+    {
+      "path": "prototypes/scout/backstab-ii/backstab-ii-vfx.html",
+      "bytes": 55066,
+      "sha256": "6617bed1cda2d61e6cb85aa131a22734a8cda6cd2e243e9f3589899e522a6cc6"
+    },
+    {
+      "path": "prototypes/scout/basic-attack-bleed/basic-attack-bleed-vfx.html",
+      "bytes": 53826,
+      "sha256": "f950858ca13cd5ad8088f49cbfb68354b46ae69a29c451a488dd7b11ba344439"
+    },
+    {
+      "path": "prototypes/scout/basic-attack-poison/basic-attack-poison-vfx.html",
+      "bytes": 53449,
+      "sha256": "c12724a4a3bb5ed2ae774e345dda91869e65886a384545acd554d60b17c9ea3d"
+    },
+    {
+      "path": "prototypes/scout/bleed-stance/bleed-stance-vfx.html",
+      "bytes": 47700,
+      "sha256": "dd284afb8f7a281602a044fa0bccce5b2b16573e4c422b3530362f9106e12c44"
+    },
+    {
+      "path": "prototypes/scout/blinding-dart/blinding-dart-vfx.html",
+      "bytes": 53224,
+      "sha256": "a0eadacbde2aaa4acbf450df84b0c3ab8056157e5899dffaac94030e7a41b330"
+    },
+    {
+      "path": "prototypes/scout/cleansescout/cleanse-vfx.html",
+      "bytes": 45631,
+      "sha256": "d80db3c82424f7ca11fd802105210377ac58435fb8b59c8ecaddbfcfe64cba09"
+    },
+    {
+      "path": "prototypes/scout/evasion/evasion-vfx.html",
+      "bytes": 44631,
+      "sha256": "4ba3a2df0fa052dc8a6f475ad21efa5270fb2f11c329a159e6fa0754083c481d"
+    },
+    {
+      "path": "prototypes/scout/exploit-weakness-i/exploit-weakness-i-vfx.html",
+      "bytes": 50423,
+      "sha256": "b989a6ea3d64bfbff8b2aff56463fa5beff08cbeb0860c946aedab060e364c08"
+    },
+    {
+      "path": "prototypes/scout/exploit-weakness-ii/exploit-weakness-ii-vfx.html",
+      "bytes": 57140,
+      "sha256": "d278065c89e54b9a2eca1b86ff28d4ebd017ddb43dfc2bd18ee5b7f327f57df8"
+    },
+    {
+      "path": "prototypes/scout/exploit-weakness-iii/exploit-weakness-iii-vfx.html",
+      "bytes": 61169,
+      "sha256": "ddefb0936170b501d2e9ae4be2bd2dc6bfebd7e82e2e976521a69d84a766edd6"
+    },
+    {
+      "path": "prototypes/scout/hemorrhage/hemorrhage-vfx.html",
+      "bytes": 56305,
+      "sha256": "819f5446d5946563ecf9bbb8e579c30d3ec83118f84e818b30031b91d7230b8d"
+    },
+    {
+      "path": "prototypes/scout/long-jump/long-jump-vfx.html",
+      "bytes": 47151,
+      "sha256": "543a49ef69d27563581992ab0a0ad7a8f0cdda1d6ff9b19d94d28da90d5e13c6"
+    },
+    {
+      "path": "prototypes/scout/poison-sac/poison-sac-vfx.html",
+      "bytes": 55597,
+      "sha256": "9dd1c72777b8748706b627370b7df7f44abb388c8cb73c25415f22c663e88888"
+    },
+    {
+      "path": "prototypes/scout/poison-stance/poison-stance-vfx.html",
+      "bytes": 47701,
+      "sha256": "99d7359c2a5787365aebae904fee9bb98b6b5da611156827967fa5b98a4c7013"
+    },
+    {
+      "path": "prototypes/scout/quickstep-i/quickstep-i-vfx.html",
+      "bytes": 44090,
+      "sha256": "7fd697bb864fe253c653127895a372a831381def40818649dd18f868bf32020a"
+    },
+    {
+      "path": "prototypes/scout/quickstep-ii/quickstep-ii-vfx.html",
+      "bytes": 47616,
+      "sha256": "4938d71ba570d7d3e3e64f919fb542e1656034f76fbfda262ed91c23c67d649e"
+    },
+    {
+      "path": "prototypes/scout/rapid-attack/rapid-attack-vfx.html",
+      "bytes": 44777,
+      "sha256": "5245e9e5bfb8195a872665c664770b921e1b73f31bf835210b8c0cfe8d2ce9d5"
+    },
+    {
+      "path": "prototypes/scout/sand-shot/sand-shot-vfx.html",
+      "bytes": 46426,
+      "sha256": "69850fec603ef6dcf99331fd838f79be696c04a0b46a66311f0b5b8cd783fabd"
+    },
+    {
+      "path": "prototypes/scout/sickness/sickness-vfx.html",
+      "bytes": 60573,
+      "sha256": "0f2003584c5521fd610e831088c91975049ca2df8d0e1633a1963c0186cf763b"
+    },
+    {
+      "path": "prototypes/scout/smoke-bomb-i/smoke-bomb-i-vfx.html",
+      "bytes": 51613,
+      "sha256": "3f51c08fa39260e7367e18703e7aadcac255cbad49e2c05428296b66301ff057"
+    },
+    {
+      "path": "prototypes/scout/smoke-bomb-ii/smoke-bomb-ii-vfx.html",
+      "bytes": 53384,
+      "sha256": "67b6d445299410d84fc879edc10f365e9b09c52138cc4066bc2b52515bebabc0"
+    },
+    {
+      "path": "prototypes/scout/torpor/torpor-vfx.html",
+      "bytes": 53741,
+      "sha256": "d735f577dd80f10eeb8b733507422d85125897bf59ad2541dff3383b1f740319"
+    },
+    {
+      "path": "prototypes/scout/vine-field-i/vine-field-i-vfx.html",
+      "bytes": 57165,
+      "sha256": "616ad7ec5f933eabb48f57937c9ff7d76894cc5a5b523cb63f8bfa6715dcd069"
+    },
+    {
+      "path": "prototypes/scout/vine-field-ii/vine-field-ii-vfx.html",
+      "bytes": 58316,
+      "sha256": "343b50c39cc54db9304f6ea2854088c48026a51b8dcf06de48fd5e1cb11520e5"
+    },
+    {
+      "path": "prototypes/scout/volley-i-bleed/volley-i-bleed-vfx.html",
+      "bytes": 49558,
+      "sha256": "6aa5a633536b6b7eed9a9d646eb0383052722d60f56823880e53800b57a1d390"
+    },
+    {
+      "path": "prototypes/scout/volley-i-poison/volley-i-poison-vfx.html",
+      "bytes": 49489,
+      "sha256": "a209c29e8fb6524f87c2b2d74f5c31da30eb48a104b935f082c6699213e6a5d7"
+    },
+    {
+      "path": "prototypes/scout/volley-ii-bleed/volley-ii-bleed-vfx.html",
+      "bytes": 53306,
+      "sha256": "92b2270cb5434d696b608ee38428c80fad8dac1480a528624a7e4cd8a7203ecc"
+    },
+    {
+      "path": "prototypes/scout/volley-ii-poison/volley-ii-poison-vfx.html",
+      "bytes": 53222,
+      "sha256": "8dbfa8aa678da1ceae1f46421625def602925493ad6e1ac612ea5f7631a4af2c"
+    },
+    {
+      "path": "prototypes/status/control/control-lab-vfx.html",
+      "bytes": 64370,
+      "sha256": "1ea564a32fb398cde5d72a8ff5910db45a1662c9eb5761a0bec0834bff42a6fc"
+    },
+    {
+      "path": "prototypes/status/nameplates/nameplates-vfx.html",
+      "bytes": 46902,
+      "sha256": "9baa1b95cc3d47113754d7d82fa9d6d508a42ab460a7c3029c253318e007dd19"
+    },
+    {
+      "path": "referencias/CLAUDE.md",
+      "bytes": 12321,
+      "sha256": "17e99431d1a3baff3ba585484f5f02fa7a079152a5229ceedab12d97a3d34a90"
+    },
+    {
+      "path": "referencias/docs/skills.json",
+      "bytes": 157360,
+      "sha256": "3871e03372813d6627091e05ecb06f612e0d0a2105a1071391677a7ff61a6e1b"
+    },
+    {
+      "path": "referencias/docs/ue-vfx-tech-spec.html",
+      "bytes": 20743,
+      "sha256": "1500e729656a56c7e206951737b441e30ab46a163ef3d0ee75d7426176d44a0a"
+    },
+    {
+      "path": "referencias/docs/VFX_Skills_SanctaMMO.docx",
+      "bytes": 3710208,
+      "sha256": "f4b100b5789db181fe501c4eef18974ebc568baac68937c149a5a4a84d6d938c"
+    },
+    {
+      "path": "revisao.json",
+      "bytes": 153016,
+      "sha256": "2a195452cdc08b3cbc1369ff928feb91bcc0bde95a4a07fd19b130862acb7377"
+    },
+    {
+      "path": "verificacao.json",
+      "bytes": 296,
+      "sha256": "a9d12fe6f77a54fc7566539aa951950570836a4ce88822e69eaf2eeb978546ce"
+    }
+  ]
+}

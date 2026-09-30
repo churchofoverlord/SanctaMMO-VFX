@@ -488,7 +488,7 @@ const links = pool(linkGeo, 2048, { aO:3, aE:3, aF:3, aT:1, aP:1 }, addMat({
       vec3 n = normalize(vN), v = normalize(vV);
       float rim = pow(1. - abs(dot(n, v)), 2.4);                                // glow lives on the contour: reads as light, not metal
       vec3 col = mix(uOrange, uGold, .45 + .45*rim);
-      vec3 c = col*(.04 + .6*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.45;
+      vec3 c = col*(.025 + .36*rim)*(.45 + vHeat) + vec3(1., .95, .86)*rim*max(vHeat - .7, 0.)*.2;
       gl_FragColor = vec4(c, 1.);
     }` }));
 
@@ -568,7 +568,7 @@ const haze = pool(new THREE.PlaneGeometry(2, 2, 24, 1), 256, { aO:3, aE:3, aF:1,
       }
       if (vHit < .5 && vKc >= 0.) heat *= exp(-vKc*3.);
       vec3 col = mix(uOrange, uGold, .5);
-      vec3 outc = (col*band*.2 + mix(uGold, vec3(1., .96, .88), .5)*core*.12)*heat*ends*m;
+      vec3 outc = (col*band*.07 + mix(uGold, vec3(1., .96, .88), .5)*core*.04)*heat*ends*m;
       if (max(outc.r, max(outc.g, outc.b)) < .002) discard;
       gl_FragColor = vec4(outc, 1.);
     }` }));

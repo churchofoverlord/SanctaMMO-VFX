@@ -459,7 +459,7 @@ const impacts = pool(new THREE.PlaneGeometry(2, 2), 128, { aO:3, aT:1 }, addMat(
       o *= smoothstep(${(SR + .5).toFixed(1)}, ${(SR + .3).toFixed(1)}, r);
       if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }` }));
 
-// Layer 3 — the smoke: a solid, semi-opaque, low-contrast dome with a noisy radius and slowly rolling billows; accented Fresnel
+// Layer 3 — the smoke: two eroded, low-contrast billowing shells with a noisy radius and slowly rolling billows; accented Fresnel
 // so the border of the curtain always reads (warm rim). Two layers (aL) at different depths in one draw call. Premultiplied.
 const smokes = pool(new THREE.SphereGeometry(1, 40, 18, 0, Math.PI*2, 0, Math.PI*.5), 256, { aO:3, aT:1, aL:1 }, new THREE.ShaderMaterial({
   transparent:true, depthWrite:false, blending:THREE.CustomBlending, blendSrc:THREE.OneFactor, blendDst:THREE.OneMinusSrcAlphaFactor,
@@ -475,9 +475,11 @@ const smokes = pool(new THREE.SphereGeometry(1, 40, 18, 0, Math.PI*2, 0, Math.PI
       vec3 dir = normalize(position);
       float t = uTime*.12 + aL*3.7;
       float bump = vn3(dir*2.6 + vec3(0., -t, t*.5))*.55 + vn3(dir*5.5 + vec3(t, 0., -t))*.3 + vn3(dir*10. + vec3(-t, t, 0.))*.15;   // billows (puffy radius)
-      float R = ${SR.toFixed(1)}*g*(1. + .12*out_)*(mix(.86, .72, aL) + .32*bump);
-      vec3 P = aO + vec3(dir.x*R, dir.y*R*.8, dir.z*R);                          // a squat dome
-      vN = normalize(vec3(dir.x, dir.y/.8, dir.z)); vV = normalize(cameraPosition - P); vD = dir; vU = u; vL = aL; vH = dir.y;
+      float envelope = mix(.995, .86, aL) + .17*(bump - .5)*smoothstep(.05, .45, dir.y);
+      float R = ${SR.toFixed(1)}*g*min(.995, envelope);
+      float loft = .68 + .18*vn3(dir*3.1 + vec3(t*.4, -t, aL*2.));
+      vec3 P = aO + vec3(dir.x*R, dir.y*R*loft, dir.z*R);                          // a squat dome
+      vN = normalize(vec3(dir.x, dir.y/loft, dir.z)); vV = normalize(cameraPosition - P); vD = dir; vU = u; vL = aL; vH = dir.y;
       gl_Position = projectionMatrix*viewMatrix*vec4(P, 1.);
     }`,
   fragmentShader:`uniform float uTime; uniform vec3 uGold, uOrange; varying vec3 vN, vV, vD; varying float vU, vL, vH;
@@ -490,9 +492,13 @@ const smokes = pool(new THREE.SphereGeometry(1, 40, 18, 0, Math.PI*2, 0, Math.PI
       float fin = smoothstep(0., .12, u)*(1. - out_);
       float fr = 1. - abs(dot(normalize(vN), normalize(vV)));                       // Fresnel: 0 facing, 1 at the silhouette
       float t = uTime*.15 + vL*5.;
-      float roll = vn3(vD*5. + vec3(0., -t, t*.7))*.6 + vn3(vD*11. + vec3(t, t*.4, 0.))*.4;   // soft rolling billows (never grain)
-      float a = (mix(.62, .4, vL) + .25*roll)*fin*smoothstep(-.02, .12, vH + .1);
-      vec3 smoke = mix(vec3(.035, .033, .032), vec3(.1, .092, .085), roll*roll);     // dark grey, low contrast
+      vec3 drift = vec3(.35*sin(vD.y*3. + t*.6), -t, .25*cos(vD.x*4. - t*.4));
+      float roll = vn3(vD*4.2 + drift)*.72 + vn3(vD*8.5 + drift*1.4)*.28;   // soft rolling billows (never grain)
+      float edge = smoothstep(.04, .32, 1. - fr + (roll - .5)*.22);
+      float dissolve = 1. - smoothstep(roll*.55, roll*.55 + .45, out_);
+      float a = mix(.72, .54, vL)*mix(.7, 1.12, smoothstep(.24, .76, roll))*fin*edge*dissolve;
+      a *= smoothstep(-.035, .06, vH);
+      vec3 smoke = mix(vec3(.022, .021, .020), vec3(.095, .088, .082), smoothstep(.18, .82, roll));     // dark grey, low contrast
       vec3 rim = vec3(0.);                                                           // no glow on the smoke
       vec3 col = smoke*a + rim*fin;
       gl_FragColor = vec4(col, a); }` }));

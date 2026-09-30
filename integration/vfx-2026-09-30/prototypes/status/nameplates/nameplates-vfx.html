@@ -1,0 +1,611 @@
+<title>Nameplates — Estados</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ground:#0b0c0e; --panel:#131416; --line:#26272a; --ink:#e9e3d8; --muted:#8f8a82;
+  --orange:#ff7a1a; --gold:#f2b53a; --pale:#fff0d2; --debuff:#8b6fd6; --ok:#7fbf8a; --warn:#e0a24a;
+}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font:14px/1.5 "IBM Plex Sans",system-ui,sans-serif;margin:0;padding-inline:16px;padding-block:20px;box-sizing:border-box}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 24px}
+h1{font:700 clamp(28px,4vw,40px)/1 "Cinzel",Georgia,serif;margin:0;letter-spacing:.04em;text-wrap:balance}
+h1 span{color:var(--gold)}
+h2{font:700 15px "Cinzel",Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0}
+.eyebrow{font:500 11px/1 "IBM Plex Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.canon{max-width:62ch;color:var(--muted);margin:0}
+.canon b{color:var(--ink);font-weight:500}
+.main{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px}
+@media (max-width:900px){.main{grid-template-columns:1fr}}
+.stage{position:relative;border:1px solid var(--line);background:#07080a;aspect-ratio:16/9;max-width:100%;overflow:hidden;touch-action:none;cursor:grab}
+.stage:active{cursor:grabbing}
+canvas{display:block;width:100%;height:100%}
+.hud{position:absolute;left:12px;bottom:10px;font:400 11px/1.4 "IBM Plex Mono",monospace;color:var(--muted);pointer-events:none;font-variant-numeric:tabular-nums}
+.key{position:absolute;right:12px;bottom:10px;font:500 11px "IBM Plex Mono",monospace;color:var(--muted);pointer-events:none}
+aside{display:grid;gap:12px;align-content:start}
+fieldset{border:1px solid var(--line);background:var(--panel);margin:0;padding:10px 12px;display:grid;gap:8px}
+legend{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 6px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--pale);outline-offset:2px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px}
+.seg button{font:500 12px "IBM Plex Mono",monospace;background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 0;cursor:pointer}
+.seg button[aria-pressed="true"]{border-color:var(--gold);color:var(--gold)}
+label.tg{display:flex;align-items:center;gap:10px;cursor:pointer}
+label.tg input{accent-color:var(--gold);width:16px;height:16px;margin:0;flex:none}
+label.tg small{display:block;color:var(--muted);font-size:12px}
+.stats{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:12.5px;margin:0}
+.stats dt{color:var(--muted)}
+.stats dd{margin:0;font:500 12.5px "IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right}
+.stats dd.vfx{color:var(--gold)}
+.stats .sep{grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0}
+.timeline{border:1px solid var(--line);background:var(--panel);padding:12px 14px;display:grid;gap:6px}
+.tl-row{display:grid;grid-template-columns:190px 1fr 82px;gap:10px;align-items:center;font-size:12px}
+@media (max-width:560px){.tl-row{grid-template-columns:110px 1fr 64px}}
+.tl-row .ms{font:400 11px "IBM Plex Mono",monospace;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.track{position:relative;height:8px;background:#0c0d0f}
+.bar{position:absolute;top:0;bottom:0;opacity:.85}
+.playhead{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--pale);opacity:0}
+.tl-head{display:flex;justify-content:space-between;font:500 11px "IBM Plex Mono",monospace;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.budget{display:grid;gap:10px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13px}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--panel)}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.notes div{border-top:1px solid var(--line);padding-top:10px}
+.notes h3{font:700 13px "Cinzel",Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin:0 0 4px;color:var(--gold)}
+.notes p{margin:0;color:var(--muted);font-size:13px}
+/* status list + lifecycle */
+.stl{display:grid;gap:4px}
+.stl button{display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:8px;text-align:left;font:500 13px "IBM Plex Sans",sans-serif;background:transparent;color:var(--ink);border:1px solid var(--line);padding:6px 8px;cursor:pointer}
+.stl button i{width:8px;height:8px;border:1px solid var(--muted);border-radius:50%}
+.stl button.on i{background:var(--c);border-color:var(--c)}
+.stl button[aria-pressed="true"]{border-color:var(--gold)}
+.stl button small{font:500 10px "IBM Plex Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.acts button{font:500 12px "IBM Plex Mono",monospace;background:transparent;color:var(--ink);border:1px solid var(--line);padding:7px 4px;cursor:pointer}
+.acts button:hover:not(:disabled){border-color:var(--muted)}
+.acts button:disabled{color:#4b4843;cursor:default}
+.acts button.wide{grid-column:1/-1}
+.acts button.primary{background:linear-gradient(180deg,#f7c457,#d98a1f);color:#1b0f02;border-color:#ffd98a;font-weight:600}
+.hint{margin:0;color:var(--muted);font-size:12px;min-height:3em}
+.sbar{position:absolute;left:50%;top:10px;transform:translateX(-50%);display:flex;flex-wrap:wrap;justify-content:center;gap:4px;max-width:70%;pointer-events:none}
+.sbar span{font:500 10.5px "IBM Plex Mono",monospace;letter-spacing:.06em;padding:2px 6px;border:1px solid var(--c);color:var(--c);background:rgba(7,8,10,.6)}
+.sbar span.neg{border-style:dashed}
+.cat td:first-child{white-space:nowrap}
+</style>
+
+<style>
+:root{ --buff:#42C878; --hot:#F2E08A; --dot:#E54848; --debuff:#9B63DE; --cc:#F08A2A; --ink2:#E8EDF4; }
+.np-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.np{position:absolute;left:0;top:0;transform:translate(-50%,-100%);display:grid;justify-items:center;gap:2px;font:600 11px "IBM Plex Sans",sans-serif;color:#e8edf4;text-shadow:0 1px 2px #000,0 0 3px #000;white-space:nowrap}
+.np .nm.enemy{color:#ff8a80}.np .nm.ally{color:#8fe3a8}.np .nm.sel{color:#fff;text-decoration:underline}
+.np .hp{width:76px;height:5px;background:#0a0b0f;border:1px solid #000;position:relative}
+.np .hp i{position:absolute;left:0;top:0;bottom:0;background:#c3312a}
+.np .hp b{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.85)}
+.np .row{display:flex;gap:1px}
+.ic{--s:var(--icS,16px);position:relative;width:var(--s);height:var(--s);box-sizing:border-box;border:1px solid var(--c);background:#11151c;color:var(--ink2);flex:none}
+.ic svg{position:absolute;inset:1px;width:calc(100% - 2px);height:calc(100% - 2px);fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ic .dep{position:absolute;inset:0;background:conic-gradient(rgba(0,0,0,.62) var(--d), transparent 0)}
+.ic .st{position:absolute;right:0;bottom:-1px;font:700 9px/1 "IBM Plex Mono",monospace;color:#fff;text-shadow:0 0 2px #000,0 0 2px #000}
+.ic.cc{--s:calc(var(--icS,16px) + 4px)}
+.more{font:600 10px "IBM Plex Mono",monospace;color:#b8c2cf;align-self:center;padding-left:2px}
+.catalog{display:grid;gap:14px}
+.catgrp h3{font:700 13px "Cinzel",Georgia,serif;letter-spacing:.1em;text-transform:uppercase;margin:0 0 8px;color:var(--gold)}
+.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.cell{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);padding:6px 8px;font-size:12px}
+.cell .sz{display:flex;align-items:flex-end;gap:4px}
+.cell small{display:block;color:var(--muted);font:500 10px "IBM Plex Mono",monospace}
+</style>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">SanctaMMO · Status · Nameplates · Ícones de estado no mundo</div>
+      <h1><span>Nameplates — Estados</span></h1>
+    </div>
+    <p class="canon"><b>Sem VFX persistente para Buff, Debuff, DoT e HoT:</b> o estado lê-se em ícones na nameplate de qualquer personagem, sem precisar de lhe dar target. Regras do Canon de UI: linhas positiva e negativa separadas, categoria pela cor da borda (Buff verde, HoT amarelo claro, DoT vermelho, Debuff roxo, CC laranja), stacks no canto, duração em depleção radial, Shield como camada branca sobre o HP. O CC continua também com as camadas no mundo.</p>
+  </header>
+
+  <div class="main">
+    <div class="stage" id="stage">
+      <div class="np-layer" id="npLayer"></div>
+      <div class="key">arrastar = orbitar · roda = zoom</div>
+      <div class="hud" id="hud"></div>
+    </div>
+    <aside>
+      <fieldset>
+        <legend>Mostrar nas nameplates</legend>
+        <div class="acts" id="filt">
+          <button data-f="all" class="primary">Todos</button>
+          <button data-f="neg">Negativos + CC</button>
+          <button data-f="mine">Só os meus + CC</button>
+          <button data-f="cc">Só CC</button>
+        </div>
+        <p class="hint">"Só os meus" = estados que tu aplicaste (Slow, Wounded, DoTs…) + qualquer CC.</p>
+      </fieldset>
+      <fieldset>
+        <legend>Tamanho do ícone</legend>
+        <div class="seg" id="size">
+          <button data-z="14" aria-pressed="false">14 px</button>
+          <button data-z="16" aria-pressed="true">16 px</button>
+          <button data-z="20" aria-pressed="false">20 px</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Máximo por linha</legend>
+        <div class="seg" id="cap">
+          <button data-c="4" aria-pressed="false">4</button>
+          <button data-c="6" aria-pressed="true">6</button>
+          <button data-c="99" aria-pressed="false">sem limite</button>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Cena</legend>
+        <div class="seg" id="crowd">
+          <button data-n="10" aria-pressed="false">10</button>
+          <button data-n="25" aria-pressed="true">25</button>
+          <button data-n="60" aria-pressed="false">60</button>
+        </div>
+        <label class="tg"><input type="checkbox" id="tAllies" checked><span>Mostrar aliados<small>nameplates verdes com os seus buffs/HoTs</small></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Custo</legend>
+        <dl class="stats">
+          <dt>Nameplates visíveis</dt><dd class="vfx" id="sNp">0</dd>
+          <dt>Ícones visíveis</dt><dd class="vfx" id="sIc">0</dd>
+          <dt>Frame (média)</dt><dd id="sFrame">—</dd>
+        </dl>
+      </fieldset>
+    </aside>
+  </div>
+
+  <section class="notes">
+    <div><h3>Ordem na nameplate</h3><p>De cima para baixo: CC (maior, borda laranja, mesma forma e cor da camada no mundo), linha negativa (DoT + Debuff), linha positiva (HoT + Buff), nome, HP com Shield branco por cima. Em cada linha: permanentes primeiro, depois por duração restante decrescente (Canon de UI).</p></div>
+    <div><h3>Mesmo glifo, sinal oposto</h3><p>Buff e Debuff do mesmo atributo usam o mesmo glifo (Might e Weakened = espada; Swiftness e Slow = bota; Grace e Wounded = cruz). A linha e a borda dizem se é bom ou mau; o hover dá o nome.</p></div>
+    <div><h3>Contra o clutter</h3><p>O filtro por defeito sugerido é "Só os meus + CC" em combate de grupo: vês o Slow e o Wounded que aplicaste em qualquer inimigo, sem ver tudo de toda a gente. Limite por linha com "+N".</p></div>
+    <div><h3>No UE</h3><p>Widget de nameplate (UMG/Slate) com um atlas de ícones; os estados vêm do GAS já replicado. Sem Niagara para estes estados: custo de VFX zero.</p></div>
+  </section>
+
+  <section class="budget">
+    <h2>Catálogo de ícones</h2>
+    <div class="catalog" id="catalog"></div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script>
+(() => {
+const $ = id => document.getElementById(id);
+const lin = h => new THREE.Color(h).convertSRGBToLinear();
+const COL = { gold:lin(0xf2b53a), orange:lin(0xff7a1a), pale:lin(0xfff0d2), violet:lin(0x8b6fd6), violetDeep:lin(0x2a1450), light:lin(0xffa24a) };
+const clamp01 = x => Math.max(0, Math.min(1, x));
+const easeOutExpo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const easeOutCubic = x => 1 - Math.pow(1 - clamp01(x), 3);
+const rand = (a, b) => a + Math.random() * (b - a);
+
+// ============ renderer / post ============
+const stage = $('stage');
+const PR = Math.min(devicePixelRatio, 1.5);
+const renderer = new THREE.WebGLRenderer({ antialias:false, powerPreference:'high-performance' });
+renderer.setPixelRatio(PR);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+stage.prepend(renderer.domElement);
+const hasPost = !!(THREE.EffectComposer && THREE.UnrealBloomPass && THREE.ShaderPass && THREE.RenderPass);
+if (hasPost) { renderer.outputEncoding = THREE.LinearEncoding; renderer.toneMapping = THREE.NoToneMapping; }
+else { renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.2; }
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(36, 16/9, 0.05, 120);
+
+// ============ procedural textures ============
+function hash2(x, y, p, s){ x = ((x % p) + p) % p; y = ((y % p) + p) % p; let h = (x*374761393 + y*668265263 + s*1442695041) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); h ^= h >>> 16; return (h >>> 0) / 4294967296; }
+function vnoise(x, y, p, s){ const ix = Math.floor(x), iy = Math.floor(y), fx = x-ix, fy = y-iy, ux = fx*fx*(3-2*fx), uy = fy*fy*(3-2*fy);
+  const a = hash2(ix,iy,p,s), b = hash2(ix+1,iy,p,s), c = hash2(ix,iy+1,p,s), d = hash2(ix+1,iy+1,p,s);
+  return a + (b-a)*ux + (c-a)*uy + (a-b-c+d)*ux*uy; }
+function fbm(u, v, p, oct, s){ let t = 0, a = .5, n = 0; for (let o=0;o<oct;o++){ t += a*vnoise(u*p, v*p, p, s+o); n += a; a *= .5; p *= 2; } return t/n; }
+function canvas(S){ const c = document.createElement('canvas'); c.width = c.height = S; return c; }
+
+function groundTextures(){
+  const S = 512, CELLS = 11;
+  const ca = canvas(S), cb = canvas(S), xa = ca.getContext('2d'), xb = cb.getContext('2d');
+  const ia = xa.createImageData(S,S), ib = xb.createImageData(S,S);
+  for (let y=0;y<S;y++) for (let x=0;x<S;x++){
+    const u = x/S, v = y/S, gx = u*CELLS, gy = v*CELLS, ix = Math.floor(gx), iy = Math.floor(gy);
+    let d1 = 9, d2 = 9, id = 0;
+    for (let j=-1;j<=1;j++) for (let i=-1;i<=1;i++){
+      const cx = ix+i, cy = iy+j;
+      const px = cx + .05 + .9*hash2(cx,cy,CELLS,11), py = cy + .05 + .9*hash2(cx,cy,CELLS,23);
+      const d = Math.hypot(gx-px, gy-py);
+      if (d < d1){ d2 = d1; d1 = d; id = hash2(cx,cy,CELLS,37); } else if (d < d2) d2 = d;
+    }
+    const crack = clamp01((d2-d1)/0.09);
+    const n = fbm(u,v,8,5,1), n2 = fbm(u,v,32,3,5), big = fbm(u,v,3,3,9);
+    const wet = clamp01((0.44-big)/0.1);
+    let lum = (.6 + .5*id) * (.6 + .6*n) * (.85 + .3*n2);
+    lum *= (.5 + .5*Math.pow(crack,.6)) * (.55 + .6*big);
+    lum *= (1 - .4*wet);
+    const k = (y*S+x)*4;
+    ia.data[k] = 50*lum*(0.96+.08*id); ia.data[k+1] = 47*lum; ia.data[k+2] = 44*lum*(1.04-.08*id); ia.data[k+3] = 255;
+    ib.data[k] = 255*Math.pow(crack,.5)*(.7+.3*n);
+    ib.data[k+1] = 255*clamp01(.88 - .38*wet + .12*(n2-.5) + (crack<.3?.1:0));
+    ib.data[k+2] = 0; ib.data[k+3] = 255;
+  }
+  xa.putImageData(ia,0,0); xb.putImageData(ib,0,0);
+  return [ca, cb];
+}
+function metalTexture(){
+  const S = 256, c = canvas(S), x = c.getContext('2d'), im = x.createImageData(S,S);
+  for (let j=0;j<S;j++) for (let i=0;i<S;i++){
+    const u = i/S, v = j/S, n = fbm(u,v,6,5,3), fine = fbm(u,v,48,2,7);
+    const scratch = Math.pow(Math.abs(Math.sin((u*0.35+v)*170 + n*14)), 60);
+    const k = (j*S+i)*4;
+    im.data[k] = 255*clamp01(.5 + .35*(n-.5) - .25*scratch + .15*(fine-.5));
+    im.data[k+1] = 255*clamp01(.34 + .45*n + .2*fine - .15*scratch);
+    im.data[k+2] = 0; im.data[k+3] = 255;
+  }
+  x.putImageData(im,0,0); return c;
+}
+function smokeTexture(seed){
+  const S = 128, c = canvas(S), x = c.getContext('2d'), im = x.createImageData(S,S);
+  for (let j=0;j<S;j++) for (let i=0;i<S;i++){
+    const u = i/S, v = j/S, d = Math.hypot(u-.5, v-.5)*2;
+    const n = fbm(u,v,4,5,seed);
+    const fall = clamp01(1-d);
+    const a = Math.pow(fall,1.4) * clamp01(n*1.9 - .35);
+    const k = (j*S+i)*4; im.data[k]=im.data[k+1]=im.data[k+2]=255; im.data[k+3]=255*a;
+  }
+  x.putImageData(im,0,0); return new THREE.CanvasTexture(c);
+}
+function glowTexture(){
+  const S = 128, c = canvas(S), x = c.getContext('2d'), g = x.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);
+  g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.25,'rgba(255,255,255,.45)'); g.addColorStop(.6,'rgba(255,255,255,.08)'); g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0,0,S,S); return new THREE.CanvasTexture(c);
+}
+const [gA, gB] = groundTextures();
+const maxAniso = renderer.capabilities.getMaxAnisotropy();
+function tex(c, rep, srgb){ const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rep[0], rep[1]); t.anisotropy = maxAniso; if (srgb) t.encoding = THREE.sRGBEncoding; return t; }
+const smokeTex = [smokeTexture(101), smokeTexture(202), smokeTexture(303)];
+const glowTex = glowTexture();
+const metalC = metalTexture();
+
+// ============ sky / environment ============
+const moonDir = new THREE.Vector3(-.25, .34, -1).normalize();
+function skyMaterial(gain){
+  return new THREE.ShaderMaterial({ side:THREE.BackSide, depthWrite:false,
+    uniforms:{ uMoon:{value:moonDir}, uGain:{value:gain} },
+    vertexShader:`varying vec3 vD; void main(){ vD = position; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform vec3 uMoon; uniform float uGain; varying vec3 vD;
+      void main(){ vec3 d = normalize(vD); float h = d.y;
+        vec3 hor = vec3(.028,.033,.046), zen = vec3(.006,.009,.016), gnd = vec3(.018,.02,.024);
+        vec3 c = mix(hor, zen, smoothstep(0., .55, h)); c = mix(gnd, c, smoothstep(-.06, .02, h));
+        float m = max(dot(d, uMoon), 0.);
+        c += vec3(.55,.66,.85) * (pow(m, 1400.)*5. + pow(m, 60.)*.15 + pow(m, 7.)*.05);
+        gl_FragColor = vec4(c*uGain, 1.); }` });
+}
+const sky = new THREE.Mesh(new THREE.SphereGeometry(80, 48, 24), skyMaterial(1));
+sky.renderOrder = -1; scene.add(sky);
+scene.fog = new THREE.FogExp2(new THREE.Color(.026, .031, .042), .065);
+
+// ============ lights ============
+scene.add(new THREE.HemisphereLight(new THREE.Color(.22,.27,.36), new THREE.Color(.035,.028,.022), .32));
+const moon = new THREE.DirectionalLight(new THREE.Color(.62,.72,.95), 1.15);
+moon.position.copy(moonDir).multiplyScalar(20); moon.castShadow = true;
+Object.assign(moon.shadow.camera, { left:-8, right:8, top:8, bottom:-8, near:1, far:50 });
+moon.shadow.mapSize.set(1024, 1024); moon.shadow.bias = -0.0004; moon.shadow.normalBias = .03;
+scene.add(moon, moon.target);
+
+// ============ ground + ruins ============
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(90, 90),
+  new THREE.MeshStandardMaterial({ map:tex(gA,[14,14],true), bumpMap:tex(gB,[14,14]), roughnessMap:tex(gB,[14,14]), bumpScale:.03, roughness:1, metalness:0, envMapIntensity:.6 }));
+ground.rotation.x = -Math.PI/2; ground.receiveShadow = true; scene.add(ground);
+const stoneMat = new THREE.MeshStandardMaterial({ map:tex(gA,[1,2],true), bumpMap:tex(gB,[1,2]), roughnessMap:tex(gB,[1,2]), bumpScale:.06, color:lin(0xa8a198), envMapIntensity:.5 });
+function pillar(x, z, h, broken){
+  const g = new THREE.Group();
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(.34, .4, h, 14), stoneMat); shaft.position.y = h/2 + .3;
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.1, .3, 1.1), stoneMat); base.position.y = .15;
+  g.add(shaft, base);
+  if (broken){ shaft.rotation.z = rand(-.06,.06); const chunk = new THREE.Mesh(new THREE.CylinderGeometry(.34,.36,.7,14), stoneMat); chunk.position.set(rand(.6,1.1), .3, rand(-.4,.4)); chunk.rotation.set(Math.PI/2, rand(0,3), .2); g.add(chunk); }
+  else { const cap = new THREE.Mesh(new THREE.BoxGeometry(1, .28, 1), stoneMat); cap.position.y = h + .44; g.add(cap); }
+  g.traverse(o => { if (o.isMesh){ o.castShadow = o.receiveShadow = true; } });
+  g.position.set(x, 0, z); g.rotation.y = rand(0, 3); scene.add(g);
+}
+[[-3.2,-8.5,4.4,0],[3.2,-8.5,4.4,0],[-6.5,-5.5,2.2,1],[6.8,-6.5,3.4,0],[-9.5,-11,5,0],[9.5,-12,2.6,1],[-4,-15,3.8,0],[4.8,-16,5.2,0],[-11,-2,1.6,1],[10.5,-1.5,3,0],[-7.5,5,2.8,1],[8,6,4,0]]
+  .forEach(([x,z,h,b]) => pillar(x,z,h,!!b));
+{ const lintel = new THREE.Mesh(new THREE.BoxGeometry(7.4, .6, .9), stoneMat); lintel.position.set(0, 5.35, -8.5); lintel.rotation.z = .03; lintel.castShadow = true; scene.add(lintel); }
+// rubble: one instanced mesh (1 draw call instead of 46)
+{ const N = 46, im = new THREE.InstancedMesh(new THREE.DodecahedronGeometry(1, 1), stoneMat, N), o = new THREE.Object3D();
+  for (let i=0;i<N;i++){
+    const r = rand(1.9, 11), a = rand(0, Math.PI*2), s = rand(.05, .32);
+    o.scale.set(s*rand(.8,1.6), s*rand(.5,.9), s*rand(.8,1.4)); o.position.set(Math.cos(a)*r, s*.35, Math.sin(a)*r);
+    o.rotation.set(rand(0,3), rand(0,3), rand(0,3)); o.updateMatrix(); im.setMatrixAt(i, o.matrix);
+  }
+  im.castShadow = im.receiveShadow = true; scene.add(im); }
+
+
+// ============ target knight (faces -z; the camera sits in front, 3/4) ============
+const hero = new THREE.Group(); scene.add(hero);
+const body = new THREE.Group(); hero.add(body);
+const mTex = tex(metalC, [2,2]);
+const armor = new THREE.MeshStandardMaterial({ color:lin(0x6b6660), metalness:.55, roughness:1, roughnessMap:mTex, bumpMap:mTex, bumpScale:.006, envMapIntensity:1 });
+const darkArmor = armor.clone(); darkArmor.color = lin(0x3a3632);
+const leather = new THREE.MeshStandardMaterial({ color:lin(0x2b221d), roughness:.85, metalness:0, bumpMap:mTex, bumpScale:.01 });
+const capeMat = new THREE.MeshStandardMaterial({ color:lin(0x3a120e), roughness:.95, side:THREE.DoubleSide, bumpMap:mTex, bumpScale:.015 });
+function part(geo, mat, x, y, z, sx=1, sy=1, sz=1, rx=0, ry=0, rz=0){ const m = new THREE.Mesh(geo, mat); m.position.set(x,y,z); m.scale.set(sx,sy,sz); m.rotation.set(rx,ry,rz); m.castShadow = true; m.receiveShadow = true; body.add(m); return m; }
+const sph = new THREE.SphereGeometry(1, 28, 20);
+[-1,1].forEach(s => {
+  part(new THREE.CylinderGeometry(.085,.075,.46,16), darkArmor, s*.12,.62,0);          // thigh
+  part(new THREE.CylinderGeometry(.075,.065,.42,16), armor, s*.12,.24,.01);           // greave
+  part(sph, armor, s*.12,.44,-.03, .085,.09,.08);                                     // knee
+  part(new THREE.BoxGeometry(.13,.08,.26), darkArmor, s*.12,.04,-.04);                // boot
+  part(sph, armor, s*.36,1.46,.01, .17,.12,.16, 0,0,s*-.35);                          // pauldron
+  part(sph, armor, s*.4,1.39,.01, .15,.08,.14, 0,0,s*-.5);                            // pauldron lame
+  part(new THREE.CylinderGeometry(.065,.058,.36,14), darkArmor, s*.42,1.18,.02, 1,1,1, 0,0,s*.1); // upper arm
+  part(new THREE.CylinderGeometry(.06,.07,.3,14), armor, s*.45,.88,-.02, 1,1,1, .15,0,s*.06);     // vambrace
+  part(sph, darkArmor, s*.46,.7,-.05, .07,.075,.07);                                  // gauntlet
+});
+part(new THREE.CylinderGeometry(.27,.33,.32,24,1,true), leather, 0,.84,0);          // tassets / skirt
+part(new THREE.CylinderGeometry(.24,.26,.08,24), darkArmor, 0,1.0,0);               // belt
+part(sph, armor, 0,1.24,0, .28,.3,.2);                                              // cuirass
+part(sph, armor, 0,1.3,.03, .27,.24,.19);                                           // backplate
+part(new THREE.CylinderGeometry(.11,.14,.1,20), darkArmor, 0,1.55,0);               // gorget
+part(sph, armor, 0,1.72,0, .135,.155,.15);                                          // helm
+part(new THREE.BoxGeometry(.018,.07,.26), darkArmor, 0,1.86,0);                      // crest
+// sword held low in right hand (+x)
+const blade = part(new THREE.BoxGeometry(.055,1.0,.01), new THREE.MeshStandardMaterial({ color:lin(0xb9b4ad), metalness:.6, roughness:.28, roughnessMap:mTex, envMapIntensity:1.3 }), .5,.18,-.12, 1,1,1, .12,0,.05);
+part(new THREE.BoxGeometry(.24,.03,.04), darkArmor, .47,.68,-.06, 1,1,1, .12,0,.05);
+part(new THREE.CylinderGeometry(.018,.018,.16,8), leather, .465,.77,-.05, 1,1,1, .12,0,.05);
+// cape
+const capeGeo = new THREE.PlaneGeometry(.6, 1.18, 12, 20); capeGeo.translate(0, -.59, 0);
+const capeBase = capeGeo.attributes.position.array.slice();
+const cape = new THREE.Mesh(capeGeo, capeMat); cape.position.set(0, 1.47, .2); cape.castShadow = true; body.add(cape);
+let capeFlare = 0;
+
+
+const addMat = (o) => new THREE.ShaderMaterial(Object.assign({ transparent:true, depthWrite:false, blending:THREE.AdditiveBlending }, o));
+const uTime = { value:0 };
+// ---- ambience (world, not part of the cues): mist + motes, 1 draw each
+const smokeAtlas = (() => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  [smokeTex[0], smokeTex[1], smokeTex[2], smokeTexture(404)].forEach((t,i) => x.drawImage(t.image, (i%2)*128, Math.floor(i/2)*128)); return new THREE.CanvasTexture(c); })();
+const ptsScale = { value:600 };
+{ const N = 24, g = new THREE.InstancedBufferGeometry().copy(new THREE.PlaneGeometry(1,1)); g.instanceCount = N;
+  const o = new Float32Array(N*3), s = new Float32Array(N*3);
+  for (let i=0;i<N;i++){ const r = rand(2.5,14), a = rand(0,6.28), k = rand(4,8); o.set([Math.cos(a)*r, rand(.25,.8), Math.sin(a)*r - 2], i*3); s.set([k, k*.45, Math.random()], i*3); }
+  g.setAttribute('aO', new THREE.InstancedBufferAttribute(o,3)); g.setAttribute('aS', new THREE.InstancedBufferAttribute(s,3));
+  const m = new THREE.Mesh(g, new THREE.ShaderMaterial({ transparent:true, depthWrite:false, uniforms:{ uTime, uMap:{value:smokeAtlas} },
+    vertexShader:`attribute vec3 aO, aS; uniform float uTime; varying vec2 vUv; varying float vA;
+      void main(){ vec3 p = aO + vec3(sin(uTime*.1 + aS.z*6.)*.6, 0., 0.);
+        vec4 mv = viewMatrix*vec4(p,1.); mv.xy += position.xy*aS.xy; gl_Position = projectionMatrix*mv;
+        float fr = floor(aS.z*4.); vUv = (uv + vec2(mod(fr,2.), floor(fr/2.)))*.5; vA = .08 + .07*aS.z; }`,
+    fragmentShader:`uniform sampler2D uMap; varying vec2 vUv; varying float vA; void main(){ gl_FragColor = vec4(.04,.045,.056, texture2D(uMap, vUv).a*vA); }` }));
+  m.frustumCulled = false; scene.add(m); }
+{ const N = 120, g = new THREE.BufferGeometry(), p = new Float32Array(N*3), ph = new Float32Array(N);
+  for (let i=0;i<N;i++){ p.set([rand(-7,7), rand(0,3.2), rand(-8,5)], i*3); ph[i] = rand(0,6.28); }
+  g.setAttribute('position', new THREE.BufferAttribute(p,3)); g.setAttribute('aPh', new THREE.BufferAttribute(ph,1));
+  const m = new THREE.Points(g, addMat({ uniforms:{ uTime, uScale:ptsScale },
+    vertexShader:`attribute float aPh; uniform float uTime, uScale; varying vec3 vC;
+      void main(){ vec3 p = position + vec3(sin(uTime*.3+aPh)*.3, 0., cos(uTime*.27+aPh)*.3); p.y = mod(position.y + uTime*.04, 3.2);
+        vC = vec3(.05,.055,.07)*(.6 + .4*sin(uTime*2. + aPh*3.));
+        vec4 mv = modelViewMatrix*vec4(p,1.); gl_PointSize = .02*uScale/max(-mv.z,.1); gl_Position = projectionMatrix*mv; }`,
+    fragmentShader:`varying vec3 vC; void main(){ vec2 d = gl_PointCoord-.5; gl_FragColor = vec4(vC, exp(-dot(d,d)*22.)); }` }));
+  m.frustumCulled = false; scene.add(m); }
+
+// ============ post ============
+let composer = null, grade = null, bloom = null;
+if (hasPost){
+  const msaa = renderer.capabilities.isWebGL2 && THREE.WebGLMultisampleRenderTarget && renderer.extensions.get('EXT_color_buffer_float');
+  const Ctor = msaa ?THREE.WebGLMultisampleRenderTarget : THREE.WebGLRenderTarget;
+  const rt = new Ctor(4, 4, { type:THREE.HalfFloatType, format:THREE.RGBAFormat, minFilter:THREE.LinearFilter, magFilter:THREE.LinearFilter });
+  if (rt.samples !== undefined) rt.samples = 4;
+  composer = new THREE.EffectComposer(renderer, rt);
+  composer.addPass(new THREE.RenderPass(scene, camera));
+  bloom = new THREE.UnrealBloomPass(new THREE.Vector2(512, 512), .6, .5, .95); composer.addPass(bloom);
+  grade = new THREE.ShaderPass({
+    uniforms:{ tDiffuse:{value:null}, uTime:{value:0}, uRes:{value:new THREE.Vector2(1,1)}, uC:{value:new THREE.Vector2()}, uA:{value:new THREE.Vector2()}, uB:{value:new THREE.Vector2()},
+      uI0:{value:new THREE.Vector2()}, uI1:{value:new THREE.Vector2()}, uStr:{value:0}, uW:{value:.1}, uExp:{value:1.0} },
+    vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader:`uniform sampler2D tDiffuse; uniform float uTime, uStr, uW, uExp; uniform vec2 uRes, uC, uA, uB, uI0, uI1; varying vec2 vUv;
+      vec3 aces(vec3 x){ return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14), 0., 1.); }
+      float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
+      void main(){
+        vec2 uv = vUv; float w = 0.;
+        if (uStr > 0.){ vec2 p = uv-uC; vec2 d = vec2(dot(uI0,p), dot(uI1,p)); float L = length(d);
+          w = exp(-pow((L-1.)/uW, 2.)); vec2 dir = normalize(uA*d.x + uB*d.y + 1e-5); uv -= dir*w*uStr; }
+        vec2 cc = uv-.5; float ca = .004*dot(cc,cc) + w*uStr*.35;
+        vec3 c = vec3(texture2D(tDiffuse, uv+cc*ca*4.).r, texture2D(tDiffuse, uv).g, texture2D(tDiffuse, uv-cc*ca*4.).b);
+        c = aces(c*uExp);
+        float l = dot(c, vec3(.2126,.7152,.0722));
+        c = mix(vec3(l), c, .92);
+        c += vec3(-.006, .0, .014)*(1.-l)*(1.-l);
+        c = pow(max(c, 0.), vec3(1./2.2));
+        float v = smoothstep(1.3, .35, length((vUv-.5)*vec2(uRes.x/uRes.y, 1.)*1.05)); c *= mix(.5, 1., v);
+        c += (hash(vUv*uRes + fract(uTime*7.)*97.) - .5)*.03;
+        gl_FragColor = vec4(c, 1.); }` });
+  composer.addPass(grade);
+}
+
+// ============ status icon set (viewBox 24; buff/debuff of the same stat share the glyph) ============
+const G = {
+  sword:'<path d="M19 4l-9.5 9.5M19 4h-3.5M19 4v3.5"/><path d="M6.5 12.5l5 5M9 15l-5 5"/>',
+  orb:'<path d="M4 20L13.5 10.5"/><path d="M17 2.5l1.3 3.2 3.2 1.3-3.2 1.3L17 11.5l-1.3-3.2-3.2-1.3 3.2-1.3z" fill="currentColor"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/>',
+  ward:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><circle cx="12" cy="11.5" r="3"/>',
+  haste:'<path d="M3 6l5 6-5 6M10 6l5 6-5 6"/><path d="M17 12h4"/>',
+  hourglass:'<path d="M6 3h12M6 21h12M7 3l10 9-10 9M17 3L7 12l10 9"/>',
+  crosshair:'<circle cx="12" cy="12" r="6.5"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/>',
+  burst:'<path d="M12 2l2.4 6.3L21 7l-4.3 5 4.3 5-6.6-1.3L12 22l-2.4-6.3L3 17l4.3-5L3 7l6.6 1.3z"/>',
+  wind:'<path d="M3 9h11a3 3 0 1 0-3-3M3 15h15a3 3 0 1 1-3 3"/>',
+  boot:'<path d="M6 3h6v8.5l6.5 2.8c1.6.7 2.5 2 2.5 3.7V20H4v-3.5l2-2z"/><path d="M4 17h17"/>',
+  eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  feather:'<path d="M20 4C11 4 5 10 5 20M9 15c5 0 9-4 11-11M5 20l4-4"/>',
+  mountain:'<path d="M2 20l7-12 4 6 3-4 6 10z"/>',
+  heart:'<path d="M12 20s-8-5-8-11a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 9c0 6-8 11-8 11z"/>',
+  drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/>',
+  cross:'<path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/>',
+  bubble:'<circle cx="12" cy="12" r="8"/><path d="M8 9.5a5 5 0 0 1 4-3.5"/>',
+  fangs:'<path d="M3 5h18M7 5l2 9 2-9M13 5l2 9 2-9"/>',
+  rewind:'<path d="M4 12a8 8 0 1 0 2.5-5.8M4 4v4h4"/><path d="M12 8v4l3 2"/>',
+  alert:'<path d="M12 3l9.5 17h-19z"/><path d="M12 9.5v5M12 17.5v.1"/>',
+  bolt:'<path d="M13 2L5 14h6l-1 8 8-12h-6z"/>',
+  dropminus:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M9 14h6"/>',
+  bleed:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M7.5 17.5l9-7"/>',
+  poison:'<circle cx="12" cy="15" r="6"/><circle cx="9" cy="6" r="2"/><circle cx="15.5" cy="4" r="1.3"/>',
+  flame:'<path d="M12 21.5c-4 0-6.5-3-6.5-6.5 0-4 4-6 4-11.5 3 2 7.5 6.5 7.5 11.5 0 3.5-2 6.5-5 6.5z"/><path d="M12 21.5c-1.6 0-2.6-1.4-2.6-3 0-2 2.6-3 2.6-5 1.5 1.5 2.6 3 2.6 5 0 1.6-1 3-2.6 3z"/>',
+  curse:'<path d="M15 4a8 8 0 1 0 5 13A7 7 0 0 1 15 4z"/><path d="M8.5 8.5L5.5 5.5M7 14l-4.5 1"/>',
+  sun:'<circle cx="10" cy="13" r="4"/><path d="M10 4v2M10 20v2M2 13h2M16 13h2M4.3 7.3l1.4 1.4M4.3 18.7l1.4-1.4"/><path d="M19 3v6M16 6h6"/>',
+  stun:'<path d="M12 3l1.9 7.1L21 12l-7.1 1.9L12 21l-1.9-7.1L3 12l7.1-1.9z" fill="currentColor"/>',
+  sleep:'<path d="M15.5 3a9 9 0 1 0 5.5 14A7.5 7.5 0 0 1 15.5 3z" fill="currentColor"/>',
+  silence:'<path d="M3 12h18M6.5 8v8M10.5 8v8M14.5 8v8M18.5 8v8"/>',
+  fear:'<path d="M5 21V10a7 7 0 0 1 14 0v11l-2.3-2-2.4 2-2.3-2-2.3 2-2.4-2z"/><circle cx="9.5" cy="10" r="1.2" fill="currentColor"/><circle cx="14.5" cy="10" r="1.2" fill="currentColor"/><path d="M12 13v3"/>',
+  taunt:'<path d="M4 9.5c3 0 5.5-2.5 5.5-5.5M14.5 4c0 3 2.5 5.5 5.5 5.5M20 14.5c-3 0-5.5 2.5-5.5 5.5M9.5 20c0-3-2.5-5.5-5.5-5.5"/>',
+  root:'<path d="M12 21V10M12 14c-4 0-6-2-6-5 3 0 6 2 6 5zM12 11c4 0 6-2 6-5-3 0-6 2-6 5z"/><path d="M6 21c4-1.5 8-1.5 12 0"/>',
+};
+// fn: buff · debuff · dot · hot · cc   (UI Canon border colours; CC glyph keeps its world-layer colour)
+const ST = {};
+const add = (fn, list) => list.forEach(([k, name, g, what, col]) => ST[k] = { k, fn, name, g, what, col });
+add('buff', [['might','Might','sword','P.Atk ↑'],['empower','Empower','orb','M.Atk ↑'],['fortified','Fortified','shield','P.Def ↑'],['warded','Warded','ward','M.Def ↑'],
+  ['haste','Haste','haste','Attack Speed ↑'],['acumen','Acumen','hourglass','Cast Speed ↑'],['focus','Focus','crosshair','Crit Rate ↑'],['fierce','Fierce','burst','Crit Power ↑'],
+  ['vigor','Vigor','wind','Stamina Regen ↑'],['swiftness','Swiftness','boot','Movement Speed ↑'],['precision','Precision','eye','Accuracy ↑'],['elusive','Elusive','feather','Evasion ↑'],
+  ['resolve','Resolve','mountain','Tenacity ↑'],['regeneration','Regeneration','heart','HP Regen ↑'],['clarity','Clarity','drop','MP Regen ↑'],['grace','Grace','cross','Healing Received ↑'],
+  ['aegis','Aegis','bubble','Shield Received ↑'],['omnivamp','Omnivamp','fangs','% HP do dano'],['rewind','Rewind','rewind','CDR ↑'],['enmity','Enmity','alert','Threat ↑'],
+  ['surge','Surge','bolt','+100% dano'],['strain','Strain','dropminus','+100% custo MP']]);
+add('debuff', [['weakened','Weakened','sword','P.Atk ↓'],['dulled','Dulled','orb','M.Atk ↓'],['brittle','Brittle','shield','P.Def ↓'],['sapped','Sapped','ward','M.Def ↓'],
+  ['hindered','Hindered','haste','Attack Speed ↓'],['dazed','Dazed','hourglass','Cast Speed ↓'],['slow','Slow','boot','Movement Speed ↓'],['blind','Blind','eye','Accuracy ↓'],
+  ['wounded','Wounded','cross','Healing Received ↓'],['breached','Breached','bubble','Shield Received ↓'],['sickened','Sickened','heart','HP Regen ↓'],['withering','Withering','drop','MP Regen ↓'],
+  ['exhausted','Exhausted','wind','Stamina Regen ↓']]);
+add('dot', [['bleed','Bleed','bleed','DoT físico'],['poison','Poison','poison','DoT'],['burn','Burn','flame','DoT de fogo'],['curse','Curse','curse','DoT mágico (Connection)']]);
+add('hot', [['bliss','Bliss','sun','HoT (Connection)']]);
+add('cc', [['stun','Stun','stun','CC','#ffb13b'],['sleep','Sleep','sleep','CC','#a45cff'],['silence','Silence','silence','CC','#e6f0ff'],
+  ['fear','Fear','fear','CC','#ff3a3a'],['taunt','Taunt','taunt','CC','#2a6cff'],['root','Root','root','CC','#7fd24a']]);
+const FNC = { buff:'var(--buff)', debuff:'var(--debuff)', dot:'var(--dot)', hot:'var(--hot)', cc:'var(--cc)' };
+const FNAME = { buff:'Buff', debuff:'Debuff', dot:'DoT', hot:'HoT', cc:'CC' };
+const iconHTML = (s, dep=0, stacks=0) =>
+  `<div class="ic${s.fn === 'cc' ? ' cc' : ''}" style="--c:${FNC[s.fn]};${s.col ? `color:${s.col}` : ''}" title="${s.name} — ${s.what}"><svg viewBox="0 0 24 24">${G[s.g]}</svg>${dep > 0 ? `<div class="dep" style="--d:${(dep*100).toFixed(1)}%"></div>` : ''}${stacks > 1 ? `<span class="st">${stacks}</span>` : ''}</div>`;
+
+// catalogue
+{ const cat = $('catalog');
+  for (const fn of ['cc', 'dot', 'hot', 'debuff', 'buff']){
+    const list = Object.values(ST).filter(s => s.fn === fn);
+    cat.insertAdjacentHTML('beforeend', `<div class="catgrp"><h3>${FNAME[fn]} (${list.length})</h3><div class="catgrid">${list.map(s =>
+      `<div class="cell"><div class="sz">${[16, 24, 40].map(z => `<span style="--icS:${z}px">${iconHTML(s)}</span>`).join('')}</div><span>${s.name}<small>${s.what}</small></span></div>`).join('')}</div></div>`);
+  } }
+
+// ============ crowd with world-space nameplates ============
+const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
+let time = 0;
+function merged(geos){ const parts = geos.map(g => g.toNonIndexed()), n = parts.reduce((s, g) => s + g.attributes.position.count, 0);
+  const P = new Float32Array(n*3), N = new Float32Array(n*3); let o = 0;
+  for (const g of parts){ P.set(g.attributes.position.array, o*3); N.set(g.attributes.normal.array, o*3); o += g.attributes.position.count; }
+  const m = new THREE.BufferGeometry(); m.setAttribute('position', new THREE.BufferAttribute(P, 3)); m.setAttribute('normal', new THREE.BufferAttribute(N, 3)); return m; }
+const MAXN = 60;
+const crowdMesh = new THREE.InstancedMesh(merged([
+  new THREE.CylinderGeometry(.07, .06, .85, 8).translate(.12, .42, -.02), new THREE.CylinderGeometry(.07, .06, .85, 8).translate(-.12, .42, -.02),
+  new THREE.SphereGeometry(1, 14, 10).scale(.29, .34, .22).translate(0, 1.22, 0), new THREE.SphereGeometry(.14, 12, 8).translate(0, 1.72, 0)]), darkArmor, MAXN);
+crowdMesh.castShadow = true; scene.add(crowdMesh);
+const NEG = Object.values(ST).filter(s => s.fn === 'debuff' || s.fn === 'dot'), POS = Object.values(ST).filter(s => s.fn === 'buff' || s.fn === 'hot'), CCS = Object.values(ST).filter(s => s.fn === 'cc');
+const COMMON_NEG = ['slow', 'wounded', 'bleed', 'poison', 'burn', 'weakened', 'sapped', 'brittle', 'hindered', 'blind'];
+const actors = [];
+const layer = $('npLayer'), o3 = new THREE.Object3D();
+const names = ['Kaelen', 'Mirra', 'Thorne', 'Vesna', 'Oryk', 'Ilsa', 'Dravos', 'Nemi', 'Corvin', 'Asha', 'Brannoc', 'Ysolde', 'Fenn', 'Rurik', 'Lior', 'Sabeth'];
+function rollStatuses(a){
+  const now = time; a.st = [];
+  const pick = (arr, n) => { const out = []; for (let i=0;i<n;i++){ const s = arr[Math.floor(Math.random()*arr.length)]; if (!out.includes(s)) out.push(s); } return out; };
+  const nNeg = a.enemy ? Math.floor(Math.random()*6) : Math.floor(Math.random()*2), nPos = Math.floor(Math.random()*(a.enemy ? 4 : 6));
+  const negPool = Math.random() < .7 ? NEG.filter(s => COMMON_NEG.includes(s.k)) : NEG;
+  for (const s of pick(negPool, nNeg)) a.st.push({ s, dur:rand(6, 20), t0:now - rand(0, 5), stacks:s.fn === 'dot' ? 1 + Math.floor(Math.random()*5) : 0, mine:a.enemy && Math.random() < .45 });
+  for (const s of pick(POS, nPos)) a.st.push({ s, dur:Math.random() < .15 ? 0 : rand(10, 60), t0:now - rand(0, 8), stacks:s.fn === 'hot' ? 1 + Math.floor(Math.random()*3) : 0 });
+  if (Math.random() < .22) for (const s of pick(CCS, Math.random() < .3 ? 2 : 1)) a.st.push({ s, dur:rand(2, 5), t0:now, stacks:0 });
+  a.shield = Math.random() < .25 ? rand(.1, .35) : 0; a.hp = rand(.25, 1);
+}
+function buildCrowd(n){
+  actors.forEach(a => a.el.remove()); actors.length = 0;
+  for (let i=0;i<MAXN;i++){
+    const on = i < n;
+    let x, z; do { x = rand(-9, 9); z = rand(-22, -3); } while (Math.hypot(x, z) < 3);
+    const a = { p:V3(x, 0, z), yaw:rand(0, 6.28), enemy:i % 3 !== 0, on, next:rand(2, 6) };
+    a.el = document.createElement('div'); a.el.className = 'np'; layer.appendChild(a.el);
+    a.name = names[i % names.length]; rollStatuses(a);
+    o3.position.copy(a.p); o3.rotation.y = a.yaw; o3.scale.setScalar(on ? 1 : 1e-4); o3.updateMatrix(); crowdMesh.setMatrixAt(i, o3.matrix);
+    actors.push(a);
+  }
+  crowdMesh.instanceMatrix.needsUpdate = true;
+}
+
+// ============ UI ============
+let filter = 'all', icSize = 16, cap = 6;
+document.querySelectorAll('#filt button').forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll('#filt button').forEach(x => x.classList.toggle('primary', x === b)); });
+function seg(id, attr, set){ const bs = document.querySelectorAll(`#${id} button`); bs.forEach(b => b.onclick = () => { set(b.dataset[attr]); bs.forEach(x => x.setAttribute('aria-pressed', x === b)); }); }
+seg('size', 'z', v => { icSize = +v; layer.style.setProperty('--icS', v + 'px'); });
+seg('cap', 'c', v => cap = +v);
+seg('crowd', 'n', v => buildCrowd(+v));
+buildCrowd(25);
+
+let yaw = 0, pitch = .32, dist = 5.5, drag = null;          // behind the local player, looking at the crowd (third-person MMO view)
+stage.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY }; stage.setPointerCapture(e.pointerId); });
+stage.addEventListener('pointermove', e => { if (!drag) return; yaw -= (e.clientX-drag.x)*.008; pitch = Math.min(1.3, Math.max(.02, pitch + (e.clientY-drag.y)*.005)); drag = { x:e.clientX, y:e.clientY }; });
+stage.addEventListener('pointerup', () => drag = null);
+stage.addEventListener('wheel', e => { e.preventDefault(); dist = Math.min(20, Math.max(2.5, dist*(1 + e.deltaY*.001))); }, { passive:false });
+function resize(){
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
+  if (composer){ composer.setPixelRatio(PR); composer.setSize(w, h); grade.uniforms.uRes.value.set(w*PR, h*PR); }
+  ptsScale.value = h*PR / (2*Math.tan(camera.fov*Math.PI/360));
+}
+new ResizeObserver(resize).observe(stage); resize();
+
+// canon order inside a row: permanent first, then by remaining duration (longest first)
+const order = (a, b) => ((a.dur === 0 ? 1e9 : a.dur - (time - a.t0)) < (b.dur === 0 ? 1e9 : b.dur - (time - b.t0)) ? 1 : -1);
+function rowHTML(list){
+  const shown = list.slice(0, cap), more = list.length - shown.length;
+  return shown.map(e => iconHTML(e.s, e.dur ? Math.min(1, (time - e.t0)/e.dur) : 0, e.stacks)).join('') + (more > 0 ? `<span class="more">+${more}</span>` : '');
+}
+function plateHTML(a){
+  const st = a.st.filter(e => e.dur === 0 || time - e.t0 < e.dur);
+  const vis = e => filter === 'all' || e.s.fn === 'cc' || (filter === 'neg' && (e.s.fn === 'debuff' || e.s.fn === 'dot')) || (filter === 'mine' && e.mine);
+  const cc = st.filter(e => e.s.fn === 'cc'), neg = st.filter(e => (e.s.fn === 'debuff' || e.s.fn === 'dot') && vis(e)).sort(order), pos = st.filter(e => (e.s.fn === 'buff' || e.s.fn === 'hot') && vis(e)).sort(order);
+  a.icons = cc.length + Math.min(cap, neg.length) + Math.min(cap, pos.length);
+  return (cc.length ? `<div class="row">${cc.map(e => iconHTML(e.s)).join('')}</div>` : '')
+    + (neg.length ? `<div class="row">${rowHTML(neg)}</div>` : '')
+    + (pos.length ? `<div class="row">${rowHTML(pos)}</div>` : '')
+    + `<span class="nm ${a.enemy ? 'enemy' : 'ally'}">${a.name}</span>`
+    + `<div class="hp"><i style="width:${(a.hp*100).toFixed(0)}%"></i>${a.shield ? `<b style="left:${(Math.min(a.hp, 1 - a.shield)*100).toFixed(0)}%;width:${(a.shield*100).toFixed(0)}%"></b>` : ''}</div>`;
+}
+
+// ============ main loop ============
+const S = { np:$('sNp'), ic:$('sIc'), frame:$('sFrame') }, pv = V3(0, 0, 0);
+let last = performance.now(), acc = { n:0, frame:0, prev:null }, statT = 0, htmlT = 0;
+function frame(now){
+  const rdt = Math.min(.05, (now-last)/1000); last = now; time += rdt*(window.__timeScale || 1);
+  body.position.y = Math.sin(time*1.8)*.006;
+  for (const a of actors) if (a.on && time >= a.next){ rollStatuses(a); a.next = time + rand(4, 9); }
+  camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist, 1.3 + Math.sin(pitch)*dist, Math.cos(yaw)*Math.cos(pitch)*dist);
+  camera.lookAt(-Math.sin(yaw)*6, 1.2, -Math.cos(yaw)*6);
+  if (composer){ grade.uniforms.uTime.value = time; composer.render(); } else renderer.render(scene, camera);
+  // nameplates: project the head, hide behind the camera / beyond 40 m, nearer ones on top
+  const w = stage.clientWidth, h = stage.clientHeight, rebuild = now - htmlT > 200; if (rebuild) htmlT = now;
+  let nNp = 0, nIc = 0; const allies = $('tAllies').checked;
+  for (const a of actors){
+    const d = camera.position.distanceTo(a.p);
+    pv.set(a.p.x, 2.05, a.p.z).project(camera);
+    const vis = a.on && pv.z < 1 && d < 40 && (a.enemy || allies) && Math.abs(pv.x) < 1.1 && Math.abs(pv.y) < 1.1;
+    a.el.style.display = vis ? '' : 'none'; if (!vis) continue;
+    a.el.style.left = ((pv.x*.5 + .5)*w) + 'px'; a.el.style.top = ((-pv.y*.5 + .5)*h) + 'px'; a.el.style.zIndex = String(1000 - Math.round(d*10));
+    if (rebuild) a.el.innerHTML = plateHTML(a);
+    nNp++; nIc += a.icons || 0;
+  }
+  acc.n++; if (acc.prev !== null) acc.frame += now - acc.prev; acc.prev = now;
+  if (now - statT > 300){ S.np.textContent = nNp; S.ic.textContent = nIc; S.frame.textContent = acc.n > 1 ? (acc.frame/(acc.n-1)).toFixed(1) + ' ms' : '—'; acc.n = 0; acc.frame = 0; acc.prev = null; statT = now; }
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>

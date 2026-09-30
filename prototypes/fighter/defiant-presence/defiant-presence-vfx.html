@@ -440,19 +440,19 @@ const shells = pool(shellGeo, 64, { aO:3, aT:2, aH0:4, aH1:4, aH2:4, aH3:4 }, ad
     ${NOISE}
     void main(){
       float grow = clamp(vU/${RISE.toFixed(2)}, 0., 1.);
-      if (vL.y > grow + .02) discard;                                               // rises from the ground
+      float formed = 1. - smoothstep(grow - .025, grow + .025, vL.y);                                               // rises from the ground
       float rise = exp(-pow((vL.y - grow)/.05, 2.))*(1. - step(1., grow));
       vec3 q = vL*3.2;
       float n = vn(q + vec3(0., uTime*.35, uTime*.12))*.65 + vn(q*2.3 - vec3(uTime*.2, 0., 0.))*.35;
       float vein = pow(1. - abs(2.*n - 1.), 7.);                                    // ridged noise: thin flowing plasma veins
       float fres = pow(1. - abs(dot(normalize(vN), normalize(vV))), 2.2);
       float foot = exp(-vL.y*vL.y/.0012);                                           // the limit itself, on the ground
-      float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0.;
-      if (endK > 0.){ float nd = vn(vL*6.); if (nd < endK*1.1) discard; burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
+      float endK = clamp((vU - vD)/${END.toFixed(2)}, 0., 1.), burn = 0., dissolve = 1.;
+      if (endK > 0.){ float nd = vn(vL*6.); dissolve = 1. - smoothstep(nd - .045, nd + .045, endK*1.1); burn = exp(-pow((nd - endK*1.1)/.05, 2.)); }
       float pk = vU >= ${RISE.toFixed(2)} && vU < ${(RISE + .033).toFixed(3)} ? 1.4 : 1.;
-      vec3 c = uB*(.004 + .02*fres) + uC*(fres*.11 + vein*(.015 + .11*fres) + foot*.4)   // low intensity: reads as a boundary, not a light source
-             + uW*(vein*fres*.05 + rise*.45 + burn*.4);
-      c *= pk;
+      vec3 c = uB*(.004 + .02*fres) + uC*(fres*.075 + vein*(.009 + .065*fres) + foot*.32)   // low intensity: reads as a boundary, not a light source
+             + uW*(vein*fres*.025 + rise*.25 + burn*.18);
+      c *= pk*formed*dissolve;
       if (max(c.r, max(c.g, c.b)) < .002) discard;
       gl_FragColor = vec4(c, 1.);
     }` }));

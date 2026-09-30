@@ -1,0 +1,25 @@
+# SanctaMMO — VFX aprovados para integração posterior
+
+Snapshot guardado em 30 de setembro de 2026, após aprovação da revisão visual.
+
+## Conteúdo
+
+- `prototypes/`: os 125 protótipos finais, incluindo os refinamentos anteriores e os 27 ajustes deste pass.
+- `docs/icons/`: ícones utilizados pelos protótipos.
+- `index.html`: galeria dos VFX e comparações antes/depois.
+- `originais/`: versões imediatamente anteriores a este pass, para consulta e comparação.
+- `comparacoes/`: seis comparações visuais guardadas.
+- `referencias/`: regras do projeto, definição de habilidades e especificação técnica para orientar a integração.
+- `revisao.json` e `ajustes.json`: decisões da revisão e descrição dos ajustes.
+- `verificacao.json`: registo da validação dos protótipos.
+- `manifesto-integracao.json`: lista dos ficheiros guardados e respetivos hashes SHA-256.
+
+## Utilização futura
+
+Usar `prototypes/` como referência visual final. Preservar os tempos, raios, condições, cores de classe, símbolos Sun/Moon e separação entre efeitos de habilidade e cues de estado definidos no projeto.
+
+Estes ficheiros são protótipos HTML/Three.js para validação visual. A implementação em Niagara/UE5 e a medição do custo no motor são etapas posteriores; este pacote não contém assets Niagara prontos a importar.
+
+Os protótipos mantêm as dependências externas que já existiam no projeto. Abrir `index.html` num browser; se necessário, servir esta pasta através de um servidor local.
+
+`instalacao.json` documenta os caminhos da instalação anterior e das suas cópias de segurança; não é um instalador automático.

@@ -142,9 +142,9 @@ tr:last-child td{border-bottom:0}
         <thead><tr><th>Camada</th><th>Epic</th><th>Alto</th><th>Médio</th><th>Baixo · outros ao longe</th><th>Técnica</th></tr></thead>
         <tbody>
           <tr><td>Borda da área</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td>Decalque R 3 m: só a linha de luz amarela ténue com halo suave no limite; o chão por dentro fica como está. Abre primeiro (0,25 s)</td></tr>
-          <tr><td>Raízes no chão</td><td class="n">26</td><td class="n">26</td><td class="n">26</td><td class="n">12</td><td>Durante os primeiros 3/4 do campo: raízes meio enterradas com casca finas e com caminhos irregulares, rastejam uma após outra desde a orla (0,65 s cada), ramificam-se em 2–3 ramos mais finos e vão-se acumulando no chão, as primeiras até às bases das vinhas</td></tr>
-          <tr><td>Vinhas grossas</td><td class="n">20</td><td class="n">20</td><td class="n">12</td><td class="n">8</td><td>Só no último 1/4 do campo, onde as primeiras raízes chegaram: raízes grossas com a mesma casca e o mesmo caminho irregular das do chão (mais altas e um pouco mais grossas), material PBR iluminado com glow amarelo ligeiro no contorno, saem de dentro do chão em 0,2 s; espinhos pequenos, sem folhas. Deformação toda no vertex shader (WPO)</td></tr>
-          <tr><td>Torrões de terra</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">7/vinha</td><td class="n">0</td><td>Pedaços de terra atirados onde cada vinha rompe o chão, balística na GPU, ~1 s</td></tr>
+          <tr><td>Raízes no chão</td><td class="n">20</td><td class="n">20</td><td class="n">20</td><td class="n">12</td><td>Durante os primeiros 3/4 do campo: raízes meio enterradas com casca finas e com caminhos irregulares, rastejam uma após outra desde a orla (0,65 s cada), ramificam-se em 2–3 ramos mais finos e vão-se acumulando no chão, as primeiras até às bases das vinhas</td></tr>
+          <tr><td>Vinhas grossas</td><td class="n">16</td><td class="n">16</td><td class="n">10</td><td class="n">8</td><td>Só no último 1/4 do campo, onde as primeiras raízes chegaram: raízes grossas com a mesma casca e o mesmo caminho irregular das do chão (mais altas e um pouco mais grossas), material PBR iluminado com glow amarelo ligeiro no contorno, saem de dentro do chão em 0,2 s; espinhos pequenos, sem folhas. Deformação toda no vertex shader (WPO)</td></tr>
+          <tr><td>Torrões de terra</td><td class="n">5/vinha</td><td class="n">5/vinha</td><td class="n">5/vinha</td><td class="n">0</td><td>Pedaços de terra atirados onde cada vinha rompe o chão, balística na GPU, ~1 s</td></tr>
           <tr><td>Draw calls</td><td class="n">6</td><td class="n">6</td><td class="n">6</td><td class="n">3</td><td>Partilhadas por todos os Scouts; 0 partículas de sprite. O Slow nos inimigos é cue de status</td></tr>
         </tbody>
       </table>
@@ -452,7 +452,7 @@ const VBODY = `
     vec3 drop = vec3(0., -(1. - g)*(aP.y*1.05 + .2), 0.);                     // below the ground until it breaks out
     vHead = 1. - k;                                                           // despawn: dissolves from the tip down to the ground
     if (uMode < .5){ float ang = atan(position.z, position.x); vec3 rn = B*cos(ang) + Nn*sin(ang);
-      float knot = 1. + .1*sin(s*31. + aP.w*5.);                                // same bark as the ground roots               // knotty, uneven bark
+      float knot = 1. + .17*sin(s*23. + aP.w*5.) + .055*sin(ang*5. + s*61.);                                // same bark as the ground roots               // knotty, uneven bark
       gP = aO + aB + C + rn*rad*knot + drop; gN = rn; vS = s; vBark = ang; }
     else { float ang = aP.w*40.; vec3 dir = normalize(B*cos(ang) + Nn*sin(ang)), sd = normalize(cross(dir, T));
       vec3 q = position*(1.1 - .6*s);
@@ -494,14 +494,16 @@ function natMat(mode, side){
       .replace('#include <clipping_planes_fragment>', '#include <clipping_planes_fragment>\n  if (vS > vHead) discard;')
       .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
         if (vBark > -5. && vBark < 40.){ float rim = pow(1. - abs(dot(normal, normalize(vViewPosition))), 3.);
-          totalEmissiveRadiance += vec3(1., .72, .25)*(.05 + rim*.55); }`)
+          totalEmissiveRadiance += vec3(1., .72, .25)*(.006 + rim*.15); }`)
       .replace('#include <color_fragment>', `#include <color_fragment>
         if (vBark < -15.) diffuseColor.rgb = vec3(.07, .055, .04);                                   // soil clod
         else if (vBark < -5.) diffuseColor.rgb = mix(vec3(.09, .14, .04), vec3(.2, .27, .09), smoothstep(.0, 1., vS));   // leaf: dark green
         else if (vBark > 40.) diffuseColor.rgb = vec3(.2, .16, .1);                                   // thorn: dry, lighter bark
-        else { float ridge = smoothstep(.2, .8, .5 + .5*sin(vBark*5. + sin(vS*28.)*1.3));             // bark ridges along the stem
-          vec3 bark = mix(vec3(.09, .065, .04), vec3(.24, .18, .11), ridge);
-          bark = mix(bark, vec3(.12, .15, .06), smoothstep(.55, .95, sin(vS*9. + vBark*1.7)*.5 + .5)*.5);   // patches of moss
+        else { float furrow = .5 + .5*sin(vBark*9. + sin(vS*33.)*.65);
+          float grain = .5 + .5*sin(vS*173. + vBark*19.);
+          float ridge = smoothstep(.25, .76, furrow)*mix(.68, 1., grain);             // bark ridges along the stem
+          vec3 bark = mix(vec3(.04, .025, .012), vec3(.28, .19, .10), ridge);
+          bark = mix(bark, vec3(.12, .15, .06), smoothstep(.55, .95, sin(vS*9. + vBark*1.7)*.5 + .5)*.38);   // patches of moss
           diffuseColor.rgb = bark; }`);
   };
   return m;
@@ -550,7 +552,7 @@ fields.mesh.renderOrder = 1;
 const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
 const castLog = [];
 const RANGE = 12;
-const NV = { 3:20, 2:20, 1:12, 0:8 }, NTH = 6, NLF = 0, NCL = 5;
+const NV = { 3:16, 2:16, 1:10, 0:8 }, NTH = 6, NLF = 0, NCL = 5;
 function rootAt(S, B, bend, s){                                   // same path as the root() shader, on the CPU (branch fork points)
   const dx = B[0] - S[0], dz = B[2] - S[2], L = Math.hypot(dx, dz) || 1, nx = -dz/L, nz = dx/L, e = Math.sin(Math.PI*s);
   const o = e*(bend + L*(.07*Math.sin(s*7 + bend*9) + .045*Math.sin(s*17 + bend*23) + .025*Math.sin(s*37 + bend*5)));
@@ -565,7 +567,7 @@ function stab(O, yaw, tier, t0, targets){                   // Vine Field: soil 
   const bases = [];
   for (let v = 0; v < n; v++){ const a = v/n*6.2832 + rand(-.35, .35), rr = FR*rand(.25, .72); bases.push([Math.cos(a)*rr, 0, Math.sin(a)*rr, a]); }
   // 2) roots keep creeping in over the whole field: from the rim toward the vine bases or loose spots, one after another, accumulating
-  const NR = tier > 0 ? 26 : 12;
+  const NR = tier > 0 ? 20 : 12;
   for (let k = 0; k < NR; k++){
     const ts = t1 + CIRC + Math.pow(k/NR, 1.3)*(VD - CIRC - .5)*rand(.9, 1.05);
     const ca = rand(0, 6.28), bs = bases[k % n], loose = k >= n*2 && Math.random() < .5;
