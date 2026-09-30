@@ -1,0 +1,10 @@
+# Engine-derived converter sources are restored from the transferred Engine locally.
+/Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Public/CascadeToNiagaraConverterModule.h
+/Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Public/NiagaraStackGraphUtilitiesAdapterLibrary.h
+/Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/NiagaraStackGraphUtilitiesAdapterLibrary.cpp
+/BuildHost/Plugins/
+/Previews/
+/VFX-build-report.json
+/VFX-validation-report.json
+__pycache__/
+*.pyc

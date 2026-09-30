@@ -1,0 +1,24 @@
+{
+  "VersionName": "1.0",
+  "CanContainContent": false,
+  "Plugins": [
+    {
+      "Enabled": true,
+      "Name": "Niagara"
+    },
+    {
+      "Enabled": true,
+      "Name": "PythonScriptPlugin"
+    }
+  ],
+  "Version": 1,
+  "FriendlyName": "Sancta VFX Lab authoring bridge",
+  "Modules": [
+    {
+      "LoadingPhase": "Default",
+      "Type": "Editor",
+      "Name": "SanctaVFXBridge"
+    }
+  ],
+  "FileVersion": 3
+}

@@ -6,6 +6,8 @@ VFX das skills do SanctaMMO (Unreal Engine 5, GAS + Niagara): direção visual, 
 
 ## Estrutura
 
+**Continuação da conversão para Niagara:** [laboratório Fire Bolt I e instruções para outra máquina](unreal/SanctaVFX-Niagara/CONTINUAR.md). Inclui materiais, código de montagem, testes e estado pendente; o Engine/Editor é transferido separadamente. A execução e a imagem do sistema final ainda precisam de validação.
+
 ```
 docs/
   VFX_Skills_SanctaMMO.docx   Guia original de VFX das skills (fonte de verdade da direção visual)

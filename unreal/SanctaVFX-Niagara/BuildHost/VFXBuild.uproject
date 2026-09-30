@@ -1,0 +1,21 @@
+{
+  "Modules": [
+    {
+      "LoadingPhase": "Default",
+      "Name": "VFXBuild",
+      "Type": "Runtime"
+    }
+  ],
+  "Plugins": [
+    {
+      "Enabled": true,
+      "Name": "SanctaVFXBridge"
+    },
+    {
+      "Enabled": false,
+      "Name": "CascadeToNiagaraConverter"
+    }
+  ],
+  "FileVersion": 3,
+  "DisableEnginePluginsByDefault": true
+}

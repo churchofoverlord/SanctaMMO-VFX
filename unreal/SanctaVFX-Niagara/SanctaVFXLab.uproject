@@ -1,0 +1,28 @@
+{
+  "EngineAssociation": "",
+  "Plugins": [
+    {
+      "Name": "Niagara",
+      "Enabled": true
+    },
+    {
+      "Name": "PythonScriptPlugin",
+      "Enabled": true
+    },
+    {
+      "Name": "EditorScriptingUtilities",
+      "Enabled": true
+    },
+    {
+      "Name": "SanctaVFXBridge",
+      "Enabled": true
+    },
+    {
+      "Name": "CascadeToNiagaraConverter",
+      "Enabled": false
+    }
+  ],
+  "FileVersion": 3,
+  "Description": "Sancta Fire Bolt I editable Niagara preview",
+  "DisableEnginePluginsByDefault": true
+}

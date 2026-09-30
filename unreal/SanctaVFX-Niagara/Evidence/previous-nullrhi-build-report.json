@@ -1,0 +1,506 @@
+{
+  "status": "failed",
+  "assets": [
+    "/Game/VFXLab/FireBoltI/M_FireBolt_Head",
+    "/Game/VFXLab/FireBoltI/MI_FireBolt_Head.MI_FireBolt_Head",
+    "/Game/VFXLab/FireBoltI/M_FireBolt_Tail",
+    "/Game/VFXLab/FireBoltI/MI_FireBolt_Tail.MI_FireBolt_Tail",
+    "/Game/VFXLab/FireBoltI/M_FireBolt_Impact",
+    "/Game/VFXLab/FireBoltI/MI_FireBolt_Impact.MI_FireBolt_Impact"
+  ],
+  "parameter_writes": [
+    {
+      "parameter": "Life Cycle Mode",
+      "success": true
+    },
+    {
+      "parameter": "Loop Behavior",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Loop Duration",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Count",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Time",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "X",
+      "success": true
+    },
+    {
+      "parameter": "Y",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Input Position",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Life Cycle Mode",
+      "success": true
+    },
+    {
+      "parameter": "Loop Behavior",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Loop Duration",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Count",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Time",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "X",
+      "success": true
+    },
+    {
+      "parameter": "Y",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Input Position",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Min",
+      "success": true
+    },
+    {
+      "parameter": "Max",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Min",
+      "success": true
+    },
+    {
+      "parameter": "Max",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Min",
+      "success": true
+    },
+    {
+      "parameter": "Max",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Min",
+      "success": true
+    },
+    {
+      "parameter": "Max",
+      "success": true
+    },
+    {
+      "parameter": "X",
+      "success": true
+    },
+    {
+      "parameter": "Y",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Input Position",
+      "success": true
+    },
+    {
+      "parameter": "Life Cycle Mode",
+      "success": true
+    },
+    {
+      "parameter": "Loop Behavior",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Loop Duration",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Count",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "A",
+      "success": true
+    },
+    {
+      "parameter": "B",
+      "success": true
+    },
+    {
+      "parameter": "Spawn Time",
+      "success": true
+    },
+    {
+      "parameter": "X",
+      "success": true
+    },
+    {
+      "parameter": "Y",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    },
+    {
+      "parameter": "Input Position",
+      "success": true
+    },
+    {
+      "parameter": "Vector",
+      "success": true
+    },
+    {
+      "parameter": "Float",
+      "success": true
+    }
+  ],
+  "inspection": {
+    "ready_to_run": false,
+    "emitter_count": 3,
+    "emitters": [
+      {
+        "name": "Head",
+        "enabled": true,
+        "renderer_count": 1
+      },
+      {
+        "name": "Tail",
+        "enabled": true,
+        "renderer_count": 1
+      },
+      {
+        "name": "Impact",
+        "enabled": true,
+        "renderer_count": 1
+      }
+    ],
+    "user_parameters": [
+      "User.CastDelay",
+      "User.Distance",
+      "User.HeadSize",
+      "User.ImpactDuration",
+      "User.ImpactSize",
+      "User.Speed",
+      "User.TailFade",
+      "User.TailLength",
+      "User.TailWidth"
+    ]
+  },
+  "error": "Traceback (most recent call last):\n  File \"<previous-workspace>/work/build_firebolt.py\", line 189, in <module>\n    raise RuntimeError('System did not compile with three emitters')\nRuntimeError: System did not compile with three emitters\n"
+}

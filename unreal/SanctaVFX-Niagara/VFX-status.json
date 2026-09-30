@@ -1,0 +1,11 @@
+{
+  "status": "validation_interrupted_at_user_request",
+  "reason": "User needs Unreal Engine for another project now.",
+  "original_project_modified": false,
+  "bridge_compiled": true,
+  "niagara_definition_emitter_count": 3,
+  "user_parameter_definition_count": 9,
+  "generated_system_saved": false,
+  "simulation_verified": false,
+  "visual_verified": false
+}

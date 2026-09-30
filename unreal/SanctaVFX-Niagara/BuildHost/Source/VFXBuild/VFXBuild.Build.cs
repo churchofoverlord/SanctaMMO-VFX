@@ -1,0 +1,1 @@
+using UnrealBuildTool; public class VFXBuild : ModuleRules { public VFXBuild(ReadOnlyTargetRules Target) : base(Target) { PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs; PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" }); } }
