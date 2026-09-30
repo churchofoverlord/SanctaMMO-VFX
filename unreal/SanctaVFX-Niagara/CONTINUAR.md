@@ -26,7 +26,7 @@ O objetivo é editar os protótipos de VFX do SanctaMMO no Unreal/Niagara. A pri
 5. `Retomar-Preparacao.cmd` cria `NS_FireBoltI`, espera pela compilação de Niagara, guarda o sistema e executa os testes de simulação e as capturas. Se o sistema já existir, executa a validação sem o recriar. A primeira compilação de shaders pode demorar e consumir CPU; iniciar quando o UE estiver disponível.
 6. Confirmar `VFX-validation-report.json` com `status: passed`, inspecionar as imagens em `Previews` e abrir o efeito. O relatório prova a simulação; a fidelidade visual exige inspeção e comparação com o HTML.
 
-Os caminhos do Engine são configuráveis; os caches ficam em `Saved` dentro do laboratório. O GUID da instalação antiga foi retirado do `.uproject`; os comandos chamam explicitamente o editor indicado. Não foram incluídos Engine, Editor, DLLs/PDBs, caches, histórico Git do Foundation ou a cópia antiga do jogo.
+Os caminhos do Engine são configuráveis; os caches ficam em `Saved` dentro do laboratório. O `.uproject` usa o GUID partilhado `{879D9D6C-4F90-4BD2-533F-CD9F03C78B21}`, que cada máquina regista no Windows a apontar para o seu motor (ver `Docs/Engineering/UE_LAPTOP_ENGINE.md` no SanctaMMO-Foundation-5.8); os comandos continuam a chamar explicitamente o editor indicado. Não foram incluídos Engine, Editor, DLLs/PDBs, caches, histórico Git do Foundation ou a cópia antiga do jogo.
 
 ## O que já está implementado
 
