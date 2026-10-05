@@ -22,8 +22,11 @@ with zipfile.ZipFile(destination,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as bu
     for file in source.rglob('*'):
         if file.is_file():bundle.write(file,'Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/'+file.relative_to(source).as_posix())
     bundle.writestr('Plugins/SanctaVFXRuntime/SanctaVFXRuntime.uplugin',json.dumps(plugin,indent=2))
-    for path in ['GUIA_EXECUCAO_VFX.md','Evidence/gameplay-runtime-migration-manifest.json','Evidence/gameplay-runtime-form-routes.json','Evidence/gameplay-runtime-definitions.json','Evidence/gameplay-runtime-rig-reference.json']:
+    for path in ['GUIA_EXECUCAO_VFX.md','GUIA_VFX.html','GUIA_VFX.md','Evidence/gameplay-runtime-index.json','Evidence/RuntimeReview/galeria.html','Evidence/gameplay-runtime-migration-manifest.json','Evidence/gameplay-runtime-form-routes.json','Evidence/gameplay-runtime-definitions.json','Evidence/gameplay-runtime-rig-reference.json']:
         bundle.write(root/path,path)
+    # Documentation snapshots are usable after unpacking, without lab fixtures.
+    previews={sample['gallery_preview'] for row in read('Evidence/gameplay-runtime-capture-audit.json')['rows'] for sample in row['samples']}
+    for path in sorted(previews):bundle.write(root/path,path)
     bundle.writestr('PACOTE.json',json.dumps(metadata,indent=2,ensure_ascii=False))
 report={**metadata,'file':destination.relative_to(root).as_posix(),'sha256':sha(destination),'bytes':destination.stat().st_size}
 (root/'Evidence/gameplay-runtime-export.json').write_text(json.dumps(report,indent=2,ensure_ascii=False),encoding='utf-8')

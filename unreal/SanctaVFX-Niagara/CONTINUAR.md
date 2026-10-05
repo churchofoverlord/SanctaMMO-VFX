@@ -14,7 +14,7 @@ O pacote de migração fica em `Exports/Sancta-VFX-Runtime.zip`; a fonte de verd
 
 Ficam pendentes o feedback de forma de Glacial/Iceberg e das novas apresentações, calibração no Manny/câmara real, ligação GAS/autoridade/replicação, colisão/navegação, cook Shipping e orçamento real. Não alterar Foundation sem nova autorização. Não repetir a compilação/capturas correntes sem alterações que invalidem os respetivos hashes. O checkpoint indica o estado de Git/push; não há execução UE ativa desta tarefa.
 
-**Publicação Git autorizada pelo utilizador em 5 de outubro:** o lote atual será guardado em `main` no remoto público `churchofoverlord/SanctaMMO-VFX`. O utilizador pediu também um guia com orientações e índice. Ver o checkpoint para confirmação do commit/push.
+**Runtime publicado:** o commit `2d1ea92` chegou a `origin/main`. O utilizador autorizou o envio e pediu o guia. `Abrir-Guia-VFX.cmd` abre `GUIA_VFX.html`, com orientações e índice pesquisável de 331 componentes, 136 FormIds canónicos e 332 cenas. `GUIA_VFX.md` é a versão para Git; o ZIP inclui guia/índice/capturas. A documentação será publicada no commit seguinte.
 
 Os estados abaixo são histórico e não substituem o ponto atual.
 

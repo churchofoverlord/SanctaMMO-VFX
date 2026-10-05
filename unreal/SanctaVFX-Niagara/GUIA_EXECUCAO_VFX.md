@@ -1,5 +1,7 @@
 # Execução dos VFX no laboratório
 
+Para navegação, orientações e pesquisa dos componentes/cenas/fases canónicas, começar em [GUIA_VFX.html](GUIA_VFX.html) ou [GUIA_VFX.md](GUIA_VFX.md). Fazer duplo clique em <code>Abrir-Guia-VFX.cmd</code> no laboratório.
+
 O módulo `SanctaVFXRuntime` apresenta os resultados recebidos do jogo. As fontes históricas de arte e o visualizador existente ficam separados dos derivados em `/Game/Sancta/VFX`. O checkpoint distingue compilação, bindings, capturas e revisão interna; a existência de uma fonte JSON não significa que o respetivo asset esteja pronto. A integração no jogo e a aprovação artística do utilizador têm evidência própria.
 
 ## Entrada das skills

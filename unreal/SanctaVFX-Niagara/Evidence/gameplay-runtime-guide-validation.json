@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "checked_at_utc": "2026-10-05T13:09:36.137894+00:00",
+  "components": 331,
+  "canonical_forms": 136,
+  "checked_local_links": 1007,
+  "duplicate_anchors": false,
+  "all_capture_deep_links_resolve": true,
+  "external_resources": false,
+  "served_local_html_matches_saved_file": true,
+  "browser_visual_review": "unavailable: CUA tab creation timed out twice; Codex open_in_codex queued the browser preview for this thread",
+  "guide_sha256": "6bf5b83e3de117a54b90498d53f2c991b0e6e9d39cd3395e3d928e15e64bf0d0",
+  "exported_guide_links_verified": 1007,
+  "zip_crc_verified": true,
+  "javascript_syntax_passed": true
+}

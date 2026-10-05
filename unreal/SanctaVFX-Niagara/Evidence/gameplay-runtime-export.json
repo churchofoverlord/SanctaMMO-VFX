@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-10-05T12:26:21.210851+00:00",
+  "created_at_utc": "2026-10-05T13:15:08.204978+00:00",
   "engine": "UE 5.8.3",
   "packages": 1786,
   "canonical_forms": 136,
@@ -14,6 +14,6 @@
   ],
   "layout": "Merge Content into game Content; install standalone Plugins/SanctaVFXRuntime. Do not install the authoring Bridge in the shipping game.",
   "file": "Exports/Sancta-VFX-Runtime.zip",
-  "sha256": "cb1a7f898f08be8bee0af48ebeb3fd0b68bfc3d3196f6eeb34dd9aa499dfc4b1",
-  "bytes": 28928344
+  "sha256": "04628ee09cef839a7cc0702a30b64c0b6ed6c70b33b489a28605777ca7d22adf",
+  "bytes": 31944267
 }

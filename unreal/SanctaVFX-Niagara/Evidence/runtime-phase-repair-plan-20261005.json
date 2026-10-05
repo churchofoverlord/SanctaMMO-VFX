@@ -296,7 +296,7 @@
     "Thunderstrike I captured in its on-flicker window without changing approved lightning art."
   ],
   "publication": {
-    "status": "explicitly_approved_by_user_publish_pending",
+    "status": "runtime_published_guide_ready_for_commit",
     "recorded_at_utc": "2026-10-05T12:34:15.849802+00:00",
     "remote": "https://github.com/churchofoverlord/SanctaMMO-VFX.git",
     "branch": "main",
@@ -306,14 +306,18 @@
     "prepared_file_count": 3838,
     "scope_file": "Evidence/runtime-version-control-scope.json",
     "scope_sha256": "93c2cabc7e4b019e09b2855348ce5c5632f26ac8ea30de29b64821657f63e067",
-    "commit_created": false,
-    "push_completed": false,
+    "commit_created": true,
+    "push_completed": true,
     "auto_review_rejections": 2,
     "latest_rejection_reason": "Even though public remote and scope were verified, trusted authorization must explicitly approve sending this 3838-file lot directly to public main.",
     "approval_requested": "Human confirmation to create commit and publish this explicit lot; alternative keep local only",
     "local_artifacts_complete": true,
     "active_ue_process": false,
     "user_authorization": "sim e cria um guia com orientações/index",
-    "authorized_at_utc": "2026-10-05T12:47:17.759551+00:00"
+    "authorized_at_utc": "2026-10-05T12:47:17.759551+00:00",
+    "runtime_commit": "2d1ea92d41198468d7ecd3708e4de9f252e38c2b",
+    "published_at_utc": "2026-10-05T13:13:32.570902+00:00",
+    "guide": "GUIA_VFX.html",
+    "guide_request": "sim e cria um guia com orientações/index"
   }
 }

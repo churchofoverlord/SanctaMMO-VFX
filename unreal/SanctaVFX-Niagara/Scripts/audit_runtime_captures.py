@@ -43,7 +43,7 @@ for offset in range(0,len(usable),12):
 cards=[]
 for row in usable:
  imgs=''.join('<a href="../../'+html.escape(s['gallery_preview'],quote=True)+'"><img loading="lazy" src="../../'+html.escape(s['gallery_preview'],quote=True)+'"></a>' for s in row['samples'])
- cards.append('<article data-name="'+html.escape(row['slug'].lower(),quote=True)+'"><h2>'+html.escape(row['slug'])+'</h2><p>'+html.escape(row['form']+' / '+row['phase']+' / '+row['anchor'])+'</p>'+imgs+'</article>')
+ cards.append('<article id="vfx-'+html.escape(row['slug'],quote=True)+'" data-name="'+html.escape(row['slug'].lower(),quote=True)+'"><h2>'+html.escape(row['slug'])+'</h2><p>'+html.escape(row['form']+' / '+row['phase']+' / '+row['anchor'])+'</p>'+imgs+'</article>')
 page='<!doctype html><meta charset="utf-8"><title>Sancta — capturas runtime</title><style>body{background:#151a20;color:#e4e9ee;font:16px system-ui;margin:24px}input{padding:12px;width:50%;position:sticky;top:0}article{margin:24px 0;padding:12px;background:#202832}img{width:min(48%,640px)}h2{font-size:18px}p{color:#b5c1cc}</style><h1>Capturas da apresentação nativa</h1><p>Imagens de teste por fase. Aprovação artística, rigs e integração no jogo continuam separados.</p><input placeholder="Procurar efeito" oninput="document.querySelectorAll(\'article\').forEach(a=>a.hidden=!a.dataset.name.includes(this.value.toLowerCase()))">'+''.join(cards)
 (out/'galeria.html').write_text(page,encoding='utf-8')
 print(json.dumps({k:report[k] for k in ['jobs','captured','presence_flags','needs_check']}))
