@@ -1,0 +1,74 @@
+{
+  "passed": true,
+  "results": {
+    "pressure-provoke/Impact": {
+      "passed": true,
+      "tests": [
+        {
+          "test": "Real runtime component admitted",
+          "passed": true
+        },
+        {
+          "test": "All renderer user-material bindings are private dynamic instances",
+          "passed": true
+        },
+        {
+          "test": "Empty resource and hold inputs reach actual bound material",
+          "passed": true
+        },
+        {
+          "test": "Live resource/colour/hold update changes bound materials",
+          "passed": true
+        },
+        {
+          "test": "Duplicate state refresh cannot rewind count or replay its gain pulse",
+          "passed": true
+        },
+        {
+          "test": "Reuse/reset does not leak resources or a previous material instance",
+          "passed": true
+        },
+        {
+          "test": "Release and gain visual clocks advance without a repeated gameplay event",
+          "passed": true
+        }
+      ],
+      "scope": "Reads actual Niagara user material objects and their dynamic parameters; GPU image/collision/transport require separate tests."
+    },
+    "pressure-provoke-tank/Impact": {
+      "passed": true,
+      "tests": [
+        {
+          "test": "Real runtime component admitted",
+          "passed": true
+        },
+        {
+          "test": "All renderer user-material bindings are private dynamic instances",
+          "passed": true
+        },
+        {
+          "test": "Empty resource and hold inputs reach actual bound material",
+          "passed": true
+        },
+        {
+          "test": "Live resource/colour/hold update changes bound materials",
+          "passed": true
+        },
+        {
+          "test": "Duplicate state refresh cannot rewind count or replay its gain pulse",
+          "passed": true
+        },
+        {
+          "test": "Reuse/reset does not leak resources or a previous material instance",
+          "passed": true
+        },
+        {
+          "test": "Release and gain visual clocks advance without a repeated gameplay event",
+          "passed": true
+        }
+      ],
+      "scope": "Reads actual Niagara user material objects and their dynamic parameters; GPU image/collision/transport require separate tests."
+    }
+  },
+  "scope": "Native live material objects/inputs of the isolated Pressure/Provoke result phase; appearance is audited separately."
+}

@@ -1,0 +1,138 @@
+{
+  "slug": "BrightStarShieldApply",
+  "title": "BrightStarShieldApply",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.6
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.2999999523162842,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;\n    void main(){ float u = uTime - aT; if (u < 0. || u > .45){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.45; vQ = position.xy; vU = u; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform vec3 uC, uCl; varying vec2 vQ; varying float vU;\n    void main(){ float r = length(vQ), a = atan(vQ.y, vQ.x);\n      float star = pow(abs(cos(a*2.)), 30.)*exp(-r*3.5) + exp(-r*r*40.)*.8;\n      float f = (vU < .033 ? 1.8 : 1.)*(1. - smoothstep(.15, .45, vU))*(1. - pow(1. - clamp(vU/.08, 0., 1.), 3.));\n      vec3 o = (uC*star + uCl*exp(-r*r*120.))*f*smoothstep(1., .8, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uC": {
+          "type": "color",
+          "values": [
+            1,
+            0.46207699964472876,
+            0.02732089163382382
+          ]
+        },
+        "uCl": {
+          "type": "color",
+          "values": [
+            1,
+            0.7681511472425809,
+            0.3515325994898463
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "runtime_binding": {
+        "anchor": "float3(0,0,0.0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.6,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.6
+  }
+}

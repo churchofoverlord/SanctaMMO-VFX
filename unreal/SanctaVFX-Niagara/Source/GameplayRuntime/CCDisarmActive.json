@@ -1,0 +1,130 @@
+{
+  "slug": "CCDisarmActive",
+  "title": "CCDisarmActive",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "geometry": {
+        "position": [
+          -1.0,
+          -1.0,
+          0,
+          1.0,
+          -1.0,
+          0,
+          -1.0,
+          1.0,
+          0,
+          1.0,
+          1.0,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "index": [
+          0,
+          1,
+          3,
+          0,
+          3,
+          2
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO;attribute float aT;uniform float uTime;varying vec2 vQ;varying float vU;\nvoid main(){vU=uTime-aT;vec4 p=viewMatrix*vec4(aO,1.);p.xy+=position.xy*.19;vQ=position.xy;gl_Position=projectionMatrix*p;}",
+      "fragment": "uniform vec3 uColor;varying vec2 vQ;varying float vU;void main(){vec2 p=vQ;\nfloat blade=exp(-pow((p.x+p.y*.22)/.035,2.))*smoothstep(.72,.52,abs(p.y));\nfloat crossLine=exp(-pow((p.x-p.y)/.06,2.))*smoothstep(.9,.65,length(p));\ngl_FragColor=vec4(uColor*(blade*.42+crossLine)*smoothstep(1.,.8,length(p)),1.);}",
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              2.05,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "uniforms": {
+        "uTime": {
+          "type": "number",
+          "value": 0
+        },
+        "uColor": {
+          "type": "vector",
+          "values": [
+            0.63,
+            0.26,
+            0.12
+          ]
+        }
+      },
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "blending": 2,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -6.661338147750939e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "mesh_import_reflect_x": true,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)"
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

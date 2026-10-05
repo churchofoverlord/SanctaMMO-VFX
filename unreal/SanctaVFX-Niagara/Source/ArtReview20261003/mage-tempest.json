@@ -1,0 +1,174 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/mage/tempest/tempest-vfx.html",
+  "sha256": "55f8d116cb6bcfa53e402836b6b323d6229f2ca73873916aca83b4e5f55c1fb2",
+  "class": "mage",
+  "slug": "tempest",
+  "title": "Tempest",
+  "method": "reference_spawn_and_shader_port",
+  "layers": [
+    {
+      "pool_index": 7,
+      "count": 2,
+      "cast_time": 2.0099000000003717,
+      "end_times": [
+        9.509900000000371
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -8
+            ],
+            [
+              0,
+              0,
+              -8
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              2.0099000930786133
+            ],
+            [
+              2.0099000930786133
+            ]
+          ]
+        },
+        "aP": {
+          "size": 4,
+          "values": [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; attribute vec4 aP; uniform float uTime; varying vec2 vL; varying float vU, vLy, vEdge; varying vec3 vW;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 7.5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 7.2; vec3 W = aO + vec3(position.x*S, 6.55 + aP.x*.45, -position.y*S);\n      vL = position.xy*S; vU = u; vLy = aP.x; vW = W;\n      vEdge = abs(normalize(cameraPosition - W).y);                              // 0 = seen edge-on\n      gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }",
+      "fragment": "uniform float uTime; uniform vec3 uIceC, uOrange; uniform vec4 uStrike; varying vec2 vL; varying float vU, vLy, vEdge; varying vec3 vW;\n    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }\n    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);\n      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }\n    float fbm(vec2 p){ return vn(p)*.55 + vn(p*2.1 + 3.1)*.3 + vn(p*4.3 + 7.7)*.15; }\n    void main(){\n      float r = length(vL), g = 1. - pow(1. - clamp(vU/.8, 0., 1.), 3.), R = 6.6*(.4 + .6*g);\n      float a = uTime*.06*(vLy*2. - 1.), c = cos(a), s = sin(a); vec2 q = mat2(c, -s, s, c)*vL*.32 + vLy*5.3;\n      vec2 w = vec2(fbm(q + uTime*.05), fbm(q - uTime*.04 + 4.2));                 // domain warp: billowy, churning\n      float n = fbm(q + w*1.4);\n      float mask = smoothstep(R, R*.55, r + (n - .5)*2.2);                           // ragged edge\n      float dens = smoothstep(.32, .72, n)*mask*smoothstep(.05, .35, vEdge);\n      dens *= smoothstep(0., .6, vU)*(1. - smoothstep(6.3, 7.4, vU));\n      vec3 base = mix(vec3(.012, .015, .025), vec3(.06, .075, .12), n*n)*(vLy > .5 ? 1.15 : 1.);\n      float sd = distance(vW.xz, uStrike.xz), st = uTime - uStrike.w;\n      float lit = exp(-sd*sd*.16)*exp(-max(st, 0.)*9.)*step(0., st)*2.4;\n      vec3 col = base + mix(uIceC, uOrange, .6)*lit*(.3 + .7*n);\n      float al = dens*.7;\n      if (al < .004) discard;\n      gl_FragColor = vec4(col*al, al);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.0099
+        },
+        "uIceC": {
+          "type": "color",
+          "values": [
+            0.07818742179702069,
+            0.5457244613615395,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        },
+        "uStrike": {
+          "type": "vector",
+          "values": [
+            0.9916836748065567,
+            0,
+            -6.684357943440894,
+            7.4443665441821
+          ]
+        }
+      },
+      "blending": 5,
+      "side": 2,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/mage-tempest.json",
+    "baseline_sha256": "b4dcf895097681be5f5203354b4f44502435fb91e17f13a2998141961b78d384",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "preview_duration": 7.7
+}

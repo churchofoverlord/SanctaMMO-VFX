@@ -1,0 +1,293 @@
+{
+  "slug": "CleansemageApply",
+  "title": "CleansemageApply",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 10,
+      "cast_time": 0,
+      "end_times": [
+        0.8243999999999072
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              3
+            ],
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ],
+            [
+              2
+            ]
+          ]
+        },
+        "aD": {
+          "size": 4,
+          "values": [
+            [
+              0,
+              0,
+              1.25,
+              1
+            ],
+            [
+              0,
+              0,
+              1.2000000476837158,
+              0
+            ],
+            [
+              0,
+              0,
+              0.7799999713897705,
+              0
+            ],
+            [
+              0.9808242917060852,
+              0.1948939710855484,
+              1.442777156829834,
+              0.05196418613195419
+            ],
+            [
+              0.40872722864151,
+              0.9126566052436829,
+              0.8556310534477234,
+              0.7404271960258484
+            ],
+            [
+              -0.38560083508491516,
+              0.9226657152175903,
+              1.4462552070617676,
+              0.4488644003868103
+            ],
+            [
+              -0.8212835788726807,
+              0.5705201625823975,
+              1.1534041166305542,
+              0.4662489891052246
+            ],
+            [
+              -0.9385889768600464,
+              -0.34503722190856934,
+              1.059282660484314,
+              0.9482945203781128
+            ],
+            [
+              -0.4143695533275604,
+              -0.910108745098114,
+              0.9363831281661987,
+              0.6294535994529724
+            ],
+            [
+              0.6271467804908752,
+              -0.7789011001586914,
+              1.4138377904891968,
+              0.8345920443534851
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK, vS;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 0.42){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vS = aD.w; vP = position.xy;\n      if (aK < 1.5){                                              // sweep: horizontal ring around the body (chest / waist)\n        float S = 1.35; vP = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, aD.z, -position.y*S), 1.); return; }\n      if (aK < 2.5){                                              // fragment: leaves the body surface, pushed outward, slight drop\n        float t = clamp((u - .03)/.31, 0., 1.), k = 1. - pow(1. - t, 3.);\n        vec3 dir = vec3(aD.x, 0., aD.y);\n        vec3 p = aO + dir*(.24 + .95*k) + vec3(0., aD.z + .18*k - .35*t*t, 0.);\n        float rot = aD.w*6.28 + k*2.4*(aD.w > .5 ? 1. : -1.), c = cos(rot), s = sin(rot);\n        vec4 mv = viewMatrix*vec4(p, 1.); mv.xy += mat2(c, -s, s, c)*position.xy*.18*(1. - .25*t); gl_Position = projectionMatrix*mv; return; }\n      vec4 mv = viewMatrix*vec4(aO + vec3(0., aD.z, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3;   // core flash + vertical stroke\n      vP = position.xy*vec2(.5, 1.); mv.xy += position.xy*vec2(.3, .6)*aD.w; gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uA, uB; varying vec2 vP; varying float vU, vK, vS;\n    float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5453); }\n    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);\n      return mix(mix(h2(i), h2(i + vec2(1,0)), f.x), mix(h2(i + vec2(0,1)), h2(i + vec2(1,1)), f.x), f.y); }\n    void main(){\n      vec3 hot = mix(uB, vec3(1., .97, .92), .35), rgb = vec3(0.); float al = 0.;\n      if (vK < 1.5){\n        // centre → out: four wide calligraphic arcs (thin tips, full middle) that open with the sweep and thin out as they go\n        float dl = vK > .5 ? .04 : 0., t = clamp((vU - dl)/.3, 0., 1.);\n        float r = length(vP), a = atan(vP.y, vP.x) + .45 + vK*.8 + t*.35;\n        float R = mix(.16, 1.18 - .18*vK, 1. - pow(1. - t, 3.));\n        float sg = fract(a/6.28318*4.), s = clamp((sg - .07)/.86, 0., 1.), taper = pow(sin(3.14159*s), .6);\n        float w = (.01 + .03*taper)*(1. - .55*t);\n        float line = exp(-pow((r - R)/w, 2.))*taper, core = lcore(r - R, w*.3)*taper;\n        float wash = exp(-pow((r - R*.82)/.16, 2.))*.07*smoothstep(0., .3, t);   // a faint wake behind the front\n        float f = pow(1. - t, 1.3)*(vU - dl < .033 ? 1.5 : 1.)*step(0., vU - dl)*(1. - .35*vK);\n        rgb = (uA*(line*.95 + wash) + hot*core*.8)*f*smoothstep(1.35, 1.2, r);\n      } else if (vK < 2.5){\n        // dark broken piece of a constricting mark: bent sliver, sharp ends; erodes with a thin hot rim at the break front\n        float t = clamp((vU - .03)/.31, 0., 1.);\n        vec2 q = vP; float d = abs(length(q - vec2(0., -1.)) - 1.), m = smoothstep(.72, .5, abs(q.x));\n        float body = exp(-pow(d/.16, 2.))*m;\n        float n = vn(q*2.6 + vS*37.), thr = -.1 + 1.15*t;               // alpha erosion\n        float alive = smoothstep(thr, thr + .1, n), front = exp(-pow((n - thr)/.07, 2.))*step(.02, t);\n        float snap = vU < .066 ? 1. : 0.;                                // the break: 2 frames of hot outline\n        al = body*alive*.62*(1. - t*t);\n        rgb = (uA*front*1.3 + hot*snap*.9)*body*(1. - t) + uA*exp(-pow(d/.05, 2.))*m*alive*.18*(1. - t);\n      } else {\n        // core flash (2-frame peak) + the icon's thin vertical stroke through the chest, thin at both ends\n        float L = .22, t = clamp(vU/L, 0., 1.); if (vU > L) discard;\n        vec2 p = vP; float r = length(p*vec2(1., 2.));\n        float glow = exp(-r*r*14.)*(.55 + (vU < .033 ? 1.1 : 0.)), ys = clamp(abs(p.y), 0., 1.);\n        float stroke = exp(-pow(p.x/(.018 + .03*(1. - ys)), 2.))*pow(max(1. - ys, 0.), .7)*1.1;\n        float f = pow(1. - t, 1.6);\n        rgb = (uA*(glow*.8 + stroke*.6) + hot*(stroke*.7 + exp(-r*r*60.)*.9))*f*smoothstep(1., .85, max(abs(p.x)*2., abs(p.y)));\n      }\n      if (max(max(rgb.r, rgb.g), max(rgb.b, al)) < .002) discard;\n      gl_FragColor = vec4(rgb, al);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40439999999963
+        },
+        "uA": {
+          "type": "color",
+          "values": [
+            0.3231432091022285,
+            0.10702310296918527,
+            1
+          ]
+        },
+        "uB": {
+          "type": "color",
+          "values": [
+            0.5775804404214573,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 5,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

@@ -1,0 +1,519 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/mage/static-bolt-i/static-bolt-i-vfx.html",
+  "sha256": "884b5631bbea4bdca24651d94df05324b3b249ba33b96d333f256d0c18a735d5",
+  "class": "mage",
+  "slug": "static-bolt-i",
+  "title": "Static Bolt I",
+  "method": "reference_spawn_and_shader_port",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0.40379999999981414,
+      "end_times": [
+        0.865544035637586
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.36000001430511475,
+              1.2999999523162842,
+              -0.30000001192092896
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0.010730789974331856,
+              1.149999976158142,
+              -6.800288200378418
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.40380001068115234
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }\n    void main(){\n      float u = uTime - aT - 0.10, L = length(aE - aO), tt = L/18.0;\n      if (u < 0. || u > tt){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, u/tt), 1.); float S = .32;\n      float c = cos(u*6.), s = sin(u*6.); vec2 q = mat2(c, -s, s, c)*position.xy;       // corona churns\n      mv.xy += q*S*1.2; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;\n    void main(){                                              // electric orb: hot core, gold sphere, crackling jagged corona that re-strikes\n      vec2 p = vP; float r = length(p), a = atan(p.y, p.x), st = floor(vU*26.);\n      float fl = pow(.5 + .5*sin(a*9. + st*2.3)*sin(a*4. - st*1.7), 3.);   // jagged sparks around the rim, re-striking ~26×/s\n      float sphere = smoothstep(.3, .24, r), corona = exp(-pow(max(r - .26, 0.)/(.03 + .22*fl), 2.))*step(.24, r);\n      float core = exp(-r*r*40.), halo = exp(-r*r*5.)*.2;\n      vec3 o = (uOrange*(corona*1.1 + halo + sphere*.5) + uGold*sphere*.9 + vec3(1., .9, .7)*core*.9)*smoothstep(1., .85, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40379999999954
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.8796223968851662,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0.40379999999981414,
+      "end_times": [
+        1.065544035637586
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.36000001430511475,
+              1.2999999523162842,
+              -0.30000001192092896
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0.010730789974331856,
+              1.149999976158142,
+              -6.800288200378418
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.40380001068115234
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          -0.8333333134651184,
+          1,
+          0,
+          -0.6666666865348816,
+          1,
+          0,
+          -0.5,
+          1,
+          0,
+          -0.3333333432674408,
+          1,
+          0,
+          -0.1666666716337204,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0.1666666716337204,
+          1,
+          0,
+          0.3333333432674408,
+          1,
+          0,
+          0.5,
+          1,
+          0,
+          0.6666666865348816,
+          1,
+          0,
+          0.8333333134651184,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          -0.8333333134651184,
+          -1,
+          0,
+          -0.6666666865348816,
+          -1,
+          0,
+          -0.5,
+          -1,
+          0,
+          -0.3333333432674408,
+          -1,
+          0,
+          -0.1666666716337204,
+          -1,
+          0,
+          0,
+          -1,
+          0,
+          0.1666666716337204,
+          -1,
+          0,
+          0.3333333432674408,
+          -1,
+          0,
+          0.5,
+          -1,
+          0,
+          0.6666666865348816,
+          -1,
+          0,
+          0.8333333134651184,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          0.0833333358168602,
+          1,
+          0.1666666716337204,
+          1,
+          0.25,
+          1,
+          0.3333333432674408,
+          1,
+          0.4166666567325592,
+          1,
+          0.5,
+          1,
+          0.5833333134651184,
+          1,
+          0.6666666865348816,
+          1,
+          0.75,
+          1,
+          0.8333333134651184,
+          1,
+          0.9166666865348816,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0.0833333358168602,
+          0,
+          0.1666666716337204,
+          0,
+          0.25,
+          0,
+          0.3333333432674408,
+          0,
+          0.4166666567325592,
+          0,
+          0.5,
+          0,
+          0.5833333134651184,
+          0,
+          0.6666666865348816,
+          0,
+          0.75,
+          0,
+          0.8333333134651184,
+          0,
+          0.9166666865348816,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          13,
+          1,
+          13,
+          14,
+          1,
+          1,
+          14,
+          2,
+          14,
+          15,
+          2,
+          2,
+          15,
+          3,
+          15,
+          16,
+          3,
+          3,
+          16,
+          4,
+          16,
+          17,
+          4,
+          4,
+          17,
+          5,
+          17,
+          18,
+          5,
+          5,
+          18,
+          6,
+          18,
+          19,
+          6,
+          6,
+          19,
+          7,
+          19,
+          20,
+          7,
+          7,
+          20,
+          8,
+          20,
+          21,
+          8,
+          8,
+          21,
+          9,
+          21,
+          22,
+          9,
+          9,
+          22,
+          10,
+          22,
+          23,
+          10,
+          10,
+          23,
+          11,
+          23,
+          24,
+          11,
+          11,
+          24,
+          12,
+          24,
+          25,
+          12
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF; vec3 arcAt(vec3 a, vec3 b, float f){ return mix(a, b, f); }\n    void main(){\n      float u = uTime - aT - 0.10, L = length(aE - aO), tt = L/18.0;\n      if (u < 0. || u > tt + .2){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec3 d = (aE - aO)/L;\n      float head = min(u*18.0, L), tail = max(0., head - .7) + max(0., u - tt)/.2*1.7;   // after the hit, the tail catches up\n      if (head - tail < .01){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float s = position.x*.5 + .5;\n      float fa = mix(tail, head, s)/L;\n      vec3 P = arcAt(aO, aE, fa), T = normalize(arcAt(aO, aE, min(fa + .01, 1.)) - arcAt(aO, aE, max(fa - .01, 0.)));\n      vec3 side = normalize(cross(T, P - cameraPosition));\n      vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);\n      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .09*s), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vS, vY, vF;\n    void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);\n      vec3 o = (mix(uOrange, uGold, .6)*a*.55 + vec3(1., .95, .85)*c*.35)*vF;\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40379999999954
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.8796223968851662,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -1.0000000016374877,
+          -1.0,
+          0.0
+        ],
+        "u": [
+          2.0000000009824905,
+          -6.661338147750939e-16,
+          0.0
+        ],
+        "v": [
+          -4.440892098500626e-16,
+          2.0000000000000018,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/mage-static-bolt-i.json",
+    "baseline_sha256": "a0586f9345c87d90b9490f399b911151bb955de78d374cfc65b66a4bbb6c4b5c",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "preview_duration": 1.2
+}

@@ -1,0 +1,146 @@
+{
+  "slug": "BattlecryChallengeIWarriorCast",
+  "title": "BattlecryChallengeIWarriorCast",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.4666666666666686
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 1.05){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 4.00; vP = position.xy*S; vU = u; vK = aK;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uCW, uCT; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){\n      vec2 p = vP; float r = length(p), a = atan(p.x, p.y), R = 3.60, u = vU - 0.15;\n      vec3 col = mix(uCW, uCT, vK);\n      float lum = 0., hot = 0.;\n      if (u < 0.){\n        // wind-up: a small gather at the Root\n        float k = vU/0.15; lum += exp(-r*r*14.)*k*k*.5;\n      } else {\n        lum += exp(-r*r*5.)*(u < .033 ? 1.1 : .4*exp(-u*10.));      // 2-frame snap at the Root\n        if (vK < .5){\n          // Battlecry: three crests, the middle one strongest, slightly jagged — fast and aggressive\n          for (int j=0;j<1;j++){\n            float fj = float(j), uj = u - fj*.045;\n            if (uj < 0.) continue;\n            float rr = eox(clamp(uj/.2, 0., 1.))*R*(1. - .06*fj);\n            rr += .035*abs(sin(a*9. + fj*1.3))*smoothstep(.2, 1., rr/R);\n            float f = 1. - smoothstep(.12, .3, uj), wgt = 1.;\n            float w = (.012 + .03*wgt)*(1. - .5*clamp(uj/.3, 0., 1.));\n            lum += exp(-pow(abs(r - rr)/w, 2.4))*f*wgt*1.1; hot += lcore(r - rr, w*.3)*f*wgt*.5;\n          }\n        } else {\n          // Challenge: one steady pulse that settles and stays anchored on the area edge\n          float rr = eox(clamp(u/.22, 0., 1.))*R, f = 1. - smoothstep(.15, .3, u);\n          lum += exp(-pow(abs(r - rr)/.02, 2.4))*f*.9;\n          float hold = smoothstep(.16, .24, u)*(1. - smoothstep(.55, .9, u));   // the rim is the last thing to go\n          float ring = exp(-pow(abs(r - R)/.016, 2.4));\n          float tick = 0.;\n          for (int i=0;i<16;i++){\n            float th = float(i)*.3927; vec2 d = vec2(sin(th), cos(th));\n            float along = dot(p, d), off = abs(p.x*d.y - p.y*d.x);\n            tick += exp(-pow(off/.012, 2.))*smoothstep(R - .32, R - .22, along)*smoothstep(R - .04, R - .12, along);\n          }\n          lum += (ring*.95 + tick*.55)*hold; hot += lcore(r - R, .005)*hold*.5;\n        }\n      }\n      vec3 outc = col*lum + mix(col, vec3(1., .96, .95), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.41666666666628
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.35,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.35
+  }
+}

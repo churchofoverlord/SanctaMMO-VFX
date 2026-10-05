@@ -1,0 +1,167 @@
+{
+  "slug": "ShoulderRushIiWarriorImpact",
+  "title": "ShoulderRushIiWarriorImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        1.0043999999999074
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.2000000476837158,
+              -4.099999904632568
+            ],
+            [
+              0,
+              1.2000000476837158,
+              -4.099999904632568
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              2
+            ]
+          ]
+        },
+        "aC": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK, aC; uniform float uTime; varying vec2 vP; varying float vU, vK, vC;\n    void main(){\n      // kinds: 0 collision flash · 1 landing ring · 2 stance-accent ground pulse (fast, thin) · 3 Tank second ring (firm impact)\n      float u = uTime - aT, life = aK < .5 ? .16 : (aK < 1.5 ? .3 : (aK < 2.5 ? .24 : .32));\n      if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vC = aC;\n      bool bb = aK < .5 || aK > 1.5;                               // payoff pulses sit on the body at the collision point, not on the ground\n      if (bb){\n        vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.35;\n        float S = aK < .5 ? .38 : (aK < 2.5 ? .5 : .4); mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = aK < 1.5 ? .5 : (aK < 2.5 ? .95 : .75); vP = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange, uCW, uCT; varying vec2 vP; varying float vU, vK, vC; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec2 p = vP; float r = length(p), lum = 0., hot = 0.;\n      if (vK > 1.5){\n        // II payoff: one instant pulse in the stance accent (Warrior magenta / Tank cyan)\n        float T = vK < 2.5 ? .24 : .32, t = vU/T, f = pow(1. - t, 1.7);\n        float R = vK < 2.5 ? .15 + .72*(1. - pow(1. - t, 3.)) : .1 + .55*(1. - pow(1. - t, 5.));\n        float w = (vK < 2.5 ? .018 : .035)*(1. - .5*t);\n        float ring = exp(-pow(abs(r - R)/w, 2.4)), core = lcore(r - R, w*.35);\n        vec3 col = mix(uCW, uCT, vC);\n        vec3 outc = (col*ring*(vK < 2.5 ? 1. : .8) + mix(col, vec3(1.), .6)*core*.5)*f;\n        if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n        gl_FragColor = vec4(outc, 1.); return;\n      }\n      if (vK < .5){\n        // single collision flash: a crisp ring that snaps open + a hot centre, gone in 160 ms\n        float t = vU/.16, f = pow(1. - t, 1.6);\n        float R = .04 + .25*(1. - pow(1. - t, 3.)), w = .007 + .01*(1. - t);\n        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.8 + exp(-r*r*240.)*(vU < .033 ? 1.2 : .5*f);\n        hot += lcore(r - R, w*.35)*f*.45 + exp(-r*r*700.)*f*.6;\n      } else {\n        // landing ring on the floor: thin, compact, settles quickly\n        float t = vU/.3, f = pow(1. - t, 1.8);\n        float R = .08 + .35*(1. - pow(1. - t, 3.)), w = .006 + .015*(1. - t);\n        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.5; hot += lcore(r - R, w*.3)*f*.25;\n      }\n      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40439999999963
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.2746773120495699,
+            0.4793201830913402
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-4.099999904632568)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "slug": "LongJumpTelegraph",
+  "title": "LongJumpTelegraph",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        62.006,
+        2.726000000000005,
+        3.523000000000006
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              -6.599999904632568
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              1.2170000076293945
+            ]
+          ]
+        },
+        "aR": {
+          "size": 1,
+          "values": [
+            [
+              2.6059999465942383
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "aY": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aR, aY, aK; uniform float uTime; varying vec2 vP; varying float vU, vK, vF;\n    void main(){ float u = uTime - aT; vK = aK; vU = u; vec3 C = aO; float S = .9;\n      if (aK < .5){ if (u < 0. || uTime - aR > .12){ gl_Position = vec4(2.,2.,2.,1.); return; }\n        float h = min(u, aR - aT), d = 3.0 + 6.0*clamp(h/1.0, 0., 1.);\n        C = aO; vF = 1.; S = .5; }\n      else { if (u < 0. || u > 0.30){ gl_Position = vec4(2.,2.,2.,1.); return; } vF = 1.; S = 1.1; }\n      vP = position.xy*S;\n      gl_Position = projectionMatrix*viewMatrix*vec4(C + vec3(position.x*S, .035, -position.y*S), 1.); }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vF;\n    void main(){ float r = length(vP); vec3 o;\n      if (vK < .5){ o = mix(uOrange, uGold, .5)*(exp(-pow((r - .36)/.018, 2.))*.8 + exp(-r*r*60.)*.3)*vF; }\n      else { float t = vU/0.30, R = mix(.3, 1., 1. - pow(1. - t, 3.)), w = mix(.07, .025, t);   // one solid ring\n        o = mix(uOrange, uGold, .45)*exp(-pow((r - R)/w, 2.))*pow(1. - t, 1.4)*(vU < .033 ? 1.6 : 1.)*1.2; }\n      o *= smoothstep(1.1, .95, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.605999999999597
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aT": "ReferenceTime-.3",
+          "aR": "ReferenceTime+1e9",
+          "aO": "float3(0,0,0)"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

@@ -1,0 +1,541 @@
+{
+  "interrupted_at_utc": "2026-10-04T23:20:22.892196+00:00",
+  "reason": "Global screenshot requests sometimes read editor instead of owning game viewport. These images are not accepted evidence.",
+  "affected_runs": [
+    "Runtime-game-all-1.log",
+    "Runtime-game-all-2.log"
+  ],
+  "old_files": [
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicAxeMagicalTrail_0.png",
+      "sha256": "06c096ca91b4465dc82b2cc17a4b4734c42458538b23fe7727f65b835d698fa8"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicAxeMagicalTrail_baseline.png",
+      "sha256": "a0b0d7cfa21003b1e8d763b26d8cf1486631d5c80a212af4bb76ae9aca39ebab"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicAxePhysicalTrail_0.png",
+      "sha256": "bd8a689d758cbcbec0dc8d9e69d4f3fc3e5e2ede8d8e1a65b1510b211a773aa9"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicAxePhysicalTrail_baseline.png",
+      "sha256": "d50b6c0040f4c8fc4d5aa441e831dc5314120913b1c1988333a7dcae38f55122"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalFlight_0.png",
+      "sha256": "850544e285c55daef7a5401245531cf3906d4c45d258e8bb1268a0960420e9ec"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalFlight_baseline.png",
+      "sha256": "eb01a1890216ca8f4e1a50cbb7aece18ae962f17036471416b9894a45878cea7"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_0.png",
+      "sha256": "4be15647abafa5c00d6c47bd91eb2728410ed1d5413aa36dcb9c4c4f60172432"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_1.png",
+      "sha256": "a77923a6e4fb83aacb8f3889874cd33be3cfddecd5e8746a681bd2adea82087d"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_baseline.png",
+      "sha256": "3c8befbb7c28f6849834113b83000b2da112f3486126180593f99fc2be1e0dfe"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalFlight_0.png",
+      "sha256": "0e38444717bb8a4edaeda6e776eec983c0e2a035869c3ae59a3bd01dfcbcc6cf"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalFlight_baseline.png",
+      "sha256": "0ef5703f3ec15a86e597d50bd7f1e9730e8ad523280eddbd8a85bff76af247b0"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_0.png",
+      "sha256": "b8b387a1f7c195f760ba373b753bd3fed9058c60bfa86505903c5ab7af3f2d59"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_1.png",
+      "sha256": "c7596c9542e2969f6beff02bdf76dfcf6b5e08526f999bbe943ccbf320306e11"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_baseline.png",
+      "sha256": "24a64abab247122b43e719d65b75cba0a513b8f54465a74a92b686e376b2a3a6"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicClubMagicalTrail_0.png",
+      "sha256": "8b196d740f2122508527eb8992268d482053c6edcab5fd6eb65bb565e09278d2"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicClubMagicalTrail_baseline.png",
+      "sha256": "7bf9c93f5c2897fbf91f08ace1a7b44a94406d8592b747743777a821762caabe"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicClubPhysicalTrail_0.png",
+      "sha256": "224800b0a2b2a7536f4b0495587e62de36544ed96a18251a9e6b3d5e0d1be26d"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicClubPhysicalTrail_baseline.png",
+      "sha256": "4df3a6bccfa1906e38d4c39c0450488aaa576dbf108ab674cacb3eb4ee6058fd"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalFlight_0.png",
+      "sha256": "57f82b8fd3032409b6c4ee7ec609c6912ca10bede2fc6fc274accf409a086f6a"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalFlight_baseline.png",
+      "sha256": "19ba0d0e1279e2e212e0334f28fa020cd53fab7b81e22f568248f1bc724e0451"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_0.png",
+      "sha256": "13fa3446115ba6cabe5dd1dbfbe6bf3ada2d126cd3cde3da97e93630615a3957"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_1.png",
+      "sha256": "f8e206c84b7c27e26213a230d79ece298b006e58488da84224726616d16591ef"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_baseline.png",
+      "sha256": "f87711a1c8e2857795ae9d62aeb16096b0e862b8c6569e5aac6801b038633cbc"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalFlight_0.png",
+      "sha256": "302f560c12840cbed5e064fef03add9a514cd498d677328401ea35b59db35005"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalFlight_baseline.png",
+      "sha256": "0c4143166a4a89b95861160a913aee293ab69993d466aa9c8ef8deec0486a7d0"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_0.png",
+      "sha256": "83a45a144e92551468afb77ef6a9005c3b7db5732f738b1f84a9d1c499b70413"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_1.png",
+      "sha256": "09f165fe814bd75ace4695af8a80478771d17c6bdbe756e7f667ef6d533ee7e7"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_baseline.png",
+      "sha256": "1d82d7183371e167ffb862cdf4d8c1a9a53ba51b35a0ee41b858d0efbca627a0"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersMagicalTrail_0.png",
+      "sha256": "850544e285c55daef7a5401245531cf3906d4c45d258e8bb1268a0960420e9ec"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersMagicalTrail_baseline.png",
+      "sha256": "c99f9d6075aecf60b991f460dafd31eb14213f4112a2c0944c19e7ce597633a1"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersPhysicalTrail_0.png",
+      "sha256": "5f5125f7a9d252b81917e34f3e797742c5cedb17a998bb2dc849bffbd395e2bf"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersPhysicalTrail_baseline.png",
+      "sha256": "998fdde3f00729397333cd0f0ad8b11971f84fde5bc9c60487f91eb46d9db9df"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsMagicalTrail_0.png",
+      "sha256": "de5f7907ef058f6d42c57234e2d6629af8a34df11d1804858de7f7c211117aa5"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsMagicalTrail_baseline.png",
+      "sha256": "977a495373d50640448771aa63c4e761f6f7a5184e722b4d5420a8cf1585833f"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsPhysicalTrail_0.png",
+      "sha256": "b6e949a9b9b9368a7f380b56466f8bbdd8fa803a155d6922d916e6ab77f63b84"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsPhysicalTrail_baseline.png",
+      "sha256": "3791869b1d5fc6dc1574588e6af7fdcf4c456d263009e633257ff5f5473d6b1a"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxeMagicalTrail_0.png",
+      "sha256": "29cb1f8bba202e9e9b922f08a572c1ca80171267c9fb38bd200452a3aa23a97b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxeMagicalTrail_baseline.png",
+      "sha256": "58db41192dabf7d4af32d65629c119812809883fd435cc25fe7996758e7bb781"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxePhysicalTrail_0.png",
+      "sha256": "2ca04cad7f69805810a724e76737882f99224748633c214166b6218fcd6cd5de"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxePhysicalTrail_baseline.png",
+      "sha256": "75976247e80d912bb6d16eef90cdcd882edcd5223344baff60fb833d83fa786e"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubMagicalTrail_0.png",
+      "sha256": "ca5471e833abce747d1cf5116cdbd2373ad427fefc22627bd50d8502422a868d"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubMagicalTrail_baseline.png",
+      "sha256": "12d7b617a5f9d3c76eb1dbcbb0e5bd25cca75cba44e15d975f5c59577944a557"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubPhysicalTrail_0.png",
+      "sha256": "633156f8e1e4d97b7248aa6e4637cea696e7f12719d7b9c9a9223e5195105538"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubPhysicalTrail_baseline.png",
+      "sha256": "d8f22e2d8c4f7f85eaa03782c636723189536ce417a32d025965efd9b816c73a"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordMagicalTrail_0.png",
+      "sha256": "648e3175b80f7b2b7e4291282066786945f2de12405495247fbd908e0a3a8228"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordMagicalTrail_baseline.png",
+      "sha256": "f286997e8f7c778f5da28f3796109389d0dd03e98b3a828a912d1d287cb5d277"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordPhysicalTrail_0.png",
+      "sha256": "0e584d2596a6e4df6ebd21072a1d8ee86baf689fe87d4e634ec734d625497473"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordPhysicalTrail_baseline.png",
+      "sha256": "9611347525c25918e0bf00bf10bbe8a9fdc0273d2577e890391a4056fac40aaa"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicRapierMagicalTrail_0.png",
+      "sha256": "d5e75ceee577ef529ed974a45cf9f567fc4f59db5934da46d15a7e9c92baf3d3"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicRapierMagicalTrail_baseline.png",
+      "sha256": "d6e143cd154969cb64b36bf7f77a44e519e4cc0e169f65f66b847307c1271408"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicRapierPhysicalTrail_0.png",
+      "sha256": "6be114fb3c0e0f46f18d2a99aa3e561db8108e78507e63f26b5ec2021de21020"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicRapierPhysicalTrail_baseline.png",
+      "sha256": "e11d814b10f7cd0525a60667f3621283e6afa6bb102f024fbf1179d4ab51ab0b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSpearMagicalTrail_0.png",
+      "sha256": "850544e285c55daef7a5401245531cf3906d4c45d258e8bb1268a0960420e9ec"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSpearMagicalTrail_baseline.png",
+      "sha256": "3cbe81c0826baec02a31716dae331ef6e6f704945eaf4d31ee729dff5d1cd906"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSpearPhysicalTrail_0.png",
+      "sha256": "3b40ed69d91569dc5d01f8f9bbed685c44e34f699ecdab0f4d4173a108a5b612"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSpearPhysicalTrail_baseline.png",
+      "sha256": "c6cdb217246d082f4b8bdb4ef816d4c39543e49ce672f34b063f20b851f8b4fa"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalFlight_0.png",
+      "sha256": "0d077268aea7544fdc963e4dd73fb8b8d26efff4b286c225f6d7f5ff1ada84a7"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalFlight_baseline.png",
+      "sha256": "f528d3d139137c1f64afc1055c675a99ec800ca14c1c3398fd244e227a65132b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_0.png",
+      "sha256": "6af85941d344a3dc24b76028bff1994d1b9d9c993e5c018de98cf5589d29cbfc"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_1.png",
+      "sha256": "7ee0c9ca753bdecea976243c0c5497e7d5ee84f155cdcdfd67536d401cfc836d"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_baseline.png",
+      "sha256": "76801158176356f620c052e4104c93c72303c3beeae93bd8e1fda06fcd4b815b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalFlight_0.png",
+      "sha256": "1f984da8c77efd70b3747c48671c58adab9f098e65f34f0ad6e1e0ffec1f6007"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalFlight_baseline.png",
+      "sha256": "d2a0976c9cc03bb43d8c16555b40f047eee9f618cf0e42e9da759429d5198045"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_0.png",
+      "sha256": "4d299b3b6d66ed542c4bab044175813dc6e256bc250422531fb52df81d4ce6d7"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_1.png",
+      "sha256": "2e0e0a4f15f39a4c44631057ed8b8c1ff0738a49ed13073d8f47df305e55c714"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_baseline.png",
+      "sha256": "19b90c8e0bb22c170080494842acabfbe0582a475c309d26086e5d6968ca50e2"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSwordMagicalTrail_0.png",
+      "sha256": "d4fdf23679f0bb22242631b6fc9653d432476ed4be6158b13fcb4df0d60ed269"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSwordMagicalTrail_baseline.png",
+      "sha256": "74701e67957d8716100839e9fd8bdff34c7dfbbd148de5dc6508936e2c7a89f1"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSwordPhysicalTrail_0.png",
+      "sha256": "06a84344a679240869e914c81bf9969a0d24b2757782e491942c2a3dbc83897b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicSwordPhysicalTrail_baseline.png",
+      "sha256": "d045e7c36fc9857eb944097e3cb5a15fec06c22e1743c5d10f6de8ba29c587b8"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalFlight_0.png",
+      "sha256": "a824b63956ac378e045dc78bbec8111741c8ee4683f871d96639749444f9285b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalFlight_baseline.png",
+      "sha256": "76d948b7f287435f7e14951ca3c3c76f9d3a164b24669cffafe5c1b115567c39"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_0.png",
+      "sha256": "f556509c5cbeed73624315e8a8a34705057323ca4a7969c4ef577513adf9e7bd"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_1.png",
+      "sha256": "2ed9b2d6f45a0834ffb0bbf61c8341bb12a7de5b2f2dea5f999616689645a7be"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_baseline.png",
+      "sha256": "f74db346f380c77850761b8717b1b897df80dc9586246962abdfd5b18fbe7921"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalFlight_0.png",
+      "sha256": "c85f4cc4e1ac0ddf3cfccc4fb074eaabeec468ba4eae85707843a48adcfb6d48"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalFlight_baseline.png",
+      "sha256": "ddbb021df21e2ec69912011bb15b96b7e6f04e4b4468973bea56cf70c4596f1b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_0.png",
+      "sha256": "8a9371d9d5cc77c36059ddec1570bebfcac042cfe262b4e0da2ed77f1c3dede6"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_1.png",
+      "sha256": "d6e53a2b69afef205507fcc06ded3ebe3fd70e7956a89d408ac1c2f1ee8caaf9"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_baseline.png",
+      "sha256": "bdd1b9f9d6741f1fefc298c9e116c8d7a73e57b8dee0e76250e5824ccef8f8b5"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmActive_0.png",
+      "sha256": "333f96765a5729e48c8a12d06b5c26f9022e3d2e8f351b2284d68ffaaf3a9083"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmActive_baseline.png",
+      "sha256": "b05a6a745210353571da86b28df9b6d8617febf2c5f98f44606ed029666da6b6"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_0.png",
+      "sha256": "6455ba90f0d4e3c35768c9045cc252843ad7f3209dffcfc06dc76752513ea862"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_1.png",
+      "sha256": "bad94fc7d2a13201dbf02244ab02ba6c837b9feed6f81b4b0d5d382445dac0ad"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_baseline.png",
+      "sha256": "d5a7b76b3fb1b86ff78135af9d3c58460847177ca77638adceaa3db8e6a61d19"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_0.png",
+      "sha256": "76ccd8b19fa7b44fef9ca21f4994b7c2e3c26a1676e311cbe9a9a179e8bf20b6"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_1.png",
+      "sha256": "c65b133ec36e715d429b24dd56e6e7be47ff204ce9acfe8eaca3e60de639ed34"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_baseline.png",
+      "sha256": "ec7014a2fca34507d520653e0ec06b7d093043086eb20838fdd35fb18ac50c78"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_0.png",
+      "sha256": "f5b31fd7ba58cec092ceb294ba767105c865bcfe5c66b0ce2768a1422cd3ffce"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_1.png",
+      "sha256": "dc6cfef71d2bec8ac927138fde550640550cdbd680a0a0c1371993ef563e8042"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_baseline.png",
+      "sha256": "585a13fe9bec211f029af7299e00622aab4ecf1f777d7a2cec9968834f500127"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_0.png",
+      "sha256": "d08132764172a76852e29738244dcb4f0d3aa35bd67075743527b307dd3a37f9"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_1.png",
+      "sha256": "e8e27069574fa6440be4a2f6023dc173293e7abe23836597538e34ea1b6283ab"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_baseline.png",
+      "sha256": "4e96fdea6eb478a0b24fb1199d32ed9900053a746c43f3ab0664667220379bfd"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_0.png",
+      "sha256": "6632deaea5eb1cce0910d771e719e732a31fe5b713282c3d897f9ee7da1ab397"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_1.png",
+      "sha256": "2a198f7789ec2590b78ac633bc8577dedc7e0e3dfc8bb277d381b9fa98fedfda"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_baseline.png",
+      "sha256": "66ee4f3a76f5ba8de545cf8b96a812048d3c4b33f532004b5898b8e16844d5de"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIDelivery_0.png",
+      "sha256": "e7d3238e5967617087c078470bdc1fa36e8daf4acc8bcaae3d36757b280db221"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIDelivery_baseline.png",
+      "sha256": "88f355c640627cfa1309ce5d48bac41e0bf51bbfa458201bf0a295e2b26a0883"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIIDelivery_0.png",
+      "sha256": "d3ddfa226c1c226f99a670408799ea4cd1b686f4bc81671c01de70057c581fa0"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIIDelivery_baseline.png",
+      "sha256": "ebacd14a3e0ac5149f2c3cdd0feb9a1cd7cffd740050dfe99e92952c7f72d041"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIDelivery_0.png",
+      "sha256": "29eb5377b97a00dba735a15918c79c6bdd204fd03fc32e9cd3af4cd8827d2751"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIDelivery_baseline.png",
+      "sha256": "3e68a262974246f868e123eded8103c8eb8a2a7222a7928d4274110bd03c4c42"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIIDelivery_0.png",
+      "sha256": "4be15647abafa5c00d6c47bd91eb2728410ed1d5413aa36dcb9c4c4f60172432"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIIDelivery_baseline.png",
+      "sha256": "10b452116b19d31c1c82924a1af105d1e39af2328626b733cbdf6d7da5658d7e"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIIIDelivery_0.png",
+      "sha256": "850544e285c55daef7a5401245531cf3906d4c45d258e8bb1268a0960420e9ec"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_ExploitIIIDelivery_baseline.png",
+      "sha256": "e0a3cc6d9b593b5f8c295e089a5a19fe119d5aa6ac6336e484fc14b05b0e0176"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactMud_0.png",
+      "sha256": "a824b63956ac378e045dc78bbec8111741c8ee4683f871d96639749444f9285b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactMud_baseline.png",
+      "sha256": "7ce488d1ad7705f67aaec23292c2b8e0e3eecdac5a2f136152ca70dfdde65245"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_0.png",
+      "sha256": "850544e285c55daef7a5401245531cf3906d4c45d258e8bb1268a0960420e9ec"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_1.png",
+      "sha256": "4be15647abafa5c00d6c47bd91eb2728410ed1d5413aa36dcb9c4c4f60172432"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_baseline.png",
+      "sha256": "5093ff05cd75665932ef3c18ab4d76ab0d3fab7e9e9a01221bff28360c7266d5"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_0.png",
+      "sha256": "fcd1247462b8a28ac66cce5226525306c5de3d5b0067e4d422b8a0a56bd6bb2e"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_1.png",
+      "sha256": "4be15647abafa5c00d6c47bd91eb2728410ed1d5413aa36dcb9c4c4f60172432"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_baseline.png",
+      "sha256": "33dd6e08888637d2c4138e20a22ec8874cf54929717455de4c29cdd5934e7312"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FullMoonDelivery_0.png",
+      "sha256": "d3d30535fe89b2866f8cbc5912420e38b15497a156df974e6cc39daa88e35ebf"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_FullMoonDelivery_baseline.png",
+      "sha256": "4be15647abafa5c00d6c47bd91eb2728410ed1d5413aa36dcb9c4c4f60172432"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardActive_0.png",
+      "sha256": "28b1929fd6af639c29cdf3bf9ffc008646509b0823db52d73bd84380ff8477c9"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardActive_baseline.png",
+      "sha256": "601f7bbbb2f261644a02a863351d0d4f1887cb6c77eadedcdb8a717d620eff81"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_0.png",
+      "sha256": "a824b63956ac378e045dc78bbec8111741c8ee4683f871d96639749444f9285b"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_1.png",
+      "sha256": "80332dc62c4bcedd6722c88d5964e02f6c0f4166674a8bee27d7437a5af0d299"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_baseline.png",
+      "sha256": "b8b387a1f7c195f760ba373b753bd3fed9058c60bfa86505903c5ab7af3f2d59"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_0.png",
+      "sha256": "6455ba90f0d4e3c35768c9045cc252843ad7f3209dffcfc06dc76752513ea862"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_1.png",
+      "sha256": "80c8f74d1d17577741c391e4edff89ca0c80c05ee82540e0e9f4dc6aee4ccd1c"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_baseline.png",
+      "sha256": "58b54796319899fa34f4dfcd24d84fbbd645ad69325ad6f662a4cd9c93c7bfdb"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_SicknessDelivery_0.png",
+      "sha256": "d3d30535fe89b2866f8cbc5912420e38b15497a156df974e6cc39daa88e35ebf"
+    },
+    {
+      "file": "Saved/RuntimeCaptures/All_SicknessDelivery_baseline.png",
+      "sha256": "3b805cf211e169a0fb7a0f825c63dd62bc4e9a9b9cf247a14024cc55ba6285e0"
+    }
+  ],
+  "replacement": "Direct owning PIE GameViewport readback with particle and viewport metadata",
+  "additional_runs": [
+    {
+      "log": "Saved/Runtime-all-final-20261005.log",
+      "owned_pid": 26464,
+      "process_exit_code": -1,
+      "interrupted_at_utc": "2026-10-05T00:41:52.822317+00:00",
+      "reason": "Visual inspection found empty snapshots in several live phases. Isolating render/pause behavior before changing authored sources. This incomplete run is not accepted."
+    }
+  ],
+  "user_shutdowns": [
+    {
+      "saved_at_utc": "2026-10-05T01:09:28.463424+00:00",
+      "owned_ue_pid": 28588,
+      "owned_ue_stopped": true,
+      "ue_exit_code": -1,
+      "background_running": false,
+      "log": "Saved/Runtime-all-verified-render-20261005.log",
+      "completed_frames": 469,
+      "last_saved_frame": "All_ManaBarrierIRelease_1",
+      "accepted_final_qa": false
+    }
+  ]
+}

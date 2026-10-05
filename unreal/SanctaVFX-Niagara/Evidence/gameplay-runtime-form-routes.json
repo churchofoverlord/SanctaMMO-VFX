@@ -1,0 +1,2878 @@
+{
+  "schema": "sancta-runtime-form-routing/v1",
+  "identity_handoff_sha256": "73bb83aba711fbb6b0ca5b5b4863f9b6201015ad9218103a7b63271c2dcb32e2",
+  "identity_snapshot": {
+    "canonSnapshotSha": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+    "handoffArtifact": "generated/CONTEXTUAL_EXECUTION_FORMS_HANDOFF.json",
+    "handoffArtifactCommit": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+    "handoffDeclaredCanonSourceSha": "d0342374bd5b8b9d5aae305fc0fd60d42e16474d",
+    "skillTreeSha": "6a63c5db4f45328627e26eb72f07d26ed82067cd",
+    "vfxRepoSha": "863e38c10b2c6949bd4cb6facc7d567691370ade",
+    "initialObservedBaseSha": "3f2755de782b4b2f0f399709bc29c78949e48d11"
+  },
+  "routes": [
+    {
+      "form_id": "fighter.granted.cleanse.default",
+      "sources": [
+        {
+          "presentation": "cleanse"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.granted.warrior-stance-tank-stance.warrior",
+      "sources": [
+        {
+          "presentation": "warrior-stance"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Warrior",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.granted.warrior-stance-tank-stance.tank",
+      "sources": [
+        {
+          "presentation": "tank-stance"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Tank",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.granted.rage-bulwark.warrior",
+      "sources": [
+        {
+          "presentation": "rage"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.granted.rage-bulwark.tank",
+      "sources": [
+        {
+          "presentation": "bulwark"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.severing-strike-i.default",
+      "sources": [
+        {
+          "presentation": "severing-strike"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.piercing-strike-i.default",
+      "sources": [
+        {
+          "presentation": "piercing-strike"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.shoulder-rush-i.default",
+      "sources": [
+        {
+          "presentation": "shoulder-rush"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.crushing-blow-i.default",
+      "sources": [
+        {
+          "presentation": "crushing-blow"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.battlecry-i-challenge-i.warrior",
+      "sources": [
+        {
+          "presentation": "battlecry-challenge-i-warrior"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.battlecry-i-challenge-i.tank",
+      "sources": [
+        {
+          "presentation": "battlecry-challenge-i-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.pressure-i-provoke-i.warrior",
+      "sources": [
+        {
+          "presentation": "pressure-provoke"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.pressure-i-provoke-i.tank",
+      "sources": [
+        {
+          "presentation": "pressure-provoke-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.second-wind.default",
+      "sources": [
+        {
+          "presentation": "second-wind"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.severing-strike-ii.default",
+      "sources": [
+        {
+          "presentation": "severing-strike-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.shoulder-rush-ii.warrior",
+      "sources": [
+        {
+          "presentation": "shoulder-rush-ii-warrior"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.shoulder-rush-ii.tank",
+      "sources": [
+        {
+          "presentation": "shoulder-rush-ii-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.crushing-blow-ii.default",
+      "sources": [
+        {
+          "presentation": "crushing-blow-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.chains-i.default",
+      "sources": [
+        {
+          "presentation": "chains"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.war-leap.default",
+      "sources": [
+        {
+          "presentation": "war-leap"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.rally-i.default",
+      "sources": [
+        {
+          "presentation": "rally-i-warrior",
+          "required_stance_snapshot": "Warrior"
+        },
+        {
+          "presentation": "rally-i-tank",
+          "required_stance_snapshot": "Tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.severing-strike-iii.default",
+      "sources": [
+        {
+          "presentation": "severing-strike-iii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.chains-ii.default",
+      "sources": [
+        {
+          "presentation": "chains-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted — bound target",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Forced Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.piercing-strike-ii.warrior",
+      "sources": [
+        {
+          "presentation": "piercing-strike-ii-warrior"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.piercing-strike-ii.tank",
+      "sources": [
+        {
+          "presentation": "piercing-strike-ii-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.defiant-presence.default",
+      "sources": [
+        {
+          "presentation": "defiant-presence"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Defensive State"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.battlecry-challenge-ii.warrior",
+      "sources": [
+        {
+          "presentation": "battlecry-challenge-ii-warrior"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.battlecry-challenge-ii.tank",
+      "sources": [
+        {
+          "presentation": "battlecry-challenge-ii-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.momentum-mastery.default",
+      "sources": [
+        {
+          "presentation": "momentum-mastery"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.rally-ii.warrior",
+      "sources": [
+        {
+          "presentation": "rally-ii-warrior"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Warrior",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "fighter.rally-ii.tank",
+      "sources": [
+        {
+          "presentation": "rally-ii-tank"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Tank",
+        "contextCapture": "activation",
+        "targetType": "Self",
+        "targetRelation": "Self / Party",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.granted.cleanse.default",
+      "sources": [
+        {
+          "presentation": "cleansescout"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.granted.poison-bleed-stance.poison",
+      "sources": [
+        {
+          "presentation": "poison-stance"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Poison",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.granted.poison-bleed-stance.bleed",
+      "sources": [
+        {
+          "presentation": "bleed-stance"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Bleed",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.granted.poison-sac-hemorrhage.poison",
+      "sources": [
+        {
+          "presentation": "poison-sac"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.granted.poison-sac-hemorrhage.bleed",
+      "sources": [
+        {
+          "presentation": "hemorrhage"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.exploit-weakness-i.default",
+      "sources": [
+        {
+          "presentation": "exploit-weakness-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.quickstep-i.default",
+      "sources": [
+        {
+          "presentation": "quickstep-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self / Directional",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.rapid-attack.default",
+      "sources": [
+        {
+          "presentation": "rapid-attack"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.backstab-i.default",
+      "sources": [
+        {
+          "presentation": "backstab"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.torpor.default",
+      "sources": [
+        {
+          "presentation": "torpor"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.blinding-dart.default",
+      "sources": [
+        {
+          "presentation": "blinding-dart"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.volley-i.poison",
+      "sources": [
+        {
+          "presentation": "volley-i-poison"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.volley-i.bleed",
+      "sources": [
+        {
+          "presentation": "volley-i-bleed"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.exploit-weakness-ii.default",
+      "sources": [
+        {
+          "presentation": "exploit-weakness-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.quickstep-ii.default",
+      "sources": [
+        {
+          "presentation": "quickstep-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.long-jump.default",
+      "sources": [
+        {
+          "presentation": "long-jump"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point / Directional",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Self Displacement",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.evasion.default",
+      "sources": [
+        {
+          "presentation": "evasion"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.sand-shot.default",
+      "sources": [
+        {
+          "presentation": "sand-shot"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Melee",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.vine-field-i.default",
+      "sources": [
+        {
+          "presentation": "vine-field-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.backstab-ii.default",
+      "sources": [
+        {
+          "presentation": "backstab-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.smoke-bomb-i.default",
+      "sources": [
+        {
+          "presentation": "smoke-bomb-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.vine-field-ii.default",
+      "sources": [
+        {
+          "presentation": "vine-field-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.volley-ii.poison",
+      "sources": [
+        {
+          "presentation": "volley-ii-poison"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.volley-ii.bleed",
+      "sources": [
+        {
+          "presentation": "volley-ii-bleed"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.poison-sac-hemorrhage-ii.poison",
+      "sources": [
+        {
+          "presentation": "sickness"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Poison",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.poison-sac-hemorrhage-ii.bleed",
+      "sources": [
+        {
+          "presentation": "sickness"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Bleed",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.exploit-weakness-iii.default",
+      "sources": [
+        {
+          "presentation": "exploit-weakness-iii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "scout.smoke-bomb-ii.default",
+      "sources": [
+        {
+          "presentation": "smoke-bomb-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "universal.basic-attack.poison",
+      "sources": [
+        {
+          "presentation": "basic-attack-poison"
+        }
+      ],
+      "kind": "confirmed_result_overlay",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "scout-stance-at-admission",
+        "contextValue": "Poison",
+        "contextCapture": "attack-admission",
+        "targetType": "Weapon-defined",
+        "targetRelation": "Enemy",
+        "travelType": "Weapon-defined",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "universal.basic-attack.bleed",
+      "sources": [
+        {
+          "presentation": "basic-attack-bleed"
+        }
+      ],
+      "kind": "confirmed_result_overlay",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "scout-stance-at-admission",
+        "contextValue": "Bleed",
+        "contextCapture": "attack-admission",
+        "targetType": "Weapon-defined",
+        "targetRelation": "Enemy",
+        "travelType": "Weapon-defined",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.cleanse.default",
+      "sources": [
+        {
+          "presentation": "cleansemage"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.manifest-weave.manifest",
+      "sources": [
+        {
+          "presentation": "manifest"
+        }
+      ],
+      "kind": "stance_state",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.manifest-weave.weave",
+      "sources": [
+        {
+          "presentation": "weave"
+        }
+      ],
+      "kind": "stance_state",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.arcane-shards",
+      "sources": [
+        {
+          "presentation": "arcane-burst"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Arcane Shards",
+        "contextCapture": "admission",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.fire-fire",
+      "sources": [
+        {
+          "presentation": "vortex"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Fire",
+        "contextCapture": "admission",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Line AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.ice-ice",
+      "sources": [
+        {
+          "presentation": "iceberg"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Ice + Ice",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Destructible terrain / AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.lightning-lightning",
+      "sources": [
+        {
+          "presentation": "coil"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Lightning + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Self",
+        "targetRelation": "Self / Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Self Shield + AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.fire-ice",
+      "sources": [
+        {
+          "presentation": "mist"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Ice",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Persistent concealment area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.fire-lightning",
+      "sources": [
+        {
+          "presentation": "laser"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Fire + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Beam",
+        "movementType": "None",
+        "effectType": "Repeated line damage"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.granted.arcane-burst.ice-lightning",
+      "sources": [
+        {
+          "presentation": "tempest"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "Element Memory",
+        "contextValue": "Ice + Lightning",
+        "contextCapture": "admission",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Persistent marked AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.fire-bolt-i.manifest",
+      "sources": [
+        {
+          "presentation": "fire-bolt-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.fire-bolt-i.weave",
+      "sources": [
+        {
+          "presentation": "fire-bolt-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.combust-i.manifest",
+      "sources": [
+        {
+          "presentation": "combust-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.combust-i.weave",
+      "sources": [
+        {
+          "presentation": "combust-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.frost-lance-i.manifest",
+      "sources": [
+        {
+          "presentation": "frost-lance-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.frost-lance-i.weave",
+      "sources": [
+        {
+          "presentation": "frost-lance-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.glacial-spike-i.manifest",
+      "sources": [
+        {
+          "presentation": "glacial-spike-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.glacial-spike-i.weave",
+      "sources": [
+        {
+          "presentation": "glacial-spike-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Directional",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.static-bolt-i.manifest",
+      "sources": [
+        {
+          "presentation": "static-bolt-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.static-bolt-i.weave",
+      "sources": [
+        {
+          "presentation": "static-bolt-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.thunderstrike-i.manifest",
+      "sources": [
+        {
+          "presentation": "thunderstrike-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.thunderstrike-i.weave",
+      "sources": [
+        {
+          "presentation": "thunderstrike-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.blink.default",
+      "sources": [
+        {
+          "presentation": "blink"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Directional / Ground Point",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.fire-bolt-ii.manifest",
+      "sources": [
+        {
+          "presentation": "fire-bolt-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → conditional secondary targets"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.fire-bolt-ii.weave",
+      "sources": [
+        {
+          "presentation": "fire-bolt-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target → conditional secondary targets"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.combust-ii.manifest",
+      "sources": [
+        {
+          "presentation": "combust-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.combust-ii.weave",
+      "sources": [
+        {
+          "presentation": "combust-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.frost-lance-ii.manifest",
+      "sources": [
+        {
+          "presentation": "frost-lance-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.frost-lance-ii.weave",
+      "sources": [
+        {
+          "presentation": "frost-lance-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.glacial-spike-ii.manifest",
+      "sources": [
+        {
+          "presentation": "glacial-spike-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.glacial-spike-ii.weave",
+      "sources": [
+        {
+          "presentation": "glacial-spike-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.thunderstrike-ii.manifest",
+      "sources": [
+        {
+          "presentation": "thunderstrike-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target + conditional AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.thunderstrike-ii.weave",
+      "sources": [
+        {
+          "presentation": "thunderstrike-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target + conditional AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.mana-barrier-i.default",
+      "sources": [
+        {
+          "presentation": "mana-barrier-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.static-bolt-ii.manifest",
+      "sources": [
+        {
+          "presentation": "static-bolt-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Manifest",
+        "contextCapture": "activation",
+        "targetType": "Ground Point → chained targets",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile initial / Instant secondary arcs",
+        "movementType": "None",
+        "effectType": "AoE → chained hits"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.static-bolt-ii.weave",
+      "sources": [
+        {
+          "presentation": "static-bolt-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Weave",
+        "contextCapture": "activation",
+        "targetType": "Ground Point → chained targets",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile initial / Instant secondary arcs",
+        "movementType": "None",
+        "effectType": "AoE → chained hits"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.mana-barrier-ii.default",
+      "sources": [
+        {
+          "presentation": "mana-barrier-ii-overcharge"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.arcane-weaving-i.default",
+      "sources": [
+        {
+          "presentation": "arcane-weaving-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Resource-system modification"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.elemental-weaver-i.default",
+      "sources": [
+        {
+          "presentation": "elemental-weaver-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Depends on Synthesis",
+        "targetRelation": "Depends on Synthesis",
+        "travelType": "Depends on Synthesis",
+        "movementType": "None",
+        "effectType": "Resource-system modification + contextual Skills"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.arcane-weaving-ii.default",
+      "sources": [
+        {
+          "presentation": "arcane-weaving-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Cooldown modification"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.elemental-weaver-ii.default",
+      "sources": [
+        {
+          "presentation": "elemental-weaver-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Depends on Synthesis",
+        "targetRelation": "Depends on Synthesis",
+        "travelType": "Depends on Synthesis",
+        "movementType": "None",
+        "effectType": "Resource-system expansion"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mage.mana-storm.default",
+      "sources": [
+        {
+          "presentation": "mana-storm"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Self",
+        "targetRelation": "Self / Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.granted.cleanse.default",
+      "sources": [
+        {
+          "presentation": "cleansemystic"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Self / Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.granted.sun-moon-stance.sun",
+      "sources": [
+        {
+          "presentation": "sun-stance"
+        }
+      ],
+      "kind": "stance_state",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Sun",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.granted.sun-moon-stance.moon",
+      "sources": [
+        {
+          "presentation": "moon-stance"
+        }
+      ],
+      "kind": "stance_state",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-swap",
+        "contextValue": "Moon",
+        "contextCapture": "state",
+        "targetType": "Self",
+        "targetRelation": "Self",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.granted.bright-star-full-moon.sun",
+      "sources": [
+        {
+          "presentation": "bright-star"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-and-max-resource",
+        "contextValue": "Sun",
+        "contextCapture": "admission",
+        "targetType": "Self / Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant (Bright Star) / Projectile (Full Moon)",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.granted.bright-star-full-moon.moon",
+      "sources": [
+        {
+          "presentation": "full-moon"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance-and-max-resource",
+        "contextValue": "Moon",
+        "contextCapture": "admission",
+        "targetType": "Self / Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant (Bright Star) / Projectile (Full Moon)",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.ether-i.ally",
+      "sources": [
+        {
+          "presentation": "ether-i-ally"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target Heal"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.ether-i.enemy",
+      "sources": [
+        {
+          "presentation": "ether-i-enemy"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target Damage"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-orbit.sun",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-orbit-sun"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Persistent Spirit / conditional AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-orbit.moon",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-orbit-moon"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Persistent Spirit / conditional AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.cosmic-ray-i.default",
+      "sources": [
+        {
+          "presentation": "cosmic-ray-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.connection-i.ally",
+      "sources": [
+        {
+          "presentation": "connection-i-ally"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Tether — Heal"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.connection-i.enemy",
+      "sources": [
+        {
+          "presentation": "connection-i-enemy"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Tether — Damage"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.lullaby-i.default",
+      "sources": [
+        {
+          "presentation": "lullaby"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.sun-aura-moon-aura.sun",
+      "sources": [
+        {
+          "presentation": "astral-aura-sun"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "aura-pulse",
+        "targetType": "Self",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Aura"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.sun-aura-moon-aura.moon",
+      "sources": [
+        {
+          "presentation": "astral-aura-moon"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "aura-pulse",
+        "targetType": "Self",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE / Persistent Aura"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.astral-step.default",
+      "sources": [
+        {
+          "presentation": "astral-step"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Ally / Enemy",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.ether-ii.ally",
+      "sources": [
+        {
+          "presentation": "ether-ii-ally"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Heal + conditional Buffs"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.ether-ii.enemy",
+      "sources": [
+        {
+          "presentation": "ether-ii-enemy"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Damage + conditional Debuffs"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.resurrect.default",
+      "sources": [
+        {
+          "presentation": "resurrect"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Dead Player",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-star.sun",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-star-sun"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-star.moon",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-star-moon"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.cosmic-ray-ii.default",
+      "sources": [
+        {
+          "presentation": "cosmic-ray-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.serenity.default",
+      "sources": [
+        {
+          "presentation": "serenity"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.astral-pull.default",
+      "sources": [
+        {
+          "presentation": "astral-pull"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "Teleport",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-comet.sun",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-comet-sun"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Sun",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.spirit-of-the-comet.moon",
+      "sources": [
+        {
+          "presentation": "spirit-of-the-comet-moon"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "stance",
+        "contextValue": "Moon",
+        "contextCapture": "cast",
+        "targetType": "Targeted",
+        "targetRelation": "Player Group",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Single Target / Persistent Spirit"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.lullaby-ii.default",
+      "sources": [
+        {
+          "presentation": "lullaby-ii-nightmare"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Targeted",
+        "targetRelation": "Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "Single Target"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.black-hole-i.default",
+      "sources": [
+        {
+          "presentation": "black-hole-i"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "Forced Displacement",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.astral-veil.default",
+      "sources": [
+        {
+          "presentation": "astral-veil"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "World Placement",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Barrier / Area"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.eclipse.default",
+      "sources": [
+        {
+          "presentation": "eclipse"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Ground Point",
+        "targetRelation": "Player Group / Enemy",
+        "travelType": "Projectile",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.connection-ii.ally",
+      "sources": [
+        {
+          "presentation": "connection-ii-ally"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Ally",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Ally",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Tether + AoE completion"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.connection-ii.enemy",
+      "sources": [
+        {
+          "presentation": "connection-ii-enemy"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "target-relation",
+        "contextValue": "Enemy",
+        "contextCapture": "activation",
+        "targetType": "Inherited",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "Tether + AoE completion"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    },
+    {
+      "form_id": "mystic.black-hole-ii.default",
+      "sources": [
+        {
+          "presentation": "black-hole-ii"
+        }
+      ],
+      "kind": "execution",
+      "identity_provenance": "757f8441f4b9e58e1c616b20bd0c79270ee68de7",
+      "context_at_admission": {
+        "contextSelector": "always",
+        "contextValue": "default",
+        "contextCapture": "execution",
+        "targetType": "Inherited Ground Point",
+        "targetRelation": "Enemy",
+        "travelType": "Instant",
+        "movementType": "None",
+        "effectType": "AoE"
+      },
+      "mechanics_authority": "Current Canon-Current and scoped decisions cited by gameplay assessment, not old handoff travel/timers."
+    }
+  ],
+  "unresolved": [],
+  "policy": "No FormId rename or synthesis IDs invented. Legacy names remain provenance. Same delivery in Weave; signature/resource results only from authority."
+}

@@ -1,0 +1,134 @@
+{
+  "slug": "LullabyIiNightmareFlight",
+  "title": "LullabyIiNightmareFlight",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.3792999999998141
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.36000001430511475,
+              1.2999999523162842,
+              -0.30000001192092896
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0.009340446442365646,
+              1.149999976158142,
+              -7.800218105316162
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU; vec3 arcAt(vec3 a, vec3 b, float f){ float e = sin(3.14159*f); return mix(a, b, f) + vec3(0., .16*sin(f*18.)*e + .35*e, 0.); }\n    void main(){\n      float u = uTime - aT - 0.10, L = length(aE - aO), tt = .875;\n      if (u < 0. || u > tt){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aE + vec3(0., .05, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.4;   /* no projectile: the eye opens in front of the target */\n      float S = .5*(1. - pow(1. - clamp(u/.225, 0., 1.), 3.))*(1. + .25*smoothstep(tt - .19, tt, u));\n      float c = cos(.12*sin(u*2.)), s = sin(.12*sin(u*2.)); vec2 q = mat2(c, -s, s, c)*position.xy;   // the eye stays level, only a slight rock\n      mv.xy += q*S*1.25*(1. + .12*pow(max(sin(u*6.5), 0.), 10.)); vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    void main(){                                              /* Nightmare: a watching eye - slit pupil, jagged lashes, dripping light */\n      vec2 p = vP; float r = length(p), a = atan(p.y, p.x);\n      float beat = 1. + .7*pow(max(sin(vU*6.5), 0.), 10.);                                  /* heartbeat pulse */\n      float fl = .85 + .15*sin(vU*47.)*sin(vU*31.);                                          /* nervous flicker */\n      float eyeD = max(length(p - vec2(0., -.38)) - .6, length(p - vec2(0., .38)) - .6);\n      float lid = exp(-pow(eyeD/.022, 2.)), fill = smoothstep(.02, -.04, eyeD)*.1;\n      vec2 sp = p*vec2(1., .33); float slitD = length(sp) - .07;                              /* vertical slit pupil */\n      float slit = exp(-pow(slitD/.012, 2.))*smoothstep(.02, -.04, eyeD);\n      float iris = exp(-pow((r - .17)/.035, 2.))*.5*smoothstep(.02, -.04, eyeD);\n      float lash = 0.;\n      for (int i=0;i<9;i++){ float fi = float(i), x0 = -.44 + fi*.11, y0 = .2*(1. - x0*x0/.25) + .02;\n        vec2 dir = normalize(vec2(x0*1.4, 1.)); vec2 q = p - vec2(x0, y0);\n        float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x)), L = .18 + .14*h1(fi) + .05*sin(vU*9. + fi*2.);\n        lash += exp(-across*across/(.00012 + .0006*max(0., 1. - along/L)))*step(0., along)*smoothstep(L, L*.5, along); }\n      float drip = 0.;\n      for (int i=0;i<4;i++){ float fi = float(i), x0 = -.22 + fi*.15, y0 = -.2*(1. - x0*x0/.25);\n        float L = .25 + .3*fract(vU*.6 + h1(fi + 3.)), q = p.x - x0, yy = y0 - p.y;\n        drip += exp(-q*q/.00025)*step(0., yy)*smoothstep(L, L*.3, yy); }\n      float halo = exp(-r*r*3.5)*.25;\n      vec3 o = (uOrange*(lid*1.1 + fill + iris + lash*.9 + drip*.8 + halo) + mix(uGold, vec3(1.), .6)*(slit*1.6 + lid*.35 + lash*.3))*beat*fl*smoothstep(1., .88, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404299999999537
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.5775804404214573,
+            0.8879231178794776,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.06847816983662762,
+            0.3915724777393922,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0.36000001430511475,1.2999999523162842,-0.30000001192092896)",
+        "attributes": {
+          "aT": "ReferenceTime-.3"
+        },
+        "probe_anchor": true
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

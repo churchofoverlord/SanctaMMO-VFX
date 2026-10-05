@@ -1,0 +1,6 @@
+{
+	"passed": true,
+	"default_playback_rate": 1,
+	"catalog_cases": 332,
+	"scope": "PIE runtime viewer: actual HUD control method dispatch, normal startup rate, pause, slow toggle, next phase, repeat and old-component cleanup. Mouse/key delivery remains a user interaction check."
+}

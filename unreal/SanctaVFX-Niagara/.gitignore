@@ -8,3 +8,4 @@
 /VFX-validation-report.json
 __pycache__/
 *.pyc
+/Exports/

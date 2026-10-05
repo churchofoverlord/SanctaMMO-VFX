@@ -1,0 +1,160 @@
+{
+  "slug": "WeaveActive",
+  "title": "WeaveActive",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 3,
+      "cast_time": 0,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aP": {
+          "size": 2,
+          "values": [
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        },
+        "aV": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ],
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec2 vQ; varying float vU, vK; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){ if (aV < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, 0.58, k);\n      vU = u; vK = aP.y < -.5 ? 1. : 0.;\n      if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane\n        float S = .72; vQ = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, 0.95, -position.y*S), 1.); return; }\n      float ang = aP.x + aP.y*3.14159 + uTime*.7;                  // two shards sit opposite each other on the line\n      vec3 c = aO + vec3(cos(ang)*R, 0.95 + .25*(1. - k), sin(ang)*R);\n      vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*vec2(.07, .13);\n      vQ = q; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform float uTime; uniform vec3 uCW; varying vec2 vQ; varying float vU, vK; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);\n      vec3 o;\n      if (vK > .5){\n        // thin orbit line: fine core + narrow soft halo, energy drifting slowly in the shards' direction\n        float r = length(vQ), a = atan(vQ.y, vQ.x), R = mix(.08, 0.58, eox(clamp(vU/.3, 0., 1.)));\n        float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);\n        float line = lineCore(r - R, .004)*.55 + exp(-pow((r - R)/.025, 2.))*.1;\n        o = (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;\n        o *= smoothstep(.72, .66, r);\n      } else {\n        float d = abs(vQ.x) + abs(vQ.y)*.55 - .55;                          // elongated diamond (the icon's crystal)\n        float edge = lineCore(d, .07), fill = .18*smoothstep(.05, -.1, d), facet = .5*lineCore(vQ.x, .05)*smoothstep(0., -.2, d);\n        float halo = exp(-dot(vQ, vQ)*5.)*.12;\n        o = (uCW*(edge*.8 + fill + halo) + mix(uCW, vec3(1., .96, 1.), .6)*facet*.6)*pk*(.85 + .15*sin(uTime*2. + vQ.y));\n        o *= smoothstep(1., .8, length(vQ));                                // reaches zero before the quad edge\n      }\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404499999999725
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aT": "ReferenceTime-.6"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

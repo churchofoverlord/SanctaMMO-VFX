@@ -1,0 +1,2108 @@
+{
+  "schema": "sancta-gameplay-vfx-implementation-checkpoint/v2",
+  "updated_at_utc": "2026-10-05T12:35:38.905717+00:00",
+  "status": "lab_verified_awaiting_user_review",
+  "user_request": "retoma",
+  "objective": "Aplicar a avaliação às skills, básicos das 14 armas e Guard/Dodge/Sprint no laboratório independente.",
+  "compiled": true,
+  "native_event_tests_passed": true,
+  "native_event_cases": 34,
+  "native_basic_routing_passed": true,
+  "basic_cases": 56,
+  "material_definitions_tested": 401,
+  "material_tests_passed": true,
+  "runtime_job_count": 331,
+  "current_native_count": 331,
+  "pending_native_count": 0,
+  "current_native_assets": [
+    {
+      "slug": "ContactPhysical",
+      "source": "Source/GameplayRuntime/ContactPhysical.json",
+      "asset": "/Game/Sancta/VFX/Combat/ContactPhysical/NS_ContactPhysical_65ffffcd",
+      "asset_sha256": "acce9690016701560af81af3d2ed59cba973c7a2c4d2f6697a9c14cbc5279820"
+    },
+    {
+      "slug": "ContactMagical",
+      "source": "Source/GameplayRuntime/ContactMagical.json",
+      "asset": "/Game/Sancta/VFX/Combat/ContactMagical/NS_ContactMagical_5d0ed7fd",
+      "asset_sha256": "f8ff8979612d43cc25d16b9bb294378decefb07e1b1254370a5edf827f2f31cd"
+    },
+    {
+      "slug": "BasicSwordPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicSwordPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicSwordPhysicalTrail/NS_BasicSwordPhysicalTrail_2f3d1a24",
+      "asset_sha256": "d7d4144768385a314ed055b1f46b502da23aaa569e4398168b4918f9b5ab1053"
+    },
+    {
+      "slug": "BasicSwordMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicSwordMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicSwordMagicalTrail/NS_BasicSwordMagicalTrail_d2246b11",
+      "asset_sha256": "e1bbf0627273b2ab593bece9cc54cdc806f5bcb975fb3e4be1f5369ae672b1d3"
+    },
+    {
+      "slug": "BasicAxePhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicAxePhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicAxePhysicalTrail/NS_BasicAxePhysicalTrail_2bd138df",
+      "asset_sha256": "626b44860c23beb0ede882c82916958d38c571bd296f86c486a0cbeb1c46157c"
+    },
+    {
+      "slug": "BasicAxeMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicAxeMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicAxeMagicalTrail/NS_BasicAxeMagicalTrail_15267b0a",
+      "asset_sha256": "1813894e999e62f130e5aa8d62bcb765ba8ef1796233a09478f1d12dac56a4e4"
+    },
+    {
+      "slug": "BasicClubPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicClubPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicClubPhysicalTrail/NS_BasicClubPhysicalTrail_a78cc7bb",
+      "asset_sha256": "098705217d8ccd849397dff78451cf23426aa44e8e9713aec5d1a61d722b189c"
+    },
+    {
+      "slug": "BasicClubMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicClubMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicClubMagicalTrail/NS_BasicClubMagicalTrail_6fe7a3ba",
+      "asset_sha256": "375b333d367ab8c42903cf9dc6a23ea031043b7da7e56df496696a91bae81bc4"
+    },
+    {
+      "slug": "BasicWandPhysicalFlight",
+      "source": "Source/GameplayRuntime/BasicWandPhysicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicWandPhysicalFlight/NS_BasicWandPhysicalFlight_9e9f27e0",
+      "asset_sha256": "18a98c2aef99cb69975e4e43ee8b75cddcad5bc4e297fbb79220040bca46ccc9"
+    },
+    {
+      "slug": "BasicWandPhysicalRelease",
+      "source": "Source/GameplayRuntime/BasicWandPhysicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicWandPhysicalRelease/NS_BasicWandPhysicalRelease_743a80f7",
+      "asset_sha256": "6fe566d33cdef2448073c7974e24a951ae1d11005475a5ec2cd029ae57ff7bb8"
+    },
+    {
+      "slug": "BasicWandMagicalFlight",
+      "source": "Source/GameplayRuntime/BasicWandMagicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicWandMagicalFlight/NS_BasicWandMagicalFlight_960bbb55",
+      "asset_sha256": "654b7a1e9677d1380c3ddba4e0a38c08a26e174152f1ae06af5d9d9ed25af932"
+    },
+    {
+      "slug": "BasicWandMagicalRelease",
+      "source": "Source/GameplayRuntime/BasicWandMagicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicWandMagicalRelease/NS_BasicWandMagicalRelease_358d2380",
+      "asset_sha256": "bcc185edc8cf0e8e2af2c7a522fe03d6ab981c95f5bcc85af87521f1ec851d53"
+    },
+    {
+      "slug": "BasicRapierPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicRapierPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicRapierPhysicalTrail/NS_BasicRapierPhysicalTrail_9f94c3ce",
+      "asset_sha256": "ac6182373becb554035106421d637c3fcc8f42a3bc8de3a7b2e8403af338adc8"
+    },
+    {
+      "slug": "BasicRapierMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicRapierMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicRapierMagicalTrail/NS_BasicRapierMagicalTrail_aaceb3a2",
+      "asset_sha256": "29d2638598d7ff720e4067e104b2749de61fa6d1cebf1cc7ce4c5fc8552245e5"
+    },
+    {
+      "slug": "BasicDualDaggersPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicDualDaggersPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicDualDaggersPhysicalTrail/NS_BasicDualDaggersPhysicalTrail_322cdf9c",
+      "asset_sha256": "11bb2c6da0bc42e0aa38b80e8a7b337352e94043d62ffe5cdc8d68471cee87c8"
+    },
+    {
+      "slug": "BasicDualDaggersMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicDualDaggersMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicDualDaggersMagicalTrail/NS_BasicDualDaggersMagicalTrail_0b2f5fe9",
+      "asset_sha256": "36b8634fb92609e75c0455e93c6f397130efb9ce2dbd0e02f4a999304fe373d1"
+    },
+    {
+      "slug": "BasicFistsGauntletsPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicFistsGauntletsPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicFistsGauntletsPhysicalTrail/NS_BasicFistsGauntletsPhysicalTrail_c0d306b9",
+      "asset_sha256": "f3346ac849e4245ee26a3a3548d67e64d8e4920def09e8daff7d8066f58904b7"
+    },
+    {
+      "slug": "BasicFistsGauntletsMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicFistsGauntletsMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicFistsGauntletsMagicalTrail/NS_BasicFistsGauntletsMagicalTrail_5550ad9c",
+      "asset_sha256": "bb88c51ef95b52d1f2aff9ecea6122328c41f272b2202aa5cca764826b7bf9f4"
+    },
+    {
+      "slug": "BasicGreatClubPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreatClubPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreatClubPhysicalTrail/NS_BasicGreatClubPhysicalTrail_2d370428",
+      "asset_sha256": "884ca26cca531af68226a6a205f8c16b3a9d410eaf0902ade1b9f5fa6cbce2c2"
+    },
+    {
+      "slug": "BasicGreatClubMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreatClubMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreatClubMagicalTrail/NS_BasicGreatClubMagicalTrail_1b5c9520",
+      "asset_sha256": "3f7fb23e7a6cf37894c133bf6936b9a9a40a2681a541e4399f6ef97d3ac951c9"
+    },
+    {
+      "slug": "BasicStaffPhysicalFlight",
+      "source": "Source/GameplayRuntime/BasicStaffPhysicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicStaffPhysicalFlight/NS_BasicStaffPhysicalFlight_139a4b48",
+      "asset_sha256": "6ef845a95f92496b00b8e3bde5ef6acb561cf79eb2516561921b489177172b88"
+    },
+    {
+      "slug": "BasicStaffPhysicalRelease",
+      "source": "Source/GameplayRuntime/BasicStaffPhysicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicStaffPhysicalRelease/NS_BasicStaffPhysicalRelease_4143e845",
+      "asset_sha256": "740b66db3e4ce3f5f34f2955842a8dbfb750f8ff13673f01d0320c98364b3a52"
+    },
+    {
+      "slug": "BasicStaffMagicalFlight",
+      "source": "Source/GameplayRuntime/BasicStaffMagicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicStaffMagicalFlight/NS_BasicStaffMagicalFlight_a324fba1",
+      "asset_sha256": "45f83ece6fd4b5a6e18839a6b329ca886c3644f4bb38549303174e8c8cc4694d"
+    },
+    {
+      "slug": "BasicStaffMagicalRelease",
+      "source": "Source/GameplayRuntime/BasicStaffMagicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicStaffMagicalRelease/NS_BasicStaffMagicalRelease_8f40f232",
+      "asset_sha256": "e51b2b4c3bc57f0b8a5d7bc69cedf910c3e731413e649247a629ffa73ef6bdd4"
+    },
+    {
+      "slug": "BasicCrossbowPhysicalFlight",
+      "source": "Source/GameplayRuntime/BasicCrossbowPhysicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicCrossbowPhysicalFlight/NS_BasicCrossbowPhysicalFlight_980bb501",
+      "asset_sha256": "23015791206a9c5779c9e0b061ea0b731b0e3ad5c06b47d4d7acd494fd10b376"
+    },
+    {
+      "slug": "BasicCrossbowPhysicalRelease",
+      "source": "Source/GameplayRuntime/BasicCrossbowPhysicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicCrossbowPhysicalRelease/NS_BasicCrossbowPhysicalRelease_3c387f5a",
+      "asset_sha256": "20900ec3a1cba026b0cda114d3aead8874bf71f70bf670f2dff0ae175175e8a7"
+    },
+    {
+      "slug": "BasicCrossbowMagicalFlight",
+      "source": "Source/GameplayRuntime/BasicCrossbowMagicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicCrossbowMagicalFlight/NS_BasicCrossbowMagicalFlight_24eb7b50",
+      "asset_sha256": "c86375f16b39353db9f054e18fff13c1c5b7acdc7dd1c3024a1f80c0b5f5bf8d"
+    },
+    {
+      "slug": "BasicCrossbowMagicalRelease",
+      "source": "Source/GameplayRuntime/BasicCrossbowMagicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicCrossbowMagicalRelease/NS_BasicCrossbowMagicalRelease_66d21926",
+      "asset_sha256": "04d07b1c8993081068d4a8d06f39276622b90a207c253b822f184dc63ae0a003"
+    },
+    {
+      "slug": "BasicGreatswordPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreatswordPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreatswordPhysicalTrail/NS_BasicGreatswordPhysicalTrail_ccabdb03",
+      "asset_sha256": "03f82f0400a3fc2c217d284da3475d39c9438c097a4ba0e009ac0cc2368d8115"
+    },
+    {
+      "slug": "BasicGreatswordMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreatswordMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreatswordMagicalTrail/NS_BasicGreatswordMagicalTrail_6873a11c",
+      "asset_sha256": "e4f7393e8b94d7341c3159538a10fb5c2784603b8e50e7a87665b4c92d89d652"
+    },
+    {
+      "slug": "BasicGreataxePhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreataxePhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreataxePhysicalTrail/NS_BasicGreataxePhysicalTrail_d7c89915",
+      "asset_sha256": "0f4557df008d09e1944a91ca5aff5b3107fd038b3bb267e5643a1c1df6fac5b4"
+    },
+    {
+      "slug": "BasicGreataxeMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicGreataxeMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicGreataxeMagicalTrail/NS_BasicGreataxeMagicalTrail_62a18b57",
+      "asset_sha256": "45e453c8b35fcfecc2682fc70dd6c6f34792969e841b12a21b0b1ea03afcd297"
+    },
+    {
+      "slug": "BasicBowPhysicalFlight",
+      "source": "Source/GameplayRuntime/BasicBowPhysicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicBowPhysicalFlight/NS_BasicBowPhysicalFlight_d5b0aca8",
+      "asset_sha256": "d8469678871f39828a80949be158b0a365c4c4fe6552cf392fc15941d8aa515d"
+    },
+    {
+      "slug": "BasicBowPhysicalRelease",
+      "source": "Source/GameplayRuntime/BasicBowPhysicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicBowPhysicalRelease/NS_BasicBowPhysicalRelease_43f20cf0",
+      "asset_sha256": "6269026f10ca591348df3f722f74613fc057b53abb6ad0203b5281144544f370"
+    },
+    {
+      "slug": "BasicBowMagicalFlight",
+      "source": "Source/GameplayRuntime/BasicBowMagicalFlight.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicBowMagicalFlight/NS_BasicBowMagicalFlight_2eb3c4b5",
+      "asset_sha256": "83c0e13fbd811926d68d49e234fa01799309ba1e0ee2397c086fbfa6de349677"
+    },
+    {
+      "slug": "BasicBowMagicalRelease",
+      "source": "Source/GameplayRuntime/BasicBowMagicalRelease.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicBowMagicalRelease/NS_BasicBowMagicalRelease_2ec2aa19",
+      "asset_sha256": "606a16a5e4e0c271af4c3336acb052449d7df9bdca9f2dc0a7d8a48f433d9952"
+    },
+    {
+      "slug": "BasicSpearPhysicalTrail",
+      "source": "Source/GameplayRuntime/BasicSpearPhysicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicSpearPhysicalTrail/NS_BasicSpearPhysicalTrail_28cb9764",
+      "asset_sha256": "4616e56dbebf8e86ff33dac5e1b3e365534ad03f60038eec278dcb7254e6ccba"
+    },
+    {
+      "slug": "BasicSpearMagicalTrail",
+      "source": "Source/GameplayRuntime/BasicSpearMagicalTrail.json",
+      "asset": "/Game/Sancta/VFX/Combat/BasicSpearMagicalTrail/NS_BasicSpearMagicalTrail_ea34ef6c",
+      "asset_sha256": "8cedd274419af70fff01c9066f02ba1539137ed4bb659eb0b68fa389b35f456a"
+    },
+    {
+      "slug": "ExploitIDelivery",
+      "source": "Source/GameplayRuntime/ExploitIDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitIDelivery/NS_ExploitIDelivery_f852218d",
+      "asset_sha256": "8aac1746465f921e81999b3213711b575288f780cebbce86c140e3daeae6e867"
+    },
+    {
+      "slug": "ExploitIIDelivery",
+      "source": "Source/GameplayRuntime/ExploitIIDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitIIDelivery/NS_ExploitIIDelivery_82fd3704",
+      "asset_sha256": "2b7d8340d33b1f3310b4d0d13fec611a163a7c631a856c036f2eea0bd7a5f1ed"
+    },
+    {
+      "slug": "ExploitIIIDelivery",
+      "source": "Source/GameplayRuntime/ExploitIIIDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitIIIDelivery/NS_ExploitIIIDelivery_d763b064",
+      "asset_sha256": "cd33a1731806889a3007677e4ea6175804619fe9769a00ce67ffc7fdf3287eb5"
+    },
+    {
+      "slug": "FullMoonDelivery",
+      "source": "Source/GameplayRuntime/FullMoonDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/FullMoonDelivery/NS_FullMoonDelivery_9c99cade",
+      "asset_sha256": "0c4ad18a6eb8c03b1cb37f57b0d5bcb331a88ad4100f00705831ce60d275678a"
+    },
+    {
+      "slug": "CosmicRayIDelivery",
+      "source": "Source/GameplayRuntime/CosmicRayIDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIDelivery/NS_CosmicRayIDelivery_2b491417",
+      "asset_sha256": "c8191543fb4cd51a554876367b35ce5783f09789613451cd43134e928cd1f440"
+    },
+    {
+      "slug": "CosmicRayIIDelivery",
+      "source": "Source/GameplayRuntime/CosmicRayIIDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIIDelivery/NS_CosmicRayIIDelivery_de936cbf",
+      "asset_sha256": "e8a6fe6b8ced93bb7e6f374f71c46cc561ad7c55ecf1f5676b385b6dc23bb874"
+    },
+    {
+      "slug": "SicknessDelivery",
+      "source": "Source/GameplayRuntime/SicknessDelivery.json",
+      "asset": "/Game/Sancta/VFX/Skills/SicknessDelivery/NS_SicknessDelivery_fd9a86a3",
+      "asset_sha256": "e7f2cea1cc08ae68b521d340718f77d69eddbb6bde41738d3705556309d2bd70"
+    },
+    {
+      "slug": "CCDisarmActive",
+      "source": "Source/GameplayRuntime/CCDisarmActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCDisarmActive/NS_CCDisarmActive_fe97004c",
+      "asset_sha256": "fcc5c5f5f65a4844a9b17c2bd2d3ab9db7b49cd04e9bfcf068d39cc84b16ed77"
+    },
+    {
+      "slug": "CCDisarmApply",
+      "source": "Source/GameplayRuntime/CCDisarmApply.json",
+      "asset": "/Game/Sancta/VFX/Status/CCDisarmApply/NS_CCDisarmApply_af758b49",
+      "asset_sha256": "234db9a7ee144d75d698f7b8d1498680effaba44356651561212c3eab5264e6e"
+    },
+    {
+      "slug": "CCDisarmNaturalEnd",
+      "source": "Source/GameplayRuntime/CCDisarmNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCDisarmNaturalEnd/NS_CCDisarmNaturalEnd_96d89d7d",
+      "asset_sha256": "13388ff423d7beb3f0cea2cae452fcf6ffcd435d4f21281b0b63c8e378b3caee"
+    },
+    {
+      "slug": "CCDisarmCleanse",
+      "source": "Source/GameplayRuntime/CCDisarmCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCDisarmCleanse/NS_CCDisarmCleanse_8127e624",
+      "asset_sha256": "512c536c39f74ed795ea1ede603b86424dc71735670b2951f3edb80b254b0455"
+    },
+    {
+      "slug": "GuardActive",
+      "source": "Source/GameplayRuntime/GuardActive.json",
+      "asset": "/Game/Sancta/VFX/Combat/GuardActive/NS_GuardActive_002b6066",
+      "asset_sha256": "eabb6db4ff2f8e72758b84c0e2e3ccd6a1bc33c58e182dca17a824851591f076"
+    },
+    {
+      "slug": "GuardMitigation",
+      "source": "Source/GameplayRuntime/GuardMitigation.json",
+      "asset": "/Game/Sancta/VFX/Combat/GuardMitigation/NS_GuardMitigation_49efe8e3",
+      "asset_sha256": "4d892006aeafd6a58f75798ae34436ff7079580bfaec8c971a9e545fa21e717b"
+    },
+    {
+      "slug": "GuardDepletion",
+      "source": "Source/GameplayRuntime/GuardDepletion.json",
+      "asset": "/Game/Sancta/VFX/Combat/GuardDepletion/NS_GuardDepletion_217571cb",
+      "asset_sha256": "176572107370774567c188703d1e613e9f6e825fac9893863e383e89073831ed"
+    },
+    {
+      "slug": "FootContactStone",
+      "source": "Source/GameplayRuntime/FootContactStone.json",
+      "asset": "/Game/Sancta/VFX/Combat/FootContactStone/NS_FootContactStone_2979354c",
+      "asset_sha256": "0353c772bb2984f3aa865b0e2624996bf0ed61dc06931390a790c2356079ead9"
+    },
+    {
+      "slug": "FootContactSnow",
+      "source": "Source/GameplayRuntime/FootContactSnow.json",
+      "asset": "/Game/Sancta/VFX/Combat/FootContactSnow/NS_FootContactSnow_2bd9bbab",
+      "asset_sha256": "71f3d6d7506fa1b08a17dcd1741619b5421df01a7a573f29ef53031db0c8ab06"
+    },
+    {
+      "slug": "FootContactMud",
+      "source": "Source/GameplayRuntime/FootContactMud.json",
+      "asset": "/Game/Sancta/VFX/Combat/FootContactMud/NS_FootContactMud_c8e79597",
+      "asset_sha256": "a93515c0477f9e564c2d59345b0c61a8a43fba12f913e7cd3abdde3b20398108"
+    },
+    {
+      "slug": "FootContactWater",
+      "source": "Source/GameplayRuntime/FootContactWater.json",
+      "asset": "/Game/Sancta/VFX/Combat/FootContactWater/NS_FootContactWater_f04bc68f",
+      "asset_sha256": "27ae74d37294ba0d986ce24372b66a4c18f314301f0ffdd421017befdbf8cc9c"
+    },
+    {
+      "slug": "DodgeStart",
+      "source": "Source/GameplayRuntime/DodgeStart.json",
+      "asset": "/Game/Sancta/VFX/Combat/DodgeStart/NS_DodgeStart_aa0d783c",
+      "asset_sha256": "18b0bbf0cc7ac1363a76a7492ff0e0f2ed7ae2498f5e287df638fedb03a966d2"
+    },
+    {
+      "slug": "DodgeAvoided",
+      "source": "Source/GameplayRuntime/DodgeAvoided.json",
+      "asset": "/Game/Sancta/VFX/Combat/DodgeAvoided/NS_DodgeAvoided_8cb9c1ce",
+      "asset_sha256": "2c9613d1fa32d1fe3107cc3eba4334d728823dad32ed03cb9ddbd93d5fb8dc89"
+    },
+    {
+      "slug": "CCStunActive",
+      "source": "Source/GameplayRuntime/CCStunActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCStunActive/NS_CCStunActive_1b69fba6",
+      "asset_sha256": "a01ae348790ad38c5e7f3435ae29fa0841a39841a2397f458cd13457ec45d831"
+    },
+    {
+      "slug": "CCStunNaturalEnd",
+      "source": "Source/GameplayRuntime/CCStunNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCStunNaturalEnd/NS_CCStunNaturalEnd_05562b32",
+      "asset_sha256": "7ba8baa60d0b95af729b6f68172a6fd99a402a5340d7ea1e6df9422e8b5171ec"
+    },
+    {
+      "slug": "CCStunCleanse",
+      "source": "Source/GameplayRuntime/CCStunCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCStunCleanse/NS_CCStunCleanse_bb48813b",
+      "asset_sha256": "24cef2831379d5262d11172d291a8825920698747c679d4f292823b9f690faa9"
+    },
+    {
+      "slug": "CCSleepActive",
+      "source": "Source/GameplayRuntime/CCSleepActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSleepActive/NS_CCSleepActive_f8349141",
+      "asset_sha256": "ccd58b0f729f71a4553a4c71ce286b430d21f786e7ee2d9eb31aebb948e8bfdb"
+    },
+    {
+      "slug": "CCSleepNaturalEnd",
+      "source": "Source/GameplayRuntime/CCSleepNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSleepNaturalEnd/NS_CCSleepNaturalEnd_7209943f",
+      "asset_sha256": "f4b89f9a43e77a759bd380ddea1dd2f940f1fbaa6db0cf35f1b80b5340ff8fd3"
+    },
+    {
+      "slug": "CCSleepCleanse",
+      "source": "Source/GameplayRuntime/CCSleepCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSleepCleanse/NS_CCSleepCleanse_df3daf32",
+      "asset_sha256": "764cddcb34c72ff4237d2756d3438d5268d97898eccc4572e72707b623abd983"
+    },
+    {
+      "slug": "CCSilenceActive",
+      "source": "Source/GameplayRuntime/CCSilenceActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSilenceActive/NS_CCSilenceActive_daa9235b",
+      "asset_sha256": "b6007966e2fad7d258e8a85fd7361338cdacef3bd5c90caf2975952f5b20e947"
+    },
+    {
+      "slug": "CCSilenceNaturalEnd",
+      "source": "Source/GameplayRuntime/CCSilenceNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSilenceNaturalEnd/NS_CCSilenceNaturalEnd_ea4bccb8",
+      "asset_sha256": "ae6ab7ef2d2fb2429d42fd3fb82c190f6ed1bb5b2a103856baa9945618e76830"
+    },
+    {
+      "slug": "CCSilenceCleanse",
+      "source": "Source/GameplayRuntime/CCSilenceCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCSilenceCleanse/NS_CCSilenceCleanse_fd87ee6a",
+      "asset_sha256": "8e21065ce305b3489b1e116c32158e0277b22c8d9610edae2418012212855e25"
+    },
+    {
+      "slug": "CCTauntActive",
+      "source": "Source/GameplayRuntime/CCTauntActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCTauntActive/NS_CCTauntActive_0ac0c156",
+      "asset_sha256": "a0849af1a5e02b8ef8f10e9e40396f140dfe2282ac8d6a958902f092f7ebab12"
+    },
+    {
+      "slug": "CCTauntNaturalEnd",
+      "source": "Source/GameplayRuntime/CCTauntNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCTauntNaturalEnd/NS_CCTauntNaturalEnd_9f001604",
+      "asset_sha256": "4b04d7fc9e8ba7d1c847ff20afe17542047d1960be3514767616c400928fc868"
+    },
+    {
+      "slug": "CCTauntCleanse",
+      "source": "Source/GameplayRuntime/CCTauntCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCTauntCleanse/NS_CCTauntCleanse_33ffc781",
+      "asset_sha256": "4fc892a6e3cc38bc032f5c8d8b7b20f352accb74698e1f568aa604ed276a6f66"
+    },
+    {
+      "slug": "CCFearActive",
+      "source": "Source/GameplayRuntime/CCFearActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCFearActive/NS_CCFearActive_d31ac1e6",
+      "asset_sha256": "d8485a67dd7b5c8f16a3ebf6b75ee0fa61d487a2145b5bca24b414895ffa27f6"
+    },
+    {
+      "slug": "CCFearNaturalEnd",
+      "source": "Source/GameplayRuntime/CCFearNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCFearNaturalEnd/NS_CCFearNaturalEnd_163f2d7e",
+      "asset_sha256": "1e64b308823f8a42e38bc50ed7cedf20aa2e24455d9246add9befa170855c51b"
+    },
+    {
+      "slug": "CCFearCleanse",
+      "source": "Source/GameplayRuntime/CCFearCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCFearCleanse/NS_CCFearCleanse_156b49fd",
+      "asset_sha256": "244cca672e82dc55754953270f07b6ff9cf89563a4f73f5e731faad612a70e70"
+    },
+    {
+      "slug": "CCRootActive",
+      "source": "Source/GameplayRuntime/CCRootActive.json",
+      "asset": "/Game/Sancta/VFX/Status/CCRootActive/NS_CCRootActive_297783dc",
+      "asset_sha256": "045f267c8667c84e73e3e8757558525593088f39aab2717e0c1eb9ac4d9f208f"
+    },
+    {
+      "slug": "CCRootNaturalEnd",
+      "source": "Source/GameplayRuntime/CCRootNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Status/CCRootNaturalEnd/NS_CCRootNaturalEnd_f57ef119",
+      "asset_sha256": "d57c0009bc9d0db88fc2923c60b2a998807ff305e90dd3ef83117c590503470b"
+    },
+    {
+      "slug": "CCRootCleanse",
+      "source": "Source/GameplayRuntime/CCRootCleanse.json",
+      "asset": "/Game/Sancta/VFX/Status/CCRootCleanse/NS_CCRootCleanse_9095e255",
+      "asset_sha256": "91b0002631d2d71a1ce273a2bfe792c08d2c15f74e21598ff34ed8208069d169"
+    },
+    {
+      "slug": "CCTauntApply",
+      "source": "Source/GameplayRuntime/CCTauntApply.json",
+      "asset": "/Game/Sancta/VFX/Status/CCTauntApply/NS_CCTauntApply_efadec8a",
+      "asset_sha256": "06846b28bde7e07922f3808ad802a6774f414673e39a57a346569b02fec8fafd"
+    },
+    {
+      "slug": "CCForcedPush",
+      "source": "Source/GameplayRuntime/CCForcedPush.json",
+      "asset": "/Game/Sancta/VFX/Status/CCForcedPush/NS_CCForcedPush_b0a9e703",
+      "asset_sha256": "8a7876490d5f6a497da1ef3460d58baae430cb4a9352fd6406eb8ee4b5b48531"
+    },
+    {
+      "slug": "CCForcedPull",
+      "source": "Source/GameplayRuntime/CCForcedPull.json",
+      "asset": "/Game/Sancta/VFX/Status/CCForcedPull/NS_CCForcedPull_5a9f26dc",
+      "asset_sha256": "79268da8a8f88b5c4552ccb98fd4a125677a2285e4687167320177a89a1ce57e"
+    },
+    {
+      "slug": "CCForcedSlowPull",
+      "source": "Source/GameplayRuntime/CCForcedSlowPull.json",
+      "asset": "/Game/Sancta/VFX/Status/CCForcedSlowPull/NS_CCForcedSlowPull_2f56436e",
+      "asset_sha256": "845cda34869f867b8c9d79acedf031c8b9f333a75af5b8d06d5015188c577eb9"
+    },
+    {
+      "slug": "SeveringMark1",
+      "source": "Source/GameplayRuntime/SeveringMark1.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringMark1/NS_SeveringMark1_561ed0e3",
+      "asset_sha256": "c8c7dbd424851be693a959c1f58c7f817e08309f691f40aebdbbb25c14eb694a"
+    },
+    {
+      "slug": "SeveringMark2",
+      "source": "Source/GameplayRuntime/SeveringMark2.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringMark2/NS_SeveringMark2_20666fec",
+      "asset_sha256": "653cda71405311963923e030cd340f15b38cffde59c443370ca12615a924a453"
+    },
+    {
+      "slug": "SeveringMark3",
+      "source": "Source/GameplayRuntime/SeveringMark3.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringMark3/NS_SeveringMark3_5fa21951",
+      "asset_sha256": "ad1df46a366ebde15e3e3845e71d633769566e0cc69aa408de68913b5145104e"
+    },
+    {
+      "slug": "SeveringCastI",
+      "source": "Source/GameplayRuntime/SeveringCastI.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringCastI/NS_SeveringCastI_ebcbf692",
+      "asset_sha256": "a2ca8877438fbc75489793a0fda7b9743dc2ba13ed6e25e1b034ae76c8d702b2"
+    },
+    {
+      "slug": "SeveringCastII",
+      "source": "Source/GameplayRuntime/SeveringCastII.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringCastII/NS_SeveringCastII_31895533",
+      "asset_sha256": "3aa2002fb896477265f6edb6718e375423f6f7fff4c2e855aa125af6ac63efe6"
+    },
+    {
+      "slug": "SeveringCastIII",
+      "source": "Source/GameplayRuntime/SeveringCastIII.json",
+      "asset": "/Game/Sancta/VFX/Skills/SeveringCastIII/NS_SeveringCastIII_99c67a09",
+      "asset_sha256": "28f9adb69dedf58530a5f3d1e9fe80a8474b3eb3e963c2b7aa3b5032a3a86ff5"
+    },
+    {
+      "slug": "FireBoltIFlight",
+      "source": "Source/GameplayRuntime/FireBoltIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/FireBoltIFlight/NS_FireBoltIFlight_74e2b815",
+      "asset_sha256": "6ea1e5f9562bf15511dd7298134702dfcea6ba5b6cc77f46cee198fdb4f47e1a"
+    },
+    {
+      "slug": "FireBoltIImpact",
+      "source": "Source/GameplayRuntime/FireBoltIImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/FireBoltIImpact/NS_FireBoltIImpact_46a71d8a",
+      "asset_sha256": "5b45ecdd250abbec7052781efb536280f680805a84a4638bdfdb93e48c3e5540"
+    },
+    {
+      "slug": "FireBoltIIFlight",
+      "source": "Source/GameplayRuntime/FireBoltIIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/FireBoltIIFlight/NS_FireBoltIIFlight_8c260fe1",
+      "asset_sha256": "1f989928bda22d698ddc00f4b56f788906be0eae54abe2475dce57161ec364ad"
+    },
+    {
+      "slug": "FireBoltIIImpact",
+      "source": "Source/GameplayRuntime/FireBoltIIImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/FireBoltIIImpact/NS_FireBoltIIImpact_475afd6d",
+      "asset_sha256": "d6be7c3cc90d57776b906a94c18e606c0d5d0b526e2b699558a9cd65f65042ec"
+    },
+    {
+      "slug": "VolleyIBleedFlight",
+      "source": "Source/GameplayRuntime/VolleyIBleedFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIBleedFlight/NS_VolleyIBleedFlight_c3a7811a",
+      "asset_sha256": "a25e23dc3e6f098dcd9aa3a707fa425e4ce2945f31076130446df2f5637f28bd"
+    },
+    {
+      "slug": "VolleyIBleedHit",
+      "source": "Source/GameplayRuntime/VolleyIBleedHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIBleedHit/NS_VolleyIBleedHit_703545ab",
+      "asset_sha256": "5abb1c0c1555b68f7bd2cc652ea3f62e7271b6786e62ce51d370d9467a5e1336"
+    },
+    {
+      "slug": "VolleyIPoisonFlight",
+      "source": "Source/GameplayRuntime/VolleyIPoisonFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIPoisonFlight/NS_VolleyIPoisonFlight_3fc89b33",
+      "asset_sha256": "359a027fdbd772cd50997baaceac41c9a57998d450c378fed85885243616f6a9"
+    },
+    {
+      "slug": "VolleyIPoisonHit",
+      "source": "Source/GameplayRuntime/VolleyIPoisonHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIPoisonHit/NS_VolleyIPoisonHit_9e3a6149",
+      "asset_sha256": "114a60215b9350128d854f165739c7afcdee842aca1e777a3d7a6078781f7168"
+    },
+    {
+      "slug": "VolleyIIBleedFanFlight",
+      "source": "Source/GameplayRuntime/VolleyIIBleedFanFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIBleedFanFlight/NS_VolleyIIBleedFanFlight_32b0d59a",
+      "asset_sha256": "306d61eb6ca69b1c34ee98aaff2ac90947576cc8ff62d3ddc2299a20b7f70355"
+    },
+    {
+      "slug": "VolleyIIBleedHit",
+      "source": "Source/GameplayRuntime/VolleyIIBleedHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIBleedHit/NS_VolleyIIBleedHit_ddf113b2",
+      "asset_sha256": "ce78842b9f109732300e12f22e4bb5a7f9eece31cf4602fd0e3be71828d0156d"
+    },
+    {
+      "slug": "VolleyIIBleedPiercingFlight",
+      "source": "Source/GameplayRuntime/VolleyIIBleedPiercingFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIBleedPiercingFlight/NS_VolleyIIBleedPiercingFlight_180c566a",
+      "asset_sha256": "af64b2fcedb3e4161a049d8baa5c2fb5c83073d7e636ad84a5628980b156fefc"
+    },
+    {
+      "slug": "VolleyIIBleedAim",
+      "source": "Source/GameplayRuntime/VolleyIIBleedAim.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIBleedAim/NS_VolleyIIBleedAim_88833116",
+      "asset_sha256": "d117ef6f7eb11fa89547eae56ae6ed8ddbb9dc3ae7ea7dc2dc108b7ec9dda69f"
+    },
+    {
+      "slug": "VolleyIIBleedAimEnd",
+      "source": "Source/GameplayRuntime/VolleyIIBleedAimEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIBleedAimEnd/NS_VolleyIIBleedAimEnd_869264c8",
+      "asset_sha256": "3bea96a6597ca57d5605fac41148017c78911aa6918be0644d9cf39393825d8a"
+    },
+    {
+      "slug": "VolleyIIPoisonFanFlight",
+      "source": "Source/GameplayRuntime/VolleyIIPoisonFanFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIPoisonFanFlight/NS_VolleyIIPoisonFanFlight_a518104f",
+      "asset_sha256": "7e6b5658599da12935ac1f42de369b0554768752d2845a8158f0ff0b409408df"
+    },
+    {
+      "slug": "VolleyIIPoisonHit",
+      "source": "Source/GameplayRuntime/VolleyIIPoisonHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIPoisonHit/NS_VolleyIIPoisonHit_699b2296",
+      "asset_sha256": "5b4153957d333af05e0d4ec0fb2d156d59f5a79efddc348b1b0079c058cb010c"
+    },
+    {
+      "slug": "VolleyIIPoisonPiercingFlight",
+      "source": "Source/GameplayRuntime/VolleyIIPoisonPiercingFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIPoisonPiercingFlight/NS_VolleyIIPoisonPiercingFlight_58c37733",
+      "asset_sha256": "5a93ddfe864acea6fdacb5b6b4363fa208460dc85c26448e74845725fa07636a"
+    },
+    {
+      "slug": "VolleyIIPoisonAim",
+      "source": "Source/GameplayRuntime/VolleyIIPoisonAim.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIPoisonAim/NS_VolleyIIPoisonAim_45148414",
+      "asset_sha256": "e8838d54ddfbd268dd8a3d42ff801c75cf2c6124be2615bc79834242fee97ea6"
+    },
+    {
+      "slug": "VolleyIIPoisonAimEnd",
+      "source": "Source/GameplayRuntime/VolleyIIPoisonAimEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/VolleyIIPoisonAimEnd/NS_VolleyIIPoisonAimEnd_6fe5857a",
+      "asset_sha256": "a7d8cf86f3fc5fc2eab112be6045ef2dae35bbafbe911e4e3e2fad02ad54c8db"
+    },
+    {
+      "slug": "ChainsIFlight",
+      "source": "Source/GameplayRuntime/ChainsIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIFlight/NS_ChainsIFlight_e280e7e2",
+      "asset_sha256": "c59331f8f3cc13a687bbd89ae4df249d437be67181ab8586d913848a698b48da"
+    },
+    {
+      "slug": "ChainsILatchedLink",
+      "source": "Source/GameplayRuntime/ChainsILatchedLink.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsILatchedLink/NS_ChainsILatchedLink_38fc395e",
+      "asset_sha256": "df83e2b1cdd8366be5dc442843d142dfc446664f4996e66ce566f69a79a63a3a"
+    },
+    {
+      "slug": "ChainsIHit",
+      "source": "Source/GameplayRuntime/ChainsIHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIHit/NS_ChainsIHit_0820be99",
+      "asset_sha256": "575c9e3ed8568c3778be566f17cfcc2c324063a66ec9c1ecb2e1447ab214bdb1"
+    },
+    {
+      "slug": "ChainsIEnd",
+      "source": "Source/GameplayRuntime/ChainsIEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIEnd/NS_ChainsIEnd_d6600d08",
+      "asset_sha256": "e7a5c36c5293e01f3393f3b2355410f848d2b2dca18d6a9fc95ccf0ca44912e9"
+    },
+    {
+      "slug": "ChainsIIFlight",
+      "source": "Source/GameplayRuntime/ChainsIIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIIFlight/NS_ChainsIIFlight_e60f3013",
+      "asset_sha256": "421813951637fc522aab74415207bf8d52d57fa801a0e8e33f652398bf25a1d0"
+    },
+    {
+      "slug": "ChainsIILatchedLink",
+      "source": "Source/GameplayRuntime/ChainsIILatchedLink.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIILatchedLink/NS_ChainsIILatchedLink_67fe8bc1",
+      "asset_sha256": "50a488920f0dfcc2dca6d94b3a584e4c95351f5e50e79f2cd450fc7763b0d256"
+    },
+    {
+      "slug": "ChainsIIHit",
+      "source": "Source/GameplayRuntime/ChainsIIHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIIHit/NS_ChainsIIHit_05673bf2",
+      "asset_sha256": "0d4423b45f3c69678391d0ab4a05d0752824e987b5e11e1b2fcd42333fbd2a22"
+    },
+    {
+      "slug": "ChainsIIEnd",
+      "source": "Source/GameplayRuntime/ChainsIIEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIIEnd/NS_ChainsIIEnd_6a0fe87f",
+      "asset_sha256": "22fa29180a5b4d687894fa57caecb720a38d0d105a73f85973fcc1ab2aba74cf"
+    },
+    {
+      "slug": "ChainsIITargetWrap",
+      "source": "Source/GameplayRuntime/ChainsIITargetWrap.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIITargetWrap/NS_ChainsIITargetWrap_3b2e3dec",
+      "asset_sha256": "2effc21d6f2257d8086fbb3e831c04968815e4d14b26cdfc966a51c8f6acd322"
+    },
+    {
+      "slug": "ChainsIIPull",
+      "source": "Source/GameplayRuntime/ChainsIIPull.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIIPull/NS_ChainsIIPull_8133a2fe",
+      "asset_sha256": "6b6ec029545c07d28183f70739cf833fbc21dd4ee52cdc2aa807f0b598bfa8b2"
+    },
+    {
+      "slug": "ChainsIIInterrupt",
+      "source": "Source/GameplayRuntime/ChainsIIInterrupt.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChainsIIInterrupt/NS_ChainsIIInterrupt_7e3960ee",
+      "asset_sha256": "8d271a524d06a23eda727c7fdd7fccbec325fde80ac81e058147be7ae05faa93"
+    },
+    {
+      "slug": "FireBoltIISpread",
+      "source": "Source/GameplayRuntime/FireBoltIISpread.json",
+      "asset": "/Game/Sancta/VFX/Skills/FireBoltIISpread/NS_FireBoltIISpread_65610fdf",
+      "asset_sha256": "da33031ccb68be44d38597b3506115c3b3e2a4cde9c1c36e6a9f139baa155200"
+    },
+    {
+      "slug": "ChallengeIIRootApply",
+      "source": "Source/GameplayRuntime/ChallengeIIRootApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/ChallengeIIRootApply/NS_ChallengeIIRootApply_b8694827",
+      "asset_sha256": "0c224f7a33623ba50364a8147589e2b44babefb935f0653e452769bbdcf7b4c6"
+    },
+    {
+      "slug": "RallyITankAffected",
+      "source": "Source/GameplayRuntime/RallyITankAffected.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyITankAffected/NS_RallyITankAffected_a9056e64",
+      "asset_sha256": "a2330ecc0265e957e542a2c9b2997c52172bb7ff61ad23791e9b630e519f4c72"
+    },
+    {
+      "slug": "RallyIWarriorAffected",
+      "source": "Source/GameplayRuntime/RallyIWarriorAffected.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIWarriorAffected/NS_RallyIWarriorAffected_74f18a91",
+      "asset_sha256": "e2fa7c44b2efffb9239a9ae2cfbbdd6bbf15a9bb0ebc3a2ce2a3c81bbd8fdb96"
+    },
+    {
+      "slug": "RallyIiTankAffected",
+      "source": "Source/GameplayRuntime/RallyIiTankAffected.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIiTankAffected/NS_RallyIiTankAffected_abc8d984",
+      "asset_sha256": "7a01c0f2b6e16963738eb0741273fb25162f4ad8dc206bc189de910aab82a073"
+    },
+    {
+      "slug": "RallyIiWarriorAffected",
+      "source": "Source/GameplayRuntime/RallyIiWarriorAffected.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIiWarriorAffected/NS_RallyIiWarriorAffected_825b132b",
+      "asset_sha256": "c02b278e3a84e6e0ec506c87834af06cedcc71403c72f5c8fd91e9ada82ab1ce"
+    },
+    {
+      "slug": "ResurrectComplete",
+      "source": "Source/GameplayRuntime/ResurrectComplete.json",
+      "asset": "/Game/Sancta/VFX/Skills/ResurrectComplete/NS_ResurrectComplete_13ae68bc",
+      "asset_sha256": "65a5360abb1bac942cbc16aea7d3e8839600e9f00466061e6491e61e399487e4"
+    },
+    {
+      "slug": "FrostLanceIImpact",
+      "source": "Source/GameplayRuntime/FrostLanceIImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/FrostLanceIImpact/NS_FrostLanceIImpact_c46a4c7e",
+      "asset_sha256": "86f64070bec3971a2156cb439465dedb80b6e9057b39ca0c895a67346bf5bf51"
+    },
+    {
+      "slug": "FrostLanceIiImpact",
+      "source": "Source/GameplayRuntime/FrostLanceIiImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/FrostLanceIiImpact/NS_FrostLanceIiImpact_c892564e",
+      "asset_sha256": "b77c8ebfab416278569f253910ec98ca945f3b53887ef4ba2a9ccd64a043c9b8"
+    },
+    {
+      "slug": "FrostLanceIiConditionalControl",
+      "source": "Source/GameplayRuntime/FrostLanceIiConditionalControl.json",
+      "asset": "/Game/Sancta/VFX/Skills/FrostLanceIiConditionalControl/NS_FrostLanceIiConditionalControl_70d222d3",
+      "asset_sha256": "d2567d2a450e32bea188fa6eb20cbfdc7a30adef670ce2aab642de4801f37863"
+    },
+    {
+      "slug": "GlacialSpikeIGroundArea",
+      "source": "Source/GameplayRuntime/GlacialSpikeIGroundArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIGroundArea/NS_GlacialSpikeIGroundArea_8d7d794b",
+      "asset_sha256": "f165e2eb6442c472c6673382d9c67515490461989b1c9bee238b3c2800c3762a"
+    },
+    {
+      "slug": "GlacialSpikeIImpact",
+      "source": "Source/GameplayRuntime/GlacialSpikeIImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIImpact/NS_GlacialSpikeIImpact_201cf185",
+      "asset_sha256": "7b5475fc1ad0405881dfeca0f630447cd2561a7db2e237e0cea0c7eff809fd94"
+    },
+    {
+      "slug": "GlacialSpikeIiGroundArea",
+      "source": "Source/GameplayRuntime/GlacialSpikeIiGroundArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIiGroundArea/NS_GlacialSpikeIiGroundArea_0af1a4fe",
+      "asset_sha256": "cb086f95bea94cb9746e90cc7ef6aa070ec1da1f8efa5e17614b5a3c00f32bc3"
+    },
+    {
+      "slug": "GlacialSpikeIiImpact",
+      "source": "Source/GameplayRuntime/GlacialSpikeIiImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIiImpact/NS_GlacialSpikeIiImpact_598a53b8",
+      "asset_sha256": "c4f49ea0d7f90fef574c73967b1879b48299ad9a078e63d6e65a9e6839629209"
+    },
+    {
+      "slug": "GlacialSpikeIiConditionalControl",
+      "source": "Source/GameplayRuntime/GlacialSpikeIiConditionalControl.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIiConditionalControl/NS_GlacialSpikeIiConditionalControl_e36cb241",
+      "asset_sha256": "e618b50eec61b2bc8d6129d7264673f64fc50a2d58d13cdc8858881362ff7d94"
+    },
+    {
+      "slug": "EtherIAllyHeal",
+      "source": "Source/GameplayRuntime/EtherIAllyHeal.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIAllyHeal/NS_EtherIAllyHeal_81b0d67a",
+      "asset_sha256": "7350684d5146797679ec26af1809b955ad92a9a32ee192443bcedab8c3f5ba83"
+    },
+    {
+      "slug": "EtherIEnemyConfirmedDamage",
+      "source": "Source/GameplayRuntime/EtherIEnemyConfirmedDamage.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIEnemyConfirmedDamage/NS_EtherIEnemyConfirmedDamage_df034941",
+      "asset_sha256": "e5a5da5f86f1ca40d39ee06c7993f12ccc29088a295cf53bd9076c9d69e4611f"
+    },
+    {
+      "slug": "EtherIiAllyHeal",
+      "source": "Source/GameplayRuntime/EtherIiAllyHeal.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIiAllyHeal/NS_EtherIiAllyHeal_8001de28",
+      "asset_sha256": "803a0c4ce0ddd7195c5773632ea52108197254920d4eeca412ef250b2c443455"
+    },
+    {
+      "slug": "EtherIiAllyConditionalBuff",
+      "source": "Source/GameplayRuntime/EtherIiAllyConditionalBuff.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIiAllyConditionalBuff/NS_EtherIiAllyConditionalBuff_e4d5a8aa",
+      "asset_sha256": "576a29b4c8def7bfdeb8224be42b48e5798b968e6cfb37b4872b94bbe78ac709"
+    },
+    {
+      "slug": "EtherIiEnemyConfirmedDamage",
+      "source": "Source/GameplayRuntime/EtherIiEnemyConfirmedDamage.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIiEnemyConfirmedDamage/NS_EtherIiEnemyConfirmedDamage_21c16eb7",
+      "asset_sha256": "bdcf2bcb1a3390a2034d792a4407d72fff0a97ce435bc7e12b5b367118a22b06"
+    },
+    {
+      "slug": "BrightStarShieldApply",
+      "source": "Source/GameplayRuntime/BrightStarShieldApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/BrightStarShieldApply/NS_BrightStarShieldApply_0f889e87",
+      "asset_sha256": "7c1ed5ca286830b03ce68363c92a51f0a3cbbaa989310b141208b4fabfedc5b2"
+    },
+    {
+      "slug": "BrightStarCasterProc",
+      "source": "Source/GameplayRuntime/BrightStarCasterProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/BrightStarCasterProc/NS_BrightStarCasterProc_1a9ad606",
+      "asset_sha256": "8e1009bb9dea709ef9cfbe7714317f372341c4d08450db0d98ba82cf135890bc"
+    },
+    {
+      "slug": "SerenityHeal",
+      "source": "Source/GameplayRuntime/SerenityHeal.json",
+      "asset": "/Game/Sancta/VFX/Skills/SerenityHeal/NS_SerenityHeal_9f6baec2",
+      "asset_sha256": "8f68d8bbfb4de1ee456e98263ebd9c1db79a2a8a26ec539e2786a2d9e734c0ed"
+    },
+    {
+      "slug": "SerenitySleepApply",
+      "source": "Source/GameplayRuntime/SerenitySleepApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/SerenitySleepApply/NS_SerenitySleepApply_a8776d66",
+      "asset_sha256": "645f8346167b3a431232cda4a9f866b07e73f346ecb52480f436c444daf3cbfb"
+    },
+    {
+      "slug": "BackstabIIConfirmedHit",
+      "source": "Source/GameplayRuntime/BackstabIIConfirmedHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabIIConfirmedHit/NS_BackstabIIConfirmedHit_0757ed49",
+      "asset_sha256": "dcaf037159f56aa9d396c86b3bba62c6670e59235ef67a04cac077103966cde5"
+    },
+    {
+      "slug": "BackstabIIStunApply",
+      "source": "Source/GameplayRuntime/BackstabIIStunApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabIIStunApply/NS_BackstabIIStunApply_3c60be37",
+      "asset_sha256": "1e748a6520c187d828d24addd3a5e8dda9acec29211f05b24a565b85874107f5"
+    },
+    {
+      "slug": "BackstabIIPoisonApply",
+      "source": "Source/GameplayRuntime/BackstabIIPoisonApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabIIPoisonApply/NS_BackstabIIPoisonApply_403663a6",
+      "asset_sha256": "51a0ef2cf3043dc7c09c3a93c17104c25f1dcfe94141252fecda63ab32554045"
+    },
+    {
+      "slug": "BackstabIIBleedApply",
+      "source": "Source/GameplayRuntime/BackstabIIBleedApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabIIBleedApply/NS_BackstabIIBleedApply_05cc1b74",
+      "asset_sha256": "5901bb5a534f65509aa9292d1bb4027ab56ffa76a82f15f9832c52329d7dd3ce"
+    },
+    {
+      "slug": "LaserContact",
+      "source": "Source/GameplayRuntime/LaserContact.json",
+      "asset": "/Game/Sancta/VFX/Skills/LaserContact/NS_LaserContact_8e43ef36",
+      "asset_sha256": "dc56d6ac367840a7778f7bb8f77c1d254e0150221189dc38cc0c458399dee6bd"
+    },
+    {
+      "slug": "StaticBoltIHit",
+      "source": "Source/GameplayRuntime/StaticBoltIHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIHit/NS_StaticBoltIHit_c75446d4",
+      "asset_sha256": "b175f37d12ed9e871e2bccafadf9e5bea66882082e68f97475b070642381ad4c"
+    },
+    {
+      "slug": "StaticBoltIChain",
+      "source": "Source/GameplayRuntime/StaticBoltIChain.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIChain/NS_StaticBoltIChain_c131a21f",
+      "asset_sha256": "f9f220ef7ab75c9c6f0c5219e9060bb7e38fdbcd206dd890bc321d3236ea2f90"
+    },
+    {
+      "slug": "StaticBoltIiHit",
+      "source": "Source/GameplayRuntime/StaticBoltIiHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIiHit/NS_StaticBoltIiHit_12953bcb",
+      "asset_sha256": "83ee0d46ee65b919cef9b75c9a73dc8d806eb807d62efb43f0d5b02581b96988"
+    },
+    {
+      "slug": "StaticBoltIiChain",
+      "source": "Source/GameplayRuntime/StaticBoltIiChain.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIiChain/NS_StaticBoltIiChain_58597fec",
+      "asset_sha256": "9de9172593ccd4c229460e394fe93d49072761c4fddaf9d29a2f76992c275df5"
+    },
+    {
+      "slug": "CoilHit",
+      "source": "Source/GameplayRuntime/CoilHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/CoilHit/NS_CoilHit_07e6ee3a",
+      "asset_sha256": "e6a362bc7821d39e9f156ea7fa8967ee6db0a845281c6693527af599349a7539"
+    },
+    {
+      "slug": "CoilProc7",
+      "source": "Source/GameplayRuntime/CoilProc7.json",
+      "asset": "/Game/Sancta/VFX/Skills/CoilProc7/NS_CoilProc7_d6f6abd5",
+      "asset_sha256": "9d7fa22f3e40a1c09d044ad3ce9e89a2759d0b26a594f9d91f32952bea1913f9"
+    },
+    {
+      "slug": "CoilChain",
+      "source": "Source/GameplayRuntime/CoilChain.json",
+      "asset": "/Game/Sancta/VFX/Skills/CoilChain/NS_CoilChain_db941481",
+      "asset_sha256": "06dc426ae5ba0ec4443f1870ab62612570c30dae83d666b71ec8a0aa57a7894d"
+    },
+    {
+      "slug": "ThunderstrikeIHit",
+      "source": "Source/GameplayRuntime/ThunderstrikeIHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIHit/NS_ThunderstrikeIHit_a461f9b4",
+      "asset_sha256": "faf766eb03e3e3e964a756bd0dce9517632aad1c66697b9987598d1f69ce3f1b"
+    },
+    {
+      "slug": "ThunderstrikeIiHit",
+      "source": "Source/GameplayRuntime/ThunderstrikeIiHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIiHit/NS_ThunderstrikeIiHit_40881564",
+      "asset_sha256": "6cba5f9339994567c1aa75b7b9e9ff01a8c9c3222e3f3a92aab64220544f71d1"
+    },
+    {
+      "slug": "TempestIce",
+      "source": "Source/GameplayRuntime/TempestIce.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestIce/NS_TempestIce_542f6f4c",
+      "asset_sha256": "4230ca9944d7e21c3567dacfae14af2cea798d09324e53c033b831d1e883b639"
+    },
+    {
+      "slug": "TempestLightning",
+      "source": "Source/GameplayRuntime/TempestLightning.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestLightning/NS_TempestLightning_270fccd4",
+      "asset_sha256": "90e27f8a2020c989e001753035180249ae8594b802e92189c5c3b4526007f279"
+    },
+    {
+      "slug": "TempestGroundImpact",
+      "source": "Source/GameplayRuntime/TempestGroundImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestGroundImpact/NS_TempestGroundImpact_830a5fb1",
+      "asset_sha256": "f4b301d64339415e70be5d684b8d3fc77ae633364e13d75a0cea4ac789cae4b0"
+    },
+    {
+      "slug": "TempestFrostImpact",
+      "source": "Source/GameplayRuntime/TempestFrostImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestFrostImpact/NS_TempestFrostImpact_5eae9883",
+      "asset_sha256": "280254bdecbb5c5135548d78eacf7036e73b80c68b547f42adb017cd3f1bc08b"
+    },
+    {
+      "slug": "TempestStormArea",
+      "source": "Source/GameplayRuntime/TempestStormArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestStormArea/NS_TempestStormArea_7ecb3320",
+      "asset_sha256": "299618a7c82fb49f28018190a7c37f801e02ef8fbb77ebc69c970eae82b95eba"
+    },
+    {
+      "slug": "TempestTelegraph",
+      "source": "Source/GameplayRuntime/TempestTelegraph.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestTelegraph/NS_TempestTelegraph_70b679ed",
+      "asset_sha256": "a73eed73eecda8ec0851e8ea51acd109644b07497177b18349be253dac6f3969"
+    },
+    {
+      "slug": "TempestLightningHit",
+      "source": "Source/GameplayRuntime/TempestLightningHit.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestLightningHit/NS_TempestLightningHit_b8f84274",
+      "asset_sha256": "9909bfad4fc51e97a7ebea21326538cbc3736a18d89f917f2b3d6e082850669e"
+    },
+    {
+      "slug": "StaticBoltIGroundArea",
+      "source": "Source/GameplayRuntime/StaticBoltIGroundArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIGroundArea/NS_StaticBoltIGroundArea_cc521ed3",
+      "asset_sha256": "aa07eea6c9e590f098da2f4c72ff5db5ca8e73db81622ce889153ae0584720b3"
+    },
+    {
+      "slug": "StaticBoltIiGroundArea",
+      "source": "Source/GameplayRuntime/StaticBoltIiGroundArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIiGroundArea/NS_StaticBoltIiGroundArea_184a1038",
+      "asset_sha256": "01858cb593821c6cab540aa70378228347a9ca5d96f26cb119a44bdbfce83300"
+    },
+    {
+      "slug": "ThunderstrikeIiSplashArea",
+      "source": "Source/GameplayRuntime/ThunderstrikeIiSplashArea.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIiSplashArea/NS_ThunderstrikeIiSplashArea_1fa60cc9",
+      "asset_sha256": "c8e9a25c698531a2261b2f2353bc3ecbb95cba8aa97d61abadef85f93f41343c"
+    },
+    {
+      "slug": "ThunderstrikeIISplash",
+      "source": "Source/GameplayRuntime/ThunderstrikeIISplash.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIISplash/NS_ThunderstrikeIISplash_e82f9402",
+      "asset_sha256": "a0fcf2467e63cfc0a30417c3f09152bc885025dff3583d7a81bca6b882a71cd2"
+    },
+    {
+      "slug": "TempestSappedProc",
+      "source": "Source/GameplayRuntime/TempestSappedProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/TempestSappedProc/NS_TempestSappedProc_ef187e6d",
+      "asset_sha256": "da8678b6b4cc678d7430d608760d54d8aeb8aa7bb6bf784ca73c03f6ffd3ce25"
+    },
+    {
+      "slug": "ArcaneWeavingIResource",
+      "source": "Source/GameplayRuntime/ArcaneWeavingIResource.json",
+      "asset": "/Game/Sancta/VFX/Skills/ArcaneWeavingIResource/NS_ArcaneWeavingIResource_c14c2849",
+      "asset_sha256": "c9a63dae0d63688c52f591a50d0294f41b34bd4b743880174a75f00024b5bef8"
+    },
+    {
+      "slug": "ArcaneWeavingIiResource",
+      "source": "Source/GameplayRuntime/ArcaneWeavingIiResource.json",
+      "asset": "/Game/Sancta/VFX/Skills/ArcaneWeavingIiResource/NS_ArcaneWeavingIiResource_27a6aedb",
+      "asset_sha256": "26bcf2044cd2d4bda6fbf73250e5fc807cb9ad95ee8ac89b37622eff5d31c3cd"
+    },
+    {
+      "slug": "ElementalWeaverIResource",
+      "source": "Source/GameplayRuntime/ElementalWeaverIResource.json",
+      "asset": "/Game/Sancta/VFX/Skills/ElementalWeaverIResource/NS_ElementalWeaverIResource_4eb0ed81",
+      "asset_sha256": "9ffc9322ba19c3ff087d7c8e3b05aace0b25b34068bac612845bf0a96afedb99"
+    },
+    {
+      "slug": "ElementalWeaverIiResource",
+      "source": "Source/GameplayRuntime/ElementalWeaverIiResource.json",
+      "asset": "/Game/Sancta/VFX/Skills/ElementalWeaverIiResource/NS_ElementalWeaverIiResource_47ac1895",
+      "asset_sha256": "2abe92f3327e3f4153c61ffb961bb2cb812a3392b81390d0963803020c1ea1cb"
+    },
+    {
+      "slug": "SpiritOfTheCometMoonState",
+      "source": "Source/GameplayRuntime/SpiritOfTheCometMoonState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheCometMoonState/NS_SpiritOfTheCometMoonState_c8d00956",
+      "asset_sha256": "6b8e6b3ed80e8a5a2938d4aa60834d324f9da38df7799d7669befacf843e38f8"
+    },
+    {
+      "slug": "SpiritOfTheCometSunState",
+      "source": "Source/GameplayRuntime/SpiritOfTheCometSunState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheCometSunState/NS_SpiritOfTheCometSunState_ccdddc05",
+      "asset_sha256": "792b8869dab72a6b1bcb94de757f483e5a4c8f2ac138f52c087e78a7012f9187"
+    },
+    {
+      "slug": "SpiritOfTheOrbitMoonState",
+      "source": "Source/GameplayRuntime/SpiritOfTheOrbitMoonState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheOrbitMoonState/NS_SpiritOfTheOrbitMoonState_176339c0",
+      "asset_sha256": "287dd195863e7752d38e85819064e8ffd96188ea39864757182d9d4cd8239662"
+    },
+    {
+      "slug": "SpiritOfTheOrbitSunState",
+      "source": "Source/GameplayRuntime/SpiritOfTheOrbitSunState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheOrbitSunState/NS_SpiritOfTheOrbitSunState_7d9aa69f",
+      "asset_sha256": "1b3688a33196df394f9f6b33f87fe99b96079c469d3beb633617245561c033e9"
+    },
+    {
+      "slug": "SpiritOfTheStarMoonState",
+      "source": "Source/GameplayRuntime/SpiritOfTheStarMoonState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheStarMoonState/NS_SpiritOfTheStarMoonState_7b49fbe3",
+      "asset_sha256": "ce4e50bdc8c8acff30789a6ecf590db71790e5ba4b99c38a2514c18e2bf250ad"
+    },
+    {
+      "slug": "SpiritOfTheStarSunState",
+      "source": "Source/GameplayRuntime/SpiritOfTheStarSunState.json",
+      "asset": "/Game/Sancta/VFX/Skills/SpiritOfTheStarSunState/NS_SpiritOfTheStarSunState_e2b248dc",
+      "asset_sha256": "424c0807a6efc4a55c47568784c6f9d7b7fe3a78af2da466ea1b3623bf59c622"
+    },
+    {
+      "slug": "ManaBarrierIHold",
+      "source": "Source/GameplayRuntime/ManaBarrierIHold.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManaBarrierIHold/NS_ManaBarrierIHold_fd1c2758",
+      "asset_sha256": "e7996062d62b693f062bb00b7281ceecb4399a3a56c9f4adb19e52bc7f6bd289"
+    },
+    {
+      "slug": "ManaBarrierIRelease",
+      "source": "Source/GameplayRuntime/ManaBarrierIRelease.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManaBarrierIRelease/NS_ManaBarrierIRelease_808b2601",
+      "asset_sha256": "7c6843350a2bf646af31a81a5d313f5fd1a04ad6a873a23cedd39eba095ba251"
+    },
+    {
+      "slug": "ManaBarrierIiOverchargeHold",
+      "source": "Source/GameplayRuntime/ManaBarrierIiOverchargeHold.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManaBarrierIiOverchargeHold/NS_ManaBarrierIiOverchargeHold_a81116ef",
+      "asset_sha256": "c1d207c33b4fe0e17c72057e38c8c3dc49a0cac57cb6749696d5a99f5fe12a5e"
+    },
+    {
+      "slug": "ManaBarrierIiOverchargeRelease",
+      "source": "Source/GameplayRuntime/ManaBarrierIiOverchargeRelease.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManaBarrierIiOverchargeRelease/NS_ManaBarrierIiOverchargeRelease_56cb296a",
+      "asset_sha256": "3cbc631779ec7f60e7daec4609d314adc16e6267dee9ed4793443ea71c648700"
+    },
+    {
+      "slug": "ConnectionIAllyActive",
+      "source": "Source/GameplayRuntime/ConnectionIAllyActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIAllyActive/NS_ConnectionIAllyActive_7e2936ad",
+      "asset_sha256": "566756fa2e751145b317638034fe51e60b71ebe00efa08119f664bc8174d1df2"
+    },
+    {
+      "slug": "ConnectionIAllyNaturalEnd",
+      "source": "Source/GameplayRuntime/ConnectionIAllyNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIAllyNaturalEnd/NS_ConnectionIAllyNaturalEnd_7d612cb4",
+      "asset_sha256": "24a77a28eda7c51a8ff3e8c5d3b1af67653b50694a07978f11ffc4bd085370ad"
+    },
+    {
+      "slug": "ConnectionIEnemyActive",
+      "source": "Source/GameplayRuntime/ConnectionIEnemyActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIEnemyActive/NS_ConnectionIEnemyActive_a7e1c451",
+      "asset_sha256": "4d2c4d6a46d5244538dff62baef0cdd90a8bc73ed7c925cb406feb98553ad919"
+    },
+    {
+      "slug": "ConnectionIEnemyNaturalEnd",
+      "source": "Source/GameplayRuntime/ConnectionIEnemyNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIEnemyNaturalEnd/NS_ConnectionIEnemyNaturalEnd_b62a4d76",
+      "asset_sha256": "491c2e4b7913154ec6d70e8ef2f8cef85c91ba59c83aa886559742eda67e4a4e"
+    },
+    {
+      "slug": "ConnectionIiAllyActive",
+      "source": "Source/GameplayRuntime/ConnectionIiAllyActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIiAllyActive/NS_ConnectionIiAllyActive_db79e975",
+      "asset_sha256": "7d360e77f38601ef8ba7fa889e081469d65eb9c69839784bb3b25064462922dd"
+    },
+    {
+      "slug": "ConnectionIiAllyNaturalEnd",
+      "source": "Source/GameplayRuntime/ConnectionIiAllyNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIiAllyNaturalEnd/NS_ConnectionIiAllyNaturalEnd_7dee457c",
+      "asset_sha256": "f6635285ca10e264aad4b79906e2971fb4eb9c8430bc6deee7e209b6f70d57b9"
+    },
+    {
+      "slug": "ConnectionIiEnemyActive",
+      "source": "Source/GameplayRuntime/ConnectionIiEnemyActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIiEnemyActive/NS_ConnectionIiEnemyActive_274370ad",
+      "asset_sha256": "cfec74b20a68700980f06817d56cdad19b63d00b968109642cb2ee68798ee99e"
+    },
+    {
+      "slug": "ConnectionIiEnemyNaturalEnd",
+      "source": "Source/GameplayRuntime/ConnectionIiEnemyNaturalEnd.json",
+      "asset": "/Game/Sancta/VFX/Skills/ConnectionIiEnemyNaturalEnd/NS_ConnectionIiEnemyNaturalEnd_35874d72",
+      "asset_sha256": "b8fb6ac5ea5afb4531d09cc50e13a43b5ba2c9160260dc9430b3e4e2e7ff37ca"
+    },
+    {
+      "slug": "BattlecryChallengeITankCast",
+      "source": "Source/GameplayRuntime/BattlecryChallengeITankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BattlecryChallengeITankCast/NS_BattlecryChallengeITankCast_193add3e",
+      "asset_sha256": "20d94a31a30dd9c01c05d11f9dae01d22a851459ee1a512e7177b9f5e5bc4d7e"
+    },
+    {
+      "slug": "BattlecryChallengeIWarriorCast",
+      "source": "Source/GameplayRuntime/BattlecryChallengeIWarriorCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BattlecryChallengeIWarriorCast/NS_BattlecryChallengeIWarriorCast_feca8b5b",
+      "asset_sha256": "f79d339f6baf3bce71c3d1854e2bb80533825bc8967b3adb3f09f8b76cab2dd6"
+    },
+    {
+      "slug": "BattlecryChallengeIiTankCast",
+      "source": "Source/GameplayRuntime/BattlecryChallengeIiTankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BattlecryChallengeIiTankCast/NS_BattlecryChallengeIiTankCast_591a9456",
+      "asset_sha256": "48b3361cf1106b48ab74e84d78ae749686163ef9d55fdc496cf7430ee1b4040b"
+    },
+    {
+      "slug": "BattlecryChallengeIiWarriorCast",
+      "source": "Source/GameplayRuntime/BattlecryChallengeIiWarriorCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BattlecryChallengeIiWarriorCast/NS_BattlecryChallengeIiWarriorCast_79d600c4",
+      "asset_sha256": "ce4d9086099dbf390c3d06fdc723525133437226bb5113a0695c253a56c3c419"
+    },
+    {
+      "slug": "BulwarkApply",
+      "source": "Source/GameplayRuntime/BulwarkApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/BulwarkApply/NS_BulwarkApply_cb11537b",
+      "asset_sha256": "020caaba2aca6b85a97c21048cf944c07768a331c8afa70fd5c265e01c5af596"
+    },
+    {
+      "slug": "CleanseApply",
+      "source": "Source/GameplayRuntime/CleanseApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/CleanseApply/NS_CleanseApply_818859c1",
+      "asset_sha256": "43c326c186c5146585d79de14a1ab11ee19fda098cf7c953d421166c6fd933a0"
+    },
+    {
+      "slug": "CrushingBlowAreaImpact",
+      "source": "Source/GameplayRuntime/CrushingBlowAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/CrushingBlowAreaImpact/NS_CrushingBlowAreaImpact_66952c0a",
+      "asset_sha256": "bd1f84911e8d69621ce4088fc544f45742d8e603cb2377369c35774c1dba9418"
+    },
+    {
+      "slug": "CrushingBlowIiAreaImpact",
+      "source": "Source/GameplayRuntime/CrushingBlowIiAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/CrushingBlowIiAreaImpact/NS_CrushingBlowIiAreaImpact_ce9ba9dc",
+      "asset_sha256": "0d1fb967f694c9a7019174c7d75dcc4331fa5eff181caac1dc5793077fd5e03c"
+    },
+    {
+      "slug": "DefiantPresenceActive",
+      "source": "Source/GameplayRuntime/DefiantPresenceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/DefiantPresenceActive/NS_DefiantPresenceActive_ba131855",
+      "asset_sha256": "229ce29de1c145b8aeeea539e7e0579bba038836207c59c41edfc06c5590991a"
+    },
+    {
+      "slug": "MomentumMasteryResourceGain",
+      "source": "Source/GameplayRuntime/MomentumMasteryResourceGain.json",
+      "asset": "/Game/Sancta/VFX/Skills/MomentumMasteryResourceGain/NS_MomentumMasteryResourceGain_258a3f6a",
+      "asset_sha256": "281b54e77947241cf506577609cc0dfaed685289778231fdd1450b86e84feb6d"
+    },
+    {
+      "slug": "PiercingStrikeCast",
+      "source": "Source/GameplayRuntime/PiercingStrikeCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeCast/NS_PiercingStrikeCast_0acdde40",
+      "asset_sha256": "0b5f4a8fa5be0d842e4c66e115552b51a49b03a75f011ea1e10d15f6b0c61bae"
+    },
+    {
+      "slug": "PiercingStrikeImpact",
+      "source": "Source/GameplayRuntime/PiercingStrikeImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeImpact/NS_PiercingStrikeImpact_f7c0b5f7",
+      "asset_sha256": "801400b08957644f300a297879de37fd168d0f56b9bda28f17db7ba9c9d652f6"
+    },
+    {
+      "slug": "PiercingStrikeIiTankCast",
+      "source": "Source/GameplayRuntime/PiercingStrikeIiTankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeIiTankCast/NS_PiercingStrikeIiTankCast_99d979ac",
+      "asset_sha256": "fa4c80080547bfa6c75bdf490278b18b9a456b30aceb92c95989c2e0ed0061d9"
+    },
+    {
+      "slug": "PiercingStrikeIiTankImpact",
+      "source": "Source/GameplayRuntime/PiercingStrikeIiTankImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeIiTankImpact/NS_PiercingStrikeIiTankImpact_fc1bc5b4",
+      "asset_sha256": "49b69bf314b152db53d17d9cb33ce3a814e448e472484567e918736fe9820ed8"
+    },
+    {
+      "slug": "PiercingStrikeIiWarriorCast",
+      "source": "Source/GameplayRuntime/PiercingStrikeIiWarriorCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeIiWarriorCast/NS_PiercingStrikeIiWarriorCast_e83b9cee",
+      "asset_sha256": "14ceb8fcdc280b85a4f062c05519e608e835396a39de3f240e6276b3ea224b71"
+    },
+    {
+      "slug": "PiercingStrikeIiWarriorImpact",
+      "source": "Source/GameplayRuntime/PiercingStrikeIiWarriorImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PiercingStrikeIiWarriorImpact/NS_PiercingStrikeIiWarriorImpact_b2ff83ee",
+      "asset_sha256": "8b64efa4f1de22ff6509c42fdbf20541089d11c1b18b326c4f68b8cf4b712ad0"
+    },
+    {
+      "slug": "PressureProvokeCast",
+      "source": "Source/GameplayRuntime/PressureProvokeCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/PressureProvokeCast/NS_PressureProvokeCast_7f02c092",
+      "asset_sha256": "78429a4a001530c24de30b141c82cb255540f0c57fdc4dd9a5e045ef47517a00"
+    },
+    {
+      "slug": "PressureProvokeTankCast",
+      "source": "Source/GameplayRuntime/PressureProvokeTankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/PressureProvokeTankCast/NS_PressureProvokeTankCast_cb185da4",
+      "asset_sha256": "f77210041e8ac256b81d7128fc1ce5784138997d36997923de39259294b39c14"
+    },
+    {
+      "slug": "PressureProvokeImpact",
+      "source": "Source/GameplayRuntime/PressureProvokeImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PressureProvokeImpact/NS_PressureProvokeImpact_bf25021f",
+      "asset_sha256": "ed5c1cf0014d2623691f8ad24f64840ab753cf4820f099f02eae8f6951631dc6"
+    },
+    {
+      "slug": "PressureProvokeTankImpact",
+      "source": "Source/GameplayRuntime/PressureProvokeTankImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PressureProvokeTankImpact/NS_PressureProvokeTankImpact_64f8e30d",
+      "asset_sha256": "4fd887e40ca2d4feaf5a3560c78e3f08705e9e7f2192f65fae1e994045c0acf5"
+    },
+    {
+      "slug": "RageApply",
+      "source": "Source/GameplayRuntime/RageApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/RageApply/NS_RageApply_692f9152",
+      "asset_sha256": "56e09c6853f710a3fc051423a6a9f7a9c829352c65d8b2c33e2a2abad429ba2d"
+    },
+    {
+      "slug": "RallyITankCast",
+      "source": "Source/GameplayRuntime/RallyITankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyITankCast/NS_RallyITankCast_455b323a",
+      "asset_sha256": "002d07532b8c8857123111925433858e4250fba67c1c2a85ba303abcb9e23066"
+    },
+    {
+      "slug": "RallyIWarriorCast",
+      "source": "Source/GameplayRuntime/RallyIWarriorCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIWarriorCast/NS_RallyIWarriorCast_143a6ca3",
+      "asset_sha256": "78b9f11c66179da6f5e79457191dcd4f27de36387efefd3c19ee44b0443ea842"
+    },
+    {
+      "slug": "RallyIiTankCast",
+      "source": "Source/GameplayRuntime/RallyIiTankCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIiTankCast/NS_RallyIiTankCast_7a544393",
+      "asset_sha256": "f00a54370f82675333420ccf22599da1aac63dd0ff72687a04449551f1dc85df"
+    },
+    {
+      "slug": "RallyIiWarriorCast",
+      "source": "Source/GameplayRuntime/RallyIiWarriorCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/RallyIiWarriorCast/NS_RallyIiWarriorCast_f98dd07d",
+      "asset_sha256": "675606cb885abc1b7a7b7fc67d79f5d2e40fa51ee5d7367a4e60fffa0a65d819"
+    },
+    {
+      "slug": "SecondWindHeal",
+      "source": "Source/GameplayRuntime/SecondWindHeal.json",
+      "asset": "/Game/Sancta/VFX/Skills/SecondWindHeal/NS_SecondWindHeal_597acf31",
+      "asset_sha256": "334a7b8b0e56e4af56dfa375f6aa0e7fd438638762243b4f1c93c0752b38f7a4"
+    },
+    {
+      "slug": "ShoulderRushMovement",
+      "source": "Source/GameplayRuntime/ShoulderRushMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushMovement/NS_ShoulderRushMovement_4b9dca25",
+      "asset_sha256": "3156c9347b47c71d5085e28c57905ec1799e5e42fcc1cfd3a14a9eba817e5cf6"
+    },
+    {
+      "slug": "ShoulderRushImpact",
+      "source": "Source/GameplayRuntime/ShoulderRushImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushImpact/NS_ShoulderRushImpact_21a6f044",
+      "asset_sha256": "fe8551f4779c29f76ffe5a7500c7771cbe6c29ae728124283d043d3b492230c7"
+    },
+    {
+      "slug": "ShoulderRushIiTankMovement",
+      "source": "Source/GameplayRuntime/ShoulderRushIiTankMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushIiTankMovement/NS_ShoulderRushIiTankMovement_9a153d53",
+      "asset_sha256": "cea8f5bcf1b6fd5bde3b2c475c7fe559470abe5f5d647df7e927d1e0c9221ef7"
+    },
+    {
+      "slug": "ShoulderRushIiTankImpact",
+      "source": "Source/GameplayRuntime/ShoulderRushIiTankImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushIiTankImpact/NS_ShoulderRushIiTankImpact_b93ad207",
+      "asset_sha256": "e5f5d086a62226904e8b875fc96bca5f2b42c6a3072062e470487c26c4b83e74"
+    },
+    {
+      "slug": "ShoulderRushIiWarriorMovement",
+      "source": "Source/GameplayRuntime/ShoulderRushIiWarriorMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushIiWarriorMovement/NS_ShoulderRushIiWarriorMovement_765c9419",
+      "asset_sha256": "7c05ddfed64852381cf93693e6a1269f006c466b5d72741feb10b828054c1afa"
+    },
+    {
+      "slug": "ShoulderRushIiWarriorImpact",
+      "source": "Source/GameplayRuntime/ShoulderRushIiWarriorImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ShoulderRushIiWarriorImpact/NS_ShoulderRushIiWarriorImpact_d68b9f9b",
+      "asset_sha256": "35a01530d5f3bc934dbf5c9f68512cecd157f3f4d30ace4a3fd11b44077384a8"
+    },
+    {
+      "slug": "TankStanceActive",
+      "source": "Source/GameplayRuntime/TankStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/TankStanceActive/NS_TankStanceActive_16d36620",
+      "asset_sha256": "04b0d9841bc5aad4c3104babdad87b937b2a8383e967be8b7a0fa646acb05a7d"
+    },
+    {
+      "slug": "TankStanceCast",
+      "source": "Source/GameplayRuntime/TankStanceCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/TankStanceCast/NS_TankStanceCast_9a3934e0",
+      "asset_sha256": "243a3002b4dad56dbc259b1278bf89461831cb9875221042a93cca9f2e705942"
+    },
+    {
+      "slug": "WarLeapMovement",
+      "source": "Source/GameplayRuntime/WarLeapMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/WarLeapMovement/NS_WarLeapMovement_e0c24669",
+      "asset_sha256": "91de5bca9fea973efdd20cb20597f80504cf90c660c1786a844e1f40023be65d"
+    },
+    {
+      "slug": "WarLeapAreaImpact",
+      "source": "Source/GameplayRuntime/WarLeapAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/WarLeapAreaImpact/NS_WarLeapAreaImpact_d9c912b0",
+      "asset_sha256": "c36e7bb7b4e22690ac460f1240c45cf763fee0a8c227dea138ffd0e1165fdd0e"
+    },
+    {
+      "slug": "WarLeapTelegraph",
+      "source": "Source/GameplayRuntime/WarLeapTelegraph.json",
+      "asset": "/Game/Sancta/VFX/Skills/WarLeapTelegraph/NS_WarLeapTelegraph_eefb6a3d",
+      "asset_sha256": "98432a50b3a3098f5a6a5f5433ef4857160adf355d45b739d8e6d0eadd7b7259"
+    },
+    {
+      "slug": "WarriorStanceActive",
+      "source": "Source/GameplayRuntime/WarriorStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/WarriorStanceActive/NS_WarriorStanceActive_1668bc0c",
+      "asset_sha256": "5f9096f4ac0893476a2cff0a208cec9babd334f2381fcf1283c6b95d45ed389d"
+    },
+    {
+      "slug": "WarriorStanceCast",
+      "source": "Source/GameplayRuntime/WarriorStanceCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/WarriorStanceCast/NS_WarriorStanceCast_2a3bf3d5",
+      "asset_sha256": "ace91a01b26b19cd019231463fb56e4ea138479c30de91ed6a267c66118fd8a3"
+    },
+    {
+      "slug": "ArcaneBurstFlight",
+      "source": "Source/GameplayRuntime/ArcaneBurstFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/ArcaneBurstFlight/NS_ArcaneBurstFlight_2a8e184e",
+      "asset_sha256": "0b798fb46221c1e2c3caa7f7c41f4940fbf5c9723030e113bbf671965aa0c378"
+    },
+    {
+      "slug": "ArcaneBurstProc",
+      "source": "Source/GameplayRuntime/ArcaneBurstProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/ArcaneBurstProc/NS_ArcaneBurstProc_a9d9ab4d",
+      "asset_sha256": "9c3cd4061fd00d84e01855f321eb8367fcf487270b2fd5e5ae5a90f35c08ed7c"
+    },
+    {
+      "slug": "BlinkProc",
+      "source": "Source/GameplayRuntime/BlinkProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlinkProc/NS_BlinkProc_3ee29924",
+      "asset_sha256": "3744bd35288b3dd81bc201dfeb7139a08b252448bccd8f5d277ac11e263c4c7e"
+    },
+    {
+      "slug": "BlinkCast",
+      "source": "Source/GameplayRuntime/BlinkCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlinkCast/NS_BlinkCast_1a459ff9",
+      "asset_sha256": "1439874a9d8ceb11a6c08e61df483e82b7f28261aa817f0b76bb6e0c3cf81c70"
+    },
+    {
+      "slug": "CleansemageApply",
+      "source": "Source/GameplayRuntime/CleansemageApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/CleansemageApply/NS_CleansemageApply_97f9dab8",
+      "asset_sha256": "ee782dbd69b8a7b874eaba47b359be3ec75bbda4c5f211755b688d2013c7361b"
+    },
+    {
+      "slug": "CoilCast",
+      "source": "Source/GameplayRuntime/CoilCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/CoilCast/NS_CoilCast_d08ec512",
+      "asset_sha256": "4f9f5daaa68781ae9645f4a4de438e52beb38bc2e3dc697700c195eef9870855"
+    },
+    {
+      "slug": "CombustIProc",
+      "source": "Source/GameplayRuntime/CombustIProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/CombustIProc/NS_CombustIProc_5d24bde1",
+      "asset_sha256": "454db3b0fb74ae0d4bbb102790db28b90cbdf9cb36967b958a76a183582cb32a"
+    },
+    {
+      "slug": "CombustIiProc",
+      "source": "Source/GameplayRuntime/CombustIiProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/CombustIiProc/NS_CombustIiProc_e7bbf723",
+      "asset_sha256": "8ade2a7631492af36ae8862c6fd91a83adc4ba381cf464749368ba60e2ecbb53"
+    },
+    {
+      "slug": "CombustIiAreaImpact",
+      "source": "Source/GameplayRuntime/CombustIiAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/CombustIiAreaImpact/NS_CombustIiAreaImpact_99d970d2",
+      "asset_sha256": "6946d850fa073f31b3dbb9d18bf98bdfd9366b9498b5a8ab6c587058fba1318e"
+    },
+    {
+      "slug": "FrostLanceIFlight",
+      "source": "Source/GameplayRuntime/FrostLanceIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/FrostLanceIFlight/NS_FrostLanceIFlight_721d2b14",
+      "asset_sha256": "5b7a18a05dce194575e193d0f9f83d619515545d2a094a302b703937bb5dfb46"
+    },
+    {
+      "slug": "FrostLanceIiFlight",
+      "source": "Source/GameplayRuntime/FrostLanceIiFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/FrostLanceIiFlight/NS_FrostLanceIiFlight_30d6ffb6",
+      "asset_sha256": "8c2ca5ca9ec778f2f353a2d7dd5be0a83902f2745f0b5eeafed1d7ba2c9b7de2"
+    },
+    {
+      "slug": "GlacialSpikeIAreaImpact",
+      "source": "Source/GameplayRuntime/GlacialSpikeIAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIAreaImpact/NS_GlacialSpikeIAreaImpact_86210541",
+      "asset_sha256": "c03fcb1083a5596f4d616d675fbf76f67f9a0b4d880d6675211cb7b7f3ed3028"
+    },
+    {
+      "slug": "GlacialSpikeIiAreaImpact",
+      "source": "Source/GameplayRuntime/GlacialSpikeIiAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/GlacialSpikeIiAreaImpact/NS_GlacialSpikeIiAreaImpact_c94e976c",
+      "asset_sha256": "9b9690f5073c2b5209fa34c558701147ad41648270ac8270ffc3eca8365bc116"
+    },
+    {
+      "slug": "IcebergFlight",
+      "source": "Source/GameplayRuntime/IcebergFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/IcebergFlight/NS_IcebergFlight_15570ea7",
+      "asset_sha256": "42151fddd7435297be8498419129f9f794113c92682a9d371ecb0c153735bd6c"
+    },
+    {
+      "slug": "IcebergProc",
+      "source": "Source/GameplayRuntime/IcebergProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/IcebergProc/NS_IcebergProc_bf17004d",
+      "asset_sha256": "21fc08e70ecd5863986a6549d5723f09f2bfbc1f0bbead3406a37320ba0ad2cf"
+    },
+    {
+      "slug": "LaserActive",
+      "source": "Source/GameplayRuntime/LaserActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/LaserActive/NS_LaserActive_2534f7f7",
+      "asset_sha256": "cc3c5adfbf61c13a63f7d0e5982d1261d8174807315331d9cf6efb15a3ffff81"
+    },
+    {
+      "slug": "LaserCast",
+      "source": "Source/GameplayRuntime/LaserCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/LaserCast/NS_LaserCast_ae4422e4",
+      "asset_sha256": "f4317dcb30e5a54cb6215c426f2e56f68571c850038340fd2d33dde60debff00"
+    },
+    {
+      "slug": "ManaStormActive",
+      "source": "Source/GameplayRuntime/ManaStormActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManaStormActive/NS_ManaStormActive_87448d0e",
+      "asset_sha256": "b0dbf604555c2a4a353733d2319be89d0fa332c02b435f1654e42f35fc9f4842"
+    },
+    {
+      "slug": "ManifestActive",
+      "source": "Source/GameplayRuntime/ManifestActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/ManifestActive/NS_ManifestActive_754db7c4",
+      "asset_sha256": "690e2dbd839cfc0db16c5e813c870b78f188dd6e8c0a94625313706a7e91580d"
+    },
+    {
+      "slug": "MistActive",
+      "source": "Source/GameplayRuntime/MistActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/MistActive/NS_MistActive_df2efdbe",
+      "asset_sha256": "f5017e2a23c8f44e076875805fdbeb6a0c41d3264ac002c4797cc21a9f99ce0f"
+    },
+    {
+      "slug": "StaticBoltIFlight",
+      "source": "Source/GameplayRuntime/StaticBoltIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIFlight/NS_StaticBoltIFlight_ce754671",
+      "asset_sha256": "3bd576e3fcd5144476e99ac7b8a9d0bc2fd6966df9fd2a2efd4f893acc2fb8a9"
+    },
+    {
+      "slug": "StaticBoltIiFlight",
+      "source": "Source/GameplayRuntime/StaticBoltIiFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/StaticBoltIiFlight/NS_StaticBoltIiFlight_afce3c3c",
+      "asset_sha256": "72a50ca5f1ee570f9cdac39308dfefd1aebe76b5c3359178cde2c14024ed6697"
+    },
+    {
+      "slug": "ThunderstrikeIStrike",
+      "source": "Source/GameplayRuntime/ThunderstrikeIStrike.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIStrike/NS_ThunderstrikeIStrike_23198487",
+      "asset_sha256": "f0465247ed305efdc90917df01ea8bd3896b2d1ac2b7490fa138e6dd000bb44e"
+    },
+    {
+      "slug": "ThunderstrikeIiStrike",
+      "source": "Source/GameplayRuntime/ThunderstrikeIiStrike.json",
+      "asset": "/Game/Sancta/VFX/Skills/ThunderstrikeIiStrike/NS_ThunderstrikeIiStrike_f204ce67",
+      "asset_sha256": "84c3688accaca97419b3f4876f97f50af75e84606729d97f132040c187a06180"
+    },
+    {
+      "slug": "VortexFlight",
+      "source": "Source/GameplayRuntime/VortexFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/VortexFlight/NS_VortexFlight_05596903",
+      "asset_sha256": "13e011a1b6e125b85d6205de86d52a15a50dd50212929d7512f7df8cbc6d8e76"
+    },
+    {
+      "slug": "VortexDisplacement",
+      "source": "Source/GameplayRuntime/VortexDisplacement.json",
+      "asset": "/Game/Sancta/VFX/Skills/VortexDisplacement/NS_VortexDisplacement_88a1fd27",
+      "asset_sha256": "e41d299678a3a1e8afc07851f98f015d67b3bfa8d10bb329f1852eb787b05a36"
+    },
+    {
+      "slug": "WeaveCast",
+      "source": "Source/GameplayRuntime/WeaveCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/WeaveCast/NS_WeaveCast_b66480fc",
+      "asset_sha256": "8ebd9c4a8b7a1aec287a0fa2ca0996224196599ee60bc4af9699cc9002a4d669"
+    },
+    {
+      "slug": "WeaveActive",
+      "source": "Source/GameplayRuntime/WeaveActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/WeaveActive/NS_WeaveActive_d0a5f768",
+      "asset_sha256": "9ba49aaacb585021c0b61be5ccc46c82f613a94edffae3d7ed2a83982b6435c0"
+    },
+    {
+      "slug": "AstralAuraMoonActive",
+      "source": "Source/GameplayRuntime/AstralAuraMoonActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralAuraMoonActive/NS_AstralAuraMoonActive_1f32de9f",
+      "asset_sha256": "3fd6a5b1d43b87f9cd7d47ac5b60ebd9c8516274f92a75ce7cdf7b93e5c7fef5"
+    },
+    {
+      "slug": "AstralAuraSunActive",
+      "source": "Source/GameplayRuntime/AstralAuraSunActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralAuraSunActive/NS_AstralAuraSunActive_a89f91d2",
+      "asset_sha256": "e0f08efb9f519d9d36121733508dd2eee263a672e99ead090d8d8c3b98278a13"
+    },
+    {
+      "slug": "AstralPullAreaImpact",
+      "source": "Source/GameplayRuntime/AstralPullAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralPullAreaImpact/NS_AstralPullAreaImpact_9b14bd5e",
+      "asset_sha256": "b3ca84a2d1b229fa2c9b21de502b8d72716d3aa454b05f5f849f066fea5c8c0e"
+    },
+    {
+      "slug": "AstralPullRelocate",
+      "source": "Source/GameplayRuntime/AstralPullRelocate.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralPullRelocate/NS_AstralPullRelocate_7169ad9a",
+      "asset_sha256": "fd756000d5671e6d6bf8ce094d066a8da831bb429356af9eb74d3317925e159a"
+    },
+    {
+      "slug": "AstralPullLink",
+      "source": "Source/GameplayRuntime/AstralPullLink.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralPullLink/NS_AstralPullLink_e73e4aa1",
+      "asset_sha256": "d18405f6e632a4b951058250607b6791be4c0d8a6af7f92651db65ad36d6afa0"
+    },
+    {
+      "slug": "AstralStepProc",
+      "source": "Source/GameplayRuntime/AstralStepProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralStepProc/NS_AstralStepProc_47b6b079",
+      "asset_sha256": "15b8d8424a725e5ca8c9d6a25d1559871512777459e25703b37624ac271884b7"
+    },
+    {
+      "slug": "AstralStepCast",
+      "source": "Source/GameplayRuntime/AstralStepCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralStepCast/NS_AstralStepCast_c5c5c878",
+      "asset_sha256": "b808064f2b1ef4c9be4691798dc2f99209a7e899283e107554a8295c067bf7d5"
+    },
+    {
+      "slug": "AstralVeilActive",
+      "source": "Source/GameplayRuntime/AstralVeilActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/AstralVeilActive/NS_AstralVeilActive_584f3ef6",
+      "asset_sha256": "a9e0d338e175e8d964d03662c1785a470a8a542e210da8d113b656e4a67757e4"
+    },
+    {
+      "slug": "BlackHoleIActive",
+      "source": "Source/GameplayRuntime/BlackHoleIActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlackHoleIActive/NS_BlackHoleIActive_2b792f7c",
+      "asset_sha256": "4083b835e2f4c1fafd083b13ecfa67de1b78c65d88d56c3cdb91c5e8eb9b8b2f"
+    },
+    {
+      "slug": "BlackHoleIiActive",
+      "source": "Source/GameplayRuntime/BlackHoleIiActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlackHoleIiActive/NS_BlackHoleIiActive_d4ef21f9",
+      "asset_sha256": "614a0d8771bb0425c44d67efde7275773d79299b98975af5a8068e54fa8281d3"
+    },
+    {
+      "slug": "BrightStarCast",
+      "source": "Source/GameplayRuntime/BrightStarCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/BrightStarCast/NS_BrightStarCast_9a112525",
+      "asset_sha256": "d285e71c6fd7cf47cc9e7ee5733e6d2c28986941fa13a83328327c9a082715d8"
+    },
+    {
+      "slug": "CleansemysticApply",
+      "source": "Source/GameplayRuntime/CleansemysticApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/CleansemysticApply/NS_CleansemysticApply_496525d5",
+      "asset_sha256": "f325eb015f38a059b0f254ec86c675c055ee64d65afcf523e42f60d74eb6ce62"
+    },
+    {
+      "slug": "CosmicRayIPending",
+      "source": "Source/GameplayRuntime/CosmicRayIPending.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIPending/NS_CosmicRayIPending_99f39b26",
+      "asset_sha256": "8f7fb1a08a56fb728acbc2be543bbf04fc4e46a4f2b590cdd91a3ed1602b054c"
+    },
+    {
+      "slug": "CosmicRayIResolve",
+      "source": "Source/GameplayRuntime/CosmicRayIResolve.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIResolve/NS_CosmicRayIResolve_698e1067",
+      "asset_sha256": "2710460959c51ee30319494244caa8701dad32668a41223525673daee4607706"
+    },
+    {
+      "slug": "CosmicRayIiPending",
+      "source": "Source/GameplayRuntime/CosmicRayIiPending.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIiPending/NS_CosmicRayIiPending_637fd0f5",
+      "asset_sha256": "6ecb1ef28f29920d06fc4201dead9e24f7b497ffca6e6682d39effb8d9662bfe"
+    },
+    {
+      "slug": "CosmicRayIiResolve",
+      "source": "Source/GameplayRuntime/CosmicRayIiResolve.json",
+      "asset": "/Game/Sancta/VFX/Skills/CosmicRayIiResolve/NS_CosmicRayIiResolve_1d7cfc55",
+      "asset_sha256": "254709cb079377b9f4ef8a33e1ac771cc67f59ac827112bcd7c7ac0e4764e602"
+    },
+    {
+      "slug": "EclipseAreaImpact",
+      "source": "Source/GameplayRuntime/EclipseAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/EclipseAreaImpact/NS_EclipseAreaImpact_0275839a",
+      "asset_sha256": "ec0c6ff1e44f5f1ce16de4c1e79178186ba9bb2e05014bd0ef828aa278ceb309"
+    },
+    {
+      "slug": "EtherIAllyFlight",
+      "source": "Source/GameplayRuntime/EtherIAllyFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIAllyFlight/NS_EtherIAllyFlight_a76b1609",
+      "asset_sha256": "ae76af7306b7c5e5e63f8ce8d58d0fe7c0975bdd72ab823c02e64fad6ba9cf7c"
+    },
+    {
+      "slug": "EtherIEnemyFlight",
+      "source": "Source/GameplayRuntime/EtherIEnemyFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIEnemyFlight/NS_EtherIEnemyFlight_e4734eee",
+      "asset_sha256": "2ff283f9519c966f0809370fa19d454b8bdae2ba3dac4cb440ad7005d6a37943"
+    },
+    {
+      "slug": "EtherIiAllyFlight",
+      "source": "Source/GameplayRuntime/EtherIiAllyFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIiAllyFlight/NS_EtherIiAllyFlight_8b87cd9b",
+      "asset_sha256": "9bc19a61e53df6b076be1b5bbccbaac7461add6e278bdd2473b9cd8e3f29bb82"
+    },
+    {
+      "slug": "EtherIiEnemyFlight",
+      "source": "Source/GameplayRuntime/EtherIiEnemyFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/EtherIiEnemyFlight/NS_EtherIiEnemyFlight_06cc0fe0",
+      "asset_sha256": "cc5a68076df9568404cb100d1cced8fd80a432d3af88a867b2a62e332ff4feaa"
+    },
+    {
+      "slug": "FullMoonAreaImpact",
+      "source": "Source/GameplayRuntime/FullMoonAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/FullMoonAreaImpact/NS_FullMoonAreaImpact_b1dff1a1",
+      "asset_sha256": "3c8d81d18afedab075999bec0fa514d0ccceb3fa000316e295adbddab623a214"
+    },
+    {
+      "slug": "LullabyFlight",
+      "source": "Source/GameplayRuntime/LullabyFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/LullabyFlight/NS_LullabyFlight_91225cce",
+      "asset_sha256": "e631df81f1e809cc7dc76cf9b68fdb855d1c0bc364400b854000a7908ac7bb2a"
+    },
+    {
+      "slug": "LullabyProc",
+      "source": "Source/GameplayRuntime/LullabyProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/LullabyProc/NS_LullabyProc_00adf869",
+      "asset_sha256": "c99d20b10e7b80b3bd28a2c008a3620f1d29c3b7f1be605bc42ad8bbb5259633"
+    },
+    {
+      "slug": "LullabyIiNightmareFlight",
+      "source": "Source/GameplayRuntime/LullabyIiNightmareFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/LullabyIiNightmareFlight/NS_LullabyIiNightmareFlight_6d205710",
+      "asset_sha256": "c4d2cbd1b494c50e907add1f801a2d2d37b4164ab9c3f2bf7662d85b71c8a7f8"
+    },
+    {
+      "slug": "LullabyIiNightmareProc",
+      "source": "Source/GameplayRuntime/LullabyIiNightmareProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/LullabyIiNightmareProc/NS_LullabyIiNightmareProc_e6bc578d",
+      "asset_sha256": "ad11bd539f37845e453cf1ba2c44e0bda9e9e539f232637e64f71d077472dc46"
+    },
+    {
+      "slug": "MoonStanceCast",
+      "source": "Source/GameplayRuntime/MoonStanceCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/MoonStanceCast/NS_MoonStanceCast_7f251fb8",
+      "asset_sha256": "11700e983886e0892c9819bb6712781232800964ae8ac08b770922aa0ffad712"
+    },
+    {
+      "slug": "MoonStanceActive",
+      "source": "Source/GameplayRuntime/MoonStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/MoonStanceActive/NS_MoonStanceActive_4fb8170b",
+      "asset_sha256": "aff86322cae3942076a1a74017b7a12e660a2385c5b01ad0fc79e567da532aae"
+    },
+    {
+      "slug": "ResurrectHold",
+      "source": "Source/GameplayRuntime/ResurrectHold.json",
+      "asset": "/Game/Sancta/VFX/Skills/ResurrectHold/NS_ResurrectHold_5e27dfbc",
+      "asset_sha256": "42c8dad7d3c00d6cabedb8c2499b1b1aa7ab9a5f8ab60c1139224a57c251ed54"
+    },
+    {
+      "slug": "SunStanceCast",
+      "source": "Source/GameplayRuntime/SunStanceCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/SunStanceCast/NS_SunStanceCast_14d23eaa",
+      "asset_sha256": "170a1454404df657326cedcb980b2c3446572dd0069cdf51f9b9f8d5ffa9965a"
+    },
+    {
+      "slug": "SunStanceActive",
+      "source": "Source/GameplayRuntime/SunStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/SunStanceActive/NS_SunStanceActive_4e2bb3ca",
+      "asset_sha256": "f4271371eacf303b6a94e8705a2088a78209665a1114d85ad4ea4e12e3b75e72"
+    },
+    {
+      "slug": "BackstabFlight",
+      "source": "Source/GameplayRuntime/BackstabFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabFlight/NS_BackstabFlight_a9ec0737",
+      "asset_sha256": "f0594dd36e2c96748142fd169f93ea7b11dd5b930586afae10fada0f157abe84"
+    },
+    {
+      "slug": "BackstabImpact",
+      "source": "Source/GameplayRuntime/BackstabImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabImpact/NS_BackstabImpact_5b3d8c08",
+      "asset_sha256": "0a754528482d6e4702029c14f3947b508ca3a777da1635ca8c2bf26c6f7079f6"
+    },
+    {
+      "slug": "BackstabIiFlight",
+      "source": "Source/GameplayRuntime/BackstabIiFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/BackstabIiFlight/NS_BackstabIiFlight_e472a906",
+      "asset_sha256": "4c69384f71bca93f7b9fde8e71e9a61a247ad3a17c61c4c48e426d4301ce538e"
+    },
+    {
+      "slug": "BasicAttackBleedOverlay",
+      "source": "Source/GameplayRuntime/BasicAttackBleedOverlay.json",
+      "asset": "/Game/Sancta/VFX/Skills/BasicAttackBleedOverlay/NS_BasicAttackBleedOverlay_034e060f",
+      "asset_sha256": "23f0e9d2b82cef079463e98b1f771ae59c00a06bd5bc6e57693fe232d5903f5e"
+    },
+    {
+      "slug": "BasicAttackPoisonOverlay",
+      "source": "Source/GameplayRuntime/BasicAttackPoisonOverlay.json",
+      "asset": "/Game/Sancta/VFX/Skills/BasicAttackPoisonOverlay/NS_BasicAttackPoisonOverlay_3eaadc4d",
+      "asset_sha256": "af650c0f3a00d4c6b02a2fe2d3739759f2f2e916a18c1476bdad35a267aad46b"
+    },
+    {
+      "slug": "BleedStanceActive",
+      "source": "Source/GameplayRuntime/BleedStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/BleedStanceActive/NS_BleedStanceActive_7a39ea72",
+      "asset_sha256": "ae07da81f64f5e06f736bf017009672d4b93ed92ea55014ebcb6ba1792f2db40"
+    },
+    {
+      "slug": "BlindingDartFlight",
+      "source": "Source/GameplayRuntime/BlindingDartFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlindingDartFlight/NS_BlindingDartFlight_7189d7fe",
+      "asset_sha256": "b43f725fc890507c0917297b77a3a90c80b90569fcd1d7338a4b7b304d1a828c"
+    },
+    {
+      "slug": "BlindingDartImpact",
+      "source": "Source/GameplayRuntime/BlindingDartImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlindingDartImpact/NS_BlindingDartImpact_5f75d386",
+      "asset_sha256": "1cf72f86d418e14f5156a4932ddcc14aaec2bfa180d4b44629883c50beab113b"
+    },
+    {
+      "slug": "BlindingDartProc",
+      "source": "Source/GameplayRuntime/BlindingDartProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/BlindingDartProc/NS_BlindingDartProc_761c89c6",
+      "asset_sha256": "b3aba4cdf0c5a5902a2e7a6bb4e865b76f235c800e11714632b16a8a0ca8a7ab"
+    },
+    {
+      "slug": "CleansescoutApply",
+      "source": "Source/GameplayRuntime/CleansescoutApply.json",
+      "asset": "/Game/Sancta/VFX/Skills/CleansescoutApply/NS_CleansescoutApply_d1f72688",
+      "asset_sha256": "33f8d3ac38a39f76694bc6ede518e8fa775435ddfed4b861c9b822605907174d"
+    },
+    {
+      "slug": "EvasionProc",
+      "source": "Source/GameplayRuntime/EvasionProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/EvasionProc/NS_EvasionProc_e6d37dfe",
+      "asset_sha256": "86306e7946929cbf164294a5cca0211e006c213fafe2cff1972b9eb5d949bd93"
+    },
+    {
+      "slug": "ExploitWeaknessIImpact",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIImpact/NS_ExploitWeaknessIImpact_90e822e5",
+      "asset_sha256": "9ea6149663994118bda57653709c25b34e2e7b6c38d55246c382aebd4d81bda8"
+    },
+    {
+      "slug": "ExploitWeaknessIProc",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIProc/NS_ExploitWeaknessIProc_f599279e",
+      "asset_sha256": "a402ea7bea4b616d872cb01c1ca8efd9bd01d797e9a43a127a3386b629419ef6"
+    },
+    {
+      "slug": "ExploitWeaknessIiImpact",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIiImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIiImpact/NS_ExploitWeaknessIiImpact_facd4861",
+      "asset_sha256": "a912d6870c9dcd272b223c7c79c96d1ed0c019ed6804255ca73558bb8a738f9b"
+    },
+    {
+      "slug": "ExploitWeaknessIiProc",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIiProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIiProc/NS_ExploitWeaknessIiProc_7c590ab2",
+      "asset_sha256": "f51cbeaf6239f1e8b827841f07db412193de9b530e3f1c40beb74a91db947e70"
+    },
+    {
+      "slug": "ExploitWeaknessIiiImpact",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIiiImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIiiImpact/NS_ExploitWeaknessIiiImpact_cb272e40",
+      "asset_sha256": "701a9e0ab5a58bb91ebdb9255f913f1ecfc8fecd8e8a21ce6a66bd18e65be4cf"
+    },
+    {
+      "slug": "ExploitWeaknessIiiProc",
+      "source": "Source/GameplayRuntime/ExploitWeaknessIiiProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/ExploitWeaknessIiiProc/NS_ExploitWeaknessIiiProc_516b283c",
+      "asset_sha256": "74c3007461562c5ba2737e4450bdffde9c8774cd5c777e24ae4eb3177920d8d7"
+    },
+    {
+      "slug": "HemorrhagePayoff",
+      "source": "Source/GameplayRuntime/HemorrhagePayoff.json",
+      "asset": "/Game/Sancta/VFX/Skills/HemorrhagePayoff/NS_HemorrhagePayoff_04a094f2",
+      "asset_sha256": "afae74d21e0c1fc7b16106cc2dd64a8be64906fc7633641d17a221064b5d5694"
+    },
+    {
+      "slug": "HemorrhageConsume",
+      "source": "Source/GameplayRuntime/HemorrhageConsume.json",
+      "asset": "/Game/Sancta/VFX/Skills/HemorrhageConsume/NS_HemorrhageConsume_1a60dd8b",
+      "asset_sha256": "796db0002d36e27d838ed0019a3897875052ad1b99ec1fee48da5e0b655651a3"
+    },
+    {
+      "slug": "LongJumpHold",
+      "source": "Source/GameplayRuntime/LongJumpHold.json",
+      "asset": "/Game/Sancta/VFX/Skills/LongJumpHold/NS_LongJumpHold_aab924b3",
+      "asset_sha256": "817d479998a2aa2ce8b6526764ae76d6443706b0de52020d00011ae05ecd4de0"
+    },
+    {
+      "slug": "LongJumpTelegraph",
+      "source": "Source/GameplayRuntime/LongJumpTelegraph.json",
+      "asset": "/Game/Sancta/VFX/Skills/LongJumpTelegraph/NS_LongJumpTelegraph_d981e9a1",
+      "asset_sha256": "74ea38eb610936f1d430441e812b859e4f9dd299ff1d1f2680805b41b3fa1c2d"
+    },
+    {
+      "slug": "LongJumpMovement",
+      "source": "Source/GameplayRuntime/LongJumpMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/LongJumpMovement/NS_LongJumpMovement_7a1a19ce",
+      "asset_sha256": "54ed53c7fd7453b5304b695bce9ceca78b8c143cca1482b92136ffb2ee29d1ce"
+    },
+    {
+      "slug": "PoisonSacFlight",
+      "source": "Source/GameplayRuntime/PoisonSacFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/PoisonSacFlight/NS_PoisonSacFlight_c44bc152",
+      "asset_sha256": "0c64ee4199ad6f303f060e5683f48d626bf052ad46bc173a605249e286460351"
+    },
+    {
+      "slug": "PoisonSacImpact",
+      "source": "Source/GameplayRuntime/PoisonSacImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/PoisonSacImpact/NS_PoisonSacImpact_aaf36e46",
+      "asset_sha256": "d33d200f718586152e04654e38421e9a4e3c98fc6e38db1ce05a6e51ae5f4cae"
+    },
+    {
+      "slug": "PoisonSacActive",
+      "source": "Source/GameplayRuntime/PoisonSacActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/PoisonSacActive/NS_PoisonSacActive_53f79547",
+      "asset_sha256": "0806f44de99b6c1532661f034b68a59a2aaaefed3a26a56703205d5793985f3e"
+    },
+    {
+      "slug": "PoisonSacConsume",
+      "source": "Source/GameplayRuntime/PoisonSacConsume.json",
+      "asset": "/Game/Sancta/VFX/Skills/PoisonSacConsume/NS_PoisonSacConsume_0a7f3168",
+      "asset_sha256": "877ac2714992f0f43d58cf9edf3a3c0273238a3230778b0f80bc0aea69725407"
+    },
+    {
+      "slug": "PoisonStanceActive",
+      "source": "Source/GameplayRuntime/PoisonStanceActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/PoisonStanceActive/NS_PoisonStanceActive_ef54ad4f",
+      "asset_sha256": "9362c95737fc0a7544b2fb73039e57881826c6d3db2d31cad88593a0083a597f"
+    },
+    {
+      "slug": "QuickstepIMovement",
+      "source": "Source/GameplayRuntime/QuickstepIMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/QuickstepIMovement/NS_QuickstepIMovement_0a6f9d63",
+      "asset_sha256": "b0bbc9818d2a71d6b26a5760febb63daf7d97b3d40bca21d8ac28221b0d0647a"
+    },
+    {
+      "slug": "QuickstepIiMovement",
+      "source": "Source/GameplayRuntime/QuickstepIiMovement.json",
+      "asset": "/Game/Sancta/VFX/Skills/QuickstepIiMovement/NS_QuickstepIiMovement_3b980f77",
+      "asset_sha256": "90d08ddb52c9e68e5ce17f18d24c29699ffe4f09d015a189ab463faad62f6f0b"
+    },
+    {
+      "slug": "RapidAttackCast",
+      "source": "Source/GameplayRuntime/RapidAttackCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/RapidAttackCast/NS_RapidAttackCast_7f5442a8",
+      "asset_sha256": "bb40cba9cafb97429d6e2bc34277f38d4fcd4670184bd1d4fc34c927c672819c"
+    },
+    {
+      "slug": "SandShotCast",
+      "source": "Source/GameplayRuntime/SandShotCast.json",
+      "asset": "/Game/Sancta/VFX/Skills/SandShotCast/NS_SandShotCast_a0dd5979",
+      "asset_sha256": "453849ed21225a08eb5f6c230bb67ddfcb473c22895c34d9165331abfa76c1b8"
+    },
+    {
+      "slug": "SandShotImpact",
+      "source": "Source/GameplayRuntime/SandShotImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/SandShotImpact/NS_SandShotImpact_ede04979",
+      "asset_sha256": "808f0cc4a0a5205008b2d676460af68104d5018de4672acdf5ccfc30ebe7a6cd"
+    },
+    {
+      "slug": "SicknessImpact",
+      "source": "Source/GameplayRuntime/SicknessImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/SicknessImpact/NS_SicknessImpact_a96d058a",
+      "asset_sha256": "1365347afc3fe8d285ef20cc97da269d2a70685465bde954fcc08ab642be6818"
+    },
+    {
+      "slug": "SicknessAreaImpact",
+      "source": "Source/GameplayRuntime/SicknessAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/SicknessAreaImpact/NS_SicknessAreaImpact_72de28e1",
+      "asset_sha256": "057eb421381fb6d5c53ce0fbf9608923095ffa6205635b855268a355499d6384"
+    },
+    {
+      "slug": "SicknessConsume",
+      "source": "Source/GameplayRuntime/SicknessConsume.json",
+      "asset": "/Game/Sancta/VFX/Skills/SicknessConsume/NS_SicknessConsume_22429272",
+      "asset_sha256": "2d75d12ab542462725c51df080d4a8dd1c14578a2ff6eed464a0f949ed790c53"
+    },
+    {
+      "slug": "SmokeBombIFlight",
+      "source": "Source/GameplayRuntime/SmokeBombIFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIFlight/NS_SmokeBombIFlight_363078de",
+      "asset_sha256": "64f22ad9e2887da2f58b2b17147381b38c2833eb1811f1d27eac91935b4c0607"
+    },
+    {
+      "slug": "SmokeBombIAreaImpact",
+      "source": "Source/GameplayRuntime/SmokeBombIAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIAreaImpact/NS_SmokeBombIAreaImpact_e610c599",
+      "asset_sha256": "a791e0e8265b88720f0317091334cde49023e0e6ca8eea6a4b4f1de49c6ec17b"
+    },
+    {
+      "slug": "SmokeBombIActive",
+      "source": "Source/GameplayRuntime/SmokeBombIActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIActive/NS_SmokeBombIActive_8a7872cb",
+      "asset_sha256": "3971eab92b9676a3544d79c6d9aaf8ca096b0e9a66cefb5ecb1c3cb7d6dc5b70"
+    },
+    {
+      "slug": "SmokeBombIiFlight",
+      "source": "Source/GameplayRuntime/SmokeBombIiFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIiFlight/NS_SmokeBombIiFlight_9af68b86",
+      "asset_sha256": "6812f6bf6260753eeee380c1356dc487b8f3cad14f807ce0cf53e3b991429f82"
+    },
+    {
+      "slug": "SmokeBombIiAreaImpact",
+      "source": "Source/GameplayRuntime/SmokeBombIiAreaImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIiAreaImpact/NS_SmokeBombIiAreaImpact_2e535d01",
+      "asset_sha256": "b25f925d6b9d3035ad0d9b17689f21c6ccbf0e26df656d019ca419d7a97d17bb"
+    },
+    {
+      "slug": "SmokeBombIiActive",
+      "source": "Source/GameplayRuntime/SmokeBombIiActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/SmokeBombIiActive/NS_SmokeBombIiActive_b178dfa8",
+      "asset_sha256": "2b510d6d4fe0e476207099394c1c047828559461a966345dd97da946585de96a"
+    },
+    {
+      "slug": "TorporFlight",
+      "source": "Source/GameplayRuntime/TorporFlight.json",
+      "asset": "/Game/Sancta/VFX/Skills/TorporFlight/NS_TorporFlight_09e6ce41",
+      "asset_sha256": "94706056fbbe93422040c2452fe45e1f722d53197749748df53a85a524e36225"
+    },
+    {
+      "slug": "TorporImpact",
+      "source": "Source/GameplayRuntime/TorporImpact.json",
+      "asset": "/Game/Sancta/VFX/Skills/TorporImpact/NS_TorporImpact_6dd00d6b",
+      "asset_sha256": "44caae3dbb913105a4dce486680c9191e897d4dad748d40cbca6ba58913442a0"
+    },
+    {
+      "slug": "TorporProc",
+      "source": "Source/GameplayRuntime/TorporProc.json",
+      "asset": "/Game/Sancta/VFX/Skills/TorporProc/NS_TorporProc_92e7d381",
+      "asset_sha256": "ae8380b5678c7fc810e74dfca3918a153f8d191f2ddb67645e432e235badaf4d"
+    },
+    {
+      "slug": "VineFieldIActive",
+      "source": "Source/GameplayRuntime/VineFieldIActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/VineFieldIActive/NS_VineFieldIActive_aa8b71cf",
+      "asset_sha256": "e70fe0b95ecceced43ccc19a91737ed6e76feefb6bb9c96ae5dc03eecfb8b1d3"
+    },
+    {
+      "slug": "VineFieldIiActive",
+      "source": "Source/GameplayRuntime/VineFieldIiActive.json",
+      "asset": "/Game/Sancta/VFX/Skills/VineFieldIiActive/NS_VineFieldIiActive_26593965",
+      "asset_sha256": "f7ea217424b422455427345544643313fce33fd95f16f6f2e40e20f539c338fe"
+    }
+  ],
+  "pending_native_slugs": [],
+  "definition_count": 413,
+  "canonical_pending": [],
+  "background_running": false,
+  "background_task": "",
+  "files_written": [
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/SanctaVFXRuntime.Build.cs",
+      "sha256": "1f13647eacadd2630d6f18a7f03382d5c914f54c10125ef1c45a1dca7b490193",
+      "bytes": 326
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXAnimNotify.cpp",
+      "sha256": "04c9443ef9155841033c0b3d627de53dc57a7bafe8edd16d61a98b77217a5da9",
+      "bytes": 589
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXCombatLibrary.cpp",
+      "sha256": "f94b227e0ce35fc65ee570315188585b0ff54383af53e9743ed45cbaf543ea3c",
+      "bytes": 948
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXPresentation.cpp",
+      "sha256": "bcd93fa9bee4c2cd2496b629683acf1a297eb5d5b56b844b252a6071467f3784",
+      "bytes": 19962
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXRuntimeModule.cpp",
+      "sha256": "64541a61cbf21e337bc2cb4800239fece3b74c849e13264e3ee056c91825083b",
+      "bytes": 90
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXTerrain.cpp",
+      "sha256": "a1b131c1587032932a85c6488eee03526a7d4589618ea8e0fd984b590cd0f1d6",
+      "bytes": 2210
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXAnimNotify.h",
+      "sha256": "d950692f021e0f8ae1c209540aa0f72c6e7fab0bcee46c87282da1622030e541",
+      "bytes": 650
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXCombatLibrary.h",
+      "sha256": "79d9fa229090f7e75ddae35584d3d4512de0f0926c938773be13c6bd882eec71",
+      "bytes": 737
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXPresentation.h",
+      "sha256": "2c4d6164639e9336d37d7c8cddfad9efb8e11eb5552f591b760d27c5486e8532",
+      "bytes": 9547
+    },
+    {
+      "path": "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXTerrain.h",
+      "sha256": "cb659f008b390f86a381554d142a23b544cde9b508f70856131d9dde705f7a30",
+      "bytes": 1597
+    }
+  ],
+  "preservation": {
+    "checked_at_utc": "2026-10-05T12:35:38.905717+00:00",
+    "source_count": 194,
+    "asset_count": 247,
+    "passed": true,
+    "mismatches": []
+  },
+  "completed_this_run": [
+    "Runtime registado e compilado: eventos, anchors/sockets, materiais privados, estados, remoção, LifeId e deduplicação.",
+    "Anim Notify e seleção nativa de 14 armas × 4 Primaries.",
+    "Fontes derivadas separadas para skills, recursos, casts/links/áreas e CC, sem modificar arte aprovada.",
+    "Terreno Iceberg com colisão nativa e integridade/remoção, validado no laboratório.",
+    "136 FormIds canónicos com snapshot de modo/stance e aliases de componentes.",
+    "Effect Types Essential/Gameplay/Decorative criados no Unreal.",
+    "Capturas PIE reais e medição preliminar 0/1/16/48 instâncias; sem aprovação de orçamento.",
+    "331/331 fontes atuais compiladas e simuladas; 0 pendentes.",
+    "401 resultados de bindings guardados; conferir assinaturas após as alterações.",
+    "34 testes de eventos e 56 combinações classe/arma; arranque a 1×."
+  ],
+  "remaining": [
+    "Feedback do utilizador sobre as formas Glacial/Iceberg e as novas apresentações.",
+    "Calibrar sockets/rigs, câmaras, colisão, transporte de eventos/replicação e cook Shipping no projeto do jogo quando autorizado.",
+    "Validar orçamento e concorrência na câmara/hardware alvo; não extrapolar timings do palco PIE.",
+    "Guardar a revisão atual em Git e push imediato."
+  ],
+  "production_approved": false,
+  "foundation_modified": false,
+  "viewer_default_speed": 1.0,
+  "uncompiled_changes": [],
+  "next_commands_after_active_batch": [
+    "Register only the exact completed capture batch after UE exit 0.",
+    "Audit and inspect the current full plan, Low/bright/terrain and resource/hold captures.",
+    "Record performance and viewer checks, then refresh export and explicit Git scope."
+  ],
+  "source_matches_compiled": true,
+  "compiled_binary_available": true,
+  "capture_acceptance": {
+    "context_matches_current_build": true,
+    "accepted_frames": 1004,
+    "accepted_all_frames": 867,
+    "planned_all_frames": 867,
+    "quality_approved": false
+  },
+  "phase_repair_plan": "Evidence/runtime-phase-repair-plan-20261005.json",
+  "export_requires_refresh": false,
+  "git_commit_push_pending": true
+}

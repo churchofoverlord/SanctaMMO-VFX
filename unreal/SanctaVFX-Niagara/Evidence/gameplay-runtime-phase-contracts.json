@@ -1,0 +1,2296 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "requirement": "WarLeapAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "WarLeapTelegraph event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "WarLeapMovement event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "LongJumpHold event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "LongJumpTelegraph event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "DefiantPresenceActive event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CrushingBlowAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CrushingBlowIiAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "SmokeBombIAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "SmokeBombIiAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CombustIiAreaImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "ShoulderRushImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "ShoulderRushIiTankImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "ShoulderRushIiWarriorImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CleanseApply event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CleansemageApply event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CleansemysticApply event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "CleansescoutApply event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "EvasionProc event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "PressureProvokeImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "PressureProvokeImpact contact position keeps confirmed target life",
+      "passed": true
+    },
+    {
+      "requirement": "PressureProvokeTankImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "PressureProvokeTankImpact contact position keeps confirmed target life",
+      "passed": true
+    },
+    {
+      "requirement": "SandShotCast event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "SandShotImpact event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "Sand Shot has one confirmed contact and no timed phantom targets",
+      "passed": true
+    },
+    {
+      "requirement": "BleedStanceActive event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "PoisonStanceActive event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "ThunderstrikeIStrike event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "ThunderstrikeIiStrike event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "VortexDisplacement event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "AstralPullLink event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "AstralPullRelocate event/owner/gate",
+      "passed": true
+    },
+    {
+      "requirement": "Severing has no duplicate hit flashes",
+      "passed": true
+    },
+    {
+      "requirement": "PiercingStrikeImpact is one contact per confirmed target",
+      "passed": true
+    },
+    {
+      "requirement": "PiercingStrikeIiTankImpact is one contact per confirmed target",
+      "passed": true
+    },
+    {
+      "requirement": "PiercingStrikeIiWarriorImpact is one contact per confirmed target",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Sword.Physical/BasicSwordPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Sword.Magical/BasicSwordMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Axe.Physical/BasicAxePhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Axe.Magical/BasicAxeMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Club.Physical/BasicClubPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Club.Magical/BasicClubMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Wand.Physical/BasicWandPhysicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Wand.Magical/BasicWandMagicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Rapier.Physical/BasicRapierPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Rapier.Magical/BasicRapierMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.DualDaggers.Physical/BasicDualDaggersPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.DualDaggers.Magical/BasicDualDaggersMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.FistsGauntlets.Physical/BasicFistsGauntletsPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.FistsGauntlets.Magical/BasicFistsGauntletsMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.GreatClub.Physical/BasicGreatClubPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.GreatClub.Magical/BasicGreatClubMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Staff.Physical/BasicStaffPhysicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Staff.Magical/BasicStaffMagicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Crossbow.Physical/BasicCrossbowPhysicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Crossbow.Magical/BasicCrossbowMagicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Greatsword.Physical/BasicGreatswordPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Greatsword.Magical/BasicGreatswordMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Greataxe.Physical/BasicGreataxePhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Greataxe.Magical/BasicGreataxeMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Bow.Physical/BasicBowPhysicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Bow.Magical/BasicBowMagicalFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Spear.Physical/BasicSpearPhysicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Combat.Basic.Spear.Magical/BasicSpearMagicalTrail ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-i/ExploitIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-i/ExploitWeaknessIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-i/ExploitWeaknessIProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-ii/ExploitIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-ii/ExploitWeaknessIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-ii/ExploitWeaknessIiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-iii/ExploitIIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-iii/ExploitWeaknessIiiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "exploit-weakness-iii/ExploitWeaknessIiiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "full-moon/FullMoonDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-i/CosmicRayIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-i/CosmicRayIPending binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-i/CosmicRayIResolve binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-ii/CosmicRayIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-ii/CosmicRayIiPending binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cosmic-ray-ii/CosmicRayIiResolve binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "sickness/SicknessDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "sickness/SicknessImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "sickness/SicknessConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Disarm/CCDisarmActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Disarm/CCDisarmApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Disarm/CCDisarmNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Disarm/CCDisarmCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCStunActive/CCStunActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCStunNaturalEnd/CCStunNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCStunCleanse/CCStunCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSleepActive/CCSleepActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSleepNaturalEnd/CCSleepNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSleepCleanse/CCSleepCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSilenceActive/CCSilenceActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSilenceNaturalEnd/CCSilenceNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCSilenceCleanse/CCSilenceCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCTauntActive/CCTauntActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCTauntNaturalEnd/CCTauntNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCTauntCleanse/CCTauntCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCFearActive/CCFearActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCFearNaturalEnd/CCFearNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCFearCleanse/CCFearCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCRootActive/CCRootActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "control/CCRootActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "control/CCRootNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "control/CCRootCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCRootNaturalEnd/CCRootNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCRootCleanse/CCRootCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCTauntApply/CCTauntApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCForcedPush/CCForcedPush binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCForcedPull/CCForcedPull binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CCForcedSlowPull/CCForcedSlowPull binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.SeveringMark1/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.SeveringMark2/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.SeveringMark3/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-ii/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-ii/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-ii/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-iii/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-iii/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "severing-strike-iii/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FireBoltIFlight/FireBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fire-bolt-i/FireBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fire-bolt-i/FireBoltIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FireBoltIImpact/FireBoltIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FireBoltIIFlight/FireBoltIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fire-bolt-ii/FireBoltIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fire-bolt-ii/FireBoltIIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fire-bolt-ii/FireBoltIISpread binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FireBoltIIImpact/FireBoltIIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIBleedFlight/VolleyIBleedFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-i-bleed/VolleyIBleedFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-i-bleed/VolleyIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIBleedHit/VolleyIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIPoisonFlight/VolleyIPoisonFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-i-poison/VolleyIPoisonFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-i-poison/VolleyIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIPoisonHit/VolleyIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIBleedFanFlight/VolleyIIBleedFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-bleed/VolleyIIBleedFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-bleed/VolleyIIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-bleed/VolleyIIBleedPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-bleed/VolleyIIBleedAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIBleedHit/VolleyIIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIBleedPiercingFlight/VolleyIIBleedPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIBleedAim/VolleyIIBleedAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIPoisonFanFlight/VolleyIIPoisonFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-poison/VolleyIIPoisonFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-poison/VolleyIIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-poison/VolleyIIPoisonPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "volley-ii-poison/VolleyIIPoisonAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIPoisonHit/VolleyIIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIPoisonPiercingFlight/VolleyIIPoisonPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.VolleyIIPoisonAim/VolleyIIPoisonAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIFlight/ChainsIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIFlight/ChainsIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains/ChainsIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "chains/ChainsIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains/ChainsILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains/ChainsIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "chains/ChainsIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsILatchedLink/ChainsILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIHit/ChainsIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIEnd/ChainsIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIFlight/ChainsIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIFlight/ChainsIIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIITargetWrap binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIPull binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "chains-ii/ChainsIIInterrupt binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIILatchedLink/ChainsIILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIHit/ChainsIIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIEnd/ChainsIIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIITargetWrap/ChainsIITargetWrap binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIPull/ChainsIIPull binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChainsIIInterrupt/ChainsIIInterrupt binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FireBoltIISpread/FireBoltIISpread binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ChallengeIIRootApply/ChallengeIIRootApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "battlecry-challenge-ii-tank/ChallengeIIRootApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.RallyITankAffected/RallyITankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "rally-i-tank/RallyITankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.RallyIWarriorAffected/RallyIWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "rally-i-warrior/RallyIWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.RallyIiTankAffected/RallyIiTankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "rally-ii-tank/RallyIiTankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.RallyIiWarriorAffected/RallyIiWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "rally-ii-warrior/RallyIiWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ResurrectComplete/ResurrectComplete binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "resurrect/ResurrectComplete binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "resurrect/ResurrectHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "resurrect/ResurrectHold binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FrostLanceIImpact/FrostLanceIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "frost-lance-i/FrostLanceIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "frost-lance-i/FrostLanceIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FrostLanceIiImpact/FrostLanceIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "frost-lance-ii/FrostLanceIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "frost-lance-ii/FrostLanceIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "frost-lance-ii/FrostLanceIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.FrostLanceIiConditionalControl/FrostLanceIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "glacial-spike-i/GlacialSpikeIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.GlacialSpikeIImpact/GlacialSpikeIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "glacial-spike-ii/GlacialSpikeIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "glacial-spike-ii/GlacialSpikeIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.GlacialSpikeIiImpact/GlacialSpikeIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.GlacialSpikeIiConditionalControl/GlacialSpikeIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.EtherIAllyHeal/EtherIAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-i-ally/EtherIAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-i-ally/EtherIAllyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.EtherIEnemyConfirmedDamage/EtherIEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-i-enemy/EtherIEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-i-enemy/EtherIEnemyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.EtherIiAllyHeal/EtherIiAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-ii-ally/EtherIiAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-ii-ally/EtherIiAllyConditionalBuff binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-ii-ally/EtherIiAllyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.EtherIiAllyConditionalBuff/EtherIiAllyConditionalBuff binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.EtherIiEnemyConfirmedDamage/EtherIiEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-ii-enemy/EtherIiEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "ether-ii-enemy/EtherIiEnemyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.BrightStarShieldApply/BrightStarShieldApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "bright-star/BrightStarShieldApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.SerenityHeal/SerenityHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "serenity/SerenityHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "serenity/SerenitySleepApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.SerenitySleepApply/SerenitySleepApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.BackstabIIConfirmedHit/BackstabIIConfirmedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab-ii/BackstabIIConfirmedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab-ii/BackstabIIStunApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab-ii/BackstabIIPoisonApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab-ii/BackstabIIBleedApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab-ii/BackstabIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.BackstabIIStunApply/BackstabIIStunApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.BackstabIIPoisonApply/BackstabIIPoisonApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.BackstabIIBleedApply/BackstabIIBleedApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.LaserContact/LaserContact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "laser/LaserContact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "laser/LaserActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.StaticBoltIHit/StaticBoltIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-i/StaticBoltIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-i/StaticBoltIChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-i/StaticBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.StaticBoltIChain/StaticBoltIChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.StaticBoltIiHit/StaticBoltIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-ii/StaticBoltIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-ii/StaticBoltIiChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "static-bolt-ii/StaticBoltIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.StaticBoltIiChain/StaticBoltIiChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CoilHit/CoilHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "coil/CoilHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "coil/CoilProc7 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "coil/CoilChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CoilProc7/CoilProc7 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.CoilChain/CoilChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ThunderstrikeIHit/ThunderstrikeIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "thunderstrike-i/ThunderstrikeIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.ThunderstrikeIiHit/ThunderstrikeIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "thunderstrike-ii/ThunderstrikeIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "tempest/TempestTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "tempest/TempestLightningHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "tempest/TempestSappedProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.TempestTelegraph/TempestTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "Component.TempestLightningHit/TempestLightningHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Component.TempestSappedProc/TempestSappedProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-comet-moon/SpiritOfTheCometMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-comet-sun/SpiritOfTheCometSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-orbit-moon/SpiritOfTheOrbitMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-orbit-sun/SpiritOfTheOrbitSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-star-moon/SpiritOfTheStarMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "spirit-of-the-star-sun/SpiritOfTheStarSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mana-barrier-i/ManaBarrierIHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mana-barrier-ii-overcharge/ManaBarrierIiOverchargeHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "connection-i-ally/ConnectionIAllyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-i-ally/ConnectionIAllyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-i-enemy/ConnectionIEnemyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-i-enemy/ConnectionIEnemyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-ii-ally/ConnectionIiAllyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-ii-ally/ConnectionIiAllyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-ii-enemy/ConnectionIiEnemyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "connection-ii-enemy/ConnectionIiEnemyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "cleanse/CleanseApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "piercing-strike/PiercingStrikeImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "piercing-strike-ii-tank/PiercingStrikeIiTankImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "piercing-strike-ii-warrior/PiercingStrikeIiWarriorImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "pressure-provoke/PressureProvokeCast binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "pressure-provoke-tank/PressureProvokeTankCast binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush/ShoulderRushMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush/ShoulderRushImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush-ii-tank/ShoulderRushIiTankMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush-ii-tank/ShoulderRushIiTankImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush-ii-warrior/ShoulderRushIiWarriorMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "shoulder-rush-ii-warrior/ShoulderRushIiWarriorImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "war-leap/WarLeapMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "war-leap/WarLeapTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "arcane-burst/ArcaneBurstFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "arcane-burst/ArcaneBurstProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "blink/BlinkProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cleansemage/CleansemageApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "combust-i/CombustIProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "combust-ii/CombustIiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "iceberg/IcebergFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "iceberg/IcebergProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "vortex/VortexFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "vortex/VortexDisplacement binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "astral-pull/AstralPullRelocate binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "astral-pull/AstralPullLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "astral-step/AstralStepProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cleansemystic/CleansemysticApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "lullaby/LullabyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "lullaby/LullabyProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "lullaby-ii-nightmare/LullabyIiNightmareFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "lullaby-ii-nightmare/LullabyIiNightmareProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "backstab/BackstabFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "backstab/BackstabImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "basic-attack-bleed/BasicAttackBleedOverlay binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "basic-attack-poison/BasicAttackPoisonOverlay binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "bleed-stance/BleedStanceActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "blinding-dart/BlindingDartFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "blinding-dart/BlindingDartImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "blinding-dart/BlindingDartProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "cleansescout/CleansescoutApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "hemorrhage/HemorrhagePayoff binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "hemorrhage/HemorrhageConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "long-jump/LongJumpHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "long-jump/LongJumpHold binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "long-jump/LongJumpTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "long-jump/LongJumpMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "poison-sac/PoisonSacFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "poison-sac/PoisonSacImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "poison-sac/PoisonSacConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "poison-stance/PoisonStanceActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "quickstep-i/QuickstepIMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "quickstep-ii/QuickstepIiMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "smoke-bomb-i/SmokeBombIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "smoke-bomb-ii/SmokeBombIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "torpor/TorporFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "torpor/TorporImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "torpor/TorporProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.granted.cleanse.default/CleanseApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-i.default/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-i.default/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-i.default/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.piercing-strike-i.default/PiercingStrikeImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-i.default/ShoulderRushMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-i.default/ShoulderRushImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.pressure-i-provoke-i.warrior/PressureProvokeCast binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.pressure-i-provoke-i.tank/PressureProvokeTankCast binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-ii.default/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-ii.default/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-ii.default/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-ii.warrior/ShoulderRushIiWarriorMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-ii.warrior/ShoulderRushIiWarriorImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-ii.tank/ShoulderRushIiTankMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.shoulder-rush-ii.tank/ShoulderRushIiTankImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-i.default/ChainsIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-i.default/ChainsIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-i.default/ChainsILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-i.default/ChainsIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-i.default/ChainsIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.war-leap.default/WarLeapMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.war-leap.default/WarLeapTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.rally-i.default/RallyIWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.rally-i.default/RallyITankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-iii.default/SeveringMark1 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-iii.default/SeveringMark2 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.severing-strike-iii.default/SeveringMark3 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIFlight binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIILatchedLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIITargetWrap binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIPull binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.chains-ii.default/ChainsIIInterrupt binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.piercing-strike-ii.warrior/PiercingStrikeIiWarriorImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.piercing-strike-ii.tank/PiercingStrikeIiTankImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.battlecry-challenge-ii.tank/ChallengeIIRootApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.rally-ii.warrior/RallyIiWarriorAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "fighter.rally-ii.tank/RallyIiTankAffected binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.cleanse.default/CleansescoutApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-bleed-stance.poison/PoisonStanceActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-bleed-stance.bleed/BleedStanceActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-sac-hemorrhage.poison/PoisonSacFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-sac-hemorrhage.poison/PoisonSacImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-sac-hemorrhage.poison/PoisonSacConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-sac-hemorrhage.bleed/HemorrhagePayoff binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.granted.poison-sac-hemorrhage.bleed/HemorrhageConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-i.default/ExploitIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-i.default/ExploitWeaknessIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-i.default/ExploitWeaknessIProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.quickstep-i.default/QuickstepIMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-i.default/BackstabFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-i.default/BackstabImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.torpor.default/TorporFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.torpor.default/TorporImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.torpor.default/TorporProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.blinding-dart.default/BlindingDartFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.blinding-dart.default/BlindingDartImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.blinding-dart.default/BlindingDartProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-i.poison/VolleyIPoisonFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-i.poison/VolleyIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-i.bleed/VolleyIBleedFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-i.bleed/VolleyIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-ii.default/ExploitIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-ii.default/ExploitWeaknessIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-ii.default/ExploitWeaknessIiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.quickstep-ii.default/QuickstepIiMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.long-jump.default/LongJumpHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.long-jump.default/LongJumpHold binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "scout.long-jump.default/LongJumpTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.long-jump.default/LongJumpMovement ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-ii.default/BackstabIIConfirmedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-ii.default/BackstabIIStunApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-ii.default/BackstabIIPoisonApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-ii.default/BackstabIIBleedApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.backstab-ii.default/BackstabIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.smoke-bomb-i.default/SmokeBombIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.poison/VolleyIIPoisonFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.poison/VolleyIIPoisonHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.poison/VolleyIIPoisonPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.poison/VolleyIIPoisonAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.bleed/VolleyIIBleedFanFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.bleed/VolleyIIBleedHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.bleed/VolleyIIBleedPiercingFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.volley-ii.bleed/VolleyIIBleedAim ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.poison/SicknessDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.poison/SicknessImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.poison/SicknessConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.bleed/SicknessDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.bleed/SicknessImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.poison-sac-hemorrhage-ii.bleed/SicknessConsume binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-iii.default/ExploitIIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-iii.default/ExploitWeaknessIiiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.exploit-weakness-iii.default/ExploitWeaknessIiiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "scout.smoke-bomb-ii.default/SmokeBombIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "universal.basic-attack.poison/BasicAttackPoisonOverlay binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "universal.basic-attack.bleed/BasicAttackBleedOverlay binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.cleanse.default/CleansemageApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.arcane-shards/ArcaneBurstFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.arcane-shards/ArcaneBurstProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.fire-fire/VortexFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.fire-fire/VortexDisplacement binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.ice-ice/IcebergFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.ice-ice/IcebergProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.lightning-lightning/CoilHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.lightning-lightning/CoilProc7 binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.lightning-lightning/CoilChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.fire-lightning/LaserContact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.fire-lightning/LaserActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.ice-lightning/TempestTelegraph ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.ice-lightning/TempestLightningHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.granted.arcane-burst.ice-lightning/TempestSappedProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-i.manifest/FireBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-i.manifest/FireBoltIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-i.weave/FireBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-i.weave/FireBoltIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.combust-i.manifest/CombustIProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.combust-i.weave/CombustIProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-i.manifest/FrostLanceIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-i.manifest/FrostLanceIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-i.weave/FrostLanceIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-i.weave/FrostLanceIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-i.manifest/GlacialSpikeIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-i.weave/GlacialSpikeIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.manifest/StaticBoltIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.manifest/StaticBoltIChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.manifest/StaticBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.weave/StaticBoltIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.weave/StaticBoltIChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-i.weave/StaticBoltIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.thunderstrike-i.manifest/ThunderstrikeIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.thunderstrike-i.weave/ThunderstrikeIHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.blink.default/BlinkProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.manifest/FireBoltIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.manifest/FireBoltIIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.manifest/FireBoltIISpread binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.weave/FireBoltIIFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.weave/FireBoltIIImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.fire-bolt-ii.weave/FireBoltIISpread binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.combust-ii.manifest/CombustIiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.combust-ii.weave/CombustIiProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.manifest/FrostLanceIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.manifest/FrostLanceIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.manifest/FrostLanceIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.weave/FrostLanceIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.weave/FrostLanceIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.frost-lance-ii.weave/FrostLanceIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-ii.manifest/GlacialSpikeIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-ii.manifest/GlacialSpikeIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-ii.weave/GlacialSpikeIiImpact binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.glacial-spike-ii.weave/GlacialSpikeIiConditionalControl binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.thunderstrike-ii.manifest/ThunderstrikeIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.thunderstrike-ii.weave/ThunderstrikeIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.mana-barrier-i.default/ManaBarrierIHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.manifest/StaticBoltIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.manifest/StaticBoltIiChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.manifest/StaticBoltIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.weave/StaticBoltIiHit binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.weave/StaticBoltIiChain binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mage.static-bolt-ii.weave/StaticBoltIiFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mage.mana-barrier-ii.default/ManaBarrierIiOverchargeHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.granted.cleanse.default/CleansemysticApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.granted.bright-star-full-moon.sun/BrightStarShieldApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.granted.bright-star-full-moon.moon/FullMoonDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-i.ally/EtherIAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-i.ally/EtherIAllyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-i.enemy/EtherIEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-i.enemy/EtherIEnemyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-orbit.sun/SpiritOfTheOrbitSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-orbit.moon/SpiritOfTheOrbitMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-i.default/CosmicRayIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-i.default/CosmicRayIPending binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-i.default/CosmicRayIResolve binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-i.ally/ConnectionIAllyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-i.ally/ConnectionIAllyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-i.enemy/ConnectionIEnemyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-i.enemy/ConnectionIEnemyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.lullaby-i.default/LullabyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.lullaby-i.default/LullabyProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.astral-step.default/AstralStepProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-ii.ally/EtherIiAllyHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-ii.ally/EtherIiAllyConditionalBuff binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-ii.ally/EtherIiAllyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-ii.enemy/EtherIiEnemyConfirmedDamage binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.ether-ii.enemy/EtherIiEnemyFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.resurrect.default/ResurrectComplete binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.resurrect.default/ResurrectHold ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.resurrect.default/ResurrectHold binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-star.sun/SpiritOfTheStarSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-star.moon/SpiritOfTheStarMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-ii.default/CosmicRayIIDelivery ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-ii.default/CosmicRayIiPending binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.cosmic-ray-ii.default/CosmicRayIiResolve binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.serenity.default/SerenityHeal binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.serenity.default/SerenitySleepApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.astral-pull.default/AstralPullRelocate binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.astral-pull.default/AstralPullLink binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-comet.sun/SpiritOfTheCometSunState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.spirit-of-the-comet.moon/SpiritOfTheCometMoonState binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.lullaby-ii.default/LullabyIiNightmareFlight ends with execution",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.lullaby-ii.default/LullabyIiNightmareProc binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-ii.ally/ConnectionIiAllyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-ii.ally/ConnectionIiAllyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-ii.enemy/ConnectionIiEnemyActive binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "mystic.connection-ii.enemy/ConnectionIiEnemyNaturalEnd binds endpoint",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Stun/CCStunActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Stun/CCStunNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Stun/CCStunCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Root/CCRootActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Root/CCRootNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Root/CCRootCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Silence/CCSilenceActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Silence/CCSilenceNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Silence/CCSilenceCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Fear/CCFearActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Fear/CCFearNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Fear/CCFearCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Sleep/CCSleepActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Sleep/CCSleepNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Sleep/CCSleepCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Taunt/CCTauntActive binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Taunt/CCTauntApply binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Taunt/CCTauntNaturalEnd binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Status.CC.Taunt/CCTauntCleanse binds target life",
+      "passed": true
+    },
+    {
+      "requirement": "Every current component appears in saved definitions",
+      "passed": true
+    }
+  ],
+  "current_components": 331,
+  "checked_at_utc": "2026-10-05T12:20:41.836652+00:00",
+  "scope": "Saved definition and source contracts; native execution/lifecycle, actual render and rig placement have separate evidence."
+}

@@ -1,0 +1,50 @@
+[
+	{
+		"case": "Perf_Arcane_0",
+		"actual_instances": 0,
+		"spawn_cpu_ms": 0.0024996697902679443,
+		"input_update_cpu_ms": 4.3430676062901817e-05,
+		"gpu_frame_ms": 75.985115496317547,
+		"gpu_samples": 120,
+		"t.IdleWhenNotForeground": 0,
+		"Slate.bAllowThrottling": 0,
+		"r.VSync": 0,
+		"scope": "Total lab PIE viewport GPU frame, not isolated effect cost. Input update excludes Niagara simulation/render work. Compare baseline/1/16/48; shipping target and multiplayer still require profiling."
+	},
+	{
+		"case": "Perf_Arcane_1",
+		"actual_instances": 1,
+		"spawn_cpu_ms": 0.76199695467948914,
+		"input_update_cpu_ms": 0.13867244124412537,
+		"gpu_frame_ms": 77.786544100443521,
+		"gpu_samples": 120,
+		"t.IdleWhenNotForeground": 0,
+		"Slate.bAllowThrottling": 0,
+		"r.VSync": 0,
+		"scope": "Total lab PIE viewport GPU frame, not isolated effect cost. Input update excludes Niagara simulation/render work. Compare baseline/1/16/48; shipping target and multiplayer still require profiling."
+	},
+	{
+		"case": "Perf_Arcane_16",
+		"actual_instances": 16,
+		"spawn_cpu_ms": 13.398699462413788,
+		"input_update_cpu_ms": 0.61723757535219193,
+		"gpu_frame_ms": 78.330629793802899,
+		"gpu_samples": 120,
+		"t.IdleWhenNotForeground": 0,
+		"Slate.bAllowThrottling": 0,
+		"r.VSync": 0,
+		"scope": "Total lab PIE viewport GPU frame, not isolated effect cost. Input update excludes Niagara simulation/render work. Compare baseline/1/16/48; shipping target and multiplayer still require profiling."
+	},
+	{
+		"case": "Perf_Arcane_48",
+		"actual_instances": 48,
+		"spawn_cpu_ms": 29.335498809814453,
+		"input_update_cpu_ms": 1.6825090472896893,
+		"gpu_frame_ms": 78.340917587280273,
+		"gpu_samples": 120,
+		"t.IdleWhenNotForeground": 0,
+		"Slate.bAllowThrottling": 0,
+		"r.VSync": 0,
+		"scope": "Total lab PIE viewport GPU frame, not isolated effect cost. Input update excludes Niagara simulation/render work. Compare baseline/1/16/48; shipping target and multiplayer still require profiling."
+	}
+]

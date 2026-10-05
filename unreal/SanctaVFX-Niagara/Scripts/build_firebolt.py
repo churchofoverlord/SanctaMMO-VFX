@@ -1,5 +1,5 @@
 import unreal as u
-import json, pathlib, traceback
+import json, pathlib, traceback, datetime
 
 ROOT = pathlib.Path(u.Paths.project_dir())
 REPORT = ROOT / 'VFX-build-report.json'
@@ -112,8 +112,12 @@ def emitter(ctx, name, mat, start, life, size, pos, velocity, aligned=False):
     burst = module(e, 'SpawnBurst', '/Niagara/Modules/Emitter/SpawnBurst_Instantaneous.SpawnBurst_Instantaneous', CAT.EMITTER_UPDATE)
     setp(burst, 'Spawn Count', FX.create_script_input_int(1))
     setp(burst, 'Spawn Time', add(linked('User.CastDelay'),flight()) if name == 'Impact' else linked('User.CastDelay'))
-    init = module(e, 'InitializeParticle', '/Niagara/Modules/Spawn/Initialization/V2/InitializeParticle.InitializeParticle', CAT.PARTICLE_SPAWN)
-    # Explicit writes after initialization keep the editable baseline independent of initializer modes.
+    # Converter direct assignments precede module scripts. Initialize Particle would
+    # overwrite these values; initialize every attribute used by this system here.
+    e.set_parameter_directly('Particles.Alive', FX.create_script_input_bool(True), CAT.PARTICLE_SPAWN)
+    e.set_parameter_directly('Particles.Color', FX.create_script_input_linear_color(u.LinearColor(1,1,1,1)), CAT.PARTICLE_SPAWN)
+    e.set_parameter_directly('Particles.Mass', fl(1), CAT.PARTICLE_SPAWN)
+    e.set_parameter_directly('Particles.SpriteRotation', fl(0), CAT.PARTICLE_SPAWN)
     e.set_parameter_directly('Particles.Age', fl(0), CAT.PARTICLE_SPAWN)
     e.set_parameter_directly('Particles.NormalizedAge', fl(0), CAT.PARTICLE_SPAWN)
     lifetime = linked('User.ImpactDuration') if name == 'Impact' else (add(flight(),linked('User.TailFade')) if name == 'Tail' else flight())
@@ -171,7 +175,9 @@ return (Hot*exp(-r*r*8)+float3(1,.9,.72)*exp(-r*r*30))*(1-smoothstep(.65,1,r))*p
         backup_path = BASE + '/Archive/NS_FireBoltI_BeforeFix'
         if not u.EditorAssetLibrary.does_asset_exist(backup_path):
             record(u.EditorAssetLibrary.duplicate_asset(system_path,backup_path))
-        u.EditorAssetLibrary.rename_asset(system_path,BASE+'/Archive/NS_FireBoltI_LastBuild')
+        archive = BASE+'/Archive/NS_FireBoltI_BeforeBuild_'+datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+        if not u.EditorAssetLibrary.rename_asset(system_path,archive):
+            raise RuntimeError('Could not preserve previous system before rebuilding')
     system = tools.create_asset('NS_FireBoltI', BASE, u.NiagaraSystem, u.NiagaraSystemFactoryNew())
     if not system:
         raise RuntimeError('Could not create fresh Niagara system')

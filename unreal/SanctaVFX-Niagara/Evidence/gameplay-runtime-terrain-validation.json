@@ -1,0 +1,15 @@
+{
+  "mesh": "/Game/Sancta/VFX/Terrain/Iceberg/SM_IcebergBody.SM_IcebergBody",
+  "material": "/Game/Sancta/VFX/Terrain/Iceberg/M_IcebergBody.M_IcebergBody",
+  "validation": {
+    "los_trace_hits_actual_terrain": true,
+    "pawn_and_dynamic_projectile_channels_blocked": true,
+    "integrity_presentation_update": true,
+    "actual_terrain_material_receives_integrity": true,
+    "removal_disables_collision": true,
+    "passed": true,
+    "scope": "Native blocking mesh/LOS and lifecycle; actual Foundation projectile channel and authority transport need game wiring."
+  },
+  "visual_review": "pending",
+  "foundation_modified": false
+}

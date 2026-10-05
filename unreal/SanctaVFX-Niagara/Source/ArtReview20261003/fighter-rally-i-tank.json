@@ -1,0 +1,137 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/rally-i-tank/rally-i-tank-vfx.html",
+  "sha256": "a427ec84c210003cab112efc74174d25c5010d3cd35f9837bf7a334b0efa0bc6",
+  "class": "fighter",
+  "slug": "rally-i-tank",
+  "title": "Rally I Tank",
+  "method": "reference_spawn_and_shader_port",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0.40410000000009355,
+      "end_times": [
+        1.3841000000000936
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.4041000008583069
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){\n      float u = uTime - aT - 0.18; if (u < 0. || u > 0.80){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 5.50; vP = position.xy*S; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float r = length(vP), R = 5.00, E = 0.35;\n      float k = clamp(vU/E, 0., 1.), rr = R*k;                               // linear expansion\n      float held = step(E, vU), pk = vU >= E && vU < E + .033 ? 1.7 : 1.;    // 2-frame peak when it reaches the limit\n      float fade = 1. - smoothstep(E + .12, E + .45, vU);\n      float w = mix(.03, .018, k);\n      float ring = exp(-pow(abs(r - rr)/w, 2.4)), hot = lcore(r - rr, w*.3);\n      float wake = smoothstep(rr - .7, rr, r)*step(r, rr)*(1. - held)*.03;  // faint thin wake just behind the moving front (ornament, dimmer than the limit)\n      float lim = (.55 + .45*held)*pk*fade;\n      float core = exp(-r*r*3.)*(vU < .033 ? 1.1 : .5*exp(-vU*9.));            // opening glow at the Fighter\n      float edge = smoothstep(5.50, 5.20, r);\n      vec3 outc = (uOrange*(ring*lim + wake*fade + core*.6) + mix(uGold, vec3(1.), .4)*hot*lim*.6)*edge;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.34670405634441115,
+            0.8148465722120952,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-rally-i-tank.json",
+    "baseline_sha256": "080ab5ae10f7ab6a80c066ddac444bb5829abd590b435ef48e6c150915255a65",
+    "user_direction": true,
+    "production_approved": false
+  }
+}

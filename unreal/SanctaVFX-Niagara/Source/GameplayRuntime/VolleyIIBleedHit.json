@@ -1,0 +1,131 @@
+{
+  "slug": "VolleyIIBleedHit",
+  "title": "VolleyIIBleedHit",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 3,
+      "count": 1,
+      "cast_time": 2.0079999999999987,
+      "end_times": [
+        3.3230000877380372
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              1.2000000476837158,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              3.058000087738037
+            ]
+          ]
+        },
+        "aS": {
+          "size": 1,
+          "values": [
+            [
+              0.04824697598814964
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aS; uniform float uTime; varying vec2 vP; varying float vU, vS;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.18){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.42;\n      vP = position.xy*.42; vU = u; vS = aS; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform vec3 uDot, uDotL; varying vec2 vP; varying float vU, vS;\n    void main(){\n      vec2 p = vP; float lum = 0., hot = 0.;\n        float t = vU/0.18, f = pow(1. - t, 1.3)*(vU < .033 ? 1.8 : 1.);\n        vec2 cd = normalize(vec2(1., -.8 + .6*vS)); float s = dot(p, cd), n = dot(p, vec2(-cd.y, cd.x));\n        float grow = 1. - pow(1. - clamp(vU/.04, 0., 1.), 3.), L = .3*grow;\n        float prof = pow(max(0., 1. - abs(s)/max(L, .01)), .7), cw = .02*prof + .002;\n        lum += exp(-pow(n/cw, 2.))*step(abs(s), L)*f*1.3;                        // short dry cut\n        hot += exp(-pow(n/(cw*.3), 2.))*step(abs(s), L)*f;\n        for (int j = 0; j < 5; j++){                                                // drops falling from the cut\n          float fj = float(j), h = fract(sin(fj*37.7 + vS*11.)*4375.5);\n          vec2 c = cd*(h - .5)*.4 + vec2((h - .5)*.08, -.5*t*t - .12*t*h);\n          vec2 q = p - c; float sz = .016*(1. - .5*t);\n          lum += exp(-(q.x*q.x)/(sz*sz) - (q.y*q.y)/(sz*sz*3.))*f*.9;\n        }\n      vec3 o = (uDot*lum + mix(uDot, uDotL, .7)*hot)*smoothstep(.42, .34, length(p));\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.607999999999596
+        },
+        "uDot": {
+          "type": "color",
+          "values": [
+            1,
+            0.02732089163382382,
+            0.04231141061442144
+          ]
+        },
+        "uDotL": {
+          "type": "color",
+          "values": [
+            1,
+            0.43415363616478553,
+            0.3915724777393922
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 3.058000087738037,
+      "runtime_binding": {
+        "anchor": "float3(0.0,0,0.0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.28,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.28
+  }
+}

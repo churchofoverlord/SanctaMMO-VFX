@@ -1,0 +1,174 @@
+{
+  "slug": "WarriorStanceActive",
+  "title": "WarriorStanceActive",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aYaw": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "aS": {
+          "size": 4,
+          "values": [
+            [
+              0,
+              0,
+              2.008500099182129,
+              1
+            ],
+            [
+              0,
+              0,
+              2.008500099182129,
+              1
+            ]
+          ]
+        },
+        "aM": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          6.123234262925839e-17,
+          -1,
+          1,
+          6.123234262925839e-17,
+          -1,
+          -1,
+          -6.123234262925839e-17,
+          1,
+          1,
+          -6.123234262925839e-17,
+          1
+        ],
+        "normal": [
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aYaw, aM; attribute vec4 aS; uniform float uTime; varying vec2 vF; varying float vAge, vFrom, vTo, vM;\n    void main(){\n      if (aS.w < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float age = uTime - aS.z, S = age < .24 ? 1.45 : .98;\n      vAge = age; vFrom = aS.x; vTo = aS.y; vM = aM;\n      if (aM > .5){                                     // buckle emblem: billboard just in front of the waist\n        vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.0, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3;\n        float B = .16*(age < .24 ? 1.25 : 1.); mv.xy += vec2(position.x, -position.z)*B; vF = vec2(position.x, -position.z)*.24 + vec2(0., -.76);\n        gl_Position = projectionMatrix*mv; return;\n      }\n      vec2 l = position.xz*S;                           // marker units, -z = forward\n      float c = cos(aYaw), s = sin(aYaw);\n      vec2 w = vec2(c*l.x + s*l.y, -s*l.x + c*l.y)*.55;  // belt: 0.55 m per unit → crescents at ~0.36 m around the waist\n      vF = vec2(l.x, -l.y);\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, 1.0, w.y), 1.);\n    }",
+      "fragment": "uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo, vM; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    // soft stroke: bright thin core + wide feathered halo (no hard edges, no flat facets)\n    float stroke(float d, float w){ return exp(-(d*d)/(w*w)) + .28*exp(-(d*d)/(w*w*22.)); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec2 p = vF; float r = length(p), ang = atan(p.x, p.y), a = abs(ang);\n      float k = clamp(vAge/.14, 0., 1.), m = mix(vFrom, vTo, k*k*(3.-2.*k));\n      vec3 col = mix(uCW, uCT, m);\n      // calligraphic crescents: taper to hair-fine tips, energy drifting slowly along the arc\n      float t = clamp((a - .42)/2.25, 0., 1.), taper = pow(sin(3.14159*t), .7);\n      float flow = .78 + .22*sin(a*9. - uTime*2.2 + sign(ang)*1.3);\n      float arcA = stroke(r - .66, .006 + .016*taper) * step(.42, a) * step(a, 2.67) * taper * flow;\n      float tb = clamp((a - .75)/1.6, 0., 1.), taperB = pow(sin(3.14159*tb), 1.2);\n      float arcB = stroke(r - .57, .004 + .006*taperB) * step(.75, a) * step(a, 2.35) * taperB * .55;\n      float core = lineCore(r - .66, .004 + .006*taper) * step(.42, a) * step(a, 2.67) * taper;\n      // four glints where the icon has crystal shards: soft points that breathe\n      float gl = 0.;\n      for (int i=0;i<4;i++){\n        float g = (i < 2 ? 1.15 : 2.05) * (mod(float(i),2.) < .5 ? 1. : -1.);\n        vec2 c = .8*vec2(sin(g), cos(g)); float d2 = dot(p-c, p-c);\n        gl += (exp(-d2/.00012) + .25*exp(-d2/.0025)) * (.7 + .3*sin(uTime*1.7 + float(i)*1.9));\n      }\n      // emblem in the back opening, drawn as fine line-art with a faint fill\n      vec2 e = p - vec2(0., -.76);\n      float bd = abs(e.x)/.05 + abs(e.y)/.19 - 1.;\n      float blade = stroke(bd*.05, .006) + .12*step(bd, 0.);\n      float top = .1, tip = -.13, hw = .1;\n      float wy = e.y > 0. ? hw : hw*clamp((e.y - tip)/(0. - tip), 0., 1.);\n      float sd = max(abs(e.x) - wy, max(e.y - top, tip - e.y));\n      float shield = stroke(sd, .006) + .12*step(sd, 0.) + .5*lineCore(sd + .028, .004)*step(sd, 0.);\n      float emblem = mix(blade, shield, m);\n      if (vM > .5){                                               // buckle: only the emblem, faded before the quad edge\n        float be = emblem*smoothstep(.24, .18, length(p - vec2(0., -.76)))*(vAge < .26 ? 1. + 1.1*exp(-max(vAge - .033, 0.)*16.) : 1.);\n        vec3 bo = col*be*.9 + mix(col, vec3(1., .93, .9), .55)*be*.25;\n        if (max(bo.r, max(bo.g, bo.b)) < .002) discard; gl_FragColor = vec4(bo*1.1, 1.); return;\n      }\n      float body = arcA + arcB + gl*.9;                           // belt: crescents + glints (the emblem is the buckle)\n      // switch: 2-frame bloom peak, then a feathered ring with a thin leading edge\n      float peak = vAge < .033 ? 2.2 : 1. + 1.1*exp(-(vAge-.033)*16.);\n      float rr = mix(.4, 1.35, eox(clamp(vAge/.2, 0., 1.))), fade = 1. - clamp(vAge/.24, 0., 1.);\n      float ring = (lineCore(r - rr, .012)*1.3 + exp(-pow((r-rr)/.09, 2.))*.35) * fade*fade * step(0., vAge);\n      float disk = exp(-r*r*6.) * (vAge < .033 ? 1.2 : 0.);\n      float lum = body*(vAge < .26 ? peak : 1.) + ring + disk;\n      vec3 hot = mix(col, vec3(1., .93, .9), .55);             // near-white core, stance-tinted halo\n      vec3 outc = col*lum + hot*(core*.9 + ring*.25)*(vAge < .26 ? peak : 1.);\n      float S = vAge < .24 ? 1.45 : .98;\n      outc *= smoothstep(S, S*.78, r);                            // everything fades to zero before the quad's edge — no visible square\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc*1.1, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.008499999999614
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -6.123234262925839e-17,
+          0.9999999999999999
+        ],
+        "u": [
+          1.9999999999999996,
+          -3.697785493223493e-32,
+          4.440892098500626e-16
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          1.2246468525851679e-16,
+          -2.0
+        ]
+      },
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {}
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

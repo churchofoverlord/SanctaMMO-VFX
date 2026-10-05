@@ -1,0 +1,146 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/battlecry-challenge-ii-tank/battlecry-challenge-ii-tank-vfx.html",
+  "sha256": "5500930a3c2130ca1c3000cbf53f59cbdc6d16158bbc64239b5fcdf7459d4523",
+  "class": "fighter",
+  "title": "Challenge II",
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-battlecry-challenge-ii-tank.json",
+    "baseline_sha256": "b612a8e9263b302086f3a8f60e6c6486f82c5cc39ae5aa12ff06b81aaf54f6b4",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "slug": "ChallengeIIRootApply",
+  "method": "user_art_revision_isolated_component",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.9
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              0,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT, life = aK < .5 ? .4 : .75; if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vP = position.xy*1.1; vU = u; vK = aK;\n      if (aK < .5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.25, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.35; mv.xy += position.xy*.42; gl_Position = projectionMatrix*mv; }   /* Fear: on the chest */\n      else { float S = .62; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .04, -position.y*S), 1.); }        /* Root: only the immediate base of the feet */\n    }",
+      "fragment": "uniform vec3 uCW, uCT; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    void main(){\n      vec2 p = vP; float r = length(p), a = atan(p.x, p.y), lum = 0., hot = 0.;\n      vec3 col = vK < .5 ? uCW : uCT;\n      if (vK < .5){\n        for (int j=0;j<2;j++){\n          float t = clamp((vU - float(j)*.05)/.3, 0., 1.);\n          float R = mix(1.0, .1, t*t*t);                                    // reverse ease-in: creeps in, then snaps shut\n          float w = mix(.012, .03, t*t), f = smoothstep(0., .1, t)*(1. - smoothstep(.9, 1., t));\n          lum += exp(-pow(abs(r - R)/w, 2.4))*f*(j == 0 ? 1. : .55); hot += lcore(r - R, w*.3)*f*.5;\n        }\n        lum += exp(-r*r*40.)*(vU > .3 && vU < .333 ? 1.6 : 0.);                 // 2-frame spark when it closes\n      } else {\n        float grow = 1. - pow(1. - clamp(vU/.14, 0., 1.), 3.), f = 1. - smoothstep(.45, .75, vU);\n        for (int i=0;i<7;i++){\n          float fi = float(i), th = fi*.8976 + (h1(fi) - .5)*.5;\n          float along = dot(p, vec2(sin(th), cos(th))), off = abs(p.x*cos(th) - p.y*sin(th) + .05*sin(along*9. + fi*2.));   // wiggling tendril\n          float L = (.55 + .4*h1(fi + 3.))*grow, s = clamp(along/max(L, .01), 0., 1.);\n          float w = mix(.03, .004, s);                                      // thick at the feet, hair-fine at the tip\n          lum += exp(-pow(off/w, 2.))*step(0., along)*smoothstep(L, L*.85, along)*smoothstep(.1, .18, along);\n          float bs = L*.55, bt = th + (h1(fi + 5.) > .5 ? .6 : -.6);          // one short fork per tendril\n          vec2 q = p - vec2(sin(th), cos(th))*bs, bd = vec2(sin(bt), cos(bt));\n          float ba = dot(q, bd), bo = abs(q.x*bd.y - q.y*bd.x), bl = L*.35;\n          lum += exp(-pow(bo/mix(.014, .003, clamp(ba/max(bl, .01), 0., 1.)), 2.))*step(0., ba)*smoothstep(bl, bl*.7, ba)*.8;\n        }\n        lum += exp(-pow(abs(r - .2)/.018, 2.4));                           // grip ring around the feet\n        lum *= f; hot = lum*.25*(vU < .033 ? 3. : 1.);\n      }\n      vec3 o = col*lum + mix(col, vec3(1., .96, .95), .6)*hot;\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.414599999996465
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "preview_duration": 0.9,
+  "runtime_parameters": {}
+}

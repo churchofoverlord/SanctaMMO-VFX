@@ -1,0 +1,127 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/chains-ii/chains-ii-vfx.html",
+  "sha256": "f813acc676299a279eafcf4df8530069b600ea13ef96b79c62e5524e8175ac79",
+  "class": "fighter",
+  "slug": "ChainsIIInterrupt",
+  "title": "Chains II — interrupt no gancho",
+  "method": "reference_spawn_and_shader_port",
+  "reference_action": "recast-pull",
+  "page_errors": [],
+  "layers": [
+    {
+      "pool_index": 3,
+      "count": 1,
+      "cast_time": 2.009099999994038,
+      "end_times": [
+        3.20410005569458
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              1.059999942779541,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              2.90910005569458
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > (aK > .5 ? .24 : 0.45)){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK > .5){                                              // Interrupt: small emblem at the hook, turned to the camera\n        vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25;\n        float S = .55; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = .5; vP = position.xy*.9;                        // only the immediate base of the feet\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float r = length(p);\n      if (vK > .5){\n        // Interrupt: a ring bursts outward and six short ticks break away from it, gone in 0.24 s\n        float t = vU/.24, R = mix(.08, .38, 1. - pow(1. - t, 3.)), f = pow(1. - t, 1.5);\n        float ring = exp(-pow(abs(r - R)/.014, 2.4)), tk = 0.;\n        for (int j=0;j<6;j++){ float an = float(j)*1.0472 + .26; vec2 d = vec2(cos(an), sin(an));\n          tk += exp(-pow(seg(p, d*(R + .04), d*(R + .12))/.012, 2.)); }\n        float fl = exp(-r*r*60.)*(vU < .033 ? 1.5 : 0.);\n        vec3 o = (mix(uOrange, uGold, .6)*(ring + tk*.9) + vec3(1., .95, .86)*(fl + lcore(r - R, .004)*.6))*f*smoothstep(.55, .45, r);\n        if (max(o.r, max(o.g, o.b)) < .002) discard;\n        gl_FragColor = vec4(o, 1.); return;\n      }\n      float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms\n      float R = mix(.75, .42, k);\n      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (Root ≠ danger area)\n      float st = 0.;\n      for (int j=0;j<4;j++){\n        float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));\n        float ds = seg(p, d*(R - .17), d*(R + .03));\n        st += exp(-pow(ds/.014, 2.)); hot += lcore(ds, .004);\n      }\n      float f = vU < .06 ? 1. : 1. - smoothstep(.2, 0.45, vU);\n      float pk = vU >= .06 && vU < .093 ? 1.6 : 1.;                    // 2-frame peak when it locks\n      float edge = smoothstep(.9, .78, r);\n      vec3 outc = (mix(uOrange, uGold, .6)*(ring*.9 + st*.8) + vec3(1., .95, .86)*hot*.6)*f*pk*edge;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.909099999993618
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "lighting": "unlit",
+      "preview_time_origin": 2.90910005569458
+    }
+  ],
+  "component_role": "confirmed_interrupt",
+  "separation_batch": "volley_chains_2026_10_03"
+}

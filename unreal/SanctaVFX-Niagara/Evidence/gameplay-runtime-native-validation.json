@@ -1,0 +1,144 @@
+{
+  "passed": true,
+  "tests": [
+    {
+      "test": "Unadmitted flight rejected",
+      "passed": true
+    },
+    {
+      "test": "Admitted flight starts",
+      "passed": true
+    },
+    {
+      "test": "Duplicate event rejected",
+      "passed": true
+    },
+    {
+      "test": "Flight follows actual owner",
+      "passed": true
+    },
+    {
+      "test": "Fan projectiles sharing one cast retain separate flight components",
+      "passed": true
+    },
+    {
+      "test": "Projectile update changes only its own flight",
+      "passed": true
+    },
+    {
+      "test": "Targeted Miss suppresses hit",
+      "passed": true
+    },
+    {
+      "test": "Confirmed hit admitted",
+      "passed": true
+    },
+    {
+      "test": "State application admitted",
+      "passed": true
+    },
+    {
+      "test": "Owned state and confirmed finite impact survive natural execution finish; delivery closes",
+      "passed": true
+    },
+    {
+      "test": "Relevance reconstruction does not replay entry",
+      "passed": true
+    },
+    {
+      "test": "Active follows moving target",
+      "passed": true
+    },
+    {
+      "test": "Range break cannot trigger natural payoff",
+      "passed": true
+    },
+    {
+      "test": "Duplicate termination cannot replace the original range-break cause",
+      "passed": true
+    },
+    {
+      "test": "Natural payoff works after owner removal",
+      "passed": true
+    },
+    {
+      "test": "Duplicate removal preserves the already admitted terminal cue",
+      "passed": true
+    },
+    {
+      "test": "Natural payoff duplicate rejected",
+      "passed": true
+    },
+    {
+      "test": "Cleanse has independent terminal presentation",
+      "passed": true
+    },
+    {
+      "test": "Respawn removes old-life effect",
+      "passed": true
+    },
+    {
+      "test": "Old-life event rejected",
+      "passed": true
+    },
+    {
+      "test": "Rejected execution cannot produce flight",
+      "passed": true
+    },
+    {
+      "test": "Reset clears components and histories",
+      "passed": true
+    },
+    {
+      "test": "Dominant contact suppresses redundant flash",
+      "passed": true
+    },
+    {
+      "test": "Distinct confirmed occurrences from the same state can coexist",
+      "passed": true
+    },
+    {
+      "test": "Finite update changes only its matching occurrence",
+      "passed": true
+    },
+    {
+      "test": "Older finite occurrence is not rewound by a later update",
+      "passed": true
+    },
+    {
+      "test": "Finite visual expires without synthesizing payoff",
+      "passed": true
+    },
+    {
+      "test": "Wrong admission stance cannot select a variant",
+      "passed": true
+    },
+    {
+      "test": "Wrong Mage mode cannot select a variant",
+      "passed": true
+    },
+    {
+      "test": "Wrong target relation cannot select a variant",
+      "passed": true
+    },
+    {
+      "test": "Matching admission snapshots select the variant",
+      "passed": true
+    },
+    {
+      "test": "Low presentation profile suppresses decoration",
+      "passed": true
+    },
+    {
+      "test": "Low presentation profile retains essential state",
+      "passed": true
+    },
+    {
+      "test": "Live link bounds include endpoint beyond recorded preview bounds",
+      "passed": true
+    }
+  ],
+  "scope": "Native event routing, ownership and component transforms. Does not certify GPU appearance or game transport.",
+  "system": "/Game/VFXLab/ArtReview20261003/FireBoltIArtR3_ef982e3a/NS_FireBoltIArtR3_ef982e3a",
+  "module_sha256": "e58ed018749b5bcd0e85d5939e25e820fa53125f00f8467b9bb9f562e4379986"
+}

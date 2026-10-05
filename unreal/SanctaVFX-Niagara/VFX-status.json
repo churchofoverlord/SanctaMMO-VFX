@@ -1,11 +1,153 @@
 {
-  "status": "validation_interrupted_at_user_request",
-  "reason": "User needs Unreal Engine for another project now.",
-  "original_project_modified": false,
+  "status": "lab_art_revision_ready_for_user_review",
   "bridge_compiled": true,
-  "niagara_definition_emitter_count": 3,
-  "user_parameter_definition_count": 9,
-  "generated_system_saved": false,
-  "simulation_verified": false,
-  "visual_verified": false
+  "generated_system_saved": true,
+  "simulation_verified": true,
+  "visual_verified": true,
+  "previews_exported": {
+    "firebolt-flight.png": true,
+    "firebolt-tail.png": true,
+    "firebolt-impact.png": true
+  },
+  "capture_verified": true,
+  "capture_scope": "247 cenarios com configuracoes atuais: amostras temporais e dois angulos; inspecao interna de palco neutro, aprovacao artistica do utilizador pendente.",
+  "commandlet_capture_verified": false,
+  "editor_capture": "Previews/EditorDiagnostic/firebolt-flight.png",
+  "diagnostic_shutdown_error": true,
+  "review_viewer": {
+    "scene_count": 247,
+    "scene_generation": "saved",
+    "previous_full_game_pass_ready": 124,
+    "previous_full_game_capture_count": 620,
+    "current_versions_with_game_captures": 247,
+    "new_versions_pending_visual_confirmation": [],
+    "correction_material_and_simulation_checks": "passed_current_sources",
+    "visualizer_open": true,
+    "user_instruction": "Utilizador pediu continua: retomar as correcoes e a revisao visual; apresentar o visualizador depois da validacao.",
+    "production_fidelity_approved": false,
+    "skill_scene_count": 124,
+    "component_scene_count": 123,
+    "components_with_game_captures": 123,
+    "native_effect_image_count": 2470,
+    "baseline_image_count": 247,
+    "first_pass_visibility_review": "current_art_revision_inspected_on_neutral_stage",
+    "measurement_flags": [],
+    "original_systems_changed": [],
+    "natural_completion_replay": "passed_four_real_game_repeats_at_one_third_speed",
+    "quality_evidence": "Evidence/quality-pass.json",
+    "art_review_evidence": "Evidence/quality-art-review.json",
+    "production_runtime_integration": "pending",
+    "production_performance": "pending",
+    "static_cost_review_flag_count": 41,
+    "translucent_review_fixture_cases": [
+      "ChainsIHit",
+      "ChainsIIHit"
+    ],
+    "second_component_batch_added": 25,
+    "second_component_batch_frames": 231,
+    "second_component_batch_previous_systems_changed": [],
+    "pending_component_families": [
+      "barrier_and_persistent_area_lifecycle",
+      "resource_and_spirit_conditional_proc_lifecycle"
+    ],
+    "user_review_launch": {
+      "status": "ready_native_runtime_log",
+      "process_id": 20628,
+      "start_index": 0,
+      "log": "Saved/Review-user-fire-contour-20261004.log",
+      "expected_window_title": "Sancta - Visualizador VFX",
+      "scene_number": 1,
+      "total_scenes": 247,
+      "verified_by": "Actual interactive component rate log and current Fire Bolt asset ready log; process verified running. No foreground UI interaction test performed in this launch.",
+      "checked_at_utc": "2026-10-04T11:33:11.680800+00:00",
+      "human_art_approval": false
+    },
+    "measurement_flags_status": "none_in_current_captures",
+    "pilot_evidence": {
+      "scenes_matched_at_audit": 130,
+      "effect_images": 1281,
+      "latest_repairs_recaptured": false
+    },
+    "current_scene_configurations_captured": 247,
+    "art_revision_user_feedback_pending": [
+      "Glacial Spike: forma final inclinada/irregular e neve",
+      "Iceberg: confirmar forma apos ver angulos"
+    ],
+    "startup_speed_requested": "normal",
+    "startup_speed_build_status": "compiled_deployed_and_runtime_verified",
+    "user_review_launch_history": [
+      {
+        "status": "previous_window_closed; refreshed_revision_pending",
+        "process_id": 11624,
+        "start_index": 162,
+        "log": "Saved/Review-user-volley-chains.log",
+        "window_title": "Sancta - Visualizador VFX",
+        "scene_number": 163,
+        "total_scenes": 187,
+        "verified_by": "Native foreground window screenshots and SanctaReview ready log; effect observed changing during live playback",
+        "checked_at_utc": "2026-10-03T10:26:55.018585+00:00",
+        "human_art_approval": false
+      }
+    ],
+    "default_speed": 1.0,
+    "startup_speed_evidence": "Evidence/review-startup-speed-validation.json"
+  },
+  "first_pass_visual_review_completed": true,
+  "quality_pass_clean_shutdown": true,
+  "diagnostic_shutdown_error_scope": "Historical Fire Bolt editor diagnostic only; final quality runs shut down cleanly.",
+  "active_art_revision": "Evidence/art-revision-20261003.json",
+  "art_revision_progress": {
+    "skills_prepared": 71,
+    "components_prepared_or_revised": 77,
+    "native_assets_matching_current_sources": 148,
+    "visually_inspected_current_sources": 148,
+    "visual_review": "neutral_stage_inspected"
+  },
+  "historical_187_scene_verification": {
+    "scene_count": 187,
+    "capture_verified": true,
+    "archive": "Evidence/ArtReview20261003/Before",
+    "effect_images": 1885,
+    "scope": "Previous neutral-stage review; does not validate the current ArtR3 repairs"
+  },
+  "checkpoint_at_utc": "2026-10-04T11:33:11.680800+00:00",
+  "checkpoint": "Evidence/art-revision-checkpoint-20261003.json",
+  "background_build_running": false,
+  "simulation_scope": "148/148 fontes atuais compiladas e simuladas; baseline preservado.",
+  "resumed_at_utc": "2026-10-03T14:22:37.913521+00:00",
+  "active_checkpoint": "Evidence/art-revision-resumed-checkpoint-20261003.json",
+  "background_capture_running": false,
+  "gameplay_vfx_assessment": {
+    "status": "completed_proposals_not_implemented",
+    "date": "2026-10-04",
+    "report": "REVISAO_INTEGRACAO_VFX_20261004.md",
+    "matrix": "MATRIZ_SKILLS_VFX_20261004.md",
+    "evidence": "Evidence/gameplay-vfx-assessment-20261004.json",
+    "weapon_families": 14,
+    "combat_action_families": [
+      "Guard",
+      "Dodge",
+      "Sprint"
+    ],
+    "foundation_modified": false,
+    "vfx_assets_modified": false
+  },
+  "gameplay_vfx_implementation": {
+    "status": "lab_verified_awaiting_user_review",
+    "checkpoint": "Evidence/gameplay-vfx-implementation-checkpoint-20261004.json",
+    "source_files_created": 10,
+    "compiled": true,
+    "source_matches_compiled": true,
+    "native_event_tests_passed": true,
+    "basic_routing_tests_passed": true,
+    "runtime_jobs": 331,
+    "current_native_assets": 331,
+    "pending_native_assets": 0,
+    "assets_modified": true,
+    "background_running": false,
+    "updated_at_utc": "2026-10-05T12:35:38.905717+00:00",
+    "production_approved": false,
+    "foundation_modified": false,
+    "background_task": ""
+  }
 }

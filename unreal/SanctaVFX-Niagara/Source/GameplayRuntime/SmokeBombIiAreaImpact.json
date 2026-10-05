@@ -1,0 +1,138 @@
+{
+  "slug": "SmokeBombIiAreaImpact",
+  "title": "SmokeBombIiAreaImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.395847094917274
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -5
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.45){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 3.5; vP = position.xy*S; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .04, -position.y*S), 1.); }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;\n    void main(){\n      float r = length(vP), u = vU, f = (u < .033 ? 1.8 : 1.)*pow(max(0., 1. - u/.2), 1.5);\n      float R = 3.0*(1. - pow(1. - clamp(u/.3, 0., 1.), 3.)), fr = 1. - smoothstep(.2, 0.45, u);\n      vec3 o = mix(uOrange, uGold, .6)*exp(-r*r*1.2)*f*1.4 + uOrange*exp(-pow((r - R)/.08, 2.))*fr*1.2;\n      o *= smoothstep(3.5, 3.3, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.623960391667596,
+            0.19461783043107173
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.2541520943200296,
+            0.023153366173251363
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-5)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

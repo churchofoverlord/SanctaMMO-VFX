@@ -1,0 +1,565 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/mage/elemental-weaver-i/elemental-weaver-i-vfx.html",
+  "sha256": "aeef6696082e56d7baa3568ece9352e59181d48257d5288850f0e3b2f63629da",
+  "class": "mage",
+  "slug": "elemental-weaver-i",
+  "title": "Elemental Weaver I",
+  "method": "reference_spawn_and_shader_port",
+  "reference_action": null,
+  "persistent_rows": {
+    "0": [
+      0
+    ],
+    "2": [
+      0,
+      1,
+      2
+    ]
+  },
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 2.014699999988079,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aYaw": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        },
+        "aS": {
+          "size": 4,
+          "values": [
+            [
+              0,
+              0,
+              -100000,
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          6.123234262925839e-17,
+          -1,
+          1,
+          6.123234262925839e-17,
+          -1,
+          -1,
+          -6.123234262925839e-17,
+          1,
+          1,
+          -6.123234262925839e-17,
+          1
+        ],
+        "normal": [
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17,
+          0,
+          1,
+          6.123234262925839e-17
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aYaw; attribute vec4 aS; uniform float uTime; varying vec2 vF; varying float vAge, vFrom, vTo;\n    void main(){\n      if (aS.w < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float age = uTime - aS.z, S = age < .24 ? 1.45 : .98;\n      vec2 l = position.xz*S;                           // local metres, -z = forward\n      float c = cos(aYaw), s = sin(aYaw);\n      vec2 w = vec2(c*l.x + s*l.y, -s*l.x + c*l.y);\n      vF = vec2(l.x, -l.y); vAge = age; vFrom = aS.x; vTo = aS.y;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x*.75, .95, w.y*.75), 1.);   // entry pulse on the waist orbit plane, not the ground\n    }",
+      "fragment": "uniform float uTime; uniform vec3 uCW, uCT; varying vec2 vF; varying float vAge, vFrom, vTo; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec2 p = vF; float r = length(p); vec3 col = uCW;\n      float rr = mix(.4, 1.35, eox(clamp(vAge/.2, 0., 1.))), fade = 1. - clamp(vAge/.24, 0., 1.);\n      float pulse = (lineCore(r - rr, .012)*1.3 + exp(-pow((r-rr)/.09, 2.))*.35)*fade*fade*step(0., vAge);\n      float disk = exp(-r*r*6.)*(vAge < .033 ? 1.2 : 0.);\n      vec3 outc = col*(pulse + disk) + mix(col, vec3(1.), .55)*pulse*.25;   // entry only: no persistent ground seal in Weave\n      float S = vAge < .24 ? 1.45 : .98;\n      outc *= smoothstep(S, S*.78, r);\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc*1.1, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.014699999987698
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -6.123234262925839e-17,
+          0.9999999999999999
+        ],
+        "u": [
+          1.9999999999999996,
+          -3.697785493223493e-32,
+          4.440892098500626e-16
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          1.2246468525851679e-16,
+          -2.0
+        ]
+      }
+    },
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 2.014699999988079,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aP": {
+          "size": 2,
+          "values": [
+            [
+              0,
+              -1
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              -100000
+            ]
+          ]
+        },
+        "aV": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ]
+          ]
+        },
+        "aG": {
+          "size": 1,
+          "values": [
+            [
+              -100000
+            ]
+          ]
+        },
+        "aEl": {
+          "size": 1,
+          "values": [
+            [
+              -1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute vec2 aP; attribute float aT, aV, aG, aEl; uniform float uTime; varying vec2 vQ; varying float vU, vK, vG, vEl; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){ if (aV < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, 0.58, k);\n      vU = u; vK = aP.y < -.5 ? 1. : 0.; vG = uTime - aG; vEl = aEl;\n      if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane\n        float S = .72; vQ = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, 0.95, -position.y*S), 1.); return; }\n      float ang = aP.x + aP.y*3.14159 + uTime*.7;                  // two memory crystals, opposite each other\n      float g = uTime - aG; vG = g;                                 // time since this shard was gained\n      vec3 c = aO + vec3(cos(ang)*R, 0.95 + .25*(1. - k), sin(ang)*R);\n      float gs = g >= 0. && g < .25 ? 1. + 2.2*(1. - g/.25) : 1.;     // the quad grows while the gain flash plays\n      vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*vec2(.07, .13)*gs;\n      vQ = q*gs; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform float uTime; uniform vec3 uCW, uF, uI, uL, uLA, uLB; varying vec2 vQ; varying float vU, vK, vG, vEl; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);\n      vec3 o = vec3(0.);\n      if (vK > .5){\n        // thin orbit line: fine core + narrow soft halo, energy drifting slowly in the shards' direction\n        float r = length(vQ), a = atan(vQ.y, vQ.x), R = mix(.08, 0.58, eox(clamp(vU/.3, 0., 1.)));\n        float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);\n        float line = lineCore(r - R, .004)*.55 + exp(-pow((r - R)/.025, 2.))*.1;\n        if (vG >= 0. && vG < .32){                                          // II: a pulse of light runs once around the orbit\n          float head = vG/.3*6.2832 - 3.14159, da = mod(a - head + 3.14159, 6.2832) - 3.14159;\n          float tail = exp(-pow(max(-da, 0.)/.9, 2.))*step(da, .05)*exp(-pow(min(da, 0.)/.9, 2.)), hd = exp(-da*da*60.);\n          vec3 pc = mix(uLA, uLB, step(0., sin(a*2.)));                    // mixed pairs: two colours around the ring\n          o = pc*(lineCore(r - R, .005)*(tail*1.2 + hd*2.5))*(1. - smoothstep(.26, .32, vG));\n          line *= 1. + (tail*1.2 + hd*2.)*(1. - smoothstep(.26, .32, vG));\n        }\n        o = (vG >= 0. && vG < .32 ? o : vec3(0.)) + (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;\n        o *= smoothstep(.72, .66, r);\n      } else {\n        float d = abs(vQ.x) + abs(vQ.y)*.55 - .55;                          // elongated diamond (the icon's crystal)\n        float edge = lineCore(d, .07), fill = .18*smoothstep(.05, -.1, d), facet = .5*lineCore(vQ.x, .05)*smoothstep(0., -.2, d);\n        float halo = exp(-dot(vQ, vQ)*5.)*.12;\n        vec3 ec = vEl < .5 ? uF : (vEl < 1.5 ? uI : uL);                   // the element this memory holds\n        o = (ec*(edge*.8 + fill + halo) + mix(ec, vec3(1.), .6)*facet*.6)*pk*(.85 + .15*sin(uTime*2. + vQ.y));\n        o *= smoothstep(1., .8, length(vQ));                                // reaches zero before the quad edge\n        if (vG >= 0. && vG < .25){                                          // gain: 2-frame peak, a short ring of sparks around the new shard\n          float t = vG/.25, gs = 1. + 2.2*(1. - t), r = length(vQ*vec2(.07, .13)/.07);\n          float R = mix(.6, 2.6, 1. - pow(1. - t, 3.)), a = atan(vQ.y*.13, vQ.x*.07);\n          float ring = exp(-pow((r - R)/.12, 2.))*(.5 + .5*pow(abs(sin(a*4.)), 6.))*(1. - t);\n          o *= vG < .033 ? 2.6 : 1. + 1.2*(1. - t);\n          o += (ec*ring*.8 + mix(ec, vec3(1.), .6)*exp(-r*r*.6)*(1. - t)*.6)*smoothstep(gs*1.1, gs*.9, r*.9);\n        }\n      }\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.014699999987698
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        },
+        "uF": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        },
+        "uI": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.3915724777393922,
+            1
+          ]
+        },
+        "uL": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        },
+        "uLA": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        },
+        "uLB": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "pool_index": 2,
+      "count": 2,
+      "cast_time": 2.014699999988079,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aP": {
+          "size": 2,
+          "values": [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              1
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              -100000
+            ],
+            [
+              -100000
+            ]
+          ]
+        },
+        "aV": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ]
+        },
+        "aG": {
+          "size": 1,
+          "values": [
+            [
+              2.014699935913086
+            ],
+            [
+              2.014699935913086
+            ]
+          ]
+        },
+        "aEl": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "uniform float uElementA,uElementB;\nattribute vec3 aO; attribute vec2 aP; attribute float aT, aV, aG, aEl; uniform float uTime; varying vec2 vQ; varying float vU, vK, vG, vEl; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){ if (aV < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, 0.58, k);\n      vU = u; vK = aP.y < -.5 ? 1. : 0.; vG = uTime - aG; vEl = (aP.y<.5?uElementA:uElementB);\n      if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane\n        float S = .72; vQ = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, 0.95, -position.y*S), 1.); return; }\n      float ang = aP.x + aP.y*3.14159 + uTime*.7;                  // two memory crystals, opposite each other\n      float g = uTime - aG; vG = g;                                 // time since this shard was gained\n      vec3 c = aO + vec3(cos(ang)*R, 0.95 + .25*(1. - k), sin(ang)*R);\n      float gs = g >= 0. && g < .25 ? 1. + 2.2*(1. - g/.25) : 1.;     // the quad grows while the gain flash plays\n      vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*vec2(.07, .13)*gs;\n      vQ = q*gs; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform float uElementA,uElementB;\nuniform float uTime; uniform vec3 uCW, uF, uI, uL, uLA, uLB; varying vec2 vQ; varying float vU, vK, vG, vEl; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);\n      vec3 o = vec3(0.);\n      if (vK > .5){\n        // thin orbit line: fine core + narrow soft halo, energy drifting slowly in the shards' direction\n        float r = length(vQ), a = atan(vQ.y, vQ.x), R = mix(.08, 0.58, eox(clamp(vU/.3, 0., 1.)));\n        float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);\n        float line = lineCore(r - R, .004)*.55 + exp(-pow((r - R)/.025, 2.))*.1;\n        if (vG >= 0. && vG < .32){                                          // II: a pulse of light runs once around the orbit\n          float head = vG/.3*6.2832 - 3.14159, da = mod(a - head + 3.14159, 6.2832) - 3.14159;\n          float tail = exp(-pow(max(-da, 0.)/.9, 2.))*step(da, .05)*exp(-pow(min(da, 0.)/.9, 2.)), hd = exp(-da*da*60.);\n          vec3 pc = mix(uLA, uLB, step(0., sin(a*2.)));                    // mixed pairs: two colours around the ring\n          o = pc*(lineCore(r - R, .005)*(tail*1.2 + hd*2.5))*(1. - smoothstep(.26, .32, vG));\n          line *= 1. + (tail*1.2 + hd*2.)*(1. - smoothstep(.26, .32, vG));\n        }\n        o = (vG >= 0. && vG < .32 ? o : vec3(0.)) + (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;\n        o *= smoothstep(.72, .66, r);\n      } else {\n        float d = abs(vQ.x) + abs(vQ.y)*.55 - .55;                          // elongated diamond (the icon's crystal)\n        float edge = lineCore(d, .07), fill = .18*smoothstep(.05, -.1, d), facet = .5*lineCore(vQ.x, .05)*smoothstep(0., -.2, d);\n        float halo = exp(-dot(vQ, vQ)*5.)*.12;\n        vec3 ec = vEl < .5 ? uF : (vEl < 1.5 ? uI : uL);                   // the element this memory holds\n        o = (ec*(edge*.8 + fill + halo) + mix(ec, vec3(1.), .6)*facet*.6)*pk*(.85 + .15*sin(uTime*2. + vQ.y));\n        o *= smoothstep(1., .8, length(vQ));                                // reaches zero before the quad edge\n        if (vG >= 0. && vG < .25){                                          // gain: 2-frame peak, a short ring of sparks around the new shard\n          float t = vG/.25, gs = 1. + 2.2*(1. - t), r = length(vQ*vec2(.07, .13)/.07);\n          float R = mix(.6, 2.6, 1. - pow(1. - t, 3.)), a = atan(vQ.y*.13, vQ.x*.07);\n          float ring = exp(-pow((r - R)/.12, 2.))*(.5 + .5*pow(abs(sin(a*4.)), 6.))*(1. - t);\n          o *= vG < .033 ? 2.6 : 1. + 1.2*(1. - t);\n          o += (ec*ring*.8 + mix(ec, vec3(1.), .6)*exp(-r*r*.6)*(1. - t)*.6)*smoothstep(gs*1.1, gs*.9, r*.9);\n        }\n      }\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.014699999987698
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        },
+        "uF": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        },
+        "uI": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.3915724777393922,
+            1
+          ]
+        },
+        "uL": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        },
+        "uLA": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        },
+        "uLB": {
+          "type": "color",
+          "values": [
+            1,
+            0.10224173307914941,
+            0.013702083043526807
+          ]
+        },
+        "uElementA": {
+          "type": "scalar",
+          "value": 0
+        },
+        "uElementB": {
+          "type": "scalar",
+          "value": 1
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "lighting": "unlit",
+      "runtime_uniforms": {
+        "uElementA": "ControlY",
+        "uElementB": "ControlZ"
+      },
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/mage-elemental-weaver-i.json",
+    "baseline_sha256": "50908d9ab550e85ef13fe275a079c971106618ed35a93381d9fd42179a9e7ac2",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "runtime_parameters": {
+    "User.ElementA": 0,
+    "User.ElementB": 1
+  },
+  "preview_duration": 4.0
+}

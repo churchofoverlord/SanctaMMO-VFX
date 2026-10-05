@@ -1,0 +1,197 @@
+{
+  "slug": "MomentumMasteryResourceGain",
+  "title": "MomentumMasteryResourceGain",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 5,
+      "cast_time": 0,
+      "end_times": [
+        0.8271000000000935,
+        0.8871000000000935,
+        0.9471000000000935,
+        1.0071000000000936,
+        1.0671000000000934
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.06000000238418579
+            ],
+            [
+              0.12000003457069397
+            ],
+            [
+              0.18000003695487976
+            ],
+            [
+              0.23999997973442078
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        },
+        "aS": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              1
+            ],
+            [
+              2
+            ],
+            [
+              3
+            ],
+            [
+              4
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK, aS; uniform float uTime; varying vec2 vP; varying float vU, vK, vS;\n    void main(){\n      float u = uTime - aT, life = aK < .5 ? .42 : .4; if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vS = aS;\n      if (aK < .5){\n        float t = u/.42, S = .78 + .18*(1. - pow(1. - t, 2.));\n        float y = .75 + .6*(1. - pow(1. - t, 2.)) + aS*.04;              // rises from the waist to the chest\n        vP = position.xy;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, y, -position.y*S), 1.);\n      } else {\n        vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.22, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.35;\n        float S = .24; mv.xy += position.xy*S; vP = position.xy; gl_Position = projectionMatrix*mv;\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK, vS; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float r = length(p); vec3 o;\n      if (vK < .5){\n        float t = vU/.42, a = atan(p.y, p.x);\n        float side = pow(abs(cos(a)), 1.6);                                // two crescents: left and right, open front and back\n        float sweep = smoothstep(.0, .35, t);                              // they sweep in from the back\n        float prof = pow(side, .7)*smoothstep(1. - sweep, 1. - sweep + .2, side + .001);\n        float w = .03*pow(side, 1.2) + .004;                               // thin at the tips, full at the sides\n        float d = abs(r - .8), band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.3);\n        float f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.5, 1., t));\n        o = (uOrange*band*.9 + mix(uGold, vec3(1.), .5)*core*.7)*prof*f*smoothstep(1., .9, r);\n      } else {\n        float t = vU/.4, f = (vU < .033 ? 1.6 : 1.)*(1. - smoothstep(.45, 1., t)), sc = mix(1.15, 1., smoothstep(0., .15, t));\n        vec2 q = p*sc; float d;\n        if (0. < .5) d = min(seg(q, vec2(0., -.5), vec2(0., .5)), seg(q, vec2(-.5, .08), vec2(.5, .08)));   // Rage: cross\n        else { vec2 a = abs(q);                                                                                  // Bulwark: shield outline\n               float sh = q.y > -.05 ? max(a.x - .42, q.y - .45) : length(vec2(q.x/.42, (q.y + .05)/.55)) - 1.;\n               d = abs(q.y > -.05 ? sh : sh*.42); }\n        float line = exp(-pow(d/.05, 2.)), core = lcore(d, .015);\n        o = (uOrange*line + mix(uGold, vec3(1.), .6)*core*.9)*f*smoothstep(1., .85, r);\n      }\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.407099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.5647115056965487,
+            1,
+            0.6724431569510133
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.07818742179702069,
+            0.7156935005005721,
+            0.23839757380151394
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

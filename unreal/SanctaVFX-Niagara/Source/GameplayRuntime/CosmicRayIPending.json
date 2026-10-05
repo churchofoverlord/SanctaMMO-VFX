@@ -1,0 +1,618 @@
+{
+  "slug": "CosmicRayIPending",
+  "title": "CosmicRayIPending",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        3.754100000000094
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.4849453866481781,
+              0,
+              -5.910623550415039
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              0.0,
+              3.404099941253662
+            ]
+          ]
+        },
+        "aF": {
+          "size": 2,
+          "values": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "uniform float uResolveProgress;\nattribute vec3 aO; attribute vec2 aT, aF; uniform float uTime; uniform vec3 uAlly; varying vec2 vQ; varying float vClock, vA, vPk, vPh; vec3 anc(vec3 o, float at){ return at > .5 ? uAlly : o; }\n  vec3 manP(vec3 A){ float th = uTime*.35; return A + vec3(cos(th), 0., sin(th))*.5 + vec3(0., 1.55 + .05*sin(uTime*1.7), 0.); }   /* short orbit at shoulder height: over the head is reserved for CC */\n  vec3 rayP(vec3 A, float f){ vec3 M = manP(A), S0 = A + vec3(-1.2, 7.5, 4.2), C = M + vec3(-.4, 1.4, 2.8);\n    return mix(mix(S0, C, f), mix(C, M, f), f); }\n  float rayF(float x){ x = clamp(x, 0., 1.); return 1. - (1. - x)*(1. - x); }\n    void main(){\n      float u = uTime - aT.x - 0.100, r = uTime - aT.y; if (u < 0.){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec3 A = anc(aO, aF.x), p; float sz, a = 1.;\n      vPk = 1.; vPh = 0.;\n      if (u < 0.900){ p = rayP(A, rayF(u/0.900)); sz = .3; }\n      else { p = manP(A); float m = u - 0.900;\n        sz = .4*(1. + .35*exp(-m*9.)); vPk = m < .033 ? 2.2 : 1. + .8*exp(-m*8.); vPh = 1.; }\n      vClock = clamp(uResolveProgress,0.,1.);\n      if (r >= 0.){\n        if (aF.y > .5){ float k = clamp(r/.2, 0., 1.); if (r > .2){ gl_Position = vec4(2.,2.,2.,1.); return; }\n          sz *= 1. - k*k; vPk = 1. + 1.2*(1. - k); }\n        else { if (r > .35){ gl_Position = vec4(2.,2.,2.,1.); return; } a = 1. - r/.35; a *= a; sz *= 1. - .25*r/.35; }\n      }\n      vA = a;\n      vec4 mv = viewMatrix*vec4(p, 1.); float c = cos(uTime*.4), s = sin(uTime*.4);\n      mv.xy += mat2(c, -s, s, c)*position.xy*sz; vQ = position.xy; gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vClock, vA, vPk, vPh;\n    void main(){                          // icon: 4-point star, thin diagonal glints, a fine circle around it, bright core\n      vec2 q = vQ; float r = length(q), a = atan(q.y, q.x);\n      float st = pow(abs(cos(a*2.)), 22.)*exp(-r*2.8) + pow(abs(cos(a*2. + .785)), 40.)*exp(-r*6.)*.5;\n      float core = exp(-r*r*55.), halo = exp(-r*r*6.)*.2;\n      float ang01 = fract(atan(q.x, q.y)/6.2832 + 1.);\n      float clk = smoothstep(vClock + .004, vClock - .004, ang01);          /* the ring empties like a clock during the delay */\n      float ring = exp(-pow((r - .46)/.018, 2.))*(.15 + 1.3*clk)*vPh;\n      vec3 o = (uOrange*(st*1.05 + halo + ring*.9) + mix(uGold, vec3(1.), .45)*(core*1.5 + st*.35 + ring*.3))*vPk*vA;\n      o *= smoothstep(1., .84, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.7912979403281551,
+            0.43415363616478553
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.913098651791473,
+            0.37626212298046485,
+            0.01764195448412081
+          ]
+        },
+        "uAlly": {
+          "type": "vector",
+          "values": [
+            -2.1437190561865997,
+            0,
+            -5.427595450422324
+          ]
+        },
+        "uResolveProgress": {
+          "type": "number",
+          "value": 0
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "runtime_uniforms": {
+        "uAlly": "f.aO",
+        "uResolveProgress": "RuntimeCastProgress"
+      },
+      "runtime_binding": {
+        "anchor": "float3(0.4849453866481781,0,-5.910623550415039)",
+        "attributes": {
+          "aT": "float2(ReferenceTime-1.1,1e9)",
+          "aF": "float2(0,0)"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.7041000000000937
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.4849453866481781,
+              0,
+              -5.910623550415039
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              0.0,
+              3.404099941253662
+            ]
+          ]
+        },
+        "aF": {
+          "size": 2,
+          "values": [
+            [
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          -0.875,
+          1,
+          0,
+          -0.75,
+          1,
+          0,
+          -0.625,
+          1,
+          0,
+          -0.5,
+          1,
+          0,
+          -0.375,
+          1,
+          0,
+          -0.25,
+          1,
+          0,
+          -0.125,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0.125,
+          1,
+          0,
+          0.25,
+          1,
+          0,
+          0.375,
+          1,
+          0,
+          0.5,
+          1,
+          0,
+          0.625,
+          1,
+          0,
+          0.75,
+          1,
+          0,
+          0.875,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          -0.875,
+          -1,
+          0,
+          -0.75,
+          -1,
+          0,
+          -0.625,
+          -1,
+          0,
+          -0.5,
+          -1,
+          0,
+          -0.375,
+          -1,
+          0,
+          -0.25,
+          -1,
+          0,
+          -0.125,
+          -1,
+          0,
+          0,
+          -1,
+          0,
+          0.125,
+          -1,
+          0,
+          0.25,
+          -1,
+          0,
+          0.375,
+          -1,
+          0,
+          0.5,
+          -1,
+          0,
+          0.625,
+          -1,
+          0,
+          0.75,
+          -1,
+          0,
+          0.875,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          0.0625,
+          1,
+          0.125,
+          1,
+          0.1875,
+          1,
+          0.25,
+          1,
+          0.3125,
+          1,
+          0.375,
+          1,
+          0.4375,
+          1,
+          0.5,
+          1,
+          0.5625,
+          1,
+          0.625,
+          1,
+          0.6875,
+          1,
+          0.75,
+          1,
+          0.8125,
+          1,
+          0.875,
+          1,
+          0.9375,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0.0625,
+          0,
+          0.125,
+          0,
+          0.1875,
+          0,
+          0.25,
+          0,
+          0.3125,
+          0,
+          0.375,
+          0,
+          0.4375,
+          0,
+          0.5,
+          0,
+          0.5625,
+          0,
+          0.625,
+          0,
+          0.6875,
+          0,
+          0.75,
+          0,
+          0.8125,
+          0,
+          0.875,
+          0,
+          0.9375,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          17,
+          1,
+          17,
+          18,
+          1,
+          1,
+          18,
+          2,
+          18,
+          19,
+          2,
+          2,
+          19,
+          3,
+          19,
+          20,
+          3,
+          3,
+          20,
+          4,
+          20,
+          21,
+          4,
+          4,
+          21,
+          5,
+          21,
+          22,
+          5,
+          5,
+          22,
+          6,
+          22,
+          23,
+          6,
+          6,
+          23,
+          7,
+          23,
+          24,
+          7,
+          7,
+          24,
+          8,
+          24,
+          25,
+          8,
+          8,
+          25,
+          9,
+          25,
+          26,
+          9,
+          9,
+          26,
+          10,
+          26,
+          27,
+          10,
+          10,
+          27,
+          11,
+          27,
+          28,
+          11,
+          11,
+          28,
+          12,
+          28,
+          29,
+          12,
+          12,
+          29,
+          13,
+          29,
+          30,
+          13,
+          13,
+          30,
+          14,
+          30,
+          31,
+          14,
+          14,
+          31,
+          15,
+          31,
+          32,
+          15,
+          15,
+          32,
+          16,
+          32,
+          33,
+          16
+        ]
+      },
+      "vertex": "uniform float uResolveProgress;\nattribute vec3 aO; attribute vec2 aT, aF; uniform float uTime; uniform vec3 uAlly; varying float vS, vY, vF; vec3 anc(vec3 o, float at){ return at > .5 ? uAlly : o; }\n  vec3 manP(vec3 A){ float th = uTime*.35; return A + vec3(cos(th), 0., sin(th))*.5 + vec3(0., 1.55 + .05*sin(uTime*1.7), 0.); }   /* short orbit at shoulder height: over the head is reserved for CC */\n  vec3 rayP(vec3 A, float f){ vec3 M = manP(A), S0 = A + vec3(-1.2, 7.5, 4.2), C = M + vec3(-.4, 1.4, 2.8);\n    return mix(mix(S0, C, f), mix(C, M, f), f); }\n  float rayF(float x){ x = clamp(x, 0., 1.); return 1. - (1. - x)*(1. - x); }\n    void main(){\n      float u = uTime - aT.x - 0.100; if (u < 0. || u > 0.900 + .3){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec3 A = anc(aO, aF.x);\n      float head = rayF(u/0.900), tail = max(0., head - .55) + max(0., u - 0.900)/.3;\n      if (head - tail < .005){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float s = position.x*.5 + .5, f = mix(tail, head, s);\n      vec3 P = rayP(A, f), T = normalize(rayP(A, min(f + .01, 1.)) - rayP(A, max(f - .01, 0.)));\n      vec3 side = normalize(cross(T, P - cameraPosition));\n      vS = s; vY = position.y; vF = 1. - clamp((u - 0.900)/.3, 0., 1.);\n      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.03 + .22*s*(1. - s*.4)), 1.);\n    }",
+      "fragment": "uniform float uTime; uniform vec3 uGold, uOrange; varying float vS, vY, vF;\n    void main(){ float lum = 0., hot = 0.;\n      for (int i=0;i<3;i++){ float fi = float(i), y0 = (fi - 1.)*.42, L = .55 + .3*fract(fi*.61 + .2);\n        float d = vY - y0*vS, w = .09 + .06*(1. - fi*.3);\n        float along = smoothstep(1. - L, 1., vS)*pow(vS, 1.2);\n        lum += exp(-d*d/(w*w))*along*(.7 + .3*sin(vS*14. - uTime*9. + fi*2.)); hot += exp(-d*d/(w*w*.12))*along*vS; }\n      vec3 o = (uOrange*lum*.5 + mix(uGold, vec3(1.), .4)*hot*.35)*vF*(1. - smoothstep(.8, 1., abs(vY)));\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.7912979403281551,
+            0.43415363616478553
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.913098651791473,
+            0.37626212298046485,
+            0.01764195448412081
+          ]
+        },
+        "uAlly": {
+          "type": "vector",
+          "values": [
+            -2.1437190561865997,
+            0,
+            -5.427595450422324
+          ]
+        },
+        "uResolveProgress": {
+          "type": "number",
+          "value": 0
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_uniforms": {
+        "uAlly": "f.aO",
+        "uResolveProgress": "RuntimeCastProgress"
+      },
+      "runtime_binding": {
+        "anchor": "float3(0.4849453866481781,0,-5.910623550415039)",
+        "attributes": {
+          "aT": "float2(ReferenceTime-1.1,1e9)",
+          "aF": "float2(0,0)"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

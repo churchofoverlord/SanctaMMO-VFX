@@ -1,0 +1,403 @@
+{
+  "slug": "ThunderstrikeIiHit",
+  "title": "ThunderstrikeIiHit",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 3,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.2000000476837158,
+              0
+            ],
+            [
+              0,
+              1.2000000476837158,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.12000000476837158
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT, life = aK < .5 ? .2 : (aK < 1.5 ? .55 : .28);\n      if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK < .5 || aK > 1.5){\n        vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;\n        float S = aK < .5 ? .4 : .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = .62; vP = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float lum = 0., hot = 0.;\n      if (vK > 1.5){\n        // rear flash (Interrupt): an asymmetric burst of rays from the stab point — long up-and-forward, short elsewhere\n        float r = length(p), a = atan(p.y, p.x), t = vU/.28, f = pow(1. - t, 1.6)*(vU < .033 ? 1.7 : 1.);\n        float N = 9., fa = floor(a/6.2832*N + .5), ac = fa/N*6.2832;\n        float h = fract(sin(fa*37.1)*4375.5);\n        float L = (.1 + .3*pow(max(0., cos(ac - .75)), 2.) + .06*h)*(1. - pow(1. - clamp(vU/.07, 0., 1.), 3.));\n        float d = abs(sin(a - ac))*r, w = .014*(1. - r/max(L, .01)) + .003;\n        float ray = exp(-pow(d/w, 2.))*smoothstep(L, L*.55, r)*smoothstep(.02, .06, r);\n        lum += ray*f*1.2 + exp(-r*r*60.)*f*1.4; hot += ray*f*.5 + exp(-r*r*200.)*f;\n        lum *= smoothstep(.5, .42, r); hot *= smoothstep(.5, .42, r);\n      } else if (vK < .5){\n        // splash: a soft burst + droplets thrown out radially, irregular lengths, thinning as they fly\n        float t = vU/.2, f = pow(1. - t, 1.4), r = length(p), a = atan(p.y, p.x);\n        float k = 1. - pow(1. - clamp(t/.6, 0., 1.), 3.);\n        lum += exp(-r*r*(90. + 400.*t))*f*1.3;                               // splat core\n        for (int j=0;j<9;j++){\n          float fj = float(j), h = fract(sin(fj*71.3)*4375.5), aj = fj*.698 + h*.5;\n          vec2 dir = vec2(cos(aj), sin(aj)); float Rj = (.12 + .2*h)*k;       // each droplet travels its own distance\n          vec2 q = p - dir*Rj; float sz = (.018 + .014*fract(h*7.))*(1. - .6*t);\n          float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x));\n          lum += exp(-(across*across)/(sz*sz) - (along*along)/(sz*sz*4.))*f;  // stretched along its motion\n        }\n        hot = lum*.5;\n        lum *= smoothstep(.4, .32, r); hot *= smoothstep(.4, .32, r);\n      } else {\n        // Slow: a thin ring settles inward (weight), three small chevrons point to the centre, then it fades\n        float t = vU/.55, f = pow(1. - smoothstep(.45, 1., t), 1.5)*smoothstep(0., .08, t);\n        float R = mix(.5, .38, 1. - pow(1. - clamp(t/.3, 0., 1.), 3.)), r = length(p);\n        float ring = exp(-pow((r - R)/.009, 2.));\n        float ch = 0.;\n        for (int i=0;i<3;i++){\n          float a = float(i)*2.0944 + .5; vec2 u = vec2(cos(a), sin(a)), n = vec2(-u.y, u.x);\n          vec2 q = vec2(dot(p, n), dot(p, u)) - vec2(0., R - .09);   // chevron just inside the ring, tip pointing inward\n          float dv = min(seg(q, vec2(0., -.035), vec2(-.045, .025)), seg(q, vec2(0., -.035), vec2(.045, .025)));\n          ch += exp(-pow(dv/.007, 2.));\n        }\n        lum += (ring*.9 + ch*.8)*f; hot += ring*f*.3;\n      }\n      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404300000000003
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.8796223968851662,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 4,
+      "count": 8,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.2579278945922852,
+              0
+            ],
+            [
+              0,
+              1.315021276473999,
+              0
+            ],
+            [
+              0,
+              1.3217593431472778,
+              0
+            ],
+            [
+              0,
+              1.1885461807250977,
+              0
+            ],
+            [
+              0,
+              1.1143858432769775,
+              0
+            ],
+            [
+              0,
+              1.2802014350891113,
+              0
+            ],
+            [
+              0,
+              1.064286708831787,
+              0
+            ],
+            [
+              0,
+              1.168559193611145,
+              0
+            ]
+          ]
+        },
+        "aV": {
+          "size": 3,
+          "values": [
+            [
+              2.4340670108795166,
+              0.9489136338233948,
+              0.36587998270988464
+            ],
+            [
+              -3.0037524700164795,
+              1.4445730447769165,
+              0.6704235076904297
+            ],
+            [
+              1.9881658554077148,
+              2.8424997329711914,
+              -1.4516801834106445
+            ],
+            [
+              2.894068479537964,
+              2.6028521060943604,
+              0.45349767804145813
+            ],
+            [
+              -2.678123712539673,
+              0.8912608623504639,
+              -0.17682524025440216
+            ],
+            [
+              3.169083833694458,
+              1.9683406352996826,
+              -0.7437797784805298
+            ],
+            [
+              2.0303444862365723,
+              0.8600679039955139,
+              -2.2612967491149902
+            ],
+            [
+              -0.22706376016139984,
+              1.6798043251037598,
+              4.0566816329956055
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              0.0,
+              0.2604859471321106
+            ],
+            [
+              0.0,
+              0.15476854145526886
+            ],
+            [
+              0.0,
+              0.17092910408973694
+            ],
+            [
+              0.0,
+              0.18489468097686768
+            ],
+            [
+              0.12000000476837158,
+              0.30551278591156006
+            ],
+            [
+              0.12000000476837158,
+              0.33470895886421204
+            ],
+            [
+              0.12000000476837158,
+              0.2455596774816513
+            ],
+            [
+              0.12000000476837158,
+              0.18995465338230133
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -0.5,
+          0.5,
+          0,
+          0.5,
+          0.5,
+          0,
+          -0.5,
+          -0.5,
+          0,
+          0.5,
+          -0.5,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;\n    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 4.*((1.-e)/(k*k) - t/k); return p; }\n    void main(){\n      float age = uTime - aT.x; if (age < 0. || age > aT.y){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);\n      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);\n      float s = position.y + .5; vec4 c = mix(ct, ch, s);\n      c.xy += (nrm*position.x*uW*2. + dir*(s-.5)*uW)*2./uRes*c.w;\n      gl_Position = c; vF = 1. - age/aT.y; vQ = vec2(position.x*2., s);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;\n    void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;\n      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404300000000003
+        },
+        "uRes": {
+          "type": "vector",
+          "values": [
+            932,
+            524
+          ]
+        },
+        "uW": {
+          "type": "scalar",
+          "value": 1.6
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.8796223968851662,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.49999999999999994,
+          -0.49999999999999994,
+          0.0
+        ],
+        "u": [
+          0.9999999999999998,
+          -2.220446049250313e-16,
+          0.0
+        ],
+        "v": [
+          -1.1102230246251565e-16,
+          1.0,
+          0.0
+        ]
+      },
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.7,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.7
+  }
+}

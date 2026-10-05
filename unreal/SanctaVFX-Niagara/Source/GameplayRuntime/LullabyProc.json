@@ -1,0 +1,141 @@
+{
+  "slug": "LullabyProc",
+  "title": "LullabyProc",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        3.181877290204773,
+        4.181877290204773
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -8
+            ],
+            [
+              0,
+              0,
+              -8
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              1.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              2
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.80){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vP = position.xy;\n      if (aK < .5){ vP = position.xy*.95; vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.45; gl_Position = projectionMatrix*mv; }   /* on the chest, not the ground */\n      else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }\n      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    void main(){\n      float lum = 0., hot = 0., t = vU/0.80;\n      if (vK < .5){\n        float r = length(vP), e = pow(clamp(vU/.3, 0., 1.), 3.), R = .85 - .7*e, f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.55, 1., t));\n        lum += exp(-pow(abs(r - R)/.016, 2.4))*f; hot += lcore(r - R, .005)*f*.6;\n        lum *= smoothstep(.95, .85, r); hot *= smoothstep(.95, .85, r);\n      } else if (vK < 1.5){\n        // Heal: thin streaks rise from the feet in a soft ease-out and open outward a little as they go\n        float x = vP.x, y = vP.y*.5 + .5, k = 1. - pow(1. - clamp(vU/.55, 0., 1.), 3.), f = 1. - smoothstep(.5, 1., t);\n        for (int i=0;i<6;i++){\n          float fi = float(i), ox = (h1(fi) - .5)*1.1*(.4 + .6*y), dl = h1(fi + 3.)*.12;\n          float kk = 1. - pow(1. - clamp((vU - dl)/.55, 0., 1.), 3.), head = kk*1.05, tail = head - .35;\n          lum += exp(-pow((x - ox)/.03, 2.))*smoothstep(tail, tail + .2, y)*smoothstep(head + .02, head - .1, y)*(.6 + .4*h1(fi + 9.));\n          vec2 sp = vec2(x - ox*.8, y - head*.9);                           // a small sparkle riding each streak\n          float sa = atan(sp.y, sp.x), sr = length(sp*vec2(1., 2.3));\n          lum += pow(abs(cos(sa*2.)), 12.)*exp(-sr*40.)*.8;\n        }\n        lum *= f*smoothstep(1., .75, abs(x))*smoothstep(1., .85, y); hot = lum*.3;\n      } else {\n        // impact: the orb melts softly into the target (no pop, no hit stop)\n        float r = length(vP), t2 = clamp(vU/.45, 0., 1.);\n        lum += exp(-r*r*(12. + 60.*t2))*(1. - t2)*.9 + exp(-pow((r - .12*(1. - t2))/.03, 2.))*(1. - t2)*.4;\n        hot = exp(-r*r*120.)*(1. - t2)*.5;\n        lum *= smoothstep(.75, .65, r); hot *= smoothstep(.75, .65, r);\n      }\n      vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40439999999963
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.5775804404214573,
+            0.8879231178794776,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.06847816983662762,
+            0.3915724777393922,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-8)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

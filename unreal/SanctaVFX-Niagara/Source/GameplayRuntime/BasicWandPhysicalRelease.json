@@ -1,0 +1,130 @@
+{
+  "slug": "BasicWandPhysicalRelease",
+  "title": "BasicWandPhysicalRelease",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "geometry": {
+        "position": [
+          -1.0,
+          -1.0,
+          0,
+          1.0,
+          -1.0,
+          0,
+          -1.0,
+          1.0,
+          0,
+          1.0,
+          1.0,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "index": [
+          0,
+          1,
+          3,
+          0,
+          3,
+          2
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO;attribute float aT;uniform float uTime;varying vec2 vQ;varying float vU;\nvoid main(){vU=uTime-aT;vec4 p=viewMatrix*vec4(aO,1.);p.xy+=position.xy*.24;vQ=position.xy;gl_Position=projectionMatrix*p;}",
+      "fragment": "uniform vec3 uColor;varying vec2 vQ;varying float vU;\nvoid main(){float t=clamp(vU/.22,0.,1.),r=length(vQ),w=.015+.055*(1.-t);\nfloat star=exp(-pow(min(abs(vQ.x),abs(vQ.y))/w,2.))*exp(-r*r*6.);\nfloat glow=exp(-r*r*16.);float f=pow(1.-t,1.7)*smoothstep(1.,.72,r);\ngl_FragColor=vec4(uColor*(star+.35*glow)*f,1.);}",
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "uniforms": {
+        "uTime": {
+          "type": "number",
+          "value": 0
+        },
+        "uColor": {
+          "type": "vector",
+          "values": [
+            0.65,
+            0.36,
+            0.16
+          ]
+        }
+      },
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "blending": 2,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -6.661338147750939e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "mesh_import_reflect_x": true,
+      "runtime_persistent": false,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)"
+      },
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.3,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.3
+  }
+}

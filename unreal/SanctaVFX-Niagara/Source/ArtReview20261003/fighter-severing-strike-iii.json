@@ -1,0 +1,146 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/severing-strike-iii/severing-strike-iii-vfx.html",
+  "sha256": "e4af29bb40b6e46eb2486cff76905788dc32568ea32cfc7ceaee35b8f8c68015",
+  "class": "fighter",
+  "slug": "severing-strike-iii",
+  "title": "Severing Strike III",
+  "method": "reference_spawn_and_shader_port",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0.4045000000000004,
+      "end_times": [
+        1.2045000000000003
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aYaw": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.40450000762939453
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aYaw, aT; uniform float uTime; varying vec2 vF; varying float vU;\n    void main(){\n      float u = uTime - aT - 0.12; if (u < 0. || u > .68){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 2.95; vec2 l = position.xy*S;             // local: x right, y forward\n      float c = cos(aYaw), s = sin(aYaw);\n      vec2 w = vec2(c*l.x - s*l.y, -(s*l.x + c*l.y));      // forward = -z\n      vF = l; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, 1.05 - l.x*.12, w.y), 1.);  // slight tilt\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vF; varying float vU;\n    void main(){\n      vec2 p = vF; float r = length(p), a = atan(p.x, p.y), SPAN = 1.68;\n      float s = clamp((SPAN - a)/(2.*SPAN), 0., 1.);        // 0 = where the swing starts (right), 1 = leading edge (left)\n      float edgeA = smoothstep(SPAN + .02, SPAN - .08, abs(a)); // soft angular limit (no hard radial line)\n      float prof = sin(3.14159*s);\n      float mid = pow(prof, 3.);                              // the thick centre\n      // 1) draws out in the swing direction  2) holds  3) fades from the origin, the centre goes last\n      float grow = 1. - pow(1. - clamp(vU/.09, 0., 1.), 2.);\n      float wipe = max(vU - .23, 0.)/.34;\n      float alive = smoothstep(grow + .02, grow - .03, s) * smoothstep(wipe - .08 - .3*mid, wipe + .2 - .3*mid, s);\n      float fade = 1. - smoothstep(.5, .68, vU);\n      float thin = 1. - .4*smoothstep(.2, .62, vU)*(1. - .5*mid);\n      // just the arc: thin at both ends, thick in the middle, with a gentle ease at the tips\n      float ends = pow(prof, .75);\n      float rr = 2.05 - .06*(1. - s);\n      float w = (.004 + .13*pow(prof, 1.3) + .34*mid)*thin;           // III: noticeably wider in the middle than II\n      float d = r - rr;\n      float band = exp(-pow(abs(d)/w, 2.4));                  // flatter core, crisp but soft edge\n      float core = exp(-pow(abs(d)/(w*.35), 2.));\n      float head = exp(-pow((s - grow)/.035, 2.)) * (1. - step(1., grow));\n      float k = alive*fade*edgeA*ends*(vU > .09 && vU < .123 ? 1.25 : 1.);\n      vec3 col = mix(uOrange, uGold, .35 + .65*prof);\n      vec3 outc = (col*band*(.55 + .5*prof) + mix(uGold, vec3(1., .96, .88), .6)*(core*.55*prof + head*band*.6))*k;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404499999999725
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-severing-strike-iii.json",
+    "baseline_sha256": "59e68f6d7c6c6b1e591828fc1c3a48bbd1c185125ceb7e8ecbcb06bfb00a117a",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "preview_duration": 0.85
+}

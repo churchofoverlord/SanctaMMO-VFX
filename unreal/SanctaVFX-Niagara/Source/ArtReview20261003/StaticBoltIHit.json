@@ -1,0 +1,146 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/mage/static-bolt-i/static-bolt-i-vfx.html",
+  "sha256": "884b5631bbea4bdca24651d94df05324b3b249ba33b96d333f256d0c18a735d5",
+  "class": "mage",
+  "title": "Static Bolt I",
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/mage-static-bolt-i.json",
+    "baseline_sha256": "a0586f9345c87d90b9490f399b911151bb955de78d374cfc65b66a4bbb6c4b5c",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "slug": "StaticBoltIHit",
+  "method": "user_art_revision_isolated_component",
+  "layers": [
+    {
+      "pool_index": 3,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              1.149999976158142,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT, life = aK < .5 ? .2 : (aK < 1.5 ? .55 : .28);\n      if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK < .5 || aK > 1.5){\n        vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;\n        float S = aK < .5 ? .4 : .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = .62; vP = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float lum = 0., hot = 0.;\n      if (vK > 1.5){\n        // rear flash (Interrupt): an asymmetric burst of rays from the stab point — long up-and-forward, short elsewhere\n        float r = length(p), a = atan(p.y, p.x), t = vU/.28, f = pow(1. - t, 1.6)*(vU < .033 ? 1.7 : 1.);\n        float N = 9., fa = floor(a/6.2832*N + .5), ac = fa/N*6.2832;\n        float h = fract(sin(fa*37.1)*4375.5);\n        float L = (.1 + .3*pow(max(0., cos(ac - .75)), 2.) + .06*h)*(1. - pow(1. - clamp(vU/.07, 0., 1.), 3.));\n        float d = abs(sin(a - ac))*r, w = .014*(1. - r/max(L, .01)) + .003;\n        float ray = exp(-pow(d/w, 2.))*smoothstep(L, L*.55, r)*smoothstep(.02, .06, r);\n        lum += ray*f*1.2 + exp(-r*r*60.)*f*1.4; hot += ray*f*.5 + exp(-r*r*200.)*f;\n        lum *= smoothstep(.5, .42, r); hot *= smoothstep(.5, .42, r);\n      } else if (vK < .5){\n        // splash: a soft burst + droplets thrown out radially, irregular lengths, thinning as they fly\n        float t = vU/.2, f = pow(1. - t, 1.4), r = length(p), a = atan(p.y, p.x);\n        float k = 1. - pow(1. - clamp(t/.6, 0., 1.), 3.);\n        lum += exp(-r*r*(90. + 400.*t))*f*1.3;                               // splat core\n        for (int j=0;j<9;j++){\n          float fj = float(j), h = fract(sin(fj*71.3)*4375.5), aj = fj*.698 + h*.5;\n          vec2 dir = vec2(cos(aj), sin(aj)); float Rj = (.12 + .2*h)*k;       // each droplet travels its own distance\n          vec2 q = p - dir*Rj; float sz = (.018 + .014*fract(h*7.))*(1. - .6*t);\n          float along = dot(q, dir), across = dot(q, vec2(-dir.y, dir.x));\n          lum += exp(-(across*across)/(sz*sz) - (along*along)/(sz*sz*4.))*f;  // stretched along its motion\n        }\n        hot = lum*.5;\n        lum *= smoothstep(.4, .32, r); hot *= smoothstep(.4, .32, r);\n      } else {\n        // Slow: a thin ring settles inward (weight), three small chevrons point to the centre, then it fades\n        float t = vU/.55, f = pow(1. - smoothstep(.45, 1., t), 1.5)*smoothstep(0., .08, t);\n        float R = mix(.5, .38, 1. - pow(1. - clamp(t/.3, 0., 1.), 3.)), r = length(p);\n        float ring = exp(-pow((r - R)/.009, 2.));\n        float ch = 0.;\n        for (int i=0;i<3;i++){\n          float a = float(i)*2.0944 + .5; vec2 u = vec2(cos(a), sin(a)), n = vec2(-u.y, u.x);\n          vec2 q = vec2(dot(p, n), dot(p, u)) - vec2(0., R - .09);   // chevron just inside the ring, tip pointing inward\n          float dv = min(seg(q, vec2(0., -.035), vec2(-.045, .025)), seg(q, vec2(0., -.035), vec2(.045, .025)));\n          ch += exp(-pow(dv/.007, 2.));\n        }\n        lum += (ring*.9 + ch*.8)*f; hot += ring*f*.3;\n      }\n      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40379999999954
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.8796223968851662,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.5394794890033748,
+            0.012983032338510335
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "preview_duration": 0.7,
+  "runtime_parameters": {}
+}

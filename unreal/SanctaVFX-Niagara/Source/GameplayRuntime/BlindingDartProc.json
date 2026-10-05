@@ -1,0 +1,105 @@
+{
+  "slug": "BlindingDartProc",
+  "title": "BlindingDartProc",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.3142797532250161
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.01080000028014183,
+              1.75,
+              -7.769000053405762
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.60){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25; mv.xy += position.xy*.5; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv; }",
+      "fragment": "varying vec2 vP; varying float vU;\n    void main(){\n      float r = length(vP), a = atan(vP.y, vP.x), u = vU, peak = u < .07 ? 1. : 0.;\n      float f = peak*3. + (1. - peak)*pow(max(0., 1. - (u - .07)/0.530), 1.4)*1.1;\n      float core = exp(-r*r*(peak > .5 ? 5. : 12.)), rays = pow(abs(cos(a*3.)), 24.)*exp(-r*3.5)*peak;   // brief starburst on the peak\n      vec3 o = vec3(1., .98, .94)*(core + rays*.8)*f*smoothstep(1., .8, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.403999999999723
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0.01080000028014183,0,-7.769000053405762)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

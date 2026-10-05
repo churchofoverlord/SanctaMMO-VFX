@@ -1,0 +1,157 @@
+{
+  "slug": "EclipseAreaImpact",
+  "title": "EclipseAreaImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        4.1945
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -5.5
+            ],
+            [
+              0,
+              0,
+              -5.5
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){ float u = (uTime - aT)/1.250; if (u < 0. || u > 1.750){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK < .5){ float S = 5.000; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(vP.x, .03, -vP.y), 1.); return; }\n      vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.3, 0.), 1.);                         /* the eclipse emblem, small billboard over the centre */\n      float k = clamp(u/0.600, 0., 1.), S = .9*(1. - pow(1. - k, 3.))*(1. + .15*step(1.000, u)*exp(-(u - 1.000)*8.));   /* slow pop-in, together with the circle; holds until the flash */\n      mv.xy += position.xy*S; vP = position.xy; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform float uTime; uniform vec3 uS, uSL, uM, uML; varying vec2 vP; varying float vU, vK; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float line(float d, float w){ return exp(-d*d/(w*w)); }\n    float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7)))*43758.5); }\n    float vn(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3. - 2.*f);\n      return mix(mix(h(i), h(i + vec2(1., 0.)), f.x), mix(h(i + vec2(0., 1.)), h(i + vec2(1., 1.)), f.x), f.y); }\n    void main(){ vec3 c = vec3(0.); float al = 0.;\n      if (vK < .5){\n        float r = length(vP), a = atan(vP.y, vP.x), R = 4.500, u = vU;\n        float side = smoothstep(-.06, .06, vP.x);                                    /* 0 = Sun half (left), 1 = Moon half (right) */\n        vec3 col = mix(uS, uM, side), lig = mix(uSL, uML, side);\n        float ero = vn(vP*2.2);                                                        /* alpha erosion after the hit */\n        float fin = 1. - smoothstep(1.050, 1.650, u + .45*ero - .1);\n        /* the circle: drawn from the far point to the near point on both halves at once */\n        float sweep = eox(clamp(u/0.350, 0., 1.))*3.2, ang = acos(clamp(vP.y/max(r, 1e-3), -1., 1.));\n        float drawn = smoothstep(sweep, sweep - .25, ang);\n        float border = (line(r - R, .03) + line(r - R, .16)*.07 + line(r - R*.86, .012)*.18)*drawn;\n        /* two opposite half rings converge from the border to the centre, accelerating, turning in opposite directions */\n        float t = clamp((u - 0.300)/0.700, 0., 1.), e = t*t, Rc = mix(R*.97, .12, e);\n        float live = step(0.300, u)*step(u, 1.000);\n        float aS = a + e*1.4, aM = a - e*1.4;\n        float inS = smoothstep(.1, -.1, cos(aS)), inM = smoothstep(-.1, .1, cos(aM));\n        float ray = pow(.5 + .5*cos(aS*18.), 10.)*step(0., r - Rc)*smoothstep(Rc + .45*(1. - .6*e), Rc, r);   /* sun: short star rays */\n        float sunR = (line(r - Rc, .035) + ray*.8)*inS;\n        float moonW = .03 + .07*max(cos(aM), 0.);                                     /* moon: crescent thickness */\n        float moonR = smoothstep(moonW, 0., abs(r - Rc - moonW*.5))*inM*.9 + line(r - Rc, .012)*inM;\n        vec3 rc = (uS*sunR*1.3 + uSL*line(r - Rc, .01)*inS*.6 + uM*moonR*1.3 + uML*line(r - Rc - moonW*.5, .008)*inM*.5)*live*(1. + e*1.5);\n        /* hit frame: clear central flash + a single pulse half gold / half violet out to the border */\n        float k = clamp((u - 1.000)/.4, 0., 1.), after = step(1.000, u);\n        float flash = exp(-r*r/.5)*exp(-max(u - 1.000, 0.)*9.)*after*1.2;\n        float Rp = .2 + (R - .2)*eox(k);\n        float pulse = (line(r - Rp, .07 + .1*(1. - k)) + line(r - Rp, .3)*.10)*(1. - k)*after*smoothstep(R + .2, R - .2, r);\n        c = col*(border*1.1 + pulse*.95)*fin + lig*(border*.25 + pulse*.28)*fin + rc + mix(vec3(1.), .5*(uSL + uML), .5)*flash;\n        c *= smoothstep(R + .5, R + .3, r);\n      } else {\n        /* the eclipse emblem: black disc, gold corona of rays on the left, violet crescent rim on the right (the icon) */\n        vec2 q = vP; float r = length(q), a = atan(q.y, q.x), u = vU - 1.000;\n        float left = smoothstep(.05, -.05, q.x);\n        float core = smoothstep(.43, .40, r);\n        float cor = pow(.5 + .5*cos(a*14. + sin(r*18.)*.8), 3.)*smoothstep(.42, .5, r)*smoothstep(.85, .5, r)*left;   /* wavy sun rays */\n        float rimS = line(r - .43, .02)*left*1.05 + line(r - .43, .1)*left*.12;\n        /* Moon: a true crescent (Moon Stance style) - line outline + faint fill; thickest on the right, tips meeting the sun at the top and bottom */\n        float dO = r - .43, dI = length(q + vec2(.12, 0.)) - .4466;\n        float cres = smoothstep(.006, -.006, dO)*smoothstep(-.006, .006, dI);\n        float cEdge = line(dO, .012)*smoothstep(-.01, .01, dI) + line(dI, .012)*smoothstep(.01, -.01, dO);\n        float ero = vn(q*7.), fin = 1. - smoothstep(.35, .7, u + .3*ero);\n        c = (uS*(cor*1.2 + rimS) + uSL*rimS*.4 + uM*(cres*.22 + cEdge*1.05) + uML*cEdge*.35)*fin;\n        al = core*.92*fin; c *= 1. - core*(1. - cres)*.95;\n        c += (uSL + uML)*.5*exp(-r*r*30.)*step(0., u)*exp(-u*14.)*2.;                            /* short clear pop */\n        c *= smoothstep(1., .9, r); al *= smoothstep(1., .9, r);\n      }\n      if (!(max(c.r, max(c.g, max(c.b, al))) >= .002)) discard; gl_FragColor = vec4(c, al); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.00699999999963
+        },
+        "uS": {
+          "type": "color",
+          "values": [
+            1,
+            0.46207699964472876,
+            0.02732089163382382
+          ]
+        },
+        "uSL": {
+          "type": "color",
+          "values": [
+            1,
+            0.7681511472425809,
+            0.3515325994898463
+          ]
+        },
+        "uM": {
+          "type": "color",
+          "values": [
+            0.3712376804636741,
+            0.10702310296918527,
+            1
+          ]
+        },
+        "uML": {
+          "type": "color",
+          "values": [
+            0.7156935005005721,
+            0.5394794890033748,
+            1
+          ]
+        }
+      },
+      "blending": 5,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-5.5)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

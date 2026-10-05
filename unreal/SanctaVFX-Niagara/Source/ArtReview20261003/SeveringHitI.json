@@ -1,0 +1,160 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/severing-strike/severing-strike-vfx.html",
+  "sha256": "81920c9d18623c37d033dd064665898651167b1ec05ec607f3ba724cea8c74ab",
+  "class": "fighter",
+  "title": "Severing Strike I",
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-severing-strike.json",
+    "baseline_sha256": "6412b10cf6fc774325425601d7cec1bf7c561d4b7368389c034c0273875b1581",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "slug": "SeveringHitI",
+  "method": "user_art_revision_isolated_component",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.7
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              1.226070761680603,
+              0.0
+            ]
+          ]
+        },
+        "aV": {
+          "size": 3,
+          "values": [
+            [
+              -4.98358154296875,
+              1.7885273694992065,
+              1.46724271774292
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              0.0,
+              0.3221665322780609
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -0.5,
+          0.5,
+          0,
+          0.5,
+          0.5,
+          0,
+          -0.5,
+          -0.5,
+          0,
+          0.5,
+          -0.5,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;\n    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 4.*((1.-e)/(k*k) - t/k); return p; }\n    void main(){\n      float age = uTime - aT.x; if (age < 0. || age > aT.y){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);\n      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);\n      float s = position.y + .5; vec4 c = mix(ct, ch, s);\n      c.xy += (nrm*position.x*uW*2. + dir*(s-.5)*uW)*2./uRes*c.w;\n      gl_Position = c; vF = 1. - age/aT.y; vQ = vec2(position.x*2., s);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;\n    void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;\n      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.6 + vec3(1., .95, .85)*c*vF*1.4)*(.4 + 1.6*vF*vF), 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.405099999999816
+        },
+        "uRes": {
+          "type": "vector",
+          "values": [
+            932,
+            524
+          ]
+        },
+        "uW": {
+          "type": "scalar",
+          "value": 1.6
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.49999999999999994,
+          -0.49999999999999994,
+          0.0
+        ],
+        "u": [
+          0.9999999999999998,
+          -2.220446049250313e-16,
+          0.0
+        ],
+        "v": [
+          -1.1102230246251565e-16,
+          1.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "preview_duration": 0.7,
+  "runtime_parameters": {}
+}

@@ -1,0 +1,232 @@
+{
+  "slug": "CrushingBlowIiAreaImpact",
+  "title": "CrushingBlowIiAreaImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.3758000000002797
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -0.75
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 0.97){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 2.35; vP = position.xy*S; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){\n      vec2 p = vP; float r = length(p), a = atan(p.x, p.y), R = 2.00, W = 0.22;\n      float u = vU - W;                                            // time since impact\n      float cut = 0.; float lum = 0., hot = 0., slow = 0.;\n      // telegraph: thin ring drawn from the front around both sides during the wind-up\n      float draw = clamp((vU - .04)/(W - .06), 0., 1.), m = abs(a)/3.14159;\n      float tele = step(m, draw*draw*(3. - 2.*draw) + .001);\n      float ringW = u < 0. ? .012 : .012 + .02*exp(-u*10.);\n      float ringI = u < 0. ? .45 : (u < .033 ? 1.4 : .45 + .6*exp(-u*6.));\n      float ringFade = 1. - smoothstep(.45, .75, u);              // the rim is the last thing to go\n      float ring = exp(-pow(abs(r - R)/ringW, 2.4));\n      lum += ring*tele*ringI*ringFade; hot += lcore(r - R, ringW*.3)*tele*ringI*.4*ringFade;\n      if (u >= 0.){\n        // cracks: glow runs outward from the centre, then fades starting at the centre\n        float front = eox(clamp(u/.18, 0., 1.))*R*.92;\n        float wipe = max(u - .16, 0.)/.42*R;\n        float cr = 0.;\n        // II: heavier blow — 14 main cracks (was 9), longer and thicker, each with one side branch\n        for (int i=0;i<14;i++){\n          float fi = float(i), th = fi*.4488 + (h1(fi) - .5)*.3 + .03*sin(r*11. + fi*3.) + .018*sign(sin(r*23. + fi));   // near-straight, jagged\n          vec2 dir = vec2(sin(th), cos(th));\n          float along = dot(p, dir), d = abs(p.x*dir.y - p.y*dir.x);\n          float len = R*(.62 + .36*h1(fi + 7.));\n          float w = mix(.04, .005, clamp(along/len, 0., 1.));      // thick at the centre, hair-fine at the ends\n          float on = step(0., along)*smoothstep(len, len*.8, along)*smoothstep(.1, .22, along);\n          cr = max(cr, exp(-pow(d/w, 2.))*on);\n          // branch: splits off at 40–65% of the crack, ±0.5 rad, short and fine\n          float bs = len*(.4 + .25*h1(fi + 3.)), bt = th + (h1(fi + 5.) > .5 ? .5 : -.5);\n          vec2 bo = dir*bs, bd = vec2(sin(bt), cos(bt)), q = p - bo;\n          float ba = dot(q, bd), bdd = abs(q.x*bd.y - q.y*bd.x), bl = R*(.22 + .2*h1(fi + 11.));\n          float bw = mix(.018, .004, clamp(ba/bl, 0., 1.));\n          cr = max(cr, exp(-pow(bdd/bw, 2.))*step(0., ba)*smoothstep(bl, bl*.7, ba)*.85);\n        }\n        float lit = smoothstep(front + .05, front - .2, r) * smoothstep(wipe - .1, wipe + .4, r);\n        cut = cr*lit*.55; lum += pow(cr, 3.)*lit*.52; hot += pow(cr, 5.)*lit*.22;          // II: hotter cracks\n        // shock ring: one thin pulse from the centre to the rim\n        float rr = eox(clamp(u/.2, 0., 1.))*R, fs = 1. - clamp(u/.24, 0., 1.);\n        lum += exp(-pow(abs(r - rr)/.02, 2.4))*fs*fs*.8;\n        // II · Slow: a second thin ring, instant and short, trailing the shock ring (same quad, no extra draw)\n        float u2 = u - .07;\n        if (u2 >= 0.){ float r2 = eox(clamp(u2/.17, 0., 1.))*R*.94, f2 = 1. - clamp(u2/.32, 0., 1.);\n          float w2 = .014 + .03*clamp(u2/.32, 0., 1.);\n          slow += (exp(-pow(abs(r2 - r)/w2, 2.2))*.75 + lcore(r - r2, w2*.3)*.35)*f2*f2*smoothstep(.15, .5, r); }\n        // centre: brief contact glow\n        lum += exp(-r*r*4.)*(u < .033 ? 1.8 : .9*exp(-u*8.));   // II: bigger, hotter contact glow\n      }\n      vec3 outc = mix(uOrange, uGold, .55)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot + mix(uGold, vec3(1., .93, .8), .35)*slow;\n      gl_FragColor = vec4(outc + vec3(.012, .010, .008)*cut, cut);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.405800000000003
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 5,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-0.75)",
+        "attributes": {},
+        "clock": "RuntimeAge+.22+TimeOrigin"
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.8858000000002798
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -0.75
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vQ; varying float vU;\n    void main(){\n      float u = uTime - aT - 0.22; if (u < 0. || u > .26){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float H = 1.7, Wd = .16, t = position.y*.5 + .5;\n      vec3 base = aO;\n      vec3 toCam = cameraPosition - base; toCam.y = 0.; vec3 side = normalize(vec3(-toCam.z, 0., toCam.x) + 1e-4);\n      vQ = vec2(position.x, t); vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(base + vec3(0., t*H, 0.) + side*position.x*Wd, 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vQ; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float t = vQ.y, grow = 1. - pow(1. - clamp(vU/.06, 0., 1.), 2.);\n      if (t > grow + .02) discard;\n      float prof = pow(1. - t, 1.4)*smoothstep(0., .08, t);           // thickest at the ground, needle-thin at the top\n      float w = .04 + .5*prof, d = abs(vQ.x);\n      float band = exp(-pow(d/w, 2.4)), core = lcore(d, w*.3);\n      float fade = (vU < .033 ? 1.25 : 1.)*(1. - smoothstep(.08, .26, vU))*smoothstep(grow + .02, grow - .05, t);\n      vec3 outc = (mix(uOrange, uGold, .5 + .5*prof)*band*.7 + mix(uGold, vec3(1., .96, .88), .6)*core*.5)*fade*pow(prof, .5);\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.405800000000003
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-0.75)",
+        "attributes": {},
+        "clock": "RuntimeAge+.22+TimeOrigin"
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.8,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.8
+  }
+}

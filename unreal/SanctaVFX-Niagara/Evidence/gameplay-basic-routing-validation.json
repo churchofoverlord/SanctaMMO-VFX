@@ -1,0 +1,455 @@
+{
+  "passed": true,
+  "cases": 56,
+  "tests": [
+    {
+      "weapon": "Sword",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Sword.Physical",
+      "actual": "Combat.Basic.Sword.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Sword",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Sword.Physical",
+      "actual": "Combat.Basic.Sword.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Sword",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Sword.Magical",
+      "actual": "Combat.Basic.Sword.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Sword",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Sword.Magical",
+      "actual": "Combat.Basic.Sword.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Axe",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Axe.Physical",
+      "actual": "Combat.Basic.Axe.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Axe_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Axe",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Axe.Physical",
+      "actual": "Combat.Basic.Axe.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Axe_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Axe",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Axe.Magical",
+      "actual": "Combat.Basic.Axe.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Axe_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Axe",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Axe.Magical",
+      "actual": "Combat.Basic.Axe.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Axe_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Club",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Club.Physical",
+      "actual": "Combat.Basic.Club.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Club_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Club",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Club.Physical",
+      "actual": "Combat.Basic.Club.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Club_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Club",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Club.Magical",
+      "actual": "Combat.Basic.Club.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Club_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Club",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Club.Magical",
+      "actual": "Combat.Basic.Club.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Club_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Wand",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Wand.Physical",
+      "actual": "Combat.Basic.Wand.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Wand_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Wand",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Wand.Physical",
+      "actual": "Combat.Basic.Wand.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Wand_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Wand",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Wand.Magical",
+      "actual": "Combat.Basic.Wand.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Wand_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Wand",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Wand.Magical",
+      "actual": "Combat.Basic.Wand.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Wand_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Rapier",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Rapier.Physical",
+      "actual": "Combat.Basic.Rapier.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Rapier_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Rapier",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Rapier.Physical",
+      "actual": "Combat.Basic.Rapier.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Rapier_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Rapier",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Rapier.Magical",
+      "actual": "Combat.Basic.Rapier.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Rapier_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Rapier",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Rapier.Magical",
+      "actual": "Combat.Basic.Rapier.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Rapier_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "DualDaggers",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.DualDaggers.Physical",
+      "actual": "Combat.Basic.DualDaggers.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_DualDaggers_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "DualDaggers",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.DualDaggers.Physical",
+      "actual": "Combat.Basic.DualDaggers.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_DualDaggers_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "DualDaggers",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.DualDaggers.Magical",
+      "actual": "Combat.Basic.DualDaggers.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_DualDaggers_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "DualDaggers",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.DualDaggers.Magical",
+      "actual": "Combat.Basic.DualDaggers.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_DualDaggers_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "FistsGauntlets",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.FistsGauntlets.Physical",
+      "actual": "Combat.Basic.FistsGauntlets.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_FistsGauntlets_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "FistsGauntlets",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.FistsGauntlets.Physical",
+      "actual": "Combat.Basic.FistsGauntlets.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_FistsGauntlets_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "FistsGauntlets",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.FistsGauntlets.Magical",
+      "actual": "Combat.Basic.FistsGauntlets.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_FistsGauntlets_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "FistsGauntlets",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.FistsGauntlets.Magical",
+      "actual": "Combat.Basic.FistsGauntlets.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_FistsGauntlets_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "GreatClub",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.GreatClub.Physical",
+      "actual": "Combat.Basic.GreatClub.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_GreatClub_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "GreatClub",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.GreatClub.Physical",
+      "actual": "Combat.Basic.GreatClub.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_GreatClub_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "GreatClub",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.GreatClub.Magical",
+      "actual": "Combat.Basic.GreatClub.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_GreatClub_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "GreatClub",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.GreatClub.Magical",
+      "actual": "Combat.Basic.GreatClub.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_GreatClub_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Staff",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Staff.Physical",
+      "actual": "Combat.Basic.Staff.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Staff_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Staff",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Staff.Physical",
+      "actual": "Combat.Basic.Staff.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Staff_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Staff",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Staff.Magical",
+      "actual": "Combat.Basic.Staff.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Staff_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Staff",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Staff.Magical",
+      "actual": "Combat.Basic.Staff.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Staff_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Crossbow",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Crossbow.Physical",
+      "actual": "Combat.Basic.Crossbow.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Crossbow_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Crossbow",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Crossbow.Physical",
+      "actual": "Combat.Basic.Crossbow.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Crossbow_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Crossbow",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Crossbow.Magical",
+      "actual": "Combat.Basic.Crossbow.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Crossbow_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Crossbow",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Crossbow.Magical",
+      "actual": "Combat.Basic.Crossbow.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Crossbow_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Greatsword",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Greatsword.Physical",
+      "actual": "Combat.Basic.Greatsword.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greatsword_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Greatsword",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Greatsword.Physical",
+      "actual": "Combat.Basic.Greatsword.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greatsword_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Greatsword",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Greatsword.Magical",
+      "actual": "Combat.Basic.Greatsword.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greatsword_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Greatsword",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Greatsword.Magical",
+      "actual": "Combat.Basic.Greatsword.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greatsword_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Greataxe",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Greataxe.Physical",
+      "actual": "Combat.Basic.Greataxe.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greataxe_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Greataxe",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Greataxe.Physical",
+      "actual": "Combat.Basic.Greataxe.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greataxe_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Greataxe",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Greataxe.Magical",
+      "actual": "Combat.Basic.Greataxe.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greataxe_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Greataxe",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Greataxe.Magical",
+      "actual": "Combat.Basic.Greataxe.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Greataxe_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Bow",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Bow.Physical",
+      "actual": "Combat.Basic.Bow.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Bow_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Bow",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Bow.Physical",
+      "actual": "Combat.Basic.Bow.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Bow_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Bow",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Bow.Magical",
+      "actual": "Combat.Basic.Bow.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Bow_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Bow",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Bow.Magical",
+      "actual": "Combat.Basic.Bow.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Bow_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Spear",
+      "primary": "FIGHTER",
+      "expected": "Combat.Basic.Spear.Physical",
+      "actual": "Combat.Basic.Spear.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Spear_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Spear",
+      "primary": "SCOUT",
+      "expected": "Combat.Basic.Spear.Physical",
+      "actual": "Combat.Basic.Spear.Physical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Spear_Physical",
+      "passed": true
+    },
+    {
+      "weapon": "Spear",
+      "primary": "MAGE",
+      "expected": "Combat.Basic.Spear.Magical",
+      "actual": "Combat.Basic.Spear.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Spear_Magical",
+      "passed": true
+    },
+    {
+      "weapon": "Spear",
+      "primary": "MYSTIC",
+      "expected": "Combat.Basic.Spear.Magical",
+      "actual": "Combat.Basic.Spear.Magical",
+      "asset": "/Game/Sancta/VFX/Definitions/DA_Combat_Basic_Spear_Magical",
+      "passed": true
+    }
+  ],
+  "scope": "Compiled native routing and real DataAsset compositions; no weapon rig or Foundation gameplay transport implied."
+}

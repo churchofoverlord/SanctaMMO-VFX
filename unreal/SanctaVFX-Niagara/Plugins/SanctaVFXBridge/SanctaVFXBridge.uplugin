@@ -9,11 +9,20 @@
     {
       "Enabled": true,
       "Name": "PythonScriptPlugin"
+    },
+    {
+      "Enabled": true,
+      "Name": "CascadeToNiagaraConverter"
     }
   ],
   "Version": 1,
   "FriendlyName": "Sancta VFX Lab authoring bridge",
   "Modules": [
+    {
+      "LoadingPhase": "Default",
+      "Type": "Runtime",
+      "Name": "SanctaVFXRuntime"
+    },
     {
       "LoadingPhase": "Default",
       "Type": "Editor",

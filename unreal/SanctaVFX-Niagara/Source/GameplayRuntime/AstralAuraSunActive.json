@@ -1,0 +1,124 @@
+{
+  "slug": "AstralAuraSunActive",
+  "title": "AstralAuraSunActive",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aS": {
+          "size": 3,
+          "values": [
+            [
+              0.040433332324028015,
+              2.0071001052856445,
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO, aS; uniform float uTime; varying vec2 vP; varying float vOn, vOff;\n    void main(){ float on = uTime - aS.x, off = uTime - aS.y;\n      if (aS.z < .5 || on < 0. || (off > .35 && aS.y >= aS.x)){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vOn = on; vOff = aS.y > aS.x ? off : -1.;\n      vec2 w = position.xy*8.348; vP = w*0.192;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(w.x, .025, -w.y), 1.); }",
+      "fragment": "uniform float uTime; uniform vec3 uC, uP; varying vec2 vP; varying float vOn, vOff; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float line(float d, float w){ return exp(-d*d/(w*w)); }\n    void main(){\n      float r = length(vP), a = atan(vP.y, vP.x), rot = uTime*.05;\n      float k = eox(clamp(vOn/.3, 0., 1.)), R = 1.15*mix(.35, 1., k);\n      float fade = 1.; if (vOff >= 0.){ float q = clamp(vOff/.3, 0., 1.); fade = (1. - q)*(1. - q); R *= 1. + .06*q; }\n      float pk = vOn < .033 ? 2.2 : 1. + .8*exp(-max(vOn - .033, 0.)*10.);\n      float flow = .7 + .3*pow(.5 + .5*sin(a*3. - uTime*.6), 2.);          /* energy drifting slowly round the ring */\n      float lum = (line(r - R, .007)*.75 + exp(-pow((r - R)/.04, 2.))*.12)*flow + line(r - (R - .12), .004)*.35;\n      float a4 = mod(a + rot, 1.5708) - .7854;\n      float rune = 0.;\n      /* Sun: three small suns (the approved Sun Stance symbol: disc + rim + 4-point star rays + soft corona) riding just inside\n           the ring, slowly counter-rotating - same placement as the Moon crescents */\n        float a3 = mod(a - uTime*.07, 2.0944) - 1.0472; vec2 sq = (vec2(r*cos(a3) - (R - .075), r*sin(a3)))/.125;\n        float sr = length(sq), sa = atan(sq.y, sq.x);\n        float disc = smoothstep(.36, .32, sr), rim = exp(-pow((sr - .34)/.03, 2.));\n        float star = pow(abs(cos(sa*2.)), 14.)*exp(-sr*2.4)*smoothstep(.2, .4, sr), corona = exp(-sr*sr*6.)*.25;\n        rune += (disc*.45 + rim*.9 + star*.9 + corona)*smoothstep(1., .8, sr);\n      float d4 = length(vec2(r*cos(a4) - R, r*sin(a4))); lum += exp(-d4*d4/.0006)*.6;   /* 4 nodes on the ring */\n      float hot = line(r - R, .003)*.35*flow + rune*.35;\n      lum += rune*mix(1., 1.4, 1. - k);\n      /* switch pulse: a thin ring runs out past the aura and is gone in 0.25 s */\n      float pr = mix(R*.4, R + .35, eox(clamp(vOn/.25, 0., 1.))), pf = vOn < .25 ? pow(1. - vOn/.25, 1.5) : 0.;\n      lum += line(r - pr, .012)*pf*1.2; hot += line(r - pr, .004)*pf;\n      vec3 o = (uC*lum*.55 + mix(uP, vec3(1.), .4)*hot*.45)*pk*fade;\n      o *= smoothstep(1.600, 1.440, r);\n      o = max(o, 0.); if (!(max(o.r, max(o.g, o.b)) >= .002)) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.007099999999717
+        },
+        "uC": {
+          "type": "color",
+          "values": [
+            1,
+            0.46207699964472876,
+            0.02732089163382382
+          ]
+        },
+        "uP": {
+          "type": "color",
+          "values": [
+            1,
+            0.7681511472425809,
+            0.3515325994898463
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aS": "float3(ReferenceTime-.6,1e9,1)"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

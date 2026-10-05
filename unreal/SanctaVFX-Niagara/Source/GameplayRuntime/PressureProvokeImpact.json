@@ -1,0 +1,149 @@
+{
+  "slug": "PressureProvokeImpact",
+  "title": "PressureProvokeImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.0346000000000934
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > .16){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.3;\n      float S = .34; mv.xy += position.xy*S; vP = position.xy*S; vU = u; vK = aK;\n      gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uCW, uCT; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec2 p = vP; float r = length(p), t = vU/.16, f = pow(1. - t, 1.6);\n      float R = .03 + .22*(1. - pow(1. - t, 3.)), w = .006 + .008*(1. - t);\n      vec3 col = mix(uCW, uCT, vK);\n      float lum = exp(-pow(abs(r - R)/w, 2.4))*f*.45 + exp(-r*r*300.)*f*.4;\n      vec3 outc = col*lum + mix(col, vec3(1.), .6)*lcore(r - R, w*.35)*f*.4;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404599999999817
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.04666508633021928,
+            0.21223075740342198
+          ]
+        },
+        "uCT": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aO": "float3(0,0,0)"
+        },
+        "native_contact_billboard_cm": 34
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.18,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.18
+  }
+}

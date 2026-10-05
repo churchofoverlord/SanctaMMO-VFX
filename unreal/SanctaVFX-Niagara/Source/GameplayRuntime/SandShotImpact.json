@@ -1,0 +1,144 @@
+{
+  "slug": "SandShotImpact",
+  "title": "SandShotImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.675835958814664,
+        0.7159722005204608,
+        0.6695787239897022
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.006257236003875732
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.15){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.38; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;\n    void main(){ float r = length(vP), a = atan(vP.y, vP.x), f = vU < .034 ? 1.9 : pow(1. - (vU - .034)/0.116, 2.);\n      float star = pow(abs(cos(a*2.)), 30.)*smoothstep(.9, .1, r);\n      vec3 o = (mix(uOrange, uGold, .6)*(exp(-r*r*14.) + star*.7) + vec3(1., .95, .85)*exp(-r*r*70.))*f*smoothstep(1., .85, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404099999999815
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "source_playback_scale": 0.55,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aO": "float3(0,0,0)"
+        },
+        "native_contact_billboard_cm": 38
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.18,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.18
+  }
+}

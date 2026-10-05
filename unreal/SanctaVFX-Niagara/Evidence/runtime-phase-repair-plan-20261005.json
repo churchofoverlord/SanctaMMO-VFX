@@ -1,0 +1,319 @@
+{
+  "status": "lab_visual_and_native_validation_complete",
+  "active_owned_ue_pid": null,
+  "active_log": null,
+  "current_native_components": 331,
+  "planned_native_components_after_cuts": 331,
+  "source_regeneration_executed": true,
+  "native_rebuild_executed": true,
+  "repairs": [
+    {
+      "components": [
+        "ChainsIEnd",
+        "ChainsIIEnd"
+      ],
+      "change": "Dissolution begins at the original shader thresholds: 0.45 for I, 1.60 for II; phase age starts there."
+    },
+    {
+      "components": [
+        "CCTauntActive",
+        "CCTauntNaturalEnd",
+        "CCTauntCleanse",
+        "CCTauntApply"
+      ],
+      "change": "Runtime endpoint replaces the recorded taunter position in the line and temple-side marker."
+    },
+    {
+      "components": [
+        "ResurrectComplete"
+      ],
+      "change": "Successful resolve uses phase age zero, preserving its rising light envelope."
+    },
+    {
+      "components": [
+        "SeveringHitI",
+        "SeveringHitII",
+        "SeveringHitIII"
+      ],
+      "change": "Remove redundant optional flashes from runtime job/definition/migration lists; retain historical references and the real sequence marks."
+    },
+    {
+      "components": [
+        "Link fixtures",
+        "Volley II Aim and AimEnd fixtures"
+      ],
+      "change": "Hand-height source points for links; camera contains the complete Volley aim field."
+    },
+    {
+      "components": [
+        "WarLeap",
+        "CrushingBlow",
+        "Thunderstrike",
+        "SmokeBomb",
+        "CombustII"
+      ],
+      "change": "World resolution owns ground/vertical effects; casting does not synthesize an impact."
+    },
+    {
+      "components": [
+        "LongJump",
+        "BleedStance",
+        "PoisonStance",
+        "Laser",
+        "AstralPull",
+        "CCTaunt"
+      ],
+      "change": "Real owners/endpoints and phase clocks replace recorded demonstration positions and times."
+    },
+    {
+      "components": [
+        "Cleanse",
+        "Evasion",
+        "ShoulderRush",
+        "Vortex",
+        "Piercing",
+        "PressureProvoke"
+      ],
+      "change": "Confirmed application/hit/displacement selects the result on the correct receiver; one contact per target."
+    },
+    {
+      "components": [
+        "AstralAuraSun",
+        "AstralAuraMoon",
+        "CosmicRay",
+        "ArcaneBurst",
+        "Quickstep"
+      ],
+      "change": "Persistent envelope, actual receiver uniforms and stable visible delivery clocks corrected."
+    },
+    {
+      "components": [
+        "Flight/Hold/Movement/Trail/Telegraph aliases"
+      ],
+      "change": "Aliased display names preserve original lifecycle; 28 mistaken state-owned flags corrected and canonical variants regenerated."
+    },
+    {
+      "components": [
+        "ConnectionIAllyNaturalEnd",
+        "ConnectionIEnemyNaturalEnd",
+        "ConnectionIiAllyNaturalEnd",
+        "ConnectionIiEnemyNaturalEnd",
+        "PressureProvokeImpact",
+        "PressureProvokeTankImpact"
+      ],
+      "change": "Connection terminal uses phase age zero and an already-grown link; II keeps its full 1.1 s resolve. Pressure contact data is centered on receiver and its definition matches the .16 s flash with .18 s lifetime."
+    },
+    {
+      "components": [
+        "ThunderstrikeIStrike",
+        "ThunderstrikeIiStrike",
+        "ThunderstrikeIISplash"
+      ],
+      "change": "Wider/raised fixture camera includes the full vertical lightning extent."
+    },
+    {
+      "components": [
+        "PressureProvokeImpact",
+        "PressureProvokeTankImpact"
+      ],
+      "change": "UV reconstruction in both shader stages fixes imported contact billboard coordinates."
+    },
+    {
+      "components": [
+        "GuardActive",
+        "ManaStormActive",
+        "FullMoonAreaImpact",
+        "ArcaneWeavingIResource",
+        "ArcaneWeavingIiResource",
+        "ElementalWeaverIResource",
+        "ElementalWeaverIiResource",
+        "ConnectionIAllyActive",
+        "ConnectionIEnemyActive",
+        "ConnectionIiAllyActive",
+        "ConnectionIiEnemyActive"
+      ],
+      "change": "Premultiplied alpha composite derives opacity from the original emitted light mask, preserving hue on bright backgrounds; Guard stroke widened/strengthened slightly. Original fire/reference assets preserved."
+    }
+  ],
+  "next_steps": [
+    "Wait for the current 268-case UE capture to exit 0, then register the exact case file.",
+    "Audit and inspect all current captures, then Low/bright/terrain, resource/hold controls, performance and viewer.",
+    "Refresh export, document actual results and limits, then explicit Git commit and immediate push."
+  ],
+  "production_approved": false,
+  "foundation_modified": false,
+  "current_native_components_before": 335,
+  "current_job_count": 330,
+  "source_changed": [
+    "CCTauntActive",
+    "CCTauntNaturalEnd",
+    "CCTauntCleanse",
+    "CCTauntApply",
+    "ChainsIEnd",
+    "ChainsIIEnd",
+    "ResurrectComplete",
+    "BrightStarCasterProc",
+    "CrushingBlowAreaImpact",
+    "CrushingBlowIiAreaImpact",
+    "PiercingStrikeImpact",
+    "PiercingStrikeIiTankImpact",
+    "PiercingStrikeIiWarriorImpact",
+    "PressureProvokeImpact",
+    "PressureProvokeTankImpact",
+    "ShoulderRushCast",
+    "ShoulderRushIiTankCast",
+    "ShoulderRushIiWarriorCast",
+    "TankStanceCast",
+    "WarLeapMovement",
+    "WarLeapAreaImpact",
+    "WarriorStanceCast",
+    "ArcaneBurstFlight",
+    "LaserActive",
+    "LaserCast",
+    "ThunderstrikeIStrike",
+    "ThunderstrikeIiStrike",
+    "VortexFlight",
+    "VortexDisplacement",
+    "WeaveCast",
+    "AstralAuraMoonActive",
+    "AstralAuraSunActive",
+    "AstralPullAreaImpact",
+    "AstralPullRelocate",
+    "AstralPullLink",
+    "CosmicRayIResolve",
+    "CosmicRayIiResolve",
+    "MoonStanceCast",
+    "SunStanceCast",
+    "BleedStanceActive",
+    "LongJumpHold",
+    "LongJumpTelegraph",
+    "PoisonStanceActive",
+    "QuickstepIMovement",
+    "QuickstepIiMovement",
+    "RapidAttackCast"
+  ],
+  "removed_from_current_jobs": [
+    "AstralPullCast",
+    "AstralPullProc",
+    "BleedStanceCast",
+    "CrushingBlowCast",
+    "CrushingBlowIiCast",
+    "LongJumpCast",
+    "LongJumpProc",
+    "PoisonStanceCast",
+    "SeveringHitI",
+    "SeveringHitII",
+    "SeveringHitIII",
+    "ThunderstrikeICast",
+    "ThunderstrikeIiCast",
+    "VortexCast",
+    "VortexImpact",
+    "WarLeapCast"
+  ],
+  "full_capture_before": {
+    "exit_code": 0,
+    "frames": 878,
+    "audit": "Saved/RuntimePhaseRepairBefore-20261005/gameplay-runtime-capture-audit.json"
+  },
+  "first_rebuild_exit_code": 0,
+  "final_rebuild_pending": [],
+  "second_pass_generated": true,
+  "final_rebuild_exit_code": 0,
+  "definitions_finalize_exit_code": 0,
+  "material_bindings_current_passed": 401,
+  "phase_contract_checks_passed": 569,
+  "full_capture_plan": 861,
+  "reused_current_frames": 593,
+  "recapture_pending": 268,
+  "updated_at_utc": "2026-10-05T12:02:59.720245+00:00",
+  "post_capture_repairs_planned": [],
+  "final_terminal_contact_rebuild_exit_code": 0,
+  "terminal_contact_components": [
+    "ConnectionIAllyNaturalEnd",
+    "ConnectionIEnemyNaturalEnd",
+    "ConnectionIiAllyNaturalEnd",
+    "ConnectionIiEnemyNaturalEnd",
+    "PressureProvokeImpact",
+    "PressureProvokeTankImpact"
+  ],
+  "remaining_recapture": 10,
+  "current_frames_reused": 855,
+  "quality_before_contrast_cases": 94,
+  "quality_before_contrast_review": "All four sheets inspected; weak additive hue on very bright floor in rings/resources/links, Guard stroke weak. Prior captures and sheets archived in Saved/RuntimeContrastBefore-20261005.",
+  "contrast_changed_components": [
+    "GuardActive",
+    "ManaStormActive",
+    "FullMoonAreaImpact",
+    "ArcaneWeavingIResource",
+    "ArcaneWeavingIiResource",
+    "ElementalWeaverIResource",
+    "ElementalWeaverIiResource",
+    "ConnectionIAllyActive",
+    "ConnectionIEnemyActive",
+    "ConnectionIiAllyActive",
+    "ConnectionIiEnemyActive"
+  ],
+  "contact_uv_rebuild_exit_code": 0,
+  "contrast_rebuild_exit_code": 0,
+  "contrast_capture_exit_code": 0,
+  "quality_contrast_exit_code": 0,
+  "contact_uv_visual_result": "UV restoration alone did not centre Pressure/Provoke. Native direct camera-facing quad now uses the supplied contact point; retain original reference fragment mask/color/timing.",
+  "current_logs": {
+    "definitions": "Saved/Runtime-final-contrast-package-20261005.log",
+    "contrast": "Saved/Runtime-final-contrast-contacts-20261005.log",
+    "quality": "Saved/Runtime-quality-contrast-final-20261005.log",
+    "contact_rebuild": "Saved/Native-direct-contact-fix-20261005.log"
+  },
+  "current_components": 331,
+  "current_all_plan": 866,
+  "mist_uv_reason": "Post-WPO quad coordinates in fragment stage caused straight fog bands; recover undeformed reference coordinates from UV.",
+  "sand_shot_reason": "Three recorded target contact flashes removed from cone/dust cast. New finite World contact uses one confirmed receiver and point per event.",
+  "contact_visual_result": "Both Pressure variants inspected full-size at the supplied body contact, after explicit World anchor and target fixture correction.",
+  "viewer_validation_before_last_assets": {
+    "passed": true,
+    "cases": 331,
+    "default_rate": 1
+  },
+  "full_case_count": 867,
+  "pending_capture_frames": 0,
+  "completed_at_utc": "2026-10-05T12:26:21.009534+00:00",
+  "viewer_cases": 332,
+  "first_phase_binding_definitions": 401,
+  "phase_contract_checks": 572,
+  "manual_visual_review": "Evidence/gameplay-runtime-art-review.json",
+  "performance_validation": "Evidence/gameplay-runtime-performance-validation.json",
+  "rig_reference": "UE Manny, confirmed by user; animated rig calibration pending",
+  "final_successful_logs": [
+    "Saved/Runtime-sand-dust-package-final-20261005.log",
+    "Saved/Runtime-mist-floor-final-20261005.log",
+    "Saved/Runtime-sand-dust-final-20261005.log",
+    "Saved/Runtime-performance-final-20261005.log",
+    "Saved/Runtime-viewer-audit.log"
+  ],
+  "final_repairs": [
+    "Mist fog fades at its floor intersection; no straight billboard cuts.",
+    "Sand Shot dust contrast/frame improved; one separate World confirmed-contact flash, no timed demo targets.",
+    "Thunderstrike I captured in its on-flicker window without changing approved lightning art."
+  ],
+  "publication": {
+    "status": "explicitly_approved_by_user_publish_pending",
+    "recorded_at_utc": "2026-10-05T12:34:15.849802+00:00",
+    "remote": "https://github.com/churchofoverlord/SanctaMMO-VFX.git",
+    "branch": "main",
+    "visibility": "public",
+    "verified_owner": "churchofoverlord",
+    "verified_by": "Connected GitHub account/profile and installed repository metadata; local origin and published commit history",
+    "prepared_file_count": 3838,
+    "scope_file": "Evidence/runtime-version-control-scope.json",
+    "scope_sha256": "93c2cabc7e4b019e09b2855348ce5c5632f26ac8ea30de29b64821657f63e067",
+    "commit_created": false,
+    "push_completed": false,
+    "auto_review_rejections": 2,
+    "latest_rejection_reason": "Even though public remote and scope were verified, trusted authorization must explicitly approve sending this 3838-file lot directly to public main.",
+    "approval_requested": "Human confirmation to create commit and publish this explicit lot; alternative keep local only",
+    "local_artifacts_complete": true,
+    "active_ue_process": false,
+    "user_authorization": "sim e cria um guia com orientações/index",
+    "authorized_at_utc": "2026-10-05T12:47:17.759551+00:00"
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "slug": "ChainsIIHit",
+  "title": "ChainsIIHit",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 3,
+      "count": 1,
+      "cast_time": 0.41260000000007846,
+      "end_times": [
+        1.556499366760254
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              0,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              1.051499366760254
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > (aK > .5 ? .24 : 0.45)){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK > .5){                                              // Interrupt: small emblem at the hook, turned to the camera\n        vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.25;\n        float S = .55; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = .5; vP = position.xy*.9;                        // only the immediate base of the feet\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float r = length(p);\n      if (vK > .5){\n        // Interrupt: a ring bursts outward and six short ticks break away from it, gone in 0.24 s\n        float t = vU/.24, R = mix(.08, .38, 1. - pow(1. - t, 3.)), f = pow(1. - t, 1.5);\n        float ring = exp(-pow(abs(r - R)/.014, 2.4)), tk = 0.;\n        for (int j=0;j<6;j++){ float an = float(j)*1.0472 + .26; vec2 d = vec2(cos(an), sin(an));\n          tk += exp(-pow(seg(p, d*(R + .04), d*(R + .12))/.012, 2.)); }\n        float fl = exp(-r*r*60.)*(vU < .033 ? 1.5 : 0.);\n        vec3 o = (mix(uOrange, uGold, .6)*(ring + tk*.9) + vec3(1., .95, .86)*(fl + lcore(r - R, .004)*.6))*f*smoothstep(.55, .45, r);\n        if (max(o.r, max(o.g, o.b)) < .002) discard;\n        gl_FragColor = vec4(o, 1.); return;\n      }\n      float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms\n      float R = mix(.75, .42, k);\n      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (Root ≠ danger area)\n      float st = 0.;\n      for (int j=0;j<4;j++){\n        float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));\n        float ds = seg(p, d*(R - .17), d*(R + .03));\n        st += exp(-pow(ds/.014, 2.)); hot += lcore(ds, .004);\n      }\n      float f = vU < .06 ? 1. : 1. - smoothstep(.2, 0.45, vU);\n      float pk = vU >= .06 && vU < .093 ? 1.6 : 1.;                    // 2-frame peak when it locks\n      float edge = smoothstep(.9, .78, r);\n      vec3 outc = (mix(uOrange, uGold, .6)*(ring*.9 + st*.8) + vec3(1., .95, .86)*hot*.6)*f*pk*edge;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.412599999999703
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 1.051499366760254,
+      "runtime_binding": {
+        "anchor": "float3(0.0,0,0.0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 4,
+      "count": 6,
+      "cast_time": 0.41260000000007846,
+      "end_times": [
+        1.556499366760254
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              -0.11153634078800678,
+              1.116381049156189,
+              0.29711103439331055
+            ],
+            [
+              -0.11153634078800678,
+              0.9958423376083374,
+              0.29711103439331055
+            ],
+            [
+              -0.11153634078800678,
+              1.0815436840057373,
+              0.29711103439331055
+            ],
+            [
+              -0.11153634078800678,
+              1.1282508373260498,
+              0.29711103439331055
+            ],
+            [
+              -0.11153634078800678,
+              1.086430311203003,
+              0.29711103439331055
+            ],
+            [
+              -0.11153634078800678,
+              1.0210490226745605,
+              0.29711103439331055
+            ]
+          ]
+        },
+        "aV": {
+          "size": 3,
+          "values": [
+            [
+              0.20194745063781738,
+              0.7349414825439453,
+              2.3375813961029053
+            ],
+            [
+              -0.3197116553783417,
+              1.7521551847457886,
+              2.6219723224639893
+            ],
+            [
+              -0.2994844913482666,
+              0.9540464878082275,
+              3.269803524017334
+            ],
+            [
+              0.13477051258087158,
+              0.91977459192276,
+              4.234055995941162
+            ],
+            [
+              1.017008900642395,
+              1.0043110847473145,
+              3.6125800609588623
+            ],
+            [
+              0.9903475642204285,
+              1.915536642074585,
+              2.2509262561798096
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              1.051499366760254,
+              0.21239414811134338
+            ],
+            [
+              1.051499366760254,
+              0.21107040345668793
+            ],
+            [
+              1.051499366760254,
+              0.2684263288974762
+            ],
+            [
+              1.051499366760254,
+              0.22275003790855408
+            ],
+            [
+              1.051499366760254,
+              0.31515276432037354
+            ],
+            [
+              1.051499366760254,
+              0.2319173365831375
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -0.5,
+          0.5,
+          0,
+          0.5,
+          0.5,
+          0,
+          -0.5,
+          -0.5,
+          0,
+          0.5,
+          -0.5,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;\n    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 4.*((1.-e)/(k*k) - t/k); return p; }\n    void main(){\n      float age = uTime - aT.x; if (age < 0. || age > aT.y){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);\n      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);\n      float s = position.y + .5; vec4 c = mix(ct, ch, s);\n      c.xy += (nrm*position.x*uW*2. + dir*(s-.5)*uW)*2./uRes*c.w;\n      gl_Position = c; vF = 1. - age/aT.y; vQ = vec2(position.x*2., s);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;\n    void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;\n      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.412599999999703
+        },
+        "uRes": {
+          "type": "vector",
+          "values": [
+            932,
+            524
+          ]
+        },
+        "uW": {
+          "type": "scalar",
+          "value": 1.6
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 1.051499366760254,
+      "runtime_binding": {
+        "anchor": "float3(-0.11153634078800678,0,0.29711103439331055)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.52,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.52
+  }
+}

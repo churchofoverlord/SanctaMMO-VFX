@@ -12,7 +12,7 @@
       "Name": "SanctaVFXBridge"
     },
     {
-      "Enabled": false,
+      "Enabled": true,
       "Name": "CascadeToNiagaraConverter"
     }
   ],

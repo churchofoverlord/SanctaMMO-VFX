@@ -1,0 +1,121 @@
+{
+  "slug": "TorporProc",
+  "title": "TorporProc",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.1548303053606492
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.009340446442365646,
+              1.149999976158142,
+              -7.800218105316162
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 0.40){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float k = 1. - pow(1. - clamp(u/.3, 0., 1.), 2.), S = .34*mix(1.35, .8, k);   /* contracts inward on the body */\n      vec4 mv = viewMatrix*vec4(aO, 1.); mv.xyz += normalize(-mv.xyz)*.28; mv.xy += position.xy*S; vP = position.xy*1.05; vU = u; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float r = length(vP), a = atan(vP.y, vP.x), lum = 0., hot = 0.;\n      for (int i=0;i<3;i++){\n        float fi = float(i), R = .88 - fi*.2, w = .02 - fi*.003;\n        float dash = fi < .5 ? 1. : smoothstep(.1, .35, abs(sin(a*(3. + fi) + fi*1.7)));   // inner rings break into arcs\n        float ring = exp(-pow(abs(r - R)/w, 2.4))*dash;\n        lum += ring*(1. - fi*.25); hot += lcore(r - R, w*.3)*dash*.5;\n      }\n      float f = (vU < .033 ? 1.6 : 1.)*(1. - smoothstep(.18, 0.40, vU));   // 2-frame peak, contracts, fades\n      vec3 o = (mix(uOrange, uGold, .55)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot)*f*1.3*smoothstep(1.05, .95, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404499999999725
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0.009340446442365646,0,-7.800218105316162)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

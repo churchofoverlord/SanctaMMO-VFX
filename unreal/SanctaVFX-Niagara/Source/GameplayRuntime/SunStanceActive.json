@@ -1,0 +1,145 @@
+{
+  "slug": "SunStanceActive",
+  "title": "SunStanceActive",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aP": {
+          "size": 2,
+          "values": [
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        },
+        "aV": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute vec2 aP; attribute float aT, aV; uniform float uTime; varying vec2 vQ; varying float vU, vK; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){ if (aV < .5){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float u = uTime - aT, k = eox(clamp(u/.3, 0., 1.)), R = mix(.08, 0.42, k);\n      vU = u; vK = aP.y < -.5 ? 1. : 0.;\n      if (aP.y < -.5){                                           // orbit line: flat ring quad in the horizontal plane\n        float S = .52; vQ = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, 1.45, -position.y*S), 1.); return; }\n      float ang = aP.x + uTime*.45;                                  // one celestial marker, slow orbit\n      vec3 c = aO + vec3(cos(ang)*R, 1.45 + .25*(1. - k), sin(ang)*R);\n      vec4 mv = viewMatrix*vec4(c, 1.); vec2 q = position.xy; mv.xy += q*.15;\n      vQ = q; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform float uTime; uniform vec3 uCW; varying vec2 vQ; varying float vU, vK; float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    float lineCore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float pk = vU < .033 ? 2. : 1. + .8*exp(-max(vU - .033, 0.)*10.);\n      vec3 o;\n      if (vK > .5){\n        // thin orbit line: fine core + narrow soft halo, energy drifting slowly in the shards' direction\n        float r = length(vQ), a = atan(vQ.y, vQ.x), R = mix(.08, 0.42, eox(clamp(vU/.3, 0., 1.)));\n        float flow = .6 + .4*pow(.5 + .5*sin(a*3. + uTime*1.4), 2.);\n        float line = lineCore(r - R, .005)*.75 + exp(-pow((r - R)/.03, 2.))*.18;   // halo: a little brighter\n        o = (uCW*line*flow + mix(uCW, vec3(1.), .5)*lineCore(r - R, .0025)*.25*flow)*pk;\n        o *= smoothstep(.52, .47, r);\n      } else {\n        // Sun: a small stable golden disc with a 4-point star flare (icon), soft corona; no wind-blown particles\n        vec2 q = vQ; float r = length(q), a = atan(q.y, q.x);\n        float disc = smoothstep(.36, .32, r), rim = exp(-pow((r - .34)/.03, 2.));\n        float star = pow(max(abs(cos(a*2.)), 0.), 14.)*exp(-r*2.4)*smoothstep(.2, .4, r);          // 4 thin rays\n        float corona = exp(-r*r*6.)*.25;\n        o = (uCW*(disc*.55 + rim*.9 + star*.9 + corona) + mix(uCW, vec3(1., .96, .85), .65)*(disc*exp(-r*r*18.)*.8 + star*.3))*pk;\n        o *= smoothstep(1., .82, r);\n      }\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.405699999999445
+        },
+        "uCW": {
+          "type": "color",
+          "values": [
+            1,
+            0.46207699964472876,
+            0.02732089163382382
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aT": "ReferenceTime-.6"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

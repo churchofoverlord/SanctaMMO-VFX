@@ -1,0 +1,137 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/rally-ii-tank/rally-ii-tank-vfx.html",
+  "sha256": "0896e0c170fd3cc0c5dd740fe3a21416872ae8f52821733efc4d2b251675f473",
+  "class": "fighter",
+  "slug": "rally-ii-tank",
+  "title": "Rally II Tank",
+  "method": "reference_spawn_and_shader_port",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0.404699999999721,
+      "end_times": [
+        1.384699999999721
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.40470001101493835
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){\n      float u = uTime - aT - 0.18; if (u < 0. || u > 0.80){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 5.50; vP = position.xy*S; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      float r = length(vP), R = 5.00, E = 0.35;\n      float k = clamp(vU/E, 0., 1.), rr = R*k;                               // linear expansion\n      float held = step(E, vU), pk = vU >= E && vU < E + .033 ? 1.7 : 1.;    // 2-frame peak when it reaches the limit\n      float fade = 1. - smoothstep(E + .12, E + .45, vU);\n      float w = mix(.03, .018, k);\n      float ring = exp(-pow(abs(r - rr)/w, 2.4)), hot = lcore(r - rr, w*.3);\n      float wake = smoothstep(rr - .7, rr, r)*step(r, rr)*(1. - held)*.03;  // faint thin wake just behind the moving front (ornament, dimmer than the limit)\n      float lim = (.55 + .45*held)*pk*fade;\n      // II: a second ring trails the front (70 ms later, 88% of the radius) carrying the stance's geometric accents, cast only\n      float u2 = vU - .07, k2 = clamp(u2/E, 0., 1.), rr2 = R*.88*k2;\n      float f2 = step(0., u2)*(1. - smoothstep(E + .05, E + .35, vU));\n      float ring2 = exp(-pow(abs(r - rr2)/.014, 2.4))*.6;\n      float an = atan(vP.y, vP.x), seg = mod(an + .3927, .7854) - .3927;       // 8 sectors\n      float x = seg*max(rr2, .01), y = r - rr2;                                // local coords on the ring (metres)\n      float acc = 0.;\n      float dm = abs(abs(x) + abs(y) - .14);                                 // Tank (Fortified + Warded): small diamonds seated on the ring\n      acc = exp(-pow(dm/.018, 2.))*smoothstep(.22, .16, abs(x) + abs(y));\n      float acc2 = (ring2 + acc)*f2;\n      float core = exp(-r*r*3.)*(vU < .033 ? 1.1 : .5*exp(-vU*9.));            // opening glow at the Fighter\n      float edge = smoothstep(5.50, 5.20, r);\n      vec3 outc = (uOrange*(ring*lim + wake*fade + core*.6) + mix(uGold, vec3(1.), .4)*hot*lim*.6 + (uOrange*.8 + uGold*.35)*acc2)*edge;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404699999999444
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.34670405634441115,
+            0.8148465722120952,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "page_errors": [],
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-rally-ii-tank.json",
+    "baseline_sha256": "bd1c5d49dbe1b292321b0d68dffbf8ded3b1055d6ccb2a649072a1e80bd9c333",
+    "user_direction": true,
+    "production_approved": false
+  }
+}

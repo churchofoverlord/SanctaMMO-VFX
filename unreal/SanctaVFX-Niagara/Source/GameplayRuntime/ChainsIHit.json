@@ -1,0 +1,324 @@
+{
+  "slug": "ChainsIHit",
+  "title": "ChainsIHit",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 0.4047000000001868,
+      "end_times": [
+        1.5544625568389894
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              0,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              1.0494625568389893
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 0.45){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = .5; vP = position.xy*.9; vU = u;                  // only the immediate base of the feet\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float seg(vec2 p, vec2 a, vec2 b){ vec2 pa = p-a, ba = b-a; float h = clamp(dot(pa,ba)/dot(ba,ba), 0., 1.); return length(pa - ba*h); }\n    void main(){\n      vec2 p = vP; float r = length(p);\n      float k = 1. - pow(1. - clamp(vU/.06, 0., 1.), 3.);               // snaps shut in 60 ms\n      float R = mix(.75, .42, k);\n      float ring = 0., hot = 0.;                                        // no circle: only the stakes at the ankles (Root ≠ danger area)\n      float st = 0.;\n      for (int j=0;j<4;j++){\n        float an = .7854 + float(j)*1.5708; vec2 d = vec2(cos(an), sin(an));\n        float ds = seg(p, d*(R - .17), d*(R + .03));\n        st += exp(-pow(ds/.014, 2.)); hot += lcore(ds, .004);\n      }\n      float f = vU < .06 ? 1. : 1. - smoothstep(.2, 0.45, vU);\n      float pk = vU >= .06 && vU < .093 ? 1.6 : 1.;                    // 2-frame peak when it locks\n      float edge = smoothstep(.9, .78, r);\n      vec3 outc = (mix(uOrange, uGold, .6)*(ring*.9 + st*.8) + vec3(1., .95, .86)*hot*.6)*f*pk*edge;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40469999999991
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 1.0494625568389893,
+      "runtime_binding": {
+        "anchor": "float3(0.0,0,0.0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 3,
+      "count": 6,
+      "cast_time": 0.4047000000001868,
+      "end_times": [
+        1.5544625568389894
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              -0.13999999687075615,
+              1.1137871742248535,
+              0.20000028610229492
+            ],
+            [
+              -0.13999999687075615,
+              1.0594905614852905,
+              0.20000028610229492
+            ],
+            [
+              -0.13999999687075615,
+              1.0692421197891235,
+              0.20000028610229492
+            ],
+            [
+              -0.13999999687075615,
+              1.0604037046432495,
+              0.20000028610229492
+            ],
+            [
+              -0.13999999687075615,
+              1.0767706632614136,
+              0.20000028610229492
+            ],
+            [
+              -0.13999999687075615,
+              1.0825759172439575,
+              0.20000028610229492
+            ]
+          ]
+        },
+        "aV": {
+          "size": 3,
+          "values": [
+            [
+              -1.174302339553833,
+              1.3637714385986328,
+              2.776918888092041
+            ],
+            [
+              -0.7001906633377075,
+              0.8292163610458374,
+              2.914970636367798
+            ],
+            [
+              -0.3770482838153839,
+              1.603420615196228,
+              3.563338279724121
+            ],
+            [
+              -0.12086573988199234,
+              1.068373680114746,
+              3.268038511276245
+            ],
+            [
+              1.0011405944824219,
+              2.193018913269043,
+              2.987882137298584
+            ],
+            [
+              0.2519204616546631,
+              1.7283183336257935,
+              1.565380573272705
+            ]
+          ]
+        },
+        "aT": {
+          "size": 2,
+          "values": [
+            [
+              1.0494625568389893,
+              0.3493773937225342
+            ],
+            [
+              1.0494625568389893,
+              0.22782884538173676
+            ],
+            [
+              1.0494625568389893,
+              0.25265926122665405
+            ],
+            [
+              1.0494625568389893,
+              0.216343954205513
+            ],
+            [
+              1.0494625568389893,
+              0.25395241379737854
+            ],
+            [
+              1.0494625568389893,
+              0.27673521637916565
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -0.5,
+          0.5,
+          0,
+          0.5,
+          0.5,
+          0,
+          -0.5,
+          -0.5,
+          0,
+          0.5,
+          -0.5,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aV; attribute vec2 aT; uniform float uTime, uW; uniform vec2 uRes; varying float vF; varying vec2 vQ;\n    vec3 sim(float t){ float k = 5., e = exp(-k*t); vec3 p = aO + aV*(1.-e)/k; p.y += 4.*((1.-e)/(k*k) - t/k); return p; }\n    void main(){\n      float age = uTime - aT.x; if (age < 0. || age > aT.y){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec4 ch = projectionMatrix*viewMatrix*vec4(sim(age),1.), ct = projectionMatrix*viewMatrix*vec4(sim(max(age-.03,0.)),1.);\n      vec2 d = (ch.xy/ch.w - ct.xy/ct.w)*uRes; float L = length(d); vec2 dir = L > .5 ? d/L : vec2(1.,0.), nrm = vec2(-dir.y, dir.x);\n      float s = position.y + .5; vec4 c = mix(ct, ch, s);\n      c.xy += (nrm*position.x*uW*2. + dir*(s-.5)*uW)*2./uRes*c.w;\n      gl_Position = c; vF = 1. - age/aT.y; vQ = vec2(position.x*2., s);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vF; varying vec2 vQ;\n    void main(){ float a = exp(-vQ.x*vQ.x*3.)*vQ.y, c = exp(-vQ.x*vQ.x*14.)*vQ.y;\n      gl_FragColor = vec4((mix(uOrange, uGold, vF)*a*1.3 + vec3(1., .95, .85)*c*vF)*(.4 + 1.3*vF*vF), 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40469999999991
+        },
+        "uRes": {
+          "type": "vector",
+          "values": [
+            932,
+            524
+          ]
+        },
+        "uW": {
+          "type": "scalar",
+          "value": 1.6
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 1.0494625568389893,
+      "runtime_binding": {
+        "anchor": "float3(-0.13999999687075615,0,0.20000028610229492)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.52,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.52
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "reference": "UE Manny",
+  "authority": "Direct human instruction, 2026-10-05",
+  "recorded_at_utc": "2026-10-05T12:15:56.029198+00:00",
+  "fixture_current": "Static lab mannequin, not an animated Manny validation",
+  "calibration_status": "pending_in_game_rig",
+  "foundation_modified": false,
+  "attachment_requirements": {
+    "body": "Root plus authored body height; avoid adding chest socket height twice",
+    "stances": "Actual hand to elbow sockets on same actor",
+    "melee": "Actual weapon base and tip, animated pose",
+    "links_beams": "Actual cast socket and current endpoint socket",
+    "contacts": "Confirmed world surface contact, not target actor origin"
+  },
+  "required_checks": [
+    "Resolve actual Manny skeletal asset and existing socket names in game",
+    "Read live animated attachment transforms and actor scale",
+    "Test hand/elbow, weapon sweeps, head CC and foot Root with game camera",
+    "Retain World owners independently of caster lifespan"
+  ]
+}

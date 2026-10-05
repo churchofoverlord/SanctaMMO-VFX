@@ -1,0 +1,3782 @@
+{
+  "schema": "sancta-runtime-interrupted-capture/v1",
+  "saved_at_utc": "2026-10-05T01:09:28.463424+00:00",
+  "status": "paused_by_user",
+  "reason": "prepara-te que vou ter de desligar",
+  "owned_ue_pid": 28588,
+  "owned_ue_stopped": true,
+  "ue_exit_code": -1,
+  "background_running": false,
+  "log": "Saved/Runtime-all-verified-render-20261005.log",
+  "log_sha256": "611d6c8cf03c00cc76ad524d8fcc7359f0706feb62a3c48a1e06f9dcc907a434",
+  "completed_frames": 469,
+  "planned_cases": 878,
+  "missing_pngs": [],
+  "last_saved_frame": "All_ManaBarrierIRelease_1",
+  "frames": [
+    {
+      "name": "All_ContactPhysical_baseline",
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_baseline.png",
+      "sha256": "d5ccb75a072b4a4e6b945b7c9105942879e6b084ddfa11125b13b9f39227d8c4",
+      "bytes": 599406,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ContactPhysical_0",
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_0.png",
+      "sha256": "1203681ee6c0445c4d6142d4336a6152d23ea845ad54073e90c78e5f68e2ef8b",
+      "bytes": 601459,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ContactPhysical_1",
+      "file": "Saved/RuntimeCaptures/All_ContactPhysical_1.png",
+      "sha256": "714d38eabcaf7e022724f0bb0b571aed40b0eb790ddad5f6e371e154f51f93a2",
+      "bytes": 602157,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ContactMagical_baseline",
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_baseline.png",
+      "sha256": "a4ed47019ec68077cf6b20f73409052f8677aecc0624c7e13689aa5b32ce0edb",
+      "bytes": 600817,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ContactMagical_0",
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_0.png",
+      "sha256": "2b50074150cbe98fe128fd5c7e61aed760fdf743559ec3cc6004f965e9ba328d",
+      "bytes": 602766,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ContactMagical_1",
+      "file": "Saved/RuntimeCaptures/All_ContactMagical_1.png",
+      "sha256": "8d52d8b59e5dace86167145513ccd9cf7c8958bf5fa83b7d3f854880a9de2077",
+      "bytes": 600397,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicSwordPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicSwordPhysicalTrail_baseline.png",
+      "sha256": "f618589af0c077a5d13367378dae6de891cc378d4107706f2539c2975047e54b",
+      "bytes": 600227,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicSwordPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicSwordPhysicalTrail_0.png",
+      "sha256": "b559a7642415d74fde50f6daf77164f4ecaee02e98f61c74ea442fe4c5110d45",
+      "bytes": 604193,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicSwordMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicSwordMagicalTrail_baseline.png",
+      "sha256": "b2ea6bb7134771f14ba00cfaab2af842861d57e92ec0ef8a3c33fa17fc97e4c6",
+      "bytes": 599963,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicSwordMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicSwordMagicalTrail_0.png",
+      "sha256": "97b6a5e9e18bdda39abc693d3e3888ade982b94a77a742ed6301fbec1e74a2d2",
+      "bytes": 598858,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicAxePhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicAxePhysicalTrail_baseline.png",
+      "sha256": "79fb8bb1a5d6db5ededd01a26b199c8e8df9878fc357f0a31b600a67993adc66",
+      "bytes": 599623,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicAxePhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicAxePhysicalTrail_0.png",
+      "sha256": "f9bbe90f4fad62c4b2f04a1d9fba36bab4f0361b7d7ac3d3f1c85ffa1b690dec",
+      "bytes": 599466,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicAxeMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicAxeMagicalTrail_baseline.png",
+      "sha256": "9024d38fa30f4d9c11fa1e3c9d09403ff5c31088e7afcdb27aaa163f68ad5daa",
+      "bytes": 599380,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicAxeMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicAxeMagicalTrail_0.png",
+      "sha256": "7fb1dc753fdb8dcc5e96c779a57c24ec0a67a524c63b46724fbfd00c179d7f2e",
+      "bytes": 605613,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicClubPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicClubPhysicalTrail_baseline.png",
+      "sha256": "88627e0fb8f7c4ee99b30b257615a86ae6aa4c268cb3164b49bd7b13654a3b8c",
+      "bytes": 601468,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicClubPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicClubPhysicalTrail_0.png",
+      "sha256": "67100c00b787f347ed8cb5899b8af098ecf28223af6f508565c7cc59eb48e4f3",
+      "bytes": 606797,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicClubMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicClubMagicalTrail_baseline.png",
+      "sha256": "c28a6c015d3327215b59e60eaff04268daea857559fd785fe6c75af2a1295e5b",
+      "bytes": 599766,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicClubMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicClubMagicalTrail_0.png",
+      "sha256": "167676d61d9a319da7decaa45e824c6dcef545c54b9ed46ccbf79a1aa7644e95",
+      "bytes": 606095,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandPhysicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalFlight_baseline.png",
+      "sha256": "1d1445bcb2df24ee2eb215d4d3da1c9d73710ad6524aff6612f5f6cbba5a3f2a",
+      "bytes": 600806,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicWandPhysicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalFlight_0.png",
+      "sha256": "0440745d8848891ec0f00f3b84096aa81d01234eecd58ea90c02f0ed0ec569b7",
+      "bytes": 602497,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandPhysicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_baseline.png",
+      "sha256": "3edb1fe99cdd2cdea4ca9a4e827d0419816c7178d70d65a769f53a46fe4273ad",
+      "bytes": 598504,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicWandPhysicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_0.png",
+      "sha256": "9283708806a77742b63b75deecbb7301878d7c7e9d443405f84de24a8c132eac",
+      "bytes": 603403,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandPhysicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicWandPhysicalRelease_1.png",
+      "sha256": "91a8339221dad844ff36cbf37fa94be0553b2db54c3c4e06a06e25e451407122",
+      "bytes": 601668,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandMagicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalFlight_baseline.png",
+      "sha256": "6c4132e5c7fad9ca247475f5e5950dbb7b59859b46f12935c03900ea0de4182d",
+      "bytes": 600041,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicWandMagicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalFlight_0.png",
+      "sha256": "76c03da64e7a5638b32df983b469635e1ec0fac817b03c28eaaa2a5b8d950ca6",
+      "bytes": 602167,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandMagicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_baseline.png",
+      "sha256": "01d7a410d8e02b775fd39df9c5688647aeb94158993137450a57f29e1f5a16f5",
+      "bytes": 600193,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicWandMagicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_0.png",
+      "sha256": "03c83dd7bc1b1972540f1ce95887b5f9bc6bf5c625ff8bfd18e96df4ef688a0d",
+      "bytes": 602718,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicWandMagicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicWandMagicalRelease_1.png",
+      "sha256": "dfd93e451edc5946508db6b29eff9c3c7e2721a3adaa386c164af626585a2aea",
+      "bytes": 601526,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicRapierPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicRapierPhysicalTrail_baseline.png",
+      "sha256": "b03a13e06c6affcdebd80f9b5e2ea5e105c6d8daae80380e7814fe31b94a4726",
+      "bytes": 600198,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicRapierPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicRapierPhysicalTrail_0.png",
+      "sha256": "0d47bff901aec3db0915d932b4149e64e346f9aad404b532448d91140c8a88f7",
+      "bytes": 602324,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicRapierMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicRapierMagicalTrail_baseline.png",
+      "sha256": "bbd7fc2249bcee8c7a43db23733f04e8a0984158bb47f4d5ade91a9c7f33800d",
+      "bytes": 601090,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicRapierMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicRapierMagicalTrail_0.png",
+      "sha256": "4c9e675235d4f303434b27773bd5a12969c066210a1e9d7aedaaf2f2a2791135",
+      "bytes": 604365,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicDualDaggersPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersPhysicalTrail_baseline.png",
+      "sha256": "3f8471c02f399abf6a553e37001542616b2eec2a4f8a955abdf24f371db00b35",
+      "bytes": 600170,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicDualDaggersPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersPhysicalTrail_0.png",
+      "sha256": "a1e2e2ba0796f7a22d6c1a47469734b3b833eb87dcf3cde64e25242e99950015",
+      "bytes": 602971,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicDualDaggersMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersMagicalTrail_baseline.png",
+      "sha256": "1d69bb3c54c71ffb7becfdb3fe052fa7151b2cb320c478f30121fa755dac8839",
+      "bytes": 600777,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicDualDaggersMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicDualDaggersMagicalTrail_0.png",
+      "sha256": "69ff5e1c5b5ba0e65fcf698d1bb6063bbd24018d5ca25e6556dd885c667c1011",
+      "bytes": 603986,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicFistsGauntletsPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsPhysicalTrail_baseline.png",
+      "sha256": "7e898c5369a1210a57052aa54f5de9d897fba0832db0c700d8553c8bb583619e",
+      "bytes": 599690,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicFistsGauntletsPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsPhysicalTrail_0.png",
+      "sha256": "38237a860e95502eb1d8872697ab1fd459733a854374aacdd674dd986f7d5f3a",
+      "bytes": 600111,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicFistsGauntletsMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsMagicalTrail_baseline.png",
+      "sha256": "2eec6e15019e501a19aa5af1a7063a125ff76ac464b1826e971453e4953b6325",
+      "bytes": 600344,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicFistsGauntletsMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicFistsGauntletsMagicalTrail_0.png",
+      "sha256": "fcd12d3dcc3af3575c643abdaa785da9b7ed4cb51a8b1c468c87546059b218e2",
+      "bytes": 600583,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreatClubPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubPhysicalTrail_baseline.png",
+      "sha256": "e68a8dcf9ae5937ad9fd5f00efc912db1146ded986a8dfacbd2f85c4de845330",
+      "bytes": 599884,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreatClubPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubPhysicalTrail_0.png",
+      "sha256": "7f40fab458b52a4d6a10acbeda68941cf32a7df99a229a099b8514f96c269e61",
+      "bytes": 607623,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreatClubMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubMagicalTrail_baseline.png",
+      "sha256": "cf90cb6c52c73d998215cb2f174743668c29132b4cf739c616644647f861b464",
+      "bytes": 600889,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreatClubMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatClubMagicalTrail_0.png",
+      "sha256": "3ebfaea7819d624417be557d373a9adb32aa4a11c5dc9df15c6a6e6f5e12f0af",
+      "bytes": 607499,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffPhysicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalFlight_baseline.png",
+      "sha256": "043436a2bcc0539a8a8b21b96bd827e06d4bdf70bf4da627a3c52c41239943b9",
+      "bytes": 599264,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicStaffPhysicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalFlight_0.png",
+      "sha256": "6ab39fd6125eb5cfd71b1af2f33be4919498bdc4c29fbe0c8301d1073467d5ad",
+      "bytes": 601902,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffPhysicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_baseline.png",
+      "sha256": "29e5cc0bbf232dfa436b1809e9a59e8f82067266127107f94308c7d98e6e3061",
+      "bytes": 600843,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicStaffPhysicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_0.png",
+      "sha256": "e5fe9bd6af0687e0b164cd7233581f5b7effaedb71e3dc13dd3d45045c7819e3",
+      "bytes": 602754,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffPhysicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffPhysicalRelease_1.png",
+      "sha256": "3d0dc836fcad31006c7d2b8fad393377dc738357359a97c7a3bc36117979e248",
+      "bytes": 599006,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffMagicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalFlight_baseline.png",
+      "sha256": "e4ddc3f1401d989190b77b16a816f117439e6af1e11cd21506d84f508da71292",
+      "bytes": 600176,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicStaffMagicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalFlight_0.png",
+      "sha256": "354d37ad1eacbe827e7ef5b2fa68b3e5b5b608e5ff446a60167266ce1efc167c",
+      "bytes": 601928,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffMagicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_baseline.png",
+      "sha256": "417045a51dbe03b44ba206d98183809cd321e89ca06b85980235734bad2e76ea",
+      "bytes": 600103,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicStaffMagicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_0.png",
+      "sha256": "847cd8f3d79fa452425d8944d405790a393dc879a4d3ecb49d754a8d7beba403",
+      "bytes": 603446,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicStaffMagicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicStaffMagicalRelease_1.png",
+      "sha256": "157c4b7f34e034f647502267a4245028d046cbaa658b253deaf4b0df4789d102",
+      "bytes": 600931,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowPhysicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalFlight_baseline.png",
+      "sha256": "99f1dae1c4fbb1a5ac97fc914f04dc016a83bedd011624a73da39c0d194a6f08",
+      "bytes": 601415,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicCrossbowPhysicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalFlight_0.png",
+      "sha256": "6c2718f46d9d9a1eeef805b0f8109d37052987a7c05044cfb2d2135307784948",
+      "bytes": 602240,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowPhysicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_baseline.png",
+      "sha256": "c7467047e41ed385ffa2ac8cb10e24e89ca43f82816e65ab1b04857b0abb7d02",
+      "bytes": 598319,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicCrossbowPhysicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_0.png",
+      "sha256": "df6ad8ca15c447e53b4d8decd2b0fcabf4420440e675e0324aa639640e64940d",
+      "bytes": 603340,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowPhysicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowPhysicalRelease_1.png",
+      "sha256": "782dfffd62aa00b48bca4ef415d65e3cd40150759cf100c0988f9bcee438ab43",
+      "bytes": 601231,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowMagicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalFlight_baseline.png",
+      "sha256": "f3ef4d31631197ea65252964dcc92d4257d1c50062dd8b5af4e196b08e57cfbe",
+      "bytes": 599701,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicCrossbowMagicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalFlight_0.png",
+      "sha256": "91411e259bc1c79c4ee5b3a08416a9ed88c0df41d4747de2087a5e19d44e795a",
+      "bytes": 602622,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowMagicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_baseline.png",
+      "sha256": "ac3c4b514e790314e17c62d1d2eb20a169a5e679ba3ba592b954d88986f3e513",
+      "bytes": 600277,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicCrossbowMagicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_0.png",
+      "sha256": "7cdcdc5319c6ec796b6b2628be69708fbc487b1363bc2ccf4ed1ace4b54eb8d4",
+      "bytes": 603058,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicCrossbowMagicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicCrossbowMagicalRelease_1.png",
+      "sha256": "918da2e03c198bba806ef46b968536043ad2b54385f4a6ee352949007a74f71f",
+      "bytes": 601498,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreatswordPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordPhysicalTrail_baseline.png",
+      "sha256": "b3b6288a3c47582cb12d0ef2b7003d91468bde21ad87840eaf73fbad0e1f5895",
+      "bytes": 599174,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreatswordPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordPhysicalTrail_0.png",
+      "sha256": "b1b3f002e4bea803ccc34a2313502f37e2c9bd159b68845b2a1f1ae80e405baf",
+      "bytes": 606094,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreatswordMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordMagicalTrail_baseline.png",
+      "sha256": "2cc40f3f12d532e8d4f2f4276da5d71883a5627828c558f4a3606e9fd2956e6e",
+      "bytes": 599574,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreatswordMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreatswordMagicalTrail_0.png",
+      "sha256": "55d6884896ee1ff4167d7228f7d80e12c72026c5c6ffe993e79f7bc9f38d6967",
+      "bytes": 606514,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreataxePhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxePhysicalTrail_baseline.png",
+      "sha256": "f57655f337d8813739a4bcb5172a5c5abbdf1abd89ea91092a89884e45ccf922",
+      "bytes": 599128,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreataxePhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxePhysicalTrail_0.png",
+      "sha256": "6a7302f03e58c0f1d173aa5792a28411983bcbd72f08ff0bb2b9303e669afd95",
+      "bytes": 607359,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicGreataxeMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxeMagicalTrail_baseline.png",
+      "sha256": "665fd1f8f14ddb9d4a25bceed8cc07319cb198d03135010d68882dedb4a2687b",
+      "bytes": 599827,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicGreataxeMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicGreataxeMagicalTrail_0.png",
+      "sha256": "931cc855ab88b8f14fcd359dc0e4a1aff4f776da4472ce061c2101fd68f39784",
+      "bytes": 605600,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowPhysicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalFlight_baseline.png",
+      "sha256": "3bac3ef5c26ed243bb3810ac77d256e2f1b7e5b98e10ef9c50ef0fd8a84bf3a9",
+      "bytes": 600144,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicBowPhysicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalFlight_0.png",
+      "sha256": "9bd8a4ee33b6f0ddbd1d3afcc9c467ea9785c1ff71ce65728cfcc60c189f8f4d",
+      "bytes": 602229,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowPhysicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_baseline.png",
+      "sha256": "91e013f573f4f616ee7b344b0bf819d4204a583e3e28abe3898a1a6283f08a92",
+      "bytes": 601280,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicBowPhysicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_0.png",
+      "sha256": "66ca4d74a3773a8a6f9d26590611d5b0c0269ea7896ccbb31b888aaeb34812e4",
+      "bytes": 604504,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowPhysicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicBowPhysicalRelease_1.png",
+      "sha256": "3bf15c0a4e4752bd45721e0fce171d06720440ddee3e9c4b39529bc54b5f0a6c",
+      "bytes": 600742,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowMagicalFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalFlight_baseline.png",
+      "sha256": "8c819557d43c21ff268c83d8c967174de3ccbd6e28fc24cfad6da93effd184f4",
+      "bytes": 599465,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicBowMagicalFlight_0",
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalFlight_0.png",
+      "sha256": "b48e9f7761fa4046bee4cd4ef85a7bec476928d9381dbcb7f2ca16eb28af296a",
+      "bytes": 603439,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowMagicalRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_baseline.png",
+      "sha256": "588bcbc784371f5653469be24b3a6aa67b42d9cecd06018cf243fc9a75a74b44",
+      "bytes": 600112,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicBowMagicalRelease_0",
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_0.png",
+      "sha256": "05b2eb283e2d1a222c9e3927b560bc1f40e51196a3da7f1e2d52ae8ac1fdd834",
+      "bytes": 601401,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicBowMagicalRelease_1",
+      "file": "Saved/RuntimeCaptures/All_BasicBowMagicalRelease_1.png",
+      "sha256": "6db59e04be9b1c50ca8b3e1ed90499cc8d1c82e6cd9a06e6256cb03e2901459a",
+      "bytes": 600956,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicSpearPhysicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicSpearPhysicalTrail_baseline.png",
+      "sha256": "1ce1e71d338e8093e5097a46cda9d65a5edc92e328e8788a02aa88634739b01a",
+      "bytes": 600174,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicSpearPhysicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicSpearPhysicalTrail_0.png",
+      "sha256": "9ca86657dcb1192b89d932c50ae4e1a1749c6b895f31c58f0ce3ae34edf44331",
+      "bytes": 604577,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BasicSpearMagicalTrail_baseline",
+      "file": "Saved/RuntimeCaptures/All_BasicSpearMagicalTrail_baseline.png",
+      "sha256": "dee86ac62c3047fd7f418d9a1269f31e06c4d506b8d18355852952d62a034cd6",
+      "bytes": 599267,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BasicSpearMagicalTrail_0",
+      "file": "Saved/RuntimeCaptures/All_BasicSpearMagicalTrail_0.png",
+      "sha256": "de79f85632177d199630ac84e9b54359007e11521350078170f77521c5478b13",
+      "bytes": 604147,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ExploitIDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_ExploitIDelivery_baseline.png",
+      "sha256": "80d79f4597944633e602f995002d742f743c95a51f27e38d315b8de73aced175",
+      "bytes": 600566,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ExploitIDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_ExploitIDelivery_0.png",
+      "sha256": "50fbbef5126ca5c348a92cdc80e717299827a28727843dfa409b620e80573701",
+      "bytes": 607968,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ExploitIIDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_ExploitIIDelivery_baseline.png",
+      "sha256": "6dfb64f2f36d84db8c1224816d73266240b75843c21d00bf22e2b4cb83eba4ba",
+      "bytes": 599712,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ExploitIIDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_ExploitIIDelivery_0.png",
+      "sha256": "e04a3ba55f0172ff08216c76b88986b22623c5c43432f7108fdbbdd334769b74",
+      "bytes": 607056,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ExploitIIIDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_ExploitIIIDelivery_baseline.png",
+      "sha256": "3402989fdbb8d99e49defb3d319ffcaf2e8eaae79c56901ef2d00e2a62788cf8",
+      "bytes": 600987,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ExploitIIIDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_ExploitIIIDelivery_0.png",
+      "sha256": "dd6863f37a69ee158807a96f01b7dd84899ab550486b281e964c3340ed6353e6",
+      "bytes": 607539,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FullMoonDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_FullMoonDelivery_baseline.png",
+      "sha256": "6e849dcc2b48570209a35e97741dfca8af8c2b4df8e544c66c5338b682ab73e9",
+      "bytes": 599506,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FullMoonDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_FullMoonDelivery_0.png",
+      "sha256": "39ce27e12cbee65f6f6c715e1f6ce4fe08cf8b834881666333f052d9ea6cab7f",
+      "bytes": 607693,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CosmicRayIDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIDelivery_baseline.png",
+      "sha256": "1308830b1f60af144af47d6920cdfcbce82584bf82c30f1df1110f855b927c09",
+      "bytes": 600242,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CosmicRayIDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIDelivery_0.png",
+      "sha256": "7f1a63154961f2b5d0986e25ded7ba13b9d0923df973c883d13542bde76ecc94",
+      "bytes": 606493,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CosmicRayIIDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIIDelivery_baseline.png",
+      "sha256": "7cc1ff97cf3bd8f41bb79d6e5601e6f58a3cd4cf73ca52de4b9c1a050db4c4c5",
+      "bytes": 600121,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CosmicRayIIDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_CosmicRayIIDelivery_0.png",
+      "sha256": "4dcdf43ac360008b4e840e0a5e489d6ef7cc8e9b38a155e82bd8c87b7179351d",
+      "bytes": 606317,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SicknessDelivery_baseline",
+      "file": "Saved/RuntimeCaptures/All_SicknessDelivery_baseline.png",
+      "sha256": "b0d302ab1c2b70b458ae8b39b45a34453472319f7680a7faaac518e3c8dc5fa7",
+      "bytes": 599419,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SicknessDelivery_0",
+      "file": "Saved/RuntimeCaptures/All_SicknessDelivery_0.png",
+      "sha256": "7c1d745059a9d20637b8a0aabefa8cbcec9c19649b3aa5a0847bfb9606b11395",
+      "bytes": 606326,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmActive_baseline.png",
+      "sha256": "927f015f09dfee20af0d67dbc61dec5c8b96163f588dacccc7a3687e0f341f47",
+      "bytes": 599000,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCDisarmActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmActive_0.png",
+      "sha256": "32cf5de211567c1e5950cf453d0ec03b20510b65119789033794aa703e287fd8",
+      "bytes": 603139,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_baseline.png",
+      "sha256": "5285af74204b1afb826d729ae18ee8257dcabcd92d1374d1ab066869af0c8f3a",
+      "bytes": 601256,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCDisarmApply_0",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_0.png",
+      "sha256": "54034beb435b6e6a6a1595fc3f00e6f9dbdcc76b5654c63088384d0c79ed5e45",
+      "bytes": 602988,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmApply_1",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmApply_1.png",
+      "sha256": "70329d90b46060bd1d9a97ee33d9f583f45bad002c126da65c8361ee61b7d016",
+      "bytes": 600667,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_baseline.png",
+      "sha256": "450a6ea6bb44d77641af594e8886166c3fbc4dc7b6b667e985dfb0ceec675ae2",
+      "bytes": 600218,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCDisarmNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_0.png",
+      "sha256": "4d4834579c72b431953b9c7524d2f1fbb16ac5dc739538b7d9a63172447d2f34",
+      "bytes": 603194,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmNaturalEnd_1.png",
+      "sha256": "675ff4a42fb68b7d993af24eb587d66bb503fa40ce84007f81345a13e01e7598",
+      "bytes": 601355,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_baseline.png",
+      "sha256": "877d1d97fbaee19d94d101afd272471d486471d0f19df1d18c033312d79c942e",
+      "bytes": 598751,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCDisarmCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_0.png",
+      "sha256": "65638b44e5ba1b2285327025cb800528cbb8a52a1ec3ec533949bf746e9c68bb",
+      "bytes": 603786,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCDisarmCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCDisarmCleanse_1.png",
+      "sha256": "5d791a5626503c50f80dd3310d10f4e70a37d395c2f40ade987b7465b677fb43",
+      "bytes": 600874,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GuardActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_GuardActive_baseline.png",
+      "sha256": "ad2d39d5b0720e91cdc6db9fd3081276dd783fe1d46532bd55cbeb8c7b72875d",
+      "bytes": 599997,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GuardActive_0",
+      "file": "Saved/RuntimeCaptures/All_GuardActive_0.png",
+      "sha256": "44008d3a12c536f108a9e082049806c8de08ef57bb8c4cd822d1f0e2856a0cc1",
+      "bytes": 602516,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GuardMitigation_baseline",
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_baseline.png",
+      "sha256": "70b54625c5c5f52a13337a280059cc9285143b132371fbc797b02cb809b93d81",
+      "bytes": 600153,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GuardMitigation_0",
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_0.png",
+      "sha256": "6cb0d2220af38be4c97196170526c38bbe850cf037bbd7be581383e068817767",
+      "bytes": 602997,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GuardMitigation_1",
+      "file": "Saved/RuntimeCaptures/All_GuardMitigation_1.png",
+      "sha256": "00e9b1a71036b9ad8fbc7afec70ba9c9d3bb3eca8a3d44c4e019ec30e24c3fa0",
+      "bytes": 601656,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GuardDepletion_baseline",
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_baseline.png",
+      "sha256": "a88f7fe13d74725d6cbafd5d91484902abf2a3cb28c54985f7c5de8f0abc1046",
+      "bytes": 600801,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GuardDepletion_0",
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_0.png",
+      "sha256": "ec2aaa710537c4fb34f0ccc62fbf2d3216a0b1c4488c954e26f2894cab65bd7a",
+      "bytes": 601680,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GuardDepletion_1",
+      "file": "Saved/RuntimeCaptures/All_GuardDepletion_1.png",
+      "sha256": "6362b569e311ab2932448dc9cdb74fccae0276fb7bdfe322e1e588f0e15b0b8e",
+      "bytes": 601800,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactStone_baseline",
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_baseline.png",
+      "sha256": "1b3e65ac913783b99a08e7077b1903835ba4d58e199c8878abfc419fb295b1d9",
+      "bytes": 634928,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FootContactStone_0",
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_0.png",
+      "sha256": "b0c7ca5a02d4bc3847a23796847be37e4e8ea8fdadfdb658b604248f73bc992a",
+      "bytes": 638921,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactStone_1",
+      "file": "Saved/RuntimeCaptures/All_FootContactStone_1.png",
+      "sha256": "cf8591809250e92efd043d59b86ae97ecf45e5e3ae9a1ecb16622929185da9be",
+      "bytes": 638348,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactSnow_baseline",
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_baseline.png",
+      "sha256": "55b33d507467cbe24ba99a3dcf83d3c64bd1be37efea2432920c2c18fd93a07b",
+      "bytes": 635485,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FootContactSnow_0",
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_0.png",
+      "sha256": "846a7c8f0a29081e44715ffd9ce1b8d41a69723bfd3f1b4b06ce399f84c02818",
+      "bytes": 644183,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactSnow_1",
+      "file": "Saved/RuntimeCaptures/All_FootContactSnow_1.png",
+      "sha256": "5de3b69a97d8d9429ae905147460f9e7d48a94650e22492062d747a081bc5ea3",
+      "bytes": 642510,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactMud_baseline",
+      "file": "Saved/RuntimeCaptures/All_FootContactMud_baseline.png",
+      "sha256": "555fb9e3db1c38c0fe24a0105896c3062e1e2d412744000ed751f6db5650dfc3",
+      "bytes": 635220,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FootContactMud_0",
+      "file": "Saved/RuntimeCaptures/All_FootContactMud_0.png",
+      "sha256": "71ac5ba798b18a21ee44b6c27edbb18a164b78af0eee2857993546bb36ad1c49",
+      "bytes": 637551,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactMud_1",
+      "file": "Saved/RuntimeCaptures/All_FootContactMud_1.png",
+      "sha256": "55c64c257c5f00e830e8559d55affd58ae77eacc4c37a8a603dac9f174dfe266",
+      "bytes": 637169,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactWater_baseline",
+      "file": "Saved/RuntimeCaptures/All_FootContactWater_baseline.png",
+      "sha256": "4f5db6f912d506d8bb5448461d7c071f815d1b1c75c27d7e8f86919e587f359c",
+      "bytes": 634503,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FootContactWater_0",
+      "file": "Saved/RuntimeCaptures/All_FootContactWater_0.png",
+      "sha256": "e57cf73f08943a068530436bac24707ce634d8edd95f1515ba57b957f4cde547",
+      "bytes": 642594,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FootContactWater_1",
+      "file": "Saved/RuntimeCaptures/All_FootContactWater_1.png",
+      "sha256": "507fec90e9927f8638ba631c396f966f83b1e4fa46b761eb9f4317955aab6223",
+      "bytes": 639677,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_DodgeStart_baseline",
+      "file": "Saved/RuntimeCaptures/All_DodgeStart_baseline.png",
+      "sha256": "942d2e57f642e03133a764558607b14e19d52eb7a65ccf094ffe67d9e0b58988",
+      "bytes": 599805,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_DodgeStart_0",
+      "file": "Saved/RuntimeCaptures/All_DodgeStart_0.png",
+      "sha256": "961c01547a535918fab5ee2c3d85e20a1b0b8dced07d930b155fa15d751b8b64",
+      "bytes": 601483,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_DodgeStart_1",
+      "file": "Saved/RuntimeCaptures/All_DodgeStart_1.png",
+      "sha256": "b0e75cd98b4253a48f23ce99c533c038870d6c1f91f00725fd4e240e73cf2642",
+      "bytes": 602494,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_DodgeAvoided_baseline",
+      "file": "Saved/RuntimeCaptures/All_DodgeAvoided_baseline.png",
+      "sha256": "bccdcbde900ef5f9b967f635690f498909af875885e43a0cbe18804803534735",
+      "bytes": 601169,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_DodgeAvoided_0",
+      "file": "Saved/RuntimeCaptures/All_DodgeAvoided_0.png",
+      "sha256": "e2055703e125580409a10b91999fe768542ee4255411ced01fe3c0a16c574080",
+      "bytes": 601029,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_DodgeAvoided_1",
+      "file": "Saved/RuntimeCaptures/All_DodgeAvoided_1.png",
+      "sha256": "bb626e029976954d98dfc21b41446e322a8c21d2f4a9dd7bb39d0408f2373a5e",
+      "bytes": 599154,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCStunActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCStunActive_baseline.png",
+      "sha256": "213cc749a259d72b704fd2fd05bf9717eef77baf72bddde6f5bd54ae139cdf26",
+      "bytes": 601080,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCStunActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCStunActive_0.png",
+      "sha256": "ddd85993a432846c2f33c86342d00bff04e2d695ca3f2d699145c9da794a940f",
+      "bytes": 605387,
+      "particles": 6,
+      "active": 1
+    },
+    {
+      "name": "All_CCStunNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCStunNaturalEnd_baseline.png",
+      "sha256": "961dc124ad46ea02e5e6c75a2976e1623604df4cd5fe2cabc5250a5b7bea3069",
+      "bytes": 600378,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCStunNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCStunNaturalEnd_0.png",
+      "sha256": "1f1655164f74fe0d0679de1ed8a7a55d04e4f699d324f50fb6be722aecc65293",
+      "bytes": 603668,
+      "particles": 6,
+      "active": 1
+    },
+    {
+      "name": "All_CCStunNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCStunNaturalEnd_1.png",
+      "sha256": "30cabee0db671e3e1b651e068b844bc663899bfc28e78eaf6a00f180c552bb38",
+      "bytes": 602725,
+      "particles": 6,
+      "active": 1
+    },
+    {
+      "name": "All_CCStunCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCStunCleanse_baseline.png",
+      "sha256": "1944a695f59a899d81f5c6ce1b759fbc116fe107353ee368fe24867d2324779d",
+      "bytes": 601371,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCStunCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCStunCleanse_0.png",
+      "sha256": "94c1729c0bd1b69044d56074e4227016d75cd6a68f8e3c484000590d9eb70c01",
+      "bytes": 605170,
+      "particles": 6,
+      "active": 1
+    },
+    {
+      "name": "All_CCStunCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCStunCleanse_1.png",
+      "sha256": "f29a36799cc5e1d81ace8332410350a86c2e062d41af734b60178c8450e38dd1",
+      "bytes": 603075,
+      "particles": 6,
+      "active": 1
+    },
+    {
+      "name": "All_CCSleepActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSleepActive_baseline.png",
+      "sha256": "b02044523c676c41a3cb3dffaa4686872dc7c1a335aa7986b05ed06d2eee0b4a",
+      "bytes": 600686,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSleepActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCSleepActive_0.png",
+      "sha256": "ba9500edff1a537012f5d7851d56014bdcc788b1d1adbe818bca6deb0dd2e993",
+      "bytes": 604086,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSleepNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSleepNaturalEnd_baseline.png",
+      "sha256": "73b77dd5f7179639ffe4603628e4aea43df5b695be35f7a9a0443cac9e50eb2b",
+      "bytes": 600215,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSleepNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCSleepNaturalEnd_0.png",
+      "sha256": "ad0cc520a79dde66ff41d4c52461543a27a7b37672f3b9e567ec18f76f3b7f9e",
+      "bytes": 603178,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSleepNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCSleepNaturalEnd_1.png",
+      "sha256": "1361c079f037840801ea58a8ab1509d238de3cb20ab4d90f59847847d5cd5ec5",
+      "bytes": 602458,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSleepCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSleepCleanse_baseline.png",
+      "sha256": "5b552f78aa0bef1690ceb77128ec9cf8b1958e33894b1e23de1b533f4dbc5acb",
+      "bytes": 600328,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSleepCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCSleepCleanse_0.png",
+      "sha256": "6da1d29f5f843db51bc89c9fafa2f047ff96ec9a7caabc20f69a5b9617dc174b",
+      "bytes": 606676,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSleepCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCSleepCleanse_1.png",
+      "sha256": "eb37576ec7fa2cc94a4b3eb1cbafddce9de8a383b7cfa9e0d03f92f21d3283d9",
+      "bytes": 602501,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSilenceActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceActive_baseline.png",
+      "sha256": "d4e479e40d091db3aa4032177b7acdb3f33a30c8b93dad87b73529f468ed4a5a",
+      "bytes": 600086,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSilenceActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceActive_0.png",
+      "sha256": "e44bdee38e612f6f6a6597b73e03979c8a1d5bd4032e0aa64856d3880209d821",
+      "bytes": 603602,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSilenceNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceNaturalEnd_baseline.png",
+      "sha256": "7aea5a0db86025fd6145b14e61762a84e725570dd739d9aae2436d836f0cd915",
+      "bytes": 600399,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSilenceNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceNaturalEnd_0.png",
+      "sha256": "e1c742d263e0554eff7032e1aa679cbef71c402ebb29946b34b690cca5bda6bd",
+      "bytes": 604530,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSilenceNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceNaturalEnd_1.png",
+      "sha256": "5e2533a980981dd4ad5a2f444629d130f2f48c52bc44bf440045ac6b87b49d47",
+      "bytes": 604619,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSilenceCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceCleanse_baseline.png",
+      "sha256": "fbffb4c7dd3f9f377291f06720a6fa5b3bb89d830252e0b77608f9f1590ff6e8",
+      "bytes": 600085,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCSilenceCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceCleanse_0.png",
+      "sha256": "c23bf2cedc6a379c76e063fa46a42067db83eee4c9a0e9596ca1382c54221521",
+      "bytes": 605821,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCSilenceCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCSilenceCleanse_1.png",
+      "sha256": "7eb8ddda021310d9207e0741cb78fc1f7912dd2ddffd152d09eec6743fad7f2f",
+      "bytes": 605812,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCTauntActive_baseline.png",
+      "sha256": "2b5ded9c643c9c99c95261bf2dc9eb5a7d73ed7fccea192896f372e0000335b0",
+      "bytes": 599535,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCTauntActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCTauntActive_0.png",
+      "sha256": "eeaffdf9bb399e1606c710f68afd795987aef8bde24afc4973300af4762c5c8f",
+      "bytes": 601707,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCTauntNaturalEnd_baseline.png",
+      "sha256": "bc014df179b02e44f7c17b51baac7c61b7ccfbbccf17ddabd70fdf5e4068e145",
+      "bytes": 600346,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCTauntNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCTauntNaturalEnd_0.png",
+      "sha256": "499d9f4e88c8e4ec379a1e552383a12345d0d44489fff8b9d68fba2fd4d8e98f",
+      "bytes": 601923,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCTauntNaturalEnd_1.png",
+      "sha256": "d6a3700df543e89be5d23a5523b0704678d391b707e1b5611fbcdfe3a9b32de7",
+      "bytes": 600095,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCTauntCleanse_baseline.png",
+      "sha256": "0eb60d4bb78ff07aabfa618d21eee218c98fdd46ae9ac78b5c7772d285d07995",
+      "bytes": 601143,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCTauntCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCTauntCleanse_0.png",
+      "sha256": "2ae74bb701086c6a1c3102fd0a3570cc2ee86e861122e5696a541d5681d517e2",
+      "bytes": 603045,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCTauntCleanse_1.png",
+      "sha256": "882af86dc2c5d6d37b7476788c196122d449d2a2bbd8fb2f7329cc638c27078c",
+      "bytes": 602887,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCFearActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCFearActive_baseline.png",
+      "sha256": "a2b5771da175a54545532d733c7ffd7ed3da038fe20e717aa1e4caed6d12ce97",
+      "bytes": 525438,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCFearActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCFearActive_0.png",
+      "sha256": "0aada593db8a3e25fd518423aa6bd315882673281fa3645a35b093b74139a998",
+      "bytes": 529689,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCFearNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCFearNaturalEnd_baseline.png",
+      "sha256": "90b1ac15124e98484f523b41e7c9e312d75ec03a78ce9b52c247f413277fa778",
+      "bytes": 527258,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCFearNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCFearNaturalEnd_0.png",
+      "sha256": "330c80c8c42b13bfbfe1a323b1f28e8b49f5f67bddb05850034644f3ea925e4d",
+      "bytes": 526460,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCFearNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCFearNaturalEnd_1.png",
+      "sha256": "3b6c731a23b01b33aa8074eedee3dda16e79dcf12863b041247c0f8825366747",
+      "bytes": 528490,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCFearCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCFearCleanse_baseline.png",
+      "sha256": "2fb07c41ad69661752b7f357a3fc09b8ed22fa7061f126fb729940faa108d6a6",
+      "bytes": 526962,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCFearCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCFearCleanse_0.png",
+      "sha256": "49df944b6ac5370054e84dfdd578ef5e679dabbffb1e10ec860f246b60b3fcdc",
+      "bytes": 530029,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCFearCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCFearCleanse_1.png",
+      "sha256": "be7b1915e15889472718fa171293d4aefdf9537acd476844ad90d48e47078ec7",
+      "bytes": 528702,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCRootActive_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCRootActive_baseline.png",
+      "sha256": "6d18798e7b80cae7c5bb11da3663aa8e9f467fe0725bd09a5eba104af209198f",
+      "bytes": 598517,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCRootActive_0",
+      "file": "Saved/RuntimeCaptures/All_CCRootActive_0.png",
+      "sha256": "ba5cb1c86248573f431843c00dab1685a13ef7820718067cd88d317e1fde1b62",
+      "bytes": 604609,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CCRootNaturalEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCRootNaturalEnd_baseline.png",
+      "sha256": "789141d6151a50756226adfbb93763f0354b05039bfa5efcbaf089341b0b481d",
+      "bytes": 599200,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCRootNaturalEnd_0",
+      "file": "Saved/RuntimeCaptures/All_CCRootNaturalEnd_0.png",
+      "sha256": "bc0f5af91f74b952599ea460d4eeca3b59eb281f6bcaa4fb738ef6a050b1cc0c",
+      "bytes": 603273,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CCRootNaturalEnd_1",
+      "file": "Saved/RuntimeCaptures/All_CCRootNaturalEnd_1.png",
+      "sha256": "606ac6a7db3bf550e2165abf494b8981d461440773dd7c9b83f53bbfd942809f",
+      "bytes": 602822,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CCRootCleanse_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCRootCleanse_baseline.png",
+      "sha256": "d29ea5b4d8312becb24a9d2debdefe6e2df32781bbb276cc3b969ae4ad79f266",
+      "bytes": 599799,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCRootCleanse_0",
+      "file": "Saved/RuntimeCaptures/All_CCRootCleanse_0.png",
+      "sha256": "7bd5858c7cc63b1b0c54af73eba86106b67db4385253d887e3007a89a5dd4437",
+      "bytes": 604826,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CCRootCleanse_1",
+      "file": "Saved/RuntimeCaptures/All_CCRootCleanse_1.png",
+      "sha256": "b8d5e03eb6dbae35d3413ac0518537540d023caa6744a4fb3e6ec09ef4ee819f",
+      "bytes": 607766,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCTauntApply_baseline.png",
+      "sha256": "c12186f92ab8144fba89905451f161e506f4e6cbc3e1c2c4bc7a5fe6694871e8",
+      "bytes": 598119,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCTauntApply_0",
+      "file": "Saved/RuntimeCaptures/All_CCTauntApply_0.png",
+      "sha256": "29bbb9b13fbb009de4b019e1aeca4a409ffc81ea253546a940662428d075dffb",
+      "bytes": 631300,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCTauntApply_1",
+      "file": "Saved/RuntimeCaptures/All_CCTauntApply_1.png",
+      "sha256": "a4bda52e8c8fb350d8bc366d00760aa58dc20d0a7d9a812b863c5f201b51d20b",
+      "bytes": 606066,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedPush_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPush_baseline.png",
+      "sha256": "3d912686382ae1bf97392554fa64ead10b1429aceb72fc0643a92a19456e1e1e",
+      "bytes": 599253,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCForcedPush_0",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPush_0.png",
+      "sha256": "f51af3459f8c8370878aea27d93ea3980d1de10f5d8a7599b68e186e7af065d7",
+      "bytes": 607962,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedPush_1",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPush_1.png",
+      "sha256": "7272d53d1418afb67120c6b098314e72cbe818e2e93b11b42f4f44453db3bafe",
+      "bytes": 607768,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedPull_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPull_baseline.png",
+      "sha256": "291e66bfe2aa39a593f5ea383edb3203213f1f48c394d22235a3333f32153f01",
+      "bytes": 598957,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCForcedPull_0",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPull_0.png",
+      "sha256": "2a854f502321a42efdc1ad1aa423a5d80f0918a4612f72db16749850f9af343b",
+      "bytes": 601551,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedPull_1",
+      "file": "Saved/RuntimeCaptures/All_CCForcedPull_1.png",
+      "sha256": "ba2e303466242cf8073d9a882280f10a7ac8b5fd967b6604f921863e6ba16750",
+      "bytes": 601824,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedSlowPull_baseline",
+      "file": "Saved/RuntimeCaptures/All_CCForcedSlowPull_baseline.png",
+      "sha256": "a3a7dbcb96e896430106a77bb540cf712491b6d598c90b7db333def9d71ac388",
+      "bytes": 599968,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CCForcedSlowPull_0",
+      "file": "Saved/RuntimeCaptures/All_CCForcedSlowPull_0.png",
+      "sha256": "70972e2be947faf58171a5a79ec95cc2d2921ab151a3ea17f5e52cf3d82b3f9b",
+      "bytes": 609605,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_CCForcedSlowPull_1",
+      "file": "Saved/RuntimeCaptures/All_CCForcedSlowPull_1.png",
+      "sha256": "d79ee9ac8432c6f912248235ea8daff35c3b19ed47f51480c32ef7366df5dcab",
+      "bytes": 608070,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark1_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark1_baseline.png",
+      "sha256": "ccf8cd334a3266dc5a34fa3c89f8a3e0bf3331c3f10075e9f37810ace26412d8",
+      "bytes": 598470,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringMark1_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark1_0.png",
+      "sha256": "3ae728d84972352faa80c9ef735e919295e44809bc5f0714d148cd87ad54fc44",
+      "bytes": 603255,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark1_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark1_1.png",
+      "sha256": "4ca964e75711d6189c80ddf46ab5689edf3772eb3faef24c0636df856b294bc0",
+      "bytes": 603211,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark2_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark2_baseline.png",
+      "sha256": "f33d108b10e9e066e4ed333c4db9dfc7cea1119efea776f1ff577495b505648b",
+      "bytes": 598898,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringMark2_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark2_0.png",
+      "sha256": "40365b0508e223c5f87fbfc1f8e76e046e8281bceb6b7a11100f64f98f3e80c9",
+      "bytes": 602926,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark2_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark2_1.png",
+      "sha256": "48c64c7b5045f82805bf0dad329277b30e2316217cd436123a55ee871cd6bb4d",
+      "bytes": 603229,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark3_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark3_baseline.png",
+      "sha256": "be751a8d35e7d00d6ffa0b46c43e43b1579098389de576dfd3647c945870b003",
+      "bytes": 599499,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringMark3_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark3_0.png",
+      "sha256": "9d7fab69dff69cd363c08aa7634c39b97a13282c34464fcc7793dccf9282d879",
+      "bytes": 606726,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringMark3_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringMark3_1.png",
+      "sha256": "ade84d5dfe6ee007b7f0a7ea84ffbc713e2d78773f0b96083bc1fd4b515fb84d",
+      "bytes": 608745,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastI_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastI_baseline.png",
+      "sha256": "40d13998e9cceb1c8ed2cc1089ea5b1440551c4a071daad3f130204c02e3a6a0",
+      "bytes": 599567,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringCastI_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastI_0.png",
+      "sha256": "2adc19eaf56610b2541f91f24a94dba51cdfdcc7103a539bed5cbc790639732c",
+      "bytes": 599047,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastI_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastI_1.png",
+      "sha256": "af101b4054defb1a2255093abcb3167bfc2f2788346030bdb3ef61492dda94e8",
+      "bytes": 613454,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastII_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastII_baseline.png",
+      "sha256": "091938fc3848afdf73873086352987585f886ab87fa67a5c1d51a3570568b81d",
+      "bytes": 597757,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringCastII_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastII_0.png",
+      "sha256": "72d8f07757e16af05080b764447c831224d9707c1aa5bfe527abde3d6dd58f0e",
+      "bytes": 599522,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastII_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastII_1.png",
+      "sha256": "04f9b02d829e9506d2bca24954d613724a15b4cc21e90857a9e070a0a44e52ea",
+      "bytes": 619988,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastIII_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastIII_baseline.png",
+      "sha256": "dca904eb2cff22bef46222493cc50fe28d6d778050568693a16454017cc383a1",
+      "bytes": 600271,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringCastIII_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastIII_0.png",
+      "sha256": "6fe94b412ab3c56c4ec8092ae0c41d7cdd52305c9baac41c57a249d1dc61f529",
+      "bytes": 599194,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringCastIII_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringCastIII_1.png",
+      "sha256": "207d39303290605a426b5e6d79ac6e14e89159fb0a408f0cd8b59b285a766f2a",
+      "bytes": 643939,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIFlight_baseline.png",
+      "sha256": "4a154d3fe4d85ec68420c4e4217b001196a71b58f24beee2b9d24b6651070764",
+      "bytes": 599807,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FireBoltIFlight_0",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIFlight_0.png",
+      "sha256": "cf89552cfb026ea9913481603b6ecd5f60e31b887f361ede21802e01e0ee01a8",
+      "bytes": 620607,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIImpact_baseline.png",
+      "sha256": "218244f0f16c2481db0de6dea89fcfdcb6abc92cd0cc1eb243e0194789163ba7",
+      "bytes": 599019,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FireBoltIImpact_0",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIImpact_0.png",
+      "sha256": "8a30e5cabd115864259637f4a1e99641ece63686144b90e163578f32e69d1cc6",
+      "bytes": 607530,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIImpact_1",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIImpact_1.png",
+      "sha256": "77c47f9c9ee5bbdf8fa8a74811cee6a0077058a3f722155efd42b7f8032be64c",
+      "bytes": 598717,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIIFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIIFlight_baseline.png",
+      "sha256": "8851425597845224decd06d59f0a0f1f40850560d9af5e9c0a08e3e187ec9def",
+      "bytes": 600143,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FireBoltIIFlight_0",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIIFlight_0.png",
+      "sha256": "795447a5d144cc667a8df71afaec582066c01560cb8ba71722bbe1cdb9f76cfa",
+      "bytes": 625293,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIIImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIIImpact_baseline.png",
+      "sha256": "c9e394c70964c96506c5a86e266db33eb580099f89aac1d91bebc6feed14fa19",
+      "bytes": 600037,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FireBoltIIImpact_0",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIIImpact_0.png",
+      "sha256": "cd1858b0d1417476745c84f10207491850d4088d182aae8858011d18cbea59de",
+      "bytes": 606220,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIIImpact_1",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIIImpact_1.png",
+      "sha256": "866d85e72f7a7a1c4f4e4c4cb8daeebf738f06f03cd5dcc023cbab0e39afcd15",
+      "bytes": 597384,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIBleedFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIBleedFlight_baseline.png",
+      "sha256": "5de47007b1d29d5fc90d9021aae82cb8096cca1a5ed018449b0db8a87d8765a1",
+      "bytes": 599570,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIBleedFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIBleedFlight_0.png",
+      "sha256": "5b7efe17e89293455db995a1151acb9fd2e3518b876a835142df62fe2febd497",
+      "bytes": 605487,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIBleedHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIBleedHit_baseline.png",
+      "sha256": "f22edf54cda5f14815cea23f6e812159b5fb0ffd0477da49d9dcd06c9fa0449e",
+      "bytes": 599278,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIBleedHit_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIBleedHit_0.png",
+      "sha256": "e62fbab6c03343db89d0733a4708f54bb74b29e3c56f271c16cbbbd86d6af682",
+      "bytes": 602246,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIBleedHit_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIBleedHit_1.png",
+      "sha256": "df2ae909c129a4be9defd348b7c89915fab5870b0892db9eb8b7c9920ce619b3",
+      "bytes": 600400,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIPoisonFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIPoisonFlight_baseline.png",
+      "sha256": "5d0dd0062083d5abb7d1757ab476054144c2602f63f5ae252a158d6103e1d0fb",
+      "bytes": 599463,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIPoisonFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIPoisonFlight_0.png",
+      "sha256": "37dc85a333b245ec8b443a7aacc7ab286230b890b76f33e5629ca8d2872d30d4",
+      "bytes": 604392,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIPoisonHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIPoisonHit_baseline.png",
+      "sha256": "8fa29dcfdbb736afa16cbdd11b76387e06108e848e4e178d3478bd0abbbb88f6",
+      "bytes": 598675,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIPoisonHit_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIPoisonHit_0.png",
+      "sha256": "72b3346041a51d5e000effc29a52dfc5a8ad51d86c4a8001651419fade05941b",
+      "bytes": 607352,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIPoisonHit_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIPoisonHit_1.png",
+      "sha256": "4a1c38fd115e18da20ca3a9ee05daa19c64f73594fdfc3d2bda382ef281893f3",
+      "bytes": 601557,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedFanFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedFanFlight_baseline.png",
+      "sha256": "7bf672e33a9221dd514e92146f0315b250baeeed2dc3315e7d3a86f567ed276a",
+      "bytes": 597721,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIBleedFanFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedFanFlight_0.png",
+      "sha256": "7c0baf7d0945aa944f735cefb5defdc0b5ddd34f3274cfeeb2605cb21f5ff93b",
+      "bytes": 604498,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedHit_baseline.png",
+      "sha256": "f9e97dd0a8aae723370478c3098155a49b846035476cd4bd27d9c6abeb6e8aea",
+      "bytes": 598933,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIBleedHit_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedHit_0.png",
+      "sha256": "486dcf0a28326df8efe8d4a398098254fe01524c6db14f14c4d1ef84a2684df4",
+      "bytes": 601912,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedHit_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedHit_1.png",
+      "sha256": "b91e46af4945589d2d564de6102d46726b015b3759837e40b58410a0dc5e379f",
+      "bytes": 599832,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedPiercingFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedPiercingFlight_baseline.png",
+      "sha256": "322e86b9c0b764f73dedb53f9ba10c483161d8bbf285fe92eac9407c3034d98c",
+      "bytes": 598782,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIBleedPiercingFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedPiercingFlight_0.png",
+      "sha256": "fd5cc6beeca3d15a61c935964154a090e1b9e74f7a7d5fe52478995fdc480780",
+      "bytes": 611429,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedAim_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedAim_baseline.png",
+      "sha256": "7723e65bd113cba3e0bf8f6695c4f5597fc3074be8f72aa7684315182b349569",
+      "bytes": 602021,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIBleedAim_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedAim_0.png",
+      "sha256": "ac63bb8841d550301668f410898924e64a96000a03bf2bf380e311e456f45afa",
+      "bytes": 591568,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedAimEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedAimEnd_baseline.png",
+      "sha256": "0fbb62f00860276b7dc1043e404e15233dac39dbbfcda6cd2af00a934f0ee071",
+      "bytes": 603804,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIBleedAimEnd_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedAimEnd_0.png",
+      "sha256": "cd9fefe1d5db798e98054af6ece3b981a20ac9747b674c94fbb469f27bbef5b7",
+      "bytes": 620943,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIBleedAimEnd_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIBleedAimEnd_1.png",
+      "sha256": "b9e6f159bb0c433e4caceeb7fa40ff9b23ed2010477463936c66fc2c2bb7bf42",
+      "bytes": 619536,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonFanFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonFanFlight_baseline.png",
+      "sha256": "8b7257e333daf24c13c141d13389e6148ccd937b1f63d69a727a8007a1d02e05",
+      "bytes": 598144,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIPoisonFanFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonFanFlight_0.png",
+      "sha256": "0b3b51ff82d923d6d603650100759c06915460aa22c3cb95fd9300d762e33362",
+      "bytes": 603867,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonHit_baseline.png",
+      "sha256": "13a6bb4a4f1f92fd0246930d9050206810a4149abfd3a16a70bf471caa7c1ef8",
+      "bytes": 598724,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIPoisonHit_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonHit_0.png",
+      "sha256": "74bebd83db97cf0618ae9cadf15dcf1d8ed301c2cbc2df5056e7a01031532d5c",
+      "bytes": 608778,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonHit_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonHit_1.png",
+      "sha256": "fa5774ec766a45dba94ec6c4a8d8d4fbb995d33629fe37bcaaa14ff571ee51f2",
+      "bytes": 602382,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonPiercingFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonPiercingFlight_baseline.png",
+      "sha256": "6fc0fbc2c264a502715e2adac259c1a50f8d1053bc5ba7bd98d0beb7a7332948",
+      "bytes": 600876,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIPoisonPiercingFlight_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonPiercingFlight_0.png",
+      "sha256": "5ca68bbae58d8c2c4e50cbf6cd7f6140a7fa6c8b431a132af84d2aabfbf650aa",
+      "bytes": 611475,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonAim_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonAim_baseline.png",
+      "sha256": "66aa47a615cd700ba386450d66cccb350a423c7600f41690f9d892c519ad3359",
+      "bytes": 601577,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIPoisonAim_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonAim_0.png",
+      "sha256": "f660de68616fc3aaecca857158c51fc69a3d904e4c42462c473fa9793437537a",
+      "bytes": 593779,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonAimEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonAimEnd_baseline.png",
+      "sha256": "e4714f82a0c18d68d1d33ba557f14dacb0cef53ae54c20d66d2e6cfb7d908070",
+      "bytes": 601988,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_VolleyIIPoisonAimEnd_0",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonAimEnd_0.png",
+      "sha256": "bb74f457ce2803381a45d3ce8b02c4083dcee371bbf767fb6143a8dda7282cb7",
+      "bytes": 619528,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_VolleyIIPoisonAimEnd_1",
+      "file": "Saved/RuntimeCaptures/All_VolleyIIPoisonAimEnd_1.png",
+      "sha256": "e85a24280150449964179406f7dba09aadb30deafa1f7984bd7af23b832c6ea4",
+      "bytes": 623252,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIFlight_baseline.png",
+      "sha256": "3dfc2c281d9994edde4d29521e85742b4d718da2ba3a77eef6003d0cac65ec84",
+      "bytes": 603655,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIFlight_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIFlight_0.png",
+      "sha256": "b06f0c3329840f2b5aaf79a079429273def949fa635b42d62312e5c4fa6e8713",
+      "bytes": 605202,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsILatchedLink_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsILatchedLink_baseline.png",
+      "sha256": "1099906c4034187b7d51fac2eedba62ea13a2377d5309f961a610cccead4cbef",
+      "bytes": 602182,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsILatchedLink_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsILatchedLink_0.png",
+      "sha256": "f6e7ba62961fa6a753566c1de8ebc58e1673e1943eadd5e880fc77effe831db9",
+      "bytes": 607712,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIHit_baseline.png",
+      "sha256": "21013a0b2fbf282bdd27476d122d9cf186c8e53ced64cd63ee08895523684274",
+      "bytes": 598745,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIHit_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIHit_0.png",
+      "sha256": "37472612331cd95b30e43ee6d92f15f6babae16b00ed5e587b5d0548fe004b74",
+      "bytes": 599661,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIHit_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIHit_1.png",
+      "sha256": "543f713d7a3c5d39e8d6b4eb1f916635edc2a28bec5b4fc4a0622d637b335c29",
+      "bytes": 600671,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIEnd_baseline.png",
+      "sha256": "340d6ccac64f0d7285d2caee2a3608415529942c54ae33cd0f3eff210397fae9",
+      "bytes": 603298,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIEnd_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIEnd_0.png",
+      "sha256": "7b78ddbb7e9d787252cf7ec0a1833c2e48eabf9e836076cf7c715685c8296481",
+      "bytes": 603436,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIEnd_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIEnd_1.png",
+      "sha256": "ed9bb823c086e96218ecdb769457877695042d360a0bca96b01208976a12389b",
+      "bytes": 602790,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIFlight_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIFlight_baseline.png",
+      "sha256": "1a389789f792eaa5820f58ac79362ef753dd285d3750f4220f9581b3c26a9cf6",
+      "bytes": 603634,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIIFlight_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIFlight_0.png",
+      "sha256": "79af09680bfcd69b2f356fb593e4bfc4e52fdc75dc7349f61901626df21e5506",
+      "bytes": 608551,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIILatchedLink_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIILatchedLink_baseline.png",
+      "sha256": "22593a9acc0cc88899e40c0bfa355f69d5982d89d8d08e176e7af149d5c63b68",
+      "bytes": 603138,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIILatchedLink_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIILatchedLink_0.png",
+      "sha256": "e31e0019f6b32ed4a6bb89db37a1fe95cb5ea331d17c8e40af7cb85e1274f4ba",
+      "bytes": 607052,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIHit_baseline.png",
+      "sha256": "940c299fff28b50794e9263a1ffbb255fd4128a0be47cd30eaf414e5b73842ad",
+      "bytes": 599223,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIIHit_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIHit_0.png",
+      "sha256": "2fca66f4ee81acb7a1f8d87a25c8e5022d00203ca521cfc964fae8596e7e6fd7",
+      "bytes": 599619,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIHit_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIHit_1.png",
+      "sha256": "187372205dbdaccc42bbbdabb522dce7fde90786d9e397a4fe5da73e924b07ef",
+      "bytes": 599190,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIEnd_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIEnd_baseline.png",
+      "sha256": "3ad0519ad7395c6dcdf8d542476f09df51b9bc5eb27f6d707f6cce04ef8dfac1",
+      "bytes": 602105,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIIEnd_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIEnd_0.png",
+      "sha256": "b522528b6c4f5fc407815f0ae4edd2cd14da4657cf05fc0eac71236baa24e179",
+      "bytes": 606854,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIEnd_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIEnd_1.png",
+      "sha256": "34d86de927afb808a70f4d6555a026efd3c41ce89f37c02de13d0ae8d83479ee",
+      "bytes": 606503,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIITargetWrap_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIITargetWrap_baseline.png",
+      "sha256": "323e651779aa1c8a71a2e341d36b7256922a9d7a46ba224b585424a14208b8dd",
+      "bytes": 598063,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIITargetWrap_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIITargetWrap_0.png",
+      "sha256": "74f171aa98867216735b46d266bd0d1ff098e1f65934eca05273b8da9ecbe829",
+      "bytes": 610273,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIPull_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIPull_baseline.png",
+      "sha256": "4ae91ba00025bdd53be1faae44408bd430663ae25e489b80e3d7bfd82d3dfa7c",
+      "bytes": 604764,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIIPull_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIPull_0.png",
+      "sha256": "3bda2e2750b78d15b62e04cfc9815faed222d272c3add63fb4c4c5217db90c0d",
+      "bytes": 606174,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIPull_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIPull_1.png",
+      "sha256": "e36cec687afc78aa7e0c5f259a75f098bdefc821610d1a16df511359e8e732cc",
+      "bytes": 606450,
+      "particles": 20,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIInterrupt_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIInterrupt_baseline.png",
+      "sha256": "cbbab9ab453d12d19d06b340624a2ae50e29a3b559bb00d663f2bc434c05d50e",
+      "bytes": 599080,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChainsIIInterrupt_0",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIInterrupt_0.png",
+      "sha256": "5e1b70914bbefce8768de3374cf6cfb6162605601c856743d23f035cd0027f83",
+      "bytes": 611920,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ChainsIIInterrupt_1",
+      "file": "Saved/RuntimeCaptures/All_ChainsIIInterrupt_1.png",
+      "sha256": "1050bd5d00466002286a9d41cdb589c846fff1862f0dae03a3a308c930429212",
+      "bytes": 614097,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIISpread_baseline",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIISpread_baseline.png",
+      "sha256": "5d22edbda52cd079514b7fec5f3d910635d9cc05bd503c37e066a66fead7261b",
+      "bytes": 599842,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FireBoltIISpread_0",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIISpread_0.png",
+      "sha256": "8f50edc0c01c132c16b9011e59b53f5a4bbe9c70d87e5932c73f684990361615",
+      "bytes": 599792,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_FireBoltIISpread_1",
+      "file": "Saved/RuntimeCaptures/All_FireBoltIISpread_1.png",
+      "sha256": "56961450fc8762dd6c329d091226107f19d62d4466d38044d20b22ef255af5c3",
+      "bytes": 600383,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_ChallengeIIRootApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_ChallengeIIRootApply_baseline.png",
+      "sha256": "3f4b4038fd55d7e224b3984fbcc3856bdfe2175038c3a10889b57a9d294edc3a",
+      "bytes": 600600,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ChallengeIIRootApply_0",
+      "file": "Saved/RuntimeCaptures/All_ChallengeIIRootApply_0.png",
+      "sha256": "d169ed0ad94d6a9a2ce7ae1e19ce6fe4672b38cbd0e24f920008a292fc26fe6f",
+      "bytes": 600031,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ChallengeIIRootApply_1",
+      "file": "Saved/RuntimeCaptures/All_ChallengeIIRootApply_1.png",
+      "sha256": "2eaa172aaa8e8c1bd381cfde5cd1a1101567f86c2c98f87987b3783c7e53a4d1",
+      "bytes": 600261,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyITankAffected_baseline",
+      "file": "Saved/RuntimeCaptures/All_RallyITankAffected_baseline.png",
+      "sha256": "29a4fb66e08cc7d7feaaaed21e3d1f349eb6b155dcb47fba39eff261c862da10",
+      "bytes": 600470,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_RallyITankAffected_0",
+      "file": "Saved/RuntimeCaptures/All_RallyITankAffected_0.png",
+      "sha256": "6a8e45b501e6242313a28437c6ac6f29064e4d5a53ac2e58999426df3c201190",
+      "bytes": 600474,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyITankAffected_1",
+      "file": "Saved/RuntimeCaptures/All_RallyITankAffected_1.png",
+      "sha256": "0a65466289ae7247372e97d6bfc0855240e54589d2cec81ec99d83045d9d2c70",
+      "bytes": 599703,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIWarriorAffected_baseline",
+      "file": "Saved/RuntimeCaptures/All_RallyIWarriorAffected_baseline.png",
+      "sha256": "88451a479adfd518a13b7b124ed4950d08ca76abdbe3973b898e45e6325f9253",
+      "bytes": 600376,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_RallyIWarriorAffected_0",
+      "file": "Saved/RuntimeCaptures/All_RallyIWarriorAffected_0.png",
+      "sha256": "c859eb1bc2afe85e9d6d6efb314ddae9366cd5757fbb8db2dcba6a46dd22a265",
+      "bytes": 600274,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIWarriorAffected_1",
+      "file": "Saved/RuntimeCaptures/All_RallyIWarriorAffected_1.png",
+      "sha256": "fb397b290e7179d7295b210f7c39d7fa1f2ed308efc4a2762e302d81a33e157b",
+      "bytes": 599479,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIiTankAffected_baseline",
+      "file": "Saved/RuntimeCaptures/All_RallyIiTankAffected_baseline.png",
+      "sha256": "f41aec78f479a4ac597d9f95e4e02aa49592f4458490100b30acf5e87b63284b",
+      "bytes": 600900,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_RallyIiTankAffected_0",
+      "file": "Saved/RuntimeCaptures/All_RallyIiTankAffected_0.png",
+      "sha256": "a9a8d849277d553c094a4ae865d9bbe1d1f236ac28eaf8e1937dd4bee278d47f",
+      "bytes": 603015,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIiTankAffected_1",
+      "file": "Saved/RuntimeCaptures/All_RallyIiTankAffected_1.png",
+      "sha256": "b31866d8e2deabf67f4b29ca699bebab803c096b8bfdefaa8160ada000da9602",
+      "bytes": 600197,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIiWarriorAffected_baseline",
+      "file": "Saved/RuntimeCaptures/All_RallyIiWarriorAffected_baseline.png",
+      "sha256": "62cde864a7bf858c75cfccf8148c6e57913e2bb083904f84352494f4be651e7a",
+      "bytes": 599254,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_RallyIiWarriorAffected_0",
+      "file": "Saved/RuntimeCaptures/All_RallyIiWarriorAffected_0.png",
+      "sha256": "6c808d925906c04f3e7de18420e8ca9918418ca83b1af858820bc11eed2e6306",
+      "bytes": 603834,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_RallyIiWarriorAffected_1",
+      "file": "Saved/RuntimeCaptures/All_RallyIiWarriorAffected_1.png",
+      "sha256": "9ae94b35fa378c9ebf093c516360646587e2e1e9034d435749699e43ed29dd0e",
+      "bytes": 601610,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitI_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitI_baseline.png",
+      "sha256": "d1f6e5dddeb6bcf6825f98c0fe18d9ad2c466b6df5990769b9d78085205450df",
+      "bytes": 600189,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringHitI_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitI_0.png",
+      "sha256": "35fd1035bfc1862f450cdf80ab590b21db7c9e4e40e8467cbddf0975948872b8",
+      "bytes": 600050,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitI_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitI_1.png",
+      "sha256": "051aec0517d718f757f66f77ae6b9c84bfa0556cb4acd6c964b76b14a9e58ae6",
+      "bytes": 600445,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitII_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitII_baseline.png",
+      "sha256": "d1f9122e91424036a4bd4e8da4f8cda197752e06007e6352f47c0b01acd8da89",
+      "bytes": 600479,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringHitII_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitII_0.png",
+      "sha256": "fd3784e09f68965f7141d96493e53ee0fac6ecf81536cc0f07b69cf091a511b4",
+      "bytes": 598758,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitII_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitII_1.png",
+      "sha256": "032a8a4970df99ddb6af947ae76355c0aecbf777f8916b9e70f31564ffb469c8",
+      "bytes": 599967,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitIII_baseline",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitIII_baseline.png",
+      "sha256": "b6a9086834cd1c93754537efc6bf12bf449ca5bb87793ec642810d21733c8e18",
+      "bytes": 599678,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SeveringHitIII_0",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitIII_0.png",
+      "sha256": "3b76b4e1fa0c8316114e6a7d4dc7e3b9265bba26fa320fdcfdabe48dff4861ea",
+      "bytes": 599503,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SeveringHitIII_1",
+      "file": "Saved/RuntimeCaptures/All_SeveringHitIII_1.png",
+      "sha256": "696012eaab720ff3d001a7646d1b0d5de23908519df4f1b5b212b7f8fdf320ce",
+      "bytes": 600381,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ResurrectComplete_baseline",
+      "file": "Saved/RuntimeCaptures/All_ResurrectComplete_baseline.png",
+      "sha256": "aaa28579abc81c693ccc062eed9fc446dff2dcaae6e6433bf16a0674eba4a671",
+      "bytes": 600447,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ResurrectComplete_0",
+      "file": "Saved/RuntimeCaptures/All_ResurrectComplete_0.png",
+      "sha256": "a241a6fa511d82ecd37d4519d7252e29a6586274b309afc5752b6ef9d40ad7f1",
+      "bytes": 601098,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ResurrectComplete_1",
+      "file": "Saved/RuntimeCaptures/All_ResurrectComplete_1.png",
+      "sha256": "27cae8a3d4d35dbc3f0a5ae04159dec787277193f5d04a5a11bbff8bf17fe9b0",
+      "bytes": 599565,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIImpact_baseline.png",
+      "sha256": "dbbccd8cbfc24d1cb2ab515648f49b488a6fda2ba12aa5518b4db0b08bf6547e",
+      "bytes": 601182,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FrostLanceIImpact_0",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIImpact_0.png",
+      "sha256": "e69c1b9ed15cf61d9970851b643206244db5bd97b872456bf6409fa51cd2f8d0",
+      "bytes": 599706,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIImpact_1",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIImpact_1.png",
+      "sha256": "2a048742e55b994beacbcdbb20a9c3447ad0984728f475238500567c5baaeeae",
+      "bytes": 600294,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIiImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiImpact_baseline.png",
+      "sha256": "49c7713959b23499c7084e05d5c7f280a36b4f38a0317e57901f6d4f8e42afe6",
+      "bytes": 599663,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FrostLanceIiImpact_0",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiImpact_0.png",
+      "sha256": "42bd9f6b9e03c9070ee31b07d8f0ab6a53391a48483c9ff9a0f29e512182f7b0",
+      "bytes": 600091,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIiImpact_1",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiImpact_1.png",
+      "sha256": "7e83ed6a273d4e347b419dbe22006f78157441851ce29393589c2cd02f76c85f",
+      "bytes": 600995,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIiConditionalControl_baseline",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiConditionalControl_baseline.png",
+      "sha256": "a465a0ede5eba09a859f080144a83c6cb937eaa7902d9facaf768faf6c471572",
+      "bytes": 598764,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_FrostLanceIiConditionalControl_0",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiConditionalControl_0.png",
+      "sha256": "c62cb05c5fa7f99a906a4f58bb815407b20b06c87351100bb963c90cd68fdde8",
+      "bytes": 598864,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_FrostLanceIiConditionalControl_1",
+      "file": "Saved/RuntimeCaptures/All_FrostLanceIiConditionalControl_1.png",
+      "sha256": "770e2b2637370c4a0ccd875a5db5c0235ec03aa413f97413bd761dab7dc3b5ab",
+      "bytes": 600366,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIGroundArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIGroundArea_baseline.png",
+      "sha256": "ddb96c5b213c81c6e9afa6a412367618b5c31dd1e5aab875c320472a3aa36af2",
+      "bytes": 601602,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GlacialSpikeIGroundArea_0",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIGroundArea_0.png",
+      "sha256": "5e49b46920872cec22b47acc87e1301fc7668092731d156aa99206f1cfdf7ddd",
+      "bytes": 604982,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIGroundArea_1",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIGroundArea_1.png",
+      "sha256": "afffb3e06fa1734211c91796ca95013294b2161ff801deb4fa57075ab073dd7c",
+      "bytes": 604108,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIImpact_baseline.png",
+      "sha256": "a4ef5f5c6b3fbae6fc6cd0c2b6b322fb3b7378d0d41c55a4f06c09e30aad301f",
+      "bytes": 597193,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GlacialSpikeIImpact_0",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIImpact_0.png",
+      "sha256": "abcff29759e3d5a302a6ec03054270c339da14521d111ae77961d2b5ac12344c",
+      "bytes": 599704,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIImpact_1",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIImpact_1.png",
+      "sha256": "d05d6e9b6096bd20fcf0b908ca437b13f0802199a20157852d92b9423f112734",
+      "bytes": 599602,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiGroundArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiGroundArea_baseline.png",
+      "sha256": "366b326414933eadbfe9ea57c5663d5c6ce9fbfa4c0129ca18eb6efb17f86d52",
+      "bytes": 602256,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GlacialSpikeIiGroundArea_0",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiGroundArea_0.png",
+      "sha256": "59acb5569d59951d523ce557b422f923cfafcae06880b6bd1bc1dc9632406cc5",
+      "bytes": 605888,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiGroundArea_1",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiGroundArea_1.png",
+      "sha256": "5996718419658c89dcc69aebba1aced7df6bda5fa16bf85188958afd6d412ab0",
+      "bytes": 604814,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiImpact_baseline.png",
+      "sha256": "bc5a18804ed11da0321501ff2aae589dd8781aa04a1abdf4d259dbcf2372d358",
+      "bytes": 598750,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GlacialSpikeIiImpact_0",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiImpact_0.png",
+      "sha256": "5b627be883285eed0a100c51126b6a463a7ba35a6ca79f3e75f57f68f5ed678a",
+      "bytes": 600233,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiImpact_1",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiImpact_1.png",
+      "sha256": "ce37478a495991f25bc4d944ca468b164aaaf819a3a3f1506e3bb9440e56a81f",
+      "bytes": 600417,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiConditionalControl_baseline",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiConditionalControl_baseline.png",
+      "sha256": "3eeb6d979271d042406bc61b145b4f9d33e7aa705e259df4615f129a57e00280",
+      "bytes": 600207,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_GlacialSpikeIiConditionalControl_0",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiConditionalControl_0.png",
+      "sha256": "9b1b11b94d2bc00c77190f0a2aaae0b7e48422abbd8bcabfcfdd2fc5e66094b7",
+      "bytes": 605496,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_GlacialSpikeIiConditionalControl_1",
+      "file": "Saved/RuntimeCaptures/All_GlacialSpikeIiConditionalControl_1.png",
+      "sha256": "87da9279687c042460b05affb8bf5c7f3fc58d4b26e4f66796ff8e01b522462f",
+      "bytes": 600291,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIAllyHeal_baseline",
+      "file": "Saved/RuntimeCaptures/All_EtherIAllyHeal_baseline.png",
+      "sha256": "7b22055018876662c97e0c90697545e5bf41ffbba00b2ee3721862221c1f4955",
+      "bytes": 598506,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_EtherIAllyHeal_0",
+      "file": "Saved/RuntimeCaptures/All_EtherIAllyHeal_0.png",
+      "sha256": "4482c6aa76feed0b6bf2d5499bcb6eb9f52f6d16e43f47edc509df26e7f77877",
+      "bytes": 599914,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIAllyHeal_1",
+      "file": "Saved/RuntimeCaptures/All_EtherIAllyHeal_1.png",
+      "sha256": "0108df760f9122ff69d204aabc966d56e8a70f971014573b1ee92dc532a7ec5d",
+      "bytes": 600737,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIEnemyConfirmedDamage_baseline",
+      "file": "Saved/RuntimeCaptures/All_EtherIEnemyConfirmedDamage_baseline.png",
+      "sha256": "9f51ab1bf53883e0fcf69b7ec34d9aa7919bde3bf4ba39302f2f192a26f9b055",
+      "bytes": 601101,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_EtherIEnemyConfirmedDamage_0",
+      "file": "Saved/RuntimeCaptures/All_EtherIEnemyConfirmedDamage_0.png",
+      "sha256": "48b4649e20a9203fcbdfacdd8096787102fdc508eb97a9c704fc6bda3c12e1ba",
+      "bytes": 600685,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIEnemyConfirmedDamage_1",
+      "file": "Saved/RuntimeCaptures/All_EtherIEnemyConfirmedDamage_1.png",
+      "sha256": "84319ebc6f71193dde2a546df5241d90bcc0830b7b16310d24011c64378678d1",
+      "bytes": 599031,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiAllyHeal_baseline",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyHeal_baseline.png",
+      "sha256": "0aa25b2b833a3b327a1b969b2c130213b17701416dd55ef4312ffc8162396df1",
+      "bytes": 600624,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_EtherIiAllyHeal_0",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyHeal_0.png",
+      "sha256": "4db056d664e6d72b2d057d91af1cae70148ef208eb8543ce292a64da2d145c48",
+      "bytes": 601213,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiAllyHeal_1",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyHeal_1.png",
+      "sha256": "cfa049a2bce35407e821caa112bfc52010a0f26aa3cecbd8cd4ef0f502269231",
+      "bytes": 601119,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiAllyConditionalBuff_baseline",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyConditionalBuff_baseline.png",
+      "sha256": "4712ae8331aea1499964b0638e55002d3094c0ca8661979f434c52d899827763",
+      "bytes": 599899,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_EtherIiAllyConditionalBuff_0",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyConditionalBuff_0.png",
+      "sha256": "95868b9c796c898b145159dbfc96afc6974884eb87f62c00856e1aa1796b6a5c",
+      "bytes": 611145,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiAllyConditionalBuff_1",
+      "file": "Saved/RuntimeCaptures/All_EtherIiAllyConditionalBuff_1.png",
+      "sha256": "418a8922c7e8bc558f17b029d831ba9423e1623e69e88da71fdbeb6a7cd68003",
+      "bytes": 599225,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiEnemyConfirmedDamage_baseline",
+      "file": "Saved/RuntimeCaptures/All_EtherIiEnemyConfirmedDamage_baseline.png",
+      "sha256": "c31dba7f2042e51671d109a62ecf71810d7f7a32991f0288cdc8fc5d9b99393c",
+      "bytes": 599702,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_EtherIiEnemyConfirmedDamage_0",
+      "file": "Saved/RuntimeCaptures/All_EtherIiEnemyConfirmedDamage_0.png",
+      "sha256": "0dc9ca8b39acc0c52ee25fe4e6a37db257c460f6714ad84276bcad25f471b578",
+      "bytes": 600987,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_EtherIiEnemyConfirmedDamage_1",
+      "file": "Saved/RuntimeCaptures/All_EtherIiEnemyConfirmedDamage_1.png",
+      "sha256": "4a3b58d8c7a66452a1125081cb31fc197ea11bdf9a17e197a205d4a0e6024b62",
+      "bytes": 632049,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_BrightStarShieldApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_BrightStarShieldApply_baseline.png",
+      "sha256": "fbffa90b27721f0c50892eff86f7ea22fc8a88ac31ec642e6b9aaa69ea445a46",
+      "bytes": 599271,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BrightStarShieldApply_0",
+      "file": "Saved/RuntimeCaptures/All_BrightStarShieldApply_0.png",
+      "sha256": "6f03ccfe69660692be6f202239e373ba598da844038b8a5f348b96ad040a2eb5",
+      "bytes": 601388,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BrightStarShieldApply_1",
+      "file": "Saved/RuntimeCaptures/All_BrightStarShieldApply_1.png",
+      "sha256": "03a47b0d058d7490a395a1b53b259ad08cad56d60a918900d196ba9953267498",
+      "bytes": 601581,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BrightStarCasterProc_baseline",
+      "file": "Saved/RuntimeCaptures/All_BrightStarCasterProc_baseline.png",
+      "sha256": "7a9c117fe25171162fc534874bb0bd0914502d7805b2ac2f4029a5d6cd86ef3f",
+      "bytes": 600367,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BrightStarCasterProc_0",
+      "file": "Saved/RuntimeCaptures/All_BrightStarCasterProc_0.png",
+      "sha256": "c7cf8d2a76ce9380043544bc836496630f1b4eb7c5e3be6e30cc2cd773efe53b",
+      "bytes": 600980,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BrightStarCasterProc_1",
+      "file": "Saved/RuntimeCaptures/All_BrightStarCasterProc_1.png",
+      "sha256": "66c00fc47cc6ea83bd73609ef2107226a1099d4eefcb05f6fbecfc990860c63c",
+      "bytes": 600391,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SerenityHeal_baseline",
+      "file": "Saved/RuntimeCaptures/All_SerenityHeal_baseline.png",
+      "sha256": "a8cd4a453077b532f4fd1457bd7b323b1058b73a09dbb19ef275719a0600d74e",
+      "bytes": 600612,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SerenityHeal_0",
+      "file": "Saved/RuntimeCaptures/All_SerenityHeal_0.png",
+      "sha256": "3e3cf2c4e5c893339192c1c1fc4c24b6c73899b5712bc18ccbb7c860594748b6",
+      "bytes": 600888,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SerenityHeal_1",
+      "file": "Saved/RuntimeCaptures/All_SerenityHeal_1.png",
+      "sha256": "d5064e327c7af7c9722ebf5777c8a5777a3f8bf7d85e32f0829567c51cc0bfd4",
+      "bytes": 600648,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SerenitySleepApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_SerenitySleepApply_baseline.png",
+      "sha256": "3383f7f1f53643ae5de63be2051ac98e68dd8856e06ecfeadb6f5212712b0125",
+      "bytes": 598744,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SerenitySleepApply_0",
+      "file": "Saved/RuntimeCaptures/All_SerenitySleepApply_0.png",
+      "sha256": "3ad07866ec571ccff4986da0bd3f8a4f7bea87a8cc130b7f449eaa6b9dad0785",
+      "bytes": 607136,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_SerenitySleepApply_1",
+      "file": "Saved/RuntimeCaptures/All_SerenitySleepApply_1.png",
+      "sha256": "64c8aeefeca7a8a6bd92a54781562d53a7b9d5ad349c3fa6888bdceb031901b6",
+      "bytes": 609822,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIConfirmedHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIConfirmedHit_baseline.png",
+      "sha256": "3e294f2815e48e28e0f645ea9b19e0e68c71ba7fdecba8249d5b83919223f936",
+      "bytes": 599692,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BackstabIIConfirmedHit_0",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIConfirmedHit_0.png",
+      "sha256": "adf9b6569d0db6373383be2f8cdc92d1a97a66713496beb804a0f729d67571f6",
+      "bytes": 599126,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIConfirmedHit_1",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIConfirmedHit_1.png",
+      "sha256": "c538e785e9f96024e2898b4e22b841865e3bf59e33b9d30bd0683898668ddace",
+      "bytes": 601312,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIStunApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIStunApply_baseline.png",
+      "sha256": "6a267ac51d309a55a686139ab3fe17fa0c52209a81d62434bcec660c2afafbed",
+      "bytes": 600179,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BackstabIIStunApply_0",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIStunApply_0.png",
+      "sha256": "e5f57d4a61ca758b8d17b491e9ca6ba652a7c70655e0049782c710e33dd1bb3f",
+      "bytes": 600301,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIStunApply_1",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIStunApply_1.png",
+      "sha256": "97c8f1d3652bdfc6bdbfa06eebcbf618aa14f7f9d5c5c67e49de7cba95d5eca3",
+      "bytes": 599678,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIPoisonApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIPoisonApply_baseline.png",
+      "sha256": "bd05e0b59aa6982ad087d699d272730365d1db6bedc12a089931c0fd6968d061",
+      "bytes": 599870,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BackstabIIPoisonApply_0",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIPoisonApply_0.png",
+      "sha256": "dd5b37c6ac5a9f57361b8e0075e07e7c67dc0829fa03cb1e1f2016086a7b14ae",
+      "bytes": 602448,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIPoisonApply_1",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIPoisonApply_1.png",
+      "sha256": "6dcca2e7a5da20c7acb3674ca693cd168613c463a20a11e09774bcc1bf19ea45",
+      "bytes": 602048,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIBleedApply_baseline",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIBleedApply_baseline.png",
+      "sha256": "0dea07f905cc879488266de58946238c00eee681671d5b10f2f08ff22dd5ac6a",
+      "bytes": 599827,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_BackstabIIBleedApply_0",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIBleedApply_0.png",
+      "sha256": "6dca5a1a34c8a7663a8516670a61f731eda7208c16b346fb2b457db63b704164",
+      "bytes": 602667,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_BackstabIIBleedApply_1",
+      "file": "Saved/RuntimeCaptures/All_BackstabIIBleedApply_1.png",
+      "sha256": "a7491e2b2cf4770486a9ec2e8766645ca66945480c2cce3feaa578afd4dd49c0",
+      "bytes": 600544,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_LaserContact_baseline",
+      "file": "Saved/RuntimeCaptures/All_LaserContact_baseline.png",
+      "sha256": "25a432c50f4c7673194b3656e7d2d13546dc6f54c69e186fa7c1966babda491b",
+      "bytes": 599672,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_LaserContact_0",
+      "file": "Saved/RuntimeCaptures/All_LaserContact_0.png",
+      "sha256": "95ded82791343985918f8df96e902804c5a289a9b16e93deb8715fc9b9fb3be2",
+      "bytes": 599263,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_LaserContact_1",
+      "file": "Saved/RuntimeCaptures/All_LaserContact_1.png",
+      "sha256": "8a6b27de507998ceb107f8fb3ca78f9564f843f72e47e08020c440db256dff83",
+      "bytes": 600002,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIHit_baseline.png",
+      "sha256": "645d9576e60bddb4e9efdcc602b7574133c509a6c8accc876816a62ccd952a08",
+      "bytes": 600315,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIHit_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIHit_0.png",
+      "sha256": "e97b6db34c5a7bd298df421e90723480834a49681cf1bd91ae3e72c726985946",
+      "bytes": 608289,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIHit_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIHit_1.png",
+      "sha256": "8bf011311e5c01528e7dcf81225cfd0e269121962055f9bf7ef131de2b374870",
+      "bytes": 599727,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIChain_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIChain_baseline.png",
+      "sha256": "c8f02be6124062189901de6c34dd3a9e5ec0b8559380b97ce182bcd28fca8c0b",
+      "bytes": 604483,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIChain_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIChain_0.png",
+      "sha256": "a4484fe265e29df72537b65eb7b8b74ca673e81840235cecd3a98ed8f0fe0dcf",
+      "bytes": 603742,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIChain_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIChain_1.png",
+      "sha256": "c9fe19de12e3f2ce3f399480761b154bfc5fd7813237adc205528a40ee7a3336",
+      "bytes": 605005,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiHit_baseline.png",
+      "sha256": "f9e8b2b6f79b3f875b0e89c57a239eb4e73f32967d5a4019a8cf68cc0f08d0cc",
+      "bytes": 598771,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIiHit_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiHit_0.png",
+      "sha256": "f5ee70c2089f118c8e0c78fe6729d70bb9414d623f52117afbbe6cd63c0a76f9",
+      "bytes": 606787,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiHit_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiHit_1.png",
+      "sha256": "5a3aa31982a9050966dcf59b6fb9b3d426c9805caa57faf1b7e3d481bef90cbc",
+      "bytes": 599808,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiChain_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiChain_baseline.png",
+      "sha256": "39e5726f176a64e0b64cab258146609f021f964ca6ffd84e8abc49370676ccd6",
+      "bytes": 604404,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIiChain_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiChain_0.png",
+      "sha256": "2de149545f88938bf7b252bda38dbad37116aec700f2fff0cad129d19e737581",
+      "bytes": 602335,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiChain_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiChain_1.png",
+      "sha256": "69a311cd01cd679c9aabcf3c1585a480ba4c92fb0d0dba0191d0467a1a3859c8",
+      "bytes": 603198,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_CoilHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_CoilHit_baseline.png",
+      "sha256": "11112e35637fd4ed3d5acb2ce2774b004921b38c65361b6f33a81ad39cfe09cd",
+      "bytes": 598274,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CoilHit_0",
+      "file": "Saved/RuntimeCaptures/All_CoilHit_0.png",
+      "sha256": "e05df467478e0857b32ed8774304a3546420ab31583f152e7c3960cef5891351",
+      "bytes": 601496,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_CoilHit_1",
+      "file": "Saved/RuntimeCaptures/All_CoilHit_1.png",
+      "sha256": "2335e82e9038a2601f15b65a2b94b3a554f50673cd1ec44092a344ae8424172e",
+      "bytes": 601495,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_CoilProc7_baseline",
+      "file": "Saved/RuntimeCaptures/All_CoilProc7_baseline.png",
+      "sha256": "a4f5a2f5cf2c0054ec00ddb2f494296ae8253ea772ba5307a5443e875d392d2b",
+      "bytes": 600626,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CoilProc7_0",
+      "file": "Saved/RuntimeCaptures/All_CoilProc7_0.png",
+      "sha256": "52fc5181d93f30a38d440824ebd87ce43ca09c3ffbb98daa492dff48052a32a1",
+      "bytes": 598725,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CoilProc7_1",
+      "file": "Saved/RuntimeCaptures/All_CoilProc7_1.png",
+      "sha256": "106745a578ddf383086a8f86d9172e3550888dd2ffa9ad1856bc6920e5261d4a",
+      "bytes": 599500,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_CoilChain_baseline",
+      "file": "Saved/RuntimeCaptures/All_CoilChain_baseline.png",
+      "sha256": "182a1f5d7e5a41c7b46bdd70c4ff9b62295dec50d880a864322ffcfd77dfc63a",
+      "bytes": 604535,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_CoilChain_0",
+      "file": "Saved/RuntimeCaptures/All_CoilChain_0.png",
+      "sha256": "0b8507fa17a4aa79e4c1be1686c1a6ce1d0e1a206e67304ef94e1dc571cc9af9",
+      "bytes": 604873,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_CoilChain_1",
+      "file": "Saved/RuntimeCaptures/All_CoilChain_1.png",
+      "sha256": "d7b606e836cfe06b50f4c49f00a8d0f3d3a666385ad08cdd136c2990cc82ea15",
+      "bytes": 602118,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIHit_baseline.png",
+      "sha256": "31e6f1cae3f6d1952540d3158bfe3c2cc0516ac864b05530b0527e210f8f5e08",
+      "bytes": 599375,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ThunderstrikeIHit_0",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIHit_0.png",
+      "sha256": "cc4993bdd62808858a21722e4efd4d45ee96961d1fce64d0299f15aabdb1afc2",
+      "bytes": 600787,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIHit_1",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIHit_1.png",
+      "sha256": "fda09df06ea18c4e62f5129f8b89b56ebb1e43ba54c8964293032390d7ffc465",
+      "bytes": 600094,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIiHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiHit_baseline.png",
+      "sha256": "6bc49e5d2893581f2d7cc4f512273ddb75a2bb0343bbf025b028866fae3d36c2",
+      "bytes": 599507,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ThunderstrikeIiHit_0",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiHit_0.png",
+      "sha256": "794decf787426a5ce3c3e257e68cb5e826be9c1fea6ff3f0be8850e2a7ea215e",
+      "bytes": 606139,
+      "particles": 10,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIiHit_1",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiHit_1.png",
+      "sha256": "f77da6deb23bb032665d0f66611ce68de3ade7771622fbb29103f8d2a8263e36",
+      "bytes": 601290,
+      "particles": 10,
+      "active": 1
+    },
+    {
+      "name": "All_TempestIce_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestIce_baseline.png",
+      "sha256": "3dc4cb4b1610beb78d5637f4f4f80d14329cb7ba8cb32c4358375b943ca7d562",
+      "bytes": 603984,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestIce_0",
+      "file": "Saved/RuntimeCaptures/All_TempestIce_0.png",
+      "sha256": "79fa58d7799a9c08b1fce2d54716d1e426bad9f844bd7dde655838eb543f10b6",
+      "bytes": 603305,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_TempestIce_1",
+      "file": "Saved/RuntimeCaptures/All_TempestIce_1.png",
+      "sha256": "3499eda52f7840adfb99b7ff0451551f953e971176ac3e4fb8449bcf6ced55be",
+      "bytes": 604738,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_TempestLightning_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestLightning_baseline.png",
+      "sha256": "e6a7b5a5efb98bb9b58795315ec55f1955470af390b705e6106b6f7e11a853a7",
+      "bytes": 602225,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestLightning_0",
+      "file": "Saved/RuntimeCaptures/All_TempestLightning_0.png",
+      "sha256": "edd4aeb1dc5d4cfcded6c6edffb10aaaa515261d93b3aff365dd4807993dceb5",
+      "bytes": 604256,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_TempestLightning_1",
+      "file": "Saved/RuntimeCaptures/All_TempestLightning_1.png",
+      "sha256": "b3940d17c2ad29ab80f14c4848d6006fb30be315329295743fa1213b17246c31",
+      "bytes": 604296,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_TempestGroundImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestGroundImpact_baseline.png",
+      "sha256": "0784fa180b30599a7cdc2d76a3f87bf774720d69cb5d06d3f200a70f6611c15b",
+      "bytes": 603463,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestGroundImpact_0",
+      "file": "Saved/RuntimeCaptures/All_TempestGroundImpact_0.png",
+      "sha256": "b26ece24091dfe3efad055b5629d0bd5eac7ab28c6bba48976f7ab1fb292781f",
+      "bytes": 603330,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestGroundImpact_1",
+      "file": "Saved/RuntimeCaptures/All_TempestGroundImpact_1.png",
+      "sha256": "03220fae113e05d04b65aa26662e1e846f6ec516f8d7df4ed1fa3ed3dcced19f",
+      "bytes": 603012,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestFrostImpact_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestFrostImpact_baseline.png",
+      "sha256": "de87261f976c52302acea89f67b91ff20f2c2aef98af9fac9976499be9c14129",
+      "bytes": 603392,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestFrostImpact_0",
+      "file": "Saved/RuntimeCaptures/All_TempestFrostImpact_0.png",
+      "sha256": "f9f76cc2248cc053d6254d0df04b85446f79cad8dc0f71c0bdf9c8c867e6b227",
+      "bytes": 601442,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestFrostImpact_1",
+      "file": "Saved/RuntimeCaptures/All_TempestFrostImpact_1.png",
+      "sha256": "2e55eceeed026312cd6a4671361d3f2541510f9d756412d28af2c73043729903",
+      "bytes": 602031,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestStormArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestStormArea_baseline.png",
+      "sha256": "1c4bb94d6ed718dbbf00e02ef7622e2850c343be77f363aa8ff1306c071b568d",
+      "bytes": 603250,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestStormArea_0",
+      "file": "Saved/RuntimeCaptures/All_TempestStormArea_0.png",
+      "sha256": "befcf3467784fa59394df873fef55ca453322c9c081b9635a465a61d7ef318cd",
+      "bytes": 601751,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestTelegraph_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestTelegraph_baseline.png",
+      "sha256": "025bb9c979bec45f297bb5f9cf94871cec566c5f4b03a7c84fee156124b14dea",
+      "bytes": 604611,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestTelegraph_0",
+      "file": "Saved/RuntimeCaptures/All_TempestTelegraph_0.png",
+      "sha256": "1a4ad04368d89299c41ccca0447101da6b26c3f092065825131e12fc0ff26de0",
+      "bytes": 604156,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_TempestLightningHit_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestLightningHit_baseline.png",
+      "sha256": "bf340a8fa34454c2f463694db6f3bac000d18fd771f4b6b2aa0ac9ab312691f4",
+      "bytes": 599513,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestLightningHit_0",
+      "file": "Saved/RuntimeCaptures/All_TempestLightningHit_0.png",
+      "sha256": "927f6dca555bfe0082586e62b025120e8801a371771dc40207055ef1b1278378",
+      "bytes": 606618,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_TempestLightningHit_1",
+      "file": "Saved/RuntimeCaptures/All_TempestLightningHit_1.png",
+      "sha256": "57710fcc261b0733fae7dbd45394a11cfabfbe447670a4bd13fcbf1481f48c8a",
+      "bytes": 599512,
+      "particles": 7,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIGroundArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIGroundArea_baseline.png",
+      "sha256": "6dc260c1c01994c01f17ff78d8caa99ebdf3b08a6c7dba8e4233be2f9e4de18c",
+      "bytes": 602821,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIGroundArea_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIGroundArea_0.png",
+      "sha256": "744d47f47d8221ff74bbca8fd7151f85b7db4176b3a9564a1dde64e0e7c558d8",
+      "bytes": 600992,
+      "particles": 9,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIGroundArea_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIGroundArea_1.png",
+      "sha256": "41360a0da311e29fa34aa909a7abe8de9e7e2ad13d1c8bbc86fdff4a38353fcf",
+      "bytes": 601285,
+      "particles": 9,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiGroundArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiGroundArea_baseline.png",
+      "sha256": "9226d0e2c5340f721423af49ce3d81b94a159c97888db7760a7f13d853cc0a4b",
+      "bytes": 603717,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_StaticBoltIiGroundArea_0",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiGroundArea_0.png",
+      "sha256": "0a64cd47db5112b947cfb226c91c6c94546d2ac0d1c579ef361fc69c860b178a",
+      "bytes": 604140,
+      "particles": 9,
+      "active": 1
+    },
+    {
+      "name": "All_StaticBoltIiGroundArea_1",
+      "file": "Saved/RuntimeCaptures/All_StaticBoltIiGroundArea_1.png",
+      "sha256": "45572d1db3352281254beaa62c3b342f81bf85cb8ab7eb8704750806f795c83f",
+      "bytes": 602304,
+      "particles": 9,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIiSplashArea_baseline",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiSplashArea_baseline.png",
+      "sha256": "c204455ad239e1f781ca94b47a5da1f94533f9967ce042bf67c4ff8ef9043aa2",
+      "bytes": 602129,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ThunderstrikeIiSplashArea_0",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiSplashArea_0.png",
+      "sha256": "71377daa0ef4575b8aac1d9cc283ebbbc6d77cb361c25b16868b6edf536b4339",
+      "bytes": 602777,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIiSplashArea_1",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIiSplashArea_1.png",
+      "sha256": "6e7c4c30ea4a16a7896e5fc80459e307005a979ac3150668ce9597458c61d2f2",
+      "bytes": 602972,
+      "particles": 1,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIISplash_baseline",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIISplash_baseline.png",
+      "sha256": "715c837a1dde2e790197698a1d536c47d43c9f257b2701148af11f0befb0da75",
+      "bytes": 603018,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ThunderstrikeIISplash_0",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIISplash_0.png",
+      "sha256": "b4265eaa20632cfb1f8967d116332f5762e429fa89aa6a969d16524c4a17663d",
+      "bytes": 603009,
+      "particles": 30,
+      "active": 1
+    },
+    {
+      "name": "All_ThunderstrikeIISplash_1",
+      "file": "Saved/RuntimeCaptures/All_ThunderstrikeIISplash_1.png",
+      "sha256": "7a0bb4de0dc68f4e8bf9cf41057ad38ea02fd890a702d80d64edcf8c1049d3bd",
+      "bytes": 603922,
+      "particles": 30,
+      "active": 1
+    },
+    {
+      "name": "All_TempestSappedProc_baseline",
+      "file": "Saved/RuntimeCaptures/All_TempestSappedProc_baseline.png",
+      "sha256": "bd41a17bb55118900f6f62a35239631d57533c7752c31f19cdc0b5af0b8d27a4",
+      "bytes": 600528,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_TempestSappedProc_0",
+      "file": "Saved/RuntimeCaptures/All_TempestSappedProc_0.png",
+      "sha256": "05f5f602d8c746b542b7d94046b17b0e32f5eae31cf3ad994312ccc416790ca5",
+      "bytes": 660264,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_TempestSappedProc_1",
+      "file": "Saved/RuntimeCaptures/All_TempestSappedProc_1.png",
+      "sha256": "67e2b23a261ca525b72095536cd7bcf2d721e7a6d0d2a59edaa5bf29573c5cf5",
+      "bytes": 599923,
+      "particles": 5,
+      "active": 1
+    },
+    {
+      "name": "All_ArcaneWeavingIResource_baseline",
+      "file": "Saved/RuntimeCaptures/All_ArcaneWeavingIResource_baseline.png",
+      "sha256": "64af914d7ba294748235f847f2f4a4657299ff8e32bb99b4a6f392c6f812c01b",
+      "bytes": 599970,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ArcaneWeavingIResource_0",
+      "file": "Saved/RuntimeCaptures/All_ArcaneWeavingIResource_0.png",
+      "sha256": "f97935a24dcd7932fccfd4df2d467561caa832a08085552de916b0857de24689",
+      "bytes": 610741,
+      "particles": 11,
+      "active": 1
+    },
+    {
+      "name": "All_ArcaneWeavingIiResource_baseline",
+      "file": "Saved/RuntimeCaptures/All_ArcaneWeavingIiResource_baseline.png",
+      "sha256": "1a261f0209c1dd8594157ec9a47a1545960bc7771ab6a5a3504e6be216bb7364",
+      "bytes": 600082,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ArcaneWeavingIiResource_0",
+      "file": "Saved/RuntimeCaptures/All_ArcaneWeavingIiResource_0.png",
+      "sha256": "3619a36a072ec29a70b19c5d993f0eac7fee85730b7a199675be2bc6e9edb4ce",
+      "bytes": 601121,
+      "particles": 11,
+      "active": 1
+    },
+    {
+      "name": "All_ElementalWeaverIResource_baseline",
+      "file": "Saved/RuntimeCaptures/All_ElementalWeaverIResource_baseline.png",
+      "sha256": "a034f260651282c4abab042991d3ec76f575dbe35475963b72bd5f58f07ba75e",
+      "bytes": 600358,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ElementalWeaverIResource_0",
+      "file": "Saved/RuntimeCaptures/All_ElementalWeaverIResource_0.png",
+      "sha256": "74421e91640c29a9dae261e410f19ba8d99a123273a7e4ebd614e04086d0d17c",
+      "bytes": 610061,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_ElementalWeaverIiResource_baseline",
+      "file": "Saved/RuntimeCaptures/All_ElementalWeaverIiResource_baseline.png",
+      "sha256": "b2c9a4057c2a896715d4f3dbce8af4595b4aa3f37c439e62f6f83b1c82736808",
+      "bytes": 600912,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ElementalWeaverIiResource_0",
+      "file": "Saved/RuntimeCaptures/All_ElementalWeaverIiResource_0.png",
+      "sha256": "3ea7e2254166ca0bd22bda4f3327de384ba2a8b7070d7afd2e66b998ff89c704",
+      "bytes": 610636,
+      "particles": 3,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheCometMoonState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheCometMoonState_baseline.png",
+      "sha256": "ff4c020c9ebd52a414aee1de823acb42a6a7b14bb9b87581830d2cd689726db3",
+      "bytes": 600674,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheCometMoonState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheCometMoonState_0.png",
+      "sha256": "41983df1959505296bc8ba932698219bb047c617c2e84bc9efb25460a7a692bc",
+      "bytes": 598747,
+      "particles": 16,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheCometSunState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheCometSunState_baseline.png",
+      "sha256": "5b2e0d7ebe75023f9b794255f1ce696fa64d56152b555e5e3fa66064435dc3c1",
+      "bytes": 598520,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheCometSunState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheCometSunState_0.png",
+      "sha256": "ec9a315e50b01584a107ed0bfae09823fc7aeff1416bfdffb7fc8df167e7d3e9",
+      "bytes": 599802,
+      "particles": 16,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheOrbitMoonState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheOrbitMoonState_baseline.png",
+      "sha256": "d1270c5a3e529a4ee8db62e61b7926c0409481356d61c7a1e75bb95c2fbfbffe",
+      "bytes": 600417,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheOrbitMoonState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheOrbitMoonState_0.png",
+      "sha256": "eeca367c7b067ae388a9b432fc8d96442f3e70be065ea7c4feedfcf550e4b9f8",
+      "bytes": 600031,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheOrbitSunState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheOrbitSunState_baseline.png",
+      "sha256": "e7b8471e047664ddaeac8a8228c546da134de2da3bf275491b8fba413401d853",
+      "bytes": 600087,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheOrbitSunState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheOrbitSunState_0.png",
+      "sha256": "a216434d9673ba45c1e9280168f117b2b491b65698c8268216f6dc227190bdcf",
+      "bytes": 600907,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheStarMoonState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheStarMoonState_baseline.png",
+      "sha256": "a096f545cf0b8c22912e29d72d91f0aa15ea2ed840302cf56eecf80545fbd3d2",
+      "bytes": 598426,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheStarMoonState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheStarMoonState_0.png",
+      "sha256": "8ae9474cd128938ed5b657274652a85e6284a6425881b1278aa094a20b1e12f5",
+      "bytes": 600253,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_SpiritOfTheStarSunState_baseline",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheStarSunState_baseline.png",
+      "sha256": "10c23b69ad2ba7e2f8b8028c75ca60cd5e9ce44c4c37a586542de7802b8d4aa7",
+      "bytes": 599978,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_SpiritOfTheStarSunState_0",
+      "file": "Saved/RuntimeCaptures/All_SpiritOfTheStarSunState_0.png",
+      "sha256": "9d656381b6937168e531c94a422a1722ff9909dd42700b60f9288c5ad349efc8",
+      "bytes": 600809,
+      "particles": 4,
+      "active": 1
+    },
+    {
+      "name": "All_ManaBarrierIHold_baseline",
+      "file": "Saved/RuntimeCaptures/All_ManaBarrierIHold_baseline.png",
+      "sha256": "835d1975a0917e9cd4068e9bd77b8f87ed031f4a083c96a8808057ca9ad2ae19",
+      "bytes": 601272,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ManaBarrierIHold_0",
+      "file": "Saved/RuntimeCaptures/All_ManaBarrierIHold_0.png",
+      "sha256": "993fb49252fd18bb71f617f8784fed1007b59a353e46e8464310ba3190301bc5",
+      "bytes": 680634,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_ManaBarrierIRelease_baseline",
+      "file": "Saved/RuntimeCaptures/All_ManaBarrierIRelease_baseline.png",
+      "sha256": "854d9b9fd3edb6ee44505fca49e99c9b5bafb83672a41e90bf5bc0f95bf5c08e",
+      "bytes": 601452,
+      "particles": 0,
+      "active": 0
+    },
+    {
+      "name": "All_ManaBarrierIRelease_0",
+      "file": "Saved/RuntimeCaptures/All_ManaBarrierIRelease_0.png",
+      "sha256": "86e51b34e18069b95e757efd7ed9af83c91bbc51d981bffd11ffe16428605d8a",
+      "bytes": 681157,
+      "particles": 2,
+      "active": 1
+    },
+    {
+      "name": "All_ManaBarrierIRelease_1",
+      "file": "Saved/RuntimeCaptures/All_ManaBarrierIRelease_1.png",
+      "sha256": "6697c568355e2bc040dc69909b9e3a0e9d71e2bac5084158dc7782ce54bd181e",
+      "bytes": 682581,
+      "particles": 2,
+      "active": 1
+    }
+  ],
+  "context_sha256": {
+    "Evidence/gameplay-runtime-build-jobs.json": "2df696ac28e9a89373923f15b0d12231a9dee0bf0307d5a23b1ac9c775ec39bb",
+    "Evidence/gameplay-runtime-definitions.json": "dd421fc8d63487e2b45f0f83cf91d7d9cb3ce4da1a21f63e7430e8617f7a6863",
+    "Evidence/gameplay-runtime-compiled-sources.json": "fb92ae2165f700a3cc97bc0a3c9128b21e05a271e4e5b1dda88133c66f671109",
+    "Evidence/runtime-capture-plan.json": "9c0726128081dd178fd9cf22470dcbdb63b5c81b7e3aa2f3564857adaac4da9f",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/SanctaVFXRuntimeReview.cpp": "e0330fc817c4631faebb9b9284ac4cb6af420ed8458e3fba0e121c80f0d20c00"
+  },
+  "accepted_final_qa": false,
+  "full_capture_registry_updated": false,
+  "remaining": "Investigate provisional empty frames before completing full capture and quality/performance plans.",
+  "export_requires_refresh": true,
+  "git_commit_push_pending": true
+}

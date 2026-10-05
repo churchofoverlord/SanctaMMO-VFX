@@ -1,0 +1,141 @@
+{
+  "slug": "LullabyIiNightmareProc",
+  "title": "LullabyIiNightmareProc",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 2,
+      "cast_time": 0,
+      "end_times": [
+        2.479299999999814,
+        2.5292999999998145
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -8
+            ],
+            [
+              0,
+              0,
+              -8
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.04999995231628418
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              2
+            ],
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 1.10){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vP = position.xy;\n      if (aK < .5){ vP = position.xy*2.6; vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; mv.xy += position.xy*.6; gl_Position = projectionMatrix*mv; }   /* Fear pulse on the torso (billboard), not the ground */\n      else if (aK < 1.5){ vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*.55 + vec3(0., (position.y*.5 + .5)*2.3, 0.), 1.); }\n      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = 1.5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    void main(){\n      float lum = 0., hot = 0., t = vU/1.10;\n      if (vK < .5){\n        /* Fear: a big jagged shockwave bursts OUT from the target (double ring, long barbs), flickering */\n        float r = length(vP), a = atan(vP.y, vP.x), e = 1. - pow(1. - clamp(vU/.35, 0., 1.), 3.);\n        float jag = .06*sin(a*13. + vU*20.)*sin(a*7. - 3.) ;\n        float R = .3 + 2.*e + jag, R2 = .2 + 1.45*e - jag*.7;\n        float f = (vU < .05 ? 2. : 1.)*(1. - smoothstep(.35, .75, t))*(.8 + .2*sin(vU*60.));\n        lum += (exp(-pow(abs(r - R)/.03, 2.2)) + exp(-pow(abs(r - R2)/.02, 2.2))*.6)*f; hot += lcore(r - R, .008)*f*.7;\n        float a8 = mod(a + .2, .524) - .262, ax = r*cos(a8) - R, ay = abs(r*sin(a8)), bl = .35;\n        float barb = smoothstep(.02, .0, ay - .07*clamp(1. - ax/bl, 0., 1.))*step(0., ax)*step(ax, bl);\n        lum += barb*f*1.1; hot += barb*f*.35;\n        lum += smoothstep(R, R - .5, r)*smoothstep(R - 1.2, R - .5, r)*.12*f;                   /* cold wash behind the front */\n        lum *= smoothstep(2.6, 2.4, r); hot *= smoothstep(2.6, 2.4, r);\n      } else if (vK < 1.5){\n        // Heal: thin streaks rise from the feet in a soft ease-out and open outward a little as they go\n        float x = vP.x, y = vP.y*.5 + .5, k = 1. - pow(1. - clamp(vU/.55, 0., 1.), 3.), f = 1. - smoothstep(.5, 1., t);\n        for (int i=0;i<6;i++){\n          float fi = float(i), ox = (h1(fi) - .5)*1.1*(.4 + .6*y), dl = h1(fi + 3.)*.12;\n          float kk = 1. - pow(1. - clamp((vU - dl)/.55, 0., 1.), 3.), head = kk*1.05, tail = head - .35;\n          lum += exp(-pow((x - ox)/.03, 2.))*smoothstep(tail, tail + .2, y)*smoothstep(head + .02, head - .1, y)*(.6 + .4*h1(fi + 9.));\n          vec2 sp = vec2(x - ox*.8, y - head*.9);                           // a small sparkle riding each streak\n          float sa = atan(sp.y, sp.x), sr = length(sp*vec2(1., 2.3));\n          lum += pow(abs(cos(sa*2.)), 12.)*exp(-sr*40.)*.8;\n        }\n        lum *= f*smoothstep(1., .75, abs(x))*smoothstep(1., .85, y); hot = lum*.3;\n      } else {\n        /* damage: a huge eye tears open on the chest and stares (slit pupil), then snaps shut with a pop; screaming\n           wisps burst out of it (icon's ghosts) with a shock ring */\n        vec2 p = vP/1.5; float r = length(p), a = atan(p.y, p.x);\n        float k = clamp(vU/.3, 0., 1.), op = sin(3.14159*min(k*1.7, 1.))*(1. - k*k*k*k), h = .04 + .5*op;\n        float eyeD = max(length(p - vec2(0., -(.62 - h))) - .62, length(p - vec2(0., .62 - h)) - .62);\n        float live = step(vU, .3);\n        vec2 sp = p*vec2(1., .33/max(op, .05)); float slit = exp(-pow((length(sp) - .06)/.012, 2.))*smoothstep(.02, -.04, eyeD)*op;\n        lum += (exp(-pow(eyeD/.025, 2.))*1.3 + exp(-r*r*40.)*op*.5)*live; hot += (slit*2. + exp(-pow(eyeD/.008, 2.))*.5)*live;\n        float pop = vU >= .3 && vU < .333 ? 1. : 0., after = vU > .3 ? exp(-(vU - .3)*10.) : 0.;\n        lum += exp(-p.y*p.y*300. - p.x*p.x*3.)*(pop*3. + after); hot += exp(-r*r*150.)*(pop*3. + after);\n        float tw = clamp((vU - .3)/.7, 0., 1.), tf = clamp((vU - .3)/.35, 0., 1.);   /* orbs fade 50% faster */\n        if (vU > .3){\n          float sr = mix(.1, .95, 1. - pow(1. - tw, 2.)); float jr = sr*(1. + .12*sin(a*9. + vU*14.)); /* no shock ring */\n          for (int i=0;i<7;i++){ float fi = float(i), ga = fi*.898 + .4 + .3*sin(vU*3. + fi), gd = mix(.1, .85, 1. - pow(1. - tw, 1.6));\n            vec2 dir = vec2(cos(ga), sin(ga)), nrm = vec2(-dir.y, dir.x); vec2 q = p - dir*gd;\n            float along = dot(q, dir), across = dot(q, nrm) + .05*sin(along*18. - vU*25. + fi);\n            float tail = exp(-across*across/(.0012 + .004*max(-along, 0.)))*smoothstep(-.35, 0., along)*step(along, .05);\n            vec2 hq = q - dir*.01; float head = exp(-dot(hq, hq)*1600.);   /* smaller orbs */\n            float mouth = exp(-dot(hq + dir*.012, hq + dir*.012)*9000.);                          /* the gaping mouth reads as a dark notch */\n            lum += head*1.2*(1. - tf); hot += head*.8*(1. - tf); }   /* only the orbs, no star-shaped tails */\n        }\n        lum *= smoothstep(1., .9, r); hot *= smoothstep(1., .9, r);\n      }\n      vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404299999999537
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.5775804404214573,
+            0.8879231178794776,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.06847816983662762,
+            0.3915724777393922,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-8)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

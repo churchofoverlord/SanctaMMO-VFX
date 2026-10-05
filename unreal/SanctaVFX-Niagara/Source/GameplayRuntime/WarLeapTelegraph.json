@@ -1,0 +1,123 @@
+{
+  "slug": "WarLeapTelegraph",
+  "title": "WarLeapTelegraph",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        2.1543999999999075
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              -4.599999904632568
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT; uniform float uTime; varying vec2 vP; varying float vU;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 1.75){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float S = 2.35; vP = position.xy*S; vU = u;\n      gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    float eox(float x){ return x >= 1. ? 1. : 1. - pow(2., -10.*x); }\n    void main(){\n      vec2 p = vP; float r = length(p), a = atan(p.x, p.y), R = 2.00, W = 1.00;\n      float u = vU - W;                                            // time since impact\n      float lum = 0., hot = 0.;\n      // destination decal: thin ring drawn during the channel, then static until the landing (no motion, no particles)\n      float draw = clamp((vU - .04)/0.37, 0., 1.), m = abs(a)/3.14159;\n      float tele = step(m, draw*draw*(3. - 2.*draw) + .001);\n      float ringW = u < 0. ? .012 : .012 + .02*exp(-u*10.);\n      float ringI = u < 0. ? .45 : (u < .033 ? 1.4 : .45 + .6*exp(-u*6.));\n      float ringFade = 1. - smoothstep(.45, .75, u);              // the rim is the last thing to go\n      float ring = exp(-pow(abs(r - R)/ringW, 2.4));\n      lum += ring*tele*ringI*ringFade; hot += lcore(r - R, ringW*.3)*tele*ringI*.4*ringFade;\n      // decal centre: a small cross marking the exact landing point (fades in with the ring, replaced by the contact glow)\n      if (u < 0.){ float cl = .32*smoothstep(.3, 1., draw);\n        float cx = exp(-pow(abs(p.y)/.01, 2.))*smoothstep(cl, cl*.5, abs(p.x)) + exp(-pow(abs(p.x)/.01, 2.))*smoothstep(cl, cl*.5, abs(p.y));\n        lum += cx*.4*step(.05, cl); }\n      if (u >= 0.){\n        // cracks: glow runs outward from the centre, then fades starting at the centre\n        float front = eox(clamp(u/.18, 0., 1.))*R*.92;\n        float wipe = max(u - .16, 0.)/.42*R;\n        float cr = 0.;\n        for (int i=0;i<9;i++){\n          float fi = float(i), th = fi*.6981 + (h1(fi) - .5)*.4 + .025*sin(r*11. + fi*3.) + .015*sign(sin(r*23. + fi));   // near-straight, slightly jagged\n          vec2 dir = vec2(sin(th), cos(th));\n          float along = dot(p, dir), d = abs(p.x*dir.y - p.y*dir.x);\n          float len = R*(.55 + .4*h1(fi + 7.));\n          float w = mix(.022, .004, clamp(along/len, 0., 1.));      // thick at the centre, hair-fine at the ends\n          float on = step(0., along)*smoothstep(len, len*.8, along)*smoothstep(.12, .25, along);\n          cr = max(cr, exp(-pow(d/w, 2.))*on);\n        }\n        float lit = smoothstep(front + .05, front - .2, r) * smoothstep(wipe - .1, wipe + .4, r);\n        lum += cr*lit*.55; hot += cr*lit*.12*exp(-u*7.);\n        // shock ring: one thin pulse from the centre to the rim\n        float rr = eox(clamp(u/.2, 0., 1.))*R, fs = 1. - clamp(u/.24, 0., 1.);\n        lum += exp(-pow(abs(r - rr)/.02, 2.4))*fs*fs*.8;\n        // centre: brief contact glow\n        lum += exp(-r*r*6.)*(u < .033 ? 1.2 : .6*exp(-u*10.));\n      }\n      vec3 outc = mix(uOrange, uGold, .55)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.40439999999963
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-4.599999904632568)",
+        "attributes": {
+          "aT": "ReferenceTime-.6"
+        }
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

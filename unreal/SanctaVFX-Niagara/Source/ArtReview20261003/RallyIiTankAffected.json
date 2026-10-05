@@ -1,0 +1,154 @@
+{
+  "source": "integration/vfx-2026-09-30/prototypes/fighter/rally-ii-tank/rally-ii-tank-vfx.html",
+  "sha256": "0896e0c170fd3cc0c5dd740fe3a21416872ae8f52821733efc4d2b251675f473",
+  "class": "fighter",
+  "title": "Rally II Tank",
+  "art_revision": {
+    "requested": "2026-10-03",
+    "baseline_source": "Source/ReferencePorts/fighter-rally-ii-tank.json",
+    "baseline_sha256": "bd1c5d49dbe1b292321b0d68dffbf8ded3b1055d6ccb2a649072a1e80bd9c333",
+    "user_direction": true,
+    "production_approved": false
+  },
+  "slug": "RallyIiTankAffected",
+  "method": "user_art_revision_isolated_component",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.35
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ]
+          ]
+        },
+        "aS": {
+          "size": 1,
+          "values": [
+            [
+              1.350000023841858
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK, aS; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT; if (u < 0. || u > 0.50){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK < .5){\n        float S = .75*aS; vP = position.xy/.75*.75; vP = position.xy*.75;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);\n      } else {\n        vec3 f = cameraPosition - aO; f.y = 0.; f = normalize(f); vec3 rt = vec3(f.z, 0., -f.x);\n        float Wd = .45*aS, H = 1.2*aS;\n        vP = position.xy;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*position.x*Wd + vec3(0., (position.y*.5 + .5)*2.*H + .1, 0.), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec3 outc;\n      if (vK < .5){\n        float t = vU/0.50, r = length(vP);\n        float R = mix(.12, .6, 1. - pow(1. - t, 3.)), f = pow(1. - t, 1.6);\n        float ring = exp(-pow(abs(r - R)/.018, 2.4)), hot = lcore(r - R, .005);\n        float flash = exp(-r*r*18.)*(vU < .033 ? 1. : 0.);\n        outc = (uOrange*(ring*.9 + flash*.8) + mix(uGold, vec3(1.), .4)*hot*.6)*f*smoothstep(.75, .66, r);\n      } else {\n        // three thin streaks rising and thinning out; soft everywhere, zero at the quad edges\n        float x = vP.x, y = vP.y*.5 + .5, t = vU/0.50;\n        float lum = 0.;\n        for (int i=0;i<3;i++){\n          float fi = float(i), ox = (fi - 1.)*.42, dl = fi == 1. ? 0. : .05;\n          float tt = clamp((vU - dl)/.3, 0., 1.);\n          float head = tt*1.1, tail = head - .45;\n          float seg = smoothstep(tail, tail + .25, y)*smoothstep(head + .02, head - .12, y);\n          lum += exp(-pow((x - ox)/.05, 2.))*seg*(1. - smoothstep(.55, 1., t))*(fi == 1. ? 1. : .6);\n        }\n        outc = mix(uOrange, uGold, .5)*lum*.7*smoothstep(1., .8, abs(x))*smoothstep(1., .9, y);\n      }\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404699999999444
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.34670405634441115,
+            0.8148465722120952,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.6866853124288864,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "preview_duration": 1.35,
+  "runtime_parameters": {}
+}

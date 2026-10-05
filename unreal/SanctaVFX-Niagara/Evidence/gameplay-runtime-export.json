@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-10-05T12:26:21.210851+00:00",
+  "engine": "UE 5.8.3",
+  "packages": 1786,
+  "canonical_forms": 136,
+  "current_components": 331,
+  "production_approved": false,
+  "foundation_modified": false,
+  "remaining_game_work": [
+    "Ability/event transport and authority integration",
+    "Actual rig sockets and ground placement",
+    "Foundation projectile/terrain channels and navigation",
+    "Shipping cook and performance budget on target hardware"
+  ],
+  "layout": "Merge Content into game Content; install standalone Plugins/SanctaVFXRuntime. Do not install the authoring Bridge in the shipping game.",
+  "file": "Exports/Sancta-VFX-Runtime.zip",
+  "sha256": "cb1a7f898f08be8bee0af48ebeb3fd0b68bfc3d3196f6eeb34dd9aa499dfc4b1",
+  "bytes": 28928344
+}

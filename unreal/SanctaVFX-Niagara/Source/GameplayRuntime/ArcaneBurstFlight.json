@@ -1,0 +1,512 @@
+{
+  "slug": "ArcaneBurstFlight",
+  "title": "ArcaneBurstFlight",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 0,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.4010220829157696
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.36000001430511475,
+              1.2999999523162842,
+              -0.30000001192092896
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0.009340446442365646,
+              1.149999976158142,
+              -7.800218105316162
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aS": {
+          "size": 1,
+          "values": [
+            [
+              0.23999999463558197
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT, aS; uniform float uTime; varying vec2 vP; varying float vU; vec3 arcAt(vec3 a, vec3 b, float f, float sd){\n    vec3 d = b - a; float L = length(d); vec3 side = normalize(cross(d, vec3(0., 1., 0.)));\n    float h = fract(sin(sd*91.7)*43758.5), sg = h < .5 ? -1. : 1.;\n    float lat = sg*L*(.03 + .025*fract(h*7.))*sin(3.14159*f) + L*.008*sin(6.28318*f + h*6.);   // main bow + a faint S wobble\n    float up = L*.015*sin(3.14159*f);\n    return mix(a, b, f) + side*lat + vec3(0., up, 0.); }\n    void main(){\n      float u = uTime - aT - 0.40, L = length(aE - aO), tt = L/14.0;\n      if (u < 0. || u > tt + 0.06){ gl_Position = vec4(2.,2.,2.,1.); return; }                      // holds on the target during the hit stop\n      float grow = 1. - pow(1. - clamp(u/.08, 0., 1.), 3.);                  // forms in the hand from the converged shards\n      vec4 mv = viewMatrix*vec4(arcAt(aO, aE, min(u/tt, 1.), 0.), 1.); mv.xyz += normalize(-mv.xyz)*.1;\n      mv.xy += position.xy*aS*grow*1.25; vP = position.xy; vU = u; gl_Position = projectionMatrix*mv;\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU;\n    void main(){                                              // opaque arcane sphere: lit body, thin bright rim, small highlight, short halo\n      vec2 p = vP/.8; float r = length(p);\n      float z = sqrt(max(1. - r*r, 0.)), lit = .35 + .65*max(dot(vec3(p, z), normalize(vec3(-.4, .5, .75))), 0.);\n      float body = smoothstep(1., .96, r), rim = exp(-pow((r - .97)/.05, 2.));\n      float spec = exp(-dot(p - vec2(-.3, .35), p - vec2(-.3, .35))*28.)*body;\n      float swirl = .85 + .15*sin(atan(p.y, p.x)*3. + vU*9. + r*8.);        // slow arcane churn inside\n      float halo = exp(-max(r - 1., 0.)*9.)*(1. - body)*.18;\n      vec3 o = (uOrange*(body*lit*.55*swirl + rim*.9 + halo) + uGold*spec*.7 + mix(uGold, vec3(1.), .5)*rim*.3)*smoothstep(1.25, 1.1, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404599999999817
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.6938717612856897,
+            0.5394794890033748,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0.36000001430511475,1.2999999523162842,-0.30000001192092896)",
+        "attributes": {
+          "aS": ".16+.018*sqrt(max(RuntimeCount,0.))",
+          "aT": "ReferenceTime-.7"
+        },
+        "probe_anchor": true
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    },
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.6010220829157695
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.36000001430511475,
+              1.2999999523162842,
+              -0.30000001192092896
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0.009340446442365646,
+              1.149999976158142,
+              -7.800218105316162
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          -0.8333333134651184,
+          1,
+          0,
+          -0.6666666865348816,
+          1,
+          0,
+          -0.5,
+          1,
+          0,
+          -0.3333333432674408,
+          1,
+          0,
+          -0.1666666716337204,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0.1666666716337204,
+          1,
+          0,
+          0.3333333432674408,
+          1,
+          0,
+          0.5,
+          1,
+          0,
+          0.6666666865348816,
+          1,
+          0,
+          0.8333333134651184,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          -0.8333333134651184,
+          -1,
+          0,
+          -0.6666666865348816,
+          -1,
+          0,
+          -0.5,
+          -1,
+          0,
+          -0.3333333432674408,
+          -1,
+          0,
+          -0.1666666716337204,
+          -1,
+          0,
+          0,
+          -1,
+          0,
+          0.1666666716337204,
+          -1,
+          0,
+          0.3333333432674408,
+          -1,
+          0,
+          0.5,
+          -1,
+          0,
+          0.6666666865348816,
+          -1,
+          0,
+          0.8333333134651184,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          0.0833333358168602,
+          1,
+          0.1666666716337204,
+          1,
+          0.25,
+          1,
+          0.3333333432674408,
+          1,
+          0.4166666567325592,
+          1,
+          0.5,
+          1,
+          0.5833333134651184,
+          1,
+          0.6666666865348816,
+          1,
+          0.75,
+          1,
+          0.8333333134651184,
+          1,
+          0.9166666865348816,
+          1,
+          1,
+          1,
+          0,
+          0,
+          0.0833333358168602,
+          0,
+          0.1666666716337204,
+          0,
+          0.25,
+          0,
+          0.3333333432674408,
+          0,
+          0.4166666567325592,
+          0,
+          0.5,
+          0,
+          0.5833333134651184,
+          0,
+          0.6666666865348816,
+          0,
+          0.75,
+          0,
+          0.8333333134651184,
+          0,
+          0.9166666865348816,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          13,
+          1,
+          13,
+          14,
+          1,
+          1,
+          14,
+          2,
+          14,
+          15,
+          2,
+          2,
+          15,
+          3,
+          15,
+          16,
+          3,
+          3,
+          16,
+          4,
+          16,
+          17,
+          4,
+          4,
+          17,
+          5,
+          17,
+          18,
+          5,
+          5,
+          18,
+          6,
+          18,
+          19,
+          6,
+          6,
+          19,
+          7,
+          19,
+          20,
+          7,
+          7,
+          20,
+          8,
+          20,
+          21,
+          8,
+          8,
+          21,
+          9,
+          21,
+          22,
+          9,
+          9,
+          22,
+          10,
+          22,
+          23,
+          10,
+          10,
+          23,
+          11,
+          23,
+          24,
+          11,
+          11,
+          24,
+          12,
+          24,
+          25,
+          12
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying float vS, vY, vF; vec3 arcAt(vec3 a, vec3 b, float f, float sd){\n    vec3 d = b - a; float L = length(d); vec3 side = normalize(cross(d, vec3(0., 1., 0.)));\n    float h = fract(sin(sd*91.7)*43758.5), sg = h < .5 ? -1. : 1.;\n    float lat = sg*L*(.03 + .025*fract(h*7.))*sin(3.14159*f) + L*.008*sin(6.28318*f + h*6.);   // main bow + a faint S wobble\n    float up = L*.015*sin(3.14159*f);\n    return mix(a, b, f) + side*lat + vec3(0., up, 0.); }\n    void main(){\n      float u = uTime - aT - 0.40, L = length(aE - aO), tt = L/14.0;\n      if (u < 0. || u > tt + .2){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vec3 d = (aE - aO)/L;\n      float head = min(u*14.0, L), tail = max(0., head - .7) + max(0., u - tt)/.2*1.7;   // after the hit, the tail catches up\n      if (head - tail < .01){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float s = position.x*.5 + .5;\n      float fa = mix(tail, head, s)/L;\n      vec3 P = arcAt(aO, aE, fa, 0.), T = normalize(arcAt(aO, aE, min(fa + .01, 1.), 0.) - arcAt(aO, aE, max(fa - .01, 0.), 0.));\n      vec3 side = normalize(cross(T, P - cameraPosition));\n      vS = s; vY = position.y; vF = 1. - clamp((u - tt)/.2, 0., 1.);\n      gl_Position = projectionMatrix*viewMatrix*vec4(P + side*position.y*(.02 + .09*s), 1.);\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying float vS, vY, vF;\n    void main(){ float a = pow(vS, 1.6)*exp(-vY*vY*5.), c = pow(vS, 3.)*exp(-vY*vY*30.);\n      vec3 o = (uOrange*a*.45 + mix(uOrange, uGold, .6)*c*.3)*vF;\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404599999999817
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.6938717612856897,
+            0.5394794890033748,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.3277780980458375,
+            0.10702310296918527,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0.36000001430511475,1.2999999523162842,-0.30000001192092896)",
+        "attributes": {
+          "aT": "ReferenceTime-.7"
+        },
+        "probe_anchor": true,
+        "probe_position": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      "runtime_persistent": true,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 3.4,
+  "runtime_parameters": {
+    "User.CueLifetime": 3.4
+  }
+}

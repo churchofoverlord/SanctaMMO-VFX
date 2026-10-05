@@ -1,0 +1,36 @@
+{
+  "schema": "sancta-user-art-approvals/v1",
+  "approvals": [
+    {
+      "id": "fire-contour-20261004",
+      "recorded_at_utc": "2026-10-04T12:11:00.406329+00:00",
+      "user_quote": "fireball está óptimo.",
+      "approved_properties": "Esfera e contorno/ligação do rasto atuais do Fire Bolt/Fire Ball mostrados na comparação Antes/Agora.",
+      "approval_kind": "explicit_user_art_approval",
+      "assets": [
+        {
+          "slug": "fire-bolt-i",
+          "system": "/Game/VFXLab/ArtReview20261003/FireBoltIArtR3_ef982e3a/NS_FireBoltIArtR3_ef982e3a",
+          "editable_source_sha256": "ef982e3a5dc8f43d87e726c0b5d940d96d05ea8fd200fc7a141f634f14146b24"
+        },
+        {
+          "slug": "fire-bolt-ii",
+          "system": "/Game/VFXLab/ArtReview20261003/FireBoltIIArtR3_782de6bc/NS_FireBoltIIArtR3_782de6bc",
+          "editable_source_sha256": "782de6bc72ab195512ab1570cc731b7ef2a5f4fba22966bc0fc69d05eeef5089"
+        },
+        {
+          "slug": "FireBoltIFlight",
+          "system": "/Game/VFXLab/ArtReview20261003/FireboltiflightArtR3_911a0770/NS_FireboltiflightArtR3_911a0770",
+          "editable_source_sha256": "911a0770ca460da7ddbec1c3fc6086f8fde128616999e3a8501155a8ff266c96"
+        },
+        {
+          "slug": "FireBoltIIFlight",
+          "system": "/Game/VFXLab/ArtReview20261003/FireboltiiflightArtR3_8d66d296/NS_FireboltiiflightArtR3_8d66d296",
+          "editable_source_sha256": "8d66d29650fd7dcd9aeee7ff656fbcc713a58f34a630399a06c54832c8d84d6c"
+        }
+      ],
+      "visual_evidence": "Saved/QualityContactSheets/fire-contour-before-after.png",
+      "scope_limit": "A aprovação diz respeito à aparência da esfera/rasto; não certifica integração de gameplay, impactos/procs, custos ou produção."
+    }
+  ]
+}

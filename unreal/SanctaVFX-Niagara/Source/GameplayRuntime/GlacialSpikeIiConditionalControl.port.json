@@ -1,0 +1,217 @@
+{
+  "slug": "GlacialSpikeIiConditionalControl",
+  "title": "GlacialSpikeIiConditionalControl",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 4,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        1.3
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0.0,
+              0,
+              0.0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              1
+            ]
+          ]
+        },
+        "aD": {
+          "size": 4,
+          "values": [
+            [
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; attribute vec4 aD; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){ float u = uTime - aT; if (u < 0. || u > 1.05){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK; vP = position.xy;\n      if (aK > 4.5){                                          // cone frost front: ground quad centred on the caster, +y = forward\n        vec3 fw = vec3(aD.x, 0., aD.y), rt = vec3(-aD.y, 0., aD.x); float S = aD.z + .4;\n        vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + rt*vP.x + fw*vP.y + vec3(0., .03, 0.), 1.); return; }\n      if (aK > 2.5){                                          // Weave: a resource mote flies back to the caster on a curved path\n        float k = clamp((u - aD.w)/.45, 0., 1.); if (u < aD.w || k >= 1.){ gl_Position = vec4(2.,2.,2.,1.); return; }\n        float e = k*k*(3. - 2.*k); vec3 A = aO + vec3(0., 1.2, 0.), B = aD.xyz;\n        vec3 side = normalize(cross(B - A, vec3(0., 1., 0.)))*sin(aD.w*37.)*.8;\n        vec3 P = mix(A, B, e) + (side + vec3(0., .9, 0.))*sin(3.14159*e);\n        vec4 mv = viewMatrix*vec4(P, 1.); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = projectionMatrix*mv; return; }\n      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .03, -position.y*S), 1.); }\n      else if (aK < 1.5){ vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.34; float S = .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }   /* II lock star on the chest */\n      else { vec4 mv = viewMatrix*vec4(aO + vec3(0., 1.2, 0.), 1.); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv; }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float h1(float n){ return fract(sin(n*91.7)*43758.5); }\n    void main(){\n      float lum = 0., hot = 0., t = vU/1.05;\n      if (vK > 4.5){\n        // frost front inside the cone (6 m, 80°): a thin bright front sweeps out, a faint rime stays behind, cone edges as thin lines\n        float Rm = 6., hf = .698, r = length(vP), a = atan(vP.x, vP.y);\n        float inside = smoothstep(hf + .03, hf - .03, abs(a))*smoothstep(Rm + .15, Rm - .1, r)*step(0., vP.y);\n        float F = mix(.4, Rm, 1. - pow(1. - clamp(vU/.35, 0., 1.), 2.)), fade = 1. - smoothstep(.75, 1., vU);\n        float front = exp(-pow((r - F)/.1, 2.))*(1. - smoothstep(.3, .45, vU)*.7);\n        float rime = smoothstep(F, F - 1.5, r)*.05;\n        float edge = exp(-pow((abs(a) - hf)*r/.018, 2.))*step(r, F)*step(.3, r)*.5;\n        lum = (front*.9 + rime + edge)*inside*fade; hot = front*inside*fade*.35;\n        lum *= smoothstep(.2, .6, r);\n      } else if (vK < .5){\n        float r = length(vP), e = pow(clamp(vU/.25, 0., 1.), 3.), R = .8 - .65*e, f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.55, 1., t));\n        lum += exp(-pow(abs(r - R)/.016, 2.4))*f; hot += lcore(r - R, .005)*f*.6;\n        lum *= smoothstep(.95, .85, r); hot *= smoothstep(.95, .85, r);\n      } else if (vK < 1.5){\n        // II · control snap (only if the target was already Slowed): three thin angular ice shards slam inward (reverse ease-in)\n        // and lock into a rigid star on the chest, 2-frame peak, hold, then crack and go — short, not a Stun\n        float k = clamp(vU/.09, 0., 1.), e = k*k*k, lock = vU >= .09 && vU < .123 ? 1.8 : 1.;\n        float f = step(0., vU)*(1. - smoothstep(.22, .35, vU));\n        for (int i = 0; i < 3; i++){ float fi = float(i), an = fi*2.0944 + .52;\n          vec2 dir = vec2(cos(an), sin(an)), nr = vec2(-dir.y, dir.x);\n          vec2 c = dir*mix(.42, 0., e);                                   // each shard travels in from outside to the centre\n          vec2 q = vP - c; float al = dot(q, dir), ac = dot(q, nr);\n          float L = .2, w = .026*max(1. - abs(al)/L, 0.);                        // long, thin, pointed at both ends\n          float sh = exp(-pow(ac/max(w, .002), 2.))*step(abs(al), L)*pow(max(1. - abs(al)/L, 0.), .4);\n          lum += sh*1.1; hot += sh*exp(-pow(ac/max(w*.3, .001), 2.))*.6; }\n        float r = length(vP), crk = vU > .2 ? exp(-pow((abs(sin(atan(vP.y, vP.x)*3.)) - .05)/.05, 2.))*smoothstep(.3, .05, r)*(1. - smoothstep(.2, .35, vU))*.5 : 0.;\n        lum = (lum + crk)*f*lock; hot *= f*lock;\n        lum *= smoothstep(.5, .4, r); hot *= smoothstep(.5, .4, r);\n      } else {\n        if (vK > 2.5){ float r = length(vP); float m = exp(-r*r*8.)*(1. - vU)*1.6;       // Weave mote\n          vec3 o = uGold*m + vec3(1., .95, .8)*exp(-r*r*40.)*(1. - vU);\n          if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); return; }\n        // compact fire burst on the target: bright sphere pops, flame tongues flare out short and die fast\n        float r = length(vP), a = atan(vP.y, vP.x), t2 = clamp(vU/.35, 0., 1.);\n        float R = .12 + .25*(1. - pow(1. - t2, 3.)), fl = .5 + .5*sin(a*9. + 2.)*sin(a*4. - 1.);\n        float body = exp(-r*r*(30. + 50.*t2))*(vU < .033 ? 2. : 1.4*(1. - t2));\n        float tongues = pow(max(0., cos(a*6.))*fl, 2.)*smoothstep(R + .18*fl, R, r)*smoothstep(.05, .15, r)*(1. - t2);\n        float rim = exp(-pow((r - R)/.03, 2.))*(1. - t2)*.8;\n        lum += body*.6; hot = body*.3;                                     /* short cold flash */\n        for (int i = 0; i < 7; i++){ float fi = float(i), hh = fract(sin(fi*37.7)*4375.5);\n          float an = 3.14159 + (fi/6. - .5)*2.6 + (hh - .5)*.3;                 /* shards fly back and to the sides */\n          vec2 dir = vec2(cos(an), sin(an) + .25), nr = vec2(-dir.y, dir.x);\n          vec2 c = dir*(.06 + .45*(1. - pow(1. - t2, 2.)))*(.7 + .5*hh) + vec2(0., -.25*t2*t2);\n          vec2 q = vP - c; float al = dot(q, normalize(dir)), ac = dot(q, normalize(nr));\n          float sz = .035 + .025*hh; float sh = exp(-(abs(al)/(sz*1.8) + abs(ac)/(sz*.6))*2.5);\n          lum += sh*(1. - t2)*1.2; hot += sh*(1. - t2)*.5; }\n        lum *= smoothstep(.75, .62, r); hot *= smoothstep(.75, .62, r);\n      }\n      vec3 o = uOrange*lum + mix(uGold, vec3(1.), .5)*hot;\n      if (max(o.r, max(o.g, o.b)) < .002) discard;\n      gl_FragColor = vec4(o, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.009600000000184
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.6866853124288864,
+            0.9046611743890203,
+            1
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            0.04970656597728775,
+            0.3915724777393922,
+            1
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "lighting": "unlit",
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "runtime_binding": {
+        "anchor": "float3(0.0,0,0.0)",
+        "attributes": {},
+        "defaults": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {},
+      "attribute_texture": {
+        "source": "Source/ReferenceTextures/T_Attributes_c752f182eaef9411.png",
+        "name": "T_Attributes_c752f182eaef9411",
+        "width": 256,
+        "height": 1,
+        "stride": 9,
+        "offsets": {
+          "aO": 0,
+          "aT": 3,
+          "aK": 4,
+          "aD": 5
+        },
+        "format": "float32 bits packed into linear uncompressed RGBA8; read mip 0"
+      },
+      "mesh_source": "Source/ReferenceGeometry/SM_Reference_882629656f3a3e7c.obj",
+      "mesh_name": "SM_Reference_882629656f3a3e7c",
+      "hlsl": "struct ReferencePort {\nfloat3 aO;\nfloat aT;\nfloat aK;\nfloat4 aD;\nfloat uTime;\nfloat2 vP;\nfloat vU;\nfloat vK;\nfloat3 uGold;\nfloat3 uOrange;\nfloat3 position;\nfloat3 normal;\nfloat2 uv;\nfloat3 cameraPosition;\nfloat4x4 projectionMatrix;\nfloat4x4 viewMatrix;\nfloat4x4 modelViewMatrix;\nfloat4x4 modelMatrix;\nfloat3x3 normalMatrix;\nfloat4 gl_Position;\nfloat2 gl_PointCoord;\nfloat4 gl_FragCoord;\nbool gl_FrontFacing;\nfloat Valid;\nTexture2D AttributeData;\n\nfloat2 v2(float x){return x.xx;} float2 v2(float x,float y){return float2(x,y);}\nfloat2 v2(float2 x){return x;} float2 v2(float3 x){return x.xy;} float2 v2(float4 x){return x.xy;}\nfloat3 v3(float x){return x.xxx;} float3 v3(float x,float y,float z){return float3(x,y,z);}\nfloat3 v3(float3 x){return x;} float3 v3(float4 x){return x.xyz;}\nfloat3 v3(float2 xy,float z){return float3(xy,z);} float3 v3(float x,float2 yz){return float3(x,yz);}\nfloat4 v4(float x){return x.xxxx;} float4 v4(float x,float y,float z,float w){return float4(x,y,z,w);}\nfloat4 v4(float4 x){return x;} float4 v4(float x,float3 yzw){return float4(x,yzw);}\nfloat4 v4(float x,float y,float2 zw){return float4(x,y,zw);}\nfloat4 v4(float3 xyz,float w){return float4(xyz,w);} float4 v4(float2 xy,float2 zw){return float4(xy,zw);}\nfloat4 v4(float2 xy,float z,float w){return float4(xy,z,w);}\nfloat2x2 m2(float a,float b,float c,float d){return float2x2(a,c,b,d);}\nfloat2x2 m2(float x){return float2x2(x,0,0,x);}\nfloat2x2 m2(float2 a,float2 b){return transpose(float2x2(a,b));}\nfloat3x3 m3(float3 a,float3 b,float3 c){return transpose(float3x3(a,b,c));}\nfloat3x3 m3(float x){return float3x3(x,0,0,0,x,0,0,0,x);}\nfloat3x3 m3(float a,float b,float c,float d,float e,float f,float g,float h,float i){return float3x3(a,d,g,b,e,h,c,f,i);}\nfloat3x3 m3(float4x4 x){return (float3x3)x;} float3x3 m3(float3x3 x){return x;}\nfloat4x4 m4(float x){return float4x4(x,0,0,0,0,x,0,0,0,0,x,0,0,0,0,x);}\nfloat gmod(float a,float b){return a-b*floor(a/b);}\nfloat2 gmod(float2 a,float b){return a-b*floor(a/b);}\nfloat2 gmod(float2 a,float2 b){return a-b*floor(a/b);}\nfloat3 gmod(float3 a,float b){return a-b*floor(a/b);}\nfloat3 gmod(float3 a,float3 b){return a-b*floor(a/b);}\n\nfloat4 sampleReference(Texture2D SourceTexture,SamplerState sampleState,float2 coord){return SourceTexture.SampleLevel(sampleState,coord,0);}\nfloat ReadAttribute(int index){uint4 b=(uint4)round(AttributeData.Load(int3(index%256,index/256,0))*255);return asfloat(b.r|(b.g<<8)|(b.b<<16)|(b.a<<24));}\nfloat3 attr_aO(int index){return v3(ReadAttribute(index*9+0+0),ReadAttribute(index*9+0+1),ReadAttribute(index*9+0+2));}\nfloat attr_aT(int index){return ReadAttribute(index*9+3+0);}\nfloat attr_aK(int index){return ReadAttribute(index*9+4+0);}\nfloat4 attr_aD(int index){return v4(ReadAttribute(index*9+5+0),ReadAttribute(index*9+5+1),ReadAttribute(index*9+5+2),ReadAttribute(index*9+5+3));}\n     \n    void Vertex(){ float u = uTime - aT; if (u < 0. || u > 1.05){ Valid=0;return; }\n      vU = u; vK = aK; vP = position.xy;\n      if (aK > 4.5){                                          \n        float3 fw = v3(aD.x, 0., aD.y), rt = v3(-aD.y, 0., aD.x); float S = aD.z + .4;\n        vP = position.xy*S; gl_Position = mul(projectionMatrix,mul(viewMatrix,v4(aO + rt*vP.x + fw*vP.y + v3(0., .03, 0.), 1.))); return; }\n      if (aK > 2.5){                                          \n        float k = clamp((u - aD.w)/.45, 0., 1.); if (u < aD.w || k >= 1.){ Valid=0;return; }\n        float e = k*k*(3. - 2.*k); float3 A = aO + v3(0., 1.2, 0.), B = aD.xyz;\n        float3 side = normalize(cross(B - A, v3(0., 1., 0.)))*sin(aD.w*37.)*.8;\n        float3 P = lerp(A, B, e) + (side + v3(0., .9, 0.))*sin(3.14159*e);\n        float4 mv = mul(viewMatrix,v4(P, 1.)); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = mul(projectionMatrix,mv); return; }\n      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = mul(projectionMatrix,mul(viewMatrix,v4(aO + v3(position.x*S, .03, -position.y*S), 1.))); }\n      else if (aK < 1.5){ float4 mv = mul(viewMatrix,v4(aO + v3(0., 1.2, 0.), 1.)); mv.xyz += normalize(-mv.xyz)*.34; float S = .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = mul(projectionMatrix,mv); }   \n      else { float4 mv = mul(viewMatrix,v4(aO + v3(0., 1.2, 0.), 1.)); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = mul(projectionMatrix,mv); }\n    }\n   float F_lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    float F_h1(float n){ return frac(sin(n*91.7)*43758.5); }\n    float4 Fragment(){\n      float lum = 0., hot = 0., t = vU/1.05;\n      if (vK > 4.5){\n        \n        float Rm = 6., hf = .698, r = length(vP), a = atan2(vP.x, vP.y);\n        float inside = smoothstep(hf + .03, hf - .03, abs(a))*smoothstep(Rm + .15, Rm - .1, r)*step(0., vP.y);\n        float F = lerp(.4, Rm, 1. - pow(1. - clamp(vU/.35, 0., 1.), 2.)), fade = 1. - smoothstep(.75, 1., vU);\n        float front = exp(-pow((r - F)/.1, 2.))*(1. - smoothstep(.3, .45, vU)*.7);\n        float rime = smoothstep(F, F - 1.5, r)*.05;\n        float edge = exp(-pow((abs(a) - hf)*r/.018, 2.))*step(r, F)*step(.3, r)*.5;\n        lum = (front*.9 + rime + edge)*inside*fade; hot = front*inside*fade*.35;\n        lum *= smoothstep(.2, .6, r);\n      } else if (vK < .5){\n        float r = length(vP), e = pow(clamp(vU/.25, 0., 1.), 3.), R = .8 - .65*e, f = (vU < .033 ? 1.5 : 1.)*(1. - smoothstep(.55, 1., t));\n        lum += exp(-pow(abs(r - R)/.016, 2.4))*f; hot += F_lcore(r - R, .005)*f*.6;\n        lum *= smoothstep(.95, .85, r); hot *= smoothstep(.95, .85, r);\n      } else if (vK < 1.5){\n        \n        \n        float k = clamp(vU/.09, 0., 1.), e = k*k*k, lock = vU >= .09 && vU < .123 ? 1.8 : 1.;\n        float f = step(0., vU)*(1. - smoothstep(.22, .35, vU));\n        for (int i = 0; i < 3; i++){ float fi = float(i), an = fi*2.0944 + .52;\n          float2 dir = v2(cos(an), sin(an)), nr = v2(-dir.y, dir.x);\n          float2 c = dir*lerp(.42, 0., e);                                   \n          float2 q = vP - c; float al = dot(q, dir), ac = dot(q, nr);\n          float L = .2, w = .026*max(1. - abs(al)/L, 0.);                        \n          float sh = exp(-pow(ac/max(w, .002), 2.))*step(abs(al), L)*pow(max(1. - abs(al)/L, 0.), .4);\n          lum += sh*1.1; hot += sh*exp(-pow(ac/max(w*.3, .001), 2.))*.6; }\n        float r = length(vP), crk = vU > .2 ? exp(-pow((abs(sin(atan2(vP.y, vP.x)*3.)) - .05)/.05, 2.))*smoothstep(.3, .05, r)*(1. - smoothstep(.2, .35, vU))*.5 : 0.;\n        lum = (lum + crk)*f*lock; hot *= f*lock;\n        lum *= smoothstep(.5, .4, r); hot *= smoothstep(.5, .4, r);\n      } else {\n        if (vK > 2.5){ float r = length(vP); float m = exp(-r*r*8.)*(1. - vU)*1.6;       \n          float3 o = uGold*m + v3(1., .95, .8)*exp(-r*r*40.)*(1. - vU);\n          if (max(o.r, max(o.g, o.b)) < .002) return v4(0); return  v4(o, 1.); return v4(0); }\n        \n        float r = length(vP), a = atan2(vP.y, vP.x), t2 = clamp(vU/.35, 0., 1.);\n        float R = .12 + .25*(1. - pow(1. - t2, 3.)), fl = .5 + .5*sin(a*9. + 2.)*sin(a*4. - 1.);\n        float body = exp(-r*r*(30. + 50.*t2))*(vU < .033 ? 2. : 1.4*(1. - t2));\n        float tongues = pow(max(0., cos(a*6.))*fl, 2.)*smoothstep(R + .18*fl, R, r)*smoothstep(.05, .15, r)*(1. - t2);\n        float rim = exp(-pow((r - R)/.03, 2.))*(1. - t2)*.8;\n        lum += body*.6; hot = body*.3;                                     \n        for (int i = 0; i < 7; i++){ float fi = float(i), hh = frac(sin(fi*37.7)*4375.5);\n          float an = 3.14159 + (fi/6. - .5)*2.6 + (hh - .5)*.3;                 \n          float2 dir = v2(cos(an), sin(an) + .25), nr = v2(-dir.y, dir.x);\n          float2 c = dir*(.06 + .45*(1. - pow(1. - t2, 2.)))*(.7 + .5*hh) + v2(0., -.25*t2*t2);\n          float2 q = vP - c; float al = dot(q, normalize(dir)), ac = dot(q, normalize(nr));\n          float sz = .035 + .025*hh; float sh = exp(-(abs(al)/(sz*1.8) + abs(ac)/(sz*.6))*2.5);\n          lum += sh*(1. - t2)*1.2; hot += sh*(1. - t2)*.5; }\n        lum *= smoothstep(.75, .62, r); hot *= smoothstep(.75, .62, r);\n      }\n      float3 o = uOrange*lum + lerp(uGold, v3(1.), .5)*hot;\n      if (max(o.r, max(o.g, o.b)) < .002) return v4(0);\n      return  v4(o, 1.);\n    }\n};\n\nint ReferenceIndex=(int)round(Index);\nfloat ReferenceTime=lerp(Age*Duration+TimeOrigin,RuntimeAge+TimeOrigin,RuntimeEnabled);\nReferencePort f;\nf.Valid=1;\nf.uv=UV;\nf.position=float3((WorldPosition.y-ParticlePosition.y)/100,(WorldPosition.z-ParticlePosition.z)/100,-(WorldPosition.x-ParticlePosition.x)/100);\nf.normal=normalize(float3(Normal.y,Normal.z,-Normal.x));\nf.cameraPosition=float3((CameraPosition.y-ParticlePosition.y)/100,(CameraPosition.z-ParticlePosition.z)/100,-(CameraPosition.x-ParticlePosition.x)/100);\n\nfloat3 rx=RuntimeBasisX.xyz,ry=RuntimeBasisY.xyz,rz=RuntimeBasisZ.xyz;\nfloat3 cameraDelta=CameraPosition-ParticlePosition;\nfloat3 localCamera=float3(dot(cameraDelta,rx)/max(dot(rx,rx),1e-6),dot(cameraDelta,ry)/max(dot(ry,ry),1e-6),dot(cameraDelta,rz)/max(dot(rz,rz),1e-6));\nf.cameraPosition=lerp(f.cameraPosition,float3(localCamera.y,localCamera.z,-localCamera.x)/100,RuntimeEnabled);\n\nfloat3 back=normalize(f.cameraPosition-float3(0,1,0)), right=normalize(cross(float3(0,1,0),back)), up=cross(back,right);\nfloat3 cam=f.cameraPosition;\nf.viewMatrix=float4x4(right.x,right.y,right.z,-dot(right,cam),up.x,up.y,up.z,-dot(up,cam),back.x,back.y,back.z,-dot(back,cam),0,0,0,1);\nfloat A=1.428148/max(ViewportSize.x/ViewportSize.y,.1),B=1.428148,C=-1.002002,D=-.2002002;\nf.projectionMatrix=float4x4(A,0,0,0,0,B,0,0,0,0,C,D,0,0,-1,0);\nf.modelViewMatrix=f.viewMatrix;f.modelMatrix=f.m4(1);f.normalMatrix=f.m3(1);\nf.gl_Position=f.v4(0);f.gl_PointCoord=UV;f.gl_FragCoord=float4(float2(ScreenUV.x,1-ScreenUV.y)*ViewportSize,0,1);f.gl_FrontFacing=true;\n\nf.position=f.v3(-1.0,-1.0,0.0)+f.v3(2.0,-4.4408921e-16,0.0)*UV.x+f.v3(-2.22044605e-16,2.0,0.0)*UV.y;\n\nf.AttributeData=AttributeData;\nf.aO=f.attr_aO(ReferenceIndex);\nf.aT=f.attr_aT(ReferenceIndex);\nf.aK=f.attr_aK(ReferenceIndex);\nf.aD=f.attr_aD(ReferenceIndex);\nf.uTime=ReferenceTime;\nf.vP=(float2)0;\nf.vU=(float)0;\nf.vK=(float)0;\nf.uGold=f.v3(0.686685312,0.904661174,1.0);\nf.uOrange=f.v3(0.049706566,0.391572478,1.0);\n\nfloat3 RuntimeAnchor=float3(0.0,0,0.0);\nRuntimeAnchor=float3(0.0,0,0.0);\nf.cameraPosition+=RuntimeAnchor*RuntimeEnabled;\n\ncam=f.cameraPosition;\nback=normalize(cam-RuntimeAnchor*RuntimeEnabled-float3(0,1,0));right=normalize(cross(float3(0,1,0),back));up=cross(back,right);\nf.viewMatrix=float4x4(right.x,right.y,right.z,-dot(right,cam),up.x,up.y,up.z,-dot(up,cam),back.x,back.y,back.z,-dot(back,cam),0,0,0,1);\nf.modelViewMatrix=f.viewMatrix;\n\nf.Vertex();if(f.Valid<.5)return float4(0,0,0,0);return f.Fragment();",
+      "texture_inputs": [],
+      "hlsl_vertex": "struct ReferencePort {\nfloat3 aO;\nfloat aT;\nfloat aK;\nfloat4 aD;\nfloat uTime;\nfloat2 vP;\nfloat vU;\nfloat vK;\nfloat3 position;\nfloat3 normal;\nfloat2 uv;\nfloat3 cameraPosition;\nfloat4x4 projectionMatrix;\nfloat4x4 viewMatrix;\nfloat4x4 modelViewMatrix;\nfloat4x4 modelMatrix;\nfloat3x3 normalMatrix;\nfloat4 gl_Position;\nfloat2 gl_PointCoord;\nfloat4 gl_FragCoord;\nbool gl_FrontFacing;\nfloat Valid;\nTexture2D AttributeData;\n\nfloat2 v2(float x){return x.xx;} float2 v2(float x,float y){return float2(x,y);}\nfloat2 v2(float2 x){return x;} float2 v2(float3 x){return x.xy;} float2 v2(float4 x){return x.xy;}\nfloat3 v3(float x){return x.xxx;} float3 v3(float x,float y,float z){return float3(x,y,z);}\nfloat3 v3(float3 x){return x;} float3 v3(float4 x){return x.xyz;}\nfloat3 v3(float2 xy,float z){return float3(xy,z);} float3 v3(float x,float2 yz){return float3(x,yz);}\nfloat4 v4(float x){return x.xxxx;} float4 v4(float x,float y,float z,float w){return float4(x,y,z,w);}\nfloat4 v4(float4 x){return x;} float4 v4(float x,float3 yzw){return float4(x,yzw);}\nfloat4 v4(float x,float y,float2 zw){return float4(x,y,zw);}\nfloat4 v4(float3 xyz,float w){return float4(xyz,w);} float4 v4(float2 xy,float2 zw){return float4(xy,zw);}\nfloat4 v4(float2 xy,float z,float w){return float4(xy,z,w);}\nfloat2x2 m2(float a,float b,float c,float d){return float2x2(a,c,b,d);}\nfloat2x2 m2(float x){return float2x2(x,0,0,x);}\nfloat2x2 m2(float2 a,float2 b){return transpose(float2x2(a,b));}\nfloat3x3 m3(float3 a,float3 b,float3 c){return transpose(float3x3(a,b,c));}\nfloat3x3 m3(float x){return float3x3(x,0,0,0,x,0,0,0,x);}\nfloat3x3 m3(float a,float b,float c,float d,float e,float f,float g,float h,float i){return float3x3(a,d,g,b,e,h,c,f,i);}\nfloat3x3 m3(float4x4 x){return (float3x3)x;} float3x3 m3(float3x3 x){return x;}\nfloat4x4 m4(float x){return float4x4(x,0,0,0,0,x,0,0,0,0,x,0,0,0,0,x);}\nfloat gmod(float a,float b){return a-b*floor(a/b);}\nfloat2 gmod(float2 a,float b){return a-b*floor(a/b);}\nfloat2 gmod(float2 a,float2 b){return a-b*floor(a/b);}\nfloat3 gmod(float3 a,float b){return a-b*floor(a/b);}\nfloat3 gmod(float3 a,float3 b){return a-b*floor(a/b);}\n\nfloat4 sampleReference(Texture2D SourceTexture,SamplerState sampleState,float2 coord){return SourceTexture.SampleLevel(sampleState,coord,0);}\nfloat ReadAttribute(int index){uint4 b=(uint4)round(AttributeData.Load(int3(index%256,index/256,0))*255);return asfloat(b.r|(b.g<<8)|(b.b<<16)|(b.a<<24));}\nfloat3 attr_aO(int index){return v3(ReadAttribute(index*9+0+0),ReadAttribute(index*9+0+1),ReadAttribute(index*9+0+2));}\nfloat attr_aT(int index){return ReadAttribute(index*9+3+0);}\nfloat attr_aK(int index){return ReadAttribute(index*9+4+0);}\nfloat4 attr_aD(int index){return v4(ReadAttribute(index*9+5+0),ReadAttribute(index*9+5+1),ReadAttribute(index*9+5+2),ReadAttribute(index*9+5+3));}\n     \n    void Vertex(){ float u = uTime - aT; if (u < 0. || u > 1.05){ Valid=0;return; }\n      vU = u; vK = aK; vP = position.xy;\n      if (aK > 4.5){                                          \n        float3 fw = v3(aD.x, 0., aD.y), rt = v3(-aD.y, 0., aD.x); float S = aD.z + .4;\n        vP = position.xy*S; gl_Position = mul(projectionMatrix,mul(viewMatrix,v4(aO + rt*vP.x + fw*vP.y + v3(0., .03, 0.), 1.))); return; }\n      if (aK > 2.5){                                          \n        float k = clamp((u - aD.w)/.45, 0., 1.); if (u < aD.w || k >= 1.){ Valid=0;return; }\n        float e = k*k*(3. - 2.*k); float3 A = aO + v3(0., 1.2, 0.), B = aD.xyz;\n        float3 side = normalize(cross(B - A, v3(0., 1., 0.)))*sin(aD.w*37.)*.8;\n        float3 P = lerp(A, B, e) + (side + v3(0., .9, 0.))*sin(3.14159*e);\n        float4 mv = mul(viewMatrix,v4(P, 1.)); float S = .09; mv.xy += position.xy*S; vU = k; gl_Position = mul(projectionMatrix,mv); return; }\n      if (aK < .5){ float S = .95; vP = position.xy*S; gl_Position = mul(projectionMatrix,mul(viewMatrix,v4(aO + v3(position.x*S, .03, -position.y*S), 1.))); }\n      else if (aK < 1.5){ float4 mv = mul(viewMatrix,v4(aO + v3(0., 1.2, 0.), 1.)); mv.xyz += normalize(-mv.xyz)*.34; float S = .5; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = mul(projectionMatrix,mv); }   \n      else { float4 mv = mul(viewMatrix,v4(aO + v3(0., 1.2, 0.), 1.)); mv.xyz += normalize(-mv.xyz)*.3; float S = .75; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = mul(projectionMatrix,mv); }\n    }\n\n};\n\nint ReferenceIndex=(int)round(Index);\nfloat ReferenceTime=lerp(Age*Duration+TimeOrigin,RuntimeAge+TimeOrigin,RuntimeEnabled);\nReferencePort f;\nf.Valid=1;\nf.uv=UV;\nf.position=float3((WorldPosition.y-ParticlePosition.y)/100,(WorldPosition.z-ParticlePosition.z)/100,-(WorldPosition.x-ParticlePosition.x)/100);\nf.normal=normalize(float3(Normal.y,Normal.z,-Normal.x));\nf.cameraPosition=float3((CameraPosition.y-ParticlePosition.y)/100,(CameraPosition.z-ParticlePosition.z)/100,-(CameraPosition.x-ParticlePosition.x)/100);\n\nfloat3 rx=RuntimeBasisX.xyz,ry=RuntimeBasisY.xyz,rz=RuntimeBasisZ.xyz;\nfloat3 cameraDelta=CameraPosition-ParticlePosition;\nfloat3 localCamera=float3(dot(cameraDelta,rx)/max(dot(rx,rx),1e-6),dot(cameraDelta,ry)/max(dot(ry,ry),1e-6),dot(cameraDelta,rz)/max(dot(rz,rz),1e-6));\nf.cameraPosition=lerp(f.cameraPosition,float3(localCamera.y,localCamera.z,-localCamera.x)/100,RuntimeEnabled);\n\nfloat3 back=normalize(f.cameraPosition-float3(0,1,0)), right=normalize(cross(float3(0,1,0),back)), up=cross(back,right);\nfloat3 cam=f.cameraPosition;\nf.viewMatrix=float4x4(right.x,right.y,right.z,-dot(right,cam),up.x,up.y,up.z,-dot(up,cam),back.x,back.y,back.z,-dot(back,cam),0,0,0,1);\nfloat A=1.428148/max(ViewportSize.x/ViewportSize.y,.1),B=1.428148,C=-1.002002,D=-.2002002;\nf.projectionMatrix=float4x4(A,0,0,0,0,B,0,0,0,0,C,D,0,0,-1,0);\nf.modelViewMatrix=f.viewMatrix;f.modelMatrix=f.m4(1);f.normalMatrix=f.m3(1);\nf.gl_Position=f.v4(0);f.gl_PointCoord=UV;f.gl_FragCoord=float4(UV*ViewportSize,0,1);f.gl_FrontFacing=true;\n\nf.position=f.v3(-1.0,-1.0,0.0)+f.v3(2.0,-4.4408921e-16,0.0)*UV.x+f.v3(-2.22044605e-16,2.0,0.0)*UV.y;\n\nf.AttributeData=AttributeData;\nf.aO=f.attr_aO(ReferenceIndex);\nf.aT=f.attr_aT(ReferenceIndex);\nf.aK=f.attr_aK(ReferenceIndex);\nf.aD=f.attr_aD(ReferenceIndex);\nf.uTime=ReferenceTime;\nf.vP=(float2)0;\nf.vU=(float)0;\nf.vK=(float)0;\n\nfloat3 RuntimeAnchor=float3(0.0,0,0.0);\nRuntimeAnchor=float3(0.0,0,0.0);\nf.cameraPosition+=RuntimeAnchor*RuntimeEnabled;\n\ncam=f.cameraPosition;\nback=normalize(cam-RuntimeAnchor*RuntimeEnabled-float3(0,1,0));right=normalize(cross(float3(0,1,0),back));up=cross(back,right);\nf.viewMatrix=float4x4(right.x,right.y,right.z,-dot(right,cam),up.x,up.y,up.z,-dot(up,cam),back.x,back.y,back.z,-dot(back,cam),0,0,0,1);\nf.modelViewMatrix=f.viewMatrix;\n\nf.Vertex();\nif(f.Valid<.5)return float3(0,0,0);\nfloat4 p=f.gl_Position;\nfloat4 vp=float4(p.x/A,p.y/B,-p.w,(p.z+C*p.w)/D);\nvp.xyz/=max(abs(vp.w),1e-6)*sign(vp.w);\nfloat3 destination=cam+right*vp.x+up*vp.y+back*vp.z;\n\ndestination-=RuntimeAnchor*RuntimeEnabled;\nfloat3 referencePosition=float3(-destination.z,destination.x,destination.y)*100;\nfloat3 ownerPosition=rx*referencePosition.x+ry*referencePosition.y+rz*referencePosition.z;\nreturn ParticlePosition+lerp(referencePosition,ownerPosition,RuntimeEnabled)-WorldPosition;\n\n",
+      "port_status": "source_translated",
+      "runtime_shader_inputs": {
+        "RuntimeEnabled": 0.0,
+        "RuntimeAge": 0.0,
+        "RuntimeCount": 0.0,
+        "RuntimeMax": 10.0,
+        "RuntimeElementA": 0.0,
+        "RuntimeElementB": 1.0,
+        "RuntimeOccupied": 3.0,
+        "RuntimeGainAge": -1.0,
+        "RuntimePending": 0.0,
+        "RuntimeCastProgress": 0.0,
+        "RuntimeReleaseAge": -1.0,
+        "RuntimeBasisX": [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "RuntimeBasisY": [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        "RuntimeBasisZ": [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "RuntimeEndpoint": [
+          0.0,
+          0.0,
+          -6.0,
+          0.0
+        ]
+      }
+    }
+  ],
+  "preview_duration": 1.3,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.3
+  },
+  "port_ready": true
+}

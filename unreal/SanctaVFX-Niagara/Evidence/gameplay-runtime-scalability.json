@@ -1,0 +1,72 @@
+{
+  "effect_types": [
+    {
+      "importance": "Essential",
+      "asset": "/Game/Sancta/VFX/Common/Scalability/NET_Essential",
+      "limits_enabled": false,
+      "profiles": [
+        {
+          "mask": 1,
+          "distance_cm": 1500,
+          "maximum_instances": 32
+        },
+        {
+          "mask": 2,
+          "distance_cm": 2500,
+          "maximum_instances": 64
+        },
+        {
+          "mask": 28,
+          "distance_cm": 4000,
+          "maximum_instances": 96
+        }
+      ]
+    },
+    {
+      "importance": "Gameplay",
+      "asset": "/Game/Sancta/VFX/Common/Scalability/NET_Gameplay",
+      "limits_enabled": false,
+      "profiles": [
+        {
+          "mask": 1,
+          "distance_cm": 1500,
+          "maximum_instances": 32
+        },
+        {
+          "mask": 2,
+          "distance_cm": 2500,
+          "maximum_instances": 64
+        },
+        {
+          "mask": 28,
+          "distance_cm": 4000,
+          "maximum_instances": 96
+        }
+      ]
+    },
+    {
+      "importance": "Decorative",
+      "asset": "/Game/Sancta/VFX/Common/Scalability/NET_Decorative",
+      "limits_enabled": true,
+      "profiles": [
+        {
+          "mask": 1,
+          "distance_cm": 1500,
+          "maximum_instances": 32
+        },
+        {
+          "mask": 2,
+          "distance_cm": 2500,
+          "maximum_instances": 64
+        },
+        {
+          "mask": 28,
+          "distance_cm": 4000,
+          "maximum_instances": 96
+        }
+      ]
+    }
+  ],
+  "budget_approval": false,
+  "scope": "Tunable lab starting limits; essential and gameplay never suppressed by these distance/count profiles. Verify on target hardware before shipping."
+}

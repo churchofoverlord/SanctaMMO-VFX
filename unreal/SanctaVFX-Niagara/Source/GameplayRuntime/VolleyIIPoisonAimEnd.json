@@ -1,0 +1,156 @@
+{
+  "slug": "VolleyIIPoisonAimEnd",
+  "title": "VolleyIIPoisonAimEnd",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 2,
+      "count": 1,
+      "cast_time": 2.006200000000185,
+      "end_times": [
+        2.786199979782104
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              2.006200075149536
+            ]
+          ]
+        },
+        "aR": {
+          "size": 1,
+          "values": [
+            [
+              2.6061999797821045
+            ]
+          ]
+        },
+        "aY": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ],
+        "vertex_attributes": {}
+      },
+      "vertex": "uniform float uReadyAge;\nattribute vec3 aO; attribute float aT, aR, aY; uniform float uTime; varying vec2 vL; varying float vH, vF, vP;\n    void main(){ float u = uTime - aT; if (u < 0. || uTime - aR > .15){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float hold = min(u, aR - aT); vH = clamp(hold/1.2, 0., 1.);\n      vF = (1. - smoothstep(0., .15, uTime - aR))*smoothstep(0., .08, u);\n      vP = hold >= 1.2 && uReadyAge >= 0. ? max(0.,1.-uReadyAge/.25) : 0.;           // one blink when fully shaped\n      vec2 q = position.xy*19.; float c = cos(aY), s = sin(aY);\n      vL = vec2(q.x, q.y);                                                     // local: x right, y forward\n      vec3 W = aO + vec3(q.x*c - q.y*s, .03, -q.x*s - q.y*c);\n      gl_Position = projectionMatrix*viewMatrix*vec4(W, 1.); }",
+      "fragment": "uniform float uAimHalfAngle;\nuniform vec3 uDot, uDotL; varying vec2 vL; varying float vH, vF, vP;\n    void main(){\n      float r = length(vL), a = atan(vL.x, vL.y), A = uAimHalfAngle, R = 18.;\n      float near = smoothstep(.6, 1.6, r), inR = smoothstep(R + .05, R - .05, r), inA = smoothstep(A + .01, A - .01, abs(a));\n      float edge = exp(-pow((abs(a) - A)*r/mix(.05, .08, vH*vH), 2.))*inR*near*(1. + .6*vH*vH);   // the two borders (one line at the end)\n      float arc = exp(-pow((r - R)/.06, 2.))*inA;                              // the range line\n      float fill = inA*inR*near*smoothstep(R*.35, R, r)*.07;                   // faint, open centre\n      float lum = (edge*.55 + arc*.45 + fill)*(.7 + .3*vH)*(1. + 1.5*vP);\n      vec3 o = mix(uDot, uDotL, .25)*lum*vF*.8;\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 22.606199999999777
+        },
+        "uDot": {
+          "type": "color",
+          "values": [
+            0.11443537381770343,
+            0.7454042095350284,
+            0.06847816983662762
+          ]
+        },
+        "uDotL": {
+          "type": "color",
+          "values": [
+            0.5775804404214573,
+            1,
+            0.43415363616478553
+          ]
+        },
+        "uReadyAge": {
+          "type": "number",
+          "value": -1
+        },
+        "uAimHalfAngle": {
+          "type": "number",
+          "value": 0.44
+        }
+      },
+      "blending": 2,
+      "side": 2,
+      "preview_time_origin": 2.5911999797821044,
+      "runtime_uniforms": {
+        "uReadyAge": "RuntimeGainAge",
+        "uAimHalfAngle": "RuntimeAimHalfAngle"
+      },
+      "runtime_binding": {
+        "anchor": "float3(0,0,0)",
+        "attributes": {
+          "aT": "ReferenceTime-RuntimeCastProgress*1.2-max(RuntimeReleaseAge,0.)",
+          "aR": "RuntimeReleaseAge < 0. ? 1e9 : ReferenceTime-RuntimeReleaseAge"
+        },
+        "defaults": {
+          "RuntimeAimHalfAngle": 0.44
+        }
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.21,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.21
+  }
+}

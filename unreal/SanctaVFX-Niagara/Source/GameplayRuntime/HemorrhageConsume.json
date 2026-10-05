@@ -1,0 +1,200 @@
+{
+  "slug": "HemorrhageConsume",
+  "title": "HemorrhageConsume",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 5,
+      "count": 5,
+      "cast_time": 0,
+      "end_times": [
+        0.6548999999999073
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              -0.01423681527376175,
+              0.8999999761581421,
+              -7.5802412033081055
+            ],
+            [
+              -0.4036093056201935,
+              1.2021232843399048,
+              -7.883812427520752
+            ],
+            [
+              -0.23523589968681335,
+              0.5949484705924988,
+              -8.347942352294922
+            ],
+            [
+              0.2582089304924011,
+              0.905884861946106,
+              -8.331252098083496
+            ],
+            [
+              0.3948360085487366,
+              1.199109673500061,
+              -7.856805801391602
+            ]
+          ]
+        },
+        "aE": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.25,
+              -8
+            ],
+            [
+              0,
+              1.25,
+              -8
+            ],
+            [
+              0,
+              1.25,
+              -8
+            ],
+            [
+              0,
+              1.25,
+              -8
+            ],
+            [
+              0,
+              1.25,
+              -8
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ],
+            [
+              0.0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO, aE; attribute float aT; uniform float uTime; varying vec2 vP; varying float vK;\n    void main(){ float u = uTime - aT; if (u < -.35 || u > 0.12){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      float k = clamp(u/0.12, 0., 1.), e = k*k*k;                     // reverse ease-in: holds, then snaps in\n      vec3 P = mix(aO, aE, e);\n      vec4 mv = viewMatrix*vec4(P, 1.); float S = .07*(1. - .5*e); mv.xy += position.xy*S;\n      vP = position.xy; vK = step(0., u)*k + (1. - step(0., u))*(1. + u/.35)*.0; gl_Position = projectionMatrix*mv; }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vK;\n    void main(){ float r = length(vP); vec3 o = (uOrange*exp(-r*r*5.) + mix(uGold, vec3(1.), .5)*exp(-r*r*30.))*1.1*smoothstep(1., .8, r);\n      if (max(o.r, max(o.g, o.b)) < .002) discard; gl_FragColor = vec4(o, 1.); }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404899999999632
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            1,
+            0.43415363616478553,
+            0.3915724777393922
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.02732089163382382,
+            0.04231141061442144
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "position_from_uv": {
+        "offset": [
+          -0.9999999999999999,
+          -0.9999999999999999,
+          0.0
+        ],
+        "u": [
+          1.9999999999999996,
+          -4.440892098500626e-16,
+          0.0
+        ],
+        "v": [
+          -2.220446049250313e-16,
+          2.0,
+          0.0
+        ]
+      },
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(-0.01423681527376175,0,-7.5802412033081055)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 0.25,
+  "runtime_parameters": {
+    "User.CueLifetime": 0.25
+  }
+}

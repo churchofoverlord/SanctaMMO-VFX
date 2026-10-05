@@ -1,0 +1,129 @@
+{
+  "slug": "ShoulderRushImpact",
+  "title": "ShoulderRushImpact",
+  "class": "runtime",
+  "method": "event_driven_presentation",
+  "layers": [
+    {
+      "pool_index": 1,
+      "count": 1,
+      "cast_time": 0,
+      "end_times": [
+        0.984699999999721
+      ],
+      "attributes": {
+        "aO": {
+          "size": 3,
+          "values": [
+            [
+              0,
+              1.2000000476837158,
+              -4.099999904632568
+            ]
+          ]
+        },
+        "aT": {
+          "size": 1,
+          "values": [
+            [
+              0.0
+            ]
+          ]
+        },
+        "aK": {
+          "size": 1,
+          "values": [
+            [
+              0
+            ]
+          ]
+        }
+      },
+      "geometry": {
+        "position": [
+          -1,
+          1,
+          0,
+          1,
+          1,
+          0,
+          -1,
+          -1,
+          0,
+          1,
+          -1,
+          0
+        ],
+        "normal": [
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        "uv": [
+          0,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "index": [
+          0,
+          2,
+          1,
+          2,
+          3,
+          1
+        ]
+      },
+      "vertex": "attribute vec3 aO; attribute float aT, aK; uniform float uTime; varying vec2 vP; varying float vU, vK;\n    void main(){\n      float u = uTime - aT, life = aK < .5 ? .16 : .3;\n      if (u < 0. || u > life){ gl_Position = vec4(2.,2.,2.,1.); return; }\n      vU = u; vK = aK;\n      if (aK < .5){\n        vec4 mv = viewMatrix*vec4(aO,1.); mv.xyz += normalize(-mv.xyz)*.35;\n        float S = .38; mv.xy += position.xy*S; vP = position.xy*S; gl_Position = projectionMatrix*mv;\n      } else {\n        float S = .5; vP = position.xy*S;\n        gl_Position = projectionMatrix*viewMatrix*vec4(aO + vec3(position.x*S, .035, -position.y*S), 1.);\n      }\n    }",
+      "fragment": "uniform vec3 uGold, uOrange; varying vec2 vP; varying float vU, vK; float lcore(float d, float w){ return exp(-(d*d)/(w*w)); }\n    void main(){\n      vec2 p = vP; float r = length(p), lum = 0., hot = 0.;\n      if (vK < .5){\n        // single collision flash: a crisp ring that snaps open + a hot centre, gone in 160 ms\n        float t = vU/.16, f = pow(1. - t, 1.6);\n        float R = .04 + .25*(1. - pow(1. - t, 3.)), w = .007 + .01*(1. - t);\n        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.8 + exp(-r*r*240.)*(vU < .033 ? 1.2 : .5*f);\n        hot += lcore(r - R, w*.35)*f*.45 + exp(-r*r*700.)*f*.6;\n      } else {\n        // landing ring on the floor: thin, compact, settles quickly\n        float t = vU/.3, f = pow(1. - t, 1.8);\n        float R = .08 + .35*(1. - pow(1. - t, 3.)), w = .006 + .015*(1. - t);\n        lum += exp(-pow(abs(r - R)/w, 2.4))*f*.5; hot += lcore(r - R, w*.3)*f*.25;\n      }\n      vec3 outc = mix(uOrange, uGold, .6)*lum + mix(uGold, vec3(1., .96, .88), .6)*hot;\n      if (max(outc.r, max(outc.g, outc.b)) < .002) discard;\n      gl_FragColor = vec4(outc, 1.);\n    }",
+      "uniforms": {
+        "uTime": {
+          "type": "scalar",
+          "value": 20.404699999999444
+        },
+        "uGold": {
+          "type": "color",
+          "values": [
+            0.8879231178794776,
+            0.46207699964472876,
+            0.04231141061442144
+          ]
+        },
+        "uOrange": {
+          "type": "color",
+          "values": [
+            1,
+            0.19461783043107173,
+            0.010329823026364548
+          ]
+        }
+      },
+      "blending": 2,
+      "side": 0,
+      "preview_time_origin": 0,
+      "runtime_binding": {
+        "anchor": "float3(0,0,-4.099999904632568)",
+        "attributes": {}
+      },
+      "runtime_persistent": false,
+      "control_bindings": {}
+    }
+  ],
+  "preview_duration": 1.5,
+  "runtime_parameters": {
+    "User.CueLifetime": 1.5
+  }
+}

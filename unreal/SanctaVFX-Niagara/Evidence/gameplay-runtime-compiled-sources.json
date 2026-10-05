@@ -1,0 +1,30 @@
+{
+  "files": {
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/SanctaVFXBridge.Build.cs": "a3b595b044531f7128867b9f4c6401f09c6671e189c746cbd29284af5bb60410",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/SanctaVFXRuntime.Build.cs": "1f13647eacadd2630d6f18a7f03382d5c914f54c10125ef1c45a1dca7b490193",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/CascadeToNiagaraConverterModule.cpp": "2b470255ba2a24eb8d78eaafb69cb4b85bea6c0d2172ec268d71ab551a8e4b47",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/SanctaVFXLabLibrary.cpp": "879051b8d78dbf26bfb27f8d3f7894d78032649901518ce131b374865328c892",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/SanctaVFXReviewActor.cpp": "b6501681f6b7e104de7c35b2de235bc36c86d4de24b4d83f4b3c5b7a3934e8c5",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/SanctaVFXRuntimeReview.cpp": "060a6c2dc688e336e92f49a85c59e17ff08d96b5978f0be5d506e89553c1f333",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Private/SanctaVFXRuntimeValidation.cpp": "f063019b03831136fd4346c9f1c14d8d966866b655f04ab8e5223405b684579b",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Public/SanctaVFXLabLibrary.h": "b8a51e831e9198be820339d1a5beafac9cab1ee4d59699216347de207d4a9e4e",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Public/SanctaVFXReviewActor.h": "9f91cfd55b4853d8febc690b4ea43769223f486c76baeb9756b1c6595fca655b",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXBridge/Public/SanctaVFXRuntimeReview.h": "6e1388f041b0d2305c4d10471cd63a8465e84ab38492ca925174277dea89dbc4",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXAnimNotify.cpp": "04c9443ef9155841033c0b3d627de53dc57a7bafe8edd16d61a98b77217a5da9",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXCombatLibrary.cpp": "f94b227e0ce35fc65ee570315188585b0ff54383af53e9743ed45cbaf543ea3c",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXPresentation.cpp": "bcd93fa9bee4c2cd2496b629683acf1a297eb5d5b56b844b252a6071467f3784",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXRuntimeModule.cpp": "64541a61cbf21e337bc2cb4800239fece3b74c849e13264e3ee056c91825083b",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Private/SanctaVFXTerrain.cpp": "a1b131c1587032932a85c6488eee03526a7d4589618ea8e0fd984b590cd0f1d6",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXAnimNotify.h": "d950692f021e0f8ae1c209540aa0f72c6e7fab0bcee46c87282da1622030e541",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXCombatLibrary.h": "79d9fa229090f7e75ddae35584d3d4512de0f0926c938773be13c6bd882eec71",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXPresentation.h": "2c4d6164639e9336d37d7c8cddfad9efb8e11eb5552f591b760d27c5486e8532",
+    "Plugins/SanctaVFXBridge/Source/SanctaVFXRuntime/Public/SanctaVFXTerrain.h": "cb659f008b390f86a381554d142a23b544cde9b508f70856131d9dde705f7a30"
+  },
+  "modules": {
+    "Plugins/SanctaVFXBridge/Binaries/Win64/UnrealEditor-SanctaVFXBridge.dll": "94860bc70184f96b52da289a469af4b3ec51a395c95e2bdeae432a3e497b786f",
+    "Plugins/SanctaVFXBridge/Binaries/Win64/UnrealEditor-SanctaVFXRuntime.dll": "e58ed018749b5bcd0e85d5939e25e820fa53125f00f8467b9bb9f562e4379986"
+  },
+  "build_log": "Saved/Bridge-build.log",
+  "build_exit_code": 0,
+  "recorded_at_utc": "2026-10-05T08:46:41.080679+00:00"
+}
