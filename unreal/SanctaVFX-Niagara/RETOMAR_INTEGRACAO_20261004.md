@@ -24,4 +24,4 @@ Capturas aceites da compilação atual: **1004**, incluindo **867** do plano com
 
 Validação interna do laboratório concluída. Galeria e ZIP atuais; falta o feedback do utilizador, a calibração no jogo e o orçamento no hardware alvo. Foundation continua protegido. A validação do laboratório não certifica integração Foundation ou qualidade final no jogo. Nenhuma captura ou execução UE desta tarefa permanece ativa.
 
-Git: Revisão guardada em origin/main; commit confirmado: c9553ef4285f3af578fee5e2bb5ca6125e706784
+Git: primeira passagem Manny, guia e registos publicados em origin/main; commit de conteúdo confirmado: 48ccc28e9fb58fb6a8d49576737e9609300de5df

@@ -8,6 +8,8 @@ Abrir `Evidence/MannyReview/galeria.html` para ver os prints. Ler **MANNY_VFX.md
 
 Esta passagem valida o seguimento dos ossos e a compensação de altura/escala pelo adaptador local. A composição dos dois braços e Rapid Attack, as marcas Severing 2/3, as armas/animações/notifies finais, a leitura da espada/Guard em outros ângulos e a câmara real continuam pendentes. O contacto do pé usa chão plano de teste. O adaptador de escala ainda não pertence ao runtime do jogo. **Não declarar os 331 componentes calibrados no Manny nem aprovação de produção.**
 
+**Manny publicado:** fontes, guia e registos no commit `48ccc28`, verificado em `origin/main`. Assets Epic e capturas Manny continuam locais.
+
 Próximo trabalho: melhorar a leitura espada/Guard e resolver bindings independentes dos braços; depois alargar a calibração às armas e restantes fases. Não alterar Foundation sem nova autorização. A preparação inicial do mapa teve uma falha de encerramento registada; o mapa guardado foi posteriormente executado na auditoria final com encerramento limpo.
 
 ## Estado atual — integração VFX validada no laboratório em 5 de outubro de 2026

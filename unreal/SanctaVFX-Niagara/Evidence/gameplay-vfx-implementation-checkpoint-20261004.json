@@ -2104,8 +2104,8 @@
   },
   "phase_repair_plan": "Evidence/runtime-phase-repair-plan-20261005.json",
   "export_requires_refresh": false,
-  "git_commit_push_pending": true,
-  "git_saved_commit": "c9553ef4285f3af578fee5e2bb5ca6125e706784",
+  "git_commit_push_pending": false,
+  "git_saved_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
   "manny_calibration": {
     "status": "first_animated_manny_lab_pass_ready_for_review",
     "checkpoint": "Evidence/gameplay-manny-checkpoint.json",
@@ -2116,5 +2116,12 @@
     "lab_verified": true,
     "game_calibration_complete": false,
     "production_approved": false
+  },
+  "git_publication": {
+    "content_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
+    "branch": "main",
+    "remote": "origin/main",
+    "verified_at_utc": "2026-10-05T17:11:42.689983+00:00",
+    "note": "Published content commit; publication metadata is recorded in the subsequent commit."
   }
 }

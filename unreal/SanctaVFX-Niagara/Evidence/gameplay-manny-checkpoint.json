@@ -64,5 +64,13 @@
     "Validate attachment/scale adapter with actual gameplay camera and clothes",
     "Confirm world contacts, sweeps and lifetime owners from game authority"
   ],
-  "git_commit_push_pending": true
+  "git_commit_push_pending": false,
+  "git_saved_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
+  "git_publication": {
+    "content_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
+    "branch": "main",
+    "remote": "origin/main",
+    "verified_at_utc": "2026-10-05T17:11:42.689983+00:00",
+    "note": "Published content commit; publication metadata is recorded in the subsequent commit."
+  }
 }
