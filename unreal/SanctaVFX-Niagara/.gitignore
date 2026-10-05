@@ -9,3 +9,7 @@
 __pycache__/
 *.pyc
 /Exports/
+# Manny/animations from the installed game are local calibration fixtures only.
+/Content/Characters/Mannequins/
+/Content/Sancta/VFX/MannyLab/
+/Evidence/MannyReview/

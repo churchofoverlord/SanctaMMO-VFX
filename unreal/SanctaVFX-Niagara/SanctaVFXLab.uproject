@@ -2,6 +2,18 @@
   "EngineAssociation": "",
   "Plugins": [
     {
+      "Name": "ACLPlugin",
+      "Enabled": true
+    },
+    {
+      "Name": "SanctaVFXMannyLab",
+      "Enabled": true
+    },
+    {
+      "Name": "AnimationData",
+      "Enabled": true
+    },
+    {
       "Name": "Niagara",
       "Enabled": true
     },

@@ -1,0 +1,115 @@
+"""Audit measured rig results and same-frame effect/baseline pixels, without game approval."""
+import datetime, hashlib, html, json, pathlib
+import numpy as np
+from PIL import Image, ImageDraw, ImageFont
+
+R = pathlib.Path(__file__).resolve().parents[1]
+read = lambda p: json.loads((R / p).read_text(encoding='utf-8-sig'))
+sha = lambda p: hashlib.sha256((R / p).read_bytes()).hexdigest()
+raw = read('Saved/MannyCaptures/rig-results.json')
+cases = read('Evidence/gameplay-manny-cases.json')
+samples = raw['samples']
+expected = {(c['name'], pose, scale, sample) for c in cases for pose in range(4)
+            for scale in (.8, 1., 1.2) for sample in range(2)}
+actual = {(s['case'], int(s['pose']), round(s['scale'], 1), int(s['sample'])) for s in samples}
+if actual != expected or len(samples) != len(expected):
+    raise RuntimeError('Missing or duplicate rig samples')
+out = R / 'Evidence/MannyReview'
+out.mkdir(parents=True, exist_ok=True)
+font = ImageFont.truetype('C:/Windows/Fonts/segoeui.ttf', 16)
+titlefont = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 19)
+poses = ['Repouso', 'Ataque', 'Corrida', 'Esquiva']
+rows = []
+for sample in samples:
+    if not sample.get('image'):
+        continue
+    name = sample['image']
+    baseline = name.replace('.png', '_baseline.png')
+    image = Image.open(R / name).convert('RGB')
+    a = np.asarray(image, dtype=np.int16); b = np.asarray(Image.open(R / baseline).convert('RGB'), dtype=np.int16)
+    delta = np.max(np.abs(a - b), axis=2)
+    # Both captures keep the same pose, camera and HUD. Limit presence to the scene.
+    delta[:105, :] = 0; delta[-90:, :] = 0
+    count = int(np.count_nonzero(delta > 12))
+    jpg = '%s_pose%d.webp' % (sample['case'], sample['pose'])
+    image.resize((640, 360)).save(out / jpg, quality=90)
+    rows.append({'case': sample['case'], 'pose': sample['pose'], 'image': name,
+                 'image_sha256': sha(name), 'baseline_sha256': sha(baseline),
+                 'preview': 'Evidence/MannyReview/' + jpg, 'changed_pixels_over_12': count,
+                 'peak_difference': int(delta.max()), 'visible': count > 10 and int(delta.max()) > 15})
+for pose in range(4):
+    sheet = Image.new('RGB', (1920, 1210), '#111821')
+    draw = ImageDraw.Draw(sheet)
+    draw.text((18, 10), 'Manny — %s — escala 1× — palco de calibração' % poses[pose], font=titlefont, fill='white')
+    for index, case in enumerate(cases):
+        row = next(r for r in rows if r['case'] == case['name'] and r['pose'] == pose)
+        x, y = (index % 4) * 480, 50 + (index // 4) * 290
+        thumb = Image.open(R / row['preview']).resize((480, 270))
+        sheet.paste(thumb, (x, y + 20))
+        draw.text((x + 8, y), case['title'], font=font, fill='white')
+    sheet.save(out / ('manny-pose%d.jpg' % pose), quality=94)
+cards = []
+for case in cases:
+    pictures = ''.join('<figure><img src="%s_pose%d.webp"><figcaption>%s</figcaption></figure>' %
+                       (case['name'], p, poses[p]) for p in range(4))
+    cards.append('<article><h2>%s</h2><code>%s</code><div>%s</div></article>' %
+                 (html.escape(case['title']), case['component'], pictures))
+(out / 'galeria.html').write_text('''<!doctype html><html lang="pt-PT"><meta charset="utf-8"><title>Manny — calibração VFX</title>
+<style>body{background:#111821;color:#edf4fb;font:16px Segoe UI;margin:24px}a{color:#7ed5ff}article{border-top:1px solid #394551;padding:16px 0}article div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}figure{margin:8px}img{width:100%}code{color:#a5c4dc}</style>
+<h1>Manny — calibração VFX</h1><p>16 cenários · quatro poses UE de teste · escala 1× nas imagens. As armas/animações finais e a integração no jogo permanecem pendentes.</p>
+<p><a href="../../MANNY_VFX.md">Orientações e limites</a> · <a href="../../GUIA_VFX.html">Índice geral</a></p>''' + ''.join(cards) + '</html>', encoding='utf-8')
+motion = []
+for case in cases:
+    for pose in range(4):
+        pair = [s for s in samples if s['case'] == case['name'] and s['pose'] == pose and round(s['scale'], 1) == 1]
+        distance = float(np.linalg.norm(np.asarray(pair[0]['hand_r']) - pair[1]['hand_r']))
+        local = []
+        for sample in pair:
+            # The explicit fixture rotates sample 0 by 0° and sample 1 by 73°.
+            # Remove actor translation/rotation so motion cannot be passed by moving the actor alone.
+            yaw = np.deg2rad(sample['sample'] * 73)
+            rotation = np.array([[np.cos(yaw), -np.sin(yaw), 0],
+                                 [np.sin(yaw), np.cos(yaw), 0], [0, 0, 1]])
+            local.append(rotation.T @ (np.asarray(sample['hand_r']) - sample['actor_origin']) / sample['scale'])
+        local_distance = float(np.linalg.norm(local[0] - local[1]))
+        motion.append({'case': case['name'], 'pose': pose, 'hand_world_delta_cm': distance,
+                       'hand_pose_delta_cm': local_distance})
+compiled = read('Evidence/gameplay-runtime-compiled-sources.json')
+preserved = all(sha(path) == value for path, value in compiled['modules'].items())
+reference = read('Evidence/gameplay-manny-local-reference.json')
+local_assets = all(sha(row['path']) == row['sha256'] for row in reference['files'])
+own_sources = {}
+for file in (R / 'Plugins/SanctaVFXMannyLab/Source').rglob('*'):
+    if file.is_file():
+        path = file.relative_to(R).as_posix()
+        if sha(path) != hashlib.sha256((R / 'BuildHost' / path).read_bytes()).hexdigest():
+            raise RuntimeError('Uncompiled Manny source: ' + path)
+        own_sources[path] = sha(path)
+if sha('Plugins/SanctaVFXMannyLab/Binaries/Win64/UnrealEditor-SanctaVFXMannyLab.dll') != sha('BuildHost/Plugins/SanctaVFXMannyLab/Binaries/Win64/UnrealEditor-SanctaVFXMannyLab.dll'):
+    raise RuntimeError('Manny deployment differs from the successful host build')
+dependencies = {}
+for case in cases:
+    for path in [case['source'], str(pathlib.PurePosixPath(case['source']).with_suffix('.port.json')),
+                 'Content/' + case['definition'].removeprefix('/Game/').split('.')[0] + '.uasset']:
+        dependencies[path] = sha(path)
+report = {'recorded_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+          'cases': len(cases), 'distinct_components': len({c['component'] for c in cases}),
+          'measured_samples': len(samples), 'poses': poses, 'scales': [.8, 1., 1.2],
+          'raw_passed': raw['passed'], 'cleanup_passed': raw['cleanup_passed'],
+          'current_vfx_modules_preserved': preserved, 'local_rig_assets_preserved': local_assets,
+          'screenshots': len(rows), 'visible_screenshots': sum(r['visible'] for r in rows),
+          'maximum_origin_error_cm': max(s['origin_error_cm'] for s in samples),
+          'compiled_manny_sources': own_sources, 'selected_effect_inputs': dependencies,
+          'motion': motion, 'frames': rows,
+          'inputs': {p: sha(p) for p in ['Evidence/gameplay-manny-cases.json', 'Evidence/gameplay-manny-discovery.json',
+                                         'Evidence/gameplay-manny-local-reference.json', 'Evidence/gameplay-runtime-migration-manifest.json',
+                                         'Plugins/SanctaVFXMannyLab/Binaries/Win64/UnrealEditor-SanctaVFXMannyLab.dll']},
+          'visual_inspection': 'pending', 'production_approved': False, 'foundation_modified': False,
+          'scope': 'Live evaluated Manny bone transforms in separate PIE lab; template poses, proxy attachment and material scale adapter.',
+          'remaining': ['Bilateral arms and Rapid Attack bindings', 'Final weapons and skill animations/notifies',
+                        'Promote rig scale and attachment adapter to runtime after approval', 'Actual gameplay camera, terrain, authority and multiplayer']}
+animated = all(m['hand_pose_delta_cm'] > 1 for m in motion if m['pose'] in (1, 2))
+report['animation_motion_verified'] = animated
+report['passed'] = raw['passed'] and raw['cleanup_passed'] and preserved and local_assets and animated and all(r['visible'] for r in rows)
+(R / 'Evidence/gameplay-manny-validation.json').write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding='utf-8')
+print(json.dumps({k: report[k] for k in ['passed', 'cases', 'measured_samples', 'screenshots', 'visible_screenshots']}))

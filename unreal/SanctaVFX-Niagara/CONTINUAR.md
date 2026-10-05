@@ -1,5 +1,15 @@
 # Continuar a conversão para Niagara noutra máquina
 
+## Ponto atual — primeira calibração no Manny, 5 de outubro de 2026
+
+O palco independente **Ver-Manny-VFX.cmd** está compilado e pronto: **16 cenários / 14 componentes**, quatro poses Unarmed de teste e escalas 0,8× / 1× / 1,2×. Começa a 1×; **P** muda pose e **E** muda escala. A execução final terminou com código 0: **384 amostras** de ligação/escala e **64 capturas de efeitos + 64 baselines** passaram nas verificações numéricas e de presença. As quatro folhas e os frames completos representativos foram inspecionados. Nenhuma execução UE desta tarefa ficou ativa.
+
+Abrir `Evidence/MannyReview/galeria.html` para ver os prints. Ler **MANNY_VFX.md**, `Evidence/gameplay-manny-checkpoint.json` e `Evidence/gameplay-manny-validation.json` para retomar. O Manny, esqueleto, materiais e animações originais foram copiados só para o laboratório, com hashes; ficam excluídos do Git/ZIP e não foram modificados. Foundation e Engine preservados.
+
+Esta passagem valida o seguimento dos ossos e a compensação de altura/escala pelo adaptador local. A composição dos dois braços e Rapid Attack, as marcas Severing 2/3, as armas/animações/notifies finais, a leitura da espada/Guard em outros ângulos e a câmara real continuam pendentes. O contacto do pé usa chão plano de teste. O adaptador de escala ainda não pertence ao runtime do jogo. **Não declarar os 331 componentes calibrados no Manny nem aprovação de produção.**
+
+Próximo trabalho: melhorar a leitura espada/Guard e resolver bindings independentes dos braços; depois alargar a calibração às armas e restantes fases. Não alterar Foundation sem nova autorização. A preparação inicial do mapa teve uma falha de encerramento registada; o mapa guardado foi posteriormente executado na auditoria final com encerramento limpo.
+
 ## Estado atual — integração VFX validada no laboratório em 5 de outubro de 2026
 
 **331/331 componentes atuais compilados, simulados, capturados e inspecionados**, 401 definições com bindings verificados, 572 checks de contratos, 34 testes nativos de eventos e 56 combinações classe/arma passaram. Inclui básicos de 14 famílias de armas, Guard/Dodge/Sprint e fases separadas de casts, voos, contactos, procs, recursos e estados. As 441 referências/assets anteriores preservam os hashes. Foundation e Engine continuam sem alterações.
@@ -10,7 +20,7 @@ O plano corrente de **867 capturas** está completo e registado por hashes. As 2
 
 A medição de concorrência cobriu 0/1/16/48 instâncias de Arcane Weaving II, com 120 amostras por caso. Mede o frame GPU total do palco PIE e inclui o custo de base; não certifica custo isolado de cada VFX nem orçamento Shipping no hardware alvo. Ver `Evidence/gameplay-runtime-performance-validation.json`.
 
-O pacote de migração fica em `Exports/Sancta-VFX-Runtime.zip`; a fonte de verdade é `Evidence/gameplay-vfx-implementation-checkpoint-20261004.json`, juntamente com o guia `GUIA_EXECUCAO_VFX.md`. A referência de rig confirmada pelo utilizador é **Manny do UE**. O perfil `Evidence/gameplay-runtime-rig-reference.json` regista a calibração futura das mãos/cotovelos, arma, corpo, cabeça/pés e beams no Manny animado do jogo.
+O pacote de migração fica em `Exports/Sancta-VFX-Runtime.zip`; a fonte de verdade é `Evidence/gameplay-vfx-implementation-checkpoint-20261004.json`, juntamente com o guia `GUIA_EXECUCAO_VFX.md`. A referência de rig confirmada pelo utilizador é **Manny do UE**. O perfil `Evidence/gameplay-runtime-rig-reference.json` distingue a primeira calibração animada de laboratório da calibração final no jogo.
 
 Ficam pendentes o feedback de forma de Glacial/Iceberg e das novas apresentações, calibração no Manny/câmara real, ligação GAS/autoridade/replicação, colisão/navegação, cook Shipping e orçamento real. Não alterar Foundation sem nova autorização. Não repetir a compilação/capturas correntes sem alterações que invalidem os respetivos hashes. O checkpoint indica o estado de Git/push; não há execução UE ativa desta tarefa.
 

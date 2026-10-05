@@ -145,9 +145,20 @@
     "pending_native_assets": 0,
     "assets_modified": true,
     "background_running": false,
-    "updated_at_utc": "2026-10-05T13:18:10.697172+00:00",
+    "updated_at_utc": "2026-10-05T17:04:47.964870+00:00",
     "production_approved": false,
     "foundation_modified": false,
-    "background_task": ""
+    "background_task": "",
+    "manny_calibration": {
+      "status": "first_animated_manny_lab_pass_ready_for_review",
+      "checkpoint": "Evidence/gameplay-manny-checkpoint.json",
+      "scenes": 16,
+      "components": 14,
+      "samples": 384,
+      "effect_frames": 64,
+      "lab_verified": true,
+      "game_calibration_complete": false,
+      "production_approved": false
+    }
   }
 }

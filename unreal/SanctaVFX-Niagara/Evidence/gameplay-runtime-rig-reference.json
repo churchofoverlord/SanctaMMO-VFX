@@ -1,9 +1,9 @@
 {
   "reference": "UE Manny",
   "authority": "Direct human instruction, 2026-10-05",
-  "recorded_at_utc": "2026-10-05T12:15:56.029198+00:00",
-  "fixture_current": "Static lab mannequin, not an animated Manny validation",
-  "calibration_status": "pending_in_game_rig",
+  "recorded_at_utc": "2026-10-05T17:04:47.964870+00:00",
+  "fixture_current": "Separate animated Manny PIE lab: 16 scenes, 14 distinct components, four template poses, three uniform scales.",
+  "calibration_status": "animated_lab_pilot_verified_game_calibration_pending",
   "foundation_modified": false,
   "attachment_requirements": {
     "body": "Root plus authored body height; avoid adding chest socket height twice",
@@ -13,9 +13,43 @@
     "contacts": "Confirmed world surface contact, not target actor origin"
   },
   "required_checks": [
-    "Resolve actual Manny skeletal asset and existing socket names in game",
-    "Read live animated attachment transforms and actor scale",
-    "Test hand/elbow, weapon sweeps, head CC and foot Root with game camera",
-    "Retain World owners independently of caster lifespan"
+    "Resolve bilateral hand/elbow and Rapid Attack independent endpoints",
+    "Improve sword/Guard readability from additional angles and final poses",
+    "Calibrate final weapon base/tip/muzzle, skill animations and notifies",
+    "Extend pilot to remaining components and Severing Mark2/Mark3",
+    "Validate attachment/scale adapter with actual gameplay camera and clothes",
+    "Confirm world contacts, sweeps and lifetime owners from game authority"
+  ],
+  "mesh": "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple",
+  "skeleton": "/Game/Characters/Mannequins/Meshes/SK_Mannequin",
+  "existing_sockets": [
+    "weapon_r_muzzle",
+    "foot_r_Socket",
+    "foot_l_Socket",
+    "HandGrip_R",
+    "HandGrip_L"
+  ],
+  "bone_count": 89,
+  "current_game_native_mesh": "/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple",
+  "viewer": "Ver-Manny-VFX.cmd",
+  "guide": "MANNY_VFX.md",
+  "discovery": "Evidence/gameplay-manny-discovery.json",
+  "validation": "Evidence/gameplay-manny-validation.json",
+  "local_assets_in_git_or_runtime_zip": false,
+  "rig_scale_adapter": "Private lab MID override; native game runtime integration is pending.",
+  "production_approved": false,
+  "coverage": {
+    "scenes": 16,
+    "components": 14,
+    "samples": 384,
+    "effect_frames": 64,
+    "baseline_frames": 64
+  },
+  "readability_flags": [
+    "Sword trail and Guard have weak readability in the captured camera; test other angles and final poses before visual approval.",
+    "Bleed/Poison evaluated one arm at a time; simultaneous bilateral composition is pending.",
+    "Sword uses a 75 cm calibration shaft, without final weapon mesh/axes.",
+    "Foot contact is subtle and uses projection onto a flat fixture floor, not a confirmed terrain contact.",
+    "Severing coverage is Mark1 only; Mark2/Mark3 remain pending on Manny."
   ]
 }

@@ -1,0 +1,337 @@
+{
+  "generated_at_utc": "2026-10-05T16:23:52.579063+00:00",
+  "mesh": "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple.SKM_Manny_Simple",
+  "skeleton": "/Game/Characters/Mannequins/Meshes/SK_Mannequin.SK_Mannequin",
+  "bones": [
+    "root",
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "spine_03",
+    "spine_04",
+    "spine_05",
+    "neck_01",
+    "neck_02",
+    "head",
+    "clavicle_l",
+    "upperarm_l",
+    "lowerarm_l",
+    "lowerarm_twist_02_l",
+    "lowerarm_twist_01_l",
+    "hand_l",
+    "index_metacarpal_l",
+    "index_01_l",
+    "index_02_l",
+    "index_03_l",
+    "middle_metacarpal_l",
+    "middle_01_l",
+    "middle_02_l",
+    "middle_03_l",
+    "thumb_01_l",
+    "thumb_02_l",
+    "thumb_03_l",
+    "pinky_metacarpal_l",
+    "pinky_01_l",
+    "pinky_02_l",
+    "pinky_03_l",
+    "ring_metacarpal_l",
+    "ring_01_l",
+    "ring_02_l",
+    "ring_03_l",
+    "upperarm_twist_01_l",
+    "upperarm_twist_02_l",
+    "clavicle_r",
+    "upperarm_r",
+    "lowerarm_r",
+    "lowerarm_twist_02_r",
+    "lowerarm_twist_01_r",
+    "hand_r",
+    "pinky_metacarpal_r",
+    "pinky_01_r",
+    "pinky_02_r",
+    "pinky_03_r",
+    "ring_metacarpal_r",
+    "ring_01_r",
+    "ring_02_r",
+    "ring_03_r",
+    "middle_metacarpal_r",
+    "middle_01_r",
+    "middle_02_r",
+    "middle_03_r",
+    "index_metacarpal_r",
+    "index_01_r",
+    "index_02_r",
+    "index_03_r",
+    "thumb_01_r",
+    "thumb_02_r",
+    "thumb_03_r",
+    "upperarm_twist_01_r",
+    "upperarm_twist_02_r",
+    "thigh_r",
+    "calf_r",
+    "foot_r",
+    "ball_r",
+    "calf_twist_02_r",
+    "calf_twist_01_r",
+    "thigh_twist_01_r",
+    "thigh_twist_02_r",
+    "thigh_l",
+    "calf_l",
+    "foot_l",
+    "ball_l",
+    "calf_twist_02_l",
+    "calf_twist_01_l",
+    "thigh_twist_01_l",
+    "thigh_twist_02_l",
+    "ik_foot_root",
+    "ik_foot_l",
+    "ik_foot_r",
+    "ik_hand_root",
+    "ik_hand_gun",
+    "ik_hand_l",
+    "ik_hand_r",
+    "interaction",
+    "center_of_mass"
+  ],
+  "socket_or_bone_names": [
+    "weapon_r_muzzle",
+    "foot_r_Socket",
+    "foot_l_Socket",
+    "HandGrip_R",
+    "HandGrip_L",
+    "root",
+    "pelvis",
+    "spine_01",
+    "spine_02",
+    "spine_03",
+    "spine_04",
+    "spine_05",
+    "neck_01",
+    "neck_02",
+    "head",
+    "clavicle_l",
+    "upperarm_l",
+    "lowerarm_l",
+    "lowerarm_twist_02_l",
+    "lowerarm_twist_01_l",
+    "hand_l",
+    "index_metacarpal_l",
+    "index_01_l",
+    "index_02_l",
+    "index_03_l",
+    "middle_metacarpal_l",
+    "middle_01_l",
+    "middle_02_l",
+    "middle_03_l",
+    "thumb_01_l",
+    "thumb_02_l",
+    "thumb_03_l",
+    "pinky_metacarpal_l",
+    "pinky_01_l",
+    "pinky_02_l",
+    "pinky_03_l",
+    "ring_metacarpal_l",
+    "ring_01_l",
+    "ring_02_l",
+    "ring_03_l",
+    "upperarm_twist_01_l",
+    "upperarm_twist_02_l",
+    "clavicle_r",
+    "upperarm_r",
+    "lowerarm_r",
+    "lowerarm_twist_02_r",
+    "lowerarm_twist_01_r",
+    "hand_r",
+    "pinky_metacarpal_r",
+    "pinky_01_r",
+    "pinky_02_r",
+    "pinky_03_r",
+    "ring_metacarpal_r",
+    "ring_01_r",
+    "ring_02_r",
+    "ring_03_r",
+    "middle_metacarpal_r",
+    "middle_01_r",
+    "middle_02_r",
+    "middle_03_r",
+    "index_metacarpal_r",
+    "index_01_r",
+    "index_02_r",
+    "index_03_r",
+    "thumb_01_r",
+    "thumb_02_r",
+    "thumb_03_r",
+    "upperarm_twist_01_r",
+    "upperarm_twist_02_r",
+    "thigh_r",
+    "calf_r",
+    "foot_r",
+    "ball_r",
+    "calf_twist_02_r",
+    "calf_twist_01_r",
+    "thigh_twist_01_r",
+    "thigh_twist_02_r",
+    "thigh_l",
+    "calf_l",
+    "foot_l",
+    "ball_l",
+    "calf_twist_02_l",
+    "calf_twist_01_l",
+    "thigh_twist_01_l",
+    "thigh_twist_02_l",
+    "ik_foot_root",
+    "ik_foot_l",
+    "ik_foot_r",
+    "ik_hand_root",
+    "ik_hand_gun",
+    "ik_hand_l",
+    "ik_hand_r",
+    "interaction",
+    "center_of_mass"
+  ],
+  "required_missing": [],
+  "reference_pose_world": {
+    "root": {
+      "world": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "pelvis": {
+      "world": {
+        "x": 2.280866146087647,
+        "y": 0.0,
+        "z": 95.89678192138672
+      }
+    },
+    "spine_03": {
+      "world": {
+        "x": 4.251157760099723,
+        "y": 1.7763568394002505e-15,
+        "z": 113.41919998506341
+      }
+    },
+    "head": {
+      "world": {
+        "x": 0.6631226955238574,
+        "y": 6.550882059030982e-11,
+        "z": 162.57510097379765
+      }
+    },
+    "hand_l": {
+      "world": {
+        "x": 15.698892566810493,
+        "y": -47.76860095540903,
+        "z": 104.4665369623716
+      }
+    },
+    "hand_r": {
+      "world": {
+        "x": 15.698805229060738,
+        "y": 47.76831885496147,
+        "z": 104.46643350645405
+      }
+    },
+    "lowerarm_l": {
+      "world": {
+        "x": -1.9070059199488796,
+        "y": -35.00698752605625,
+        "z": 120.89196196261402
+      }
+    },
+    "lowerarm_r": {
+      "world": {
+        "x": -1.9070525925042858,
+        "y": 35.00673490098281,
+        "z": 120.89182056854668
+      }
+    },
+    "foot_l": {
+      "world": {
+        "x": -0.9942570599016989,
+        "y": -14.087671352642229,
+        "z": 8.237634413317146
+      }
+    },
+    "foot_r": {
+      "world": {
+        "x": -0.984834037455455,
+        "y": 14.087558704303335,
+        "z": 8.238229394805373
+      }
+    }
+  },
+  "animations": [
+    {
+      "asset": "/Game/Characters/Mannequins/Anims/Unarmed/MM_Idle",
+      "class": "AnimSequence",
+      "seconds": 7.566666603088379
+    },
+    {
+      "asset": "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_Attack_01",
+      "class": "AnimSequence",
+      "seconds": 1.0
+    },
+    {
+      "asset": "/Game/Characters/Mannequins/Anims/Unarmed/Jog/MF_Unarmed_Jog_Fwd",
+      "class": "AnimSequence",
+      "seconds": 1.7666666507720947
+    },
+    {
+      "asset": "/Game/Characters/Mannequins/Anims/Unarmed/Jump/MM_Dash",
+      "class": "AnimSequence",
+      "seconds": 0.9666666388511658
+    }
+  ],
+  "dependencies": [
+    "/Game/Characters/Mannequins/Animations/EditableAnimations/LS_Attack_01",
+    "/Game/Characters/Mannequins/Anims/Unarmed/Attack/MM_Attack_01",
+    "/Game/Characters/Mannequins/Anims/Unarmed/Jog/MF_Unarmed_Jog_Fwd",
+    "/Game/Characters/Mannequins/Anims/Unarmed/Jump/MM_Dash",
+    "/Game/Characters/Mannequins/Anims/Unarmed/MM_Idle",
+    "/Game/Characters/Mannequins/Materials/M_Mannequin",
+    "/Game/Characters/Mannequins/Materials/Manny/MI_Manny_01_New",
+    "/Game/Characters/Mannequins/Materials/Manny/MI_Manny_02_New",
+    "/Game/Characters/Mannequins/Materials/Quinn/MI_Quinn_01",
+    "/Game/Characters/Mannequins/Materials/Quinn/MI_Quinn_02",
+    "/Game/Characters/Mannequins/Meshes/SKM_Manny",
+    "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple",
+    "/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple",
+    "/Game/Characters/Mannequins/Meshes/SK_Mannequin",
+    "/Game/Characters/Mannequins/Rigs/CR_Mannequin_Body",
+    "/Game/Characters/Mannequins/Rigs/PA_Mannequin",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_01_BN",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_01_D",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_01_MRA",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_02_BN",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_02_D",
+    "/Game/Characters/Mannequins/Textures/Manny/T_Manny_02_MRA",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_01_D",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_01_MRA",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_01_N",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_02_D",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_02_MRA",
+    "/Game/Characters/Mannequins/Textures/Quinn/T_Quinn_02_N",
+    "/Game/Characters/Mannequins/Textures/Shared/T_UE_Logo_M"
+  ],
+  "external_dependencies": [
+    "/ACLPlugin/ACLAnimBoneCompressionSettings",
+    "/ACLPlugin/ACLAnimCurveCompressionSettings",
+    "/ControlRig/Controls/DefaultGizmoLibraryNormalized"
+  ],
+  "actor_origin_cm": [
+    0,
+    0,
+    96
+  ],
+  "mesh_relative_cm": [
+    0,
+    0,
+    -96
+  ],
+  "mesh_yaw_degrees": -90,
+  "unresolved_dependencies": [],
+  "passed": true,
+  "scope": "Reference-pose discovery only, not live animation calibration"
+}

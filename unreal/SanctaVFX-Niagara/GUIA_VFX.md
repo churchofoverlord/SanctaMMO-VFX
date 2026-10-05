@@ -42,7 +42,9 @@ Usar <code>ExecutionId</code> + <code>EventSequence</code> e, quando aplicável,
 
 Manny do UE é a referência base confirmada pelo utilizador. Resolver no asset do jogo os bones/sockets existentes; validar transforms na pose animada e escala do actor. Cues de corpo conservam alturas authored sobre o root, sem somar novamente a altura de um socket do peito. Bleed/Poison ligam mão–cotovelo; melee liga base–ponta da arma; beams/links ligam origem–endpoint. CC de cabeça e Root nos pés precisam de leitura com roupa e câmara reais.
 
-O manequim estático do laboratório verifica a forma, mas ainda não certifica a calibração no Manny animado. [Perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
+O visualizador geral conserva o manequim estático para rever a forma. A primeira passagem no Manny tem um palco separado: **Ver-Manny-VFX.cmd**, com 16 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json). As armas/animações finais e a câmara de gameplay continuam pendentes.
+
+Esta passagem cobre **14 componentes**: 384 amostras de ligação/escala e 64 pares de capturas efeito/baseline passaram. A inspeção visual identificou leitura fraca da espada/Guard nesta vista. Os braços são avaliados separadamente; composição bilateral, Rapid Attack e marcas Severing 2/3 ainda precisam de calibração. A galeria Manny fica localmente em `Evidence/MannyReview/galeria.html`; as imagens e assets Manny estão excluídos do Git/ZIP.
 
 ## Onde estão os ficheiros
 
@@ -65,7 +67,7 @@ Hashes nos nomes conservam revisões. Usar o sistema/definição do índice atua
 ## Próximos passos no jogo
 
 1. Rever formas Glacial Spike/Iceberg e as novas apresentações no visualizador.
-2. Calibrar Manny, sockets, pose e câmara.
+2. Alargar a primeira passagem Manny: braços, leitura espada/Guard, armas/animações finais, sockets e câmara.
 3. Ligar GAS/abilities, autoridade e transporte de eventos, vida/respawn e replicação.
 4. Ligar terreno, canais de colisão/navegação e ciclo de vida dos hosts.
 5. Fazer cook Shipping e medir escalabilidade/overdraw/concorrência no hardware alvo.

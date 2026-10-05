@@ -9,6 +9,10 @@
   "Plugins": [
     {
       "Enabled": true,
+      "Name": "SanctaVFXMannyLab"
+    },
+    {
+      "Enabled": true,
       "Name": "SanctaVFXBridge"
     },
     {

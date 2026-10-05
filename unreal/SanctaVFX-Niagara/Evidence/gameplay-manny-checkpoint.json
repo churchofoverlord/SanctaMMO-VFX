@@ -1,0 +1,68 @@
+{
+  "recorded_at_utc": "2026-10-05T17:04:47.964870+00:00",
+  "status": "first_animated_manny_lab_pass_ready_for_review",
+  "scope": "16 scenes / 14 components, not the whole 331-component catalog.",
+  "foundation_modified": false,
+  "engine_modified": false,
+  "production_approved": false,
+  "ue_process_running": false,
+  "build_succeeded": true,
+  "native_exit_code": 0,
+  "source_matches_compiled": true,
+  "source_validation": "Evidence/gameplay-manny-validation.json",
+  "discovery": "Evidence/gameplay-manny-discovery.json",
+  "rig_reference": "Evidence/gameplay-runtime-rig-reference.json",
+  "local_asset_manifest": "Evidence/gameplay-manny-local-reference.json",
+  "viewer": "Ver-Manny-VFX.cmd",
+  "guide": "MANNY_VFX.md",
+  "local_gallery": "Evidence/MannyReview/galeria.html",
+  "default_speed": 1.0,
+  "controls": {
+    "P": "pose",
+    "E": "scale"
+  },
+  "samples": 384,
+  "effect_frames": 64,
+  "baseline_frames": 64,
+  "poses": [
+    "Repouso",
+    "Ataque",
+    "Corrida",
+    "Esquiva"
+  ],
+  "scales": [
+    0.8,
+    1.0,
+    1.2
+  ],
+  "current_vfx_modules_preserved": true,
+  "original_rig_assets_preserved": true,
+  "visual_review": "inspected_current_64_frames_with_readability_flags",
+  "readability_flags": [
+    "Sword trail and Guard have weak readability in the captured camera; test other angles and final poses before visual approval.",
+    "Bleed/Poison evaluated one arm at a time; simultaneous bilateral composition is pending.",
+    "Sword uses a 75 cm calibration shaft, without final weapon mesh/axes.",
+    "Foot contact is subtle and uses projection onto a flat fixture floor, not a confirmed terrain contact.",
+    "Severing coverage is Mark1 only; Mark2/Mark3 remain pending on Manny."
+  ],
+  "evidence_hashes": {
+    "Evidence/gameplay-manny-validation.json": "f4b85c6e66db254bf328c9e18722db75a24af4c0390c7f3bcdc6c4f7e2c5f40f",
+    "Saved/MannyCaptures/rig-results.json": "8c325298ab0a35e72e8632bfbeffc1382432c60ab642655711cd30311ce00a09",
+    "Saved/Manny-build.log": "98be2c1ab89215031912066e44aeb3e696ab1fad7d1067ce513d830a5af9f5e7",
+    "Saved/Manny-audit.log": "c60622e22cbe7f76aab53e03810477a8035f652bda09f45c360464c2b1a8c9cd"
+  },
+  "preparation_shutdown": {
+    "exit_code": -1073741819,
+    "log": "Saved/Manny-prepare-20261005-r2.log",
+    "note": "The saved map subsequently ran through the final audit with exit 0; initial preparation exit was not clean."
+  },
+  "next": [
+    "Resolve bilateral hand/elbow and Rapid Attack independent endpoints",
+    "Improve sword/Guard readability from additional angles and final poses",
+    "Calibrate final weapon base/tip/muzzle, skill animations and notifies",
+    "Extend pilot to remaining components and Severing Mark2/Mark3",
+    "Validate attachment/scale adapter with actual gameplay camera and clothes",
+    "Confirm world contacts, sweeps and lifetime owners from game authority"
+  ],
+  "git_commit_push_pending": true
+}

@@ -1,6 +1,6 @@
 {
   "schema": "sancta-gameplay-vfx-implementation-checkpoint/v2",
-  "updated_at_utc": "2026-10-05T13:18:10.697172+00:00",
+  "updated_at_utc": "2026-10-05T17:04:47.964870+00:00",
   "status": "lab_verified_awaiting_user_review",
   "user_request": "retoma",
   "objective": "Aplicar a avaliação às skills, básicos das 14 armas e Guard/Dodge/Sprint no laboratório independente.",
@@ -2080,7 +2080,8 @@
   ],
   "remaining": [
     "Feedback do utilizador sobre as formas Glacial/Iceberg e as novas apresentações.",
-    "Calibrar sockets/rigs, câmaras, colisão, transporte de eventos/replicação e cook Shipping no projeto do jogo quando autorizado.",
+    "Manny: melhorar leitura espada/Guard, composição dos braços/Rapid Attack e marcas 2/3; calibrar armas/animações/notifies/câmara finais e restantes componentes.",
+    "Promover e verificar o adaptador de ligação/escala na integração autorizada; ligar autoridade, transporte/replicação, colisão e cook Shipping no jogo.",
     "Validar orçamento e concorrência na câmara/hardware alvo; não extrapolar timings do palco PIE."
   ],
   "production_approved": false,
@@ -2103,6 +2104,17 @@
   },
   "phase_repair_plan": "Evidence/runtime-phase-repair-plan-20261005.json",
   "export_requires_refresh": false,
-  "git_commit_push_pending": false,
-  "git_saved_commit": "c9553ef4285f3af578fee5e2bb5ca6125e706784"
+  "git_commit_push_pending": true,
+  "git_saved_commit": "c9553ef4285f3af578fee5e2bb5ca6125e706784",
+  "manny_calibration": {
+    "status": "first_animated_manny_lab_pass_ready_for_review",
+    "checkpoint": "Evidence/gameplay-manny-checkpoint.json",
+    "scenes": 16,
+    "components": 14,
+    "samples": 384,
+    "effect_frames": 64,
+    "lab_verified": true,
+    "game_calibration_complete": false,
+    "production_approved": false
+  }
 }

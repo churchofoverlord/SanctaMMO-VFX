@@ -33,6 +33,13 @@ for path in ['.gitignore','AGENTS.md','CONTINUAR.md','Config/DefaultEngine.ini',
     add('configuration_docs',path)
 for path in ['GUIA_VFX.html','GUIA_VFX.md','Abrir-Guia-VFX.cmd']:
     add('configuration_docs',path)
+for path in ['MANNY_VFX.md','Ver-Manny-VFX.cmd']:
+    add('manny_lab',path)
+for name in ['prepare_manny_reference.py','discover_manny_editor.py','prepare_manny_cases.py','create_manny_review.py','audit_manny_review.py','Build-MannyLab.ps1','Open-MannyLab.ps1']:
+    add('manny_lab','Scripts/'+name)
+add('manny_lab','Plugins/SanctaVFXMannyLab/SanctaVFXMannyLab.uplugin')
+for path in (root/'Plugins/SanctaVFXMannyLab/Source').rglob('*'):
+    if path.is_file():add('manny_lab',path)
 for name in ['L_RuntimeAudit','L_RuntimeViewer','L_RuntimeQualityAudit','L_RuntimePerformanceAudit','L_RuntimeControlAudit']:add('review_fixtures','Content/Sancta/VFX/Review/'+name+'.umap')
 for name in ['M_ReviewFloor','M_ReviewBody','M_ReviewBodyGhost']:add('review_fixtures','Content/VFXLab/Review/Fixtures/'+name+'.uasset')
 add('review_fixtures','Content/Sancta/VFX/Review/Common/M_RuntimeFloorBright.uasset')

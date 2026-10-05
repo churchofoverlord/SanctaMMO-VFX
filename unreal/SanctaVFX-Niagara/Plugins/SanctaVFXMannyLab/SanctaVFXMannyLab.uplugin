@@ -1,0 +1,9 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "Sancta Manny VFX calibration lab",
+  "CanContainContent": false,
+  "Modules": [{"Name": "SanctaVFXMannyLab", "Type": "Editor", "LoadingPhase": "Default"}],
+  "Plugins": [{"Name": "SanctaVFXBridge", "Enabled": true}]
+}

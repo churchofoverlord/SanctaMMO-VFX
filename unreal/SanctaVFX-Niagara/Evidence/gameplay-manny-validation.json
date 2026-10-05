@@ -1,0 +1,1213 @@
+{
+  "recorded_at_utc": "2026-10-05T16:57:39.856329+00:00",
+  "cases": 16,
+  "distinct_components": 14,
+  "measured_samples": 384,
+  "poses": [
+    "Repouso",
+    "Ataque",
+    "Corrida",
+    "Esquiva"
+  ],
+  "scales": [
+    0.8,
+    1.0,
+    1.2
+  ],
+  "raw_passed": true,
+  "cleanup_passed": true,
+  "current_vfx_modules_preserved": true,
+  "local_rig_assets_preserved": true,
+  "screenshots": 64,
+  "visible_screenshots": 64,
+  "maximum_origin_error_cm": 1.9073486328125e-06,
+  "compiled_manny_sources": {
+    "Plugins/SanctaVFXMannyLab/Source/SanctaVFXMannyLab/SanctaVFXMannyLab.Build.cs": "c55d449b722f0ffed6e3cdcda9deaa5f8c90974fac722187ddad812a35bad737",
+    "Plugins/SanctaVFXMannyLab/Source/SanctaVFXMannyLab/Private/SanctaVFXMannyLabModule.cpp": "dec582af868b8223ef7c2a87fb8bc6ae7fc6f18c413e98c087e1f45c3b1fe990",
+    "Plugins/SanctaVFXMannyLab/Source/SanctaVFXMannyLab/Private/SanctaVFXMannyReview.cpp": "3e003aa40e79f54ca2e420bd9c3aeea1f869a4dffdc0b1ae35ccb540c9aa1111",
+    "Plugins/SanctaVFXMannyLab/Source/SanctaVFXMannyLab/Public/SanctaVFXMannyReview.h": "818e37f1d5b9b42a1928909bfb244d4d2320140b34c1854edc86a8204c01f2fc"
+  },
+  "selected_effect_inputs": {
+    "Source/GameplayRuntime/BleedStanceActive.json": "c0ad165f1cb42338c7ee1dd46bcf328904fdf5102e0944940e23df723b8e65d0",
+    "Source/GameplayRuntime/BleedStanceActive.port.json": "e56aaa43d8c2252123084f88c19c2aea65b2ad0c7b2566a0ade1e5d0a5a40765",
+    "Content/Sancta/VFX/Definitions/DA_bleed_stance.uasset": "53960e7aa21887c679e639eaf5244ee6be3f3c21f6cc76f9be4ea284cda7afa1",
+    "Source/GameplayRuntime/PoisonStanceActive.json": "66dc05a3d8338b66d75ef1188ecd75905886e7434954e612d0dd841510a3b681",
+    "Source/GameplayRuntime/PoisonStanceActive.port.json": "432e8cdc66c36e803ae044275a5f2dac0b2eff748176028cce8b9d7545405ef5",
+    "Content/Sancta/VFX/Definitions/DA_poison_stance.uasset": "0c8b44ded18023a3af0b4faa80894f6569cf654cfe8e6742dc667ec60a804a63",
+    "Source/GameplayRuntime/BasicSwordPhysicalTrail.json": "68feefe1f7077a1ec91eab0496ff54195823bd4f100d17665e4b97f42ec682a6",
+    "Source/GameplayRuntime/BasicSwordPhysicalTrail.port.json": "e8f6d5e6fcb601b0ffd606e391d941781152ed79c11bfac479ca2b9c00c8e015",
+    "Content/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Physical.uasset": "95c1e8770e0c92484a6b148f04d9582c62549c577a236c5b0154860b680f30cc",
+    "Source/GameplayRuntime/BasicSwordMagicalTrail.json": "6ef9374949bcabeec18045f214749e65f84ae47fb681dff125f5b0c8cfe1e9f3",
+    "Source/GameplayRuntime/BasicSwordMagicalTrail.port.json": "4db8371ee0c75f321735fa7e5ff33c141e8383b706160969d9a6dfabd153b7f0",
+    "Content/Sancta/VFX/Definitions/DA_Combat_Basic_Sword_Magical.uasset": "77dd285fba713b1692ccc6dc87540c027adc18e8a5837fba7dd678fc6d5b595b",
+    "Source/GameplayRuntime/GuardActive.json": "9993a33b4cf27bb077682815dad2694eb88dd7103766d442954c6e52d6a536c4",
+    "Source/GameplayRuntime/GuardActive.port.json": "ac4a410d73085eeee4b41c4965fade0f983ee020e877db43f4c376f05cb7e955",
+    "Content/Sancta/VFX/Definitions/DA_Combat_Guard.uasset": "4b387a8d2673c686443d2bed193f29112f5c7dc72bbdeba36cf97a08fd0e8ffd",
+    "Source/GameplayRuntime/TankStanceActive.json": "1930ffc436dc0da0c44a9b70abcafa5cfda4d4189bef549d1cb0ee5dd9467bc8",
+    "Source/GameplayRuntime/TankStanceActive.port.json": "20e434a78a0dec29c150232ef67a9ff094a53e44db21f3169445327711de5555",
+    "Content/Sancta/VFX/Definitions/DA_tank_stance.uasset": "0a5426a138edf6cb9742d2dc0fdf1688678af100785eb97dc9aa304b4f1ed398",
+    "Source/GameplayRuntime/WarriorStanceActive.json": "302f5bae6fc1536aa7d8132cb1b8765271fd97ee2fbfd2b91449774845b30581",
+    "Source/GameplayRuntime/WarriorStanceActive.port.json": "4727a997e735a941fc61b3d545b93684afebc4588ec1bc1f6dc00432a762a03d",
+    "Content/Sancta/VFX/Definitions/DA_warrior_stance.uasset": "3503e51a833a4beedb6d161fc02562cc15fe08fffb73aa37f2f3bbbcb6966a09",
+    "Source/GameplayRuntime/CCStunActive.json": "076023c6573bcc20b7c15784fc046cbe6da88bf9b9bc15b7b476a9adbce98bb2",
+    "Source/GameplayRuntime/CCStunActive.port.json": "7b9ad421624706c4756bc8c906ae6f7a6771964c610d837e3d3d3380b14c79cb",
+    "Content/Sancta/VFX/Definitions/DA_Component_CCStunActive.uasset": "3919c7ca6d96afeb8cee17e09011fdc65c39f79ae3eb18262ec0ba3a25658554",
+    "Source/GameplayRuntime/CCRootActive.json": "cc92979e79490f82cb55897e82bf57850a6c52aef4d4d9b5faa40012d14fed72",
+    "Source/GameplayRuntime/CCRootActive.port.json": "83b609d743e68248599b3500a6d11c37f5e2dc4fba8f7e79d4950c67edeb820b",
+    "Content/Sancta/VFX/Definitions/DA_Component_CCRootActive.uasset": "5b140f40189bed2a2fb8589c7a6d656dda03ce9ad043c1a53055e64367deef2c",
+    "Source/GameplayRuntime/SeveringMark1.json": "7d37065844ab06678b0735c4734293d3325fa26bef4a57af76123896a75a57ca",
+    "Source/GameplayRuntime/SeveringMark1.port.json": "8723e16441368000a29fbc1014d120f06db9d405662cf8a1c0c2e24d0bbc260f",
+    "Content/Sancta/VFX/Definitions/DA_Component_SeveringMark1.uasset": "9ab2ea1e162186f6da3dbcacbad5dadfe113f788043d8a92ac4acd8cbf75679e",
+    "Source/GameplayRuntime/LaserActive.json": "7357fd99fa685149e79177b7c45c31a5ef4c1bdc723af456536c9fdca6f7b151",
+    "Source/GameplayRuntime/LaserActive.port.json": "2ba3dc5ba3cf504e000d569b0493d15d4e5580dceb36fb0ebcf466174f453f09",
+    "Content/Sancta/VFX/Definitions/DA_laser.uasset": "e0cffb4fd344f6cca12d65f85585d591e4e6470acdb1ba8ebf1473acf7defd9f",
+    "Source/GameplayRuntime/LaserCast.json": "91ee326b4a9b37b11ddcb0fcd082fdff765a23300ea7a38b06c0436223a36d31",
+    "Source/GameplayRuntime/LaserCast.port.json": "1e7889bbbcac676aa8dd54dcc8f68e535a1d97713fbc0ee49e1beec9bade3475",
+    "Source/GameplayRuntime/FootContactStone.json": "151d1c6cc1c534721316145310626906778b9940785ec28642206f0687f2e0a1",
+    "Source/GameplayRuntime/FootContactStone.port.json": "1ea036fb96ec5a0a4cead132adb4047faf5a070f71a35598031ccbb85ae7d091",
+    "Content/Sancta/VFX/Definitions/DA_Combat_Surface_Stone.uasset": "46e6458ecc8049b5b2ee63f645a03b84d3baf15948c5f9bab7c945d94f8b137e",
+    "Source/GameplayRuntime/ArcaneWeavingIiResource.json": "fba2c478b2eec158743ccb13c9ab439df57d6165eb2a09386574141373a39ca3",
+    "Source/GameplayRuntime/ArcaneWeavingIiResource.port.json": "aa707e6f9fcf739e79bc2a909835adb0f5c9fa97e0a39c43ca3e2d7a1299ddd3",
+    "Content/Sancta/VFX/Definitions/DA_arcane_weaving_ii.uasset": "ef4501ba9bd6722d62fc029657791aea4466e75ed52f4a4685f726b823ba4429"
+  },
+  "motion": [
+    {
+      "case": "BleedRight",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "BleedRight",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "BleedRight",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "BleedRight",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "Guard",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "Guard",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "Guard",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "Guard",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "Tank",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "Tank",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "Tank",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "Tank",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "Warrior",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "Warrior",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "Warrior",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "Warrior",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "Stun",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "Stun",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "Stun",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "Stun",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "Root",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "Root",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "Root",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "Root",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "LaserCast",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "LaserCast",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "LaserCast",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "LaserCast",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "FootStone",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "FootStone",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "FootStone",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "FootStone",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 0,
+      "hand_world_delta_cm": 44.64289954884576,
+      "hand_pose_delta_cm": 1.2022828602899478
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 1,
+      "hand_world_delta_cm": 118.647222057927,
+      "hand_pose_delta_cm": 105.51112606957187
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 2,
+      "hand_world_delta_cm": 8.749582385256737,
+      "hand_pose_delta_cm": 13.944260585285882
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 3,
+      "hand_world_delta_cm": 59.2206557457546,
+      "hand_pose_delta_cm": 51.06297296727464
+    }
+  ],
+  "frames": [
+    {
+      "case": "BleedRight",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/BleedRight_pose0.png",
+      "image_sha256": "adf3e73483714419f97f67919a4ec4f45e3c937ce378a6034578aebec50c3715",
+      "baseline_sha256": "7f30063b82470a4b62b0063b730aae8ac5e5f69391090fe12001fd4838e03ac1",
+      "preview": "Evidence/MannyReview/BleedRight_pose0.webp",
+      "changed_pixels_over_12": 1106,
+      "peak_difference": 236,
+      "visible": true
+    },
+    {
+      "case": "BleedRight",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/BleedRight_pose1.png",
+      "image_sha256": "0fc1eec68efe36b996efd5130864e92cfababe1ec0a87917e841110710a5a79e",
+      "baseline_sha256": "cc9f43b5522756afb4dacb5d8542d1b5c9f59c21168a0aa1cea89e52ca5e73be",
+      "preview": "Evidence/MannyReview/BleedRight_pose1.webp",
+      "changed_pixels_over_12": 2879,
+      "peak_difference": 229,
+      "visible": true
+    },
+    {
+      "case": "BleedRight",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/BleedRight_pose2.png",
+      "image_sha256": "7114c6e2d16970ac8ca07448d1883aa5aa26c6479b5d3d9a87c2771880f03b52",
+      "baseline_sha256": "439762ac0d03a59a631f6ec3fef99aaf0bd82b78505fbbb43c24d71d59fe5f72",
+      "preview": "Evidence/MannyReview/BleedRight_pose2.webp",
+      "changed_pixels_over_12": 2342,
+      "peak_difference": 235,
+      "visible": true
+    },
+    {
+      "case": "BleedRight",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/BleedRight_pose3.png",
+      "image_sha256": "3efd8cf01479ecf7e6589ee22b7f68baf6f715ac64808c3b89425baf4566a231",
+      "baseline_sha256": "a20c1f37914f2264764107a2b2cd626bcedd42d39bbb961537fd75978790f7e3",
+      "preview": "Evidence/MannyReview/BleedRight_pose3.webp",
+      "changed_pixels_over_12": 2532,
+      "peak_difference": 230,
+      "visible": true
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/BleedLeft_pose0.png",
+      "image_sha256": "b1a236d1ac6458d10f55af098beddbb874992de8aade1a2ec070647ad3c53a80",
+      "baseline_sha256": "2d5f8eb198b53472c9e80368ae0f21559c43a99d1e9069fdb32d1ad8e4dd3bac",
+      "preview": "Evidence/MannyReview/BleedLeft_pose0.webp",
+      "changed_pixels_over_12": 3108,
+      "peak_difference": 236,
+      "visible": true
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/BleedLeft_pose1.png",
+      "image_sha256": "a417c2df88324dc82a98c7926665bc0f315c2c1a53c80dc02d26e61461557930",
+      "baseline_sha256": "40a102447ac1e2ce0ac07684655ade510c960f6f1dd23cfd0ff2347ff227f798",
+      "preview": "Evidence/MannyReview/BleedLeft_pose1.webp",
+      "changed_pixels_over_12": 3538,
+      "peak_difference": 230,
+      "visible": true
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/BleedLeft_pose2.png",
+      "image_sha256": "d858bcd34d79b7841ef91eb03e6481697d8a12760ca1e81a8bc100dc4fdc0391",
+      "baseline_sha256": "4092855a02b7fdff8e3bceb5097d3e6cda4d4b3a0f89bf0230f471face63f66c",
+      "preview": "Evidence/MannyReview/BleedLeft_pose2.webp",
+      "changed_pixels_over_12": 3080,
+      "peak_difference": 239,
+      "visible": true
+    },
+    {
+      "case": "BleedLeft",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/BleedLeft_pose3.png",
+      "image_sha256": "2351846478759b4e9ee963d1de5010eab743f870cc5bb17d493b7bf17076e46f",
+      "baseline_sha256": "d265f804cc02165f37c42ff15aaf6b19d9ede38a80cefd28da84de7fa6979745",
+      "preview": "Evidence/MannyReview/BleedLeft_pose3.webp",
+      "changed_pixels_over_12": 2910,
+      "peak_difference": 242,
+      "visible": true
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/PoisonRight_pose0.png",
+      "image_sha256": "412987440b17464fae3c2e71fdfcaa1db2b6c728aa09e7dc18111549aa709ec9",
+      "baseline_sha256": "2aeb19c7b1a3c71f9b1ddcc67273ebb2c1a0938b7fc6110a6314d791a0833a10",
+      "preview": "Evidence/MannyReview/PoisonRight_pose0.webp",
+      "changed_pixels_over_12": 1159,
+      "peak_difference": 217,
+      "visible": true
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/PoisonRight_pose1.png",
+      "image_sha256": "d26d7f2e4ea239a2c49b4342d6a4370f56abc66ed3a7d57b33e9581d25318fc7",
+      "baseline_sha256": "ac24aa969ba57aff74f2d22ba18599defc258fa48fd67b272f364a9eddd7efea",
+      "preview": "Evidence/MannyReview/PoisonRight_pose1.webp",
+      "changed_pixels_over_12": 2814,
+      "peak_difference": 211,
+      "visible": true
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/PoisonRight_pose2.png",
+      "image_sha256": "386394566604a5e9c9133285b6cc8e9ff33364f9f5d816d056c61226ba85ab71",
+      "baseline_sha256": "cdeb56980617a89442feee3fa5fa564f382e1b6254026ffb304e662151cbc38a",
+      "preview": "Evidence/MannyReview/PoisonRight_pose2.webp",
+      "changed_pixels_over_12": 2277,
+      "peak_difference": 214,
+      "visible": true
+    },
+    {
+      "case": "PoisonRight",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/PoisonRight_pose3.png",
+      "image_sha256": "72fef28bb0b5b3f81e4a0fc061ac7242485c054475b27a3509772cd794eafd92",
+      "baseline_sha256": "f944ba88221a30c06475692ebc6efd8003821cc7d7c077badb34031748cf0f32",
+      "preview": "Evidence/MannyReview/PoisonRight_pose3.webp",
+      "changed_pixels_over_12": 2394,
+      "peak_difference": 207,
+      "visible": true
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/PoisonLeft_pose0.png",
+      "image_sha256": "35b029fe64284260f2340f4fbc29da03f6331f3b31f082e9d2450e3c9f6b28c1",
+      "baseline_sha256": "1aaa58b7dae4d3217a5d4457c8dd8b413d884532b2d593f568411400d74cacc1",
+      "preview": "Evidence/MannyReview/PoisonLeft_pose0.webp",
+      "changed_pixels_over_12": 2902,
+      "peak_difference": 217,
+      "visible": true
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/PoisonLeft_pose1.png",
+      "image_sha256": "2ad535adf2d59ce728049e50332cce3881179af2160bf4d1dd8d09d5550e0df6",
+      "baseline_sha256": "5711b36f9b4bf21b58bdb3b0bdea6688efe674f2d5a32259378b4049d3c96677",
+      "preview": "Evidence/MannyReview/PoisonLeft_pose1.webp",
+      "changed_pixels_over_12": 3345,
+      "peak_difference": 209,
+      "visible": true
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/PoisonLeft_pose2.png",
+      "image_sha256": "d800f12e3b247568d4bbe462d14f7b69f1d70610a89e32fbfdf8e02537ead67e",
+      "baseline_sha256": "852f093f3d3935f9e8844055561cf034f4dae5faa714e3864b1f8a12141b43ef",
+      "preview": "Evidence/MannyReview/PoisonLeft_pose2.webp",
+      "changed_pixels_over_12": 3017,
+      "peak_difference": 219,
+      "visible": true
+    },
+    {
+      "case": "PoisonLeft",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/PoisonLeft_pose3.png",
+      "image_sha256": "f35b5de506c0b2aab237e604a2a6c63f26d6d926554c0ffc92f37a379d48e1a6",
+      "baseline_sha256": "8e25a4b44085aaf531ad056871b11747f53a2d4e7a3bfb1eea7e64631499a250",
+      "preview": "Evidence/MannyReview/PoisonLeft_pose3.webp",
+      "changed_pixels_over_12": 2922,
+      "peak_difference": 221,
+      "visible": true
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/SwordPhysical_pose0.png",
+      "image_sha256": "708e92926c861691a866a4b6443fa83025457ba64d1caf77a3ebe67a9ffe5dcb",
+      "baseline_sha256": "15adac99dc1b9a7f00342c3a1198e64b0233a345811a68e1fe6c5fd8815822e3",
+      "preview": "Evidence/MannyReview/SwordPhysical_pose0.webp",
+      "changed_pixels_over_12": 842,
+      "peak_difference": 89,
+      "visible": true
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/SwordPhysical_pose1.png",
+      "image_sha256": "5077a588c75b4dce9c90045933266ee1656f94309c5e29e51a129c467a30d346",
+      "baseline_sha256": "1c055b1118030d2a358d564f108702be2d602e96070b880c9a2b92792ec33e36",
+      "preview": "Evidence/MannyReview/SwordPhysical_pose1.webp",
+      "changed_pixels_over_12": 965,
+      "peak_difference": 102,
+      "visible": true
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/SwordPhysical_pose2.png",
+      "image_sha256": "14be1e4bc11ef3baab5e9ffd11f657f06846e3d3bc8a76c6c5c4db26fdfe234d",
+      "baseline_sha256": "48ca2617dc9604d4343e9d3a0c53e8a6b129d95d071ed84038a1db787da1c676",
+      "preview": "Evidence/MannyReview/SwordPhysical_pose2.webp",
+      "changed_pixels_over_12": 644,
+      "peak_difference": 74,
+      "visible": true
+    },
+    {
+      "case": "SwordPhysical",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/SwordPhysical_pose3.png",
+      "image_sha256": "fb7e385daf7576d907d4b51ce7a03db4fc45cae08c8d82ff6b8a88d1cf335405",
+      "baseline_sha256": "942257c0798743da9432fecece8fe8931259012ecd36c8b38d236f39bbacbfce",
+      "preview": "Evidence/MannyReview/SwordPhysical_pose3.webp",
+      "changed_pixels_over_12": 757,
+      "peak_difference": 101,
+      "visible": true
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/SwordMagical_pose0.png",
+      "image_sha256": "8850e4a1e4a755596b18631a2acd89f6c5520072b85b3b9ab309edc090e793bb",
+      "baseline_sha256": "d5e1edd97e0a2385d0b9b70a34eb2d2da16cf01e6c0021b748ad9eb11deffea8",
+      "preview": "Evidence/MannyReview/SwordMagical_pose0.webp",
+      "changed_pixels_over_12": 758,
+      "peak_difference": 86,
+      "visible": true
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/SwordMagical_pose1.png",
+      "image_sha256": "74fdce553f9ce4cd66ebb4b9aad670d4049a3fbe093c2c5506744b5fe09da531",
+      "baseline_sha256": "0efe95558186c8078a9341db69971da7fb30117829661d538d887ab5ce719eb9",
+      "preview": "Evidence/MannyReview/SwordMagical_pose1.webp",
+      "changed_pixels_over_12": 962,
+      "peak_difference": 102,
+      "visible": true
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/SwordMagical_pose2.png",
+      "image_sha256": "72ac96c72309dadf214952051148d423dcc1fcd017ce8384f0fe5a8ecc513036",
+      "baseline_sha256": "c9dc508bcfa967d3819f19e412ee1fe0a734fac630e29ac61c875b50e6cd8ee1",
+      "preview": "Evidence/MannyReview/SwordMagical_pose2.webp",
+      "changed_pixels_over_12": 651,
+      "peak_difference": 79,
+      "visible": true
+    },
+    {
+      "case": "SwordMagical",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/SwordMagical_pose3.png",
+      "image_sha256": "9358c97981707fce251e0b16da9f7e8d6a03e6b9bcbd46d750fb9098a4473558",
+      "baseline_sha256": "c596b3abe3d35b9ed5c836b02385c14043f1795b7e4f262f745bb60c661552d3",
+      "preview": "Evidence/MannyReview/SwordMagical_pose3.webp",
+      "changed_pixels_over_12": 781,
+      "peak_difference": 113,
+      "visible": true
+    },
+    {
+      "case": "Guard",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/Guard_pose0.png",
+      "image_sha256": "18a6a315bc3b849a94e297bcfa494e06748c5738cd4fd9bdc8222778938785eb",
+      "baseline_sha256": "f40249bdb65960857789448d7acd370efdf918a9edd9121efc18373c27e1c78c",
+      "preview": "Evidence/MannyReview/Guard_pose0.webp",
+      "changed_pixels_over_12": 779,
+      "peak_difference": 130,
+      "visible": true
+    },
+    {
+      "case": "Guard",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/Guard_pose1.png",
+      "image_sha256": "2b087d56342b3f355a94d8169432fc73bbf5a3f5b28f5608714936815778b16f",
+      "baseline_sha256": "64da4f0e0c74654b650256d6079167f8f36b900bbc4c4c834ba0b52d8fdc20fc",
+      "preview": "Evidence/MannyReview/Guard_pose1.webp",
+      "changed_pixels_over_12": 812,
+      "peak_difference": 127,
+      "visible": true
+    },
+    {
+      "case": "Guard",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/Guard_pose2.png",
+      "image_sha256": "e57ffed41b73bb726e1dcdde2aa5d25c0d2d1131e95cbbaceea583e450c4444e",
+      "baseline_sha256": "fc92f38a55309a5068dcaef7654e7da362afd7b5a853519561d2cccbd2974185",
+      "preview": "Evidence/MannyReview/Guard_pose2.webp",
+      "changed_pixels_over_12": 778,
+      "peak_difference": 117,
+      "visible": true
+    },
+    {
+      "case": "Guard",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/Guard_pose3.png",
+      "image_sha256": "9b6e02edee43b8a658abfad7981824b7b6b8a401656bf85553134f9a57f232a5",
+      "baseline_sha256": "0bba3cf04aca3bb8ac0ca4728a155bdfeef8e6499d92ce554cb77499579d080c",
+      "preview": "Evidence/MannyReview/Guard_pose3.webp",
+      "changed_pixels_over_12": 727,
+      "peak_difference": 106,
+      "visible": true
+    },
+    {
+      "case": "Tank",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/Tank_pose0.png",
+      "image_sha256": "66e447f647d6af6439061a5cbd0c5fead837ab7e9b41b4fd26ebe08d7ef6e889",
+      "baseline_sha256": "163784f7c8be03e59afaace653167eda99072b837b242a8ec8a7ee071de12f26",
+      "preview": "Evidence/MannyReview/Tank_pose0.webp",
+      "changed_pixels_over_12": 10667,
+      "peak_difference": 248,
+      "visible": true
+    },
+    {
+      "case": "Tank",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/Tank_pose1.png",
+      "image_sha256": "77baa1cfea7eea9f77d5cf7d3ab2e4dad842af66afb3cd4f7863ae810ab6c7b3",
+      "baseline_sha256": "6f103ae7c5cfd3eab1372ba121a3eaa741a6c23a8f4a3aa35cfb0b88ff5775e0",
+      "preview": "Evidence/MannyReview/Tank_pose1.webp",
+      "changed_pixels_over_12": 12923,
+      "peak_difference": 249,
+      "visible": true
+    },
+    {
+      "case": "Tank",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/Tank_pose2.png",
+      "image_sha256": "37d3709a94a5a1e5b22874bb5192f9252d7f83f7e24655e87959e4bc830286e7",
+      "baseline_sha256": "85caa94514a2cfb9b25f4ef41390512d997d85d23b82968e7a8812576a792b5b",
+      "preview": "Evidence/MannyReview/Tank_pose2.webp",
+      "changed_pixels_over_12": 10399,
+      "peak_difference": 248,
+      "visible": true
+    },
+    {
+      "case": "Tank",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/Tank_pose3.png",
+      "image_sha256": "a91439f051a6be966a98a854df205dc996f0229b3e8d555f6c4594ff2d25b4a6",
+      "baseline_sha256": "204f757d531c8951c9ba52596f593084bf3242eee52fa5d750c0bc84ca809ab3",
+      "preview": "Evidence/MannyReview/Tank_pose3.webp",
+      "changed_pixels_over_12": 10470,
+      "peak_difference": 248,
+      "visible": true
+    },
+    {
+      "case": "Warrior",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/Warrior_pose0.png",
+      "image_sha256": "1a960bf51452f9e8caec88e0a211bf1c2cb9586d6d6e771001a1434fcc1cea96",
+      "baseline_sha256": "249021846d605fd010abbf07c30203737846ab77dd4b1e4c9223afcecdd69100",
+      "preview": "Evidence/MannyReview/Warrior_pose0.webp",
+      "changed_pixels_over_12": 10301,
+      "peak_difference": 255,
+      "visible": true
+    },
+    {
+      "case": "Warrior",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/Warrior_pose1.png",
+      "image_sha256": "a1e95e1895b3b98dfa71a585970acb86c7422da2e7159108dd75dbea5580d571",
+      "baseline_sha256": "4a2d8b19c43bb24e6646933bcecc74235e8262649e409ff8c808f8bb7dd4a703",
+      "preview": "Evidence/MannyReview/Warrior_pose1.webp",
+      "changed_pixels_over_12": 12310,
+      "peak_difference": 255,
+      "visible": true
+    },
+    {
+      "case": "Warrior",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/Warrior_pose2.png",
+      "image_sha256": "394b9cb34aed6afbb007bfb246517cbd5a88c4c2fff21b95207bb111df1a5f1c",
+      "baseline_sha256": "85c5b7e56f63bc5b301bd9ec19b3babb80db91544b5715bce1ed0e61b9d45182",
+      "preview": "Evidence/MannyReview/Warrior_pose2.webp",
+      "changed_pixels_over_12": 10215,
+      "peak_difference": 255,
+      "visible": true
+    },
+    {
+      "case": "Warrior",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/Warrior_pose3.png",
+      "image_sha256": "3aad1101de6369b8a7befa6fb44160282c2d9cf7438e02d95e73ab8702b8c040",
+      "baseline_sha256": "0fc165ab3c1cba5324b2e1ba7e103553ee25b71e80bcd47f9a8961cb2b523779",
+      "preview": "Evidence/MannyReview/Warrior_pose3.webp",
+      "changed_pixels_over_12": 10228,
+      "peak_difference": 255,
+      "visible": true
+    },
+    {
+      "case": "Stun",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/Stun_pose0.png",
+      "image_sha256": "a53763be703a89c35de28ec33bc18b90f616d98c7f0cf67fd1b51629e8841add",
+      "baseline_sha256": "26e6a8d7bdd0b8b7f82d14a77e196c61c3f8ad60bbe5e3ede0044738827eab52",
+      "preview": "Evidence/MannyReview/Stun_pose0.webp",
+      "changed_pixels_over_12": 1316,
+      "peak_difference": 226,
+      "visible": true
+    },
+    {
+      "case": "Stun",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/Stun_pose1.png",
+      "image_sha256": "2732ee57c18e029fd8eed84a27cdf1d165f66e4cb42f338dfd0b265f107279d1",
+      "baseline_sha256": "5aa1457b3ba1c81f2891e601a7d6c9e07696e9a49357037a5fc906b9878b98d3",
+      "preview": "Evidence/MannyReview/Stun_pose1.webp",
+      "changed_pixels_over_12": 1437,
+      "peak_difference": 226,
+      "visible": true
+    },
+    {
+      "case": "Stun",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/Stun_pose2.png",
+      "image_sha256": "a2de78ded2082f13e9666cacfe65a0749ad7d5b297e729458c6a1502cd009a19",
+      "baseline_sha256": "72ee5b30507098cb033c5260cf3742d023b4935018b1e718844efcf37c91cf0a",
+      "preview": "Evidence/MannyReview/Stun_pose2.webp",
+      "changed_pixels_over_12": 1281,
+      "peak_difference": 226,
+      "visible": true
+    },
+    {
+      "case": "Stun",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/Stun_pose3.png",
+      "image_sha256": "55970d5c1efd1dbad6b5c59a262fb9550c7079dac5a1aba2012e74090dc0be46",
+      "baseline_sha256": "510ffcb1a25effeafec96696f201f66df19d46b21b3a1ce5f434482c10125f74",
+      "preview": "Evidence/MannyReview/Stun_pose3.webp",
+      "changed_pixels_over_12": 1287,
+      "peak_difference": 226,
+      "visible": true
+    },
+    {
+      "case": "Root",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/Root_pose0.png",
+      "image_sha256": "4039a0f1aea3869179d405c70b4b7f4dccae242d1d3b094faf3ed61818dc308b",
+      "baseline_sha256": "1d131421e6868e6d77db2322ec5ab57e5caa5bc842d3aae86ae574753ae8d575",
+      "preview": "Evidence/MannyReview/Root_pose0.webp",
+      "changed_pixels_over_12": 1653,
+      "peak_difference": 132,
+      "visible": true
+    },
+    {
+      "case": "Root",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/Root_pose1.png",
+      "image_sha256": "ac828e0f2a2ae4b78adcd7ecb2b1c0c1da6f0cd7a475afe2053d0504f45ca587",
+      "baseline_sha256": "80c0ac16f4fbe521b581c9cbc445972d80f085d649f43ec8eceacf9c98e1906f",
+      "preview": "Evidence/MannyReview/Root_pose1.webp",
+      "changed_pixels_over_12": 617,
+      "peak_difference": 106,
+      "visible": true
+    },
+    {
+      "case": "Root",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/Root_pose2.png",
+      "image_sha256": "41f4dc8f46e86d32a606489554a2245584b7de4099f5b11db297531b3b7121e5",
+      "baseline_sha256": "3993760360916f053b7641d3f419aaa477f440e35237257cf1d32814218a819a",
+      "preview": "Evidence/MannyReview/Root_pose2.webp",
+      "changed_pixels_over_12": 1737,
+      "peak_difference": 133,
+      "visible": true
+    },
+    {
+      "case": "Root",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/Root_pose3.png",
+      "image_sha256": "7bc0d34734c66d946751a6dfc7a291feab8e303aa43af7c4a3007266931dbc24",
+      "baseline_sha256": "adea802e112c8e9bc9f18cb5cdad5f02bc02d812cc1a25d2ae8bfb24ab5d9e83",
+      "preview": "Evidence/MannyReview/Root_pose3.webp",
+      "changed_pixels_over_12": 1495,
+      "peak_difference": 135,
+      "visible": true
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/SeveringMark_pose0.png",
+      "image_sha256": "900285e97ebdf9155b38f721672601cc78964cd4f8a5a790e50bdf5c9a15d915",
+      "baseline_sha256": "808143fb6167ebfe0bbc33051c7d3009af01f7f6588d77fb678fd1f7268c9b08",
+      "preview": "Evidence/MannyReview/SeveringMark_pose0.webp",
+      "changed_pixels_over_12": 1008,
+      "peak_difference": 206,
+      "visible": true
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/SeveringMark_pose1.png",
+      "image_sha256": "67733b58b645c6be73db537c256382025c03adda0883c8f78f387a9e95552f09",
+      "baseline_sha256": "86d60b6fc69d16cee1b5e24e1b95e3f399df09be2d92f9746391c1cdeb295a16",
+      "preview": "Evidence/MannyReview/SeveringMark_pose1.webp",
+      "changed_pixels_over_12": 1239,
+      "peak_difference": 212,
+      "visible": true
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/SeveringMark_pose2.png",
+      "image_sha256": "6d99d86f8d3e9762edafbd1b00117e6dc53fcddb9f1ae3df8c8e8257c745b36f",
+      "baseline_sha256": "f36a7e82f6c198408969105995f072a6a76355e3835398b7cd41bbbbd1dc5c03",
+      "preview": "Evidence/MannyReview/SeveringMark_pose2.webp",
+      "changed_pixels_over_12": 1316,
+      "peak_difference": 223,
+      "visible": true
+    },
+    {
+      "case": "SeveringMark",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/SeveringMark_pose3.png",
+      "image_sha256": "46c5bfc0ecc4babd87c802d6fad7fee467591d84f342acb667863646001f1cc1",
+      "baseline_sha256": "a0b34c6107702637ae45b3d65913ebfdfe35ad620e5d442b6077541c27a20368",
+      "preview": "Evidence/MannyReview/SeveringMark_pose3.webp",
+      "changed_pixels_over_12": 1320,
+      "peak_difference": 210,
+      "visible": true
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/LaserBeam_pose0.png",
+      "image_sha256": "7d4c910448b7b3e8bc75b1c91fe4ea0d6431ca931413afa86234f9671ef66dcc",
+      "baseline_sha256": "9cdd61dd4f762c4d1b6a78234e0c2f2aa3b4885cd009b800c3168bcd69f0057f",
+      "preview": "Evidence/MannyReview/LaserBeam_pose0.webp",
+      "changed_pixels_over_12": 67440,
+      "peak_difference": 239,
+      "visible": true
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/LaserBeam_pose1.png",
+      "image_sha256": "e5d9d2c7ba958dbdabad8e27b6e6174760622502ebfc95c3b6b009e959e7537c",
+      "baseline_sha256": "6cebb7725b4b9db1d600e13cfc4a406fefca65d9419147f8aea638d62b498324",
+      "preview": "Evidence/MannyReview/LaserBeam_pose1.webp",
+      "changed_pixels_over_12": 45160,
+      "peak_difference": 226,
+      "visible": true
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/LaserBeam_pose2.png",
+      "image_sha256": "e41201f56dec4ff83a7dd6781875d79dce6f8b8e4cdbfff89f34c677029b04c7",
+      "baseline_sha256": "7118e560a9fa9697f7b1715bf564f442355b66f6c3ad2e18e6c8b19c33466534",
+      "preview": "Evidence/MannyReview/LaserBeam_pose2.webp",
+      "changed_pixels_over_12": 65203,
+      "peak_difference": 225,
+      "visible": true
+    },
+    {
+      "case": "LaserBeam",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/LaserBeam_pose3.png",
+      "image_sha256": "ab21ffb6f60a4538f84832947e3d58b3876dc4e5c9e6742a6ec85f10a90540f0",
+      "baseline_sha256": "60061003db964952dc2c5bbec728f555449d00ec770f9274fef197719a82bcbb",
+      "preview": "Evidence/MannyReview/LaserBeam_pose3.webp",
+      "changed_pixels_over_12": 67809,
+      "peak_difference": 222,
+      "visible": true
+    },
+    {
+      "case": "LaserCast",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/LaserCast_pose0.png",
+      "image_sha256": "bf9d48f0d3def5e8780bb6b31f2c076142f9962dfce07de83d1da94cc1f55169",
+      "baseline_sha256": "a4483781a7dee2f447b76d70fbc414a4398c3fa6af8342f665eea4769e7a20dc",
+      "preview": "Evidence/MannyReview/LaserCast_pose0.webp",
+      "changed_pixels_over_12": 2911,
+      "peak_difference": 202,
+      "visible": true
+    },
+    {
+      "case": "LaserCast",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/LaserCast_pose1.png",
+      "image_sha256": "b09c687f15167875bc75f08a57a3240e18c9f6102002e15c7f40cde9a92078b7",
+      "baseline_sha256": "e65c7b63ddf95bf28ae51a9d7dfb7dd985224eaa99696580a38ae130c0683523",
+      "preview": "Evidence/MannyReview/LaserCast_pose1.webp",
+      "changed_pixels_over_12": 7635,
+      "peak_difference": 214,
+      "visible": true
+    },
+    {
+      "case": "LaserCast",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/LaserCast_pose2.png",
+      "image_sha256": "602c84a06045043afc013e0ffc54c3fc1cd030549ccd18169113140ace2bba3b",
+      "baseline_sha256": "6cb6b3dfac74616eb9dad7d455c42e920e80045d93c0576c00db626ddd23a49b",
+      "preview": "Evidence/MannyReview/LaserCast_pose2.webp",
+      "changed_pixels_over_12": 6011,
+      "peak_difference": 206,
+      "visible": true
+    },
+    {
+      "case": "LaserCast",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/LaserCast_pose3.png",
+      "image_sha256": "50bd29d7c9fe9085057c0111af5e98d50f3672caaf6853737e3149f9e54026c8",
+      "baseline_sha256": "3e98c67a4353714c190f024ec9d4019c4dcdb5e252135520e2328af278755a84",
+      "preview": "Evidence/MannyReview/LaserCast_pose3.webp",
+      "changed_pixels_over_12": 5473,
+      "peak_difference": 202,
+      "visible": true
+    },
+    {
+      "case": "FootStone",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/FootStone_pose0.png",
+      "image_sha256": "71a0b1815f97d135d0ca5565820dba83147a4940c129e7177b3ab3fb5b2f1f8a",
+      "baseline_sha256": "613a39ef67b86d06a505a50f18bd4032ccfd1a8f113462453c2eccfb88e00307",
+      "preview": "Evidence/MannyReview/FootStone_pose0.webp",
+      "changed_pixels_over_12": 267,
+      "peak_difference": 51,
+      "visible": true
+    },
+    {
+      "case": "FootStone",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/FootStone_pose1.png",
+      "image_sha256": "8950eaca1e66138c1e260d42188ef7c914a51f3faaf51d155a8b5953e038126b",
+      "baseline_sha256": "13399ebeedba6aee81de1310d85f36e5b7c03c04c795baa61606e0121a876e83",
+      "preview": "Evidence/MannyReview/FootStone_pose1.webp",
+      "changed_pixels_over_12": 356,
+      "peak_difference": 48,
+      "visible": true
+    },
+    {
+      "case": "FootStone",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/FootStone_pose2.png",
+      "image_sha256": "471f2275703a0479879cc828645ed0ca90439c580e8def9f896a32ba81580ad0",
+      "baseline_sha256": "79474fd7c9daff688f2954c1ec9a275f34e0c3cdeb39ed7d2a9655e5da086d43",
+      "preview": "Evidence/MannyReview/FootStone_pose2.webp",
+      "changed_pixels_over_12": 677,
+      "peak_difference": 52,
+      "visible": true
+    },
+    {
+      "case": "FootStone",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/FootStone_pose3.png",
+      "image_sha256": "cc11f013b25d95d272b1b08b2261107a2ad4c1a98bf622e41fa0b2b7bd38d54d",
+      "baseline_sha256": "965ca8ebc5212f532c6f78b289b930145ce81fc8e1808344c05c8d4ea1e46318",
+      "preview": "Evidence/MannyReview/FootStone_pose3.webp",
+      "changed_pixels_over_12": 790,
+      "peak_difference": 68,
+      "visible": true
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 0,
+      "image": "Saved/MannyCaptures/ArcaneResource_pose0.png",
+      "image_sha256": "a7e75cc2878d995c29aaa5ceb1d691720b262efaa3900fefd7f01186911d9403",
+      "baseline_sha256": "508258a776d8293c893dbc2d91e207b6026caab8fe82b87b4c126cd28ba3c6fa",
+      "preview": "Evidence/MannyReview/ArcaneResource_pose0.webp",
+      "changed_pixels_over_12": 5830,
+      "peak_difference": 195,
+      "visible": true
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 1,
+      "image": "Saved/MannyCaptures/ArcaneResource_pose1.png",
+      "image_sha256": "e46f2f29779e820b0f4c7a08d03b59d5932e6bd22922f1391096890fab11249f",
+      "baseline_sha256": "f7c83b074c1e451c725a86a8c09173bfddc17f8de449f94766b3107ceb3426a6",
+      "preview": "Evidence/MannyReview/ArcaneResource_pose1.webp",
+      "changed_pixels_over_12": 5566,
+      "peak_difference": 206,
+      "visible": true
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 2,
+      "image": "Saved/MannyCaptures/ArcaneResource_pose2.png",
+      "image_sha256": "9b6e4ebff5853761fd420b1472b8dec2cf2343e4c03b3811a510a4241958b416",
+      "baseline_sha256": "e52a7a14e15b2763f13cb4c685eadd08a14a9a333ba231e48d4320fe3070d620",
+      "preview": "Evidence/MannyReview/ArcaneResource_pose2.webp",
+      "changed_pixels_over_12": 5442,
+      "peak_difference": 207,
+      "visible": true
+    },
+    {
+      "case": "ArcaneResource",
+      "pose": 3,
+      "image": "Saved/MannyCaptures/ArcaneResource_pose3.png",
+      "image_sha256": "126f90706c3f6481c258cd10742e287fa652d942cd6afb0a283bc130eedac423",
+      "baseline_sha256": "77e035e9722bc28b1dce7ae19f3c1412a00b379e009f375bc5de9ae695626452",
+      "preview": "Evidence/MannyReview/ArcaneResource_pose3.webp",
+      "changed_pixels_over_12": 5759,
+      "peak_difference": 203,
+      "visible": true
+    }
+  ],
+  "inputs": {
+    "Evidence/gameplay-manny-cases.json": "c03f87d2e1c3a7a71ed769ff6afd39adebf5e22a33f538cebf5a9a9188c72449",
+    "Evidence/gameplay-manny-discovery.json": "f00ec32882c55b8e1ca133191d5019ac1d93e6982165534d5b07130ef334ef43",
+    "Evidence/gameplay-manny-local-reference.json": "2c6ade37ac26550f3a7acc39ca6b44dd503adc424f9a54a23a647ab6c60da8bb",
+    "Evidence/gameplay-runtime-migration-manifest.json": "d465e1feacbccff6b99b937f463f5777a846f29398fd91c8bf201742fa69bbdf",
+    "Plugins/SanctaVFXMannyLab/Binaries/Win64/UnrealEditor-SanctaVFXMannyLab.dll": "d18e8b910959985ea31a64043a68b166498a431f18ecca92acce2ead0a048757",
+    "SanctaVFXLab.uproject": "fe6c4afd64b9f12195749d9f9d3759c9af71a9047a082662d570d6891615ccb6",
+    "Content/Sancta/VFX/MannyLab/L_MannyReview.umap": "e7bea5b2e8769c3ccd98b875b24a254052717846400c90a5356ce8dd21a4d1e5",
+    "Plugins/SanctaVFXMannyLab/SanctaVFXMannyLab.uplugin": "2704f56e5455706db06594b572a38b18631f59025dbdf567a57fad2d1b972de9"
+  },
+  "visual_inspection": "inspected_current_64_frames_with_readability_flags",
+  "production_approved": false,
+  "foundation_modified": false,
+  "scope": "Live evaluated Manny bone transforms in separate PIE lab; template poses, proxy attachment and material scale adapter.",
+  "remaining": [
+    "Bilateral arms and Rapid Attack bindings",
+    "Final weapons and skill animations/notifies",
+    "Promote rig scale and attachment adapter to runtime after approval",
+    "Actual gameplay camera, terrain, authority and multiplayer"
+  ],
+  "animation_motion_verified": true,
+  "passed": true,
+  "inspection_record": {
+    "recorded_at_utc": "2026-10-05T17:04:47.964870+00:00",
+    "contact_sheets": {
+      "Evidence/MannyReview/manny-pose0.jpg": "a90b2d3995498f39f58de83e6d1199f7eadb5e236256bae4f61bb6844891d361",
+      "Evidence/MannyReview/manny-pose1.jpg": "2600f965af08036b1246b8cb05abc56830e29dcc51235b26724d2894e8cde919",
+      "Evidence/MannyReview/manny-pose2.jpg": "422284702219967283f8683204d1ad8e25a18b313242bce7a71a4c128b254622",
+      "Evidence/MannyReview/manny-pose3.jpg": "ea56629680638cea5e7c6575a6c0fa863928a67d2a4fac58ee799e5a224e1aa4"
+    },
+    "full_frames_inspected": [
+      "SwordPhysical_pose1.png",
+      "Guard_pose1.png",
+      "SeveringMark_pose1.png",
+      "BleedRight_pose1.png"
+    ],
+    "flags": [
+      "Sword trail and Guard have weak readability in the captured camera; test other angles and final poses before visual approval.",
+      "Bleed/Poison evaluated one arm at a time; simultaneous bilateral composition is pending.",
+      "Sword uses a 75 cm calibration shaft, without final weapon mesh/axes.",
+      "Foot contact is subtle and uses projection onto a flat fixture floor, not a confirmed terrain contact.",
+      "Severing coverage is Mark1 only; Mark2/Mark3 remain pending on Manny."
+    ],
+    "quality_approved": false,
+    "basis": "Current UE r7 contact sheets and representative full PNGs viewed after regenerating the audit."
+  },
+  "native_exit_code": 0,
+  "measurement_raw_sha256": "8c325298ab0a35e72e8632bfbeffc1382432c60ab642655711cd30311ce00a09"
+}
