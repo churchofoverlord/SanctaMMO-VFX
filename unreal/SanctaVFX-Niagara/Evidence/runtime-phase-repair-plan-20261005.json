@@ -296,14 +296,14 @@
     "Thunderstrike I captured in its on-flicker window without changing approved lightning art."
   ],
   "publication": {
-    "status": "runtime_published_guide_ready_for_commit",
+    "status": "runtime_and_guide_published",
     "recorded_at_utc": "2026-10-05T12:34:15.849802+00:00",
     "remote": "https://github.com/churchofoverlord/SanctaMMO-VFX.git",
     "branch": "main",
     "visibility": "public",
     "verified_owner": "churchofoverlord",
     "verified_by": "Connected GitHub account/profile and installed repository metadata; local origin and published commit history",
-    "prepared_file_count": 3838,
+    "prepared_file_count": 3844,
     "scope_file": "Evidence/runtime-version-control-scope.json",
     "scope_sha256": "93c2cabc7e4b019e09b2855348ce5c5632f26ac8ea30de29b64821657f63e067",
     "commit_created": true,
@@ -318,6 +318,9 @@
     "runtime_commit": "2d1ea92d41198468d7ecd3708e4de9f252e38c2b",
     "published_at_utc": "2026-10-05T13:13:32.570902+00:00",
     "guide": "GUIA_VFX.html",
-    "guide_request": "sim e cria um guia com orientações/index"
+    "guide_request": "sim e cria um guia com orientações/index",
+    "guide_commit": "c9553ef4285f3af578fee5e2bb5ca6125e706784",
+    "guide_push_completed": true,
+    "guide_published_at_utc": "2026-10-05T13:18:10.552617+00:00"
   }
 }

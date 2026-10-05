@@ -7712,7 +7712,7 @@
     "Ver-Fases-Integracao.cmd"
   ],
   "file_count": 3843,
-  "bytes": 298104489,
+  "bytes": 298104660,
   "excludes": [
     "Engine sources/binaries",
     "Foundation changes",

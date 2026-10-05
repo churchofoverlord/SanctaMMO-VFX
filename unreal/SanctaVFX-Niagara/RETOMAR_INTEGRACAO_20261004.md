@@ -1,6 +1,6 @@
 # Retomar a aplicação da avaliação VFX
 
-Checkpoint atualizado em 2026-10-05T12:35:38.905717+00:00. Estado: **lab_verified_awaiting_user_review**. Foundation e Engine preservados.
+Checkpoint atualizado em 2026-10-05T13:18:10.697172+00:00. Estado: **lab_verified_awaiting_user_review**. Foundation e Engine preservados.
 
 Runtime compilado, 34 testes nativos de eventos e 56 combinações classe/arma. Materiais privados testados em 401 definições. Estes testes não certificam integração no jogo nem aprovação artística final.
 
@@ -18,4 +18,4 @@ Capturas aceites da compilação atual: **1004**, incluindo **867** do plano com
 
 Validação interna do laboratório concluída. Galeria e ZIP atuais; falta o feedback do utilizador, a calibração no jogo e o orçamento no hardware alvo. Foundation continua protegido. A validação do laboratório não certifica integração Foundation ou qualidade final no jogo. Nenhuma captura ou execução UE desta tarefa permanece ativa.
 
-Git: Commit/push ainda pendentes. Os ficheiros estão locais; confirmar o estado de aprovação em Evidence/runtime-phase-repair-plan-20261005.json antes de publicar.
+Git: Revisão guardada em origin/main; commit confirmado: c9553ef4285f3af578fee5e2bb5ca6125e706784
