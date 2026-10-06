@@ -8,7 +8,7 @@
 
 As seis variantes estão em **Source/MannyCalibration**, separadas dos componentes gerais. Os novos inputs dos braços e a escala ainda precisam de promoção ao runtime. Espada de 75 cm e poses Unarmed são fixtures: armas/animações/notifies finais, guard/dodge/sprint, roupa/oclusão, câmara real e restantes fases continuam pendentes. Guard planar fica discreto de perfil. Não declarar os 331 componentes calibrados no Manny ou aprovação de produção.
 
-Foundation, Engine, rig original, DLLs Bridge/runtime e assets atuais preservados por hashes. O build de variantes e a preparação do mapa terminaram com código 0; duas tentativas anteriores do harness em Editor completo falharam na simulação e estão registadas. A primeira passagem fica em `Saved/MannyPass1-20261005`. Fontes e registos desta segunda passagem aguardam commit/push.
+Foundation, Engine, rig original, DLLs Bridge/runtime e assets atuais preservados por hashes. O build de variantes e a preparação do mapa terminaram com código 0; duas tentativas anteriores do harness em Editor completo falharam na simulação e estão registadas. A primeira passagem fica em `Saved/MannyPass1-20261005`. Fontes, guia e registos da segunda passagem publicados no commit `266e13b`, verificado em `origin/main`; capturas e assets Epic/MannyLab continuam locais.
 
 Próximo trabalho: calibração de armas/poses/notifies finais e restantes fases, seguida da promoção autorizada dos adaptadores para o runtime. Não alterar Foundation sem nova autorização.
 

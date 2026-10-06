@@ -105,5 +105,13 @@
     "Check final guard/dodge/sprint poses, clothing, occlusion, Low quality and actual gameplay camera",
     "Confirm world contacts, sweeps, lifetime owners, authority and multiplayer in the game"
   ],
-  "git_commit_push_pending": true
+  "git_commit_push_pending": false,
+  "git_saved_commit": "266e13b15eb3c044edb45a2fe0aa6469e3c82a95",
+  "git_publication": {
+    "content_commit": "266e13b15eb3c044edb45a2fe0aa6469e3c82a95",
+    "branch": "main",
+    "remote": "origin/main",
+    "verified_at_utc": "2026-10-06T07:44:57.784420+00:00",
+    "note": "Published second-pass content commit; publication metadata is recorded in the subsequent commit."
+  }
 }
