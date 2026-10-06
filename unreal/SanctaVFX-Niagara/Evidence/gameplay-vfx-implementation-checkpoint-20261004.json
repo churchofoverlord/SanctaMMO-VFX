@@ -2105,8 +2105,8 @@
   },
   "phase_repair_plan": "Evidence/runtime-phase-repair-plan-20261005.json",
   "export_requires_refresh": false,
-  "git_commit_push_pending": true,
-  "git_saved_commit": "266e13b15eb3c044edb45a2fe0aa6469e3c82a95",
+  "git_commit_push_pending": false,
+  "git_saved_commit": "598cdd335a838164c38468237f9a18ca5218ce98",
   "manny_calibration": {
     "scenes": 340,
     "components": 331,
@@ -2125,10 +2125,10 @@
     "production_approved": false
   },
   "git_publication": {
-    "content_commit": "266e13b15eb3c044edb45a2fe0aa6469e3c82a95",
+    "content_commit": "598cdd335a838164c38468237f9a18ca5218ce98",
     "branch": "main",
     "remote": "origin/main",
-    "verified_at_utc": "2026-10-06T07:44:57.784420+00:00",
-    "note": "Published second-pass content commit; publication metadata is recorded in the subsequent commit."
+    "verified_at_utc": "2026-10-06T10:40:37.356442+00:00",
+    "note": "Full Manny catalog content published; this metadata is saved in the following commit."
   }
 }

@@ -73,7 +73,7 @@
   "production_approved": false,
   "game_calibration_complete": false,
   "runtime_adapter_promoted": false,
-  "git_commit_push_pending": true,
+  "git_commit_push_pending": false,
   "background_running": false,
   "hashes": {
     "Evidence/gameplay-manny-full-validation.json": "550e55cc30d20c3da13f0bc131ce85e5d9eb58aefb10c5bff6878310542dd43a",
@@ -88,5 +88,13 @@
     "Evidence/gameplay-runtime-export.json": "66c52883a5440aedeb78e8a47199d0a446b4a349a2a5e75c0c1dc6123553d2f7"
   },
   "diagnostic_flags": 138,
-  "completed_scope": "All current components captured on the animated rig and representative images inspected. Individual pose/view readability and final gameplay integration remain separate requirements."
+  "completed_scope": "All current components captured on the animated rig and representative images inspected. Individual pose/view readability and final gameplay integration remain separate requirements.",
+  "git_saved_commit": "598cdd335a838164c38468237f9a18ca5218ce98",
+  "git_publication": {
+    "content_commit": "598cdd335a838164c38468237f9a18ca5218ce98",
+    "branch": "main",
+    "remote": "origin/main",
+    "verified_at_utc": "2026-10-06T10:40:37.356442+00:00",
+    "note": "Full Manny catalog content published; this metadata is saved in the following commit."
+  }
 }
