@@ -33,10 +33,19 @@ for path in ['.gitignore','AGENTS.md','CONTINUAR.md','Config/DefaultEngine.ini',
     add('configuration_docs',path)
 for path in ['GUIA_VFX.html','GUIA_VFX.md','Abrir-Guia-VFX.cmd']:
     add('configuration_docs',path)
-for path in ['MANNY_VFX.md','Ver-Manny-VFX.cmd']:
+for path in ['MANNY_VFX.md','Ver-Manny-VFX.cmd','Ver-Capturas-Manny.cmd']:
     add('manny_lab',path)
-for name in ['prepare_manny_reference.py','discover_manny_editor.py','prepare_manny_cases.py','create_manny_review.py','audit_manny_review.py','Build-MannyLab.ps1','Open-MannyLab.ps1']:
+for name in ['prepare_manny_reference.py','discover_manny_editor.py','prepare_manny_cases.py','create_manny_review.py','audit_manny_review.py','prepare_manny_bindings.py','build_manny_bindings.py','Build-MannyLab.ps1','Open-MannyLab.ps1']:
     add('manny_lab','Scripts/'+name)
+for row in read('Evidence/gameplay-manny-binding-sources.json')['rows']:
+    add('manny_lab',row['source'])
+    port=pathlib.Path(row['source']).with_suffix('.port.json')
+    add('manny_lab',port)
+    for layer in read(port)['layers']:
+        add('manny_lab',layer['mesh_source'])
+        if layer.get('attribute_texture'):add('manny_lab',layer['attribute_texture']['source'])
+        for uniform in layer['uniforms'].values():
+            if uniform.get('texture_source'):add('manny_lab',uniform['texture_source'])
 add('manny_lab','Plugins/SanctaVFXMannyLab/SanctaVFXMannyLab.uplugin')
 for path in (root/'Plugins/SanctaVFXMannyLab/Source').rglob('*'):
     if path.is_file():add('manny_lab',path)

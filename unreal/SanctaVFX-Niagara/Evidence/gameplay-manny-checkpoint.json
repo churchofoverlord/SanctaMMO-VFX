@@ -1,7 +1,7 @@
 {
-  "recorded_at_utc": "2026-10-05T17:04:47.964870+00:00",
-  "status": "first_animated_manny_lab_pass_ready_for_review",
-  "scope": "16 scenes / 14 components, not the whole 331-component catalog.",
+  "recorded_at_utc": "2026-10-06T07:39:47.587501+00:00",
+  "status": "second_animated_manny_lab_pass_ready_for_review",
+  "scope": "21 scenes / 17 components; remaining 331-component catalog calibration is pending.",
   "foundation_modified": false,
   "engine_modified": false,
   "production_approved": false,
@@ -13,17 +13,30 @@
   "discovery": "Evidence/gameplay-manny-discovery.json",
   "rig_reference": "Evidence/gameplay-runtime-rig-reference.json",
   "local_asset_manifest": "Evidence/gameplay-manny-local-reference.json",
+  "variant_sources": "Evidence/gameplay-manny-binding-sources.json",
+  "variant_assets": "Evidence/gameplay-manny-binding-assets.json",
   "viewer": "Ver-Manny-VFX.cmd",
+  "captures_launcher": "Ver-Capturas-Manny.cmd",
   "guide": "MANNY_VFX.md",
   "local_gallery": "Evidence/MannyReview/galeria.html",
   "default_speed": 1.0,
   "controls": {
     "P": "pose",
-    "E": "scale"
+    "E": "scale",
+    "V": "camera view",
+    "B": "arm mask"
   },
-  "samples": 384,
-  "effect_frames": 64,
-  "baseline_frames": 64,
+  "scenes": 21,
+  "components": 17,
+  "samples": 504,
+  "effect_frames": 252,
+  "baseline_frames": 252,
+  "isolated_arm_frames": 24,
+  "views": [
+    "3/4",
+    "Frente",
+    "Lado"
+  ],
   "poses": [
     "Repouso",
     "Ataque",
@@ -36,41 +49,61 @@
     1.2
   ],
   "current_vfx_modules_preserved": true,
+  "current_runtime_assets_preserved": true,
   "original_rig_assets_preserved": true,
-  "visual_review": "inspected_current_64_frames_with_readability_flags",
+  "independent_arms_verified": true,
+  "runtime_adapter_promoted": false,
+  "visual_review": "inspected_current_252_frames_in_12_contact_sheets_with_limits",
   "readability_flags": [
-    "Sword trail and Guard have weak readability in the captured camera; test other angles and final poses before visual approval.",
-    "Bleed/Poison evaluated one arm at a time; simultaneous bilateral composition is pending.",
-    "Sword uses a 75 cm calibration shaft, without final weapon mesh/axes.",
-    "Foot contact is subtle and uses projection onto a flat fixture floor, not a confirmed terrain contact.",
-    "Severing coverage is Mark1 only; Mark2/Mark3 remain pending on Manny."
+    "Sword and Guard are clearer in front/three-quarter views; a planar Guard becomes faint edge-on and the body occludes some effects in side views.",
+    "Sword uses a 75 cm calibration reference; final weapon mesh, axes, grip, sweep and attack notifies remain pending.",
+    "Four template Unarmed poses are fixtures, not final combat/guard/dodge/sprint animations.",
+    "Foot contact is subtle and projected onto a flat lab floor, without gameplay terrain confirmation.",
+    "Clothing, armor, actual gameplay camera, Low scalability and final readability remain pending on Manny.",
+    "Independent arm inputs and rig scale use a private lab adapter; the current game runtime and migration ZIP have not received these changes."
   ],
   "evidence_hashes": {
-    "Evidence/gameplay-manny-validation.json": "f4b85c6e66db254bf328c9e18722db75a24af4c0390c7f3bcdc6c4f7e2c5f40f",
-    "Saved/MannyCaptures/rig-results.json": "8c325298ab0a35e72e8632bfbeffc1382432c60ab642655711cd30311ce00a09",
-    "Saved/Manny-build.log": "98be2c1ab89215031912066e44aeb3e696ab1fad7d1067ce513d830a5af9f5e7",
-    "Saved/Manny-audit.log": "c60622e22cbe7f76aab53e03810477a8035f652bda09f45c360464c2b1a8c9cd"
+    "Evidence/gameplay-manny-validation.json": "c47468df0982790f08188575f84bac2cf7cae3e45b6456792701a945045619a9",
+    "Saved/MannyCaptures/rig-results.json": "6f651e5e7308e77bff6e102f4640d7b99931aea5fcb6589ba1963bc1534bfff8",
+    "Saved/Manny-build.log": "30edc6daba8547ac35382510e40477ffe6f58f0a9b87f39587f226b658c171af",
+    "Saved/Manny-build-console-20261006.log": "7ab192b2d3fd7241fdcf9dd648bd984af6b31aba076cdc9104a8c8433ff496bb",
+    "Saved/Manny-audit.log": "630fa79fe1f4b031ee03d973714811833c809d74ef15a92f9f2916cb71680c36",
+    "Saved/Manny-prepare-20261006.log": "80bb24422280882899ab53cd47377878c5cd6d795adef7b26790a7b0245a2cbe",
+    "Saved/Manny-bindings-build-20261006-r3.log": "be2699f94946311e06ed0cfa0a663ebc82268c72a01851a03b65b39823901fe3"
   },
   "preparation_shutdown": {
-    "exit_code": -1073741819,
-    "log": "Saved/Manny-prepare-20261005-r2.log",
-    "note": "The saved map subsequently ran through the final audit with exit 0; initial preparation exit was not clean."
+    "exit_code": 0,
+    "log": "Saved/Manny-prepare-20261006.log"
+  },
+  "binding_build": {
+    "passed": true,
+    "exit_code": 0,
+    "harness": "Run-LabScript commandlet",
+    "log": "Saved/Manny-bindings-build-20261006-r3.log",
+    "failed_attempts": [
+      {
+        "log": "Saved/Manny-bindings-build-20261006.log",
+        "result": "Manual full-editor simulation returned zero particles; owned process stopped."
+      },
+      {
+        "log": "Saved/Manny-bindings-build-20261006-r2.log",
+        "exit_code": 0,
+        "result": "Zero simulation particles; report failed despite clean editor exit."
+      }
+    ]
+  },
+  "previous_pass_local_archive": "Saved/MannyPass1-20261005",
+  "active_run": {
+    "date": "2026-10-06",
+    "status": "complete",
+    "native_exit_code": 0
   },
   "next": [
-    "Resolve bilateral hand/elbow and Rapid Attack independent endpoints",
-    "Improve sword/Guard readability from additional angles and final poses",
     "Calibrate final weapon base/tip/muzzle, skill animations and notifies",
-    "Extend pilot to remaining components and Severing Mark2/Mark3",
-    "Validate attachment/scale adapter with actual gameplay camera and clothes",
-    "Confirm world contacts, sweeps and lifetime owners from game authority"
+    "Extend calibration to the remaining components and gameplay phases",
+    "Promote independent arm inputs and rig scale/attachment adapter to runtime in the authorized integration",
+    "Check final guard/dodge/sprint poses, clothing, occlusion, Low quality and actual gameplay camera",
+    "Confirm world contacts, sweeps, lifetime owners, authority and multiplayer in the game"
   ],
-  "git_commit_push_pending": false,
-  "git_saved_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
-  "git_publication": {
-    "content_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
-    "branch": "main",
-    "remote": "origin/main",
-    "verified_at_utc": "2026-10-05T17:11:42.689983+00:00",
-    "note": "Published content commit; publication metadata is recorded in the subsequent commit."
-  }
+  "git_commit_push_pending": true
 }

@@ -8,6 +8,7 @@
 #include "Engine/GameViewportClient.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
+#include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "NiagaraComponent.h"
@@ -30,6 +31,7 @@
 namespace {
 const float Scales[]={.8f,1.f,1.2f};
 const TCHAR* PoseNames[]={TEXT("Repouso"),TEXT("Ataque"),TEXT("Corrida"),TEXT("Esquiva")};
+const TCHAR* ViewNames[]={TEXT("3/4"),TEXT("Frente"),TEXT("Lado")};
 TSharedPtr<FJsonValue> VectorJSON(FVector V) {
     return MakeShared<FJsonValueArray>(TArray<TSharedPtr<FJsonValue>>{
         MakeShared<FJsonValueNumber>(V.X),MakeShared<FJsonValueNumber>(V.Y),MakeShared<FJsonValueNumber>(V.Z)});
@@ -69,6 +71,7 @@ void ASanctaVFXMannyReview::BeginPlay()
 }
 void ASanctaVFXMannyReview::Repeat(){
     if(Presentation)Presentation->ResetForLife(FGuid::NewGuid());Started=bReady=CompileRequested=false;Wait=PlaybackTime=PoseTime=0;
+    if(Cases.IsValidIndex(CaseIndex))ArmMask=Cases[CaseIndex]->AsObject()->GetIntegerField(TEXT("arm_mask"));
 }
 void ASanctaVFXMannyReview::TogglePause(){bPaused=!bPaused;}
 void ASanctaVFXMannyReview::ToggleSlow(){bSlow=!bSlow;}
@@ -97,14 +100,19 @@ void ASanctaVFXMannyReview::UpdateRig(float Age)
     Origin=Root;Endpoint=TargetMesh->GetSocketLocation(TEXT("spine_03"));
     if(Binding==TEXT("target_root"))Origin=TargetMesh->GetSocketLocation(TEXT("root"));
     if(Binding==TEXT("hand_elbow")){
-        Origin=SourceMesh->GetSocketLocation(FName(*J->GetStringField(TEXT("bone"))));
+        // Both arms share the owner's root. Four independent vectors below
+        // place the authored slots; a per-side mask provides an isolated view.
         Endpoint=SourceMesh->GetSocketLocation(FName(*J->GetStringField(TEXT("endpoint_bone"))));
+    }else if(Binding==TEXT("both_arms")){
+        Endpoint=SourceMesh->GetSocketLocation(TEXT("lowerarm_r"));
     }else if(Binding==TEXT("weapon")){
         const FTransform Grip=SourceMesh->GetSocketTransform(TEXT("HandGrip_R"));Origin=Grip.GetLocation();
         // A measured 75 cm calibration blade, not a final weapon/socket contract.
         const FVector BladeDirection=(Origin-SourceMesh->GetSocketLocation(TEXT("lowerarm_r"))).GetSafeNormal();
         Endpoint=Origin+BladeDirection*75*S;
-        DrawDebugLine(GetWorld(),Origin,Endpoint,FColor(110,125,145),false,-1,0,1.5f);
+        // A debug shaft covered the thin luminous trail. Mark only endpoints.
+        DrawDebugPoint(GetWorld(),Origin,3,FColor(110,125,145),false,-1);
+        DrawDebugPoint(GetWorld(),Endpoint,3,FColor(110,125,145),false,-1);
     }else if(Binding==TEXT("head")){
         Origin=TargetMesh->GetSocketLocation(TEXT("head"))+FVector(0,0,(20-180)*S);
     }else if(Binding==TEXT("waist")){
@@ -122,14 +130,24 @@ void ASanctaVFXMannyReview::UpdateRig(float Age)
     }
     SourceProxy->SetActorLocationAndRotation(Origin,Q);TargetProxy->SetActorLocationAndRotation(Origin,Q);
     Inputs.Position=Origin;Inputs.Endpoint=Endpoint;Inputs.Direction=Q.GetAxisX();Inputs.PhaseAge=Age;
-    if(Binding!=TEXT("beam")){
-        auto* Actor=OnTarget?TargetActor.Get():SourceActor.Get();auto* Mesh=OnTarget?TargetMesh.Get():SourceMesh.Get();
-        const FVector Focus=Mesh->GetSocketLocation(TEXT("root"))+FVector(0,0,105);
-        const FVector Offset=Actor->GetActorForwardVector()*300-Actor->GetActorRightVector()*420+FVector(0,0,190);
-        Camera->SetWorldLocation(Focus+Offset);Camera->SetWorldRotation((-Offset).Rotation());
-    }
+    UpdateCamera();
     Presentation->UpdatePresentation(Inputs);
     if(auto* N=Presentation->GetActiveComponent(FName(*J->GetStringField(TEXT("component")))))ApplyFixtureBasis(N);
+}
+void ASanctaVFXMannyReview::UpdateCamera()
+{
+    const FString Binding=Cases[CaseIndex]->AsObject()->GetStringField(TEXT("binding"));
+    const bool OnTarget=Binding.StartsWith(TEXT("target"))||Binding==TEXT("head");
+    auto* Actor=OnTarget?TargetActor.Get():SourceActor.Get();auto* Mesh=OnTarget?TargetMesh.Get():SourceMesh.Get();
+    const float S=Scales[ScaleIndex];
+    const FVector Focus=(Binding==TEXT("beam")?
+        (SourceMesh->GetSocketLocation(TEXT("root"))+TargetMesh->GetSocketLocation(TEXT("root")))*.5:
+        Mesh->GetSocketLocation(TEXT("root")))+FVector(0,0,105*S);
+    const FVector Horizontal=ViewIndex==1?Actor->GetActorForwardVector()*515:
+        ViewIndex==2?-Actor->GetActorRightVector()*515:
+        Actor->GetActorForwardVector()*365-Actor->GetActorRightVector()*365;
+    const FVector Offset=(Horizontal+FVector(0,0,135))*S*(Binding==TEXT("beam")?1.5f:1.f);
+    Camera->SetWorldLocation(Focus+Offset);Camera->SetWorldRotation((-Offset).Rotation());
 }
 void ASanctaVFXMannyReview::ApplyFixtureBasis(UNiagaraComponent* C)
 {
@@ -137,6 +155,7 @@ void ASanctaVFXMannyReview::ApplyFixtureBasis(UNiagaraComponent* C)
     const FVector D=Q.UnrotateVector(Endpoint-Origin)/S;
     const FLinearColor ThreeEndpoint(D.Y/100,D.Z/100,-D.X/100,0);
     auto Colour=[](FVector V){return FLinearColor(V.X,V.Y,V.Z,0);};
+    auto RigPoint=[&](const TCHAR* Bone){const FVector P=Q.UnrotateVector(SourceMesh->GetSocketLocation(FName(Bone))-Origin)/S;return FLinearColor(P.Y/100,P.Z/100,-P.X/100,0);};
     for(const auto& Object:C->GetOverrideParameters().GetUObjects())if(auto* M=Cast<UMaterialInstanceDynamic>(Object.Get())){
         // Lab adapter: native API currently has no skeletal uniform-scale input.
         // Override the private instance basis after the API update, never a shared asset.
@@ -144,6 +163,11 @@ void ASanctaVFXMannyReview::ApplyFixtureBasis(UNiagaraComponent* C)
         M->SetVectorParameterValue(TEXT("RuntimeBasisY"),Colour(Q.GetAxisY()*S));
         M->SetVectorParameterValue(TEXT("RuntimeBasisZ"),Colour(Q.GetAxisZ()*S));
         M->SetVectorParameterValue(TEXT("RuntimeEndpoint"),ThreeEndpoint);
+        M->SetVectorParameterValue(TEXT("RuntimeRightOrigin"),RigPoint(TEXT("hand_r")));
+        M->SetVectorParameterValue(TEXT("RuntimeRightEndpoint"),RigPoint(TEXT("lowerarm_r")));
+        M->SetVectorParameterValue(TEXT("RuntimeLeftOrigin"),RigPoint(TEXT("hand_l")));
+        M->SetVectorParameterValue(TEXT("RuntimeLeftEndpoint"),RigPoint(TEXT("lowerarm_l")));
+        M->SetScalarParameterValue(TEXT("RuntimeArmMask"),ArmMask);
     }
     C->SetSystemFixedBounds(FBox(FVector(-1500*S),FVector(1500*S)));C->SetPaused(bPaused);
 }
@@ -151,6 +175,7 @@ bool ASanctaVFXMannyReview::Capture(const FString& Name,bool Baseline)
 {
     auto* N=Presentation->GetActiveComponent(FName(*Cases[CaseIndex]->AsObject()->GetStringField(TEXT("component"))));
     if(N)N->SetVisibility(!Baseline);
+    if(auto* PC=UGameplayStatics::GetPlayerController(this,0))if(PC->PlayerCameraManager)PC->PlayerCameraManager->UpdateCamera(0.f);
     FViewport* V=GetWorld()->GetGameViewport()?GetWorld()->GetGameViewport()->Viewport:nullptr;
     if(V)V->Draw(false);TArray<FColor> Pixels;bool Ok=V&&GetViewportScreenShot(V,Pixels);
     if(Ok){for(auto& P:Pixels)P.A=255;const auto Size=V->GetSizeXY();TArray64<uint8> PNG;
@@ -166,6 +191,7 @@ void ASanctaVFXMannyReview::RecordSample()
     Row->SetField(TEXT("origin"),VectorJSON(Origin));Row->SetField(TEXT("endpoint"),VectorJSON(Endpoint));
     Row->SetField(TEXT("actor_origin"),VectorJSON(SourceActor->GetActorLocation()));
     Row->SetField(TEXT("hand_r"),VectorJSON(SourceMesh->GetSocketLocation(TEXT("hand_r"))));
+    Row->SetField(TEXT("hand_l"),VectorJSON(SourceMesh->GetSocketLocation(TEXT("hand_l"))));
     Row->SetField(TEXT("head"),VectorJSON(TargetMesh->GetSocketLocation(TEXT("head"))));
     const float Error=C?FVector::Distance(C->GetComponentLocation(),Origin):1.e6f;
     Row->SetNumberField(TEXT("origin_error_cm"),Error);bool Ok=C&&Error<.01f&&Presentation->GetActiveCount()==1;
@@ -179,11 +205,42 @@ void ASanctaVFXMannyReview::RecordSample()
         }
         Row->SetNumberField(TEXT("dynamic_materials"),Materials);Row->SetNumberField(TEXT("endpoint_error_m"),EndpointError);Row->SetNumberField(TEXT("scale_error"),ScaleError);
         Ok&=Materials>0&&EndpointError<.001f&&ScaleError<.001f;
+        const FString Binding=J->GetStringField(TEXT("binding"));
+        if(Binding==TEXT("both_arms")||Binding==TEXT("hand_elbow")){
+            float ArmError=0;const TCHAR* Params[]={TEXT("RuntimeRightOrigin"),TEXT("RuntimeRightEndpoint"),TEXT("RuntimeLeftOrigin"),TEXT("RuntimeLeftEndpoint")};
+            const TCHAR* Bones[]={TEXT("hand_r"),TEXT("lowerarm_r"),TEXT("hand_l"),TEXT("lowerarm_l")};
+            for(const auto& Obj:C->GetOverrideParameters().GetUObjects())if(auto* M=Cast<UMaterialInstanceDynamic>(Obj.Get()))for(int32 K=0;K<4;++K){
+                const FVector V=AnchorRotation.UnrotateVector(SourceMesh->GetSocketLocation(FName(Bones[K]))-Origin)/Scales[ScaleIndex];
+                const FLinearColor Value=M->K2_GetVectorParameterValue(FName(Params[K]));
+                ArmError=FMath::Max(ArmError,(FVector(Value.R,Value.G,Value.B)-FVector(V.Y,V.Z,-V.X)/100).Size());
+            }
+            Row->SetNumberField(TEXT("arm_binding_error_m"),ArmError);
+            Row->SetNumberField(TEXT("arm_mask"),ArmMask);
+            Row->SetNumberField(TEXT("arm_separation_cm"),FVector::Distance(SourceMesh->GetSocketLocation(TEXT("hand_r")),SourceMesh->GetSocketLocation(TEXT("hand_l"))));
+            Ok&=ArmError<.001f&&Row->GetNumberField(TEXT("arm_separation_cm"))>1;
+        }
     }
     if(ScaleIndex==1&&SampleIndex==1){
-        const FString Name=FString::Printf(TEXT("%s_pose%d.png"),*J->GetStringField(TEXT("name")),PoseIndex);
-        const bool Image=Capture(Name,false);const bool Base=Capture(Name.Replace(TEXT(".png"),TEXT("_baseline.png")),true);
-        Row->SetStringField(TEXT("image"),TEXT("Saved/MannyCaptures/")+Name);Row->SetBoolField(TEXT("capture_saved"),Image&&Base);Ok&=Image&&Base;
+        TArray<TSharedPtr<FJsonValue>> Images;const int32 PreviousView=ViewIndex;
+        for(ViewIndex=0;ViewIndex<3;++ViewIndex){
+            UpdateCamera();
+            const FString Name=FString::Printf(TEXT("%s_pose%d_view%d.png"),*J->GetStringField(TEXT("name")),PoseIndex,ViewIndex);
+            const bool Image=Capture(Name,false);const bool Base=Capture(Name.Replace(TEXT(".png"),TEXT("_baseline.png")),true);
+            auto ImageRow=MakeShared<FJsonObject>();ImageRow->SetNumberField(TEXT("view"),ViewIndex);ImageRow->SetStringField(TEXT("image"),TEXT("Saved/MannyCaptures/")+Name);
+            ImageRow->SetBoolField(TEXT("saved"),Image&&Base);Images.Add(MakeShared<FJsonValueObject>(ImageRow));Ok&=Image&&Base;
+            if(ViewIndex==0&&J->GetStringField(TEXT("binding"))==TEXT("both_arms")){
+                const int32 PreviousMask=ArmMask;TArray<TSharedPtr<FJsonValue>> Arms;
+                for(int32 Mask:{1,2}){
+                    ArmMask=Mask;ApplyFixtureBasis(C);
+                    const FString ArmName=Name.Replace(TEXT(".png"),Mask==1?TEXT("_right.png"):TEXT("_left.png"));
+                    const bool Saved=Capture(ArmName,false);auto Arm=MakeShared<FJsonObject>();Arm->SetNumberField(TEXT("mask"),Mask);
+                    Arm->SetStringField(TEXT("image"),TEXT("Saved/MannyCaptures/")+ArmName);Arm->SetBoolField(TEXT("saved"),Saved);Ok&=Saved;
+                    Arms.Add(MakeShared<FJsonValueObject>(Arm));
+                }
+                ArmMask=PreviousMask;ApplyFixtureBasis(C);ImageRow->SetArrayField(TEXT("isolated_arms"),Arms);
+            }
+        }
+        ViewIndex=PreviousView;UpdateCamera();Row->SetArrayField(TEXT("images"),Images);
     }
     Row->SetBoolField(TEXT("passed"),Ok);Passed&=Ok;Results.Add(MakeShared<FJsonValueObject>(Row));
 }
@@ -210,13 +267,24 @@ void ASanctaVFXMannyReview::Tick(float Delta)
         if(PC->WasInputKeyJustPressed(EKeys::SpaceBar))TogglePause();if(PC->WasInputKeyJustPressed(EKeys::S))ToggleSlow();if(PC->WasInputKeyJustPressed(EKeys::R))Repeat();
         if(PC->WasInputKeyJustPressed(EKeys::P)){PoseIndex=(PoseIndex+1)%4;Repeat();}
         if(PC->WasInputKeyJustPressed(EKeys::E)){ScaleIndex=(ScaleIndex+1)%3;Repeat();}
+        if(PC->WasInputKeyJustPressed(EKeys::V)){ViewIndex=(ViewIndex+1)%3;}
+        if(PC->WasInputKeyJustPressed(EKeys::B)){ArmMask=ArmMask==3?1:ArmMask==1?2:3;}
     }
     Wait+=Delta;if(!Cases.IsValidIndex(CaseIndex)){Finish();return;}const auto J=Cases[CaseIndex]->AsObject();
-    SkillTitle=J->GetStringField(TEXT("title"));SkillClass=FString::Printf(TEXT("Manny | %s | escala %.1f | P: pose | E: escala"),PoseNames[PoseIndex],Scales[ScaleIndex]);
+    SkillTitle=J->GetStringField(TEXT("title"));SkillClass=FString::Printf(TEXT("Manny | %s | %.1fx | %s | P: pose E: escala V: vista B: bracos"),PoseNames[PoseIndex],Scales[ScaleIndex],ViewNames[ViewIndex]);
     if(!Started){
-        Definition=LoadObject<USanctaVFXDefinition>(nullptr,*J->GetStringField(TEXT("definition")));
-        if(!Definition){Passed=false;Finish();return;}
-        if(!CompileRequested){for(const auto& P:Definition->Phases)P.System->RequestCompile(false);CompileRequested=true;}
+        if(!CompileRequested){
+            Definition=LoadObject<USanctaVFXDefinition>(nullptr,*J->GetStringField(TEXT("definition")));
+            if(!Definition){Passed=false;Finish();return;}
+            FString Override;J->TryGetStringField(TEXT("system_override"),Override);
+            if(!Override.IsEmpty()){
+                Definition=DuplicateObject<USanctaVFXDefinition>(Definition,this);
+                auto* Variant=LoadObject<UNiagaraSystem>(nullptr,*Override);
+                if(!Variant){Passed=false;Finish();return;}
+                for(auto& P:Definition->Phases)if(P.Phase==FName(*J->GetStringField(TEXT("phase"))))P.System=Variant;
+            }
+            for(const auto& P:Definition->Phases)P.System->RequestCompile(false);CompileRequested=true;
+        }
         bool Ready=true;for(const auto& P:Definition->Phases)Ready&=P.System->IsReadyToRun();
         if(!Ready||(GShaderCompilingManager&&GShaderCompilingManager->IsCompiling())||Wait<.6f)return;
         Presentation->Definitions={Definition};Inputs=FSanctaVFXEvent();Inputs.FormId=Definition->FormId;Inputs.Phase=FName(*J->GetStringField(TEXT("phase")));

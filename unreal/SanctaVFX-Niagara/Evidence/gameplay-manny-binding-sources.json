@@ -1,0 +1,142 @@
+{
+  "scope": "Local rig calibration variants, not shipping replacements.",
+  "rows": [
+    {
+      "component": "BleedStanceActive",
+      "source": "Source/MannyCalibration/BleedStanceActive.json",
+      "base_source": "Source/GameplayRuntime/BleedStanceActive.json",
+      "base_source_sha256": "c0ad165f1cb42338c7ee1dd46bcf328904fdf5102e0944940e23df723b8e65d0",
+      "job": {
+        "slug": "BleedStanceActive",
+        "source": "Source/GameplayRuntime/BleedStanceActive.json",
+        "form": "bleed-stance",
+        "phase": "Active",
+        "gate": "Applied",
+        "anchor": "Link",
+        "persistent": true,
+        "duration": 3.4,
+        "target_life": false,
+        "importance": "Gameplay",
+        "parent_skill": "bleed-stance",
+        "state_owned": true,
+        "use_endpoint": true,
+        "contact": false,
+        "composition_review": "event groups authored; requires native live capture before promotion",
+        "source_sha256": "c0ad165f1cb42338c7ee1dd46bcf328904fdf5102e0944940e23df723b8e65d0"
+      },
+      "port_sha256": "e3d68eef32f11d1269a6693c9624b1497a78c15bc9935b4c3f0491e08c650f9f"
+    },
+    {
+      "component": "PoisonStanceActive",
+      "source": "Source/MannyCalibration/PoisonStanceActive.json",
+      "base_source": "Source/GameplayRuntime/PoisonStanceActive.json",
+      "base_source_sha256": "66dc05a3d8338b66d75ef1188ecd75905886e7434954e612d0dd841510a3b681",
+      "job": {
+        "slug": "PoisonStanceActive",
+        "source": "Source/GameplayRuntime/PoisonStanceActive.json",
+        "form": "poison-stance",
+        "phase": "Active",
+        "gate": "Applied",
+        "anchor": "Link",
+        "persistent": true,
+        "duration": 3.4,
+        "target_life": false,
+        "importance": "Gameplay",
+        "parent_skill": "poison-stance",
+        "state_owned": true,
+        "use_endpoint": true,
+        "contact": false,
+        "composition_review": "event groups authored; requires native live capture before promotion",
+        "source_sha256": "66dc05a3d8338b66d75ef1188ecd75905886e7434954e612d0dd841510a3b681"
+      },
+      "port_sha256": "d20ea559f3fe26f3223c3074f3fc776d576ebdeb68ce7b6e4ce95947c6e03f93"
+    },
+    {
+      "component": "RapidAttackCast",
+      "source": "Source/MannyCalibration/RapidAttackCast.json",
+      "base_source": "Source/GameplayRuntime/RapidAttackCast.json",
+      "base_source_sha256": "239eb9a7e6e8758bb24907729233aca3edbc77f0f8254699347219ab33b6e9bb",
+      "job": {
+        "slug": "RapidAttackCast",
+        "source": "Source/GameplayRuntime/RapidAttackCast.json",
+        "form": "rapid-attack",
+        "phase": "Cast",
+        "gate": "Admission",
+        "anchor": "Source",
+        "persistent": false,
+        "duration": 1.0,
+        "target_life": false,
+        "importance": "Gameplay",
+        "parent_skill": "rapid-attack",
+        "state_owned": true,
+        "use_endpoint": false,
+        "contact": false,
+        "composition_review": "event groups authored; requires native live capture before promotion",
+        "source_sha256": "239eb9a7e6e8758bb24907729233aca3edbc77f0f8254699347219ab33b6e9bb"
+      },
+      "port_sha256": "cbe14b7f60df163c5873ed379f25e868180018a3d0d7ee0a570c171181a168ca"
+    },
+    {
+      "component": "GuardActive",
+      "source": "Source/MannyCalibration/GuardActive.json",
+      "base_source": "Source/GameplayRuntime/GuardActive.json",
+      "base_source_sha256": "9993a33b4cf27bb077682815dad2694eb88dd7103766d442954c6e52d6a536c4",
+      "job": {
+        "slug": "GuardActive",
+        "source": "Source/GameplayRuntime/GuardActive.json",
+        "form": "Combat.Guard",
+        "phase": "Active",
+        "gate": "Applied",
+        "anchor": "Source",
+        "persistent": true,
+        "duration": 3.0,
+        "target_life": false,
+        "importance": "Essential",
+        "source_sha256": "9993a33b4cf27bb077682815dad2694eb88dd7103766d442954c6e52d6a536c4"
+      },
+      "port_sha256": "04e2ed626d3408677a0a05121b7d3a7070496538dcaac484b4ff100eb68cb158"
+    },
+    {
+      "component": "BasicSwordPhysicalTrail",
+      "source": "Source/MannyCalibration/BasicSwordPhysicalTrail.json",
+      "base_source": "Source/GameplayRuntime/BasicSwordPhysicalTrail.json",
+      "base_source_sha256": "68feefe1f7077a1ec91eab0496ff54195823bd4f100d17665e4b97f42ec682a6",
+      "job": {
+        "slug": "BasicSwordPhysicalTrail",
+        "source": "Source/GameplayRuntime/BasicSwordPhysicalTrail.json",
+        "form": "Combat.Basic.Sword.Physical",
+        "phase": "Trail",
+        "gate": "Admission",
+        "anchor": "Source",
+        "persistent": true,
+        "duration": 0.5,
+        "target_life": false,
+        "importance": "Decorative",
+        "use_endpoint": true,
+        "source_sha256": "68feefe1f7077a1ec91eab0496ff54195823bd4f100d17665e4b97f42ec682a6"
+      },
+      "port_sha256": "542af6776530d788e421f2726652d467b8fd3e0527532a449ed81225bd00c770"
+    },
+    {
+      "component": "BasicSwordMagicalTrail",
+      "source": "Source/MannyCalibration/BasicSwordMagicalTrail.json",
+      "base_source": "Source/GameplayRuntime/BasicSwordMagicalTrail.json",
+      "base_source_sha256": "6ef9374949bcabeec18045f214749e65f84ae47fb681dff125f5b0c8cfe1e9f3",
+      "job": {
+        "slug": "BasicSwordMagicalTrail",
+        "source": "Source/GameplayRuntime/BasicSwordMagicalTrail.json",
+        "form": "Combat.Basic.Sword.Magical",
+        "phase": "Trail",
+        "gate": "Admission",
+        "anchor": "Source",
+        "persistent": true,
+        "duration": 0.5,
+        "target_life": false,
+        "importance": "Decorative",
+        "use_endpoint": true,
+        "source_sha256": "6ef9374949bcabeec18045f214749e65f84ae47fb681dff125f5b0c8cfe1e9f3"
+      },
+      "port_sha256": "f4d19a81f686fd7dfc2adffbf1d41a893d1abfb7249c1742ad17a87d0643fe4a"
+    }
+  ]
+}

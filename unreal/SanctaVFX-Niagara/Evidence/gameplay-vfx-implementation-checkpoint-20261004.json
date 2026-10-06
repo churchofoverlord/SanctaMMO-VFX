@@ -1,6 +1,6 @@
 {
   "schema": "sancta-gameplay-vfx-implementation-checkpoint/v2",
-  "updated_at_utc": "2026-10-05T17:04:47.964870+00:00",
+  "updated_at_utc": "2026-10-06T07:39:47.587501+00:00",
   "status": "lab_verified_awaiting_user_review",
   "user_request": "retoma",
   "objective": "Aplicar a avaliação às skills, básicos das 14 armas e Guard/Dodge/Sprint no laboratório independente.",
@@ -2079,9 +2079,9 @@
     "34 testes de eventos e 56 combinações classe/arma; arranque a 1×."
   ],
   "remaining": [
-    "Feedback do utilizador sobre as formas Glacial/Iceberg e as novas apresentações.",
-    "Manny: melhorar leitura espada/Guard, composição dos braços/Rapid Attack e marcas 2/3; calibrar armas/animações/notifies/câmara finais e restantes componentes.",
-    "Promover e verificar o adaptador de ligação/escala na integração autorizada; ligar autoridade, transporte/replicação, colisão e cook Shipping no jogo.",
+    "Feedback do utilizador sobre Glacial/Iceberg e as novas apresentações.",
+    "Manny: armas/animações/notifies finais, câmara/roupa/oclusão e restantes componentes; 21 cenários desta segunda passagem verificados.",
+    "Promover os inputs independentes dos braços e o adaptador de ligação/escala na integração autorizada; ligar autoridade, replicação, colisão e cook Shipping.",
     "Validar orçamento e concorrência na câmara/hardware alvo; não extrapolar timings do palco PIE."
   ],
   "production_approved": false,
@@ -2104,17 +2104,23 @@
   },
   "phase_repair_plan": "Evidence/runtime-phase-repair-plan-20261005.json",
   "export_requires_refresh": false,
-  "git_commit_push_pending": false,
+  "git_commit_push_pending": true,
   "git_saved_commit": "48ccc28e9fb58fb6a8d49576737e9609300de5df",
   "manny_calibration": {
-    "status": "first_animated_manny_lab_pass_ready_for_review",
+    "status": "second_animated_manny_lab_pass_ready_for_review",
     "checkpoint": "Evidence/gameplay-manny-checkpoint.json",
-    "scenes": 16,
-    "components": 14,
-    "samples": 384,
-    "effect_frames": 64,
+    "scenes": 21,
+    "components": 17,
+    "samples": 504,
+    "effect_frames": 252,
+    "baseline_frames": 252,
+    "isolated_arm_frames": 24,
+    "views": 3,
+    "poses": 4,
+    "scales": 3,
     "lab_verified": true,
     "game_calibration_complete": false,
+    "runtime_adapter_promoted": false,
     "production_approved": false
   },
   "git_publication": {

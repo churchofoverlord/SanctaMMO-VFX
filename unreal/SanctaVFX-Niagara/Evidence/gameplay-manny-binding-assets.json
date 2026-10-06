@@ -1,0 +1,974 @@
+{
+  "assets": {
+    "BleedStanceActive": {
+      "asset": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/NS_BleedStanceActive_e3d68eef",
+      "source": "Source/MannyCalibration/BleedStanceActive.json",
+      "port_sha256": "e3d68eef32f11d1269a6693c9624b1497a78c15bc9935b4c3f0491e08c650f9f",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/MI_BleedStanceActive_e3d68eef_Layer0.MI_BleedStanceActive_e3d68eef_Layer0"
+        },
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/MI_BleedStanceActive_e3d68eef_Layer1.MI_BleedStanceActive_e3d68eef_Layer1"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 2,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          },
+          {
+            "name": "ReferenceLayer_02",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0",
+          "User.RuntimeMaterial1"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.014705883339047432,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.014705883339047432,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.05882352963089943,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.05882352963089943,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 3.75,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 3.749997138977051,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 1.102940320968628,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 3.749997138977051,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 1.102940320968628,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 2,
+      "status": "local_native_compile_and_simulation_passed"
+    },
+    "PoisonStanceActive": {
+      "asset": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/NS_PoisonStanceActive_d20ea559",
+      "source": "Source/MannyCalibration/PoisonStanceActive.json",
+      "port_sha256": "d20ea559f3fe26f3223c3074f3fc776d576ebdeb68ce7b6e4ce95947c6e03f93",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/MI_PoisonStanceActive_d20ea559_Layer0.MI_PoisonStanceActive_d20ea559_Layer0"
+        },
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/MI_PoisonStanceActive_d20ea559_Layer1.MI_PoisonStanceActive_d20ea559_Layer1"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 2,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          },
+          {
+            "name": "ReferenceLayer_02",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0",
+          "User.RuntimeMaterial1"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.014705883339047432,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.014705883339047432,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.05882352963089943,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 0.05882352963089943,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 3.75,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 3.749997138977051,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 1.102940320968628,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 3.749997138977051,
+                "first_lifetime": 3.4000000953674316,
+                "first_normalized_age": 1.102940320968628,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 2,
+      "status": "local_native_compile_and_simulation_passed"
+    },
+    "RapidAttackCast": {
+      "asset": "/Game/Sancta/VFX/MannyLab/RapidAttackCast/NS_RapidAttackCast_cbe14b7f",
+      "source": "Source/MannyCalibration/RapidAttackCast.json",
+      "port_sha256": "cbe14b7f60df163c5873ed379f25e868180018a3d0d7ee0a570c171181a168ca",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/RapidAttackCast/MI_RapidAttackCast_cbe14b7f_Layer0.MI_RapidAttackCast_cbe14b7f_Layer0"
+        },
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/RapidAttackCast/MI_RapidAttackCast_cbe14b7f_Layer1.MI_RapidAttackCast_cbe14b7f_Layer1"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 2,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          },
+          {
+            "name": "ReferenceLayer_02",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0",
+          "User.RuntimeMaterial1"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 6,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 1,
+                "first_normalized_age": 0.05000000447034836,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 5,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 1,
+                "first_normalized_age": 0.05000000447034836,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 6,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 1,
+                "first_normalized_age": 0.20000000298023224,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 5,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 2,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 1,
+                "first_normalized_age": 0.20000000298023224,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 1,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 1.350000023841858,
+            "component_active": false,
+            "execution_state": 3,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 0
+              },
+              {
+                "name": "ReferenceLayer_02",
+                "alive": 0
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 2,
+      "status": "local_native_compile_and_simulation_passed"
+    },
+    "GuardActive": {
+      "asset": "/Game/Sancta/VFX/MannyLab/GuardActive/NS_GuardActive_04e2ed62",
+      "source": "Source/MannyCalibration/GuardActive.json",
+      "port_sha256": "04e2ed626d3408677a0a05121b7d3a7070496538dcaac484b4ff100eb68cb158",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/GuardActive/MI_GuardActive_04e2ed62_Layer0.MI_GuardActive_04e2ed62_Layer0"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 1,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 3,
+                "first_normalized_age": 0.01666666753590107,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 3,
+                "first_normalized_age": 0.06666667014360428,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 3.3499999046325684,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 3.3499975204467773,
+                "first_lifetime": 3,
+                "first_normalized_age": 1.1166658401489258,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 1,
+      "status": "local_native_compile_and_simulation_passed"
+    },
+    "BasicSwordPhysicalTrail": {
+      "asset": "/Game/Sancta/VFX/MannyLab/BasicSwordPhysicalTrail/NS_BasicSwordPhysicalTrail_542af677",
+      "source": "Source/MannyCalibration/BasicSwordPhysicalTrail.json",
+      "port_sha256": "542af6776530d788e421f2726652d467b8fd3e0527532a449ed81225bd00c770",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/BasicSwordPhysicalTrail/MI_BasicSwordPhysicalTrail_542af677_Layer0.MI_BasicSwordPhysicalTrail_542af677_Layer0"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 1,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 0.10000000894069672,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 0.4000000059604645,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.8500000238418579,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.8499998450279236,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 1.6999996900558472,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 1,
+      "status": "local_native_compile_and_simulation_passed"
+    },
+    "BasicSwordMagicalTrail": {
+      "asset": "/Game/Sancta/VFX/MannyLab/BasicSwordMagicalTrail/NS_BasicSwordMagicalTrail_f4d19a81",
+      "source": "Source/MannyCalibration/BasicSwordMagicalTrail.json",
+      "port_sha256": "f4d19a81f686fd7dfc2adffbf1d41a893d1abfb7249c1742ad17a87d0643fe4a",
+      "materials": [
+        {
+          "passed": true,
+          "errors": [],
+          "material": "/Game/Sancta/VFX/MannyLab/BasicSwordMagicalTrail/MI_BasicSwordMagicalTrail_f4d19a81_Layer0.MI_BasicSwordMagicalTrail_f4d19a81_Layer0"
+        }
+      ],
+      "inspection": {
+        "ready_to_run": true,
+        "emitter_count": 1,
+        "emitters": [
+          {
+            "name": "ReferenceLayer_0",
+            "enabled": true,
+            "renderer_count": 1,
+            "simulation_target": "CPU"
+          }
+        ],
+        "user_parameters": [
+          "User.CueLifetime",
+          "User.PlaybackRate",
+          "User.RuntimeAge",
+          "User.RuntimeMaterial0"
+        ]
+      },
+      "simulation": {
+        "world_type": 2,
+        "initialized": true,
+        "frames": [
+          {
+            "time": 0.05000000074505806,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.05000000447034836,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 0.10000000894069672,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.20000000298023224,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.20000000298023224,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 0.4000000059604645,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          {
+            "time": 0.8500000238418579,
+            "component_active": false,
+            "execution_state": 0,
+            "controller_present": true,
+            "emitters": [
+              {
+                "name": "ReferenceLayer_0",
+                "alive": 1,
+                "position_readable": true,
+                "first_x": 0,
+                "first_y": 0,
+                "first_z": 0,
+                "age_readable": true,
+                "first_age": 0.8499998450279236,
+                "first_lifetime": 0.5,
+                "first_normalized_age": 1.6999996900558472,
+                "reference_index_readable": true,
+                "reference_indices_match_spawn_order": true,
+                "first_reference_index": 0,
+                "last_reference_index": 0,
+                "first_dynamic_material_parameter": [
+                  0,
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "binding_count": 1,
+      "status": "local_native_compile_and_simulation_passed"
+    }
+  },
+  "failed": {},
+  "production_approved": false,
+  "scope": "Local Manny rig variants only.",
+  "passed": true
+}

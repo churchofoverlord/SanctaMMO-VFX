@@ -10,6 +10,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/BleedStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/NS_BleedStanceActive_e3d68eef",
+    "rig_source": "Source/MannyCalibration/BleedStanceActive.json",
+    "arm_mask": 1,
     "fixture_only": true
   },
   {
@@ -23,6 +26,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/BleedStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/NS_BleedStanceActive_e3d68eef",
+    "rig_source": "Source/MannyCalibration/BleedStanceActive.json",
+    "arm_mask": 2,
     "fixture_only": true
   },
   {
@@ -36,6 +42,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/PoisonStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/NS_PoisonStanceActive_d20ea559",
+    "rig_source": "Source/MannyCalibration/PoisonStanceActive.json",
+    "arm_mask": 1,
     "fixture_only": true
   },
   {
@@ -49,6 +58,57 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/PoisonStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/NS_PoisonStanceActive_d20ea559",
+    "rig_source": "Source/MannyCalibration/PoisonStanceActive.json",
+    "arm_mask": 2,
+    "fixture_only": true
+  },
+  {
+    "name": "BleedBoth",
+    "component": "BleedStanceActive",
+    "title": "Bleed — ambos os braços",
+    "binding": "both_arms",
+    "bone": "",
+    "endpoint_bone": "",
+    "definition": "/Game/Sancta/VFX/Definitions/DA_bleed_stance.DA_bleed_stance",
+    "phase": "Active",
+    "persistent": true,
+    "source": "Source/GameplayRuntime/BleedStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/BleedStanceActive/NS_BleedStanceActive_e3d68eef",
+    "rig_source": "Source/MannyCalibration/BleedStanceActive.json",
+    "arm_mask": 3,
+    "fixture_only": true
+  },
+  {
+    "name": "PoisonBoth",
+    "component": "PoisonStanceActive",
+    "title": "Poison — ambos os braços",
+    "binding": "both_arms",
+    "bone": "",
+    "endpoint_bone": "",
+    "definition": "/Game/Sancta/VFX/Definitions/DA_poison_stance.DA_poison_stance",
+    "phase": "Active",
+    "persistent": true,
+    "source": "Source/GameplayRuntime/PoisonStanceActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/PoisonStanceActive/NS_PoisonStanceActive_d20ea559",
+    "rig_source": "Source/MannyCalibration/PoisonStanceActive.json",
+    "arm_mask": 3,
+    "fixture_only": true
+  },
+  {
+    "name": "RapidBoth",
+    "component": "RapidAttackCast",
+    "title": "Rapid Attack — raios pelos dois braços",
+    "binding": "both_arms",
+    "bone": "",
+    "endpoint_bone": "",
+    "definition": "/Game/Sancta/VFX/Definitions/DA_rapid_attack.DA_rapid_attack",
+    "phase": "Cast",
+    "persistent": false,
+    "source": "Source/GameplayRuntime/RapidAttackCast.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/RapidAttackCast/NS_RapidAttackCast_cbe14b7f",
+    "rig_source": "Source/MannyCalibration/RapidAttackCast.json",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -62,6 +122,9 @@
     "phase": "Trail",
     "persistent": true,
     "source": "Source/GameplayRuntime/BasicSwordPhysicalTrail.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/BasicSwordPhysicalTrail/NS_BasicSwordPhysicalTrail_542af677",
+    "rig_source": "Source/MannyCalibration/BasicSwordPhysicalTrail.json",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -75,6 +138,9 @@
     "phase": "Trail",
     "persistent": true,
     "source": "Source/GameplayRuntime/BasicSwordMagicalTrail.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/BasicSwordMagicalTrail/NS_BasicSwordMagicalTrail_f4d19a81",
+    "rig_source": "Source/MannyCalibration/BasicSwordMagicalTrail.json",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -88,6 +154,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/GuardActive.json",
+    "system_override": "/Game/Sancta/VFX/MannyLab/GuardActive/NS_GuardActive_04e2ed62",
+    "rig_source": "Source/MannyCalibration/GuardActive.json",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -101,6 +170,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/TankStanceActive.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -114,6 +186,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/WarriorStanceActive.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -127,6 +202,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/CCStunActive.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -140,6 +218,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/CCRootActive.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -153,6 +234,41 @@
     "phase": "Apply",
     "persistent": false,
     "source": "Source/GameplayRuntime/SeveringMark1.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
+    "fixture_only": true
+  },
+  {
+    "name": "SeveringMark2",
+    "component": "SeveringMark2",
+    "title": "Severing — duas marcas no tronco",
+    "binding": "target_chest",
+    "bone": "",
+    "endpoint_bone": "",
+    "definition": "/Game/Sancta/VFX/Definitions/DA_Component_SeveringMark2.DA_Component_SeveringMark2",
+    "phase": "Apply",
+    "persistent": false,
+    "source": "Source/GameplayRuntime/SeveringMark2.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
+    "fixture_only": true
+  },
+  {
+    "name": "SeveringMark3",
+    "component": "SeveringMark3",
+    "title": "Severing — terceira marca no tronco",
+    "binding": "target_chest",
+    "bone": "",
+    "endpoint_bone": "",
+    "definition": "/Game/Sancta/VFX/Definitions/DA_Component_SeveringMark3.DA_Component_SeveringMark3",
+    "phase": "Apply",
+    "persistent": false,
+    "source": "Source/GameplayRuntime/SeveringMark3.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -166,6 +282,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/LaserActive.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -179,6 +298,9 @@
     "phase": "Cast",
     "persistent": false,
     "source": "Source/GameplayRuntime/LaserCast.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -192,6 +314,9 @@
     "phase": "FootContact",
     "persistent": false,
     "source": "Source/GameplayRuntime/FootContactStone.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   },
   {
@@ -205,6 +330,9 @@
     "phase": "Active",
     "persistent": true,
     "source": "Source/GameplayRuntime/ArcaneWeavingIiResource.json",
+    "system_override": "",
+    "rig_source": "",
+    "arm_mask": 3,
     "fixture_only": true
   }
 ]

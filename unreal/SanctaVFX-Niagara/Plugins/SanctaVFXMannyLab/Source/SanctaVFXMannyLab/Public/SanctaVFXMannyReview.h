@@ -35,7 +35,7 @@ private:
     TArray<TSharedPtr<FJsonValue>> Cases;
     TArray<TSharedPtr<FJsonValue>> Results;
     FSanctaVFXEvent Inputs;
-    int32 CaseIndex=0, PoseIndex=0, ScaleIndex=1, SampleIndex=0;
+    int32 CaseIndex=0, PoseIndex=0, ScaleIndex=1, SampleIndex=0, ViewIndex=0, ArmMask=3;
     float Wait=0, PoseTime=0;
     bool Audit=false, Started=false, ViewReady=false, Passed=true, CompileRequested=false;
     FVector Origin=FVector::ZeroVector, Endpoint=FVector::ZeroVector;
@@ -43,6 +43,7 @@ private:
     void SetPose(float Time);
     void UpdateRig(float Age);
     void ApplyFixtureBasis(UNiagaraComponent* Component);
+    void UpdateCamera();
     void RecordSample();
     bool Capture(const FString& Name, bool Baseline);
     void Finish();

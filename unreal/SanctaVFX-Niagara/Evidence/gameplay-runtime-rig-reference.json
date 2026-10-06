@@ -1,9 +1,9 @@
 {
   "reference": "UE Manny",
   "authority": "Direct human instruction, 2026-10-05",
-  "recorded_at_utc": "2026-10-05T17:04:47.964870+00:00",
-  "fixture_current": "Separate animated Manny PIE lab: 16 scenes, 14 distinct components, four template poses, three uniform scales.",
-  "calibration_status": "animated_lab_pilot_verified_game_calibration_pending",
+  "recorded_at_utc": "2026-10-06T07:39:47.587501+00:00",
+  "fixture_current": "Separate animated Manny PIE lab: 21 scenes, 17 components, four template poses, three uniform scales, three views.",
+  "calibration_status": "second_animated_lab_pass_verified_game_calibration_pending",
   "foundation_modified": false,
   "attachment_requirements": {
     "body": "Root plus authored body height; avoid adding chest socket height twice",
@@ -13,12 +13,11 @@
     "contacts": "Confirmed world surface contact, not target actor origin"
   },
   "required_checks": [
-    "Resolve bilateral hand/elbow and Rapid Attack independent endpoints",
-    "Improve sword/Guard readability from additional angles and final poses",
     "Calibrate final weapon base/tip/muzzle, skill animations and notifies",
-    "Extend pilot to remaining components and Severing Mark2/Mark3",
-    "Validate attachment/scale adapter with actual gameplay camera and clothes",
-    "Confirm world contacts, sweeps and lifetime owners from game authority"
+    "Extend calibration to the remaining components and gameplay phases",
+    "Promote independent arm inputs and rig scale/attachment adapter to runtime in the authorized integration",
+    "Check final guard/dodge/sprint poses, clothing, occlusion, Low quality and actual gameplay camera",
+    "Confirm world contacts, sweeps, lifetime owners, authority and multiplayer in the game"
   ],
   "mesh": "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple",
   "skeleton": "/Game/Characters/Mannequins/Meshes/SK_Mannequin",
@@ -39,17 +38,29 @@
   "rig_scale_adapter": "Private lab MID override; native game runtime integration is pending.",
   "production_approved": false,
   "coverage": {
-    "scenes": 16,
-    "components": 14,
-    "samples": 384,
-    "effect_frames": 64,
-    "baseline_frames": 64
+    "scenes": 21,
+    "components": 17,
+    "samples": 504,
+    "effect_frames": 252,
+    "baseline_frames": 252,
+    "isolated_arm_frames": 24,
+    "views": 3,
+    "poses": 4,
+    "scales": 3
   },
   "readability_flags": [
-    "Sword trail and Guard have weak readability in the captured camera; test other angles and final poses before visual approval.",
-    "Bleed/Poison evaluated one arm at a time; simultaneous bilateral composition is pending.",
-    "Sword uses a 75 cm calibration shaft, without final weapon mesh/axes.",
-    "Foot contact is subtle and uses projection onto a flat fixture floor, not a confirmed terrain contact.",
-    "Severing coverage is Mark1 only; Mark2/Mark3 remain pending on Manny."
+    "Sword and Guard are clearer in front/three-quarter views; a planar Guard becomes faint edge-on and the body occludes some effects in side views.",
+    "Sword uses a 75 cm calibration reference; final weapon mesh, axes, grip, sweep and attack notifies remain pending.",
+    "Four template Unarmed poses are fixtures, not final combat/guard/dodge/sprint animations.",
+    "Foot contact is subtle and projected onto a flat lab floor, without gameplay terrain confirmation.",
+    "Clothing, armor, actual gameplay camera, Low scalability and final readability remain pending on Manny.",
+    "Independent arm inputs and rig scale use a private lab adapter; the current game runtime and migration ZIP have not received these changes."
+  ],
+  "captures_launcher": "Ver-Capturas-Manny.cmd",
+  "independent_arm_adapter": "Four evaluated hand/lowerarm inputs, aArm identity and RuntimeArmMask in separate MannyCalibration variants; runtime promotion pending.",
+  "severing_marks_tested": [
+    1,
+    2,
+    3
   ]
 }

@@ -1,6 +1,6 @@
 # SanctaMMO — guia e índice VFX
 
-Ponto de entrada para rever a arte e preparar a integração. Estado de 5 de outubro de 2026: **331 componentes, 332 cenas e 136 FormIds canónicos**. UE 5.8.3; reprodução base 1×. A revisão interna do laboratório está concluída. A aprovação no jogo depende da câmara, Manny animado e regras reais.
+Ponto de entrada para rever a arte e preparar a integração. Estado de 6 de outubro de 2026: **331 componentes, 332 cenas e 136 FormIds canónicos**. UE 5.8.3; reprodução base 1×. A revisão interna do laboratório está concluída. A aprovação no jogo depende da câmara, Manny animado e regras reais.
 
 ## Começar aqui
 
@@ -42,9 +42,9 @@ Usar <code>ExecutionId</code> + <code>EventSequence</code> e, quando aplicável,
 
 Manny do UE é a referência base confirmada pelo utilizador. Resolver no asset do jogo os bones/sockets existentes; validar transforms na pose animada e escala do actor. Cues de corpo conservam alturas authored sobre o root, sem somar novamente a altura de um socket do peito. Bleed/Poison ligam mão–cotovelo; melee liga base–ponta da arma; beams/links ligam origem–endpoint. CC de cabeça e Root nos pés precisam de leitura com roupa e câmara reais.
 
-O visualizador geral conserva o manequim estático para rever a forma. A primeira passagem no Manny tem um palco separado: **Ver-Manny-VFX.cmd**, com 16 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json). As armas/animações finais e a câmara de gameplay continuam pendentes.
+O visualizador geral conserva o manequim estático para rever a forma. O palco separado **Ver-Manny-VFX.cmd** tem 21 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala; V muda a vista; B isola os braços. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
 
-Esta passagem cobre **14 componentes**: 384 amostras de ligação/escala e 64 pares de capturas efeito/baseline passaram. A inspeção visual identificou leitura fraca da espada/Guard nesta vista. Os braços são avaliados separadamente; composição bilateral, Rapid Attack e marcas Severing 2/3 ainda precisam de calibração. A galeria Manny fica localmente em `Evidence/MannyReview/galeria.html`; as imagens e assets Manny estão excluídos do Git/ZIP.
+Esta segunda passagem cobre **17 componentes**: 504 amostras de ligação/escala, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram. Bleed/Poison/Rapid Attack usam ligações independentes dos dois braços; as marcas Severing 1/2/3 estão no palco. Espada/Guard têm variantes de leitura mais clara, ainda sujeitas à pose final e oclusão. **Ver-Capturas-Manny.cmd** abre a galeria local sem servidor. Os inputs dos braços e o adaptador de escala ainda precisam de promoção ao runtime; armas/animações finais e câmara de gameplay continuam pendentes. Imagens, módulo editor e assets Manny ficam fora do ZIP runtime.
 
 ## Onde estão os ficheiros
 
@@ -56,6 +56,7 @@ Esta passagem cobre **14 componentes**: 384 amostras de ligação/escala e 64 pa
 | /Game/Sancta/VFX/Terrain | Corpo Iceberg, colisão, integridade e remoção |
 | /Game/Sancta/VFX/Review | Palcos de QA; ficam fora do runtime do jogo |
 | Source/GameplayRuntime | Fontes editáveis dos derivados atuais |
+| Source/MannyCalibration | Seis variantes locais de ligação/leitura no Manny; separadas do runtime atual |
 | Evidence/gameplay-runtime-index.json | Índice gerado, cenas, assets e fases canónicas exatas |
 | Evidence/gameplay-runtime-form-routes.json | Identidade canónica e snapshots da variante admitida |
 | Evidence/RuntimeReview | Galeria, thumbnails, folhas e contraste/recursos |
@@ -67,7 +68,7 @@ Hashes nos nomes conservam revisões. Usar o sistema/definição do índice atua
 ## Próximos passos no jogo
 
 1. Rever formas Glacial Spike/Iceberg e as novas apresentações no visualizador.
-2. Alargar a primeira passagem Manny: braços, leitura espada/Guard, armas/animações finais, sockets e câmara.
+2. Alargar a calibração Manny às armas/animações/notifies finais e restantes fases; promover os inputs independentes de braços/escala e conferir a câmara real.
 3. Ligar GAS/abilities, autoridade e transporte de eventos, vida/respawn e replicação.
 4. Ligar terreno, canais de colisão/navegação e ciclo de vida dos hosts.
 5. Fazer cook Shipping e medir escalabilidade/overdraw/concorrência no hardware alvo.

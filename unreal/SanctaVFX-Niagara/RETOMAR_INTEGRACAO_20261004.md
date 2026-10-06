@@ -1,10 +1,16 @@
 # Retomar a aplicação da avaliação VFX
 
-## Manny — primeira passagem atual
+## Ponto atual — segunda calibração Manny, 6 de outubro de 2026
 
-Palco **Ver-Manny-VFX.cmd**: 16 cenários/14 componentes, quatro poses e três escalas; velocidade inicial 1×. P muda pose; E muda escala. 384 amostras e 64 pares efeito/baseline passaram; a execução final encerrou com código 0. A inspeção das capturas identificou leitura fraca da espada/Guard nesta vista.
+**21 cenários / 17 componentes**, quatro poses de teste e três escalas. **504 amostras, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram**; encerramento UE 0. As 12 folhas correntes e 13 frames completos representativos foram inspecionados. Bleed/Poison/Rapid Attack usam posições independentes das duas mãos/antebraços; espada/Guard têm variantes locais mais legíveis. Marcas Severing 1/2/3 incluídas. Nenhuma execução UE desta tarefa permanece ativa.
 
-Ler **MANNY_VFX.md** e `Evidence/gameplay-manny-checkpoint.json`. Galeria local: `Evidence/MannyReview/galeria.html`. A composição dos braços/Rapid Attack, armas e animações finais, marcas Severing 2/3 e câmara real continuam pendentes. O adaptador de escala é local; não declarar calibração dos 331 componentes no Manny. Foundation/Engine preservados; UE desta tarefa encerrado.
+**Ver-Capturas-Manny.cmd** abre os prints sem servidor. **Ver-Manny-VFX.cmd** abre as animações a 1×: P muda pose, E escala, V vista e B isola os braços. Ler **MANNY_VFX.md** e `Evidence/gameplay-manny-checkpoint.json`.
+
+As seis variantes estão em **Source/MannyCalibration**, separadas dos componentes gerais. Os novos inputs dos braços e a escala ainda precisam de promoção ao runtime. Espada de 75 cm e poses Unarmed são fixtures: armas/animações/notifies finais, guard/dodge/sprint, roupa/oclusão, câmara real e restantes fases continuam pendentes. Guard planar fica discreto de perfil. Não declarar os 331 componentes calibrados no Manny ou aprovação de produção.
+
+Foundation, Engine, rig original, DLLs Bridge/runtime e assets atuais preservados por hashes. O build de variantes e a preparação do mapa terminaram com código 0; duas tentativas anteriores do harness em Editor completo falharam na simulação e estão registadas. A primeira passagem fica em `Saved/MannyPass1-20261005`. Fontes e registos desta segunda passagem aguardam commit/push.
+
+Próximo trabalho: calibração de armas/poses/notifies finais e restantes fases, seguida da promoção autorizada dos adaptadores para o runtime. Não alterar Foundation sem nova autorização.
 
 Checkpoint atualizado em 2026-10-05T13:18:10.697172+00:00. Estado: **lab_verified_awaiting_user_review**. Foundation e Engine preservados.
 
@@ -24,4 +30,4 @@ Capturas aceites da compilação atual: **1004**, incluindo **867** do plano com
 
 Validação interna do laboratório concluída. Galeria e ZIP atuais; falta o feedback do utilizador, a calibração no jogo e o orçamento no hardware alvo. Foundation continua protegido. A validação do laboratório não certifica integração Foundation ou qualidade final no jogo. Nenhuma captura ou execução UE desta tarefa permanece ativa.
 
-Git: primeira passagem Manny, guia e registos publicados em origin/main; commit de conteúdo confirmado: 48ccc28e9fb58fb6a8d49576737e9609300de5df
+Git: segunda passagem Manny pronta; commit/push pendente. A primeira passagem permanece no histórico de origin/main.

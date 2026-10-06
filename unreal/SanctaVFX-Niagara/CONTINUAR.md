@@ -1,16 +1,16 @@
 # Continuar a conversão para Niagara noutra máquina
 
-## Ponto atual — primeira calibração no Manny, 5 de outubro de 2026
+## Ponto atual — segunda calibração Manny, 6 de outubro de 2026
 
-O palco independente **Ver-Manny-VFX.cmd** está compilado e pronto: **16 cenários / 14 componentes**, quatro poses Unarmed de teste e escalas 0,8× / 1× / 1,2×. Começa a 1×; **P** muda pose e **E** muda escala. A execução final terminou com código 0: **384 amostras** de ligação/escala e **64 capturas de efeitos + 64 baselines** passaram nas verificações numéricas e de presença. As quatro folhas e os frames completos representativos foram inspecionados. Nenhuma execução UE desta tarefa ficou ativa.
+**21 cenários / 17 componentes**, quatro poses de teste e três escalas. **504 amostras, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram**; encerramento UE 0. As 12 folhas correntes e 13 frames completos representativos foram inspecionados. Bleed/Poison/Rapid Attack usam posições independentes das duas mãos/antebraços; espada/Guard têm variantes locais mais legíveis. Marcas Severing 1/2/3 incluídas. Nenhuma execução UE desta tarefa permanece ativa.
 
-Abrir `Evidence/MannyReview/galeria.html` para ver os prints. Ler **MANNY_VFX.md**, `Evidence/gameplay-manny-checkpoint.json` e `Evidence/gameplay-manny-validation.json` para retomar. O Manny, esqueleto, materiais e animações originais foram copiados só para o laboratório, com hashes; ficam excluídos do Git/ZIP e não foram modificados. Foundation e Engine preservados.
+**Ver-Capturas-Manny.cmd** abre os prints sem servidor. **Ver-Manny-VFX.cmd** abre as animações a 1×: P muda pose, E escala, V vista e B isola os braços. Ler **MANNY_VFX.md** e `Evidence/gameplay-manny-checkpoint.json`.
 
-Esta passagem valida o seguimento dos ossos e a compensação de altura/escala pelo adaptador local. A composição dos dois braços e Rapid Attack, as marcas Severing 2/3, as armas/animações/notifies finais, a leitura da espada/Guard em outros ângulos e a câmara real continuam pendentes. O contacto do pé usa chão plano de teste. O adaptador de escala ainda não pertence ao runtime do jogo. **Não declarar os 331 componentes calibrados no Manny nem aprovação de produção.**
+As seis variantes estão em **Source/MannyCalibration**, separadas dos componentes gerais. Os novos inputs dos braços e a escala ainda precisam de promoção ao runtime. Espada de 75 cm e poses Unarmed são fixtures: armas/animações/notifies finais, guard/dodge/sprint, roupa/oclusão, câmara real e restantes fases continuam pendentes. Guard planar fica discreto de perfil. Não declarar os 331 componentes calibrados no Manny ou aprovação de produção.
 
-**Manny publicado:** fontes, guia e registos no commit `48ccc28`, verificado em `origin/main`. Assets Epic e capturas Manny continuam locais.
+Foundation, Engine, rig original, DLLs Bridge/runtime e assets atuais preservados por hashes. O build de variantes e a preparação do mapa terminaram com código 0; duas tentativas anteriores do harness em Editor completo falharam na simulação e estão registadas. A primeira passagem fica em `Saved/MannyPass1-20261005`. Fontes e registos desta segunda passagem aguardam commit/push.
 
-Próximo trabalho: melhorar a leitura espada/Guard e resolver bindings independentes dos braços; depois alargar a calibração às armas e restantes fases. Não alterar Foundation sem nova autorização. A preparação inicial do mapa teve uma falha de encerramento registada; o mapa guardado foi posteriormente executado na auditoria final com encerramento limpo.
+Próximo trabalho: calibração de armas/poses/notifies finais e restantes fases, seguida da promoção autorizada dos adaptadores para o runtime. Não alterar Foundation sem nova autorização.
 
 ## Estado atual — integração VFX validada no laboratório em 5 de outubro de 2026
 
