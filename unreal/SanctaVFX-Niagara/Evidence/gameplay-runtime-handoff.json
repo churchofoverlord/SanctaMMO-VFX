@@ -1,0 +1,13 @@
+{
+  "prepared_at_utc": "2026-10-06T10:50:34.260306+00:00",
+  "repository_path": "integration/vfx-runtime-ue5.8.3",
+  "archive_sha256": "753290f32ea074ff734aa300d7de454194efdbf4bfbd65ccffa7ba6f10990933",
+  "bytes": 31971450,
+  "components": 331,
+  "packages": 1786,
+  "canonical_forms": 136,
+  "verified": true,
+  "foundation_modified": false,
+  "game_integration_complete": false,
+  "publication_pending": true
+}

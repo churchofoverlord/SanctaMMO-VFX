@@ -85,7 +85,7 @@
     "MANNY_VFX_TODOS.md": "82700da872fd6f926c2adc8eb9e0c98e298eac278a6b28705156e74a46842bbc",
     "GUIA_VFX.md": "f11699783ce4592d848cdc38811b739f4e9a379ca1c7fab88b7917ad3e2091be",
     "GUIA_VFX.html": "c339b8b22ef850077c7600264638c221a7354fafcecaa02c0abf5da8eb60b393",
-    "Evidence/gameplay-runtime-export.json": "66c52883a5440aedeb78e8a47199d0a446b4a349a2a5e75c0c1dc6123553d2f7"
+    "Evidence/gameplay-runtime-export.json": "29b26275fa370124bbb5f106782869a4df4a42bd5d3febb65dde1a8b180fba56"
   },
   "diagnostic_flags": 138,
   "completed_scope": "All current components captured on the animated rig and representative images inspected. Individual pose/view readability and final gameplay integration remain separate requirements.",
@@ -96,5 +96,10 @@
     "remote": "origin/main",
     "verified_at_utc": "2026-10-06T10:40:37.356442+00:00",
     "note": "Full Manny catalog content published; this metadata is saved in the following commit."
+  },
+  "runtime_handoff": {
+    "repository_path": "integration/vfx-runtime-ue5.8.3",
+    "archive_sha256": "753290f32ea074ff734aa300d7de454194efdbf4bfbd65ccffa7ba6f10990933",
+    "integration_guide": "INTEGRAR_NO_PROJETO.md"
   }
 }

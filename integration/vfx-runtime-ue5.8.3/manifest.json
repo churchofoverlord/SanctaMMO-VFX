@@ -1,0 +1,38 @@
+{
+  "created_at_utc": "2026-10-06T10:48:31.576923+00:00",
+  "engine": "UE 5.8.3",
+  "packages": 1786,
+  "canonical_forms": 136,
+  "current_components": 331,
+  "production_approved": false,
+  "foundation_modified": false,
+  "remaining_game_work": [
+    "Ability/event transport and authority integration",
+    "Actual rig sockets and ground placement",
+    "Foundation projectile/terrain channels and navigation",
+    "Shipping cook and performance budget on target hardware"
+  ],
+  "layout": "Merge Content into game Content; install standalone Plugins/SanctaVFXRuntime. Do not install the authoring Bridge in the shipping game.",
+  "file": "Sancta-VFX-Runtime.zip",
+  "sha256": "753290f32ea074ff734aa300d7de454194efdbf4bfbd65ccffa7ba6f10990933",
+  "bytes": 31971450,
+  "prepared_at_utc": "2026-10-06T10:50:31.035322+00:00",
+  "runtime_source_files": {
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/SanctaVFXRuntime.Build.cs": "1f13647eacadd2630d6f18a7f03382d5c914f54c10125ef1c45a1dca7b490193",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Private/SanctaVFXAnimNotify.cpp": "04c9443ef9155841033c0b3d627de53dc57a7bafe8edd16d61a98b77217a5da9",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Private/SanctaVFXCombatLibrary.cpp": "f94b227e0ce35fc65ee570315188585b0ff54383af53e9743ed45cbaf543ea3c",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Private/SanctaVFXPresentation.cpp": "bcd93fa9bee4c2cd2496b629683acf1a297eb5d5b56b844b252a6071467f3784",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Private/SanctaVFXRuntimeModule.cpp": "64541a61cbf21e337bc2cb4800239fece3b74c849e13264e3ee056c91825083b",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Private/SanctaVFXTerrain.cpp": "a1b131c1587032932a85c6488eee03526a7d4589618ea8e0fd984b590cd0f1d6",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Public/SanctaVFXAnimNotify.h": "d950692f021e0f8ae1c209540aa0f72c6e7fab0bcee46c87282da1622030e541",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Public/SanctaVFXCombatLibrary.h": "79d9fa229090f7e75ddae35584d3d4512de0f0926c938773be13c6bd882eec71",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Public/SanctaVFXPresentation.h": "2c4d6164639e9336d37d7c8cddfad9efb8e11eb5552f591b760d27c5486e8532",
+    "Plugins/SanctaVFXRuntime/Source/SanctaVFXRuntime/Public/SanctaVFXTerrain.h": "cb659f008b390f86a381554d142a23b544cde9b508f70856131d9dde705f7a30"
+  },
+  "archive_crc_passed": true,
+  "package_hashes_passed": true,
+  "runtime_sources_match_compiled": true,
+  "runtime_manny_adapter_promoted": false,
+  "runtime_build_jobs_sha256": "dc3a6c64e5725f98a2faf9f18fb5049eefccbfd87a0e48e7cc56a2567df77698",
+  "manny_binding_index_sha256": "86d7d11abe88c137dc56b46a9af8917b538c97dab36e3c44ec478b62e137988c"
+}
