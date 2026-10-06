@@ -9,5 +9,8 @@
   "verified": true,
   "foundation_modified": false,
   "game_integration_complete": false,
-  "publication_pending": true
+  "publication_pending": false,
+  "git_content_commit": "b7032c2488ed98d20b20634dfc46fcf2c5fc1645",
+  "verified_remote": "origin/main",
+  "published_at_utc": "2026-10-06T10:53:16.227304+00:00"
 }

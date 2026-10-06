@@ -100,6 +100,8 @@
   "runtime_handoff": {
     "repository_path": "integration/vfx-runtime-ue5.8.3",
     "archive_sha256": "753290f32ea074ff734aa300d7de454194efdbf4bfbd65ccffa7ba6f10990933",
-    "integration_guide": "INTEGRAR_NO_PROJETO.md"
+    "integration_guide": "INTEGRAR_NO_PROJETO.md",
+    "git_content_commit": "b7032c2488ed98d20b20634dfc46fcf2c5fc1645",
+    "published": true
   }
 }

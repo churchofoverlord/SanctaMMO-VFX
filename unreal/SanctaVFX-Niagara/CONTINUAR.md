@@ -14,6 +14,8 @@ Capturas e assets Epic/MannyLab são locais, fora do Git/ZIP. O ZIP contém asse
 
 **Catálogo Manny completo publicado:** commit `598cdd3`, verificado em `origin/main`. Capturas/Epic mantêm-se locais.
 
+**Pacote de integração publicado no GitHub:** integration/vfx-runtime-ue5.8.3/Sancta-VFX-Runtime.zip, com plugin standalone, 1786 packages e guia INTEGRAR_NO_PROJETO.md. Commit b7032c2 verificado em origin/main. Promoção do adaptador Manny e ligação ao gameplay continuam pendentes.
+
 ## Estado atual — integração VFX validada no laboratório em 5 de outubro de 2026
 
 **331/331 componentes atuais compilados, simulados, capturados e inspecionados**, 401 definições com bindings verificados, 572 checks de contratos, 34 testes nativos de eventos e 56 combinações classe/arma passaram. Inclui básicos de 14 famílias de armas, Guard/Dodge/Sprint e fases separadas de casts, voos, contactos, procs, recursos e estados. As 441 referências/assets anteriores preservam os hashes. Foundation e Engine continuam sem alterações.
