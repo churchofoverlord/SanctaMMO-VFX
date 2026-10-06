@@ -1,5 +1,11 @@
 # Manny — laboratório de calibração VFX
 
+A passagem completa cobre **340 cenários para os 331 componentes atuais**, incluindo básicos das 14 famílias de armas, Guard/Dodge/Sprint, fases por alvo, mãos isoladas e terreno Iceberg. O catálogo é `Evidence/gameplay-manny-full-cases.json`; as receitas de ligação estão em `Evidence/gameplay-manny-full-binding-index.json`. Consultar `MANNY_VFX_TODOS.md` e a validação completa para os resultados correntes. A passagem anterior de 21 cenários é histórica.
+
+**Ver-Manny-VFX.cmd** e **Ver-Manny-Todos-VFX.cmd** abrem o palco completo a 1×. **Ver-Capturas-Manny.cmd** e **Ver-Capturas-Manny-Todos.cmd** abrem a galeria completa; permite pesquisar skill/componente e escolher pose/vista. A galeria anterior de 21 cenários mantém-se em `Evidence/MannyReview/galeria.html`.
+
+Para retomar os testes completos, executar `Scripts/Run-MannyFullAudit.ps1`. Cada lote guarda resultados e hashes antes/depois da execução; lotes completos com inputs iguais são preservados. Depois executar `Scripts/audit_manny_full_review.py` para verificar os 8 160 samples e 4 080 pares de capturas, gerar as folhas e conferir as flags visuais. `--partial` permite gerar uma galeria dos lotes já completos. Nenhuma contagem parcial deve ser apresentada como validação dos 331 componentes.
+
 Esta segunda passagem usa o **SKM_Manny_Simple** e o esqueleto **SK_Mannequin** existentes no projeto do jogo, copiados apenas para o laboratório. O código nativo atual do jogo aponta para **SKM_Quinn_Simple**; a referência escolhida pelo utilizador para este trabalho é Manny. Foundation, Engine, sockets originais e VFX aprovados foram preservados.
 
 O palco separado contém **21 cenários / 17 componentes distintos**, quatro poses e escalas 0,8× / 1× / 1,2×. A auditoria cobre **504 amostras**, **252 pares efeito/baseline** em três vistas e **24 imagens de braços isolados**. O resultado corrente e a inspeção das imagens ficam em `Evidence/gameplay-manny-validation.json`; o ponto de retoma está em `Evidence/gameplay-manny-checkpoint.json`. Esta cobertura não certifica os 331 componentes no Manny nem a integração no jogo.
@@ -8,7 +14,7 @@ O palco separado contém **21 cenários / 17 componentes distintos**, quatro pos
 
 Para ver os prints, fazer duplo clique em **Ver-Capturas-Manny.cmd**. Abre uma galeria local sem servidor ou UE. Escolher **3/4**, **Frente**, **Lado** ou **Todas**. Cada cenário apresenta repouso, ataque, corrida e esquiva.
 
-Para ver as animações, fazer duplo clique em **Ver-Manny-VFX.cmd**, depois selecionar um dos 21 cenários em **Todas as skills**. A velocidade inicial é **1×**.
+Para ver as animações, fazer duplo clique em **Ver-Manny-VFX.cmd**, depois selecionar um dos 340 cenários em **Todas as skills**. A velocidade inicial é **1×**.
 
 | Controlo | Função |
 | --- | --- |
@@ -21,7 +27,7 @@ Para ver as animações, fazer duplo clique em **Ver-Manny-VFX.cmd**, depois sel
 | R | Reiniciar |
 | S | Alternar 1× e 1/3 |
 
-A galeria fica em `Evidence/MannyReview/galeria.html`; as 12 folhas `manny-pose0-view0.jpg` a `manny-pose3-view2.jpg` estão na mesma pasta. Os PNG completos e as imagens `_right` / `_left` ficam em `Saved/MannyCaptures`. Estes ficheiros locais não fazem parte do ZIP de migração ou do Git. As folhas antigas sem `view` pertencem à primeira passagem, não à validação corrente.
+A galeria completa fica em `Evidence/MannyFullReview/galeria.html`; as folhas por lote/pose/vista estão na mesma pasta. Os PNG completos e as imagens de braços isolados ficam em `Saved/MannyFullCaptures`. Estes ficheiros locais não fazem parte do ZIP de migração ou do Git. `Evidence/MannyReview` e `Saved/MannyCaptures` pertencem à passagem anterior de 21 cenários.
 
 As poses vêm das animações Unarmed locais do UE: MM_Idle, MM_Attack_01, MF_Unarmed_Jog_Fwd e MM_Dash. Verificam que uma ligação acompanha um osso em movimento; **não substituem as animações finais de cada skill ou arma**. Corrida/esquiva são amostradas sem locomotion, colisão ou root-motion de gameplay.
 
@@ -52,7 +58,7 @@ Nos braços, `aArm` conserva a identidade direita/esquerda do slot. O adaptador 
 
 As vistas adicionais permitem rever espada/Guard e as marcas Severing 1/2/3 no rig. A espada continua a ser uma referência de 75 cm, sem mesh ou eixos da arma final. Guard precisa da pose final de defesa. O contacto do pé é discreto e usa chão plano. Roupa, armadura, oclusão, câmara de gameplay e qualidade Low ainda precisam de comparação neste rig.
 
-O próximo passo é calibrar base/ponta/muzzle das armas finais e os notifies das skills, alargar a cobertura às restantes fases e promover as ligações ao runtime. Sweeps, contactos, projéteis, guard/dodge/sprint, duração e remoção dependem de eventos confirmados do jogo. Este palco usa inputs explícitos de teste; não confirma dano, hits, CC, recursos ou procs de gameplay.
+O próximo passo é calibrar base/ponta/muzzle das armas finais e os notifies das skills e promover as ligações ao runtime. Todas as fases atuais têm cenários neste laboratório. Sweeps, contactos, projéteis, guard/dodge/sprint, duração e remoção dependem de eventos confirmados do jogo. Este palco usa inputs explícitos de teste; não confirma dano, hits, CC, recursos ou procs de gameplay.
 
 ## Preparação noutra máquina
 
@@ -64,7 +70,7 @@ Os assets Manny/animações do UE são locais e estão excluídos do Git e do ZI
 4. Executar **`Scripts/Run-LabScript.ps1 -Script build_manny_bindings.py -LogName Manny-bindings-build.log`** para criar e simular os seis sistemas. Usar o commandlet: o harness de simulação manual não produziu partículas num Editor completo e essas tentativas estão registadas como falhadas.
 5. Executar `Scripts/prepare_manny_cases.py`.
 6. Executar `Scripts/Run-LabEditorScript.ps1 -Script create_manny_review.py -LogName Manny-prepare.log` para guardar o palco.
-7. Executar `Scripts/Open-MannyLab.ps1 -Audit` para recolher evidência; ou abrir `Ver-Manny-VFX.cmd` para revisão.
-8. Executar `Scripts/audit_manny_review.py` para medir as amostras e gerar a galeria. Inspecionar as capturas atuais antes de registar aprovação visual.
+7. Para o catálogo completo, executar `Scripts/prepare_manny_full_cases.py`, `Scripts/build_manny_binding_index.py` e `Scripts/Run-LabEditorScript.ps1 -Script create_manny_full_review.py -LogName Manny-full-prepare.log`.
+8. Executar `Scripts/Run-MannyFullAudit.ps1`, depois `Scripts/audit_manny_full_review.py` para medir e gerar a galeria. Inspecionar as capturas antes de registar aprovação visual; `Ver-Manny-VFX.cmd` abre o palco completo para revisão.
 
 Só o módulo separado **SanctaVFXMannyLab** é instalado por esta preparação. As DLLs da ponte VFX existente são preservadas. Os mapas Manny são fixtures locais reproduzíveis pelo script.

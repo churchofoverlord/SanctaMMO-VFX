@@ -42,9 +42,11 @@ Usar <code>ExecutionId</code> + <code>EventSequence</code> e, quando aplicável,
 
 Manny do UE é a referência base confirmada pelo utilizador. Resolver no asset do jogo os bones/sockets existentes; validar transforms na pose animada e escala do actor. Cues de corpo conservam alturas authored sobre o root, sem somar novamente a altura de um socket do peito. Bleed/Poison ligam mão–cotovelo; melee liga base–ponta da arma; beams/links ligam origem–endpoint. CC de cabeça e Root nos pés precisam de leitura com roupa e câmara reais.
 
-O visualizador geral conserva o manequim estático para rever a forma. O palco separado **Ver-Manny-VFX.cmd** tem 21 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala; V muda a vista; B isola os braços. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
+O visualizador geral conserva o manequim estático para rever a forma. O palco separado **Ver-Manny-VFX.cmd** tem 340 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala; V muda a vista; B isola os braços. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
 
-Esta segunda passagem cobre **17 componentes**: 504 amostras de ligação/escala, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram. Bleed/Poison/Rapid Attack usam ligações independentes dos dois braços; as marcas Severing 1/2/3 estão no palco. Espada/Guard têm variantes de leitura mais clara, ainda sujeitas à pose final e oclusão. **Ver-Capturas-Manny.cmd** abre a galeria local sem servidor. Os inputs dos braços e o adaptador de escala ainda precisam de promoção ao runtime; armas/animações finais e câmara de gameplay continuam pendentes. Imagens, módulo editor e assets Manny ficam fora do ZIP runtime.
+O catálogo completo tem **331 componentes / 340 cenários** em **Ver-Manny-Todos-VFX.cmd**. Ver [índice Manny completo](MANNY_VFX_TODOS.md) para o estado atual de capturas, ligações e pendentes. **Ver-Capturas-Manny-Todos.cmd** abre a galeria local pesquisável; estas capturas e o módulo editor permanecem no laboratório.
+
+A passagem completa cobre **331 componentes**: 8160 amostras de ligação/escala, 4080 pares efeito/baseline em três vistas e 24 imagens de braços isolados. Consultar a validação atual e o índice para resultados e flags. Bleed/Poison/Rapid Attack usam ligações independentes dos dois braços; as marcas Severing 1/2/3 estão no palco. **Ver-Capturas-Manny.cmd** abre a galeria completa sem servidor. Os inputs dos braços e o adaptador de escala ainda precisam de promoção ao runtime; armas/animações finais e câmara de gameplay continuam pendentes. Imagens, módulo editor e assets Manny ficam fora do ZIP runtime.
 
 ## Onde estão os ficheiros
 
@@ -68,7 +70,7 @@ Hashes nos nomes conservam revisões. Usar o sistema/definição do índice atua
 ## Próximos passos no jogo
 
 1. Rever formas Glacial Spike/Iceberg e as novas apresentações no visualizador.
-2. Alargar a calibração Manny às armas/animações/notifies finais e restantes fases; promover os inputs independentes de braços/escala e conferir a câmara real.
+2. Calibrar armas/animações/notifies finais no Manny; promover os inputs independentes de braços/escala e conferir a câmara real.
 3. Ligar GAS/abilities, autoridade e transporte de eventos, vida/respawn e replicação.
 4. Ligar terreno, canais de colisão/navegação e ciclo de vida dos hosts.
 5. Fazer cook Shipping e medir escalabilidade/overdraw/concorrência no hardware alvo.

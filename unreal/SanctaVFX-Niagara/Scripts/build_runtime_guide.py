@@ -109,9 +109,11 @@ Usar <code>ExecutionId</code> + <code>EventSequence</code> e, quando aplicável,
 
 Manny do UE é a referência base confirmada pelo utilizador. Resolver no asset do jogo os bones/sockets existentes; validar transforms na pose animada e escala do actor. Cues de corpo conservam alturas authored sobre o root, sem somar novamente a altura de um socket do peito. Bleed/Poison ligam mão–cotovelo; melee liga base–ponta da arma; beams/links ligam origem–endpoint. CC de cabeça e Root nos pés precisam de leitura com roupa e câmara reais.
 
-O visualizador geral conserva o manequim estático para rever a forma. O palco separado **Ver-Manny-VFX.cmd** tem 21 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala; V muda a vista; B isola os braços. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
+O visualizador geral conserva o manequim estático para rever a forma. O palco separado **Ver-Manny-VFX.cmd** tem 340 cenários, quatro poses de teste e três escalas. P muda a pose; E muda a escala; V muda a vista; B isola os braços. Ver [orientações Manny](MANNY_VFX.md) e [perfil de rig](Evidence/gameplay-runtime-rig-reference.json).
 
-Esta segunda passagem cobre **17 componentes**: 504 amostras de ligação/escala, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram. Bleed/Poison/Rapid Attack usam ligações independentes dos dois braços; as marcas Severing 1/2/3 estão no palco. Espada/Guard têm variantes de leitura mais clara, ainda sujeitas à pose final e oclusão. **Ver-Capturas-Manny.cmd** abre a galeria local sem servidor. Os inputs dos braços e o adaptador de escala ainda precisam de promoção ao runtime; armas/animações finais e câmara de gameplay continuam pendentes. Imagens, módulo editor e assets Manny ficam fora do ZIP runtime.
+O catálogo completo tem **331 componentes / 340 cenários** em **Ver-Manny-Todos-VFX.cmd**. Ver [índice Manny completo](MANNY_VFX_TODOS.md) para o estado atual de capturas, ligações e pendentes. **Ver-Capturas-Manny-Todos.cmd** abre a galeria local pesquisável; estas capturas e o módulo editor permanecem no laboratório.
+
+A passagem completa cobre **331 componentes**: 8160 amostras de ligação/escala, 4080 pares efeito/baseline em três vistas e 24 imagens de braços isolados. Consultar a validação atual e o índice para resultados e flags. Bleed/Poison/Rapid Attack usam ligações independentes dos dois braços; as marcas Severing 1/2/3 estão no palco. **Ver-Capturas-Manny.cmd** abre a galeria completa sem servidor. Os inputs dos braços e o adaptador de escala ainda precisam de promoção ao runtime; armas/animações finais e câmara de gameplay continuam pendentes. Imagens, módulo editor e assets Manny ficam fora do ZIP runtime.
 
 ## Onde estão os ficheiros
 
@@ -135,7 +137,7 @@ Hashes nos nomes conservam revisões. Usar o sistema/definição do índice atua
 ## Próximos passos no jogo
 
 1. Rever formas Glacial Spike/Iceberg e as novas apresentações no visualizador.
-2. Alargar a calibração Manny às armas/animações/notifies finais e restantes fases; promover os inputs independentes de braços/escala e conferir a câmara real.
+2. Calibrar armas/animações/notifies finais no Manny; promover os inputs independentes de braços/escala e conferir a câmara real.
 3. Ligar GAS/abilities, autoridade e transporte de eventos, vida/respawn e replicação.
 4. Ligar terreno, canais de colisão/navegação e ciclo de vida dos hosts.
 5. Fazer cook Shipping e medir escalabilidade/overdraw/concorrência no hardware alvo.
@@ -219,6 +221,17 @@ function filter(){let n=0;const q=normalize(search.value.trim());cards.forEach(c
 search.addEventListener('input',filter);group.addEventListener('change',filter);cycle.addEventListener('change',filter);filter();
 </script></html>"""
 page = page.replace('__OPTIONS__', ''.join('<option>' + esc(g) + '</option>' for g in groups)).replace('__CARDS__', ''.join(cards))
+full_path=R/'Evidence/gameplay-manny-full-validation.json'
+full=read(full_path) if full_path.exists() else {}
+full_current=full.get('inputs',{}).get('Evidence/gameplay-manny-full-cases.json')==sha('Evidence/gameplay-manny-full-cases.json')
+full_count=full.get('cases',0) if full_current else 0
+full_intro=f'<p><strong>Catálogo completo: 331 componentes / 340 cenários.</strong> Capturas auditadas desta versão: {full_count}/340. <strong>Ver-Manny-Todos-VFX.cmd</strong> abre as animações a 1×; <strong>Ver-Capturas-Manny-Todos.cmd</strong> abre os prints locais com pesquisa, pose e vista. <a href="Evidence/MannyFullReview/galeria.html">Abrir galeria Manny completa no laboratório</a> · <a href="MANNY_VFX_TODOS.md">Índice e requisitos de integração</a>. Armas/poses finais e promoção do adaptador ao runtime continuam pendentes.</p><p class="small">A passagem de 21 cenários abaixo fica preservada como referência anterior.</p>'
+marker='<section id="manny"><h2>Manny animado no laboratório</h2><div class="box">'
+assert page.count(marker)==1
+section_start=page.index(marker)
+section_end=page.index('</section>',section_start)+len('</section>')
+full_intro=full_intro.replace('A passagem de 21 cenários abaixo fica preservada como referência anterior.','A passagem de 21 cenários é histórica em Evidence/MannyReview. P muda a pose, E a escala, V a vista e B isola os braços. Os atalhos Ver-Manny-VFX.cmd e Ver-Capturas-Manny.cmd também abrem o catálogo completo. Guard planar e certas poses de template têm limitações de oclusão registadas; não há aprovação de produção.')
+page=page[:section_start]+marker+full_intro+'</div></section>'+page[section_end:]
 (R / 'GUIA_VFX.html').write_text(page, encoding='utf-8')
 (R / 'Abrir-Guia-VFX.cmd').write_text('@echo off\nstart "" "%~dp0GUIA_VFX.html"\n', encoding='ascii')
 print(json.dumps({'components': len(rows), 'scenes': len(viewer), 'canonical_forms': len(routes), 'groups': index['group_counts']}))

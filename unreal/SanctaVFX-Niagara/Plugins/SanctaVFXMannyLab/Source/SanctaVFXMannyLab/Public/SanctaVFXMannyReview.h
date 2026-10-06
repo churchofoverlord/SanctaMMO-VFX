@@ -6,6 +6,7 @@
 
 class USkeletalMeshComponent;
 class UAnimSequence;
+class ASanctaVFXTerrain;
 
 /** Independent editor-only fixture. Never changes the game rig or approved source effects. */
 UCLASS()
@@ -26,6 +27,8 @@ private:
     UPROPERTY(Transient) TObjectPtr<AActor> TargetActor;
     UPROPERTY(Transient) TObjectPtr<AActor> SourceProxy;
     UPROPERTY(Transient) TObjectPtr<AActor> TargetProxy;
+    UPROPERTY(Transient) TObjectPtr<AActor> ProjectileProxy;
+    UPROPERTY(Transient) TObjectPtr<ASanctaVFXTerrain> ReviewTerrain;
     UPROPERTY(Transient) TObjectPtr<USkeletalMeshComponent> SourceMesh;
     UPROPERTY(Transient) TObjectPtr<USkeletalMeshComponent> TargetMesh;
     UPROPERTY(Transient) TObjectPtr<USanctaVFXPresentationComponent> Presentation;
@@ -38,6 +41,8 @@ private:
     int32 CaseIndex=0, PoseIndex=0, ScaleIndex=1, SampleIndex=0, ViewIndex=0, ArmMask=3;
     float Wait=0, PoseTime=0;
     bool Audit=false, Started=false, ViewReady=false, Passed=true, CompileRequested=false;
+    bool FullCatalog=false;
+    int32 AuditFirst=0, AuditEnd=0;
     FVector Origin=FVector::ZeroVector, Endpoint=FVector::ZeroVector;
     FQuat AnchorRotation=FQuat::Identity;
     void SetPose(float Time);
@@ -47,4 +52,6 @@ private:
     void RecordSample();
     bool Capture(const FString& Name, bool Baseline);
     void Finish();
+    void WriteResults(bool Complete);
+    FString CaptureDirectory() const;
 };

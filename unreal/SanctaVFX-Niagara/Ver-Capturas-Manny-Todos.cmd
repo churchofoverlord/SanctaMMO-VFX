@@ -1,6 +1,6 @@
 @echo off
 if not exist "%~dp0Evidence\MannyFullReview\galeria.html" (
-  echo A galeria Manny ainda nao foi gerada. Consultar MANNY_VFX.md.
+  echo A galeria completa ainda esta a ser preparada.
   pause
   exit /b 1
 )

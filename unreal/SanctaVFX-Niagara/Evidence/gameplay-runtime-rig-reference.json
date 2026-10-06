@@ -1,9 +1,9 @@
 {
   "reference": "UE Manny",
   "authority": "Direct human instruction, 2026-10-05",
-  "recorded_at_utc": "2026-10-06T07:39:47.587501+00:00",
-  "fixture_current": "Separate animated Manny PIE lab: 21 scenes, 17 components, four template poses, three uniform scales, three views.",
-  "calibration_status": "second_animated_lab_pass_verified_game_calibration_pending",
+  "recorded_at_utc": "2026-10-06T10:38:24.039993+00:00",
+  "fixture_current": "Separate animated Manny PIE lab: 340 scenarios, all 331 current components, four template poses, three scales and three views.",
+  "calibration_status": "full_animated_manny_lab_pass_ready_for_review",
   "foundation_modified": false,
   "attachment_requirements": {
     "body": "Root plus authored body height; avoid adding chest socket height twice",
@@ -13,11 +13,11 @@
     "contacts": "Confirmed world surface contact, not target actor origin"
   },
   "required_checks": [
-    "Calibrate final weapon base/tip/muzzle, skill animations and notifies",
-    "Extend calibration to the remaining components and gameplay phases",
-    "Promote independent arm inputs and rig scale/attachment adapter to runtime in the authorized integration",
-    "Check final guard/dodge/sprint poses, clothing, occlusion, Low quality and actual gameplay camera",
-    "Confirm world contacts, sweeps, lifetime owners, authority and multiplayer in the game"
+    "Calibrate final weapon meshes, base/tip/muzzle sockets, skill animations and notifies",
+    "Promote private arm/scale adapter and variant dependencies to game runtime",
+    "Validate actual camera, armor, occlusion, Low scalability and performance on target hardware",
+    "Drive confirmed contacts/states, gameplay authority/replication, collisions/navigation and Shipping cook",
+    "User feedback on Glacial/Iceberg shape and new presentations"
   ],
   "mesh": "/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple",
   "skeleton": "/Game/Characters/Mannequins/Meshes/SK_Mannequin",
@@ -33,28 +33,27 @@
   "viewer": "Ver-Manny-VFX.cmd",
   "guide": "MANNY_VFX.md",
   "discovery": "Evidence/gameplay-manny-discovery.json",
-  "validation": "Evidence/gameplay-manny-validation.json",
+  "validation": "Evidence/gameplay-manny-full-validation.json",
   "local_assets_in_git_or_runtime_zip": false,
   "rig_scale_adapter": "Private lab MID override; native game runtime integration is pending.",
   "production_approved": false,
   "coverage": {
-    "scenes": 21,
-    "components": 17,
-    "samples": 504,
-    "effect_frames": 252,
-    "baseline_frames": 252,
+    "scenes": 340,
+    "components": 331,
+    "samples": 8160,
+    "effect_frames": 4080,
+    "baseline_frames": 4080,
     "isolated_arm_frames": 24,
     "views": 3,
     "poses": 4,
     "scales": 3
   },
   "readability_flags": [
-    "Sword and Guard are clearer in front/three-quarter views; a planar Guard becomes faint edge-on and the body occludes some effects in side views.",
-    "Sword uses a 75 cm calibration reference; final weapon mesh, axes, grip, sweep and attack notifies remain pending.",
-    "Four template Unarmed poses are fixtures, not final combat/guard/dodge/sprint animations.",
-    "Foot contact is subtle and projected onto a flat lab floor, without gameplay terrain confirmation.",
-    "Clothing, armor, actual gameplay camera, Low scalability and final readability remain pending on Manny.",
-    "Independent arm inputs and rig scale use a private lab adapter; the current game runtime and migration ZIP have not received these changes."
+    "Guard is a thin planar cue and remains faint edge-on; final guard pose pending.",
+    "Provisional weapon lengths with Unarmed poses can put Staff release below the floor or hide projectiles behind the body in specific views.",
+    "All 340 scenarios have a visible representative; individual occluded/small/edge samples remain recorded diagnostic flags.",
+    "Volley flight component inspection does not validate the full gameplay multispawn composition.",
+    "Four template poses, flat terrain, no final weapon meshes, clothing or armor; no production/gameplay approval."
   ],
   "captures_launcher": "Ver-Capturas-Manny.cmd",
   "independent_arm_adapter": "Four evaluated hand/lowerarm inputs, aArm identity and RuntimeArmMask in separate MannyCalibration variants; runtime promotion pending.",
@@ -62,5 +61,7 @@
     1,
     2,
     3
-  ]
+  ],
+  "binding_index": "Evidence/gameplay-manny-full-binding-index.json",
+  "full_guide": "MANNY_VFX_TODOS.md"
 }

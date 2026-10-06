@@ -1,0 +1,22 @@
+{
+  "current_components": 331,
+  "covered_components": 331,
+  "scenarios": 340,
+  "new_components_after_pass2": 314,
+  "poses": 4,
+  "scales": [
+    0.8,
+    1.0,
+    1.2
+  ],
+  "views": 3,
+  "expected_samples": 8160,
+  "expected_effect_baseline_pairs": 4080,
+  "catalog": "Evidence/gameplay-manny-full-cases.json",
+  "catalog_sha256": "a1db6eaecbdfe12e8a61400b31f5ebde7a9ec536560a87e5fc2a61463f5bac6c",
+  "weapons_final": false,
+  "gameplay_poses_final": false,
+  "runtime_adapter_promoted": false,
+  "production_approved": false,
+  "scope": "Every current component, plus isolated hands and Iceberg body. Explicit lab events; no fabricated gameplay authority."
+}

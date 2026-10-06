@@ -1,16 +1,16 @@
 # Continuar a conversão para Niagara noutra máquina
 
-## Ponto atual — segunda calibração Manny, 6 de outubro de 2026
+## Ponto atual — catálogo Manny completo, 6 de outubro de 2026
 
-**21 cenários / 17 componentes**, quatro poses de teste e três escalas. **504 amostras, 252 pares efeito/baseline em três vistas e 24 imagens de braços isolados passaram**; encerramento UE 0. As 12 folhas correntes e 13 frames completos representativos foram inspecionados. Bleed/Poison/Rapid Attack usam posições independentes das duas mãos/antebraços; espada/Guard têm variantes locais mais legíveis. Marcas Severing 1/2/3 incluídas. Nenhuma execução UE desta tarefa permanece ativa.
+**331 componentes / 340 cenários**, quatro poses de template e escalas 0,8× / 1× / 1,2×. **8160 amostras, 4080 pares efeito/baseline em três vistas e 24 imagens de braços isolados**. Nove lotes UE encerraram com código 0. A inspeção cobre uma representação de cada cenário e frames completos com flags; não todos os 4080 frames manualmente.
 
-**Ver-Capturas-Manny.cmd** abre os prints sem servidor. **Ver-Manny-VFX.cmd** abre as animações a 1×: P muda pose, E escala, V vista e B isola os braços. Ler **MANNY_VFX.md** e `Evidence/gameplay-manny-checkpoint.json`.
+**Ver-Capturas-Manny.cmd** abre a galeria completa, pesquisável, sem servidor. **Ver-Manny-VFX.cmd** abre as animações a 1×: P pose, E escala, V vista, B braços. Ler **MANNY_VFX_TODOS.md**, **MANNY_VFX.md** e `Evidence/gameplay-manny-full-checkpoint.json`.
 
-As seis variantes estão em **Source/MannyCalibration**, separadas dos componentes gerais. Os novos inputs dos braços e a escala ainda precisam de promoção ao runtime. Espada de 75 cm e poses Unarmed são fixtures: armas/animações/notifies finais, guard/dodge/sprint, roupa/oclusão, câmara real e restantes fases continuam pendentes. Guard planar fica discreto de perfil. Não declarar os 331 componentes calibrados no Manny ou aprovação de produção.
+Cobertura inclui 14 famílias de armas, Guard/Dodge/Sprint, chão/corpo, mãos, contactos, marcas Severing, projéteis, beams e Iceberg. Blink e Dodge receberam correções de posicionamento no fixture. Foundation, Engine, fontes/ assets runtime e rig original preservados por hashes. Não repetir capturas sem alterações relevantes; a retoma preserva lotes com configurações iguais.
 
-Foundation, Engine, rig original, DLLs Bridge/runtime e assets atuais preservados por hashes. O build de variantes e a preparação do mapa terminaram com código 0; duas tentativas anteriores do harness em Editor completo falharam na simulação e estão registadas. A primeira passagem fica em `Saved/MannyPass1-20261005`. Fontes, guia e registos da segunda passagem publicados no commit `266e13b`, verificado em `origin/main`; capturas e assets Epic/MannyLab continuam locais.
+As dimensões de armas e poses Unarmed são provisórias. Guard fica discreto de perfil; certas poses/vistas ocultam projéteis ou põem o muzzle Staff abaixo do chão. Essas flags continuam registadas. Faltam armas/animações/notifies finais, câmara/roupa/oclusão/Low, promoção do adaptador ao runtime, eventos confirmados de gameplay, autoridade/replicação e Shipping. Glacial/Iceberg aguardam feedback de forma. Não declarar aprovação de produção ou integração concluída no jogo.
 
-Próximo trabalho: calibração de armas/poses/notifies finais e restantes fases, seguida da promoção autorizada dos adaptadores para o runtime. Não alterar Foundation sem nova autorização.
+Capturas e assets Epic/MannyLab são locais, fora do Git/ZIP. O ZIP contém assets runtime e documentação/receitas, sem o módulo editor Manny. A passagem de 21 cenários é histórica em `Saved/MannyPass2-20261006` e `Evidence/MannyReview`. Não alterar Foundation sem nova autorização.
 
 ## Estado atual — integração VFX validada no laboratório em 5 de outubro de 2026
 

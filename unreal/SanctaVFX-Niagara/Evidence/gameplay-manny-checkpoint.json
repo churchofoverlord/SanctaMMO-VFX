@@ -1,22 +1,22 @@
 {
   "recorded_at_utc": "2026-10-06T07:39:47.587501+00:00",
-  "status": "second_animated_manny_lab_pass_ready_for_review",
-  "scope": "21 scenes / 17 components; remaining 331-component catalog calibration is pending.",
+  "status": "historical_second_pass_superseded_by_full_catalog",
+  "scope": "Historical 21-scene / 17-component pass; current full coverage is in gameplay-manny-full-checkpoint.json.",
   "foundation_modified": false,
   "engine_modified": false,
   "production_approved": false,
   "ue_process_running": false,
   "build_succeeded": true,
   "native_exit_code": 0,
-  "source_matches_compiled": true,
+  "source_matches_compiled": false,
   "source_validation": "Evidence/gameplay-manny-validation.json",
   "discovery": "Evidence/gameplay-manny-discovery.json",
   "rig_reference": "Evidence/gameplay-runtime-rig-reference.json",
   "local_asset_manifest": "Evidence/gameplay-manny-local-reference.json",
   "variant_sources": "Evidence/gameplay-manny-binding-sources.json",
   "variant_assets": "Evidence/gameplay-manny-binding-assets.json",
-  "viewer": "Ver-Manny-VFX.cmd",
-  "captures_launcher": "Ver-Capturas-Manny.cmd",
+  "viewer": "Scripts/Open-MannyLab.ps1",
+  "captures_launcher": "Evidence/MannyReview/galeria.html",
   "guide": "MANNY_VFX.md",
   "local_gallery": "Evidence/MannyReview/galeria.html",
   "default_speed": 1.0,
@@ -113,5 +113,7 @@
     "remote": "origin/main",
     "verified_at_utc": "2026-10-06T07:44:57.784420+00:00",
     "note": "Published second-pass content commit; publication metadata is recorded in the subsequent commit."
-  }
+  },
+  "full_catalog_work": "Evidence/gameplay-manny-full-checkpoint.json",
+  "superseded_by": "Evidence/gameplay-manny-full-checkpoint.json"
 }

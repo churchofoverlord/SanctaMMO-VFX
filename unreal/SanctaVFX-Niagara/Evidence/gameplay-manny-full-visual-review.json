@@ -1,0 +1,3551 @@
+{
+  "inspections": [
+    {
+      "time_utc": "2026-10-06T09:48:31.152602+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-000-best.jpg",
+      "sheet_sha256": "58b3ebed691edb92247ea1f1a44f56e47bffdd63d5c917d872cacd8bd666f0bd",
+      "scenarios": [
+        "BleedRight",
+        "BleedLeft",
+        "PoisonRight",
+        "PoisonLeft",
+        "BleedBoth",
+        "PoisonBoth",
+        "RapidBoth",
+        "SwordPhysical",
+        "SwordMagical",
+        "Guard",
+        "Tank",
+        "Warrior",
+        "Stun",
+        "Root",
+        "SeveringMark",
+        "SeveringMark2",
+        "SeveringMark3",
+        "LaserBeam",
+        "LaserCast",
+        "FootStone",
+        "ArcaneResource",
+        "ContactPhysical",
+        "ContactMagical",
+        "BasicAxePhysicalTrail"
+      ],
+      "note": "Representativos dos 40 primeiros cenários inspecionados. Contacto físico/mágico visível à superfície. Guard é um par de traços discretos; limites de perfil/oclusão mantêm-se. FootStone enquadra o contacto, com parte superior do personagem cortada. Armas provisórias, sem aprovação de modelos/animações finais."
+    },
+    {
+      "time_utc": "2026-10-06T09:48:31.155952+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-024-best.jpg",
+      "sheet_sha256": "5af64558e1449f140cb1f010dfadaa2eeee53bb312012fbc881aa311b434dce0",
+      "scenarios": [
+        "BasicAxeMagicalTrail",
+        "BasicClubPhysicalTrail",
+        "BasicClubMagicalTrail",
+        "BasicWandPhysicalFlight",
+        "BasicWandPhysicalRelease",
+        "BasicWandMagicalFlight",
+        "BasicWandMagicalRelease",
+        "BasicRapierPhysicalTrail",
+        "BasicRapierMagicalTrail",
+        "BasicDualDaggersPhysicalTrail",
+        "BasicDualDaggersMagicalTrail",
+        "BasicFistsGauntletsPhysicalTrail",
+        "BasicFistsGauntletsMagicalTrail",
+        "BasicGreatClubPhysicalTrail",
+        "BasicGreatClubMagicalTrail",
+        "BasicStaffPhysicalFlight"
+      ],
+      "note": "Representativos dos 40 primeiros cenários inspecionados. Contacto físico/mágico visível à superfície. Guard é um par de traços discretos; limites de perfil/oclusão mantêm-se. FootStone enquadra o contacto, com parte superior do personagem cortada. Armas provisórias, sem aprovação de modelos/animações finais."
+    },
+    {
+      "time_utc": "2026-10-06T09:54:04.181970+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-024-best.jpg",
+      "sheet_sha256": "d9e8eebe299ad81f56aee233cf274b81dcda528027293c5ee4768e09ff146b5a",
+      "scenarios": [
+        "BasicAxeMagicalTrail",
+        "BasicClubPhysicalTrail",
+        "BasicClubMagicalTrail",
+        "BasicWandPhysicalFlight",
+        "BasicWandPhysicalRelease",
+        "BasicWandMagicalFlight",
+        "BasicWandMagicalRelease",
+        "BasicRapierPhysicalTrail",
+        "BasicRapierMagicalTrail",
+        "BasicDualDaggersPhysicalTrail",
+        "BasicDualDaggersMagicalTrail",
+        "BasicFistsGauntletsPhysicalTrail",
+        "BasicFistsGauntletsMagicalTrail",
+        "BasicGreatClubPhysicalTrail",
+        "BasicGreatClubMagicalTrail",
+        "BasicStaffPhysicalFlight",
+        "BasicStaffPhysicalRelease",
+        "BasicStaffMagicalFlight",
+        "BasicStaffMagicalRelease",
+        "BasicCrossbowPhysicalFlight",
+        "BasicCrossbowPhysicalRelease",
+        "BasicCrossbowMagicalFlight",
+        "BasicCrossbowMagicalRelease",
+        "BasicGreatswordPhysicalTrail"
+      ],
+      "note": "Representativos dos básicos restantes e CC inspecionados. Referências de comprimento diferenciam armas; Staff Release em repouso pode cair abaixo do chão porque não existe arma/pose final. DodgeAvoided é subtil e pode ficar oculto pelo corpo. Fim/cleanse CC mostra cue terminal, não confirma lógica do jogo."
+    },
+    {
+      "time_utc": "2026-10-06T09:54:04.188976+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-048-best.jpg",
+      "sheet_sha256": "7d6b17297b547f6e3e2f05f4257052f0e035cab334b2064e84c8f43f808e7779",
+      "scenarios": [
+        "BasicGreatswordMagicalTrail",
+        "BasicGreataxePhysicalTrail",
+        "BasicGreataxeMagicalTrail",
+        "BasicBowPhysicalFlight",
+        "BasicBowPhysicalRelease",
+        "BasicBowMagicalFlight",
+        "BasicBowMagicalRelease",
+        "BasicSpearPhysicalTrail",
+        "BasicSpearMagicalTrail",
+        "ExploitIDelivery",
+        "ExploitIIDelivery",
+        "ExploitIIIDelivery",
+        "FullMoonDelivery",
+        "CosmicRayIDelivery",
+        "CosmicRayIIDelivery",
+        "SicknessDelivery",
+        "CCDisarmActive",
+        "CCDisarmApply",
+        "CCDisarmNaturalEnd",
+        "CCDisarmCleanse",
+        "GuardMitigation",
+        "GuardDepletion",
+        "FootContactSnow",
+        "FootContactMud"
+      ],
+      "note": "Representativos dos básicos restantes e CC inspecionados. Referências de comprimento diferenciam armas; Staff Release em repouso pode cair abaixo do chão porque não existe arma/pose final. DodgeAvoided é subtil e pode ficar oculto pelo corpo. Fim/cleanse CC mostra cue terminal, não confirma lógica do jogo."
+    },
+    {
+      "time_utc": "2026-10-06T09:54:04.193968+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-072-best.jpg",
+      "sheet_sha256": "d63117ed7b733f934c9879c9d7492ecd6206c76670035a4b214f190a4d6b8a1d",
+      "scenarios": [
+        "FootContactWater",
+        "DodgeStart",
+        "DodgeAvoided",
+        "CCStunNaturalEnd",
+        "CCStunCleanse",
+        "CCSleepActive",
+        "CCSleepNaturalEnd",
+        "CCSleepCleanse"
+      ],
+      "note": "Representativos dos básicos restantes e CC inspecionados. Referências de comprimento diferenciam armas; Staff Release em repouso pode cair abaixo do chão porque não existe arma/pose final. DodgeAvoided é subtil e pode ficar oculto pelo corpo. Fim/cleanse CC mostra cue terminal, não confirma lógica do jogo."
+    },
+    {
+      "time_utc": "2026-10-06T09:57:48.402330+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-072-best.jpg",
+      "sheet_sha256": "d1fb598a1d816cedf418632e2a4e51d585b490a52c6d58eaaa195a904682a47e",
+      "scenarios": [
+        "FootContactWater",
+        "DodgeStart",
+        "DodgeAvoided",
+        "CCStunNaturalEnd",
+        "CCStunCleanse",
+        "CCSleepActive",
+        "CCSleepNaturalEnd",
+        "CCSleepCleanse",
+        "CCSilenceActive",
+        "CCSilenceNaturalEnd",
+        "CCSilenceCleanse",
+        "CCTauntActive",
+        "CCTauntNaturalEnd",
+        "CCTauntCleanse",
+        "CCFearActive",
+        "CCFearNaturalEnd",
+        "CCFearCleanse",
+        "CCRootNaturalEnd",
+        "CCRootCleanse",
+        "CCTauntApply",
+        "CCForcedPush",
+        "CCForcedPull",
+        "CCForcedSlowPull",
+        "SeveringCastI"
+      ],
+      "note": "CC, projéteis, marcas de hit, Volley/Chains, Rally, gelo e Ether representativos inspecionados. Áreas grandes exigem enquadramento afastado; gelo e formas aprovadas permanecem sem alterações. Flight isolado não valida a emissão múltipla da skill. Alguns contactos são parcialmente ocluídos pelo corpo."
+    },
+    {
+      "time_utc": "2026-10-06T09:57:48.407470+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-096-best.jpg",
+      "sheet_sha256": "c6bd92e2bd8cad6b4b19498649b12879fc2de2ccee410c6289b5a2e77f1c5ae5",
+      "scenarios": [
+        "SeveringCastII",
+        "SeveringCastIII",
+        "FireBoltIFlight",
+        "FireBoltIImpact",
+        "FireBoltIIFlight",
+        "FireBoltIIImpact",
+        "VolleyIBleedFlight",
+        "VolleyIBleedHit",
+        "VolleyIPoisonFlight",
+        "VolleyIPoisonHit",
+        "VolleyIIBleedFanFlight",
+        "VolleyIIBleedHit",
+        "VolleyIIBleedPiercingFlight",
+        "VolleyIIBleedAim",
+        "VolleyIIBleedAimEnd",
+        "VolleyIIPoisonFanFlight",
+        "VolleyIIPoisonHit",
+        "VolleyIIPoisonPiercingFlight",
+        "VolleyIIPoisonAim",
+        "VolleyIIPoisonAimEnd",
+        "ChainsIFlight",
+        "ChainsILatchedLink",
+        "ChainsIHit",
+        "ChainsIEnd"
+      ],
+      "note": "CC, projéteis, marcas de hit, Volley/Chains, Rally, gelo e Ether representativos inspecionados. Áreas grandes exigem enquadramento afastado; gelo e formas aprovadas permanecem sem alterações. Flight isolado não valida a emissão múltipla da skill. Alguns contactos são parcialmente ocluídos pelo corpo."
+    },
+    {
+      "time_utc": "2026-10-06T09:57:48.412470+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-120-best.jpg",
+      "sheet_sha256": "5a1bd433355466c48664faa6256a66e36ee61dfbd312ee24ea1fec08ddd219cc",
+      "scenarios": [
+        "ChainsIIFlight",
+        "ChainsIILatchedLink",
+        "ChainsIIHit",
+        "ChainsIIEnd",
+        "ChainsIITargetWrap",
+        "ChainsIIPull",
+        "ChainsIIInterrupt",
+        "FireBoltIISpread",
+        "ChallengeIIRootApply",
+        "RallyITankAffected",
+        "RallyIWarriorAffected",
+        "RallyIiTankAffected",
+        "RallyIiWarriorAffected",
+        "ResurrectComplete",
+        "FrostLanceIImpact",
+        "FrostLanceIiImpact",
+        "FrostLanceIiConditionalControl",
+        "GlacialSpikeIGroundArea",
+        "GlacialSpikeIImpact",
+        "GlacialSpikeIiGroundArea",
+        "GlacialSpikeIiImpact",
+        "GlacialSpikeIiConditionalControl",
+        "EtherIAllyHeal",
+        "EtherIEnemyConfirmedDamage"
+      ],
+      "note": "CC, projéteis, marcas de hit, Volley/Chains, Rally, gelo e Ether representativos inspecionados. Áreas grandes exigem enquadramento afastado; gelo e formas aprovadas permanecem sem alterações. Flight isolado não valida a emissão múltipla da skill. Alguns contactos são parcialmente ocluídos pelo corpo."
+    },
+    {
+      "time_utc": "2026-10-06T09:57:48.416471+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-144-best.jpg",
+      "sheet_sha256": "9f1030b25c49867da3810eea5908f1d2fea5747433db61b1981b728ecb77c4ab",
+      "scenarios": [
+        "EtherIiAllyHeal",
+        "EtherIiAllyConditionalBuff",
+        "EtherIiEnemyConfirmedDamage",
+        "BrightStarShieldApply",
+        "BrightStarCasterProc",
+        "SerenityHeal",
+        "SerenitySleepApply",
+        "BackstabIIConfirmedHit",
+        "BackstabIIStunApply",
+        "BackstabIIPoisonApply",
+        "BackstabIIBleedApply",
+        "LaserContact",
+        "StaticBoltIHit",
+        "StaticBoltIChain",
+        "StaticBoltIiHit",
+        "StaticBoltIiChain"
+      ],
+      "note": "CC, projéteis, marcas de hit, Volley/Chains, Rally, gelo e Ether representativos inspecionados. Áreas grandes exigem enquadramento afastado; gelo e formas aprovadas permanecem sem alterações. Flight isolado não valida a emissão múltipla da skill. Alguns contactos são parcialmente ocluídos pelo corpo."
+    },
+    {
+      "time_utc": "2026-10-06T10:10:51.747893+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-144-best.jpg",
+      "sheet_sha256": "26db3e64f2871dc5a9ed6d8e6a27c126b9f2f5cde2e11560c78a71b97022b2cb",
+      "scenarios": [
+        "EtherIiAllyHeal",
+        "EtherIiAllyConditionalBuff",
+        "EtherIiEnemyConfirmedDamage",
+        "BrightStarShieldApply",
+        "BrightStarCasterProc",
+        "SerenityHeal",
+        "SerenitySleepApply",
+        "BackstabIIConfirmedHit",
+        "BackstabIIStunApply",
+        "BackstabIIPoisonApply",
+        "BackstabIIBleedApply",
+        "LaserContact",
+        "StaticBoltIHit",
+        "StaticBoltIChain",
+        "StaticBoltIiHit",
+        "StaticBoltIiChain",
+        "CoilHit",
+        "CoilProc7",
+        "CoilChain",
+        "ThunderstrikeIHit",
+        "ThunderstrikeIiHit",
+        "TempestIce",
+        "TempestLightning",
+        "TempestGroundImpact"
+      ],
+      "note": "Lightning/Tempest, recursos, ligações Mystic e Fighter inspecionados. BlinkCast invisível: a compensação de altura coloca a faixa inicial abaixo do chão; exige ligação root e nova captura. DodgeAvoided exige ponto à superfície do corpo. Outros componentes têm representante visível, com contactos pequenos sujeitos à oclusão."
+    },
+    {
+      "time_utc": "2026-10-06T10:10:51.754330+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-168-best.jpg",
+      "sheet_sha256": "195ffda050a11a573a4350b3d212e749a02994e91eede7f97d8302915113e8f2",
+      "scenarios": [
+        "TempestFrostImpact",
+        "TempestStormArea",
+        "TempestTelegraph",
+        "TempestLightningHit",
+        "StaticBoltIGroundArea",
+        "StaticBoltIiGroundArea",
+        "ThunderstrikeIiSplashArea",
+        "ThunderstrikeIISplash",
+        "TempestSappedProc",
+        "ArcaneWeavingIResource",
+        "ElementalWeaverIResource",
+        "ElementalWeaverIiResource",
+        "SpiritOfTheCometMoonState",
+        "SpiritOfTheCometSunState",
+        "SpiritOfTheOrbitMoonState",
+        "SpiritOfTheOrbitSunState",
+        "SpiritOfTheStarMoonState",
+        "SpiritOfTheStarSunState",
+        "ManaBarrierIHold",
+        "ManaBarrierIRelease",
+        "ManaBarrierIiOverchargeHold",
+        "ManaBarrierIiOverchargeRelease",
+        "ConnectionIAllyActive",
+        "ConnectionIAllyNaturalEnd"
+      ],
+      "note": "Lightning/Tempest, recursos, ligações Mystic e Fighter inspecionados. BlinkCast invisível: a compensação de altura coloca a faixa inicial abaixo do chão; exige ligação root e nova captura. DodgeAvoided exige ponto à superfície do corpo. Outros componentes têm representante visível, com contactos pequenos sujeitos à oclusão."
+    },
+    {
+      "time_utc": "2026-10-06T10:10:51.762107+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-192-best.jpg",
+      "sheet_sha256": "6f32eea896f484de029a06bc679baf6a09fb37e9e817a77860b8b21785cc4eab",
+      "scenarios": [
+        "ConnectionIEnemyActive",
+        "ConnectionIEnemyNaturalEnd",
+        "ConnectionIiAllyActive",
+        "ConnectionIiAllyNaturalEnd",
+        "ConnectionIiEnemyActive",
+        "ConnectionIiEnemyNaturalEnd",
+        "BattlecryChallengeITankCast",
+        "BattlecryChallengeIWarriorCast",
+        "BattlecryChallengeIiTankCast",
+        "BattlecryChallengeIiWarriorCast",
+        "BulwarkApply",
+        "CleanseApply",
+        "CrushingBlowAreaImpact",
+        "CrushingBlowIiAreaImpact",
+        "DefiantPresenceActive",
+        "MomentumMasteryResourceGain",
+        "PiercingStrikeCast",
+        "PiercingStrikeImpact",
+        "PiercingStrikeIiTankCast",
+        "PiercingStrikeIiTankImpact",
+        "PiercingStrikeIiWarriorCast",
+        "PiercingStrikeIiWarriorImpact",
+        "PressureProvokeCast",
+        "PressureProvokeTankCast"
+      ],
+      "note": "Lightning/Tempest, recursos, ligações Mystic e Fighter inspecionados. BlinkCast invisível: a compensação de altura coloca a faixa inicial abaixo do chão; exige ligação root e nova captura. DodgeAvoided exige ponto à superfície do corpo. Outros componentes têm representante visível, com contactos pequenos sujeitos à oclusão."
+    },
+    {
+      "time_utc": "2026-10-06T10:10:51.768471+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-216-best.jpg",
+      "sheet_sha256": "fe4742b63b820c3050d6e02098dd40de68d1e669d2819ea0cc156875bcd15161",
+      "scenarios": [
+        "PressureProvokeImpact",
+        "PressureProvokeTankImpact",
+        "RageApply",
+        "RallyITankCast",
+        "RallyIWarriorCast",
+        "RallyIiTankCast",
+        "RallyIiWarriorCast",
+        "SecondWindHeal",
+        "ShoulderRushMovement",
+        "ShoulderRushImpact",
+        "ShoulderRushIiTankMovement",
+        "ShoulderRushIiTankImpact",
+        "ShoulderRushIiWarriorMovement",
+        "ShoulderRushIiWarriorImpact",
+        "TankStanceCast",
+        "WarLeapMovement",
+        "WarLeapAreaImpact",
+        "WarLeapTelegraph",
+        "WarriorStanceCast",
+        "ArcaneBurstFlight",
+        "ArcaneBurstProc",
+        "BlinkProc",
+        "BlinkCast",
+        "CleansemageApply"
+      ],
+      "note": "Lightning/Tempest, recursos, ligações Mystic e Fighter inspecionados. BlinkCast invisível: a compensação de altura coloca a faixa inicial abaixo do chão; exige ligação root e nova captura. DodgeAvoided exige ponto à superfície do corpo. Outros componentes têm representante visível, com contactos pequenos sujeitos à oclusão."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.921994+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-240-best.jpg",
+      "sheet_sha256": "7988fbac5c3be550f2b873f1a2c1a84604f531b536111440d7f0a71add0763a5",
+      "scenarios": [
+        "CoilCast",
+        "CombustIProc",
+        "CombustIiProc",
+        "CombustIiAreaImpact",
+        "FrostLanceIFlight",
+        "FrostLanceIiFlight",
+        "GlacialSpikeIAreaImpact",
+        "GlacialSpikeIiAreaImpact",
+        "IcebergFlight",
+        "IcebergProc",
+        "ManaStormActive",
+        "ManifestActive",
+        "MistActive",
+        "StaticBoltIFlight",
+        "StaticBoltIiFlight",
+        "ThunderstrikeIStrike",
+        "ThunderstrikeIiStrike",
+        "VortexFlight",
+        "VortexDisplacement",
+        "WeaveCast",
+        "WeaveActive",
+        "AstralAuraMoonActive",
+        "AstralAuraSunActive",
+        "AstralPullAreaImpact"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.930993+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-264-best.jpg",
+      "sheet_sha256": "886dd68423f05d5bfcec524ad23889ae8e1ebdcfe8d4e48124db3b3b62c1d046",
+      "scenarios": [
+        "AstralPullRelocate",
+        "AstralPullLink",
+        "AstralStepProc",
+        "AstralStepCast",
+        "AstralVeilActive",
+        "BlackHoleIActive",
+        "BlackHoleIiActive",
+        "BrightStarCast",
+        "CleansemysticApply",
+        "CosmicRayIPending",
+        "CosmicRayIResolve",
+        "CosmicRayIiPending",
+        "CosmicRayIiResolve",
+        "EclipseAreaImpact",
+        "EtherIAllyFlight",
+        "EtherIEnemyFlight",
+        "EtherIiAllyFlight",
+        "EtherIiEnemyFlight",
+        "FullMoonAreaImpact",
+        "LullabyFlight",
+        "LullabyProc",
+        "LullabyIiNightmareFlight",
+        "LullabyIiNightmareProc",
+        "MoonStanceCast"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.938993+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-288-best.jpg",
+      "sheet_sha256": "99066eb58c24a386e2cb168ddd6e81a178de40eeb5c0d800dcdcb1c65dd7b7cc",
+      "scenarios": [
+        "MoonStanceActive",
+        "ResurrectHold",
+        "SunStanceCast",
+        "SunStanceActive",
+        "BackstabFlight",
+        "BackstabImpact",
+        "BackstabIiFlight",
+        "BasicAttackBleedOverlay",
+        "BasicAttackPoisonOverlay",
+        "BlindingDartFlight",
+        "BlindingDartImpact",
+        "BlindingDartProc",
+        "CleansescoutApply",
+        "EvasionProc",
+        "ExploitWeaknessIImpact",
+        "ExploitWeaknessIProc",
+        "ExploitWeaknessIiImpact",
+        "ExploitWeaknessIiProc",
+        "ExploitWeaknessIiiImpact",
+        "ExploitWeaknessIiiProc",
+        "HemorrhagePayoff",
+        "HemorrhageConsume",
+        "LongJumpHold",
+        "LongJumpTelegraph"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.946996+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-312-best.jpg",
+      "sheet_sha256": "c96f41c8a7b0924a4537f3cd0d787c9bba6417bb469be69b077b16bbb36c307a",
+      "scenarios": [
+        "LongJumpMovement",
+        "PoisonSacFlight",
+        "PoisonSacImpact",
+        "PoisonSacActive",
+        "PoisonSacConsume",
+        "QuickstepIMovement",
+        "QuickstepIiMovement",
+        "SandShotCast",
+        "SandShotImpact",
+        "SicknessImpact",
+        "SicknessAreaImpact",
+        "SicknessConsume",
+        "SmokeBombIFlight",
+        "SmokeBombIAreaImpact",
+        "SmokeBombIActive",
+        "SmokeBombIiFlight",
+        "SmokeBombIiAreaImpact",
+        "SmokeBombIiActive",
+        "TorporFlight",
+        "TorporImpact",
+        "TorporProc",
+        "VineFieldIActive",
+        "VineFieldIiActive",
+        "BasicDualDaggersPhysicalTrailLeft"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.948995+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-336-best.jpg",
+      "sheet_sha256": "a5b9d1181ea44d796ace838fbc865416dc4f8646e9e96bfe07da1da9d3625842",
+      "scenarios": [
+        "BasicDualDaggersMagicalTrailLeft",
+        "BasicFistsGauntletsPhysicalTrailLeft",
+        "BasicFistsGauntletsMagicalTrailLeft",
+        "IcebergTerrainBody"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.956994+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-072-best.jpg",
+      "sheet_sha256": "acc0f51dddad103358efbeba5ffb79dc35c8d78d172913c2f252e827e5682f36",
+      "scenarios": [
+        "FootContactWater",
+        "DodgeStart",
+        "DodgeAvoided",
+        "CCStunNaturalEnd",
+        "CCStunCleanse",
+        "CCSleepActive",
+        "CCSleepNaturalEnd",
+        "CCSleepCleanse",
+        "CCSilenceActive",
+        "CCSilenceNaturalEnd",
+        "CCSilenceCleanse",
+        "CCTauntActive",
+        "CCTauntNaturalEnd",
+        "CCTauntCleanse",
+        "CCFearActive",
+        "CCFearNaturalEnd",
+        "CCFearCleanse",
+        "CCRootNaturalEnd",
+        "CCRootCleanse",
+        "CCTauntApply",
+        "CCForcedPush",
+        "CCForcedPull",
+        "CCForcedSlowPull",
+        "SeveringCastI"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:20:53.965143+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-216-best.jpg",
+      "sheet_sha256": "5a17478a3ad22ada1737ca4d07c3091e98739a9d8bd4ac72e2c11de12e5aaedc",
+      "scenarios": [
+        "PressureProvokeImpact",
+        "PressureProvokeTankImpact",
+        "RageApply",
+        "RallyITankCast",
+        "RallyIWarriorCast",
+        "RallyIiTankCast",
+        "RallyIiWarriorCast",
+        "SecondWindHeal",
+        "ShoulderRushMovement",
+        "ShoulderRushImpact",
+        "ShoulderRushIiTankMovement",
+        "ShoulderRushIiTankImpact",
+        "ShoulderRushIiWarriorMovement",
+        "ShoulderRushIiWarriorImpact",
+        "TankStanceCast",
+        "WarLeapMovement",
+        "WarLeapAreaImpact",
+        "WarLeapTelegraph",
+        "WarriorStanceCast",
+        "ArcaneBurstFlight",
+        "ArcaneBurstProc",
+        "BlinkProc",
+        "BlinkCast",
+        "CleansemageApply"
+      ],
+      "note": "Representacoes atuais visiveis: gelo/fogo/areas, Mystic, Scout, offhand e terreno. Blink corrigido para raiz e Dodge para contacto frontal. Guard/armas de template mantem limites de perfil/oclusao; Second Wind exige conferir topo no frame completo."
+    },
+    {
+      "time_utc": "2026-10-06T10:28:11.557294+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-192-best.jpg",
+      "sheet_sha256": "036417105f1b5f1a806a87ebb22441aff1fb31d9fa456664e6bc4d50d9c0e23d",
+      "scenarios": [
+        "ConnectionIEnemyActive",
+        "ConnectionIEnemyNaturalEnd",
+        "ConnectionIiAllyActive",
+        "ConnectionIiAllyNaturalEnd",
+        "ConnectionIiEnemyActive",
+        "ConnectionIiEnemyNaturalEnd",
+        "BattlecryChallengeITankCast",
+        "BattlecryChallengeIWarriorCast",
+        "BattlecryChallengeIiTankCast",
+        "BattlecryChallengeIiWarriorCast",
+        "BulwarkApply",
+        "CleanseApply",
+        "CrushingBlowAreaImpact",
+        "CrushingBlowIiAreaImpact",
+        "DefiantPresenceActive",
+        "MomentumMasteryResourceGain",
+        "PiercingStrikeCast",
+        "PiercingStrikeImpact",
+        "PiercingStrikeIiTankCast",
+        "PiercingStrikeIiTankImpact",
+        "PiercingStrikeIiWarriorCast",
+        "PiercingStrikeIiWarriorImpact",
+        "PressureProvokeCast",
+        "PressureProvokeTankCast"
+      ],
+      "note": "Reinspecao dos frames atuais apos lotes corrigidos: Second Wind completo, Shoulder Rush sem corte lateral e Astral Pull com espaco para o rasto. Todos os representantes visiveis; flags individuais continuam para poses/oclusao."
+    },
+    {
+      "time_utc": "2026-10-06T10:28:11.564293+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-216-best.jpg",
+      "sheet_sha256": "fb3d3a987319759de7b0ee014d4a9f8bf42afb597d46a9f6bedab0c96e189b02",
+      "scenarios": [
+        "PressureProvokeImpact",
+        "PressureProvokeTankImpact",
+        "RageApply",
+        "RallyITankCast",
+        "RallyIWarriorCast",
+        "RallyIiTankCast",
+        "RallyIiWarriorCast",
+        "SecondWindHeal",
+        "ShoulderRushMovement",
+        "ShoulderRushImpact",
+        "ShoulderRushIiTankMovement",
+        "ShoulderRushIiTankImpact",
+        "ShoulderRushIiWarriorMovement",
+        "ShoulderRushIiWarriorImpact",
+        "TankStanceCast",
+        "WarLeapMovement",
+        "WarLeapAreaImpact",
+        "WarLeapTelegraph",
+        "WarriorStanceCast",
+        "ArcaneBurstFlight",
+        "ArcaneBurstProc",
+        "BlinkProc",
+        "BlinkCast",
+        "CleansemageApply"
+      ],
+      "note": "Reinspecao dos frames atuais apos lotes corrigidos: Second Wind completo, Shoulder Rush sem corte lateral e Astral Pull com espaco para o rasto. Todos os representantes visiveis; flags individuais continuam para poses/oclusao."
+    },
+    {
+      "time_utc": "2026-10-06T10:28:11.573743+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-240-best.jpg",
+      "sheet_sha256": "c855d7e07cad19b114dbf2afd8c56ad4c04f95e980b4e15517a11a80a15b0919",
+      "scenarios": [
+        "CoilCast",
+        "CombustIProc",
+        "CombustIiProc",
+        "CombustIiAreaImpact",
+        "FrostLanceIFlight",
+        "FrostLanceIiFlight",
+        "GlacialSpikeIAreaImpact",
+        "GlacialSpikeIiAreaImpact",
+        "IcebergFlight",
+        "IcebergProc",
+        "ManaStormActive",
+        "ManifestActive",
+        "MistActive",
+        "StaticBoltIFlight",
+        "StaticBoltIiFlight",
+        "ThunderstrikeIStrike",
+        "ThunderstrikeIiStrike",
+        "VortexFlight",
+        "VortexDisplacement",
+        "WeaveCast",
+        "WeaveActive",
+        "AstralAuraMoonActive",
+        "AstralAuraSunActive",
+        "AstralPullAreaImpact"
+      ],
+      "note": "Reinspecao dos frames atuais apos lotes corrigidos: Second Wind completo, Shoulder Rush sem corte lateral e Astral Pull com espaco para o rasto. Todos os representantes visiveis; flags individuais continuam para poses/oclusao."
+    },
+    {
+      "time_utc": "2026-10-06T10:28:11.582740+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-264-best.jpg",
+      "sheet_sha256": "5bacdeba1a7150f1061d93eb22eed4054600c7929abc1523d0933ea816871fdd",
+      "scenarios": [
+        "AstralPullRelocate",
+        "AstralPullLink",
+        "AstralStepProc",
+        "AstralStepCast",
+        "AstralVeilActive",
+        "BlackHoleIActive",
+        "BlackHoleIiActive",
+        "BrightStarCast",
+        "CleansemysticApply",
+        "CosmicRayIPending",
+        "CosmicRayIResolve",
+        "CosmicRayIiPending",
+        "CosmicRayIiResolve",
+        "EclipseAreaImpact",
+        "EtherIAllyFlight",
+        "EtherIEnemyFlight",
+        "EtherIiAllyFlight",
+        "EtherIiEnemyFlight",
+        "FullMoonAreaImpact",
+        "LullabyFlight",
+        "LullabyProc",
+        "LullabyIiNightmareFlight",
+        "LullabyIiNightmareProc",
+        "MoonStanceCast"
+      ],
+      "note": "Reinspecao dos frames atuais apos lotes corrigidos: Second Wind completo, Shoulder Rush sem corte lateral e Astral Pull com espaco para o rasto. Todos os representantes visiveis; flags individuais continuam para poses/oclusao."
+    },
+    {
+      "time_utc": "2026-10-06T10:38:22.095353+00:00",
+      "sheet": "Evidence/MannyFullReview/manny-144-best.jpg",
+      "sheet_sha256": "c48be2d4b69539e874520c7878382bc043d064a1bef79a81f76098f89b017ff5",
+      "scenarios": [
+        "EtherIiAllyHeal",
+        "EtherIiAllyConditionalBuff",
+        "EtherIiEnemyConfirmedDamage",
+        "BrightStarShieldApply",
+        "BrightStarCasterProc",
+        "SerenityHeal",
+        "SerenitySleepApply",
+        "BackstabIIConfirmedHit",
+        "BackstabIIStunApply",
+        "BackstabIIPoisonApply",
+        "BackstabIIBleedApply",
+        "LaserContact",
+        "StaticBoltIHit",
+        "StaticBoltIChain",
+        "StaticBoltIiHit",
+        "StaticBoltIiChain",
+        "CoilHit",
+        "CoilProc7",
+        "CoilChain",
+        "ThunderstrikeIHit",
+        "ThunderstrikeIiHit",
+        "TempestIce",
+        "TempestLightning",
+        "TempestGroundImpact"
+      ],
+      "note": "Tempest Lightning com nova selecao representativa apos medicao da margem real da UI; representante visivel e gelo separado. Backstab stun tem brilho junto ao topo; limite de enquadramento registado."
+    }
+  ],
+  "reviewed_scenarios": {
+    "BleedRight": {
+      "component": "BleedStanceActive",
+      "image": "Saved/MannyFullCaptures/BleedRight_pose1_view1.png",
+      "image_sha256": "d9d18664d0880d4754574b38dba36c61d4d013a8b27ffff2ab227792dfeb1508",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BleedLeft": {
+      "component": "BleedStanceActive",
+      "image": "Saved/MannyFullCaptures/BleedLeft_pose1_view2.png",
+      "image_sha256": "f8c22b59df720db2abf19218eb3be432a1481707e832e2f969efaafd5fc83389",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "PoisonRight": {
+      "component": "PoisonStanceActive",
+      "image": "Saved/MannyFullCaptures/PoisonRight_pose1_view1.png",
+      "image_sha256": "50ca22756024a0c4198ca1863fa71701bb0db5d06e3586ce419370fd47c80126",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PoisonLeft": {
+      "component": "PoisonStanceActive",
+      "image": "Saved/MannyFullCaptures/PoisonLeft_pose1_view2.png",
+      "image_sha256": "2f693299b5bd343f56172e82b0abc57692342e8e92c483845310d63fbeaaf08d",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BleedBoth": {
+      "component": "BleedStanceActive",
+      "image": "Saved/MannyFullCaptures/BleedBoth_pose1_view0.png",
+      "image_sha256": "ee68cf91b5f110b838215943511881308b794950e75f53bb71b197dc18b58f8f",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "PoisonBoth": {
+      "component": "PoisonStanceActive",
+      "image": "Saved/MannyFullCaptures/PoisonBoth_pose1_view0.png",
+      "image_sha256": "2bd9fd6f6460c5bfa45237f73032e7f9fdef94e49a6ef927ad2e961f4cb24982",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "RapidBoth": {
+      "component": "RapidAttackCast",
+      "image": "Saved/MannyFullCaptures/RapidBoth_pose1_view0.png",
+      "image_sha256": "108580279929f92df51552325dd77a91f17173189fc0d58585a3ed2ef39d0c40",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SwordPhysical": {
+      "component": "BasicSwordPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/SwordPhysical_pose1_view1.png",
+      "image_sha256": "5f2415372d67435d6d383cc0d053aa0abf4947f6df5d3c714e21ada3071a2643",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SwordMagical": {
+      "component": "BasicSwordMagicalTrail",
+      "image": "Saved/MannyFullCaptures/SwordMagical_pose1_view1.png",
+      "image_sha256": "64f1333a72ee585a4e2a3ca4329b001ec91f8214f1fb75ed65572354e70ab9cb",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "Guard": {
+      "component": "GuardActive",
+      "image": "Saved/MannyFullCaptures/Guard_pose0_view1.png",
+      "image_sha256": "5774a4d350a5c8b20c184f1f987f9f42c9279436d86eb0978be559e8ccdc7f25",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "Tank": {
+      "component": "TankStanceActive",
+      "image": "Saved/MannyFullCaptures/Tank_pose1_view1.png",
+      "image_sha256": "b8d497ff897c22b08d1d5cea669d4cae23973f18204784642020007f55e2e381",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "Warrior": {
+      "component": "WarriorStanceActive",
+      "image": "Saved/MannyFullCaptures/Warrior_pose1_view1.png",
+      "image_sha256": "723594c05b6b2807fe68eb36c65ba62cc1e81fb80a7fd5d1bf2a2da8188c4d62",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "Stun": {
+      "component": "CCStunActive",
+      "image": "Saved/MannyFullCaptures/Stun_pose1_view1.png",
+      "image_sha256": "6e9080269516f3198ba82bb8b12e5f3281c6133352ef6a11a69aedb0c9b5427f",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "Root": {
+      "component": "CCRootActive",
+      "image": "Saved/MannyFullCaptures/Root_pose2_view1.png",
+      "image_sha256": "eb5216688c3d5c1cc6e13d5add5b9efe86ac5830025adaf8b27cbbb7994b179a",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SeveringMark": {
+      "component": "SeveringMark1",
+      "image": "Saved/MannyFullCaptures/SeveringMark_pose0_view1.png",
+      "image_sha256": "144bae577bc4c5451d6a0125a32bd6a700fe48d4c70e91e2059c7e426f7940c8",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SeveringMark2": {
+      "component": "SeveringMark2",
+      "image": "Saved/MannyFullCaptures/SeveringMark2_pose0_view1.png",
+      "image_sha256": "65fb5935d759b9f23c48dcbcb64a0a76c8ffe0ac728dadc5fb321bffa9d7e0f4",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SeveringMark3": {
+      "component": "SeveringMark3",
+      "image": "Saved/MannyFullCaptures/SeveringMark3_pose0_view1.png",
+      "image_sha256": "6d3c1a02959ce0ff9f697301c452a00730f70d43c04ac4a67ad029b9ffb349a3",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LaserBeam": {
+      "component": "LaserActive",
+      "image": "Saved/MannyFullCaptures/LaserBeam_pose3_view1.png",
+      "image_sha256": "f129fa64c524e4d8130b0b5d29cdfa923a558e0c7475e02c7e5a2ee6d4edecbd",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LaserCast": {
+      "component": "LaserCast",
+      "image": "Saved/MannyFullCaptures/LaserCast_pose1_view0.png",
+      "image_sha256": "d2e49a172a4d777bb922570ad99a924af4f705909f663718e6cef90e55e1c9a5",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "FootStone": {
+      "component": "FootContactStone",
+      "image": "Saved/MannyFullCaptures/FootStone_pose3_view1.png",
+      "image_sha256": "bb6351f02c98456606799dd2561bb6d516b772c558b75d9b49b751ff438c65b8",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ArcaneResource": {
+      "component": "ArcaneWeavingIiResource",
+      "image": "Saved/MannyFullCaptures/ArcaneResource_pose3_view2.png",
+      "image_sha256": "7c4d4ec84e6d54b7d838aa716f69750c02ee689689a4692443a822c8aeefdfa1",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ContactPhysical": {
+      "component": "ContactPhysical",
+      "image": "Saved/MannyFullCaptures/ContactPhysical_pose1_view0.png",
+      "image_sha256": "6a854a3577c8d6f2096418201e2d26965a74d8fac47e8ffbbcc9ae01a58dfa38",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ContactMagical": {
+      "component": "ContactMagical",
+      "image": "Saved/MannyFullCaptures/ContactMagical_pose1_view0.png",
+      "image_sha256": "134bf3d798e5ba98d9b7cde0c0f22bc761d53231aaa839933f096d2c69b548a9",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicAxePhysicalTrail": {
+      "component": "BasicAxePhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicAxePhysicalTrail_pose1_view1.png",
+      "image_sha256": "d0a33b8eacfc8eb30ec1ceaa2f3937629f09a80e831873c848cfd5dd0f30e2be",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicAxeMagicalTrail": {
+      "component": "BasicAxeMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicAxeMagicalTrail_pose1_view1.png",
+      "image_sha256": "797081958414af5661e9b2435ae721b5dcba9dfddde7d07c515029c798d41aa1",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicClubPhysicalTrail": {
+      "component": "BasicClubPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicClubPhysicalTrail_pose1_view1.png",
+      "image_sha256": "fefde54345b3cc1c156256b833f8a93872cddfbae06ec582fa2bb1d01b26d25d",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicClubMagicalTrail": {
+      "component": "BasicClubMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicClubMagicalTrail_pose1_view1.png",
+      "image_sha256": "cf28d906dd716f3d8871f278993e279334e8fba298d973c0a75e4590dcc59e27",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicWandPhysicalFlight": {
+      "component": "BasicWandPhysicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicWandPhysicalFlight_pose3_view1.png",
+      "image_sha256": "42abab1fbc29eb6c26db5ea21879e9ebdb8c805b1b2400ebcca799c57c204e6a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicWandPhysicalRelease": {
+      "component": "BasicWandPhysicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicWandPhysicalRelease_pose1_view0.png",
+      "image_sha256": "21b76c12fb5917d2ea87d6368ae68634eaa77e3391a0e55752b0b28f930b5908",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicWandMagicalFlight": {
+      "component": "BasicWandMagicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicWandMagicalFlight_pose3_view1.png",
+      "image_sha256": "94ff30c3702599181c78ed3137ab137b7d1a0cc60335397dc7fe9ac665510cbb",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicWandMagicalRelease": {
+      "component": "BasicWandMagicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicWandMagicalRelease_pose1_view0.png",
+      "image_sha256": "d55263d63bdb7ff6ee2580a1bce3cc216c78faf0ed4ee4a92bdbf2fb7cd7ce05",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicRapierPhysicalTrail": {
+      "component": "BasicRapierPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicRapierPhysicalTrail_pose1_view1.png",
+      "image_sha256": "67b174597e71f67aaa9b7901d346d8ca39f4f215f89809db00b0f9f70ee21375",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicRapierMagicalTrail": {
+      "component": "BasicRapierMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicRapierMagicalTrail_pose1_view1.png",
+      "image_sha256": "f9d05fbb8e4cce6a78503390eedf0a1a0ca6f55d22fe9a002c5fc6076bc568a9",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicDualDaggersPhysicalTrail": {
+      "component": "BasicDualDaggersPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicDualDaggersPhysicalTrail_pose1_view1.png",
+      "image_sha256": "90840fdaef4527035b746e8fe0e309b6e9d5cdc5902f2575c87792a68911cedd",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicDualDaggersMagicalTrail": {
+      "component": "BasicDualDaggersMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicDualDaggersMagicalTrail_pose1_view1.png",
+      "image_sha256": "c291681789f08bc4df3b6ee642686508e50e01fadd4963306cece2340e140388",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicFistsGauntletsPhysicalTrail": {
+      "component": "BasicFistsGauntletsPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicFistsGauntletsPhysicalTrail_pose1_view1.png",
+      "image_sha256": "7931715b8149345445d0261405e7cf9ce82e813fd3abdb7b7863028ddba9df3e",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicFistsGauntletsMagicalTrail": {
+      "component": "BasicFistsGauntletsMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicFistsGauntletsMagicalTrail_pose1_view1.png",
+      "image_sha256": "952f453442a2bb0ca8f62d7bc8bfc3347097f2f6d8b06fb9af6085df3fe3d67c",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicGreatClubPhysicalTrail": {
+      "component": "BasicGreatClubPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreatClubPhysicalTrail_pose1_view1.png",
+      "image_sha256": "880191e5ee7474cbd9316beeb2466b3a760ccffc89432a11f3b112495e139793",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicGreatClubMagicalTrail": {
+      "component": "BasicGreatClubMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreatClubMagicalTrail_pose1_view1.png",
+      "image_sha256": "7c90e696c4bb36d88dce7a7d47c0d8de3d9e0a49be7229e092f7479547975739",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicStaffPhysicalFlight": {
+      "component": "BasicStaffPhysicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicStaffPhysicalFlight_pose3_view1.png",
+      "image_sha256": "10c2fe648c69f83ecbdb3606343554ba5b3dba95a5436ee271f21b333b3ba20b",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicStaffPhysicalRelease": {
+      "component": "BasicStaffPhysicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicStaffPhysicalRelease_pose1_view2.png",
+      "image_sha256": "e9b16c2062c0d5a7dcc9c1e5b4d5530971dcc25c7555baf018242e78d965b807",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BasicStaffMagicalFlight": {
+      "component": "BasicStaffMagicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicStaffMagicalFlight_pose3_view1.png",
+      "image_sha256": "c61abe09cec48e555ac230d7b7d8100e8e78541d03be61b94f733422ad0256d4",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicStaffMagicalRelease": {
+      "component": "BasicStaffMagicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicStaffMagicalRelease_pose1_view2.png",
+      "image_sha256": "8daa3a39efc1e45dcb4f0b19954cd57f8ba41a2452778bf5958fd3c426283804",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BasicCrossbowPhysicalFlight": {
+      "component": "BasicCrossbowPhysicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicCrossbowPhysicalFlight_pose1_view1.png",
+      "image_sha256": "64574cbe7a601b7d0b779bd09964231fe04bbc6b29532792f922806766169abd",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicCrossbowPhysicalRelease": {
+      "component": "BasicCrossbowPhysicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicCrossbowPhysicalRelease_pose1_view0.png",
+      "image_sha256": "b98d5b70b805b2bec57b0cbc40fa961e1119c4bebedf0306c9837e118ca9b54d",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicCrossbowMagicalFlight": {
+      "component": "BasicCrossbowMagicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicCrossbowMagicalFlight_pose1_view1.png",
+      "image_sha256": "883474998fd717389ea1f69229ab0da7c004837d5cbedd49595197e64853fe35",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicCrossbowMagicalRelease": {
+      "component": "BasicCrossbowMagicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicCrossbowMagicalRelease_pose1_view0.png",
+      "image_sha256": "73b04c1222f65046a83d4e2a8e41f0f6120480e870b3505ee6ca93aaae515e7b",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicGreatswordPhysicalTrail": {
+      "component": "BasicGreatswordPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreatswordPhysicalTrail_pose1_view1.png",
+      "image_sha256": "03b098809bec15fce9e2892ee87a963c282dc976832f6d601c7631e216157012",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicGreatswordMagicalTrail": {
+      "component": "BasicGreatswordMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreatswordMagicalTrail_pose1_view1.png",
+      "image_sha256": "54c85dc19d4daf3780742032065dec78fd16682a7c26613e87c02399b928a23c",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicGreataxePhysicalTrail": {
+      "component": "BasicGreataxePhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreataxePhysicalTrail_pose1_view1.png",
+      "image_sha256": "b9ab9b905e4de57368481529616e947d228ea9e67dada2466aaf5b8a9d631c98",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicGreataxeMagicalTrail": {
+      "component": "BasicGreataxeMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicGreataxeMagicalTrail_pose1_view1.png",
+      "image_sha256": "358b8d68670275f40b15d9d10e1d5d75539904da04727662a8a26be0c360d360",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicBowPhysicalFlight": {
+      "component": "BasicBowPhysicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicBowPhysicalFlight_pose1_view1.png",
+      "image_sha256": "65e6f357db5bc908f22be48774e8edcdd7fac2e93fd3414e70a6b077f6fd00d2",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicBowPhysicalRelease": {
+      "component": "BasicBowPhysicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicBowPhysicalRelease_pose1_view0.png",
+      "image_sha256": "9f7a1effd346fa97ee73c212430078aa62e5983e706179f4fcc58bf052018501",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicBowMagicalFlight": {
+      "component": "BasicBowMagicalFlight",
+      "image": "Saved/MannyFullCaptures/BasicBowMagicalFlight_pose1_view1.png",
+      "image_sha256": "70e9c9d50f6a78e83c81ed25b86cd9fe80ff3c52db6b2534abde4c39ed50c633",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicBowMagicalRelease": {
+      "component": "BasicBowMagicalRelease",
+      "image": "Saved/MannyFullCaptures/BasicBowMagicalRelease_pose1_view0.png",
+      "image_sha256": "e9070c8a10c117b93fd0db5bdc0f3058c3415e736b8ed9b7424cf823616f37f8",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicSpearPhysicalTrail": {
+      "component": "BasicSpearPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicSpearPhysicalTrail_pose1_view0.png",
+      "image_sha256": "9696ea966feb96e2306b77afeaa8da6ac985cf454dc4c3efd4ca40e026b482f1",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BasicSpearMagicalTrail": {
+      "component": "BasicSpearMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicSpearMagicalTrail_pose1_view0.png",
+      "image_sha256": "5974ab899e008d7b7ddb8cf72f63be4ad8aed07af585cf9995b05f4609e3c4ea",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ExploitIDelivery": {
+      "component": "ExploitIDelivery",
+      "image": "Saved/MannyFullCaptures/ExploitIDelivery_pose1_view1.png",
+      "image_sha256": "7a75348a10e49716dac24643a06e3a75cd3126c8596d14bdfffc8e34ad60d848",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ExploitIIDelivery": {
+      "component": "ExploitIIDelivery",
+      "image": "Saved/MannyFullCaptures/ExploitIIDelivery_pose1_view1.png",
+      "image_sha256": "9d4d30aea9bdc354f747eb5846ff1ee97c276f081c68e0a594e62691935ec626",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ExploitIIIDelivery": {
+      "component": "ExploitIIIDelivery",
+      "image": "Saved/MannyFullCaptures/ExploitIIIDelivery_pose1_view1.png",
+      "image_sha256": "e8cf62f1e2664e503c74fc0a19b0125b788e421af75552f4d83b0e699a9c4e9f",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FullMoonDelivery": {
+      "component": "FullMoonDelivery",
+      "image": "Saved/MannyFullCaptures/FullMoonDelivery_pose1_view1.png",
+      "image_sha256": "b7f87948e6d69b206c530d535af56b21d0af310683ae697174a1c2c992754c85",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CosmicRayIDelivery": {
+      "component": "CosmicRayIDelivery",
+      "image": "Saved/MannyFullCaptures/CosmicRayIDelivery_pose1_view1.png",
+      "image_sha256": "0b215a65ff7e16416bbafcfda9b5b07ba7e3cfd7a409891a5b00921cd6771a1f",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CosmicRayIIDelivery": {
+      "component": "CosmicRayIIDelivery",
+      "image": "Saved/MannyFullCaptures/CosmicRayIIDelivery_pose1_view1.png",
+      "image_sha256": "19803d75ffd73626ef8a58ac4ffee646efdd627f40fc016a6b8b9c844c55604b",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SicknessDelivery": {
+      "component": "SicknessDelivery",
+      "image": "Saved/MannyFullCaptures/SicknessDelivery_pose1_view1.png",
+      "image_sha256": "73c38aa44cdc36f1081058d1f81edd42c0e5bd9b9225fe83ac3362100f1da6f8",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCDisarmActive": {
+      "component": "CCDisarmActive",
+      "image": "Saved/MannyFullCaptures/CCDisarmActive_pose1_view0.png",
+      "image_sha256": "330695e20317e133d6e5ee02976c21e10784733b2803cd2a29995dd88387cd07",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCDisarmApply": {
+      "component": "CCDisarmApply",
+      "image": "Saved/MannyFullCaptures/CCDisarmApply_pose1_view0.png",
+      "image_sha256": "c1a967a9cc4b9cd5a963bf4aec616fa688610e2840c6e713d06e341758e112ae",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCDisarmNaturalEnd": {
+      "component": "CCDisarmNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCDisarmNaturalEnd_pose1_view0.png",
+      "image_sha256": "a1e29cc35252c9bbad775f66153bf9083bb4409377298b6157c0264ac34883e8",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCDisarmCleanse": {
+      "component": "CCDisarmCleanse",
+      "image": "Saved/MannyFullCaptures/CCDisarmCleanse_pose1_view0.png",
+      "image_sha256": "8d387b3d4d8856c86a0755f8b6c0efecdc57d8607299dd8ce6f5904f5c5c223d",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "GuardMitigation": {
+      "component": "GuardMitigation",
+      "image": "Saved/MannyFullCaptures/GuardMitigation_pose1_view1.png",
+      "image_sha256": "857c773a74bd1b1ffc33b542d69a6f77881f84a1b1ec8886ab3324c62a55a404",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "GuardDepletion": {
+      "component": "GuardDepletion",
+      "image": "Saved/MannyFullCaptures/GuardDepletion_pose1_view1.png",
+      "image_sha256": "12375618b242fce59f81b7a831311f1688992278c40e746f18c09aab04f61bab",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FootContactSnow": {
+      "component": "FootContactSnow",
+      "image": "Saved/MannyFullCaptures/FootContactSnow_pose3_view1.png",
+      "image_sha256": "b00e3f03577448a8212d28a8748364307a60412a36da56765d52b5a90ece073a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FootContactMud": {
+      "component": "FootContactMud",
+      "image": "Saved/MannyFullCaptures/FootContactMud_pose3_view1.png",
+      "image_sha256": "3ac8ae5bb3a9a6fda85d83c5c9b7eb02bf0a1b18cc7d7fa0f2db6f629e736707",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FootContactWater": {
+      "component": "FootContactWater",
+      "image": "Saved/MannyFullCaptures/FootContactWater_pose3_view1.png",
+      "image_sha256": "45356f5cf144061eee864c869cacc29897e44a6eb560e55501b20a22594f213f",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "DodgeStart": {
+      "component": "DodgeStart",
+      "image": "Saved/MannyFullCaptures/DodgeStart_pose0_view1.png",
+      "image_sha256": "10bec34ec56c92932bfc8e5d4be86a9625bd1ad8462f4d8b2f31d8369ca1d73f",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "DodgeAvoided": {
+      "component": "DodgeAvoided",
+      "image": "Saved/MannyFullCaptures/DodgeAvoided_pose1_view1.png",
+      "image_sha256": "d86b8c6e6129711bd3a04a9394afa6eeb05b817a30e9e551fd9fb01ddcbfc60d",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCStunNaturalEnd": {
+      "component": "CCStunNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCStunNaturalEnd_pose1_view0.png",
+      "image_sha256": "06ba96c40ba42a173177a9b1051c0633987eeaa70113ee025f886580215168d8",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCStunCleanse": {
+      "component": "CCStunCleanse",
+      "image": "Saved/MannyFullCaptures/CCStunCleanse_pose1_view0.png",
+      "image_sha256": "88565c3de7eee0f4005dcb97d56fb47154f864127f9f1bb940668d2269a952ef",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSleepActive": {
+      "component": "CCSleepActive",
+      "image": "Saved/MannyFullCaptures/CCSleepActive_pose1_view0.png",
+      "image_sha256": "8b38187c5a6da077737163bf78006c595c78350f831163e7e18fd2a7f6c0d3a0",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSleepNaturalEnd": {
+      "component": "CCSleepNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCSleepNaturalEnd_pose1_view0.png",
+      "image_sha256": "ddba7cac44f7fb33e17d4c23d6088d805942e157169fff1e9302a8f8efefd63e",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSleepCleanse": {
+      "component": "CCSleepCleanse",
+      "image": "Saved/MannyFullCaptures/CCSleepCleanse_pose1_view0.png",
+      "image_sha256": "2ab2aed85a11e4d21694cf81264eec26800d4ffb01d02602a052babbf0e00298",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSilenceActive": {
+      "component": "CCSilenceActive",
+      "image": "Saved/MannyFullCaptures/CCSilenceActive_pose1_view0.png",
+      "image_sha256": "108841e63fee9b5eb5d6095e7dcb6926680dc4a8dc5618152442d3b6154d8306",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSilenceNaturalEnd": {
+      "component": "CCSilenceNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCSilenceNaturalEnd_pose1_view0.png",
+      "image_sha256": "8fa96b8fb2ec37500871612c5a30f12d493bd1a3ab74e6efdc6ebce7be67f0bd",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCSilenceCleanse": {
+      "component": "CCSilenceCleanse",
+      "image": "Saved/MannyFullCaptures/CCSilenceCleanse_pose1_view0.png",
+      "image_sha256": "a97a4362d1f6a942c7d60843b86418542e191bb445a765d7999e2bd67b580e89",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCTauntActive": {
+      "component": "CCTauntActive",
+      "image": "Saved/MannyFullCaptures/CCTauntActive_pose1_view0.png",
+      "image_sha256": "264274501f463ddbba7593a7df613cc7953a9daa2f146b632e34fd9408f50dff",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCTauntNaturalEnd": {
+      "component": "CCTauntNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCTauntNaturalEnd_pose1_view1.png",
+      "image_sha256": "5d9ec08b0018bfb102ac3586faf652e6b0567f34a32c36a030e44a4fea02d615",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCTauntCleanse": {
+      "component": "CCTauntCleanse",
+      "image": "Saved/MannyFullCaptures/CCTauntCleanse_pose1_view1.png",
+      "image_sha256": "574e819d420023401e256a209a5086e8939c9a015ea1511fd536076c44b060a6",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCFearActive": {
+      "component": "CCFearActive",
+      "image": "Saved/MannyFullCaptures/CCFearActive_pose1_view0.png",
+      "image_sha256": "35169d76ca20b16b16ac26242eefd75330f5f58e2072589e6850fb90b10372ae",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCFearNaturalEnd": {
+      "component": "CCFearNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCFearNaturalEnd_pose1_view0.png",
+      "image_sha256": "d3bd3d7f50cdca04353e84a8687ffc5f292e6fcf7d1d678e4c63a21fd565e4db",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCFearCleanse": {
+      "component": "CCFearCleanse",
+      "image": "Saved/MannyFullCaptures/CCFearCleanse_pose1_view0.png",
+      "image_sha256": "fde950ea765a2775d017312ae23d5f6343c924796bbaf8feee2f41a916b0ad83",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CCRootNaturalEnd": {
+      "component": "CCRootNaturalEnd",
+      "image": "Saved/MannyFullCaptures/CCRootNaturalEnd_pose2_view1.png",
+      "image_sha256": "3e4c67a70c0e27fbc5510391dcfb42236be2a4ec0495f254ae7eb3299ab4df05",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCRootCleanse": {
+      "component": "CCRootCleanse",
+      "image": "Saved/MannyFullCaptures/CCRootCleanse_pose3_view1.png",
+      "image_sha256": "e8e3bfb2008bdd94b8cbcd8838f0d8c94374efc6d165c34c9ac946d1f114f0fb",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CCTauntApply": {
+      "component": "CCTauntApply",
+      "image": "Saved/MannyFullCaptures/CCTauntApply_pose3_view2.png",
+      "image_sha256": "8fb23ce2c63564f6eb65b398d53f27148b2253122e009bfd3c6e48b1901c57e0",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CCForcedPush": {
+      "component": "CCForcedPush",
+      "image": "Saved/MannyFullCaptures/CCForcedPush_pose2_view2.png",
+      "image_sha256": "b08f5cc65f443f43f2b4c3aeb0813dac65c7f09a47e0c6a896a3b4cea4f247c9",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CCForcedPull": {
+      "component": "CCForcedPull",
+      "image": "Saved/MannyFullCaptures/CCForcedPull_pose1_view2.png",
+      "image_sha256": "33740417fe0504f8b6d2b49fed1856d09daeed4e0ea5774c68e3c6cef028873e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CCForcedSlowPull": {
+      "component": "CCForcedSlowPull",
+      "image": "Saved/MannyFullCaptures/CCForcedSlowPull_pose0_view0.png",
+      "image_sha256": "7c3b84d84c659cb33c254082c6a969cd59ffb2fae332bb30862ac8d0f500a5eb",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SeveringCastI": {
+      "component": "SeveringCastI",
+      "image": "Saved/MannyFullCaptures/SeveringCastI_pose1_view1.png",
+      "image_sha256": "67a5bda9d2a8f7291243e920f284413b2ed56671288634eac658aaa237a6bf24",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SeveringCastII": {
+      "component": "SeveringCastII",
+      "image": "Saved/MannyFullCaptures/SeveringCastII_pose1_view1.png",
+      "image_sha256": "85b0cd17af32cb8170ed14c3937cd94ad9db26b7f52f5feeb2160eec67c9dd99",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SeveringCastIII": {
+      "component": "SeveringCastIII",
+      "image": "Saved/MannyFullCaptures/SeveringCastIII_pose1_view1.png",
+      "image_sha256": "15579f3976574e5752157ab0fce3deb751f1f8934ba0b0014ed85de565bea51a",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FireBoltIFlight": {
+      "component": "FireBoltIFlight",
+      "image": "Saved/MannyFullCaptures/FireBoltIFlight_pose1_view1.png",
+      "image_sha256": "5972d4e4e434bbfbe37ba3110d14396952e32f1f72e3bdac0ebfc5e0a24de13d",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FireBoltIImpact": {
+      "component": "FireBoltIImpact",
+      "image": "Saved/MannyFullCaptures/FireBoltIImpact_pose2_view2.png",
+      "image_sha256": "41120f169a107829de3b4074f90f78e3ea82d1006860fe1a16467496d36b1000",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "FireBoltIIFlight": {
+      "component": "FireBoltIIFlight",
+      "image": "Saved/MannyFullCaptures/FireBoltIIFlight_pose1_view1.png",
+      "image_sha256": "8eb1b94a099264f8f60ee23f2395ac1864614a9a94b8d6db098f875588d8b4d7",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FireBoltIIImpact": {
+      "component": "FireBoltIIImpact",
+      "image": "Saved/MannyFullCaptures/FireBoltIIImpact_pose2_view2.png",
+      "image_sha256": "6e6cbb96f1f7c83bf390c133e85062e316876390b0c61c435427e7d6bd2e2b2b",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "VolleyIBleedFlight": {
+      "component": "VolleyIBleedFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIBleedFlight_pose1_view1.png",
+      "image_sha256": "4cb5d222e0a225f87bcf236bd11c4a95ddc5f4fd5e5e20482aa30d631b0d1135",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIBleedHit": {
+      "component": "VolleyIBleedHit",
+      "image": "Saved/MannyFullCaptures/VolleyIBleedHit_pose1_view2.png",
+      "image_sha256": "f4b9bd182331867361fbf59acaf91f6510ba66b77f1524692e216e06f11db42b",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "VolleyIPoisonFlight": {
+      "component": "VolleyIPoisonFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIPoisonFlight_pose1_view1.png",
+      "image_sha256": "91bd50e57b24ca68af450370f55ed5d38bf5f0d06f596be307172913b8848045",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIPoisonHit": {
+      "component": "VolleyIPoisonHit",
+      "image": "Saved/MannyFullCaptures/VolleyIPoisonHit_pose0_view1.png",
+      "image_sha256": "caf90b4bf2c1267c7b903bebb2234c47145240d27b6174113f6cec1e0c74cf85",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIBleedFanFlight": {
+      "component": "VolleyIIBleedFanFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIIBleedFanFlight_pose1_view1.png",
+      "image_sha256": "67e5afb0adc030b7c62ad767987239a1a779498ba0d14e16558c3510be17c06b",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIBleedHit": {
+      "component": "VolleyIIBleedHit",
+      "image": "Saved/MannyFullCaptures/VolleyIIBleedHit_pose0_view1.png",
+      "image_sha256": "93c0f213dcd5206a5f60e3f6da5b9c5a0b91cc19ea87e7b2f4e13601b83cd39d",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIBleedPiercingFlight": {
+      "component": "VolleyIIBleedPiercingFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIIBleedPiercingFlight_pose1_view1.png",
+      "image_sha256": "eac4fe22baa8b60bd4174ba702564fb0eb6b65a945c0912a0910a242eaf9daf0",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIBleedAim": {
+      "component": "VolleyIIBleedAim",
+      "image": "Saved/MannyFullCaptures/VolleyIIBleedAim_pose1_view1.png",
+      "image_sha256": "11077a99ebbf8d00b49b9fcb63659cfda54deb16d78102ff8864549c7b21bb51",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIBleedAimEnd": {
+      "component": "VolleyIIBleedAimEnd",
+      "image": "Saved/MannyFullCaptures/VolleyIIBleedAimEnd_pose3_view1.png",
+      "image_sha256": "4cb12e3ac9ca86bce23a2ec1c6941dfac85962abcff56de012bcdbf66e056469",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIPoisonFanFlight": {
+      "component": "VolleyIIPoisonFanFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIIPoisonFanFlight_pose1_view1.png",
+      "image_sha256": "643141148962cfcb88f77e42105a9c13c6902522db3f8350a65be7cada232ef2",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIPoisonHit": {
+      "component": "VolleyIIPoisonHit",
+      "image": "Saved/MannyFullCaptures/VolleyIIPoisonHit_pose0_view1.png",
+      "image_sha256": "c1cddd64e300eb8adf45d093128c390dab4f56c49ecb57430803f47e05a39ba8",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIPoisonPiercingFlight": {
+      "component": "VolleyIIPoisonPiercingFlight",
+      "image": "Saved/MannyFullCaptures/VolleyIIPoisonPiercingFlight_pose1_view1.png",
+      "image_sha256": "e76fc0c9c340ac38520e1fc181c3c89fdd397f35422c85980a29d6c9976550d0",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIPoisonAim": {
+      "component": "VolleyIIPoisonAim",
+      "image": "Saved/MannyFullCaptures/VolleyIIPoisonAim_pose3_view1.png",
+      "image_sha256": "efc7362ab7672b980756da4ecf008565031ebc420800985d1df5668b1af83c3a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VolleyIIPoisonAimEnd": {
+      "component": "VolleyIIPoisonAimEnd",
+      "image": "Saved/MannyFullCaptures/VolleyIIPoisonAimEnd_pose3_view1.png",
+      "image_sha256": "a1e4a7cde7e8583cb60567ee372bc2d9c0879d575ac9dbf0e77f4310a1156ae5",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIFlight": {
+      "component": "ChainsIFlight",
+      "image": "Saved/MannyFullCaptures/ChainsIFlight_pose3_view1.png",
+      "image_sha256": "7987dbfab0472684f86236973cdebace1bd27664c089bcc1bcc1b0b2ff66cdc3",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsILatchedLink": {
+      "component": "ChainsILatchedLink",
+      "image": "Saved/MannyFullCaptures/ChainsILatchedLink_pose3_view1.png",
+      "image_sha256": "f6272bb77eb1f7c8c63170e1ed3c3d7b482414df9dcfc751c2ef26c575c03a1e",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIHit": {
+      "component": "ChainsIHit",
+      "image": "Saved/MannyFullCaptures/ChainsIHit_pose3_view2.png",
+      "image_sha256": "3501cb58d2584ba443c8b85af701aaf1def98ebe0c3988dec503a42b2840ff4e",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ChainsIEnd": {
+      "component": "ChainsIEnd",
+      "image": "Saved/MannyFullCaptures/ChainsIEnd_pose3_view1.png",
+      "image_sha256": "1ea67e86418c079f778b67b5cf87b9f84e5a4564788c1efa49da7c4da96febac",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIIFlight": {
+      "component": "ChainsIIFlight",
+      "image": "Saved/MannyFullCaptures/ChainsIIFlight_pose3_view1.png",
+      "image_sha256": "0bac3d4a3be803dfd8e7fd60d70942484db18dfb133bd8cfae7b7a6e9ffa4467",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIILatchedLink": {
+      "component": "ChainsIILatchedLink",
+      "image": "Saved/MannyFullCaptures/ChainsIILatchedLink_pose3_view1.png",
+      "image_sha256": "7f1d44722dc11dce057ff5b1528cb77a52043f05d615360c2103d3e8157abc0a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIIHit": {
+      "component": "ChainsIIHit",
+      "image": "Saved/MannyFullCaptures/ChainsIIHit_pose3_view2.png",
+      "image_sha256": "3bfc0b8ac929cd1141337181d28e2affa68a37fb34b885083f6d391328c20c0e",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ChainsIIEnd": {
+      "component": "ChainsIIEnd",
+      "image": "Saved/MannyFullCaptures/ChainsIIEnd_pose3_view1.png",
+      "image_sha256": "fd72f9f92cd5845872ff19c08cadb9e1db6629bcfc21d962ef3a33a1e110da6a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIITargetWrap": {
+      "component": "ChainsIITargetWrap",
+      "image": "Saved/MannyFullCaptures/ChainsIITargetWrap_pose1_view2.png",
+      "image_sha256": "2c7a7d3c8c5f44a1b229a43445cd03bbca3d9c5124057fa8c60cd12ed225923d",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ChainsIIPull": {
+      "component": "ChainsIIPull",
+      "image": "Saved/MannyFullCaptures/ChainsIIPull_pose3_view1.png",
+      "image_sha256": "97e64023a6a55d1a28922081758078409963c7e1d90ef186458e8c2223db254b",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChainsIIInterrupt": {
+      "component": "ChainsIIInterrupt",
+      "image": "Saved/MannyFullCaptures/ChainsIIInterrupt_pose0_view0.png",
+      "image_sha256": "29ae79529812fe22700b69aad531de375bac6952545ee7568419fe0bf0f1c49d",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "FireBoltIISpread": {
+      "component": "FireBoltIISpread",
+      "image": "Saved/MannyFullCaptures/FireBoltIISpread_pose1_view1.png",
+      "image_sha256": "b466858c32c123fc8d11c5f35b753b54eda6741bbcc35e09caee548cece4a70f",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ChallengeIIRootApply": {
+      "component": "ChallengeIIRootApply",
+      "image": "Saved/MannyFullCaptures/ChallengeIIRootApply_pose3_view2.png",
+      "image_sha256": "dd5913772b948beafab254c4b26495c2704929f45a01133de16229676c8d4287",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "RallyITankAffected": {
+      "component": "RallyITankAffected",
+      "image": "Saved/MannyFullCaptures/RallyITankAffected_pose3_view1.png",
+      "image_sha256": "ba7d6cd4905e67e00a42b31f35c93f2b4f9079ffeaae2aff405f4d9d38c7b3de",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "RallyIWarriorAffected": {
+      "component": "RallyIWarriorAffected",
+      "image": "Saved/MannyFullCaptures/RallyIWarriorAffected_pose3_view1.png",
+      "image_sha256": "fa7167bd3a92c192a8f90eac39e1589e94c9d4863fdd142b1c50e6c8c9142cd0",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "RallyIiTankAffected": {
+      "component": "RallyIiTankAffected",
+      "image": "Saved/MannyFullCaptures/RallyIiTankAffected_pose3_view1.png",
+      "image_sha256": "a7d1f2bc485844ea8062ec3caa8dc6ee918b405978274e490cea4e063dc86b58",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "RallyIiWarriorAffected": {
+      "component": "RallyIiWarriorAffected",
+      "image": "Saved/MannyFullCaptures/RallyIiWarriorAffected_pose3_view1.png",
+      "image_sha256": "70aa4779d6e66152d518d532a642ce3e3c3101fdf4b72909faf14b6685239113",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ResurrectComplete": {
+      "component": "ResurrectComplete",
+      "image": "Saved/MannyFullCaptures/ResurrectComplete_pose2_view1.png",
+      "image_sha256": "fe09bf50540395cab74986d1f0822374032d0f945499cc6e4f87f99639029669",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FrostLanceIImpact": {
+      "component": "FrostLanceIImpact",
+      "image": "Saved/MannyFullCaptures/FrostLanceIImpact_pose0_view1.png",
+      "image_sha256": "de20c392258c840344f29c667222ed840d324490449434ffcca88201caa738eb",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FrostLanceIiImpact": {
+      "component": "FrostLanceIiImpact",
+      "image": "Saved/MannyFullCaptures/FrostLanceIiImpact_pose2_view2.png",
+      "image_sha256": "550ea391b2455532bac4057c3a920a3b5dfaeeb360365091d8bbdc17a45e94d8",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "FrostLanceIiConditionalControl": {
+      "component": "FrostLanceIiConditionalControl",
+      "image": "Saved/MannyFullCaptures/FrostLanceIiConditionalControl_pose0_view1.png",
+      "image_sha256": "026ec1b2e717a09617b730dc6e25174ad611b4d63374c3383578ddc9571f4dd7",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "GlacialSpikeIGroundArea": {
+      "component": "GlacialSpikeIGroundArea",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIGroundArea_pose1_view2.png",
+      "image_sha256": "a3d8b4818a39a82958201c64afca46c591dc469d617485cd0e6a894a24b49caf",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "GlacialSpikeIImpact": {
+      "component": "GlacialSpikeIImpact",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIImpact_pose0_view1.png",
+      "image_sha256": "3b7a36408e46d6e3cf32617eccfd115e4f836ee6069b764beca96f4af1595671",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "GlacialSpikeIiGroundArea": {
+      "component": "GlacialSpikeIiGroundArea",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIiGroundArea_pose1_view2.png",
+      "image_sha256": "ae8b0abf752c1382524de670ea40421787f8ccc7ef69c791f2192c296f97c74e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "GlacialSpikeIiImpact": {
+      "component": "GlacialSpikeIiImpact",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIiImpact_pose0_view1.png",
+      "image_sha256": "fc37d55190652ae53dc7d127280478959e6b026752131bb389682f1acb397b84",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "GlacialSpikeIiConditionalControl": {
+      "component": "GlacialSpikeIiConditionalControl",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIiConditionalControl_pose3_view2.png",
+      "image_sha256": "a535b10a6198322f72ef51c369985d8101fde9381cb2041ea20676a6407a21d2",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "EtherIAllyHeal": {
+      "component": "EtherIAllyHeal",
+      "image": "Saved/MannyFullCaptures/EtherIAllyHeal_pose1_view0.png",
+      "image_sha256": "d71d222d5409d41888080c52dc45b1873f41edc7a53a961807650f30bdb065c8",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "EtherIEnemyConfirmedDamage": {
+      "component": "EtherIEnemyConfirmedDamage",
+      "image": "Saved/MannyFullCaptures/EtherIEnemyConfirmedDamage_pose2_view1.png",
+      "image_sha256": "d4c5a3ddd5f7812314dbb67a35f52670318c178d8a4290829377b939ee1ec0ba",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "EtherIiAllyHeal": {
+      "component": "EtherIiAllyHeal",
+      "image": "Saved/MannyFullCaptures/EtherIiAllyHeal_pose1_view0.png",
+      "image_sha256": "6a317c68e4577097e795a0c6ff2466e6df433e8e39835b12edb82f8209886bb2",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "EtherIiAllyConditionalBuff": {
+      "component": "EtherIiAllyConditionalBuff",
+      "image": "Saved/MannyFullCaptures/EtherIiAllyConditionalBuff_pose1_view1.png",
+      "image_sha256": "de4bcfee2ee104ff4923d151a2af5523590aa752d89730570f104f43a89dcb31",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "EtherIiEnemyConfirmedDamage": {
+      "component": "EtherIiEnemyConfirmedDamage",
+      "image": "Saved/MannyFullCaptures/EtherIiEnemyConfirmedDamage_pose2_view1.png",
+      "image_sha256": "e0bc8bd423372e15b9d9ff753b40460d3fd89fd827518be0f1330670db91c920",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BrightStarShieldApply": {
+      "component": "BrightStarShieldApply",
+      "image": "Saved/MannyFullCaptures/BrightStarShieldApply_pose1_view0.png",
+      "image_sha256": "6f86fe563c2353f70b2235eae12efd4ad7374044b973afc3464e51999d7ab5e3",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BrightStarCasterProc": {
+      "component": "BrightStarCasterProc",
+      "image": "Saved/MannyFullCaptures/BrightStarCasterProc_pose0_view2.png",
+      "image_sha256": "b201ef52526ebee7e14d224d240c1d4682ef2034946b5033668a86a3f47dde82",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SerenityHeal": {
+      "component": "SerenityHeal",
+      "image": "Saved/MannyFullCaptures/SerenityHeal_pose2_view1.png",
+      "image_sha256": "a23beaa38f40087e7e391f8ac03e0e1d84ae9875e3ded7aa2d1ecb9bae7ccc7b",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SerenitySleepApply": {
+      "component": "SerenitySleepApply",
+      "image": "Saved/MannyFullCaptures/SerenitySleepApply_pose0_view2.png",
+      "image_sha256": "eb869aeeac88626a46291f4841fc5aa6e0fb96bca1e5a591d7aa8adaeffd8544",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BackstabIIConfirmedHit": {
+      "component": "BackstabIIConfirmedHit",
+      "image": "Saved/MannyFullCaptures/BackstabIIConfirmedHit_pose0_view1.png",
+      "image_sha256": "22101572c975f8b5cd254c6a6c069e5b4eb47bd05aec8118ff616ec7a92b8871",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BackstabIIStunApply": {
+      "component": "BackstabIIStunApply",
+      "image": "Saved/MannyFullCaptures/BackstabIIStunApply_pose2_view2.png",
+      "image_sha256": "e7f7e01101f7e7ba001f59dfc297fcf9a43f7d72ab813dafdda5b7d4b8b8b050",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BackstabIIPoisonApply": {
+      "component": "BackstabIIPoisonApply",
+      "image": "Saved/MannyFullCaptures/BackstabIIPoisonApply_pose0_view2.png",
+      "image_sha256": "f4060159b1dd809ae9df6ed27da8a445532407b9347bf038711cb013264cc75c",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BackstabIIBleedApply": {
+      "component": "BackstabIIBleedApply",
+      "image": "Saved/MannyFullCaptures/BackstabIIBleedApply_pose0_view1.png",
+      "image_sha256": "149c51d836c445848f49c4494f906b3b3fa11b395269d6b1b245e2a725a6a8b1",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LaserContact": {
+      "component": "LaserContact",
+      "image": "Saved/MannyFullCaptures/LaserContact_pose0_view1.png",
+      "image_sha256": "c88e8c8e5f4f495e06528954fff09917507365b84079af6e876ec47bf575f0d2",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "StaticBoltIHit": {
+      "component": "StaticBoltIHit",
+      "image": "Saved/MannyFullCaptures/StaticBoltIHit_pose0_view1.png",
+      "image_sha256": "b34f8cd3da9177b3f545532dd869805ec38b363b5bc1eb59a24c649945d786aa",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "StaticBoltIChain": {
+      "component": "StaticBoltIChain",
+      "image": "Saved/MannyFullCaptures/StaticBoltIChain_pose3_view1.png",
+      "image_sha256": "f0750d2e7ff1fd0eacd18ad539436ee458491f9b8f3413b8895c8a4543a184c1",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "StaticBoltIiHit": {
+      "component": "StaticBoltIiHit",
+      "image": "Saved/MannyFullCaptures/StaticBoltIiHit_pose0_view1.png",
+      "image_sha256": "ffb3e52791e166d3172632d53646a3e36fe394c33f30a6b928501be1691dd71e",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "StaticBoltIiChain": {
+      "component": "StaticBoltIiChain",
+      "image": "Saved/MannyFullCaptures/StaticBoltIiChain_pose3_view1.png",
+      "image_sha256": "65d28050c6306713687c7710df4f68ecf074a83fa8a870bdaa48dd8bf7f9e3e7",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CoilHit": {
+      "component": "CoilHit",
+      "image": "Saved/MannyFullCaptures/CoilHit_pose0_view1.png",
+      "image_sha256": "13c503603e212c86100b9ed76dbf2bffcf28db3aab3c4da2be87bd07fc7b3f4c",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CoilProc7": {
+      "component": "CoilProc7",
+      "image": "Saved/MannyFullCaptures/CoilProc7_pose2_view1.png",
+      "image_sha256": "12e91918f136df7622a8669292348ed883d369b3d4744a7ba7744981fc831ad1",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CoilChain": {
+      "component": "CoilChain",
+      "image": "Saved/MannyFullCaptures/CoilChain_pose3_view1.png",
+      "image_sha256": "0f2c58fba96f9531c974698a2a65ce5575fcf1810f0639087799f4cecb31912e",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ThunderstrikeIHit": {
+      "component": "ThunderstrikeIHit",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIHit_pose0_view1.png",
+      "image_sha256": "9e7277d1e425261392e2c3b9895a81e8d7e389afe5eb7b9bc8e87e6e003ca829",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ThunderstrikeIiHit": {
+      "component": "ThunderstrikeIiHit",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIiHit_pose0_view1.png",
+      "image_sha256": "65cbd60fef00a08eb2f49e3969131fbf7d486dccd68d4f0100632dc79dbf74ae",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TempestIce": {
+      "component": "TempestIce",
+      "image": "Saved/MannyFullCaptures/TempestIce_pose0_view1.png",
+      "image_sha256": "a36d4de182f4404560beae1824a928d2d9d5200a0bf8df951005aec0ba52ee68",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TempestLightning": {
+      "component": "TempestLightning",
+      "image": "Saved/MannyFullCaptures/TempestLightning_pose1_view1.png",
+      "image_sha256": "458e2ddbf8c69a0feeb9a56d0ef514944325d7e1d29b4bd88d8cd37318802e0c",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TempestGroundImpact": {
+      "component": "TempestGroundImpact",
+      "image": "Saved/MannyFullCaptures/TempestGroundImpact_pose2_view2.png",
+      "image_sha256": "3a56911f4df6346dfb63ce64ad9f1564c515abdda6b0f1ff5e5bd04773dbca74",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "TempestFrostImpact": {
+      "component": "TempestFrostImpact",
+      "image": "Saved/MannyFullCaptures/TempestFrostImpact_pose1_view1.png",
+      "image_sha256": "d07e93980bf85b506ecf235cd1062c02dc15b7b3d5f616cfcbaeb43b216a19b2",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TempestStormArea": {
+      "component": "TempestStormArea",
+      "image": "Saved/MannyFullCaptures/TempestStormArea_pose3_view1.png",
+      "image_sha256": "2f9004c39a9426db7448c038c66e01b9d7e21e143df94e08eca67d535bf40a2f",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TempestTelegraph": {
+      "component": "TempestTelegraph",
+      "image": "Saved/MannyFullCaptures/TempestTelegraph_pose3_view2.png",
+      "image_sha256": "451f3961aa85d74dd7a506ff22d231c75552de3372f04c270525947b5102d477",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "TempestLightningHit": {
+      "component": "TempestLightningHit",
+      "image": "Saved/MannyFullCaptures/TempestLightningHit_pose3_view0.png",
+      "image_sha256": "5adecfea99a4d31fd0ae9c3469f7f047c1ba9eb5dea7ffaa910160fa899c01e0",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "StaticBoltIGroundArea": {
+      "component": "StaticBoltIGroundArea",
+      "image": "Saved/MannyFullCaptures/StaticBoltIGroundArea_pose1_view0.png",
+      "image_sha256": "7ac20aab923a5dda2b5b5f8b2023dcc7f66e082bd6becf49777bf2702b5b95fa",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "StaticBoltIiGroundArea": {
+      "component": "StaticBoltIiGroundArea",
+      "image": "Saved/MannyFullCaptures/StaticBoltIiGroundArea_pose1_view0.png",
+      "image_sha256": "922e073b7723422e0e31ea0efb120bac26ebe66ab1c2f1df1fd8a1b1b55e2cee",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ThunderstrikeIiSplashArea": {
+      "component": "ThunderstrikeIiSplashArea",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIiSplashArea_pose3_view1.png",
+      "image_sha256": "5fdac407d85400d3781132f575e08943d9b56b023daf9866ab7cd2975f25d328",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ThunderstrikeIISplash": {
+      "component": "ThunderstrikeIISplash",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIISplash_pose1_view0.png",
+      "image_sha256": "69bd591d3e8b6556be69bdb2f9888acb6848cf6f280fdcc0244b19b451ae5581",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "TempestSappedProc": {
+      "component": "TempestSappedProc",
+      "image": "Saved/MannyFullCaptures/TempestSappedProc_pose1_view1.png",
+      "image_sha256": "78a1ca19b384f6b9c1cc17a94c6ef6873d051822eed11b062ce43161bdbb2ada",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ArcaneWeavingIResource": {
+      "component": "ArcaneWeavingIResource",
+      "image": "Saved/MannyFullCaptures/ArcaneWeavingIResource_pose3_view2.png",
+      "image_sha256": "dbaa5ae58a8128a9186deb3a721fccfda6411390dccedc61a1473c8303ddada7",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ElementalWeaverIResource": {
+      "component": "ElementalWeaverIResource",
+      "image": "Saved/MannyFullCaptures/ElementalWeaverIResource_pose3_view2.png",
+      "image_sha256": "83c09e5be460c5f5290a48aed5687eb375b3d2c344b5cd4e2ef878a1f23f205c",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ElementalWeaverIiResource": {
+      "component": "ElementalWeaverIiResource",
+      "image": "Saved/MannyFullCaptures/ElementalWeaverIiResource_pose3_view2.png",
+      "image_sha256": "62286d4d19b84e8bbaa87474985ed0d17628564943d3dc5452479b9102605e1c",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SpiritOfTheCometMoonState": {
+      "component": "SpiritOfTheCometMoonState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheCometMoonState_pose1_view2.png",
+      "image_sha256": "b4446c562abb7f9667a99486e0a84c4bc753cef0522929ceddbf668ebb925e8e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SpiritOfTheCometSunState": {
+      "component": "SpiritOfTheCometSunState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheCometSunState_pose1_view2.png",
+      "image_sha256": "68ddfff2e4948cced82fd8084cdd117d16aba03d3d5c07d3bdab09e73242f2f0",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SpiritOfTheOrbitMoonState": {
+      "component": "SpiritOfTheOrbitMoonState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheOrbitMoonState_pose1_view1.png",
+      "image_sha256": "dba5d3b4629edca99ee0c699c42e8e9e2569bc599cdd3e52def89bc8e575bce0",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SpiritOfTheOrbitSunState": {
+      "component": "SpiritOfTheOrbitSunState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheOrbitSunState_pose1_view1.png",
+      "image_sha256": "18041bfc0382cdf1219e480fd924adef754a39f8313c2dcde3fbf64e9ae1011e",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SpiritOfTheStarMoonState": {
+      "component": "SpiritOfTheStarMoonState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheStarMoonState_pose1_view1.png",
+      "image_sha256": "cd7bd6a4a7ac0502a4910b06569fd4038ecf0bff11bf7bd959b94d02aede4eec",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SpiritOfTheStarSunState": {
+      "component": "SpiritOfTheStarSunState",
+      "image": "Saved/MannyFullCaptures/SpiritOfTheStarSunState_pose1_view1.png",
+      "image_sha256": "0d5c9c786c09a531a43ec73cf1870baa22056dd67b4fb3c6038e9ea0652da36b",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ManaBarrierIHold": {
+      "component": "ManaBarrierIHold",
+      "image": "Saved/MannyFullCaptures/ManaBarrierIHold_pose0_view0.png",
+      "image_sha256": "b7230f64aa94589c445ed00380fc4f5e297c29560549adbb1935c85acbfb05d5",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ManaBarrierIRelease": {
+      "component": "ManaBarrierIRelease",
+      "image": "Saved/MannyFullCaptures/ManaBarrierIRelease_pose0_view0.png",
+      "image_sha256": "4f17e77624930bd89123f3256bf0280cfd5c5fe86db6c025b9470bae67300edc",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ManaBarrierIiOverchargeHold": {
+      "component": "ManaBarrierIiOverchargeHold",
+      "image": "Saved/MannyFullCaptures/ManaBarrierIiOverchargeHold_pose0_view0.png",
+      "image_sha256": "46da0f28d8047d16ee11345adc7764e6200ef06b47a7040663f49e29a1231683",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ManaBarrierIiOverchargeRelease": {
+      "component": "ManaBarrierIiOverchargeRelease",
+      "image": "Saved/MannyFullCaptures/ManaBarrierIiOverchargeRelease_pose0_view0.png",
+      "image_sha256": "4e29fc7692e2aed36d385ed69e1f0079a55f2b6898cd7ed5edea536682a03abc",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ConnectionIAllyActive": {
+      "component": "ConnectionIAllyActive",
+      "image": "Saved/MannyFullCaptures/ConnectionIAllyActive_pose3_view1.png",
+      "image_sha256": "d78d07f6041b5763d05d57958ced7131a2cca4672010df152cc728c6777c95eb",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIAllyNaturalEnd": {
+      "component": "ConnectionIAllyNaturalEnd",
+      "image": "Saved/MannyFullCaptures/ConnectionIAllyNaturalEnd_pose3_view1.png",
+      "image_sha256": "18d0fb1dc5de405060a43a1a2371544e638520f8c5cd2e2f6b6027e63709a427",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIEnemyActive": {
+      "component": "ConnectionIEnemyActive",
+      "image": "Saved/MannyFullCaptures/ConnectionIEnemyActive_pose3_view1.png",
+      "image_sha256": "414cbd321086ed7f44a1d5596fdc071c05712e755951075fb7f2109b52e423e2",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIEnemyNaturalEnd": {
+      "component": "ConnectionIEnemyNaturalEnd",
+      "image": "Saved/MannyFullCaptures/ConnectionIEnemyNaturalEnd_pose3_view1.png",
+      "image_sha256": "dc33d342eb9310053054a362ea05d7eda85f18628530ff4ed75799e319d45a3a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIiAllyActive": {
+      "component": "ConnectionIiAllyActive",
+      "image": "Saved/MannyFullCaptures/ConnectionIiAllyActive_pose3_view1.png",
+      "image_sha256": "2c7791029a27f57bc0f404bb91086ff05edaa0c7f11325523e9c872bb238ad86",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIiAllyNaturalEnd": {
+      "component": "ConnectionIiAllyNaturalEnd",
+      "image": "Saved/MannyFullCaptures/ConnectionIiAllyNaturalEnd_pose3_view2.png",
+      "image_sha256": "3a104671df51aceffd11ee590fe13521278d1a60b92d504e8fbb6d979ba60b21",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ConnectionIiEnemyActive": {
+      "component": "ConnectionIiEnemyActive",
+      "image": "Saved/MannyFullCaptures/ConnectionIiEnemyActive_pose3_view1.png",
+      "image_sha256": "983e4c55afd4755297944bc289d3fc3f23da6a6700527383d2f8f5121b732121",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ConnectionIiEnemyNaturalEnd": {
+      "component": "ConnectionIiEnemyNaturalEnd",
+      "image": "Saved/MannyFullCaptures/ConnectionIiEnemyNaturalEnd_pose3_view1.png",
+      "image_sha256": "f04a4af4194efa102a0f93743fc09875f539e5c9ec1b4d9b9e87025c2013d85a",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BattlecryChallengeITankCast": {
+      "component": "BattlecryChallengeITankCast",
+      "image": "Saved/MannyFullCaptures/BattlecryChallengeITankCast_pose3_view2.png",
+      "image_sha256": "009b959350a2a22dd4fc23aa72254c0ea8a0e1320792decf31ea1b0cfc81b13b",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BattlecryChallengeIWarriorCast": {
+      "component": "BattlecryChallengeIWarriorCast",
+      "image": "Saved/MannyFullCaptures/BattlecryChallengeIWarriorCast_pose3_view2.png",
+      "image_sha256": "908ac6e39a7417be00e715aa7aa4ee39eba9ff055c57de0a803681e44c2d675f",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BattlecryChallengeIiTankCast": {
+      "component": "BattlecryChallengeIiTankCast",
+      "image": "Saved/MannyFullCaptures/BattlecryChallengeIiTankCast_pose3_view2.png",
+      "image_sha256": "a1d5f1d96aae4db7deebdef8aee295524e5590fed5ba6f270dc3d3e7c4caa46a",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BattlecryChallengeIiWarriorCast": {
+      "component": "BattlecryChallengeIiWarriorCast",
+      "image": "Saved/MannyFullCaptures/BattlecryChallengeIiWarriorCast_pose3_view2.png",
+      "image_sha256": "1d4f4f2af1baad26ce96839fff911384108d57f47b0dd18cecb42942dd0c427b",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BulwarkApply": {
+      "component": "BulwarkApply",
+      "image": "Saved/MannyFullCaptures/BulwarkApply_pose1_view1.png",
+      "image_sha256": "44954eb7e693b8c4b755dac256f0612bf4bcc3f96e48367af4c8af5bc43b21a1",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CleanseApply": {
+      "component": "CleanseApply",
+      "image": "Saved/MannyFullCaptures/CleanseApply_pose1_view1.png",
+      "image_sha256": "f4eafcdd00216b6a4e28d1e161533237d32f2a77536bfe7e7e133ae4bba347a3",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CrushingBlowAreaImpact": {
+      "component": "CrushingBlowAreaImpact",
+      "image": "Saved/MannyFullCaptures/CrushingBlowAreaImpact_pose1_view0.png",
+      "image_sha256": "e07ba1a889c3ed84ca8016a8d0f327358e8f48f7b5259bc3f365044a57ce495c",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CrushingBlowIiAreaImpact": {
+      "component": "CrushingBlowIiAreaImpact",
+      "image": "Saved/MannyFullCaptures/CrushingBlowIiAreaImpact_pose1_view0.png",
+      "image_sha256": "8ab4ca1913fd738f234fccd46104a0edfae9457ce442a1bca04fe4260e2137a5",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "DefiantPresenceActive": {
+      "component": "DefiantPresenceActive",
+      "image": "Saved/MannyFullCaptures/DefiantPresenceActive_pose2_view1.png",
+      "image_sha256": "d8a127788b4c3466f234e345f0871f034061490cda1f0c56d1624204e883c686",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "MomentumMasteryResourceGain": {
+      "component": "MomentumMasteryResourceGain",
+      "image": "Saved/MannyFullCaptures/MomentumMasteryResourceGain_pose1_view1.png",
+      "image_sha256": "8f251899a90cf343a25b3b5cdba06cc913a43942ca00d8cb2d01b086b900d2ee",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PiercingStrikeCast": {
+      "component": "PiercingStrikeCast",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeCast_pose0_view2.png",
+      "image_sha256": "54baed76620973239703fca4d4ef0fac2c21b4fa1fea4589fe64823ad78d442f",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "PiercingStrikeImpact": {
+      "component": "PiercingStrikeImpact",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeImpact_pose0_view1.png",
+      "image_sha256": "31a1627682544e0f56b3f3cdbf2ecc82b582cf6e26e439393ac822583017069d",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PiercingStrikeIiTankCast": {
+      "component": "PiercingStrikeIiTankCast",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeIiTankCast_pose0_view2.png",
+      "image_sha256": "442dc2b4c2c16b3e77feac83222f56af8a0e42b8ed3bca93f773ff3ff18f6036",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "PiercingStrikeIiTankImpact": {
+      "component": "PiercingStrikeIiTankImpact",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeIiTankImpact_pose0_view1.png",
+      "image_sha256": "3f3c74c4a69ad01b4be7ed441cff6823f18d32056d33ca1f2ace298bb6f5a0f1",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PiercingStrikeIiWarriorCast": {
+      "component": "PiercingStrikeIiWarriorCast",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeIiWarriorCast_pose0_view2.png",
+      "image_sha256": "ab50b333fdd2f7069ba3fa2e7d8c72e0ceb3a9d10ffb05c8aa786c173b17ceec",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "PiercingStrikeIiWarriorImpact": {
+      "component": "PiercingStrikeIiWarriorImpact",
+      "image": "Saved/MannyFullCaptures/PiercingStrikeIiWarriorImpact_pose0_view1.png",
+      "image_sha256": "24d3c1dbf7b0f1da806fb6b63258473d389d47b723cfa67d503c50eb9ca1de5d",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PressureProvokeCast": {
+      "component": "PressureProvokeCast",
+      "image": "Saved/MannyFullCaptures/PressureProvokeCast_pose3_view1.png",
+      "image_sha256": "99fc44ef15c5dad7b24e1b4346d90aba9cdb1e6415194cf133681de4eb4af79e",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PressureProvokeTankCast": {
+      "component": "PressureProvokeTankCast",
+      "image": "Saved/MannyFullCaptures/PressureProvokeTankCast_pose3_view1.png",
+      "image_sha256": "e4b71851d3c396930031ff61b132ad9b4600c49a7e493f0ff845b8b5ab5f3313",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PressureProvokeImpact": {
+      "component": "PressureProvokeImpact",
+      "image": "Saved/MannyFullCaptures/PressureProvokeImpact_pose1_view0.png",
+      "image_sha256": "68a3ab77cef00ff5597f3846eabfe6628ed0cf806f6b6db98c3f008117924da4",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "PressureProvokeTankImpact": {
+      "component": "PressureProvokeTankImpact",
+      "image": "Saved/MannyFullCaptures/PressureProvokeTankImpact_pose1_view0.png",
+      "image_sha256": "48941abb3e875f8270bf13341a41eb4b592c9775a41df605c34cd43dcfa7dd60",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "RageApply": {
+      "component": "RageApply",
+      "image": "Saved/MannyFullCaptures/RageApply_pose1_view0.png",
+      "image_sha256": "bd29cc01aa5f1011c7d030bff84a015b91724b2364e49400ffae550c86115469",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "RallyITankCast": {
+      "component": "RallyITankCast",
+      "image": "Saved/MannyFullCaptures/RallyITankCast_pose2_view1.png",
+      "image_sha256": "5b5a796bffaa6c3223e68ef8d15afdbfff6f02d2f9dcce58955609635f8afb30",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "RallyIWarriorCast": {
+      "component": "RallyIWarriorCast",
+      "image": "Saved/MannyFullCaptures/RallyIWarriorCast_pose0_view2.png",
+      "image_sha256": "6c1ad6601fdd3a2e69a51729efe6c9c6bf486bc8924ed58560a5a7d8ede87462",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "RallyIiTankCast": {
+      "component": "RallyIiTankCast",
+      "image": "Saved/MannyFullCaptures/RallyIiTankCast_pose1_view2.png",
+      "image_sha256": "106212a8536242523e5ba2c0477bfd65ed934bb8a91fa203aa8c9b493838d5f2",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "RallyIiWarriorCast": {
+      "component": "RallyIiWarriorCast",
+      "image": "Saved/MannyFullCaptures/RallyIiWarriorCast_pose0_view2.png",
+      "image_sha256": "35089f4c68b4fffc78c204dda0ee210661bfe7fcdda0565145f959210ff0edfd",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SecondWindHeal": {
+      "component": "SecondWindHeal",
+      "image": "Saved/MannyFullCaptures/SecondWindHeal_pose1_view2.png",
+      "image_sha256": "cfdc88a7e4c7581fe54db39d330f537dd0ca383121c565a5ca2fd17408edcb8a",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushMovement": {
+      "component": "ShoulderRushMovement",
+      "image": "Saved/MannyFullCaptures/ShoulderRushMovement_pose2_view2.png",
+      "image_sha256": "12cc5b8458413f4d368070edf9e3b647a241ead7c2d03693d72ca2fdc99f4a6f",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushImpact": {
+      "component": "ShoulderRushImpact",
+      "image": "Saved/MannyFullCaptures/ShoulderRushImpact_pose1_view2.png",
+      "image_sha256": "b46278a8a1a72c3980c01b3c578753854fd7c7990e02047064f8ca08bf435ed0",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushIiTankMovement": {
+      "component": "ShoulderRushIiTankMovement",
+      "image": "Saved/MannyFullCaptures/ShoulderRushIiTankMovement_pose2_view2.png",
+      "image_sha256": "1fddcfe475ea682fe63110d61a5eea796c5bed41bd54ab41b08cd6de3a40af8d",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushIiTankImpact": {
+      "component": "ShoulderRushIiTankImpact",
+      "image": "Saved/MannyFullCaptures/ShoulderRushIiTankImpact_pose1_view2.png",
+      "image_sha256": "e047debcb426ca901d05872adfda92339ddf5a3b321f40d16a87cc6885c3f54e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushIiWarriorMovement": {
+      "component": "ShoulderRushIiWarriorMovement",
+      "image": "Saved/MannyFullCaptures/ShoulderRushIiWarriorMovement_pose3_view2.png",
+      "image_sha256": "1647040476d864406fe33a1238dbe74cf2a5f5bb89e2f0a69c3dfcda91a25b1a",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ShoulderRushIiWarriorImpact": {
+      "component": "ShoulderRushIiWarriorImpact",
+      "image": "Saved/MannyFullCaptures/ShoulderRushIiWarriorImpact_pose1_view2.png",
+      "image_sha256": "c3112f73c7383e17862ba242c1e74b918155b7757a541a6b4c7dc317de54068e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "TankStanceCast": {
+      "component": "TankStanceCast",
+      "image": "Saved/MannyFullCaptures/TankStanceCast_pose3_view0.png",
+      "image_sha256": "969a0cffe8ceed0738184cc9be842dca82b7ac634992f7efbacb2d95cc775920",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "WarLeapMovement": {
+      "component": "WarLeapMovement",
+      "image": "Saved/MannyFullCaptures/WarLeapMovement_pose2_view2.png",
+      "image_sha256": "0ece3d3350e3fd139b26b0c11f532af74fcb2ea86511d3b0dfdc276f43059d79",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "WarLeapAreaImpact": {
+      "component": "WarLeapAreaImpact",
+      "image": "Saved/MannyFullCaptures/WarLeapAreaImpact_pose1_view0.png",
+      "image_sha256": "fe84b8bd38e8986412e63e88c895f821214f81232fc53d265a2f07f00e527e79",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "WarLeapTelegraph": {
+      "component": "WarLeapTelegraph",
+      "image": "Saved/MannyFullCaptures/WarLeapTelegraph_pose3_view0.png",
+      "image_sha256": "9d8a97ad58a109090ffec97e36910fc262583e98c2b3d072a94befdfc4cae054",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "WarriorStanceCast": {
+      "component": "WarriorStanceCast",
+      "image": "Saved/MannyFullCaptures/WarriorStanceCast_pose3_view0.png",
+      "image_sha256": "60b85d563ea985c66e66ee441b28491015b4d3faeccf814bb1cf7ad9a79e0c64",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ArcaneBurstFlight": {
+      "component": "ArcaneBurstFlight",
+      "image": "Saved/MannyFullCaptures/ArcaneBurstFlight_pose1_view1.png",
+      "image_sha256": "c78e294284e3809929ac71d121b919a06b070d4cfb6c37b6d0d5d60cdef9a233",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ArcaneBurstProc": {
+      "component": "ArcaneBurstProc",
+      "image": "Saved/MannyFullCaptures/ArcaneBurstProc_pose2_view2.png",
+      "image_sha256": "f726739224903798d08e6a81260fb25ec9af363f8e54dad2244b375d5916573a",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BlinkProc": {
+      "component": "BlinkProc",
+      "image": "Saved/MannyFullCaptures/BlinkProc_pose3_view2.png",
+      "image_sha256": "888813c119093d208d08a07147f9fcb9f9819e00d91265dadde93fc2c3d87609",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BlinkCast": {
+      "component": "BlinkCast",
+      "image": "Saved/MannyFullCaptures/BlinkCast_pose2_view1.png",
+      "image_sha256": "f5d8ff2ae377851564b1bdd429fb558c7b4cde7bb4640b8fc4751eab5e806a53",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CleansemageApply": {
+      "component": "CleansemageApply",
+      "image": "Saved/MannyFullCaptures/CleansemageApply_pose0_view0.png",
+      "image_sha256": "06d026a52cf565f4b32dcb962661f73b8fd8c477a90f82dc6a9f75cfe5064326",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CoilCast": {
+      "component": "CoilCast",
+      "image": "Saved/MannyFullCaptures/CoilCast_pose1_view0.png",
+      "image_sha256": "d4154124d36b5e97669402a7d8e64aec7d7dd23e2de8909da481c57f52d21edc",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CombustIProc": {
+      "component": "CombustIProc",
+      "image": "Saved/MannyFullCaptures/CombustIProc_pose1_view2.png",
+      "image_sha256": "1e860941dfbfbfba26f3d609ec7f48d8e36726f439da7cfb8d0f8d93803915d4",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CombustIiProc": {
+      "component": "CombustIiProc",
+      "image": "Saved/MannyFullCaptures/CombustIiProc_pose3_view1.png",
+      "image_sha256": "480e1050b017742319da4f04af39151fc43625018cc025c689f596de21b2d6ff",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CombustIiAreaImpact": {
+      "component": "CombustIiAreaImpact",
+      "image": "Saved/MannyFullCaptures/CombustIiAreaImpact_pose3_view0.png",
+      "image_sha256": "bee52f7feb6a73f3362b27004422b0df8725249189244a43e4fefbc71e5d1424",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "FrostLanceIFlight": {
+      "component": "FrostLanceIFlight",
+      "image": "Saved/MannyFullCaptures/FrostLanceIFlight_pose1_view1.png",
+      "image_sha256": "68973ca38e72b6d7450ee43e8c3f249f037561d98bd76d7cf267318d8aba4693",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FrostLanceIiFlight": {
+      "component": "FrostLanceIiFlight",
+      "image": "Saved/MannyFullCaptures/FrostLanceIiFlight_pose1_view1.png",
+      "image_sha256": "ab42f69fa8978a9532c0697bd19216f8026b2d10b6e112f2e6b24ac40150d256",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "GlacialSpikeIAreaImpact": {
+      "component": "GlacialSpikeIAreaImpact",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIAreaImpact_pose3_view2.png",
+      "image_sha256": "4256503ad3b0a982994dac03cd8d2e21df22d0c157196534853e3deb72c91a2d",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "GlacialSpikeIiAreaImpact": {
+      "component": "GlacialSpikeIiAreaImpact",
+      "image": "Saved/MannyFullCaptures/GlacialSpikeIiAreaImpact_pose3_view0.png",
+      "image_sha256": "70c73da0178da731dd89b80144e81909aad92c3bf88d0f32fcf79a48fe952124",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "IcebergFlight": {
+      "component": "IcebergFlight",
+      "image": "Saved/MannyFullCaptures/IcebergFlight_pose1_view1.png",
+      "image_sha256": "17a2d90d3d219c82bb022d0f9e96eedeb625abadc928310290050fbb7dd8b92e",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "IcebergProc": {
+      "component": "IcebergProc",
+      "image": "Saved/MannyFullCaptures/IcebergProc_pose0_view0.png",
+      "image_sha256": "0de6dd595c19047461bba0facc5271cb0798a4980ad5a9f40f36ad6740a098c7",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ManaStormActive": {
+      "component": "ManaStormActive",
+      "image": "Saved/MannyFullCaptures/ManaStormActive_pose1_view2.png",
+      "image_sha256": "17ee3f5b2e42ccc569bbc29af7ab53ef8a0c8897587db5344b8ce81d4cfe7069",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ManifestActive": {
+      "component": "ManifestActive",
+      "image": "Saved/MannyFullCaptures/ManifestActive_pose3_view2.png",
+      "image_sha256": "0ca9dfc86ec4a4ec5a7901673010f30de0826cf6b6879736179159f6b500e38e",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "MistActive": {
+      "component": "MistActive",
+      "image": "Saved/MannyFullCaptures/MistActive_pose0_view2.png",
+      "image_sha256": "c12b28e37a022056274670d7c3f19c05eaed8a08ce1123ce1bb8528bd05e1caf",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "StaticBoltIFlight": {
+      "component": "StaticBoltIFlight",
+      "image": "Saved/MannyFullCaptures/StaticBoltIFlight_pose1_view1.png",
+      "image_sha256": "d31d7c0cffdc592b017477b75dac1965d700dfb629f82fc0677fed88ff6b612a",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "StaticBoltIiFlight": {
+      "component": "StaticBoltIiFlight",
+      "image": "Saved/MannyFullCaptures/StaticBoltIiFlight_pose1_view1.png",
+      "image_sha256": "4cea39c0f107c1a8769047b1ff6bc9c2654488506a0ad5e00d0526027117d1bc",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ThunderstrikeIStrike": {
+      "component": "ThunderstrikeIStrike",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIStrike_pose1_view0.png",
+      "image_sha256": "9d5bb7bb2a6e3c2902dc3f5ae4ab3822ec37d163175d5ccbde550b64feab1bc3",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ThunderstrikeIiStrike": {
+      "component": "ThunderstrikeIiStrike",
+      "image": "Saved/MannyFullCaptures/ThunderstrikeIiStrike_pose1_view2.png",
+      "image_sha256": "d859b1fbf5a50502524f63e221000383b12011c5c979c1daf1b0d2d341c113bc",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "VortexFlight": {
+      "component": "VortexFlight",
+      "image": "Saved/MannyFullCaptures/VortexFlight_pose1_view0.png",
+      "image_sha256": "c742406d9899803c6fc6e7211d2b1daa5b142460ce7c4e4ac154a0163d2be89f",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "VortexDisplacement": {
+      "component": "VortexDisplacement",
+      "image": "Saved/MannyFullCaptures/VortexDisplacement_pose2_view1.png",
+      "image_sha256": "2c5366ba70762a39e9e7755d036fcab7d9cac2147b2bed17e783d2b04c1efe0b",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "WeaveCast": {
+      "component": "WeaveCast",
+      "image": "Saved/MannyFullCaptures/WeaveCast_pose1_view1.png",
+      "image_sha256": "f40856b8138c056a6a9a747f62ff5ec7c3bd6f32372b88a9321ddd7e5eaddd83",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "WeaveActive": {
+      "component": "WeaveActive",
+      "image": "Saved/MannyFullCaptures/WeaveActive_pose3_view2.png",
+      "image_sha256": "1fa829023df2a51a1ed6646e6686a73f0c1cb209cbcf4b3738ba9b5f473eddd6",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "AstralAuraMoonActive": {
+      "component": "AstralAuraMoonActive",
+      "image": "Saved/MannyFullCaptures/AstralAuraMoonActive_pose1_view0.png",
+      "image_sha256": "04c649651e282aa6e483ed91284e6549e4d113ebd5d923de15f8c102cb9c5fea",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "AstralAuraSunActive": {
+      "component": "AstralAuraSunActive",
+      "image": "Saved/MannyFullCaptures/AstralAuraSunActive_pose1_view1.png",
+      "image_sha256": "40ef4bc017e52da7fa8f935917e09405533c0906953b705b9987861eb51012bf",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "AstralPullAreaImpact": {
+      "component": "AstralPullAreaImpact",
+      "image": "Saved/MannyFullCaptures/AstralPullAreaImpact_pose3_view1.png",
+      "image_sha256": "9955bcecb657028f60853e2a96618bda1a57527559c52977703e8f4fcf7f44d6",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "AstralPullRelocate": {
+      "component": "AstralPullRelocate",
+      "image": "Saved/MannyFullCaptures/AstralPullRelocate_pose1_view0.png",
+      "image_sha256": "48282a17524edadba27614df7166b0b75b54b0af1a346b5a8fd85e20621549cd",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "AstralPullLink": {
+      "component": "AstralPullLink",
+      "image": "Saved/MannyFullCaptures/AstralPullLink_pose3_view1.png",
+      "image_sha256": "8a71ecf6f9116a85bf0dd29492e176fad5877f3f9c5e98f6e9b1b0baf7d53159",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "AstralStepProc": {
+      "component": "AstralStepProc",
+      "image": "Saved/MannyFullCaptures/AstralStepProc_pose3_view2.png",
+      "image_sha256": "0f054752296eaa99fe256e2aef033a3ae62060f81d2fa4624827dee47553c84d",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "AstralStepCast": {
+      "component": "AstralStepCast",
+      "image": "Saved/MannyFullCaptures/AstralStepCast_pose1_view0.png",
+      "image_sha256": "950323192832bfcbe32a2f5d3e1478f0a814a7b761a365b2c2b68a843682f756",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "AstralVeilActive": {
+      "component": "AstralVeilActive",
+      "image": "Saved/MannyFullCaptures/AstralVeilActive_pose2_view2.png",
+      "image_sha256": "cd6bc85c9f2b1ffa4aec2ee7ce63116f7b868fd0c0e79889fddf52f9888824a9",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BlackHoleIActive": {
+      "component": "BlackHoleIActive",
+      "image": "Saved/MannyFullCaptures/BlackHoleIActive_pose1_view0.png",
+      "image_sha256": "af560bb8c5cfb858b5ed1ebd10922294958d9ac5d4e8c2e7756ab3c9e3c3fe6c",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BlackHoleIiActive": {
+      "component": "BlackHoleIiActive",
+      "image": "Saved/MannyFullCaptures/BlackHoleIiActive_pose1_view0.png",
+      "image_sha256": "503822f116da91f49effeb016c188b523dd70cf6e168015c95704f1ca5dfd239",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "BrightStarCast": {
+      "component": "BrightStarCast",
+      "image": "Saved/MannyFullCaptures/BrightStarCast_pose0_view2.png",
+      "image_sha256": "af4747b9dcd0020b7d3affa14dbde20c9119afde127f0ded9f2bc9a486d3ec45",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CleansemysticApply": {
+      "component": "CleansemysticApply",
+      "image": "Saved/MannyFullCaptures/CleansemysticApply_pose0_view0.png",
+      "image_sha256": "d677f1a3ea5de9bd25d37e269f363a2a353d2bc038f71bec3594e3a3e40733ac",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "CosmicRayIPending": {
+      "component": "CosmicRayIPending",
+      "image": "Saved/MannyFullCaptures/CosmicRayIPending_pose3_view2.png",
+      "image_sha256": "a30a8bf74a2e8db08b971d978f6ec787a844205ee2359c9f58f864bdf1a7530b",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CosmicRayIResolve": {
+      "component": "CosmicRayIResolve",
+      "image": "Saved/MannyFullCaptures/CosmicRayIResolve_pose1_view2.png",
+      "image_sha256": "779cb6e400c11c4cfeab0b395a9769b45e7c0b5f7ca401befa40caf4700967a2",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CosmicRayIiPending": {
+      "component": "CosmicRayIiPending",
+      "image": "Saved/MannyFullCaptures/CosmicRayIiPending_pose3_view2.png",
+      "image_sha256": "28500ec36d84978c45d54fb61a47cc56942c5ae8aef7276ae19168677dc46c6a",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "CosmicRayIiResolve": {
+      "component": "CosmicRayIiResolve",
+      "image": "Saved/MannyFullCaptures/CosmicRayIiResolve_pose1_view2.png",
+      "image_sha256": "b87e34cc8b88c1e68b3c71ce6df3dda0cc268a10110bdd0ba169edec89c128d5",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "EclipseAreaImpact": {
+      "component": "EclipseAreaImpact",
+      "image": "Saved/MannyFullCaptures/EclipseAreaImpact_pose1_view2.png",
+      "image_sha256": "1b69fa3502d7346f0715f3a5f479b39461b98c86bd887e27d5bdd08dc412595e",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "EtherIAllyFlight": {
+      "component": "EtherIAllyFlight",
+      "image": "Saved/MannyFullCaptures/EtherIAllyFlight_pose1_view1.png",
+      "image_sha256": "3fa10e74e091c3fad8fec2f3bd363721e5128d13c24c7c1bac6f3bfdb471ad68",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "EtherIEnemyFlight": {
+      "component": "EtherIEnemyFlight",
+      "image": "Saved/MannyFullCaptures/EtherIEnemyFlight_pose1_view1.png",
+      "image_sha256": "37e49d5e984691aefffbbe5184441cbda6fbcb2f6d8e2517847b35633449f222",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "EtherIiAllyFlight": {
+      "component": "EtherIiAllyFlight",
+      "image": "Saved/MannyFullCaptures/EtherIiAllyFlight_pose1_view1.png",
+      "image_sha256": "f3eef89833e1df0d5028c63466af716b0149b00ed6d6817e1add52a94f6a85ec",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "EtherIiEnemyFlight": {
+      "component": "EtherIiEnemyFlight",
+      "image": "Saved/MannyFullCaptures/EtherIiEnemyFlight_pose1_view1.png",
+      "image_sha256": "0e2a27a137554bbe3890cb56bc55e02020ae84df18e2ac307d04a0b773f04d2e",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "FullMoonAreaImpact": {
+      "component": "FullMoonAreaImpact",
+      "image": "Saved/MannyFullCaptures/FullMoonAreaImpact_pose3_view0.png",
+      "image_sha256": "5c70e97afbc9a4e554c73e5c06e14de6629855ae4824f22a3eb300cf109f1210",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "LullabyFlight": {
+      "component": "LullabyFlight",
+      "image": "Saved/MannyFullCaptures/LullabyFlight_pose3_view1.png",
+      "image_sha256": "4647cb403ea11fa034b397b912458c20aab03f8e5a8c3f435279e0ddd04705af",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LullabyProc": {
+      "component": "LullabyProc",
+      "image": "Saved/MannyFullCaptures/LullabyProc_pose0_view1.png",
+      "image_sha256": "04d04508425c65dded5d64a1857b0311d7cb88cb348deb54248dd7d6fa966aa7",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LullabyIiNightmareFlight": {
+      "component": "LullabyIiNightmareFlight",
+      "image": "Saved/MannyFullCaptures/LullabyIiNightmareFlight_pose0_view1.png",
+      "image_sha256": "8256650fc56f43efe40f22ef2b0a4d1e19a9a8da5a19a8c423dd5dcced12bb09",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LullabyIiNightmareProc": {
+      "component": "LullabyIiNightmareProc",
+      "image": "Saved/MannyFullCaptures/LullabyIiNightmareProc_pose1_view1.png",
+      "image_sha256": "aa8e516ccee84dcb0393939aabedec5e34c128e94f26973a7c1b65b4b283c616",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "MoonStanceCast": {
+      "component": "MoonStanceCast",
+      "image": "Saved/MannyFullCaptures/MoonStanceCast_pose1_view2.png",
+      "image_sha256": "b4faaa0e286950dd61b0b1b007c6e524696ca1f9d4170d22f372b9a85661f496",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "MoonStanceActive": {
+      "component": "MoonStanceActive",
+      "image": "Saved/MannyFullCaptures/MoonStanceActive_pose0_view0.png",
+      "image_sha256": "6f98048cd5bcec4fc063d91cb39b12cede38051355ffb61897845e4749215c60",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "ResurrectHold": {
+      "component": "ResurrectHold",
+      "image": "Saved/MannyFullCaptures/ResurrectHold_pose2_view1.png",
+      "image_sha256": "acf79b45865d49effefaed2502676c53de6851b64f1eafe2450d439c21ca0a05",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SunStanceCast": {
+      "component": "SunStanceCast",
+      "image": "Saved/MannyFullCaptures/SunStanceCast_pose1_view2.png",
+      "image_sha256": "3856d3d4e64aacf9d83cbe334b5e52046deb61a7a53089670d3434113c47d943",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SunStanceActive": {
+      "component": "SunStanceActive",
+      "image": "Saved/MannyFullCaptures/SunStanceActive_pose2_view2.png",
+      "image_sha256": "9aa3347edf4a8dfa0ef852288f15bbb60e27d8495b2d61b29616e79e6f54c05c",
+      "pose": 2,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BackstabFlight": {
+      "component": "BackstabFlight",
+      "image": "Saved/MannyFullCaptures/BackstabFlight_pose1_view1.png",
+      "image_sha256": "b3f585ee2ec88d9aa474a35b58e7e5d0b276f841c62aebc69b71c50968593eda",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BackstabImpact": {
+      "component": "BackstabImpact",
+      "image": "Saved/MannyFullCaptures/BackstabImpact_pose0_view1.png",
+      "image_sha256": "016161aaac969580e0ba5129814e70ab55f8cb002fcbf9b868a9850efeaf9a73",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BackstabIiFlight": {
+      "component": "BackstabIiFlight",
+      "image": "Saved/MannyFullCaptures/BackstabIiFlight_pose1_view1.png",
+      "image_sha256": "684ce65ecd16b7a42bf17352e8d146e992373416842dfeee54041155ee91fe63",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicAttackBleedOverlay": {
+      "component": "BasicAttackBleedOverlay",
+      "image": "Saved/MannyFullCaptures/BasicAttackBleedOverlay_pose0_view1.png",
+      "image_sha256": "78083349ad630f4488b2d9ec1d649c8a74d2c6f6043538ac15f9ef6e7a9bfbb8",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicAttackPoisonOverlay": {
+      "component": "BasicAttackPoisonOverlay",
+      "image": "Saved/MannyFullCaptures/BasicAttackPoisonOverlay_pose0_view1.png",
+      "image_sha256": "39702096135ab932eae1daa8d4625a3fe3b9f5249a1a06f9d2345ad0b04d0604",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BlindingDartFlight": {
+      "component": "BlindingDartFlight",
+      "image": "Saved/MannyFullCaptures/BlindingDartFlight_pose1_view1.png",
+      "image_sha256": "bd807a46b080b83fb7a9e2b5c6ba56d6e9e43491cf7a043f8f5e1848e5df10b2",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BlindingDartImpact": {
+      "component": "BlindingDartImpact",
+      "image": "Saved/MannyFullCaptures/BlindingDartImpact_pose1_view1.png",
+      "image_sha256": "6cf6fe67a02aa533d86f1f3196f70d0b96a6d3daa1c191edf2664dba09635a78",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BlindingDartProc": {
+      "component": "BlindingDartProc",
+      "image": "Saved/MannyFullCaptures/BlindingDartProc_pose3_view1.png",
+      "image_sha256": "0082f870f62526cf88da42be04fa02e6fd0fc6c632d372d7af6c9839f758121c",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "CleansescoutApply": {
+      "component": "CleansescoutApply",
+      "image": "Saved/MannyFullCaptures/CleansescoutApply_pose0_view2.png",
+      "image_sha256": "d45bfa3ad55e328abec95ac33b8092da0f94e6b414d88848cf1a9b003b4fbb14",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "EvasionProc": {
+      "component": "EvasionProc",
+      "image": "Saved/MannyFullCaptures/EvasionProc_pose2_view1.png",
+      "image_sha256": "aafe5274376b2b92b3b7c96600b7dd1fa3850dc8f516aa38d571e7b06c15737f",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIImpact": {
+      "component": "ExploitWeaknessIImpact",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIImpact_pose1_view2.png",
+      "image_sha256": "3f4d75bf218b013290adaa82c286793198742204c018c6c4629acc871f8dafa0",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIProc": {
+      "component": "ExploitWeaknessIProc",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIProc_pose0_view1.png",
+      "image_sha256": "69193bc20bb3ffd3f08c5f993db406f53cdb4ddbde876cff695bec63a3c93f5f",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIiImpact": {
+      "component": "ExploitWeaknessIiImpact",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIiImpact_pose1_view2.png",
+      "image_sha256": "a08ccdf422b12da9464c733c1d0b4ca32a64f870945ee93e85855e285ea8e9da",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIiProc": {
+      "component": "ExploitWeaknessIiProc",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIiProc_pose0_view1.png",
+      "image_sha256": "8c2a38a105bb0287c0fc1b92014cb742466ce3c0ef71021247dd0ab98df73b8e",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIiiImpact": {
+      "component": "ExploitWeaknessIiiImpact",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIiiImpact_pose1_view2.png",
+      "image_sha256": "a93c771368de39ab3525130c6899c5b96101f9ca40754e381909d5574200f513",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "ExploitWeaknessIiiProc": {
+      "component": "ExploitWeaknessIiiProc",
+      "image": "Saved/MannyFullCaptures/ExploitWeaknessIiiProc_pose0_view1.png",
+      "image_sha256": "5a55daad72e7916b45c5e1a5fee9f937cb7ca5d66bbf51b01f45cf9f9cad49e6",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "HemorrhagePayoff": {
+      "component": "HemorrhagePayoff",
+      "image": "Saved/MannyFullCaptures/HemorrhagePayoff_pose1_view0.png",
+      "image_sha256": "d482e9e3f58e32c8d3d4cedc9c40389de2ac391a886d1d0d183edbcced95423e",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "HemorrhageConsume": {
+      "component": "HemorrhageConsume",
+      "image": "Saved/MannyFullCaptures/HemorrhageConsume_pose1_view1.png",
+      "image_sha256": "5491ab1932cc3c02b53b5af9204dcf5372138d63e82acea335f8b98b97d73f97",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LongJumpHold": {
+      "component": "LongJumpHold",
+      "image": "Saved/MannyFullCaptures/LongJumpHold_pose3_view1.png",
+      "image_sha256": "507c63a5922b7cc3a997e396f7ea98b824374bca28808cbc8682a24c3cc11a9c",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "LongJumpTelegraph": {
+      "component": "LongJumpTelegraph",
+      "image": "Saved/MannyFullCaptures/LongJumpTelegraph_pose3_view2.png",
+      "image_sha256": "9e31256d43c971191ca2c2d118bbe7f704926103956656beb307d460403aa316",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "LongJumpMovement": {
+      "component": "LongJumpMovement",
+      "image": "Saved/MannyFullCaptures/LongJumpMovement_pose0_view2.png",
+      "image_sha256": "ae47184bdc668bc75163ec07b05851d3ac3dddf8fd100ccf310ee118f40528f0",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "PoisonSacFlight": {
+      "component": "PoisonSacFlight",
+      "image": "Saved/MannyFullCaptures/PoisonSacFlight_pose0_view1.png",
+      "image_sha256": "f6d5355d60782e061d8f7566dd6663e22d244625ba6ec02284c22004e8bb72db",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PoisonSacImpact": {
+      "component": "PoisonSacImpact",
+      "image": "Saved/MannyFullCaptures/PoisonSacImpact_pose3_view0.png",
+      "image_sha256": "6a4c66786ff460a78995547d3324dd844586f7d78a8bc0b56b4cf222a24d10e5",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "PoisonSacActive": {
+      "component": "PoisonSacActive",
+      "image": "Saved/MannyFullCaptures/PoisonSacActive_pose3_view1.png",
+      "image_sha256": "0e125f47ca83f24e17c2b4eb2e3e5d0ae535e450953390b24098e6de1026db27",
+      "pose": 3,
+      "view": 1,
+      "representative_presence": true
+    },
+    "PoisonSacConsume": {
+      "component": "PoisonSacConsume",
+      "image": "Saved/MannyFullCaptures/PoisonSacConsume_pose1_view1.png",
+      "image_sha256": "f365159cc302b03e0714642588c33a0a701b7d5edaa46b2f2b5eb299d412be66",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "QuickstepIMovement": {
+      "component": "QuickstepIMovement",
+      "image": "Saved/MannyFullCaptures/QuickstepIMovement_pose3_view2.png",
+      "image_sha256": "0979b7ab42e2aed2c438fd0b1985f959ff840c649142a2fd5c3f2e44c7158d27",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "QuickstepIiMovement": {
+      "component": "QuickstepIiMovement",
+      "image": "Saved/MannyFullCaptures/QuickstepIiMovement_pose3_view2.png",
+      "image_sha256": "e31d368fcffabf0f06c08cee0612686782b74ebdd00fda0be4d0b23d20a8029e",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SandShotCast": {
+      "component": "SandShotCast",
+      "image": "Saved/MannyFullCaptures/SandShotCast_pose0_view0.png",
+      "image_sha256": "1ab9d5db9b5e87726840262f73031ed65419833d260a1cb4a7c5b908460c4951",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SandShotImpact": {
+      "component": "SandShotImpact",
+      "image": "Saved/MannyFullCaptures/SandShotImpact_pose0_view0.png",
+      "image_sha256": "d6e855d398d6eaf601f4564dc2c69cf396aa58dadf4b306bbb9985342b8cedb9",
+      "pose": 0,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SicknessImpact": {
+      "component": "SicknessImpact",
+      "image": "Saved/MannyFullCaptures/SicknessImpact_pose1_view0.png",
+      "image_sha256": "a9bb6a51adf543e17319a5fcc31f417435d2801f053fd5a53f840616372be16a",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SicknessAreaImpact": {
+      "component": "SicknessAreaImpact",
+      "image": "Saved/MannyFullCaptures/SicknessAreaImpact_pose0_view2.png",
+      "image_sha256": "b0e30d2bedd24eebe8a6cd0b135368e871adf656ae58a4ac74fc2eb673892dc5",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SicknessConsume": {
+      "component": "SicknessConsume",
+      "image": "Saved/MannyFullCaptures/SicknessConsume_pose1_view1.png",
+      "image_sha256": "ad5adf2f7596dfd076cfef0d76bb6ec5a13af277398c9d0b53656d0339c7b10d",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "SmokeBombIFlight": {
+      "component": "SmokeBombIFlight",
+      "image": "Saved/MannyFullCaptures/SmokeBombIFlight_pose0_view2.png",
+      "image_sha256": "e83a4a052b836c23d680ab304392b3aee8499fe6c25fe64a33e7855a09b03dce",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SmokeBombIAreaImpact": {
+      "component": "SmokeBombIAreaImpact",
+      "image": "Saved/MannyFullCaptures/SmokeBombIAreaImpact_pose3_view0.png",
+      "image_sha256": "ab1a83f43aa293da2e681183b555ebed494606b4a8c0fd91df0bef33925ea39b",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SmokeBombIActive": {
+      "component": "SmokeBombIActive",
+      "image": "Saved/MannyFullCaptures/SmokeBombIActive_pose3_view2.png",
+      "image_sha256": "997fea14c5844770e9a20a3ad474836fa1d4604bf7a242276de81e07c7986f58",
+      "pose": 3,
+      "view": 2,
+      "representative_presence": true
+    },
+    "SmokeBombIiFlight": {
+      "component": "SmokeBombIiFlight",
+      "image": "Saved/MannyFullCaptures/SmokeBombIiFlight_pose1_view0.png",
+      "image_sha256": "b41f1a6aa9cf5297441f13a1e698e8e141aeb0b932980044bf6948f0dfa89df1",
+      "pose": 1,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SmokeBombIiAreaImpact": {
+      "component": "SmokeBombIiAreaImpact",
+      "image": "Saved/MannyFullCaptures/SmokeBombIiAreaImpact_pose3_view0.png",
+      "image_sha256": "ac144583b638c5a574904973406217eb31c49efb9557ba81f243662a562ce6b6",
+      "pose": 3,
+      "view": 0,
+      "representative_presence": true
+    },
+    "SmokeBombIiActive": {
+      "component": "SmokeBombIiActive",
+      "image": "Saved/MannyFullCaptures/SmokeBombIiActive_pose0_view2.png",
+      "image_sha256": "2e3a343b65f85755fdfa1b7b869952d272e6dfd4964a4d39f0c15a1f245846a1",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "TorporFlight": {
+      "component": "TorporFlight",
+      "image": "Saved/MannyFullCaptures/TorporFlight_pose1_view1.png",
+      "image_sha256": "e3499f6b9faeb4f2b7ce61382760735a935f84c5107c50b69c0f8d3eac587f50",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TorporImpact": {
+      "component": "TorporImpact",
+      "image": "Saved/MannyFullCaptures/TorporImpact_pose0_view1.png",
+      "image_sha256": "d420051a3f3f7dc5aba277e88136b21abcc63d3653f4cd8362a2ae0ab2d27476",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "TorporProc": {
+      "component": "TorporProc",
+      "image": "Saved/MannyFullCaptures/TorporProc_pose0_view1.png",
+      "image_sha256": "9a726b359b4ac9c601259f6b6326e60d2ae16c4855c8c445a49445f164f710ed",
+      "pose": 0,
+      "view": 1,
+      "representative_presence": true
+    },
+    "VineFieldIActive": {
+      "component": "VineFieldIActive",
+      "image": "Saved/MannyFullCaptures/VineFieldIActive_pose0_view2.png",
+      "image_sha256": "36ff9b92a316db70296b316fdc4691f900428c1a2916bc36a2efd707f36f22c5",
+      "pose": 0,
+      "view": 2,
+      "representative_presence": true
+    },
+    "VineFieldIiActive": {
+      "component": "VineFieldIiActive",
+      "image": "Saved/MannyFullCaptures/VineFieldIiActive_pose2_view1.png",
+      "image_sha256": "b3ce3cde2e2ee4ed699278965221cb57373f4c3f0217b2e4f119da7cf60d9ae2",
+      "pose": 2,
+      "view": 1,
+      "representative_presence": true
+    },
+    "BasicDualDaggersPhysicalTrailLeft": {
+      "component": "BasicDualDaggersPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicDualDaggersPhysicalTrailLeft_pose1_view2.png",
+      "image_sha256": "9ca2788002dc75dc6154962634c365223b400f7126a706c52e7d8366fd8302ab",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BasicDualDaggersMagicalTrailLeft": {
+      "component": "BasicDualDaggersMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicDualDaggersMagicalTrailLeft_pose1_view2.png",
+      "image_sha256": "cf849af9bda7f055a63db2e210a2fc35a5100e016f47311fbe7647595d660ad6",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BasicFistsGauntletsPhysicalTrailLeft": {
+      "component": "BasicFistsGauntletsPhysicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicFistsGauntletsPhysicalTrailLeft_pose1_view2.png",
+      "image_sha256": "c996724c30b521d0fe29c75edb7ddcf72ed79a3da7ea5d2fd331907538695a12",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "BasicFistsGauntletsMagicalTrailLeft": {
+      "component": "BasicFistsGauntletsMagicalTrail",
+      "image": "Saved/MannyFullCaptures/BasicFistsGauntletsMagicalTrailLeft_pose1_view2.png",
+      "image_sha256": "17409be3bd398a5901101550bf718bbb0402bfdbd9c8bbf14dfc1fb5da8fa8cf",
+      "pose": 1,
+      "view": 2,
+      "representative_presence": true
+    },
+    "IcebergTerrainBody": {
+      "component": "IcebergProc",
+      "image": "Saved/MannyFullCaptures/IcebergTerrainBody_pose1_view1.png",
+      "image_sha256": "cea36f52ddbbb539abb64f898fc43515204d6c0b10e1b89b120b76b978db39fe",
+      "pose": 1,
+      "view": 1,
+      "representative_presence": true
+    }
+  },
+  "production_approved": false,
+  "gameplay_approved": false,
+  "scope": "Representative frame for every component plus flagged/full frames; does not imply all twelve images manually inspected.",
+  "reviewed_scenarios_count": 340,
+  "complete": true,
+  "flagged_full_frames_inspected": [
+    {
+      "image": "Saved/MannyFullCaptures/BasicStaffPhysicalRelease_pose0_view0.png",
+      "sha256": "27a24d0cb5b8255f9d32eb152872a041a60cec37b767a97e651fc9255f241b78",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/BasicDualDaggersPhysicalTrail_pose0_view2.png",
+      "sha256": "2438fc014a14c8635e50e38284c90aa4361cf945fa3e8967d696a7693ee7d1d3",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/SpiritOfTheCometMoonState_pose0_view0.png",
+      "sha256": "77c459d570c4bee010ce7e7df89c1fa3057d687752453a383e2ded304deea193",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/CCTauntApply_pose0_view0.png",
+      "sha256": "66bcd2ec531702eec22902fc87b68a43540adbf2e413ad487115e9150e2dcb3c",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/CCForcedPush_pose0_view0.png",
+      "sha256": "343c1b505e0654509bcdb660157b7aee0273cd0a1edd6000eab3707f05b25440",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/BackstabIIPoisonApply_pose1_view0.png",
+      "sha256": "439171bb5bef135601d961acec298fce764ce164e9bfd0c6adba86543e846c60",
+      "result": "Invisible in this specific pose/view; visible representative in other poses/views. Final rig/weapon/event readability remains pending."
+    }
+  ],
+  "recorded_at_utc": "2026-10-06T10:25:06.090816+00:00",
+  "corrected_full_frames_inspected": [
+    {
+      "image": "Saved/MannyFullCaptures/SecondWindHeal_pose1_view1.png",
+      "sha256": "fef08f9411e82831aa65613cafff3eec35ee3cbb0e4ca12761e8d757010e422e",
+      "result": "Full effect fits in the corrected camera frame."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/ShoulderRushMovement_pose0_view2.png",
+      "sha256": "7dc8e574146ef02a4b7c0ffc771aae58926ec39eb544ad3fdceffb037ab888e5",
+      "result": "Full effect fits in the corrected camera frame."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/AstralPullRelocate_pose0_view0.png",
+      "sha256": "f721c9748b3ad2c1c59ec302e2bf999dc30b7892095c2ba0d0492923b5b00864",
+      "result": "Full effect fits in the corrected camera frame."
+    }
+  ],
+  "analysis_margin_full_frames_inspected": [
+    {
+      "image": "Saved/MannyFullCaptures/BlinkProc_pose1_view0.png",
+      "sha256": "bd6616da520cd50447b8be30f96df792545e02e4b9a405d11e8805ca1ff06775",
+      "result": "Visible effect checked against actual UI extent; conservative analysis margins can flag a complete visible shape. Resurrect soft upper glow reaches the header and remains a framing limitation."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/CombustIiProc_pose1_view1.png",
+      "sha256": "ad22ab496902a00d4dc2fc84b5999b7f058c8af979b8d1644b74d49762c232b6",
+      "result": "Visible effect checked against actual UI extent; conservative analysis margins can flag a complete visible shape. Resurrect soft upper glow reaches the header and remains a framing limitation."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/ResurrectComplete_pose1_view1.png",
+      "sha256": "915cba13fbac064831cad114de27d392032ddd6d7e55083c17709d280eeb3028",
+      "result": "Visible effect checked against actual UI extent; conservative analysis margins can flag a complete visible shape. Resurrect soft upper glow reaches the header and remains a framing limitation."
+    },
+    {
+      "image": "Saved/MannyFullCaptures/BackstabIIStunApply_pose1_view0.png",
+      "sha256": "594e84b6da7a567ca9fdc90db34008a3067d626b0076b61428d7964d4aad0dec",
+      "result": "Visible effect checked against actual UI extent; conservative analysis margins can flag a complete visible shape. Resurrect soft upper glow reaches the header and remains a framing limitation."
+    }
+  ]
+}
